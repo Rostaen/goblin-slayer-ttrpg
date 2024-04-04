@@ -8,7 +8,7 @@ export default class GSItemSheet extends ItemSheet {
 	}
 
 	get template(){
-		const path = "systems/gs/templates/sheets/items";
+		const path = "systems/gs/templates/items";
 		return `${path}/${this.item.type}-sheet.hbs`;
 	}
 

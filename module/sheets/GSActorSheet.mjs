@@ -3,7 +3,7 @@ import { gs } from "../config.mjs";
 export default class GSActorSheet extends ActorSheet{
 	static get defaultOptions(){
 		return mergeObject(super.defaultOptions, {
-			template: "systems/gs/templates/sheets/actor/character-sheet.hbs",
+			template: "systems/gs/templates/actors/character-sheet.hbs",
 			width: 800,
 			height: 800,
 			classes: ["gs", "sheet", "actor"],
@@ -16,6 +16,9 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	getData(){
+		const data = super.getData();
+
+		return data;
 
 	}
 

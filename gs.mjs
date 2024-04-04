@@ -1,11 +1,11 @@
 import { gs } from "./module/config.mjs";
+import GSItemSheet from "./module/sheets/GSItemSheet.mjs";
 import GSActorSheet from "./module/sheets/GSActorSheet.mjs";
 import { GSActor } from "./module/documents/GSActor.mjs";
+import { preloadHandlebarsTemplates } from "./module/helpers/templates.mjs";
 
 Hooks.once("init", () => {
-	game.gs = {
-		GSActor
-	}
+	game.gs = { GSActor }
 
 	console.log("GS | Initializing Gobline Slayer TTRPG");
 
@@ -18,8 +18,11 @@ Hooks.once("init", () => {
 
 	CONFIG.Actor.documentClass = GSActor;
 
-	Actor.unregisterSheet("core", ActorSheet);
-	Actor.registerSheet("gs", GSActorSheet, {makeDefault: true});
+	Actors.unregisterSheet("core", ActorSheet);
+	Actors.registerSheet("gs", GSActorSheet, {makeDefault: true});
+
+	Items.unregisterSheet("core", ItemSheet);
+	Items.registerSheet("gs", GSItemSheet,)
 
 	// Preload Handlebars templates
 	return preloadHandlebarsTemplates();

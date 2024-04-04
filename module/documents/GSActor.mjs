@@ -12,10 +12,10 @@ export class GSActor extends Actor {
         const systemData = actorData.system;
         const flags = actorData.flags.gs || {};
 
-        this._prepareCharacterData(systemData);
+        this._prepareCharacterData(actorData);
     }
 
     _prepareCharacterData(systemData){
-
+        console.log("GS | GSActor Page >>>", systemData);
     }
 }

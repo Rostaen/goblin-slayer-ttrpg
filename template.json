@@ -1,8 +1,29 @@
 {
     "Actor": {
+        "types": ["character", "monster"],
+        "template": {
 
+        },
+        "character": {
+
+        },
+        "monster": {
+
+        }
     },
     "Item": {
+        "types": ["weapon", "armor", "potion"],
+        "template": {
 
+        },
+        "weapon": {
+
+        },
+        "armor": {
+
+        },
+        "potion": {
+
+        }
     }
 }
