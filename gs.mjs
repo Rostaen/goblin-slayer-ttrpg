@@ -29,3 +29,4 @@ Hooks.once("init", () => {
 });
 
 // Define Handlebars Helpers here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Handlebars.registerHelper('log', (item) => console.log("Helper Logging >>> ", item));

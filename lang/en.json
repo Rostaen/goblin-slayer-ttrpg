@@ -1,3 +1,33 @@
 {
-
+	"gs": {
+		"gear":{
+			"common": {
+				"nam": "Name",
+				"val": "Value (silver)",
+				"eff": "Effects",
+				"ste": "Stealth",
+				"typ": "Type"
+			},
+			"weapons": {
+				"use": "Use",
+				"att": "Attribute",
+				"pow": "Power",
+				"hit": "Hit Mod",
+				"ran": "Range"
+			},
+			"armor": {
+				"sco": "Armor Score",
+				"dod": "Dodge Mod",
+				"mov": "Move Mod"
+			},
+			"shield": {
+				"mod": "Block Mod",
+				"sco": "Block Score"
+			},
+			"items": {
+				"nam": "Name",
+				"des": "Description"
+			}
+		}
+	}
 }

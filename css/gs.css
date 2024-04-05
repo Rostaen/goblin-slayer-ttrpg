@@ -181,3 +181,32 @@
 .full-width {
   width: 100%;
 }
+.weapon {
+  font-size: 14px;
+}
+.weapon .grid-span-4 {
+  height: fit-content;
+}
+.weapon .grid-span-4 .grid-2col {
+  margin-top: 0px;
+}
+.weapon .grid-span-4 .grid-2col span {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.weapon .grid-span-4 .grid-2col span label {
+  padding-right: 5px;
+}
+.weapon .grid-span-4 .grid-2col span input {
+  width: 110px;
+}
+.weapon .grid-span-5 {
+  border: 1px solid #666;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.weapon .grid-span-5 .editor {
+  height: 100%;
+}

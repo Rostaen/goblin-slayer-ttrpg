@@ -1,7 +1,7 @@
 {
 	"Actor": {
 		"types": ["character", "monster"],
-		"template": {
+		"templates": {
 			"common": {
 				"speed": {
 					"label": "",
@@ -19,7 +19,7 @@
 			}
 		},
 		"character": {
-			"template": ["common"],
+			"templates": ["common"],
 			"details":{
 				"race": "",
 				"age": "",
@@ -131,8 +131,8 @@
 		}
 	},
 	"Item": {
-		"types": ["weapon", "armor", "potion"],
-		"template": {
+		"types": ["weapon", "armor", "item"],
+		"templates": {
 			"common": {
 				"type": {},
 				"value": {},
@@ -143,7 +143,7 @@
 
 		},
 		"weapon": {
-			"template": ["common"],
+			"templates": ["common"],
 			"use": {},
 			"attribute": {},
 			"power": {},
@@ -151,7 +151,7 @@
 			"range": {}
 		},
 		"armor": {
-			"template": ["common"],
+			"templates": ["common"],
 			"score": {},
 			"mod": {
 				"dodge": {},
@@ -159,13 +159,13 @@
 			}
 		},
 		"shield": {
-			"template": ["common"],
+			"templates": ["common"],
 			"block": {
 				"mod": 0,
 				"score": 0
 			}
 		},
-		"potion": {
+		"item": {
 
 		}
 	}

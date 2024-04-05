@@ -16,6 +16,6 @@ export class GSActor extends Actor {
     }
 
     _prepareCharacterData(systemData){
-        console.log("GS | GSActor Page >>>", systemData);
+        //console.log("GS | GSActor Page >>>", systemData);
     }
 }
