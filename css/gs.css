@@ -210,3 +210,32 @@
 .weapon .grid-span-5 .editor {
   height: 100%;
 }
+.armor {
+  font-size: 14px;
+}
+.armor .grid-span-4 {
+  height: fit-content;
+}
+.armor .grid-span-4 .grid-2col {
+  margin-top: 0px;
+}
+.armor .grid-span-4 .grid-2col span {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.armor .grid-span-4 .grid-2col span label {
+  padding-right: 5px;
+}
+.armor .grid-span-4 .grid-2col span input {
+  width: 110px;
+}
+.armor .grid-span-5 {
+  border: 1px solid #666;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.armor .grid-span-5 .editor {
+  height: 100%;
+}

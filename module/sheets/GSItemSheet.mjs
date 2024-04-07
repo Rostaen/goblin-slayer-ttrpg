@@ -14,44 +14,47 @@ export default class GSItemSheet extends ItemSheet {
 	}
 
 	getData(){
-		if(this.item.type === 'weapon'){
-			let weaponSetup = this.item.system;
+		let itemSetup = this.item.system;
+		// Check if itemSetup.type is an empty object
+		if(Object.keys(itemSetup.type).length === 0){
+			for(const [key, value] of Object.entries(itemSetup)){
+				// Skip comment key
+				if(key === "comment") continue;
 
-			// Check if weaponSetup.type is an empty object
-			if(Object.keys(weaponSetup.type).length === 0){
-				for(const [key, value] of Object.entries(weaponSetup)){
-					// Skip comment key
-					if(key === "comment") continue;
+				// Extracting first three letters of key
+				const subKey = key.substring(0, 3);
 
-					// Extracting first three letters of key
-					const subKey = key.substring(0, 3);
-
-					// Define label based on subKey
-					let label;
-					let value = "";
-					switch(subKey){
-						case 'eff':
-						case 'val':
-						case 'ste':
-						case 'typ':
-							label = game.i18n.localize(gs.gear.common[subKey]);
-							break;
-						case 'use':
-						case 'att':
-						case 'pow':
-						case 'hit':
-						case 'ran':
-							label = game.i18n.localize(gs.gear.weapons[subKey]);
-							break;
-						default:
-							console.log("GS Weapons Error >>>> Error in switch statement");
-					}
-
-					// Set property in weaponSetup
-					const properties = {label};
-					if(key === 'effects') properties.value = value;
-					setProperty(weaponSetup, key, properties);
+				// Define label based on subKey
+				let label;
+				let value = "";
+				let type = this.item.type;
+				switch(subKey){
+					case 'eff':
+					case 'val':
+					case 'ste':
+					case 'typ':
+					case 'ste':
+						label = game.i18n.localize(gs.gear.common[subKey]);
+						break;
+					case 'use':
+					case 'att':
+					case 'pow':
+					case 'hit':
+					case 'ran':
+					case 'sco':
+					case 'dod':
+					case 'mov':
+						if(type === 'weapon') label = game.i18n.localize(gs.gear.weapons[subKey]);
+						else if (type === 'armor') label = game.i18n.localize(gs.gear.armor[subKey]);
+						break;
+					default:
+						console.log("GS Weapons Error >>>> Error in switch statement");
 				}
+
+				// Set property in weaponSetup
+				const properties = {label};
+				if(key === 'effects') properties.value = value;
+				setProperty(itemSetup, key, properties);
 			}
 		}
 		const data = super.getData();

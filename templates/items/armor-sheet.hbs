@@ -1,0 +1,43 @@
+<form class="{{cssClass}}{{item.type}} grid grid-5col" autocomplete="off">
+	<img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+	<div class="grid-span-4">
+		<div class="grid grid-2col">
+			<span class="name">
+				<label for="armorName">{{localize 'gs.gear.common.nam'}}:</label>
+				<input id="armorName" name="name" type="text" value="{{item.name}}" />
+			</span>
+			<span class="type">
+				<label for="armorType">{{gear.type.label}}:</label>
+				<input id="armorType" name="gear.type.label" data-field="input" data-key="type" type="text" value="{{gear.type.value}}" />
+			</span>
+			<span class="score">
+				<label for="armorScore">{{gear.score.label}}:</label>
+				<input id="armorScore" name="gear.score.label" data-field="input" data-key="score" type="text" value="{{gear.score.value}}" />
+			</span>
+			<span class="dodge">
+				<label for="armorDodge">{{gear.dodge.label}}:</label>
+				<input id="armorDodge" name="gear.dodge.label" data-field="input" data-key="dodge" type="text" value="{{gear.dodge.value}}" />
+			</span>
+			<span class="move">
+				<label for="armorMove">{{gear.move.label}}:</label>
+				<input id="armorMove" name="gear.move.label" data-field="input" data-key="move" type="text" value="{{gear.move.value}}" />
+			</span>
+			<span class="stealth">
+				<label for="armorStealth">{{gear.stealth.label}}:</label>
+				<input id="armorStealth" name="gear.stealth.label" data-field="input" data-key="stealth" type="text" value="{{gear.stealth.value}}" />
+			</span>
+			<span class="value">
+				<label for="armorValue">{{gear.value.label}}:</label>
+				<input id="armorValue" name="gear.value.label" data-field="input" data-key="value" type="text" value="{{gear.value.value}}" />
+			</span>
+		</div>
+	</div>
+	<span class="effects grid-span-5">
+		<label for="armorEffects">{{gear.effects.label}}:</label>
+		{{editor gear.effects.value target="system.effects.value" button=true owner=owner}}
+	</span>
+	<span class="comments grid-span-5">
+		{{editor gear.comment target="system.comment" button=true owner=owner}}
+	</span>
+</form>
+{{log gear}}

@@ -1,172 +1,165 @@
 {
-	"Actor": {
-		"types": ["character", "monster"],
-		"templates": {
-			"common": {
-				"speed": {
-					"label": "",
-					"value": 0
-				},
-				"spellRes":{
-					"label": "",
-					"value": 0
-				},
-				"lifeForce": {
-					"current": {},
-					"double": {},
-					"wounds": {}
-				}
-			}
-		},
-		"character": {
-			"templates": ["common"],
-			"details":{
-				"race": "",
-				"age": "",
-				"gender": "",
-				"history": {},
-				"rank": "",
-				"traits": "",
-				"hair": "",
-				"eyes": ""
-			},
-			"abilities": {
-				"primary": {},
-				"secondary": {},
-				"calculated": {}
-			},
-			"xp":{
-				"cumulative": {},
-				"current": {}
-			},
-			"adventures": {
-				"current": {},
-				"completed": {}
-			},
-			"advancePoints": {},
-			"spellUse": {
-				"label": "",
-				"value": 0,
-				"min": 0,
-				"max": 0
-			},
-			"levels": {
-				"adventurer": {},
-				"classes": {
-					"fighter": {},
-					"monk": {},
-					"ranger": {},
-					"scout": {},
-					"sorcerer": {},
-					"priest": {},
-					"dragon": {},
-					"shaman": {}
-				}
-			},
-			"fatigue": {
-				"rank1": {
-					"min": 0,
-					"max": 5,
-					"ex": 0
-				},
-				"rank2": {
-					"min": 0,
-					"max": 4,
-					"ex": 0
-				},
-				"rank3": {
-					"min": 0,
-					"max": 3,
-					"ex": 0
-				},
-				"rank4": {
-					"min": 0,
-					"max": 2,
-					"ex": 0
-				},
-				"rank5": {
-					"min": 0,
-					"max": 1,
-					"ex": 0
-				}
-			},
-			"attrition": {
-				"value": 0
-			},
-			"skills": {
-				"adventure": [],
-				"general": []
-			},
-			"spells": {
-				"mods": {},
-				"value": 0,
-				"learned": {}
-			},
-			"attacks": {
-				"mods": {},
-				"totals": {
-					"melee": {},
-					"throw": {},
-					"projectile": {}
-				},
-				"weapons": {}
-			},
-			"defense": {
-				"dodge": {
-					"mods": {},
-					"value": 0
-				},
-				"armor": {},
-				"block": {
-					"mods": {},
-					"value": 0
-				},
-				"shield": {}
-			},
-			"possessions": "",
-			"money": 0
-		},
-		"monster": {
-
-		}
-	},
-	"Item": {
-		"types": ["weapon", "armor", "item"],
-		"templates": {
-			"common": {
-				"type": {},
-				"value": {},
-				"effects": {},
-				"stealth": {},
-				"comment": ""
-			}
-
-		},
-		"weapon": {
-			"templates": ["common"],
-			"use": {},
-			"attribute": {},
-			"power": {},
-			"hitMod": {},
-			"range": {}
-		},
-		"armor": {
-			"templates": ["common"],
-			"score": {},
-			"mod": {
-				"dodge": {},
-				"move": {}
-			}
-		},
-		"shield": {
-			"templates": ["common"],
-			"block": {
-				"mod": 0,
-				"score": 0
-			}
-		},
-		"item": {
-
-		}
-	}
+  "Actor": {
+    "types": ["character", "monster"],
+    "templates": {
+      "common": {
+        "speed": {
+          "label": "",
+          "value": 0
+        },
+        "spellRes": {
+          "label": "",
+          "value": 0
+        },
+        "lifeForce": {
+          "current": {},
+          "double": {},
+          "wounds": {}
+        }
+      }
+    },
+    "character": {
+      "templates": ["common"],
+      "details": {
+        "race": "",
+        "age": "",
+        "gender": "",
+        "history": {},
+        "rank": "",
+        "traits": "",
+        "hair": "",
+        "eyes": ""
+      },
+      "abilities": {
+        "primary": {},
+        "secondary": {},
+        "calculated": {}
+      },
+      "xp": {
+        "cumulative": {},
+        "current": {}
+      },
+      "adventures": {
+        "current": {},
+        "completed": {}
+      },
+      "advancePoints": {},
+      "spellUse": {
+        "label": "",
+        "value": 0,
+        "min": 0,
+        "max": 0
+      },
+      "levels": {
+        "adventurer": {},
+        "classes": {
+          "fighter": {},
+          "monk": {},
+          "ranger": {},
+          "scout": {},
+          "sorcerer": {},
+          "priest": {},
+          "dragon": {},
+          "shaman": {}
+        }
+      },
+      "fatigue": {
+        "rank1": {
+          "min": 0,
+          "max": 5,
+          "ex": 0
+        },
+        "rank2": {
+          "min": 0,
+          "max": 4,
+          "ex": 0
+        },
+        "rank3": {
+          "min": 0,
+          "max": 3,
+          "ex": 0
+        },
+        "rank4": {
+          "min": 0,
+          "max": 2,
+          "ex": 0
+        },
+        "rank5": {
+          "min": 0,
+          "max": 1,
+          "ex": 0
+        }
+      },
+      "attrition": {
+        "value": 0
+      },
+      "skills": {
+        "adventure": [],
+        "general": []
+      },
+      "spells": {
+        "mods": {},
+        "value": 0,
+        "learned": {}
+      },
+      "attacks": {
+        "mods": {},
+        "totals": {
+          "melee": {},
+          "throw": {},
+          "projectile": {}
+        },
+        "weapons": {}
+      },
+      "defense": {
+        "dodge": {
+          "mods": {},
+          "value": 0
+        },
+        "armor": {},
+        "block": {
+          "mods": {},
+          "value": 0
+        },
+        "shield": {}
+      },
+      "possessions": "",
+      "money": 0
+    },
+    "monster": {}
+  },
+  "Item": {
+    "types": ["weapon", "armor", "item"],
+    "templates": {
+      "common": {
+        "type": {},
+        "value": {},
+        "effects": {},
+        "stealth": {},
+        "comment": ""
+      }
+    },
+    "weapon": {
+      "templates": ["common"],
+      "use": {},
+      "attribute": {},
+      "power": {},
+      "hitMod": {},
+      "range": {}
+    },
+    "armor": {
+      "templates": ["common"],
+      "score": {},
+      "dodge": {},
+      "move": {}
+    },
+    "shield": {
+      "templates": ["common"],
+      "block": {
+        "mod": 0,
+        "score": 0
+      }
+    },
+    "item": {}
+  }
 }
