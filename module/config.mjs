@@ -6,7 +6,8 @@ gs.gear = {
 		val: "gs.gear.common.val",
 		eff: "gs.gear.common.eff",
 		ste: "gs.gear.common.ste",
-		typ: "gs.gear.common.typ"
+		typ: "gs.gear.common.typ",
+		des: "gs.gear.common.des"
 	},
 	weapons: {
 		use: "Use",

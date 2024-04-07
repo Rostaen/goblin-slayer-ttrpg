@@ -1,7 +1,6 @@
 <form class="{{cssClass}}{{item.type}} grid grid-5col" autocomplete="off">
-	<img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-	<div class="grid-span-4">
-		<div class="grid grid-2col">
+    <div class="grid-span-5">
+        <span class="top-info grid grid-2col">
 			<span class="name">
 				<label for="weaponName">{{localize 'gs.gear.common.nam'}}:</label>
 				<input id="weaponName" name="name" type="text" value="{{item.name}}" />
@@ -10,6 +9,11 @@
 				<label for="weaponType">{{gear.type.label}}:</label>
 				<input id="weaponType" name="gear.type.label" data-field="input" data-key="type" type="text" value="{{gear.type.value}}" />
 			</span>
+		</span>
+    </div>
+	<img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+	<div class="grid-span-4">
+		<div class="grid grid-2col">
 			<span class="use">
 				<label for="weaponUse">{{gear.use.label}}:</label>
 				<input id="weaponUse" name="gear.use.label" data-field="input" data-key="use" type="text" value="{{gear.use.value}}" />

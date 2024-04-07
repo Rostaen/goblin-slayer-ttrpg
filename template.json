@@ -129,7 +129,7 @@
     "monster": {}
   },
   "Item": {
-    "types": ["weapon", "armor", "item"],
+    "types": ["weapon", "armor", "shield", "item"],
     "templates": {
       "common": {
         "type": {},
@@ -155,11 +155,11 @@
     },
     "shield": {
       "templates": ["common"],
-      "block": {
-        "mod": 0,
-        "score": 0
-      }
+      "mod": 0,
+      "score": 0
     },
-    "item": {}
+    "item": {
+      "templates": ["common"]
+    }
   }
 }

@@ -1,0 +1,19 @@
+<form class="{{cssClass}}{{item.type}} grid grid-5col" autocomplete="off">
+    <div class="grid-span-5">
+        <span class="top-info grid grid-2col">
+            <span class="name">
+                <label for="itemName">{{localize 'gs.gear.common.nam'}}:</label>
+                <input id="itemName" name="name" type="text" value="{{item.name}}" />
+            </span>
+            <span class="value">
+                <label for="itemValue">{{gear.value.label}}:</label>
+                <input id="itemValue" name="gear.value.label" data-field="input" data-key="value" type="text" value="{{gear.value.value}}" />
+            </span>
+        </span>
+    </div>
+	<img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+	<span class="comments grid-span-4">
+		<label for="itemDescription">{{localize 'gs.gear.common.des'}}:</label>
+		{{editor gear.comment target="system.comment" button=true owner=owner}}
+	</span>
+</form>

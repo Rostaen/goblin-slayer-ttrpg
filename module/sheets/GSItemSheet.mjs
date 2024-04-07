@@ -16,7 +16,7 @@ export default class GSItemSheet extends ItemSheet {
 	getData(){
 		let itemSetup = this.item.system;
 		// Check if itemSetup.type is an empty object
-		if(Object.keys(itemSetup.type).length === 0){
+		if(Object.keys(itemSetup.value).length === 0){
 			for(const [key, value] of Object.entries(itemSetup)){
 				// Skip comment key
 				if(key === "comment") continue;
@@ -44,8 +44,10 @@ export default class GSItemSheet extends ItemSheet {
 					case 'sco':
 					case 'dod':
 					case 'mov':
+					case 'mod':
 						if(type === 'weapon') label = game.i18n.localize(gs.gear.weapons[subKey]);
 						else if (type === 'armor') label = game.i18n.localize(gs.gear.armor[subKey]);
+						else if (type === 'shield') label = game.i18n.localize(gs.gear.shield[subKey]);
 						break;
 					default:
 						console.log("GS Weapons Error >>>> Error in switch statement");
@@ -60,8 +62,6 @@ export default class GSItemSheet extends ItemSheet {
 		const data = super.getData();
 		data.config = CONFIG.gs;
 		data.gs = gs;
-		// console.log(data);
-		// console.log("Item >>>", this.item);
 
 		return {
 			item: data.item,

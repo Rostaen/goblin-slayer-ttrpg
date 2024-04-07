@@ -1,7 +1,6 @@
 <form class="{{cssClass}}{{item.type}} grid grid-5col" autocomplete="off">
-	<img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-	<div class="grid-span-4">
-		<div class="grid grid-2col">
+    <div class="grid-span-5">
+        <span class="top-info grid grid-2col">
 			<span class="name">
 				<label for="armorName">{{localize 'gs.gear.common.nam'}}:</label>
 				<input id="armorName" name="name" type="text" value="{{item.name}}" />
@@ -10,6 +9,11 @@
 				<label for="armorType">{{gear.type.label}}:</label>
 				<input id="armorType" name="gear.type.label" data-field="input" data-key="type" type="text" value="{{gear.type.value}}" />
 			</span>
+        </span>
+    </div>
+	<img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+	<div class="grid-span-4">
+		<div class="grid grid-2col">
 			<span class="score">
 				<label for="armorScore">{{gear.score.label}}:</label>
 				<input id="armorScore" name="gear.score.label" data-field="input" data-key="score" type="text" value="{{gear.score.value}}" />
@@ -40,4 +44,3 @@
 		{{editor gear.comment target="system.comment" button=true owner=owner}}
 	</span>
 </form>
-{{log gear}}
