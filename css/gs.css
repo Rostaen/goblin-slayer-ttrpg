@@ -181,126 +181,94 @@
 .full-width {
   width: 100%;
 }
-.weapon {
-  font-size: 14px;
-}
-.weapon .top-info span {
-  display: flex;
-  align-items: center;
-}
-.weapon .top-info span label {
-  padding-right: 5px;
-}
-.weapon .grid-span-4 {
-  height: fit-content;
-}
-.weapon .grid-span-4 .grid-2col {
-  margin-top: 0px;
-}
-.weapon .grid-span-4 .grid-2col span {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-}
-.weapon .grid-span-4 .grid-2col span label {
-  padding-right: 5px;
-}
-.weapon .grid-span-4 .grid-2col span input {
-  width: 110px;
-}
-.weapon .effects,
-.weapon .comments {
-  border: 1px solid #666;
-  border-radius: 3px;
-  padding: 5px;
-  background-color: rgba(0, 0, 0, 0.05);
-}
-.weapon .effects .editor,
-.weapon .comments .editor {
-  height: 100%;
-}
-.armor {
-  font-size: 14px;
-}
-.armor .top-info span {
-  display: flex;
-  align-items: center;
-}
-.armor .top-info span label {
-  padding-right: 5px;
-}
-.armor .grid-span-4 {
-  height: fit-content;
-}
-.armor .grid-span-4 .grid-2col {
-  margin-top: 0px;
-}
-.armor .grid-span-4 .grid-2col span {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-}
-.armor .grid-span-4 .grid-2col span label {
-  padding-right: 5px;
-}
-.armor .grid-span-4 .grid-2col span input {
-  width: 110px;
-}
-.armor .effects,
-.armor .comments {
-  border: 1px solid #666;
-  border-radius: 3px;
-  padding: 5px;
-  background-color: rgba(0, 0, 0, 0.05);
-}
-.armor .effects .editor,
-.armor .comments .editor {
-  height: 100%;
-}
+.weapon,
+.armor,
 .shield {
   font-size: 14px;
+  margin-top: 0px;
 }
+.weapon .top-info,
+.armor .top-info,
+.shield .top-info {
+  margin: 0px;
+}
+.weapon .top-info span,
+.armor .top-info span,
 .shield .top-info span {
   display: flex;
   align-items: center;
 }
+.weapon .top-info span label,
+.armor .top-info span label,
 .shield .top-info span label {
   padding-right: 5px;
 }
+.weapon .grid-span-4,
+.armor .grid-span-4,
 .shield .grid-span-4 {
   height: fit-content;
 }
+.weapon .grid-span-4 .grid-2col,
+.armor .grid-span-4 .grid-2col,
 .shield .grid-span-4 .grid-2col {
   margin-top: 0px;
 }
+.weapon .grid-span-4 .grid-2col span,
+.armor .grid-span-4 .grid-2col span,
 .shield .grid-span-4 .grid-2col span {
   display: flex;
   justify-content: end;
   align-items: center;
 }
+.weapon .grid-span-4 .grid-2col span label,
+.armor .grid-span-4 .grid-2col span label,
 .shield .grid-span-4 .grid-2col span label {
   padding-right: 5px;
 }
+.weapon .grid-span-4 .grid-2col span input,
+.armor .grid-span-4 .grid-2col span input,
 .shield .grid-span-4 .grid-2col span input {
   width: 110px;
 }
+.weapon .effects,
+.armor .effects,
 .shield .effects,
+.weapon .comments,
+.armor .comments,
 .shield .comments {
   border: 1px solid #666;
   border-radius: 3px;
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.05);
 }
+.weapon .effects .editor,
+.armor .effects .editor,
 .shield .effects .editor,
+.weapon .comments .editor,
+.armor .comments .editor,
 .shield .comments .editor {
   height: 100%;
+  min-height: 25px;
+}
+.weapon .effects .editor .tox.tox-tinymce,
+.armor .effects .editor .tox.tox-tinymce,
+.shield .effects .editor .tox.tox-tinymce,
+.weapon .comments .editor .tox.tox-tinymce,
+.armor .comments .editor .tox.tox-tinymce,
+.shield .comments .editor .tox.tox-tinymce {
+  height: 125px !important;
 }
 .item {
   font-size: 14px;
+  margin-top: 0px;
+}
+.item .top-info {
+  margin: 0px;
 }
 .item .top-info span {
   display: flex;
   align-items: center;
+  padding: 0px;
 }
 .item .top-info span label {
   padding-right: 5px;
@@ -313,4 +281,27 @@
 }
 .item .comments .editor {
   height: 100%;
+  min-height: 25px;
+}
+.skill .top-info span {
+  margin-bottom: 10px;
+}
+.skill .description {
+  height: 90%;
+}
+.skill .effects {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.skill span .editor {
+  border: 1px solid #999;
+  border-radius: 3px;
+  height: 100%;
+  width: 100%;
+  min-height: 25px;
+  padding: 0 5px;
+}
+.skill span .editor .tox.tox-tinymce {
+  height: 125px !important;
 }

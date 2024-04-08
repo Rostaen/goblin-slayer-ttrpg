@@ -45,9 +45,22 @@ export default class GSItemSheet extends ItemSheet {
 					case 'dod':
 					case 'mov':
 					case 'mod':
+					case 'sum':
+					case 'dif':
+					case 'cha':
+					case 'cat':
+					case 'pre':
+					case 'beg':
+					case 'int':
+					case 'exp':
+					case 'mas':
+					case 'leg':
 						if(type === 'weapon') label = game.i18n.localize(gs.gear.weapons[subKey]);
 						else if (type === 'armor') label = game.i18n.localize(gs.gear.armor[subKey]);
 						else if (type === 'shield') label = game.i18n.localize(gs.gear.shield[subKey]);
+						else if (type === 'item') label = game.i18n.localize(gs.gear.item[subKey]);
+						else if (type === 'spell') label = game.i18n.localize(gs.gear.spell[subKey]);
+						else if (type === 'skill') label = game.i18n.localize(gs.gear.skill[subKey]);
 						break;
 					default:
 						console.log("GS Weapons Error >>>> Error in switch statement");

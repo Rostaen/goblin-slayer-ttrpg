@@ -28,6 +28,18 @@
       "items": {
         "nam": "Name",
         "des": "Description"
+      },
+      "spells": {
+
+      },
+      "skills": {
+        "gra": "Mastery Grade",
+        "pre": "Prerequisite",
+        "beg": "Beginner",
+        "int": "Intermediate",
+        "exp": "Expert",
+        "mas": "Master",
+        "leg": "Legend"
       }
     }
   }

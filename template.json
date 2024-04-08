@@ -129,7 +129,7 @@
     "monster": {}
   },
   "Item": {
-    "types": ["weapon", "armor", "shield", "item"],
+    "types": ["weapon", "armor", "shield", "item", "spell", "skill"],
     "templates": {
       "common": {
         "type": {},
@@ -160,6 +160,22 @@
     },
     "item": {
       "templates": ["common"]
-    }
+    },
+		"spell": {
+			"templates": ["common"],
+			"summary": {},
+			"difficulty": {},
+			"chant": {},
+			"catalyst": {}
+		},
+		"skill": {
+			"templates": ["common"],
+			"prereq": "",
+			"beginner": {},
+			"intermediate": {},
+			"expert": {},
+			"master": {},
+			"legend": {}
+		}
   }
 }

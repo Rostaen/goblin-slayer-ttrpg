@@ -1,0 +1,38 @@
+<form class="{{cssClass}}{{item.type}} grid grid-5col" autocomplete="off">
+    <img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <span class="top-info grid-span-4">
+        <span class="name">
+            <label for="skillName">{{localize 'gs.gear.common.nam'}}:</label>
+            <input id="skillName" name="name" type="text" value="{{item.name}}" />
+        </span>
+        <span class="prereq">
+            <label for="skillPrereq">{{gear.prereq.label}}:</label>
+            {{editor gear.prereq.value target="system.prereq.value" button=true owner=owner}}
+        </span>
+    </span>
+    <span class="grid-span-5 description">
+        <label for="itemDescription">{{localize 'gs.gear.common.des'}}:</label>
+        {{editor gear.comment target="system.comment" button=true owner=owner}}
+    </span>
+    <h2 class="grid-span-5">{{gear.effects.label}} of {{item.name}}</h2>
+
+    <h4>{{localize 'gs.gear.skills.gra'}}</h4>
+    <h4 class="grid-span-4">{{localize 'gs.gear.common.eff'}}</h4>
+
+    <span class="effects" for="skillBeginner">{{gear.beginner.label}}:</span>
+    <span class="grid-span-4">{{editor gear.beginner.value target="system.beginner.value" button=true owner=owner}}</span>
+
+    <span class="effects" for="skillIntermediate">{{gear.intermediate.label}}:</span>
+    <span class="grid-span-4">{{editor gear.intermediate.value target="system.intermediate.value" button=true owner=owner}}</span>
+
+    <span class="effects" for="skillExpert">{{gear.expert.label}}:</span>
+    <span class="grid-span-4">{{editor gear.expert.value target="system.expert.value" button=true owner=owner}}</span>
+
+    <span class="effects" for="skillMaster">{{gear.master.label}}:</span>
+    <span class="grid-span-4">{{editor gear.master.value target="system.master.value" button=true owner=owner}}</span>
+
+    <span class="effects" for="skillLegend">{{gear.legend.label}}:</span>
+    <span class="grid-span-4">{{editor gear.legend.value target="system.legend.value" button=true owner=owner}}</span>
+
+</form>
+{{log gear}}

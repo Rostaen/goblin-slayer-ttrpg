@@ -10,23 +10,34 @@ gs.gear = {
 		des: "gs.gear.common.des"
 	},
 	weapons: {
-		use: "Use",
-		att: "Attribute",
-		pow: "Power",
-		hit: "Hit Mod",
-		ran: "Range"
+		use: "gs.gear.weapons.use",
+		att: "gs.gear.weapons.att",
+		pow: "gs.gear.weapons.pow",
+		hit: "gs.gear.weapons.hit",
+		ran: "gs.gear.weapons.ran"
 	},
 	armor: {
-		sco: "Armor Score",
-		dod: "Dodge Mod",
-		mov: "Move Mod"
+		sco: "gs.gear.armor.sco",
+		dod: "gs.gear.armor.dod",
+		mov: "gs.gear.armor.mov"
 	},
 	shield: {
-		mod: "Block Mod",
-		sco: "Block Score"
+		mod: "gs.gear.shield.mod",
+		sco: "gs.gear.shield.sco"
 	},
-	items: {
-		nam: "Name",
-		des: "Description"
+	item: {
+		nam: "gs.gear.items.nam",
+		des: "gs.gear.items.des"
+	},
+	spell: {
+	},
+	skill: {
+		gra: "gs.gear.skills.gra",
+        pre: "gs.gear.skills.pre",
+        beg: "gs.gear.skills.beg",
+        int: "gs.gear.skills.int",
+        exp: "gs.gear.skills.exp",
+        mas: "gs.gear.skills.mas",
+        leg: "gs.gear.skills.leg"
 	}
 }
