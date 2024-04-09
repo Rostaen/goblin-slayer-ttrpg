@@ -89,12 +89,20 @@ export default class GSItemSheet extends ItemSheet {
 
 	async _onChangeInput(event){
 		event.preventDefault();
-		console.log("Input changed >>>>");
-		const key = event.currentTarget.dataset.key;
-		const value = $(event.currentTarget).val();
+		const element = event.currentTarget;
+		const key = element.dataset.key;
+		let value;
+
+		if(element.type === 'checkbox'){
+			value = element.checked ? true : false;
+			element.setAttribute("value", value);
+		}else{
+			value = $(element).val();
+		}
+
 		const cloneObject = Object.assign({}, this.item.system);
 		cloneObject[key].value = value;
 		await this.item.update({ system: cloneObject });
-		console.log(this.item.system);
+		console.log("Finished input change", this.item.system);
 	}
 }

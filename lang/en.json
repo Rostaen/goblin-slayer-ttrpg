@@ -39,7 +39,9 @@
         "int": "Intermediate",
         "exp": "Expert",
         "mas": "Master",
-        "leg": "Legend"
+        "leg": "Legend",
+        "adv": "Adventurer",
+        "gen": "General"
       }
     }
   }

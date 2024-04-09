@@ -38,6 +38,8 @@ gs.gear = {
         int: "gs.gear.skills.int",
         exp: "gs.gear.skills.exp",
         mas: "gs.gear.skills.mas",
-        leg: "gs.gear.skills.leg"
+        leg: "gs.gear.skills.leg",
+		adv: "gs.gear.skills.adv",
+		gen: "gs.gear.skills.gen"
 	}
 }

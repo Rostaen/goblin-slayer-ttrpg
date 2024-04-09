@@ -9,6 +9,14 @@
             <label for="skillPrereq">{{gear.prereq.label}}:</label>
             {{editor gear.prereq.value target="system.prereq.value" button=true owner=owner}}
         </span>
+        <span class="switch-container">
+            <span class="switch-label">{{localize 'gs.gear.skills.gen'}}</span>
+            <label class="switch">
+                <input type="checkbox" id="skill-switch" name="gear.type.value" data-key="type" {{checked gear.type.value}} />
+                <span class="slider"></span>
+            </label>
+            <span class="switch-label">{{localize 'gs.gear.skills.adv'}}</span>
+        </span>
     </span>
     <span class="grid-span-5 description">
         <label for="itemDescription">{{localize 'gs.gear.common.des'}}:</label>
@@ -27,12 +35,12 @@
 
     <span class="effects" for="skillExpert">{{gear.expert.label}}:</span>
     <span class="grid-span-4">{{editor gear.expert.value target="system.expert.value" button=true owner=owner}}</span>
-
+    {{#if gear.type.value}}
     <span class="effects" for="skillMaster">{{gear.master.label}}:</span>
     <span class="grid-span-4">{{editor gear.master.value target="system.master.value" button=true owner=owner}}</span>
 
     <span class="effects" for="skillLegend">{{gear.legend.label}}:</span>
     <span class="grid-span-4">{{editor gear.legend.value target="system.legend.value" button=true owner=owner}}</span>
-
+    {{/if}}
 </form>
 {{log gear}}
