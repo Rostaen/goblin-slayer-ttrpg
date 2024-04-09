@@ -166,7 +166,10 @@
 			"summary": {},
 			"difficulty": {},
 			"chant": {},
-			"catalyst": {}
+			"catalyst": {},
+      "magicSchool": {},
+      "magicType": {},
+      "magicElement": {}
 		},
 		"skill": {
 			"templates": ["common"],

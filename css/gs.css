@@ -361,6 +361,7 @@
 }
 .skill span .editor {
   border: 1px solid #999;
+  background-color: rgba(0, 0, 0, 0.05);
   border-radius: 3px;
   height: 100%;
   width: 100%;
@@ -369,4 +370,22 @@
 }
 .skill span .editor .tox.tox-tinymce {
   height: 125px !important;
+}
+.spell select {
+  width: 100%;
+}
+.spell .school,
+.spell .type,
+.spell .difficulty {
+  font-size: 10px;
+}
+.spell .type {
+  border: 1px solid #666;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.spell .type select {
+  width: 47%;
+  border: 0px;
+  background-color: rgba(0, 0, 0, 0);
 }

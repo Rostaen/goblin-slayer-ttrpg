@@ -30,6 +30,37 @@ gs.gear = {
 		des: "gs.gear.items.des"
 	},
 	spell: {
+		sys: "gs.gear.spells.sys",
+		dif: "gs.gear.spells.dif",
+		cha: "gs.gear.spells.cha",
+		cat: "gs.gear.spells.cat",
+		school: {
+			wor: "gs.gear.spells.wor",
+			mir: "gs.gear.spells.mir",
+			anc: "gs.gear.spells.anc",
+			spi: "gs.gear.spells.spi"
+		},
+		type: {
+			att: "gs.gear.spells.att",
+			imb: "gs.gear.spells.imb",
+			cre: "gs.gear.spells.cre",
+			con: "gs.gear.spells.con",
+			hea: "gs.gear.spells.hea",
+			gen: "gs.gear.spells.gen"
+		},
+		element: {
+			fir: "gs.gear.spells.fir",
+			wat: "gs.gear.spells.wat",
+			ear: "gs.gear.spells.ear",
+			win: "gs.gear.spells.win",
+			lig: "gs.gear.spells.lig",
+			dar: "gs.gear.spells.dar",
+			lif: "gs.gear.spells.lif",
+			min: "gs.gear.spells.min",
+			mat: "gs.gear.spells.mat",
+			tim: "gs.gear.spells.tim",
+			spa: "gs.gear.spells.spa"
+		}
 	},
 	skill: {
 		gra: "gs.gear.skills.gra",

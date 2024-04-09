@@ -1,0 +1,34 @@
+<form class="{{cssClass}}{{item.type}}" autocomplete="off">
+    <div class="grid grid-4col">
+        <span class="name">
+            <input id="spellName" name="name" type="text" value="{{item.name}}" />
+        </span>
+        <span class="school">
+            <select name="system.magicSchool" data-key="magicSchool">
+                <option value="{{gear.magicSchool.value}}">{{localize 'gs.gear.spells.sys'}}</option>
+                {{#each gear.magicSchool as |item id|}}
+                    <option value="{{item}}">{{item}}</option>
+                {{/each}}
+            </select>
+        </span>
+        <span class="type">
+            <select name="system.magicType" data-key="magicType">
+                <option value="{{gear.magicType}}">{{localize 'gs.gear.common.typ'}}</option>
+                {{#each gear.magicType as |item id|}}
+                    <option value="{{item}}">{{item}}</option>
+                {{/each}}
+            </select>
+            <select name="system.magicElement" data-key="magicElement">
+                <option value="{{gear.magicElement}}">{{localize 'gs.gear.weapons.att'}}</option>
+                {{#each gear.magicElement as |item id|}}
+                    <option value="{{item}}">{{item}}</option>
+                {{/each}}
+            </select>
+        </span>
+        <span class="difficulty">
+            <label for="spellName">{{localize 'gs.gear.spells.dif'}}</label>
+            <input name="system.difficulty.label" data-field="input" data-key="difficulty" type="text" value="{{gear.difficulty.value}}" />
+        </span>
+    </div>
+</form>
+{{log data.item.system}}

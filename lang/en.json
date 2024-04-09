@@ -30,7 +30,31 @@
         "des": "Description"
       },
       "spells": {
-
+        "sys": "System",
+        "dif": "Difficulty",
+        "cha": "Chant",
+        "cat": "Catalyst",
+        "wor": "Words of True Power",
+        "mir": "Miracle",
+        "anc": "Ancestral Dragon",
+        "spi": "Spirit Arts",
+        "att": "Attack",
+        "imb": "Imbuement",
+        "cre": "Creation",
+        "con": "Control",
+        "hea": "Healing",
+        "gen": "General",
+        "fir": "Fire",
+        "wat": "Water",
+        "ear": "Earth",
+        "win": "Wind",
+        "lig": "Light",
+        "dar": "Darkness",
+        "lif": "Life",
+        "min": "Mind",
+        "mat": "Matter",
+        "tim": "Time",
+        "spa": "Space"
       },
       "skills": {
         "gra": "Mastery Grade",
