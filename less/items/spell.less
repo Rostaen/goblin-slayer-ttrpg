@@ -1,18 +1,32 @@
 .spell{
-    select{
-        width: 100%;
-    }
-    .school, .type, .difficulty{
-        font-size: 10px;
-    }
-    .type{
-        border: 1px solid #666;
-        border-radius: 3px;
-        background-color: rgba(0, 0, 0, 0.05);
-        select{
-            width: 47%;
-            border: 0px;
-            background-color: rgba(0, 0, 0, 0);
-        }
-    }
+	select{
+		width: 100%;
+	}
+	.school, .type, .difficulty{
+		font-size: 12px;
+	}
+	.type{
+		border: 1px solid #666;
+		border-radius: 3px;
+		background-color: rgba(0, 0, 0, 0.05);
+		select{
+			width: 47%;
+			border: 0px;
+			background-color: rgba(0, 0, 0, 0);
+		}
+	}
+	.difficulty{
+		font-size: 14px;
+		.grid{
+			margin: 0px;
+			label{
+				display: flex;
+				justify-content: end;
+				align-items: center;
+			}
+			input{
+				text-align: center;
+			}
+		}
+	}
 }

@@ -1,34 +1,51 @@
 <form class="{{cssClass}}{{item.type}}" autocomplete="off">
-    <div class="grid grid-4col">
-        <span class="name">
-            <input id="spellName" name="name" type="text" value="{{item.name}}" />
-        </span>
-        <span class="school">
-            <select name="system.magicSchool" data-key="magicSchool">
-                <option value="{{gear.magicSchool.value}}">{{localize 'gs.gear.spells.sys'}}</option>
-                {{#each gear.magicSchool as |item id|}}
-                    <option value="{{item}}">{{item}}</option>
-                {{/each}}
-            </select>
-        </span>
-        <span class="type">
-            <select name="system.magicType" data-key="magicType">
-                <option value="{{gear.magicType}}">{{localize 'gs.gear.common.typ'}}</option>
-                {{#each gear.magicType as |item id|}}
-                    <option value="{{item}}">{{item}}</option>
-                {{/each}}
-            </select>
-            <select name="system.magicElement" data-key="magicElement">
-                <option value="{{gear.magicElement}}">{{localize 'gs.gear.weapons.att'}}</option>
-                {{#each gear.magicElement as |item id|}}
-                    <option value="{{item}}">{{item}}</option>
-                {{/each}}
-            </select>
-        </span>
-        <span class="difficulty">
-            <label for="spellName">{{localize 'gs.gear.spells.dif'}}</label>
-            <input name="system.difficulty.label" data-field="input" data-key="difficulty" type="text" value="{{gear.difficulty.value}}" />
-        </span>
+    <div class="grid grid-5col">
+        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <div class="grid-span-4">
+            <div class="grid grid-2col">
+                <span class="name">
+                    <input id="spellName" name="name" data-field="nameInput" type="text" value="{{item.name}}" />
+                </span>
+                <span class="schools">
+                    <select name="system.schools" data-key="schools">
+                        <option value="1">1</option>
+                        <option value="{{gear.schools.wor}}">{{gear.schools.wor}}</option>
+                        <option value="{{gear.schools.mir}}">{{gear.schools.mir}}</option>
+                        <option value="{{gear.schools.anc}}">{{gear.schools.anc}}</option>
+                        <option value="{{gear.schools.spi}}">{{gear.schools.spi}}</option>
+                    </select>
+                </span>
+                <span class="type">
+                    <select name="system.styles" data-key="styles">
+                        <option value="{{gear.styles.att}}">{{gear.styles.att}}</option>
+                        <option value="{{gear.styles.imb}}">{{gear.styles.imb}}</option>
+                        <option value="{{gear.styles.cre}}">{{gear.styles.cre}}</option>
+                        <option value="{{gear.styles.con}}">{{gear.styles.con}}</option>
+                        <option value="{{gear.styles.hea}}">{{gear.styles.hea}}</option>
+                        <option value="{{gear.styles.gen}}">{{gear.styles.gen}}</option>
+                    </select>
+                    <select name="system.elements" data-key="elements">
+                        <option value="{{gear.elements.fir}}">{{gear.elements.fir}}</option>
+                        <option value="{{gear.elements.wat}}">{{gear.elements.wat}}</option>
+                        <option value="{{gear.elements.ear}}">{{gear.elements.ear}}</option>
+                        <option value="{{gear.elements.win}}">{{gear.elements.win}}</option>
+                        <option value="{{gear.elements.lig}}">{{gear.elements.lig}}</option>
+                        <option value="{{gear.elements.dar}}">{{gear.elements.dar}}</option>
+                        <option value="{{gear.elements.lif}}">{{gear.elements.lif}}</option>
+                        <option value="{{gear.elements.min}}">{{gear.elements.min}}</option>
+                        <option value="{{gear.elements.mat}}">{{gear.elements.mat}}</option>
+                        <option value="{{gear.elements.tim}}">{{gear.elements.tim}}</option>
+                        <option value="{{gear.elements.spa}}">{{gear.elements.spa}}</option>
+                    </select>
+                </span>
+                <span class="difficulty">
+                    <span class="grid grid-3col">
+                        <label for="spellName" class="grid-span-2">{{gear.difficulty.label}}: </label>
+                        <input name="system.difficulty.label" data-field="input" data-key="difficulty" type="text" value="{{gear.difficulty.value}}" />
+                    </span>
+                </span>
+            </div>
+        </div>
     </div>
 </form>
-{{log data.item.system}}
+{{log gear}}

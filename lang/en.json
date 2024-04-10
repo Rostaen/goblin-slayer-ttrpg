@@ -31,6 +31,7 @@
       },
       "spells": {
         "sys": "System",
+        "sum": "Summary",
         "dif": "Difficulty",
         "cha": "Chant",
         "cat": "Catalyst",

@@ -31,16 +31,17 @@ gs.gear = {
 	},
 	spell: {
 		sys: "gs.gear.spells.sys",
+		sum: "gs.gear.spells.sum",
 		dif: "gs.gear.spells.dif",
 		cha: "gs.gear.spells.cha",
 		cat: "gs.gear.spells.cat",
-		school: {
+		schools: {
 			wor: "gs.gear.spells.wor",
 			mir: "gs.gear.spells.mir",
 			anc: "gs.gear.spells.anc",
 			spi: "gs.gear.spells.spi"
 		},
-		type: {
+		styles: {
 			att: "gs.gear.spells.att",
 			imb: "gs.gear.spells.imb",
 			cre: "gs.gear.spells.cre",
@@ -48,7 +49,7 @@ gs.gear = {
 			hea: "gs.gear.spells.hea",
 			gen: "gs.gear.spells.gen"
 		},
-		element: {
+		elements: {
 			fir: "gs.gear.spells.fir",
 			wat: "gs.gear.spells.wat",
 			ear: "gs.gear.spells.ear",

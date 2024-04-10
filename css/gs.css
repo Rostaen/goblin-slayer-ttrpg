@@ -377,7 +377,7 @@
 .spell .school,
 .spell .type,
 .spell .difficulty {
-  font-size: 10px;
+  font-size: 12px;
 }
 .spell .type {
   border: 1px solid #666;
@@ -388,4 +388,18 @@
   width: 47%;
   border: 0px;
   background-color: rgba(0, 0, 0, 0);
+}
+.spell .difficulty {
+  font-size: 14px;
+}
+.spell .difficulty .grid {
+  margin: 0px;
+}
+.spell .difficulty .grid label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.spell .difficulty .grid input {
+  text-align: center;
 }

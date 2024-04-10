@@ -1,5 +1,10 @@
 import { gs } from "../config.mjs";
 export default class GSItemSheet extends ItemSheet {
+	constructor(options={}){
+		super(options);
+		this.initializeData = false;
+	}
+
 	static get defaultOptions(){
 		return mergeObject(super.defaultOptions, {
 			width: 540,
@@ -14,77 +19,59 @@ export default class GSItemSheet extends ItemSheet {
 	}
 
 	getData(){
-		let itemSetup = this.item.system;
-		// Check if itemSetup.type is an empty object
-		if(Object.keys(itemSetup.value).length === 0){
-			for(const [key, value] of Object.entries(itemSetup)){
-				// Skip comment key
-				if(key === "comment") continue;
+		// console.log("Init:", this.initializeData);
+		if(!this.initializeData){
+			this.initializeData = true;
+			let itemSetup = this.item.system;
+			// Check if itemSetup.type is an empty object
+			// console.log("Value length:", Object.keys(itemSetup.value).length);
+			if(Object.keys(itemSetup.value).length === 0){
+				// console.log("Value Length = 0:", Object.keys(itemSetup.value).length)
+				for(const [key, value] of Object.entries(itemSetup)){
+					// Skip comment key
+					if(key === "comment") continue;
 
-				// Extracting first three letters of key
-				const subKey = key.substring(0, 3);
+					// Extracting first three letters of key
+					const subKey = key.substring(0, 3);
 
-				// Define label based on subKey
-				let label;
-				let value = "";
-				let type = this.item.type;
-				switch(subKey){
-					case 'eff':case 'val':case 'ste':case 'typ':case 'ste':
-						label = game.i18n.localize(gs.gear.common[subKey]);
-						break;
-					case 'use':case 'att':case 'pow':case 'hit':case 'ran':case 'sco':
-					case 'dod':case 'mov':case 'mod':case 'sum':case 'dif':case 'cha':
-					case 'cat':case 'pre':case 'beg':case 'int':case 'exp':case 'mas':
-					case 'leg':
-						if(type === 'weapon') label = game.i18n.localize(gs.gear.weapons[subKey]);
-						else if (type === 'armor') label = game.i18n.localize(gs.gear.armor[subKey]);
-						else if (type === 'shield') label = game.i18n.localize(gs.gear.shield[subKey]);
-						else if (type === 'item') label = game.i18n.localize(gs.gear.item[subKey]);
-						else if (type === 'spell') label = game.i18n.localize(gs.gear.spell[subKey]);
-						else if (type === 'skill') label = game.i18n.localize(gs.gear.skill[subKey]);
-						break;
-					default:
-						console.log("GS Weapons Error >>>> Error in switch statement");
+					// Define label based on subKey
+					let label;
+					let value = "";
+					let type = this.item.type;
+					switch(subKey){
+						case 'eff':case 'val':case 'ste':case 'typ':case 'ste':
+							label = game.i18n.localize(gs.gear.common[subKey]);
+							break;
+						case 'use':case 'att':case 'pow':case 'hit':case 'ran':case 'sco':
+						case 'dod':case 'mov':case 'mod':case 'sum':case 'dif':case 'cha':
+						case 'cat':case 'pre':case 'beg':case 'int':case 'exp':case 'mas':
+						case 'leg':
+							if(type === 'weapon') label = game.i18n.localize(gs.gear.weapons[subKey]);
+							else if (type === 'armor') label = game.i18n.localize(gs.gear.armor[subKey]);
+							else if (type === 'shield') label = game.i18n.localize(gs.gear.shield[subKey]);
+							else if (type === 'item') label = game.i18n.localize(gs.gear.item[subKey]);
+							else if (type === 'spell') label = game.i18n.localize(gs.gear.spell[subKey]);
+							else if (type === 'skill') label = game.i18n.localize(gs.gear.skill[subKey]);
+							break;
+						case 'sch':case 'sty':case 'ele':
+							for(const [item, value] of Object.entries(gs.gear.spell[key])){
+								const propertyPath = `${key}.${item}`;
+								setProperty(itemSetup, propertyPath, game.i18n.localize(value));
+							}
+							break;
+						default:
+							console.log("GS Weapons Error >>>> Error in switch statement:", subKey);
+					}
+
+					// Set property in weaponSetup
+					const properties = {label};
+					if(key === 'effects') properties.value = value;
+					if(subKey !== 'sch' && subKey !== 'sty' && subKey !== 'ele') setProperty(itemSetup, key, properties);
 				}
-
-				// Set property in weaponSetup
-				// const properties = {label};
-				// if(key === 'effects') properties.value = value;
-				// if (subKey === 'mag') {
-				// 	// Handle magic properties separately
-				// 	if(Object.keys(itemSetup.magicSchool).length === 0 || Object.keys(itemSetup.magicType).length === 0 || Object.keys(itemSetup.magicElement).length === 0){
-				// 		console.log("Length >>>", Object.keys(itemSetup.magicSchool).length)
-				// 		switch (key) {
-				// 			case 'magicSchool':
-				// 				for (const [subKey, value] of Object.entries(gs.gear.spell.school)) {
-				// 					setProperty(itemSetup, `magicSchool.${subKey}`, game.i18n.localize(value));
-				// 				}
-				// 				break;
-				// 			case 'magicType':
-				// 				for (const [subKey, value] of Object.entries(gs.gear.spell.type)) {
-				// 					setProperty(itemSetup, `magicType.${subKey}`, game.i18n.localize(value));
-				// 				}
-				// 				break;
-				// 			case 'magicElement':
-				// 				for (const [subKey, value] of Object.entries(gs.gear.spell.element)) {
-				// 					setProperty(itemSetup, `magicElement.${subKey}`, game.i18n.localize(value));
-				// 				}
-				// 				break;
-				// 			default:
-				// 				console.log("GS Weapons Error >>>> Error in switch statement");
-				// 		}
-				// 	}
-				// } else {
-				// 	// Set other properties normally
-				// 	setProperty(itemSetup, key, properties);
-				// }
-
-				// Set property in weaponSetup
-				const properties = {label};
-				if(key === 'effects') properties.value = value;
-				setProperty(itemSetup, key, properties);
+				console.log("Value Length = 0:", Object.keys(itemSetup.value).length)
 			}
 		}
+
 		const data = super.getData();
 		data.config = CONFIG.gs;
 		data.gs = gs;
@@ -97,7 +84,6 @@ export default class GSItemSheet extends ItemSheet {
 	}
 
 	activateListeners(html){
-		super.activateListeners(html);
 		html.find("input[data-field='input']").change(this._onChangeInput.bind(this));
 	}
 
