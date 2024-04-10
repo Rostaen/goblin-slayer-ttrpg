@@ -3,7 +3,7 @@ export default class GSItemSheet extends ItemSheet {
 
 	static get defaultOptions(){
 		return mergeObject(super.defaultOptions, {
-			width: 540,
+			width: 550,
 			//height: auto,
 			classes: ["gs", "sheet", "item"]
 		});
