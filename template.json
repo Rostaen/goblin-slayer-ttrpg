@@ -132,53 +132,82 @@
     "types": ["weapon", "armor", "shield", "item", "spell", "skill"],
     "templates": {
       "common": {
-        "type": {},
-        "value": {},
-        "effects": {},
-        "stealth": {},
+        "type": "",
+        "value": 0,
+        "effects": "",
+        "stealth": "",
         "comment": ""
       }
     },
     "weapon": {
       "templates": ["common"],
-      "use": {},
-      "attribute": {},
-      "power": {},
-      "hitMod": {},
-      "range": {}
+      "use": "",
+      "attribute": "",
+      "power": "",
+      "hitMod": "",
+      "range": ""
     },
     "armor": {
       "templates": ["common"],
-      "score": {},
-      "dodge": {},
-      "move": {}
+      "score": "",
+      "dodge": "",
+      "move": ""
     },
     "shield": {
       "templates": ["common"],
-      "mod": 0,
-      "score": 0
+      "mod": "",
+      "score": ""
     },
     "item": {
-      "templates": ["common"]
+      "templates": ["common"],
+      "description": ""
     },
 		"spell": {
 			"templates": ["common"],
-			"summary": {},
-			"difficulty": {},
-			"chant": {},
-			"catalyst": {},
-      "schools": {},
-      "styles": {},
-      "elements": {}
+			"summary": "",
+			"difficulty": {
+        "label": "",
+        "value": 0
+      },
+			"chant": "",
+			"catalyst": "",
+      "schools": {
+        "wor": "",
+        "mir": "",
+        "anc": "",
+        "spi": ""
+      },
+      "styles": {
+        "att": "",
+        "imb": "",
+        "cre": "",
+        "con": "",
+        "hea": "",
+        "gen": ""
+      },
+      "elements": {
+        "fir": "",
+        "wat": "",
+        "ear": "",
+        "win": "",
+        "lig": "",
+        "dar": "",
+        "lif": "",
+        "min": "",
+        "mat": "",
+        "tim": "",
+        "spa": ""
+      }
 		},
 		"skill": {
 			"templates": ["common"],
+      "grade": "",
 			"prereq": "",
-			"beginner": {},
-			"intermediate": {},
-			"expert": {},
-			"master": {},
-			"legend": {}
+			"beginner": "",
+			"intermediate": "",
+			"expert": "",
+			"master": "",
+			"legend": ""
 		}
   }
 }

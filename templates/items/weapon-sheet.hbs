@@ -2,50 +2,50 @@
     <div class="grid-span-5">
         <span class="top-info grid grid-2col">
 			<span class="name">
-				<label for="weaponName">{{localize 'gs.gear.common.nam'}}:</label>
-				<input id="weaponName" name="name" type="text" value="{{item.name}}" />
+				<label for="weaponName">{{localize data.config.gs.gear.common.nam'}}:</label>
+				<input id="weaponName" name="name" type="text" value="{{data.item.name}}" />
 			</span>
 			<span class="type">
-				<label for="weaponType">{{gear.type.label}}:</label>
-				<input id="weaponType" name="gear.type.label" data-field="input" data-key="type" type="text" value="{{gear.type.value}}" />
+				<label for="weaponType">{{localize data.config.gear.common.typ}}:</label>
+				<input id="weaponType" name="system.type" type="text" value="{{data.item.system.type}}" />
 			</span>
 		</span>
     </div>
-	<img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+	<img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
 	<div class="grid-span-4">
 		<div class="grid grid-2col">
 			<span class="use">
-				<label for="weaponUse">{{gear.use.label}}:</label>
-				<input id="weaponUse" name="gear.use.label" data-field="input" data-key="use" type="text" value="{{gear.use.value}}" />
+				<label for="weaponUse">{{localize data.config.gear.weapons.use}}:</label>
+				<input id="weaponUse" name="system.use" type="text" value="{{data.item.system.use}}" />
 			</span>
 			<span class="attribute">
-				<label for="weaponAtt">{{gear.attribute.label}}:</label>
-				<input id="weaponAtt" name="gear.attribute.label" data-field="input" data-key="attribute" type="text" value="{{gear.attribute.value}}" />
+				<label for="weaponAtt">{{localize data.config.gear.weapons.att}}:</label>
+				<input id="weaponAtt" name="system.attribute" type="text" value="{{data.item.system.attribute}}" />
 			</span>
 			<span class="power">
-				<label for="weaponPower">{{gear.power.label}}:</label>
-				<input id="weaponPower" name="gear.power.label" data-field="input" data-key="power" type="text" value="{{gear.power.value}}" />
+				<label for="weaponPower">{{localize data.config.gear.weapons.pow}}:</label>
+				<input id="weaponPower" name="system.power" type="text" value="{{data.item.system.power}}" />
 			</span>
 			<span class="hitMod">
-				<label for="weaponHitMod">{{gear.hitMod.label}}:</label>
-				<input id="weaponHitMod" name="gear.hitMod.label" data-field="input" data-key="hitMod" type="text" value="{{gear.hitMod.value}}" />
+				<label for="weaponHitMod">{{localize data.config.gear.weapons.hit}}:</label>
+				<input id="weaponHitMod" name="system.hitMod" type="text" value="{{data.item.system.hitMod}}" />
 			</span>
 			<span class="range">
-				<label for="weaponRange">{{gear.range.label}}:</label>
-				<input id="weaponRange" name="gear.range.label" data-field="input" data-key="range" type="text" value="{{gear.range.value}}" />
+				<label for="weaponRange">{{localize data.config.gear.weapons.ran}}:</label>
+				<input id="weaponRange" name="system.range" type="text" value="{{data.item.system.range}}" />
 			</span>
 			<span class="value">
-				<label for="weaponValue">{{gear.value.label}}:</label>
-				<input id="weaponValue" name="gear.value.label" data-field="input" data-key="value" type="text" value="{{gear.value.value}}" />
+				<label for="weaponValue">{{localize data.config.gear.common.val}}:</label>
+				<input id="weaponValue" name="system.value" type="text" value="{{data.item.system.value}}" data-dtype="Number" />
 			</span>
 		</div>
 	</div>
 	<span class="effects grid-span-5">
-		<label for="weaponEffects">{{gear.effects.label}}:</label>
-		{{editor gear.effects.value target="system.effects.value" button=true owner=owner}}
+		<label for="weaponEffects">{{localize data.config.gear.common.eff}}:</label>
+		{{editor data.item.system.effects target="system.effects" button=true}}
 	</span>
 	<span class="comments grid-span-5">
-		{{editor gear.comment target="system.comment" button=true owner=owner}}
+		{{editor data.item.system.comment target="system.comment" button=true}}
 	</span>
 </form>
-{{log gear}}
+{{log data}}

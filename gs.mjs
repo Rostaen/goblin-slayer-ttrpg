@@ -22,7 +22,7 @@ Hooks.once("init", () => {
 	Actors.registerSheet("gs", GSActorSheet, {makeDefault: true});
 
 	Items.unregisterSheet("core", ItemSheet);
-	Items.registerSheet("gs", GSItemSheet,)
+	Items.registerSheet("gs", GSItemSheet, {makeDefault: true});
 
 	// Preload Handlebars templates
 	return preloadHandlebarsTemplates();
