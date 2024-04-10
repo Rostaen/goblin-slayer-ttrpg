@@ -1,9 +1,5 @@
 import { gs } from "../config.mjs";
 export default class GSItemSheet extends ItemSheet {
-	constructor(options={}){
-		super(options);
-		this.initializeData = false;
-	}
 
 	static get defaultOptions(){
 		return mergeObject(super.defaultOptions, {
@@ -23,7 +19,9 @@ export default class GSItemSheet extends ItemSheet {
 		data.config = CONFIG.gs;
 
 		return {
-			data
+			data,
+			config: data.config.gear,
+			gear: data.item.system
 		}
 	}
 

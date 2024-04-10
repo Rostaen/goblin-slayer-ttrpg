@@ -1,13 +1,13 @@
-<form class="{{cssClass}}{{item.type}} grid grid-5col" autocomplete="off">
+<form class="{{cssClass}}{{data.item.type}} grid grid-5col" autocomplete="off">
     <div class="grid-span-5">
         <span class="top-info grid grid-2col">
 			<span class="name">
-				<label for="weaponName">{{localize data.config.gs.gear.common.nam'}}:</label>
+				<label for="weaponName">{{localize config.common.nam}}:</label>
 				<input id="weaponName" name="name" type="text" value="{{data.item.name}}" />
 			</span>
 			<span class="type">
-				<label for="weaponType">{{localize data.config.gear.common.typ}}:</label>
-				<input id="weaponType" name="system.type" type="text" value="{{data.item.system.type}}" />
+				<label for="weaponType">{{localize config.common.typ}}:</label>
+				<input id="weaponType" name="system.type" type="text" value="{{gear.type}}" />
 			</span>
 		</span>
     </div>
@@ -15,37 +15,39 @@
 	<div class="grid-span-4">
 		<div class="grid grid-2col">
 			<span class="use">
-				<label for="weaponUse">{{localize data.config.gear.weapons.use}}:</label>
-				<input id="weaponUse" name="system.use" type="text" value="{{data.item.system.use}}" />
+				<label for="weaponUse">{{localize config.weapons.use}}:</label>
+				<input id="weaponUse" name="system.use" type="text" value="{{gear.use}}" />
 			</span>
 			<span class="attribute">
-				<label for="weaponAtt">{{localize data.config.gear.weapons.att}}:</label>
-				<input id="weaponAtt" name="system.attribute" type="text" value="{{data.item.system.attribute}}" />
+				<label for="weaponAtt">{{localize config.weapons.att}}:</label>
+				<input id="weaponAtt" name="system.attribute" type="text" value="{{gear.attribute}}" />
 			</span>
 			<span class="power">
-				<label for="weaponPower">{{localize data.config.gear.weapons.pow}}:</label>
-				<input id="weaponPower" name="system.power" type="text" value="{{data.item.system.power}}" />
+				<label for="weaponPower">{{localize config.weapons.pow}}:</label>
+				<input id="weaponPower" name="system.power" type="text" value="{{gear.power}}" />
 			</span>
 			<span class="hitMod">
-				<label for="weaponHitMod">{{localize data.config.gear.weapons.hit}}:</label>
-				<input id="weaponHitMod" name="system.hitMod" type="text" value="{{data.item.system.hitMod}}" />
+				<label for="weaponHitMod">{{localize config.weapons.hit}}:</label>
+				<input id="weaponHitMod" name="system.hitMod" type="text" value="{{numberFormat gear.hitMod decimals=0 sign=true}}" data-dtype="Number" />
 			</span>
 			<span class="range">
-				<label for="weaponRange">{{localize data.config.gear.weapons.ran}}:</label>
-				<input id="weaponRange" name="system.range" type="text" value="{{data.item.system.range}}" />
+				<label for="weaponRange">{{localize config.weapons.ran}}:</label>
+				<input id="weaponRange" name="system.range" type="text" value="{{gear.range}}" />
 			</span>
 			<span class="value">
-				<label for="weaponValue">{{localize data.config.gear.common.val}}:</label>
-				<input id="weaponValue" name="system.value" type="text" value="{{data.item.system.value}}" data-dtype="Number" />
+				<label for="weaponValue">{{localize config.common.val}}:</label>
+				<input id="weaponValue" name="system.value" type="text" value="{{gear.value}}" data-dtype="Number" />
 			</span>
 		</div>
 	</div>
 	<span class="effects grid-span-5">
-		<label for="weaponEffects">{{localize data.config.gear.common.eff}}:</label>
-		{{editor data.item.system.effects target="system.effects" button=true}}
+		<label for="weaponEffects">{{localize config.common.eff}}:</label>
+		<textarea name="system.effects" >{{gear.effects}}</textarea>
+		{{!-- {{editor gear.effects target="system.effects" button=true}} --}}
 	</span>
 	<span class="comments grid-span-5">
-		{{editor data.item.system.comment target="system.comment" button=true}}
+		<textarea name="system.comment">{{gear.comment}}</textarea>
+		{{!-- {{editor gear.comment target="system.comment" button=true engine="prosemirror" owner=owner}} --}}
 	</span>
 </form>
-{{log data}}
+{{log gear}}

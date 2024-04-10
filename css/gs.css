@@ -187,6 +187,11 @@
   font-size: 14px;
   margin-top: 0px;
 }
+.weapon label,
+.armor label,
+.shield label {
+  font-weight: bold;
+}
 .weapon .top-info,
 .armor .top-info,
 .shield .top-info {
@@ -230,32 +235,23 @@
 .shield .grid-span-4 .grid-2col span input {
   width: 110px;
 }
-.weapon .effects,
-.armor .effects,
-.shield .effects,
-.weapon .comments,
-.armor .comments,
-.shield .comments {
+.weapon textarea,
+.armor textarea,
+.shield textarea {
   border: 1px solid #666;
   border-radius: 3px;
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.05);
 }
-.weapon .effects .editor,
-.armor .effects .editor,
-.shield .effects .editor,
-.weapon .comments .editor,
-.armor .comments .editor,
-.shield .comments .editor {
+.weapon textarea .editor,
+.armor textarea .editor,
+.shield textarea .editor {
   height: 100%;
   min-height: 25px;
 }
-.weapon .effects .editor .tox.tox-tinymce,
-.armor .effects .editor .tox.tox-tinymce,
-.shield .effects .editor .tox.tox-tinymce,
-.weapon .comments .editor .tox.tox-tinymce,
-.armor .comments .editor .tox.tox-tinymce,
-.shield .comments .editor .tox.tox-tinymce {
+.weapon textarea .editor .tox.tox-tinymce,
+.armor textarea .editor .tox.tox-tinymce,
+.shield textarea .editor .tox.tox-tinymce {
   height: 125px !important;
 }
 .item {
