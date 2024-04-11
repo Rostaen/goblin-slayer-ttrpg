@@ -285,12 +285,17 @@
 .item .comments textarea {
   height: 80% !important;
 }
+.skill {
+  font-size: 14px;
+  margin-top: 0px;
+}
 .skill .top-info span {
   margin-bottom: 10px;
 }
 .skill .top-info .switch-container {
   display: flex;
   align-items: center;
+  margin-bottom: 0px;
 }
 .skill .top-info .switch-container .switch-label {
   margin-right: 5px;
@@ -372,6 +377,10 @@
 }
 .skill span .editor .tox.tox-tinymce {
   height: 125px !important;
+}
+.spell {
+  font-size: 14px;
+  margin-top: 0px;
 }
 .spell select {
   width: 100%;

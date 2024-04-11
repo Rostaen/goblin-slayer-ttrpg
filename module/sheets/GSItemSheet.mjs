@@ -1,4 +1,3 @@
-import { gs } from "../config.mjs";
 export default class GSItemSheet extends ItemSheet {
 
 	static get defaultOptions(){
@@ -26,19 +25,18 @@ export default class GSItemSheet extends ItemSheet {
 	}
 
 	activateListeners(html){
-		//html.find("input[data-field='input']").change(this._onChangeInput.bind(this));
+		html.find("input[type='checkbox']").change(this._onChangeCheckbox.bind(this));
 	}
 
-	// async _onChangeInput(event){
-	// 	event.preventDefault();
-
-	// if(element.type === 'checkbox'){
-	// 	value = element.checked ? true : false;
-	// 	element.setAttribute("value", value);
-	// }else if(element.tagName.toLowerCase() === 'select'){
-	// 	value = element.value;
-	// }else{
-	// 	value = $(element).val();
-	// }
-	// }
+	async _onChangeCheckbox(event){
+		event.preventDefault();
+		const element = event.currentTarget;
+		const key = element.dataset.key;
+		let value = element.checked ? true : false;
+		element.setAttribute("value", value);
+		const cloneObject = Object.assign({}, this.item.system);
+		cloneObject[key] = value;
+		await this.item.update({ system: cloneObject });
+		// console.log(this.item.system);
+	}
 }
