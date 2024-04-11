@@ -13,8 +13,9 @@ export default class GSItemSheet extends ItemSheet {
 		return `${path}/${this.item.type}-sheet.hbs`;
 	}
 
-	getData(){
-		const data = super.getData();
+	async getData(){
+		const data = await super.getData();
+		data.enrichedBiography = await TextEditor.enrichHTML(this.item.system.effects, {async: true});
 		data.config = CONFIG.gs;
 
 		return {
