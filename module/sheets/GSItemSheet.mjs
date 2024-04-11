@@ -31,5 +31,14 @@ export default class GSItemSheet extends ItemSheet {
 
 	// async _onChangeInput(event){
 	// 	event.preventDefault();
+
+	// if(element.type === 'checkbox'){
+	// 	value = element.checked ? true : false;
+	// 	element.setAttribute("value", value);
+	// }else if(element.tagName.toLowerCase() === 'select'){
+	// 	value = element.value;
+	// }else{
+	// 	value = $(element).val();
+	// }
 	// }
 }
