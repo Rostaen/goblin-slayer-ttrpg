@@ -165,12 +165,12 @@
 		"spell": {
 			"templates": ["common"],
 			"summary": "",
-			"difficulty": {
-        "label": "",
-        "value": 0
-      },
+			"difficulty": "",
 			"chant": "",
 			"catalyst": "",
+      "schoolChoice": "",
+      "styleChoice": "",
+      "elementChoice": "",
       "schools": {
         "wor": "",
         "mir": "",
