@@ -13,31 +13,34 @@ export default class GSItemSheet extends ItemSheet {
 		return `${path}/${this.item.type}-sheet.hbs`;
 	}
 
-	async getData(){
-		const data = await super.getData();
-		data.enrichedBiography = await TextEditor.enrichHTML(this.item.system.effects, {async: true});
+	getData(){
+		const data = super.getData();
 		data.config = CONFIG.gs;
+		const itemData = data.data;
+		data.rollData = this.item.getRollData();
+		data.system = itemData.system;
+		data.flags = itemData.flags;
 
 		return {
 			data,
 			config: data.config.gear,
-			gear: data.item.system
+			gear: data.system
 		}
 	}
 
-	activateListeners(html){
-		html.find("input[type='checkbox']").change(this._onChangeCheckbox.bind(this));
-	}
+	// activateListeners(html){
+	// 	html.find("input[type='checkbox']").change(this._onChangeCheckbox.bind(this));
+	// }
 
-	async _onChangeCheckbox(event){
-		event.preventDefault();
-		const element = event.currentTarget;
-		const key = element.dataset.key;
-		let value = element.checked ? true : false;
-		element.setAttribute("value", value);
-		const cloneObject = Object.assign({}, this.item.system);
-		cloneObject[key] = value;
-		await this.item.update({ system: cloneObject });
-		// console.log(this.item.system);
-	}
+	// async _onChangeCheckbox(event){
+	// 	event.preventDefault();
+	// 	const element = event.currentTarget;
+	// 	const key = element.dataset.key;
+	// 	let value = element.checked ? true : false;
+	// 	element.setAttribute("value", value);
+	// 	const cloneObject = Object.assign({}, this.item.system);
+	// 	cloneObject[key] = value;
+	// 	await this.item.update({ system: cloneObject });
+	// 	// console.log(this.item.system);
+	// }
 }
