@@ -1,3 +1,6 @@
+.window-app .window-content {
+  display: block !important;
+}
 .window-app {
   font-family: "Roboto", sans-serif;
 }
@@ -278,6 +281,9 @@
 .item .comments .editor {
   height: 100%;
   min-height: 25px;
+}
+.item .comments textarea {
+  height: 80% !important;
 }
 .skill .top-info span {
   margin-bottom: 10px;
