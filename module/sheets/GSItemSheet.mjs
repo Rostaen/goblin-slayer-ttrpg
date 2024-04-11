@@ -21,26 +21,12 @@ export default class GSItemSheet extends ItemSheet {
 		data.system = itemData.system;
 		data.flags = itemData.flags;
 
+		console.log("Check system data:", data.system);
+
 		return {
 			data,
 			config: data.config.gear,
 			gear: data.system
 		}
 	}
-
-	// activateListeners(html){
-	// 	html.find("input[type='checkbox']").change(this._onChangeCheckbox.bind(this));
-	// }
-
-	// async _onChangeCheckbox(event){
-	// 	event.preventDefault();
-	// 	const element = event.currentTarget;
-	// 	const key = element.dataset.key;
-	// 	let value = element.checked ? true : false;
-	// 	element.setAttribute("value", value);
-	// 	const cloneObject = Object.assign({}, this.item.system);
-	// 	cloneObject[key] = value;
-	// 	await this.item.update({ system: cloneObject });
-	// 	// console.log(this.item.system);
-	// }
 }

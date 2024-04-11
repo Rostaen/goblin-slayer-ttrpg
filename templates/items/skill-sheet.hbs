@@ -7,22 +7,16 @@
         </span>
         <span class="prereq">
             <label for="skillPrereq">{{localize config.skill.pre}}:</label>
-            <textarea name="system.prereq">{{gear.prereq}}</textarea>
-            {{!-- {{editor gear.prereq target="system.prereq" button=true owner=owner}} --}}
+            {{editor gear.prereq target="system.prereq" button=true engine="prosemirror"}}
         </span>
         <span class="switch-container">
-            <span class="switch-label">{{localize config.skill.gen}}</span>
-            <label class="switch">
-                <input type="checkbox" data-key="type" id="skill-switch" name="gear.type" {{checked gear.type}} />
-                <span class="slider"></span>
-            </label>
+        <input type="checkbox" name="gear.type" value="{{gear.type}}" {{checked gear.type}} data-dtype="Boolean" />
             <span class="switch-label">{{localize config.skill.adv}}</span>
         </span>
     </span>
     <span class="grid-span-5 description">
         <label for="itemDescription">{{localize config.common.des}}:</label>
-		<textarea name="system.comment">{{gear.comment}}</textarea>
-        {{!-- {{editor gear.comment target="system.comment" button=true owner=owner}} --}}
+        {{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
     </span>
     <h2 class="grid-span-5">{{localize config.common.eff}} of {{data.item.name}}</h2>
 
@@ -30,24 +24,19 @@
     <h4 class="grid-span-4">{{localize config.common.eff}}</h4>
 
     <span class="effects" for="skillBeginner">{{localize config.skill.beg}}:</span>
-    <textarea class="grid-span-4" name="system.beginner">{{gear.beginner}}</textarea>
-    {{!-- <span class="grid-span-4">{{editor gear.beginner target="system.beginner" button=true owner=owner}}</span> --}}
+    <span class="grid-span-4">{{editor gear.beginner target="system.beginner" button=true engine="prosemirror" }}</span>
 
     <span class="effects" for="skillIntermediate">{{localize config.skill.int}}:</span>
-    <textarea class="grid-span-4" name="system.intermediate">{{gear.intermediate}}</textarea>
-    {{!-- <span class="grid-span-4">{{editor gear.intermediate target="system.intermediate" button=true owner=owner}}</span> --}}
+    <span class="grid-span-4">{{editor gear.intermediate target="system.intermediate" button=true engine="prosemirror" }}</span>
 
     <span class="effects" for="skillExpert">{{localize config.skill.exp}}:</span>
-    <textarea class="grid-span-4" name="system.expert">{{gear.expert}}</textarea>
-    {{!-- <span class="grid-span-4">{{editor gear.expert target="system.expert" button=true owner=owner}}</span> --}}
+    <span class="grid-span-4">{{editor gear.expert target="system.expert" button=true engine="prosemirror" }}</span>
     {{#if gear.type}}
     <span class="effects" for="skillMaster">{{localize config.skill.mas}}:</span>
-    <textarea class="grid-span-4" name="system.master">{{gear.master}}</textarea>
-    {{!-- <span class="grid-span-4">{{editor gear.master target="system.master" button=true owner=owner}}</span> --}}
+    <span class="grid-span-4">{{editor gear.master target="system.master" button=true engine="prosemirror" }}</span>
 
     <span class="effects" for="skillLegend">{{localize config.skill.leg}}:</span>
-    <textarea class="grid-span-4" name="system.legend">{{gear.legend}}</textarea>
-    {{!-- <span class="grid-span-4">{{editor gear.legend target="system.legend" button=true owner=owner}}</span> --}}
+    <span class="grid-span-4">{{editor gear.legend target="system.legend" button=true engine="prosemirror" }}</span>
     {{/if}}
 </form>
 {{log gear}}

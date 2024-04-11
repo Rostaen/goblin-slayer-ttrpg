@@ -1,3 +1,10 @@
+.prosemirror .editor-container {
+  margin: 5px 5px 0px 5px;
+  min-height: 200px;
+}
+.prosemirror .editor-container p {
+  margin: 0 0 5px;
+}
 .window-app .window-content {
   display: block !important;
 }
@@ -267,9 +274,6 @@
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.05);
 }
-.item .comments .editor {
-  min-height: 75px;
-}
 .item .comments textarea {
   height: 80% !important;
 }
@@ -280,72 +284,6 @@
 .skill .top-info span {
   margin-bottom: 10px;
 }
-.skill .top-info .switch-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0px;
-}
-.skill .top-info .switch-container .switch-label {
-  margin-right: 5px;
-}
-.skill .top-info .switch-container .switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 34px;
-  margin-right: 5px;
-}
-.skill .top-info .switch-container .switch input:checked + .slider {
-  background-color: #2196F3;
-}
-.skill .top-info .switch-container .switch input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-.skill .top-info .switch-container .switch input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-.skill .top-info .switch-container .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.skill .top-info .switch-container .switch .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 34px;
-}
-.skill .top-info .switch-container .switch .slider:before {
-  position: absolute;
-  content: "";
-  height: 15px;
-  width: 15px;
-  left: 4px;
-  bottom: 5px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-.skill .top-info .switch-container .switch input:checked + .slider {
-  background-color: #2196F3;
-}
-.skill .top-info .switch-container .switch input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-.skill .top-info .switch-container .switch input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
 .skill .description {
   height: 90%;
 }
@@ -353,6 +291,18 @@
   display: flex;
   align-items: center;
   justify-content: end;
+}
+.skill span .editor {
+  border: 1px solid #999;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  height: 100%;
+  width: 100%;
+  min-height: 25px;
+  padding: 0 5px;
+}
+.skill span .editor .tox.tox-tinymce {
+  height: 125px !important;
 }
 .spell {
   font-size: 14px;
@@ -405,71 +355,4 @@
 .spell span.chant label,
 .spell span.catalyst label {
   margin-right: 5px;
-}
-.spell .switch-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0px;
-}
-.spell .switch-container .switch-label {
-  margin-right: 5px;
-}
-.spell .switch-container .switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 25px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
-.spell .switch-container .switch input:checked + .slider {
-  background-color: #2196F3;
-}
-.spell .switch-container .switch input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-.spell .switch-container .switch input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-.spell .switch-container .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.spell .switch-container .switch .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 34px;
-}
-.spell .switch-container .switch .slider:before {
-  position: absolute;
-  content: "";
-  height: 15px;
-  width: 15px;
-  left: 4px;
-  bottom: 5px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-.spell .switch-container .switch input:checked + .slider {
-  background-color: #2196F3;
-}
-.spell .switch-container .switch input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-.spell .switch-container .switch input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
 }
