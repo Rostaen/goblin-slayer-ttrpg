@@ -1,42 +1,44 @@
-<form class="{{cssClass}}{{item.type}} grid grid-5col" autocomplete="off">
+<form class="{{cssClass}}{{data.item.type}} grid grid-5col" autocomplete="off">
     <div class="grid-span-5">
         <span class="top-info grid grid-2col">
             <span class="name">
-                <label for="shieldName">{{localize 'gs.gear.common.nam'}}:</label>
-                <input id="shieldName" name="name" type="text" value="{{item.name}}" />
+                <label for="shieldName">{{localize config.common.nam}}:</label>
+                <input id="shieldName" name="name" type="text" value="{{data.item.name}}" />
             </span>
             <span class="type">
-                <label for="shieldType">{{gear.type.label}}:</label>
-                <input id="shieldType" name="gear.type.label" data-field="input" data-key="type" type="text" value="{{gear.type.value}}" />
+                <label for="shieldType">{{localize config.common.typ}}:</label>
+                <input id="shieldType" name="system.type" type="text" value="{{gear.type}}" />
             </span>
         </span>
     </div>
-	<img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+	<img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
 	<div class="grid-span-4">
 		<div class="grid grid-2col">
 			<span class="mod">
-				<label for="shieldMod">{{gear.mod.label}}:</label>
-				<input id="shieldMod" name="gear.mod.label" data-field="input" data-key="mod" type="text" value="{{gear.mod.value}}" />
+				<label for="shieldMod">{{localize config.shield.mod}}:</label>
+				<input id="shieldMod" name="system.mod" type="text" value="{{numberFormat gear.mod decimals=0 sign=true}}" data-dtype="Number" />
 			</span>
 			<span class="score">
-				<label for="shieldScore">{{gear.score.label}}:</label>
-				<input id="shieldScore" name="gear.score.label" data-field="input" data-key="score" type="text" value="{{gear.score.value}}" />
+				<label for="shieldScore">{{localize config.shield.sco}}:</label>
+				<input id="shieldScore" name="system.score" type="text" value="{{numberFormat gear.score decimals=0 sign=true}}" data-dtype="Number" />
 			</span>
 			<span class="stealth">
-				<label for="shieldStealth">{{gear.stealth.label}}:</label>
-				<input id="shieldStealth" name="gear.stealth.label" data-field="input" data-key="stealth" type="text" value="{{gear.stealth.value}}" />
+				<label for="shieldStealth">{{localize config.common.ste}}:</label>
+				<input id="shieldStealth" name="system.stealth" type="text" value="{{gear.stealth}}" />
 			</span>
 			<span class="value">
-				<label for="shieldValue">{{gear.value.label}}:</label>
-				<input id="shieldValue" name="gear.value.label" data-field="input" data-key="value" type="text" value="{{gear.value.value}}" />
+				<label for="shieldValue">{{localize config.common.val}}:</label>
+				<input id="shieldValue" name="system.value" type="text" value="{{gear.value}}" data-dtype="Number" />
 			</span>
 		</div>
 	</div>
 	<span class="effects grid-span-5">
-		<label for="shieldEffects">{{gear.effects.label}}:</label>
-		{{editor gear.effects.value target="system.effects.value" button=true owner=owner}}
+		<label for="shieldEffects">{{localize config.common.eff}}:</label>
+		<textarea name="system.effects" >{{gear.effects}}</textarea>
+		{{!-- {{editor gear.effects.value target="system.effects.value" button=true owner=owner}} --}}
 	</span>
 	<span class="comments grid-span-5">
-		{{editor gear.comment target="system.comment" button=true owner=owner}}
+		<textarea name="system.comment">{{gear.comment}}</textarea>
+		{{!-- {{editor gear.comment target="system.comment" button=true owner=owner}} --}}
 	</span>
 </form>
