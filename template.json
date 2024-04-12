@@ -3,18 +3,14 @@
     "types": ["character", "monster"],
     "templates": {
       "common": {
-        "speed": {
-          "label": "",
-          "value": 0
-        },
-        "spellRes": {
-          "label": "",
-          "value": 0
-        },
+        "move": "",
+        "spellRes": 0,
         "lifeForce": {
-          "current": {},
-          "double": {},
-          "wounds": {}
+          "current": 0,
+          "double": 0,
+          "wounds": 0,
+          "min": 0,
+          "max": 0
         }
       }
     },
@@ -36,14 +32,14 @@
         "calculated": {}
       },
       "xp": {
-        "cumulative": {},
-        "current": {}
+        "cumulative": 3000,
+        "current": 3000
       },
       "adventures": {
-        "current": {},
-        "completed": {}
+        "current": 0,
+        "completed": 0
       },
-      "advancePoints": {},
+      "advancePoints": "",
       "spellUse": {
         "label": "",
         "value": 0,
@@ -51,16 +47,16 @@
         "max": 0
       },
       "levels": {
-        "adventurer": {},
+        "adventurer": 0,
         "classes": {
-          "fighter": {},
-          "monk": {},
-          "ranger": {},
-          "scout": {},
-          "sorcerer": {},
-          "priest": {},
-          "dragon": {},
-          "shaman": {}
+          "fighter": 0,
+          "monk": 0,
+          "ranger": 0,
+          "scout": 0,
+          "sorcerer": 0,
+          "priest": 0,
+          "dragon": 0,
+          "shaman": 0
         }
       },
       "fatigue": {
@@ -126,7 +122,30 @@
       "possessions": "",
       "money": 0
     },
-    "monster": {}
+    "monster": {
+      "templates": ["common"],
+      "type": "",
+      "init": "",
+      "inte": "",
+      "morale": 0,
+      "attacks": [
+        {
+          "name": "",
+          "type": "",
+          "range": 0,
+          "check": 0,
+          "power": ""
+        }
+      ],
+      "defenses": {
+        "dodge": 0,
+        "block": 0,
+        "armor": 0
+      },
+      "support": "",
+      "abilities": "",
+      "comment": ""
+    }
   },
   "Item": {
     "types": ["weapon", "armor", "shield", "item", "spell", "skill"],

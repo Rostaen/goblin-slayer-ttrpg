@@ -99,3 +99,52 @@ gs.gear = {
 		gen: "gs.gear.skills.gen"
 	}
 }
+gs.actor = {
+	common: {
+		life: "gs.actor.common.life",
+		spRe: "gs.actor.common.spRe",
+		move: "gs.actor.common.move",
+		leve: "gs.actor.common.leve"
+	},
+	character: {
+
+	},
+	monster: {
+		type: "gs.actor.monster.type",
+		types: {
+			meleeC: "gs.actor.monster.types.meleeC",
+			meleeT: "gs.actor.monster.types.meleeT",
+			meleeN: "gs.actor.monster.types.meleeN",
+			throw: "gs.actor.monster.types.throw",
+			projec: "gs.actor.monster.types.projec"
+		},
+		ran: "gs.actor.monster.ran",
+		range: {
+			"5m": 5,
+			"10m": 10,
+			"20m": 20,
+			"30m": 30,
+			"60m": 60,
+			"120m": 120
+		},
+		chec: "gs.actor.monster.chec",
+		powe: "gs.actor.monster.powe",
+		init: "gs.actor.monster.init",
+		inte: "gs.actor.monster.inte",
+		intelligence: {
+			com: "gs.actor.monster.intelligence.com",
+			ins: "gs.actor.monster.intelligence.ins",
+			low: "gs.actor.monster.intelligence.low",
+			ave: "gs.actor.monster.intelligence.ave",
+			hig: "gs.actor.monster.intelligence.hig"
+		},
+		mora: "gs.actor.monster.mora",
+		supp: "gs.actor.monster.supp",
+		spec: "gs.actor.monster.spec",
+		atta: "gs.actor.monster.atta",
+		defe: "gs.actor.monster.defe",
+		dodg: "gs.actor.monster.dodg",
+		bloc: "gs.actor.monster.bloc",
+		aSco: "gs.actor.monster.aSco"
+	}
+}

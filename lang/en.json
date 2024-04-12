@@ -1,84 +1,125 @@
 {
-  "gs": {
-    "gear": {
-      "common": {
-        "nam": "Name",
-        "val": "Value (silver)",
-        "eff": "Effects",
-        "ste": "Stealth",
-        "typ": "Type",
-        "des": "Description"
-      },
-      "weapons": {
-        "use": "Use",
-        "att": "Attribute",
-        "pow": "Power",
-        "hit": "Hit Mod",
-        "ran": "Range"
-      },
-      "armor": {
-        "sco": "Armor Score",
-        "dod": "Dodge Mod",
-        "mov": "Move Mod"
-      },
-      "shield": {
-        "mod": "Block Mod",
-        "sco": "Block Score"
-      },
-      "items": {
-        "nam": "Name",
-        "des": "Description"
-      },
-      "spells": {
-        "sys": "System",
-        "efs": "Effectiveness Score",
-        "pen": "Penalty",
-        "rad": "Radius",
-        "dur": "Duration",
-        "siz": "Size",
-        "phy": "Physical Modifier (Height, Weight, Movement Speed)",
-        "sco": "Power/Armor Score Modifiier",
-        "exr": "Expanded Reach",
-        "mds": "Modifier Score",
-        "mvs": "Movement Speed",
-        "qua": "Quantity",
-        "sum": "Summary",
-        "dif": "Difficulty",
-        "cha": "Chant",
-        "cat": "Catalyst",
-        "wor": "Words of True Power",
-        "mir": "Miracle",
-        "anc": "Ancestral Dragon",
-        "spi": "Spirit Arts",
-        "att": "Attack",
-        "imb": "Imbuement",
-        "cre": "Creation",
-        "con": "Control",
-        "hea": "Healing",
-        "gen": "General",
-        "fir": "Fire",
-        "wat": "Water",
-        "ear": "Earth",
-        "win": "Wind",
-        "lig": "Light",
-        "dar": "Darkness",
-        "lif": "Life",
-        "min": "Mind",
-        "mat": "Matter",
-        "tim": "Time",
-        "spa": "Space"
-      },
-      "skills": {
-        "gra": "Mastery Grade",
-        "pre": "Prerequisite",
-        "beg": "Beginner",
-        "int": "Intermediate",
-        "exp": "Expert",
-        "mas": "Master",
-        "leg": "Legend",
-        "adv": "Adventurer",
-        "gen": "General"
-      }
-    }
-  }
+	"gs": {
+		"gear": {
+			"common": {
+			"nam": "Name",
+			"val": "Value (silver)",
+			"eff": "Effects",
+			"ste": "Stealth",
+			"typ": "Type",
+			"des": "Description"
+			},
+			"weapons": {
+			"use": "Use",
+			"att": "Attribute",
+			"pow": "Power",
+			"hit": "Hit Mod",
+			"ran": "Range"
+			},
+			"armor": {
+			"sco": "Armor Score",
+			"dod": "Dodge Mod",
+			"mov": "Move Mod"
+			},
+			"shield": {
+			"mod": "Block Mod",
+			"sco": "Block Score"
+			},
+			"items": {
+			"nam": "Name",
+			"des": "Description"
+			},
+			"spells": {
+			"sys": "System",
+			"efs": "Effectiveness Score",
+			"pen": "Penalty",
+			"rad": "Radius",
+			"dur": "Duration",
+			"siz": "Size",
+			"phy": "Physical Modifier (Height, Weight, Movement Speed)",
+			"sco": "Power/Armor Score Modifiier",
+			"exr": "Expanded Reach",
+			"mds": "Modifier Score",
+			"mvs": "Movement Speed",
+			"qua": "Quantity",
+			"sum": "Summary",
+			"dif": "Difficulty",
+			"cha": "Chant",
+			"cat": "Catalyst",
+			"wor": "Words of True Power",
+			"mir": "Miracle",
+			"anc": "Ancestral Dragon",
+			"spi": "Spirit Arts",
+			"att": "Attack",
+			"imb": "Imbuement",
+			"cre": "Creation",
+			"con": "Control",
+			"hea": "Healing",
+			"gen": "General",
+			"fir": "Fire",
+			"wat": "Water",
+			"ear": "Earth",
+			"win": "Wind",
+			"lig": "Light",
+			"dar": "Darkness",
+			"lif": "Life",
+			"min": "Mind",
+			"mat": "Matter",
+			"tim": "Time",
+			"spa": "Space"
+			},
+			"skills": {
+			"gra": "Mastery Grade",
+			"pre": "Prerequisite",
+			"beg": "Beginner",
+			"int": "Intermediate",
+			"exp": "Expert",
+			"mas": "Master",
+			"leg": "Legend",
+			"adv": "Adventurer",
+			"gen": "General"
+			}
+		},
+		"actor": {
+			"common": {
+				"life": "Life Force",
+				"spRe": "Spell Resistance",
+				"move": "Movement",
+				"leve": "Level"
+			},
+			"character": {
+
+			},
+			"monster": {
+				"type": "Type",
+				"types": {
+					"meleeC": "Melee (Close)",
+					"meleeT": "Melee (Throwable)",
+					"meleeN": "Melee (Not Throwable)",
+					"throw": "Throwable",
+					"projec": "Projectile"
+				},
+				"chec": "Check Score",
+				"powe": "Power/Attributes",
+				"ran": "Range",
+				"init": "Initiative",
+				"inte": "Intelligence",
+				"intelligence": {
+					"com": "Command-Based",
+					"ins": "Instinctive",
+					"low": "Low",
+					"ave": "Average",
+					"hig": "High"
+				},
+				"mora": "Morale",
+				"supp": "Support Effect",
+				"spec": "Special Abilities",
+				"atta": "Attack",
+				"defe": "Defense",
+				"dodg": "Dodge",
+				"bloc": "Block",
+				"aSco": "Armor Score"
+			}
+		}
+	}
 }

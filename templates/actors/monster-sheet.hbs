@@ -1,0 +1,110 @@
+<form class="{{cssClass}}{{data.actor.type}}" autocomplete="off">
+    <div class="headerInfo grid grid-5col">
+        <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
+        <div class="grid-span-4 coreItems">
+            <div class="grid grid-6col">
+                {{!-- 1st Row --}}
+                <input name="data.actor.name" class="grid-span-2" type="text" value="{{data.actor.name}}" />
+
+                <label>{{localize config.monster.type}}:</label>
+                <input name="system.typ" type="text" value="{{actor.typ}}" />
+
+                <label>{{localize config.common.leve}}: </label>
+                <input name="system.lifeForce.double" type="text" value="{{actor.lifeForce.double}}" data-dtype="Number" />
+
+                {{!-- 2nd Row --}}
+
+                <label>{{localize config.common.life}}: </label>
+                <input name="system.lifeForce.current" type="text" value="{{actor.lifeForce.current}}" data-dtype="Number" />
+
+                <label>{{localize config.common.spRe}}: </label>
+                <input name="system.spellRes" type="text" value="{{actor.spellRes}}" data-dtype="Number" />
+
+                <label>{{localize config.common.move}}: </label>
+                <input type="text" name="system.move" value="{{actor.move}}" data-dtype="Number" />
+
+                {{!-- 3rd Row --}}
+
+                <label>{{localize config.monster.init}}: </label>
+                <input type="text" name="system.init" value="{{actor.init}}">
+
+                <label>{{localize config.monster.inte}}: </label>
+                <select name="system.inte">
+                    {{#select actor.inte}}
+                        {{#each config.monster.intelligence as |label id|}}
+                            <option value="{{localize label}}">{{localize label}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+
+                <label>{{localize config.monster.mora}}: </label>
+                <input type="text" name="system.morale" value="{{actor.morale}}" data-dtype="Number" />
+            </div>
+        </div>
+    </div>
+    <hr>
+    {{!-- Attack Row --}}
+    <div class="grid grid-10col melee">
+        {{!-- 1st Row --}}
+        <h2>{{localize config.monster.atta}}</h2>
+        <input type="text" name="system.attacks.name" value="{{actor.attacks.name}}" class="grid-span-3" />
+
+        <label>{{localize config.monster.type}}: </label>
+        <select name="system.attacks.type" class="grid-span-3">
+            {{#select actor.attacks.type}}
+                {{#each config.monster.types as |label id|}}
+                    <option value="{{localize label}}">{{localize label}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+
+        <label>{{localize config.monster.ran}}: </label>
+        <select name="system.attacks.range">
+            {{#select actor.attacks.range}}
+                {{#each config.monster.range as |number id|}}
+                    <option value="{{number}}">{{number}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+
+        {{!-- 2nd row --}}
+        {{!-- TODO: Setup up button press to add more attacks. Will need to add a minus button to remove extra attacks as well --}}
+        <button>
+            <i class="fa-regular fa-square-plus fa-2x"></i>
+        </button>
+
+        <label class="grid-span-2">{{localize config.monster.chec}}: </label>
+        <input type="text" name="system.attacks.check" value="{{actor.attacks.check}}" class="grid-span-2" data-dtype="Number">
+
+        <label class="grid-span-2">{{localize config.monster.powe}}: </label>
+        <input type="text" name="system.attacks.power" value="{{actor.attacks.power}}" class="grid-span-3">
+    </div>
+    <hr>
+    {{!-- Def Row --}}
+    <div class="grid grid-10col melee">
+        <h2>{{localize config.monster.defe}}</h2>
+
+        <label>{{localize config.monster.dodg}}:</label>
+        <input type="text" name="system.defenses.dodge" value="{{actor.defenses.dodge}}" class="grid-span-2" data-dtype="Number" />
+
+        <label>{{localize config.monster.bloc}}:</label>
+        <input type="text" name="system.defenses.block" value="{{actor.defenses.block}}" class="grid-span-2" data-dtype="Number" />
+
+        <label>{{localize config.monster.aSco}}:</label>
+        <input type="text" name="system.defenses.armor" value="{{actor.defenses.armor}}" class="grid-span-2" data-dtype="Number" />
+    </div>
+    <hr>
+    {{!-- Support and Abilities --}}
+    <div class="grid grid-6col">
+        <label>{{localize config.monster.supp}}:</label>
+        <span class="grid-span-5">{{editor actor.support target="system.support" button=true engine="prosemirror"}}</span>
+
+        <label>{{localize config.monster.spec}}:</label>
+        <span class="grid-span-5">{{editor actor.abilities target="system.abilities" button=true engine="prosemirror"}}</span>
+    </div>
+    {{!-- Monster Comment --}}
+    <div>
+        {{editor actor.comment target="system.comment" button=true engine="prosemirror"}}
+    </div>
+</form>
+{{log data}}

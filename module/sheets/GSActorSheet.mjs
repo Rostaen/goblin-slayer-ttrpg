@@ -1,11 +1,8 @@
-import { gs } from "../config.mjs";
-
 export default class GSActorSheet extends ActorSheet{
+
 	static get defaultOptions(){
 		return mergeObject(super.defaultOptions, {
-			template: "systems/gs/templates/actors/character-sheet.hbs",
 			width: 800,
-			height: 800,
 			classes: ["gs", "sheet", "actor"],
 			tabs: [{
 				navSelector: ".sheet-tabs",
@@ -15,14 +12,31 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	get template(){
+		const path = "systems/gs/templates/actors";
+		return `${path}/${this.actor.type}-sheet.hbs`;
+	}
+
 	getData(){
 		const data = super.getData();
+		data.config = CONFIG.gs;
+		const actorData = data.data;
+		data.rollData = this.actor.getRollData();
+		data.system = actorData.system;
+		data.flags = actorData.flags;
 
-		return data;
+		console.log("Check system data:", data);
+
+		return {
+			data,
+			config: data.config.actor,
+			actor: data.system
+		}
 
 	}
 
 	activateListeners(html){
-
+		super.activateListeners(html);
+		//html.find("input[type='checkbox']").change(this._onChangeCheckbox.bind(this));
 	}
 }
