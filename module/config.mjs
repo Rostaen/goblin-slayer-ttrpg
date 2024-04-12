@@ -14,12 +14,25 @@ gs.gear = {
 		att: "gs.gear.weapons.att",
 		pow: "gs.gear.weapons.pow",
 		hit: "gs.gear.weapons.hit",
-		ran: "gs.gear.weapons.ran"
+		ran: "gs.gear.weapons.ran",
+		range: {
+			"5m": 5,
+			"10m": 10,
+			"20m": 20,
+			"30m": 30,
+			"60m": 60,
+			"120m": 120
+		}
 	},
 	armor: {
 		sco: "gs.gear.armor.sco",
 		dod: "gs.gear.armor.dod",
-		mov: "gs.gear.armor.mov"
+		mov: "gs.gear.armor.mov",
+		stealth: {
+			Good: 0,
+			Normal: -4,
+			Poor: -8
+		}
 	},
 	shield: {
 		mod: "gs.gear.shield.mod",

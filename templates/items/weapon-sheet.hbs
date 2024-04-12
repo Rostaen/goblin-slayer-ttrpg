@@ -32,7 +32,13 @@
 			</span>
 			<span class="range">
 				<label for="weaponRange">{{localize config.weapons.ran}}:</label>
-				<input id="weaponRange" name="system.range" type="text" value="{{gear.range}}" />
+				<select name="system.range">
+					{{#select gear.range}}
+						{{#each config.weapons.range as |number id|}}
+							<option value="{{numberFormat number decimals=0 sign=false}}" data-dtype="Number">{{id}}</option>
+						{{/each}}
+					{{/select}}
+				</select>
 			</span>
 			<span class="value">
 				<label for="weaponValue">{{localize config.common.val}}:</label>
@@ -42,12 +48,10 @@
 	</div>
 	<span class="effects grid-span-5">
 		<label for="weaponEffects">{{localize config.common.eff}}:</label>
-		<textarea name="system.effects" >{{gear.effects}}</textarea>
-		{{!-- {{editor gear.effects target="system.effects" button=true}} --}}
+		{{editor gear.effects target="system.effects" button=true engine="prosemirror"}}
 	</span>
 	<span class="comments grid-span-5">
-		<textarea name="system.comment">{{gear.comment}}</textarea>
-		{{!-- {{editor gear.comment target="system.comment" button=true engine="prosemirror" owner=owner}} --}}
+		{{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
 	</span>
 </form>
 {{log gear}}

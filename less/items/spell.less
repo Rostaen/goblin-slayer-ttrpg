@@ -1,4 +1,8 @@
 .spell{
+	margin-top: 0px;
+	.top{
+		margin-top: 0px;
+	}
 	label{
 		font-weight: bold;
 	}
@@ -52,7 +56,7 @@
 	.switch-container{
 		display: flex;
 		align-items: center;
-		margin-bottom: 0px;
+		margin-bottom: 5px;
 		.switch-label{
 			margin-right: 5px;
 		}
@@ -62,7 +66,6 @@
 			width: 50px;
 			height: 25px;
 			margin-right: 5px;
-			margin-bottom: 5px;
 			input:checked + .slider {
 				background-color: #2196F3;
 			}
@@ -115,5 +118,14 @@
 				transform: translateX(26px);
 			}
 		}
+	}
+	.editor{
+		border: 1px solid #999;
+        border-radius: 3px;
+        padding: 5px;
+        background-color: rgba(0,0,0,0.05);
+		margin-bottom: 5px;
+		height: 100%;
+		min-height: 25px;
 	}
 }

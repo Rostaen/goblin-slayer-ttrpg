@@ -24,7 +24,13 @@
 			</span>
 			<span class="stealth">
 				<label for="shieldStealth">{{localize config.common.ste}}:</label>
-				<input id="shieldStealth" name="system.stealth" type="text" value="{{gear.stealth}}" />
+				<select name="system.stealth">
+					{{#select gear.stealth}}
+						{{#each config.armor.stealth as |number id|}}
+							<option value="{{number}}">{{id}}</option>
+						{{/each}}
+					{{/select}}
+				</select>
 			</span>
 			<span class="value">
 				<label for="shieldValue">{{localize config.common.val}}:</label>
@@ -34,11 +40,9 @@
 	</div>
 	<span class="effects grid-span-5">
 		<label for="shieldEffects">{{localize config.common.eff}}:</label>
-		<textarea name="system.effects" >{{gear.effects}}</textarea>
-		{{!-- {{editor gear.effects.value target="system.effects.value" button=true owner=owner}} --}}
+		{{editor gear.effects target="system.effects" button=true engine="prosemirror"}}
 	</span>
 	<span class="comments grid-span-5">
-		<textarea name="system.comment">{{gear.comment}}</textarea>
-		{{!-- {{editor gear.comment target="system.comment" button=true owner=owner}} --}}
+		{{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
 	</span>
 </form>

@@ -242,16 +242,39 @@
 }
 .weapon .grid-span-4 .grid-2col span input,
 .armor .grid-span-4 .grid-2col span input,
-.shield .grid-span-4 .grid-2col span input {
+.shield .grid-span-4 .grid-2col span input,
+.weapon .grid-span-4 .grid-2col span select,
+.armor .grid-span-4 .grid-2col span select,
+.shield .grid-span-4 .grid-2col span select {
   width: 110px;
 }
-.weapon textarea,
-.armor textarea,
-.shield textarea {
+.weapon .effects,
+.armor .effects,
+.shield .effects,
+.weapon .comments,
+.armor .comments,
+.shield .comments {
   border: 1px solid #666;
   border-radius: 3px;
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.05);
+}
+.weapon .effects .editor,
+.armor .effects .editor,
+.shield .effects .editor,
+.weapon .comments .editor,
+.armor .comments .editor,
+.shield .comments .editor {
+  height: 100%;
+  min-height: 25px;
+}
+.weapon .effects .editor .tox.tox-tinymce,
+.armor .effects .editor .tox.tox-tinymce,
+.shield .effects .editor .tox.tox-tinymce,
+.weapon .comments .editor .tox.tox-tinymce,
+.armor .comments .editor .tox.tox-tinymce,
+.shield .comments .editor .tox.tox-tinymce {
+  height: 125px !important;
 }
 .item {
   font-size: 14px;
@@ -358,6 +381,9 @@
   align-items: center;
   justify-content: end;
 }
+.skill h2.grid-span-5 {
+  margin-top: 10px;
+}
 .skill span .editor {
   border: 1px solid #999;
   background-color: rgba(0, 0, 0, 0.05);
@@ -372,6 +398,9 @@
 }
 .spell {
   font-size: 14px;
+  margin-top: 0px;
+}
+.spell .top {
   margin-top: 0px;
 }
 .spell label {
@@ -425,7 +454,7 @@
 .spell .switch-container {
   display: flex;
   align-items: center;
-  margin-bottom: 0px;
+  margin-bottom: 5px;
 }
 .spell .switch-container .switch-label {
   margin-right: 5px;
@@ -436,7 +465,6 @@
   width: 50px;
   height: 25px;
   margin-right: 5px;
-  margin-bottom: 5px;
 }
 .spell .switch-container .switch input:checked + .slider {
   background-color: #2196F3;
@@ -488,4 +516,13 @@
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
+}
+.spell .editor {
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-bottom: 5px;
+  height: 100%;
+  min-height: 25px;
 }
