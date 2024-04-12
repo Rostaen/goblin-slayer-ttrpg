@@ -10,7 +10,11 @@
             {{editor gear.prereq target="system.prereq" button=true engine="prosemirror"}}
         </span>
         <span class="switch-container">
-        <input type="checkbox" name="gear.type" value="{{gear.type}}" {{checked gear.type}} data-dtype="Boolean" />
+            <span class="switch-label">{{localize config.skill.gen}}</span>
+            <label class="switch">
+                <input type="checkbox" data-key="type" id="skill-switch" name="gear.type" {{checked gear.type}} />
+                <span class="slider"></span>
+            </label>
             <span class="switch-label">{{localize config.skill.adv}}</span>
         </span>
     </span>

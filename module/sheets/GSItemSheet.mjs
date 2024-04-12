@@ -29,4 +29,21 @@ export default class GSItemSheet extends ItemSheet {
 			gear: data.system
 		}
 	}
+
+	activateListeners(html){
+		super.activateListeners(html);
+		html.find("input[type='checkbox']").change(this._onChangeCheckbox.bind(this));
+	}
+
+	async _onChangeCheckbox(event){
+		event.preventDefault();
+		const element = event.currentTarget;
+		const key = element.dataset.key;
+		let value = element.checked ? true : false;
+		element.setAttribute("value", value);
+		const cloneObject = Object.assign({}, this.item.system);
+		cloneObject[key] = value;
+		await this.item.update({ system: cloneObject });
+		// console.log(this.item.system);
+	}
 }
