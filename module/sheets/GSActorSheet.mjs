@@ -20,7 +20,7 @@ export default class GSActorSheet extends ActorSheet{
 	getData(){
 		const data = super.getData();
 		data.config = CONFIG.gs;
-		const actorData = data.data;
+		const actorData = data.actor;
 		data.rollData = this.actor.getRollData();
 		data.system = actorData.system;
 		data.flags = actorData.flags;

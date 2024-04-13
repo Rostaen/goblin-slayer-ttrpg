@@ -145,6 +145,7 @@ gs.actor = {
 		defe: "gs.actor.monster.defe",
 		dodg: "gs.actor.monster.dodg",
 		bloc: "gs.actor.monster.bloc",
-		aSco: "gs.actor.monster.aSco"
+		aSco: "gs.actor.monster.aSco",
+		name: "gs.actor.monster.name"
 	}
 }

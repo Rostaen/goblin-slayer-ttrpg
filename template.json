@@ -128,7 +128,29 @@
       "init": "",
       "inte": "",
       "morale": 0,
+      "numAttacks": 1,
       "attacks": [
+        {
+          "name": "",
+          "type": "",
+          "range": 0,
+          "check": 0,
+          "power": ""
+        },
+        {
+          "name": "",
+          "type": "",
+          "range": 0,
+          "check": 0,
+          "power": ""
+        },
+        {
+          "name": "",
+          "type": "",
+          "range": 0,
+          "check": 0,
+          "power": ""
+        },
         {
           "name": "",
           "type": "",
@@ -181,12 +203,12 @@
       "templates": ["common"],
       "description": ""
     },
-		"spell": {
-			"templates": ["common"],
-			"summary": "",
-			"difficulty": "",
-			"chant": "",
-			"catalyst": "",
+    "spell": {
+      "templates": ["common"],
+      "summary": "",
+      "difficulty": "",
+      "chant": "",
+      "catalyst": "",
       "schoolChoice": "",
       "styleChoice": "",
       "elementChoice": "",
@@ -217,16 +239,16 @@
         "tim": "",
         "spa": ""
       }
-		},
-		"skill": {
-			"templates": ["common"],
+    },
+    "skill": {
+      "templates": ["common"],
       "grade": "",
-			"prereq": "",
-			"beginner": "",
-			"intermediate": "",
-			"expert": "",
-			"master": "",
-			"legend": ""
-		}
+      "prereq": "",
+      "beginner": "",
+      "intermediate": "",
+      "expert": "",
+      "master": "",
+      "legend": ""
+    }
   }
 }

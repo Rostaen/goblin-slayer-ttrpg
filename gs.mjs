@@ -30,3 +30,12 @@ Hooks.once("init", () => {
 
 // Define Handlebars Helpers here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Handlebars.registerHelper('log', (item) => console.log("Helper Logging >>> ", item));
+
+Handlebars.registerHelper('loopHelper', (loopNum, actor, config, options) => {
+	//console.log("Loop Helper>>>",actor);
+	let returnValue = '';
+	for (let i = 0; i < loopNum; i++){
+		returnValue += options.fn({ index: i, data: actor, config: config });
+	}
+	return returnValue
+});
