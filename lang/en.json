@@ -82,7 +82,8 @@
     },
     "actor": {
       "common": {
-        "life": "Life Force",
+        "life": "Life",
+        "lFor": "Life Force",
         "spRe": "Spell Resistance",
         "move": "Movement",
         "leve": "Level"
@@ -104,9 +105,9 @@
         "end": "Endurance",
         "ref": "Reflex",
         "exp": "Experience Points",
-        "cum": "Cumulative Points",
-        "cur": "Current Points",
-        "adv": "Advancement Points",
+        "cum": "Cumulative Pts",
+        "cur": "Current Pts",
+        "adv": "Advance Pts",
         "lvl": "Adventurer Level",
         "status": "Status",
         "wounds": "Wounds",
@@ -205,7 +206,7 @@
       "tabs": {
         "stats": "Stats",
         "items": "Items",
-        "feats": "Features",
+        "feats": "Skills",
         "spell": "Spells",
         "descr": "Description",
         "effec": "Effects"

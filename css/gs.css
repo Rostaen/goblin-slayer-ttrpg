@@ -555,3 +555,53 @@
 .monster .editor .tox.tox-tinymce {
   height: 125px !important;
 }
+.character {
+  margin-top: 0px;
+}
+.character label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.character .mainContent h1 {
+  border-bottom: 0px;
+  margin-top: 0px;
+}
+.character .mainContent input[type="text"] {
+  padding: 0px 3px;
+  height: inherit;
+}
+.sidebar {
+  font-size: 12px;
+}
+.sidebar h2 {
+  font-size: 16px;
+}
+.sidebar label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.sidebar input[type="text"] {
+  padding: 2px;
+  height: 100%;
+  text-align: center;
+}
+.sidebar input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0px;
+}
+.sidebar .grid {
+  margin: 5px 0px;
+}
+.sidebar button {
+  padding: 0px;
+  margin: 0px auto;
+  height: 23px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}

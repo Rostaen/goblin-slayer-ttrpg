@@ -2,13 +2,13 @@
     <div class="sidebar">
         <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
         <div class="actor-main-info">
-            {{> "systems/gs/templates/actors/partials/character/important-info.hbs" }}
+            {{> "systems/gs/templates/actors/partials/character/sidebar.hbs" }}
         </div>
     </div>
-    <div class="class grid-span-4">
+    <div class="mainContent grid-span-4">
         <h1 class="grid grid-6col">
             <input name="name" type="text" value="{{data.actor.name}}" class="grid-span-3" />
-            <label>{{localize config.character.rank}}</label>
+            <label>{{localize config.character.rank}}: </label>
             <input type="text" name="system.details.rank" value="{{actor.details.rank}}" class="grid-span-2" />
         </h1>
         <div class="mainContent">

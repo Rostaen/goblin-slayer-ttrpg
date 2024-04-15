@@ -102,6 +102,7 @@ gs.gear = {
 gs.actor = {
 	common: {
 		life: "gs.actor.common.life",
+		lFor: "gs.actor.common.lFor",
 		spRe: "gs.actor.common.spRe",
 		move: "gs.actor.common.move",
 		leve: "gs.actor.common.leve"

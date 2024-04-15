@@ -1,6 +1,6 @@
 export const preloadHandlebarsTemplates = async function() {
     return loadTemplates([
-        "systems/gs/templates/actors/partials/character/important-info.hbs",
+        "systems/gs/templates/actors/partials/character/sidebar.hbs",
         "systems/gs/templates/actors/partials/character/stats.hbs",
         "systems/gs/templates/actors/partials/character/items.hbs",
         "systems/gs/templates/actors/partials/character/features.hbs",

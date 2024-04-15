@@ -3,7 +3,7 @@
     "types": ["character", "monster"],
     "templates": {
       "common": {
-        "move": "",
+        "move": 0,
         "spellRes": 0,
         "lifeForce": {
           "current": 0,
@@ -39,15 +39,14 @@
         "current": 0,
         "completed": 0
       },
-      "advancePoints": "",
+      "advancePoints": 15,
       "spellUse": {
-        "label": "",
         "value": 0,
         "min": 0,
         "max": 0
       },
       "levels": {
-        "adventurer": 0,
+        "adventurer": 1,
         "classes": {
           "fighter": 0,
           "monk": 0,
@@ -86,9 +85,7 @@
           "ex": 0
         }
       },
-      "attrition": {
-        "value": 0
-      },
+      "attrition": 0,
       "skills": {
         "adventure": [],
         "general": []
