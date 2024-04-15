@@ -1,11 +1,12 @@
-<form class="{{cssClass}} {{actor.type}} grid grid-5col" autocomplete="off">
-    <div class="sidebar">
-        {{#if (eq actor.type "character")}}
-        <h1 class="class">
-            <input name="name" type="text" value="{{actor.name}}" />
+<form class="{{cssClass}}{{data.actor.type}} grid grid-5col" autocomplete="off">
+        <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
+        <h1 class="class grid-span-4">
+            <div class="grid grid-6col">
+                <input name="name" type="text" value="{{data.actor.name}}" class="grid-span-3" />
+                <label></label>
+            </div>
         </h1>
-        {{/if}}
-        <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+    <div class="sidebar">
         <div class="actor-main-info">
             {{> "systems/gs/templates/actors/partials/character/important-info.hbs" }}
         </div>
