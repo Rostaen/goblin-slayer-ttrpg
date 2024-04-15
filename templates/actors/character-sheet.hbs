@@ -1,14 +1,52 @@
 <form class="{{cssClass}}{{data.actor.type}} grid grid-5col" autocomplete="off">
-        <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
-        <h1 class="class grid-span-4">
-            <div class="grid grid-6col">
-                <input name="name" type="text" value="{{data.actor.name}}" class="grid-span-3" />
-                <label></label>
-            </div>
-        </h1>
     <div class="sidebar">
+        <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
         <div class="actor-main-info">
             {{> "systems/gs/templates/actors/partials/character/important-info.hbs" }}
+        </div>
+    </div>
+    <div class="class grid-span-4">
+        <h1 class="grid grid-6col">
+            <input name="name" type="text" value="{{data.actor.name}}" class="grid-span-3" />
+            <label>{{localize config.character.rank}}</label>
+            <input type="text" name="system.details.rank" value="{{actor.details.rank}}" class="grid-span-2" />
+        </h1>
+        <div class="mainContent">
+            <nav class="sheet-tabs tabs" data-group="primary">
+                <a class="item" data-tab="stats">{{localize config.charSheet.tabs.stats}}</a>
+                <a class="item" data-tab="items">{{localize config.charSheet.tabs.items}}</a>
+                <a class="item" data-tab="features">{{localize config.charSheet.tabs.feats}}</a>
+                <a class="item" data-tab="spells">{{localize config.charSheet.tabs.spell}}</a>
+                <a class="item" data-tab="description">{{localize config.charSheet.tabs.descr}}</a>
+                <a class="item" data-tab="effects">{{localize config.charSheet.tabs.effec}}</a>
+            </nav>
+            {{!-- Sheet Body --}}
+            <section class="sheet-body">
+                {{!-- Character Status --}}
+                <div class="tab stats" data-group="primary" data-tab="stats">
+                    {{> "systems/gs/templates/actors/partials/character/stats.hbs"}}
+                </div>
+                {{!-- Features --}}
+                <div class="tab stats" data-group="primary" data-tab="items">
+                    {{> "systems/gs/templates/actors/partials/character/items.hbs"}}
+                </div>
+                {{!-- Features/Skills --}}
+                <div class="tab stats" data-group="primary" data-tab="features">
+                    {{> "systems/gs/templates/actors/partials/character/features.hbs"}}
+                </div>
+                {{!-- Spells --}}
+                <div class="tab stats" data-group="primary" data-tab="spells">
+                    {{> "systems/gs/templates/actors/partials/character/spells.hbs"}}
+                </div>
+                {{!-- Character Description --}}
+                <div class="tab stats" data-group="primary" data-tab="description">
+                    {{> "systems/gs/templates/actors/partials/character/description.hbs"}}
+                </div>
+                {{!-- Status Effects --}}
+                <div class="tab stats" data-group="primary" data-tab="effects">
+                    {{> "systems/gs/templates/actors/partials/character/effects.hbs"}}
+                </div>
+            </section>
         </div>
     </div>
 </form>

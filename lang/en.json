@@ -200,6 +200,16 @@
         "aSco": "Armor Score",
         "name": "Name"
       }
+    },
+    "charSheet": {
+      "tabs": {
+        "stats": "Stats",
+        "items": "Items",
+        "feats": "Features",
+        "spell": "Spells",
+        "descr": "Description",
+        "effec": "Effects"
+      }
     }
   }
 }

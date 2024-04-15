@@ -247,5 +247,15 @@ gs.actor = {
 		bloc: "gs.actor.monster.bloc",
 		aSco: "gs.actor.monster.aSco",
 		name: "gs.actor.monster.name"
+	},
+	charSheet: {
+		tabs: {
+			stats: "gs.charSheet.tabs.stats",
+			items: "gs.charSheet.tabs.items",
+			feats: "gs.charSheet.tabs.feats",
+			spell: "gs.charSheet.tabs.spell",
+			descr: "gs.charSheet.tabs.descr",
+			effec: "gs.charSheet.tabs.effec"
+		}
 	}
 }
