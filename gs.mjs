@@ -35,7 +35,11 @@ Handlebars.registerHelper('loopHelper', (loopNum, actor, config, options) => {
 	//console.log("Loop Helper>>>",actor);
 	let returnValue = '';
 	for (let i = 0; i < loopNum; i++){
-		returnValue += options.fn({ index: i, data: actor, config: config });
+		returnValue += options.fn({ index: i, actor: actor, config: config });
 	}
 	return returnValue
+});
+
+Handlebars.registerHelper('add', (value, increment) => {
+	return value + increment;
 });

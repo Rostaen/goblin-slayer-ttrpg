@@ -587,23 +587,8 @@
   height: 100%;
   text-align: center;
 }
-.sidebar input[type="checkbox"] {
-  width: 15px;
-  height: 15px;
-  margin: 0px;
-}
 .sidebar .grid {
   margin: 5px 0px;
-}
-.sidebar button {
-  padding: 0px;
-  margin: 0px auto;
-  height: 23px;
-  width: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
 }
 .stats .statsContainer {
   gap: 0px;
@@ -615,7 +600,7 @@
 }
 .stats .statsContainer div {
   padding: 2px;
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.75);
 }
 .stats .statsContainer .primaryHeader,
 .stats .statsContainer .secondHeader,
@@ -651,4 +636,36 @@
 }
 .stats .statsContainer input[type="text"] {
   text-align: center;
+}
+.stats .fatigue input[type="checkbox"],
+.stats .attritionContainer input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0px;
+}
+.stats .attrition .attritionContainer,
+.stats .fatigue .fatigueContainer {
+  padding: 5px 2px;
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid darkred;
+  margin-top: 0px;
+  border-radius: 0 5px 5px 5px;
+}
+.stats .attrition h2 {
+  margin-bottom: 0px;
+  border-bottom: 0px;
+}
+.stats .attrition .attritionContainer {
+  gap: 5px;
+}
+.stats .attrition .attritionContainer .attritionBlock .grid {
+  margin: 0px;
+  gap: 2px;
+}
+.stats .attrition .attritionContainer .attritionBlock .grid input.spiked {
+  box-shadow: 0 0 3px 1px rgba(192, 13, 13, 0.75);
+}
+.stats .fatigue h2 {
+  margin-bottom: 0px;
+  border-bottom: 0px;
 }

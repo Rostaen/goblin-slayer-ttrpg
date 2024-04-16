@@ -29,27 +29,4 @@
         <label class="grid-span-2">{{localize config.character.experience.lvl}}: </label>
         <input type="text" name="system.levels.adventurer" value="{{actor.levels.adventurer}}" data-dtype="Number">
     </div>
-    <h2>{{localize config.character.fatW}}</h2>
-    <div class="fatigue grid grid-7col">
-        {{!-- Rank 1 --}}
-        <input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">1</label>
-        {{!-- Rank 2 --}}
-        <div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">2</label>
-        {{!-- Rank 3 --}}
-        <div></div><div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">3</label>
-        {{!-- Rank 4 --}}
-        <div></div><div></div><div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">4</label>
-        {{!-- Rank 5 --}}
-        <div></div><div></div><div></div><div></div><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">5</label>
-    </div>
-    <h2>{{localize config.character.attr}}</h2>
-    <div class="attrition grid grid-3col">
-        <button class="minus">
-            <i class="fa-regular fa-square-minus fa-2x"></i>
-        </button>
-        <input type="text" name="system.attrition" value="{{actor.attrition}}" data-dtype="Number" disabled>
-        <button class="plus">
-            <i class="fa-regular fa-square-plus fa-2x"></i>
-        </button>
-    </div>
 </div>

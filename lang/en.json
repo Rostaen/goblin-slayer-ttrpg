@@ -111,6 +111,8 @@
         "cum": "Cumulative Pts",
         "cur": "Current Pts",
         "adv": "Advance Pts",
+        "ads": "Adventures",
+        "com": "Completed",
         "lvl": "Adventurer Level",
         "status": "Status",
         "wounds": "Wounds",

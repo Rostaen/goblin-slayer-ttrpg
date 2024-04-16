@@ -96,7 +96,14 @@
                 <input type="text" name="system.abilities.calc.ir" value="{{actor.abilities.calc.ir}}" data-dtype="Number" disabled>
             </div>
         </div>
+        {{!-- Adventures Container --}}
+        <div class="grid grid-4col adventuresContainer">
+            <label>{{localize config.character.experience.ads}}: </label>
+            <input type="text" name="system.adventures.current" value="{{actor.adventures.current}}" data-dtype="Number">
 
+            <label>{{localize config.character.experience.com}}: </label>
+            <input type="text" name="system.adventures.completed" value="{{actor.adventures.completed}}" data-dtype="Number">
+        </div>
     </div>
     <div class="classLevels grid-span-2">
         <h2>{{localize config.character.clWd}}</h2>
@@ -125,6 +132,108 @@
             {{!-- Shaman --}}
             <label class="grid-span-2">{{localize config.character.classes.sham}}</label>
             <input type="text" name="system.levels.classes.shaman" value="{{actor.levels.classes.shaman}}" data-dtype="Number">
+        </div>
+    </div>
+    <div class="attrition grid-span-5">
+        <h2>{{localize config.character.attr}}</h2>
+        <div class="attritionContainer grid grid-4col">
+            {{!-- Row 1 --}}
+            <div class="attritionBlock">
+                <div class="grid grid-6col">
+                    <input type="checkbox" name="system.character.attrition.0" {{#if actor.character.attrition.[0]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.1" {{#if actor.character.attrition.[1]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.2" {{#if actor.character.attrition.[2]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.3" {{#if actor.character.attrition.[3]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.4" {{#if actor.character.attrition.[4]}}{{checked}}{{/if}} class="spiked" />
+                    <label class="attNum">5</label>
+                </div>
+            </div>
+            <div class="attritionBlock">
+                <div class="grid grid-6col">
+                    <input type="checkbox" name="system.character.attrition.5" {{#if actor.character.attrition.[5]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.6" {{#if actor.character.attrition.[6]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.7" {{#if actor.character.attrition.[7]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.8" {{#if actor.character.attrition.[8]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.9" {{#if actor.character.attrition.[9]}}{{checked}}{{/if}} />
+                    <label class="attNum">10</label>
+                </div>
+            </div>
+            <div class="attritionBlock">
+                <div class="grid grid-6col">
+                    <input type="checkbox" name="system.character.attrition.10" {{#if actor.character.attrition.[10]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.11" {{#if actor.character.attrition.[11]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.12" {{#if actor.character.attrition.[12]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.13" {{#if actor.character.attrition.[13]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.14" {{#if actor.character.attrition.[14]}}{{checked}}{{/if}} />
+                    <label class="attNum">15</label>
+                </div>
+            </div>
+            <div class="attritionBlock">
+                <div class="grid grid-6col">
+                    <input type="checkbox" name="system.character.attrition.15" {{#if actor.character.attrition.[15]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.16" {{#if actor.character.attrition.[16]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.17" {{#if actor.character.attrition.[17]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.18" {{#if actor.character.attrition.[18]}}{{checked}}{{/if}} />
+                    <input type="checkbox" name="system.character.attrition.19" {{#if actor.character.attrition.[19]}}{{checked}}{{/if}} class="spiked" />
+                    <label class="attNum">20</label>
+                </div>
+            </div>
+            {{!-- Row 2 --}}
+            <div class="attritionBlock">
+                <div class="grid grid-6col">
+                    <input type="checkbox" name="system.character.attrition.20" {{#if actor.character.attrition.[20]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.21" {{#if actor.character.attrition.[21]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.22" {{#if actor.character.attrition.[22]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.23" {{#if actor.character.attrition.[23]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.24" {{#if actor.character.attrition.[24]}}{{checked}}{{/if}} class="spiked" />
+                    <label class="attNum">25</label>
+                </div>
+            </div>
+            <div class="attritionBlock">
+                <div class="grid grid-6col">
+                    <input type="checkbox" name="system.character.attrition.25" {{#if actor.character.attrition.[25]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.26" {{#if actor.character.attrition.[26]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.27" {{#if actor.character.attrition.[27]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.28" {{#if actor.character.attrition.[28]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.29" {{#if actor.character.attrition.[29]}}{{checked}}{{/if}} class="spiked" />
+                    <label class="attNum">30</label>
+                </div>
+            </div>
+            <div class="attritionBlock">
+                <div class="grid grid-6col">
+                    <input type="checkbox" name="system.character.attrition.30" {{#if actor.character.attrition.[30]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.31" {{#if actor.character.attrition.[31]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.32" {{#if actor.character.attrition.[32]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.33" {{#if actor.character.attrition.[33]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.34" {{#if actor.character.attrition.[34]}}{{checked}}{{/if}} class="spiked" />
+                    <label class="attNum">35</label>
+                </div>
+            </div>
+            <div class="attritionBlock">
+                <div class="grid grid-6col">
+                    <input type="checkbox" name="system.character.attrition.35" {{#if actor.character.attrition.[35]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.36" {{#if actor.character.attrition.[36]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.37" {{#if actor.character.attrition.[37]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.38" {{#if actor.character.attrition.[38]}}{{checked}}{{/if}} class="spiked" />
+                    <input type="checkbox" name="system.character.attrition.39" {{#if actor.character.attrition.[39]}}{{checked}}{{/if}} class="spiked" />
+                    <label class="attNum">40</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fatigue grid-span-2">
+        <h2>{{localize config.character.fatW}}</h2>
+        <div class="fatigueContainer grid grid-7col">
+            {{!-- Rank 1 --}}
+            <input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">1</label>
+            {{!-- Rank 2 --}}
+            <div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">2</label>
+            {{!-- Rank 3 --}}
+            <div></div><div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">3</label>
+            {{!-- Rank 4 --}}
+            <div></div><div></div><div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">4</label>
+            {{!-- Rank 5 --}}
+            <div></div><div></div><div></div><div></div><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank">5</label>
         </div>
     </div>
 </div>

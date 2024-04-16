@@ -8,7 +8,7 @@
         }
         div{
             padding: 2px;
-            background-color: rgba(255, 255, 255, 0.25);
+            background-color: rgba(255, 255, 255, 0.75);
         }
         .primaryHeader, .secondHeader, .primaryScore, .secondaryScore, .calcScore{
             border: 1px solid darkred;
@@ -40,6 +40,44 @@
         }
         input[type="text"]{
             text-align: center;
+        }
+    }
+    .fatigue, .attritionContainer{
+        input[type="checkbox"]{
+            width: 15px;
+            height: 15px;
+            margin: 0px;
+        }
+    }
+    .attrition .attritionContainer, .fatigue .fatigueContainer{
+        padding: 5px 2px;
+        background-color: rgba(255, 255, 255, 0.75);
+        border: 1px solid darkred;
+        margin-top: 0px;
+        border-radius: 0 5px 5px 5px;
+    }
+    .attrition{
+        h2{
+            margin-bottom: 0px;
+            border-bottom: 0px;
+        }
+        .attritionContainer{
+            gap: 5px;
+            .attritionBlock{
+                .grid{
+                    margin: 0px;
+                    gap: 2px;
+                    input.spiked{
+                        box-shadow: 0 0 3px 1px rgba(192, 13, 13, 0.75);
+                    }
+                }
+            }
+        }
+    }
+    .fatigue{
+        h2{
+            margin-bottom: 0px;
+            border-bottom: 0px;
         }
     }
 }

@@ -135,7 +135,9 @@ gs.actor = {
 			cum: "gs.actor.character.cum",
 			cur: "gs.actor.character.cur",
 			adv: "gs.actor.character.adv",
-			lvl: "gs.actor.character.lvl"
+			lvl: "gs.actor.character.lvl",
+			ads: "gs.actor.character.ads",
+			com: "gs.actor.character.com"
 		},
 		status: "gs.actor.character.status",
 		wounds: "gs.actor.character.wounds",

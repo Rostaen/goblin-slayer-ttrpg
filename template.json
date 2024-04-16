@@ -107,7 +107,7 @@
           "ex": 0
         }
       },
-      "attrition": 0,
+      "attrition": [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],
       "skills": {
         "adventure": [],
         "general": []
