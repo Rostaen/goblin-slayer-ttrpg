@@ -1,1 +1,130 @@
-Stats Page Coming Soon!
+<div class="stats grid grid-7col">
+    <div class="grid-span-5">
+        <div class="grid grid-4col statsContainer">
+            {{!-- Header Row --}}
+            <h4 class="mainHeader">{{localize config.character.ability}}</h4>
+            <div class="grid-span-3 secondHeader">
+                <h4>{{localize config.character.second}} {{localize config.character.ability}}</h4>
+            </div>
+
+            {{!-- Row 1 --}}
+            <div class="primaryHeader">
+                <h4>{{localize config.character.primary}} {{localize config.character.ability}}</h4>
+            </div>
+            <div class="focus secondaryScore">
+                <label>{{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.secondary.foc" value="{{actor.abilities.secondary.foc}}" data-dtype="Number">
+            </div>
+            <div class="endurance secondaryScore">
+                <label>{{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.secondary.end" value="{{actor.abilities.secondary.end}}" data-dtype="Number">
+            </div>
+            <div class="reflex secondaryScore">
+                <label>{{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.secondary.ref" value="{{actor.abilities.secondary.ref}}" data-dtype="Number">
+            </div>
+
+            {{!-- Row 2 --}}
+            <div class="strength primaryScore">
+                <label>{{localize config.character.scores.str}}</label>
+                <input type="text" name="system.abilities.primary.str" value="{{actor.abilities.primary.str}}" data-dtype="Number">
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.str}} {{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.calc.sf" value="{{actor.abilities.calc.sf}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.str}} {{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.calc.se" value="{{actor.abilities.calc.se}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.str}} {{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.calc.sr" value="{{actor.abilities.calc.sr}}" data-dtype="Number" disabled>
+            </div>
+
+            {{!-- Row 3 --}}
+            <div class="pysche primaryScore">
+                <label>{{localize config.character.scores.psy}}</label>
+                <input type="text" name="system.abilities.primary.psy" value="{{actor.abilities.primary.psy}}" data-dtype="Number">
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.psy}} {{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.calc.pf" value="{{actor.abilities.calc.pf}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.psy}} {{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.calc.pe" value="{{actor.abilities.calc.pe}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.psy}} {{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.calc.pr" value="{{actor.abilities.calc.pr}}" data-dtype="Number" disabled>
+            </div>
+
+            {{!-- Row 4 --}}
+            <div class="technique primaryScore">
+                <label>{{localize config.character.scores.tec}}</label>
+                <input type="text" name="system.abilities.primary.tec" value="{{actor.abilities.primary.tec}}" data-dtype="Number">
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.tec}} {{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.calc.tf" value="{{actor.abilities.calc.tf}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.tec}} {{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.calc.te" value="{{actor.abilities.calc.te}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.tec}} {{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.calc.tr" value="{{actor.abilities.calc.tr}}" data-dtype="Number" disabled>
+            </div>
+
+            {{!-- Row 5 --}}
+            <div class="intelligence primaryScore">
+                <label>{{localize config.character.scores.int}}</label>
+                <input type="text" name="system.abilities.primary.int" value="{{actor.abilities.primary.int}}" data-dtype="Number">
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.int}} {{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.calc.if" value="{{actor.abilities.calc.if}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.int}} {{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.calc.ie" value="{{actor.abilities.calc.ie}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label>{{localize config.character.scores.int}} {{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.calc.ir" value="{{actor.abilities.calc.ir}}" data-dtype="Number" disabled>
+            </div>
+        </div>
+
+    </div>
+    <div class="classLevels grid-span-2">
+        <h2>{{localize config.character.clWd}}</h2>
+        <div class="grid grid-3col">
+            {{!-- Fighter --}}
+            <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
+            <input type="text" name="system.levels.classes.fighter" value="{{actor.levels.classes.fighter}}" data-dtype="Number">
+            {{!-- Monk --}}
+            <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
+            <input type="text" name="system.levels.classes.monk" value="{{actor.levels.classes.monk}}" data-dtype="Number">
+            {{!-- Ranger --}}
+            <label class="grid-span-2">{{localize config.character.classes.rang}}</label>
+            <input type="text" name="system.levels.classes.ranger" value="{{actor.levels.classes.ranger}}" data-dtype="Number">
+            {{!-- Scout --}}
+            <label class="grid-span-2">{{localize config.character.classes.scou}}</label>
+            <input type="text" name="system.levels.classes.scout" value="{{actor.levels.classes.scout}}" data-dtype="Number">
+            {{!-- Sorcerer --}}
+            <label class="grid-span-2">{{localize config.character.classes.sorc}}</label>
+            <input type="text" name="system.levels.classes.sorcerer" value="{{actor.levels.classes.sorcerer}}" data-dtype="Number">
+            {{!-- Priest --}}
+            <label class="grid-span-2">{{localize config.character.classes.prie}}</label>
+            <input type="text" name="system.levels.classes.priest" value="{{actor.levels.classes.priest}}" data-dtype="Number">
+            {{!-- Dragon Priest --}}
+            <label class="grid-span-2">{{localize config.character.classes.dPri}}</label>
+            <input type="text" name="system.levels.classes.dragon" value="{{actor.levels.classes.dragon}}" data-dtype="Number">
+            {{!-- Shaman --}}
+            <label class="grid-span-2">{{localize config.character.classes.sham}}</label>
+            <input type="text" name="system.levels.classes.shaman" value="{{actor.levels.classes.shaman}}" data-dtype="Number">
+        </div>
+    </div>
+</div>

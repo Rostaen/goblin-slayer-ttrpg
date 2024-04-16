@@ -27,9 +27,31 @@
         "eyes": ""
       },
       "abilities": {
-        "primary": {},
-        "secondary": {},
-        "calculated": {}
+        "primary": {
+          "str": 0,
+          "psy": 0,
+          "tec": 0,
+          "int": 0
+        },
+        "secondary": {
+          "foc": 0,
+          "end": 0,
+          "ref": 0
+        },
+        "calc": {
+          "sf": 0,
+          "se": 0,
+          "sr": 0,
+          "pf": 0,
+          "pe": 0,
+          "pr": 0,
+          "tf": 0,
+          "te": 0,
+          "tr": 0,
+          "if": 0,
+          "ie": 0,
+          "ir": 0
+        }
       },
       "xp": {
         "cumulative": 3000,

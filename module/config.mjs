@@ -109,6 +109,9 @@ gs.actor = {
 	},
 	character: {
 		rank: "gs.actor.character.rank",
+		ability: "gs.actor.character.abil",
+		primary: "gs.actor.character.pri",
+		second: "gs.actor.character.sec",
 		traits: {
 			rac: "gs.actor.character.rac",
 			age: "gs.actor.character.age",
@@ -118,9 +121,6 @@ gs.actor = {
 			hai: "gs.actor.character.hai",
 			eye: "gs.actor.character.eye",
 		},
-		aScores: "gs.actor.character.aScores",
-		pScroes: "gs.actor.character.pScroes",
-		sScores: "gs.actor.character.sScores",
 		scores: {
 			str: "gs.actor.character.str",
 			psy: "gs.actor.character.psy",

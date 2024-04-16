@@ -605,3 +605,50 @@
   align-items: center;
   border-radius: 5px;
 }
+.stats .statsContainer {
+  gap: 0px;
+  margin-top: 0px;
+}
+.stats .statsContainer h4 {
+  margin-bottom: 0px;
+  text-align: center;
+}
+.stats .statsContainer div {
+  padding: 2px;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+.stats .statsContainer .primaryHeader,
+.stats .statsContainer .secondHeader,
+.stats .statsContainer .primaryScore,
+.stats .statsContainer .secondaryScore,
+.stats .statsContainer .calcScore {
+  border: 1px solid darkred;
+}
+.stats .statsContainer .primaryHeader,
+.stats .statsContainer .secondHeader {
+  border-bottom: 1px dashed darkred;
+}
+.stats .statsContainer .primaryHeader {
+  border-radius: 5px 0 0 0;
+}
+.stats .statsContainer .secondHeader {
+  border-radius: 5px 5px 0 0;
+}
+.stats .statsContainer .primaryScore {
+  border-top: 0px;
+}
+.stats .statsContainer .secondaryScore,
+.stats .statsContainer .calcScore {
+  border-top: 0px;
+  border-left: 0px;
+}
+.stats .statsContainer .calcScore label {
+  font-size: 9px;
+  padding: 3px 0px;
+}
+.stats .statsContainer label {
+  justify-content: center;
+}
+.stats .statsContainer input[type="text"] {
+  text-align: center;
+}
