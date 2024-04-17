@@ -120,6 +120,7 @@ gs.actor = {
 			phy: "gs.actor.character.phy",
 			hai: "gs.actor.character.hai",
 			eye: "gs.actor.character.eye",
+			oth: "gs.actor.character.oth"
 		},
 		scores: {
 			str: "gs.actor.character.str",

@@ -20,11 +20,12 @@
         "race": "",
         "age": "",
         "gender": "",
-        "history": {},
+        "history": "",
         "rank": "",
         "traits": "",
         "hair": "",
-        "eyes": ""
+        "eyes": "",
+        "other": ""
       },
       "abilities": {
         "primary": {

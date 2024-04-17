@@ -1,32 +1,32 @@
 <div class="sidebar">
     <h2>{{localize config.character.status}}</h2>
     <div class="status grid grid-3col">
-        <label class="grid-span-2">{{localize config.character.wounds}}: </label>
+        <label class="grid-span-2">{{localize config.character.wounds}}</label>
         <input type="text" name="system.lifeForce.min" value="{{actor.lifeForce.min}}" data-dtype="Number" />
         <div class="grid-span-3">
             <div class="grid grid-4col">
-                <label>{{localize config.common.life}}: </label>
+                <label>{{localize config.common.life}}</label>
                 <input type="text" name="system.lifeForce.current" value="{{actor.lifeForce.current}}" data-dtype="Number">
-                <label>2x: </label>
+                <label>2x</label>
                 {{!-- 2x Life Force is disabled as game will calculate this --}}
-                <input type="text" name="system.lifeForce.max" value="{{actor.lifeForce.current}}" data-dtype="Number" disabled>
+                <input type="text" name="system.lifeForce.max" value="{{actor.lifeForce.max}}" data-dtype="Number" disabled>
             </div>
         </div>
-        <label class="grid-span-2">{{localize config.common.move}}: </label>
+        <label class="grid-span-2">{{localize config.common.move}}</label>
         <input type="text" name="system.move" value="{{actor.move}}" data-dtype="Number">
-        <label class="grid-span-2">{{localize config.common.spRe}}: </label>
+        <label class="grid-span-2">{{localize config.common.spRe}}</label>
         {{!-- Spell Resistance disabled as game will calculate this --}}
         <input type="text" name="system.spellRes" value="{{actor.spellRes}}" data-dtype="Number" disabled>
     </div>
     <h2>{{localize config.character.experience.exp}}</h2>
     <div class="experience grid grid-3col">
-        <label class="grid-span-2">{{localize config.character.experience.cum}}: </label>
+        <label class="grid-span-2">{{localize config.character.experience.cum}}</label>
         <input type="text" name="system.xp.cumulative" value="{{actor.xp.cumulative}}" data-dtype="Number">
-        <label class="grid-span-2">{{localize config.character.experience.cur}}: </label>
+        <label class="grid-span-2">{{localize config.character.experience.cur}}</label>
         <input type="text" name="system.xp.current" value="{{actor.xp.current}}" data-dtype="Number">
-        <label class="grid-span-2">{{localize config.character.experience.adv}}: </label>
+        <label class="grid-span-2">{{localize config.character.experience.adv}}</label>
         <input type="text" name="system.advancePoints" value="{{actor.advancePoints}}" data-dtype="Number">
-        <label class="grid-span-2">{{localize config.character.experience.lvl}}: </label>
+        <label class="grid-span-2">{{localize config.character.experience.lvl}}</label>
         <input type="text" name="system.levels.adventurer" value="{{actor.levels.adventurer}}" data-dtype="Number">
     </div>
 </div>

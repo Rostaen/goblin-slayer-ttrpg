@@ -30,5 +30,13 @@ export class GSActor extends Actor {
                 systemData.abilities.calc[calcString] = calcScore;
             }
         }
+
+        // Setting Character Spell Resistance
+        // TODO: Learn how to add the Spell Resistance skill from Skills to character sheet data
+        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr;
+
+        // Setting 2x LifeForce + any Skills
+        // TODO: Learn how to add the Hardiness skill from Skills to character sheet data
+        systemData.lifeForce.max = systemData.lifeForce.current * 2;
     }
 }

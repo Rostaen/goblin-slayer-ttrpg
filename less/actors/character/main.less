@@ -7,12 +7,30 @@
     }
     .mainContent{
         h1{
-            border-bottom: 0px;
+            background-color: rgba(255, 255, 255, 0.75);
+            padding: 5px;
+            border: 1px solid darkred !important;
+            border-radius: 5px;
             margin-top: 0px;
         }
         input[type="text"]{
             padding: 0px 3px;
             height: inherit;
+        }
+        nav.sheet-tabs.tabs{
+            border-top: 0px;
+            border-bottom: 1px solid darkred;
+            .item{
+                border: 1px solid darkred;
+                border-bottom: 0px !important;
+                border-radius: 5px 5px 0px 0px;
+                background-color: rgba(255, 255, 255, 0.25);;
+            }
+            .item.active{
+                background-color: rgba(255, 255, 255, 0.75);
+                font-weight: bold;
+                text-shadow: none;
+            }
         }
     }
 }

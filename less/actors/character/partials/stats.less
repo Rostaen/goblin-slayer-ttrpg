@@ -1,4 +1,10 @@
 .stats{
+    .grid{
+        grid-row-gap: 0px;
+    }
+    h2{
+        text-align: center;
+    }
     .statsContainer{
         gap: 0px;
         margin-top: 0px;
@@ -9,6 +15,9 @@
         div{
             padding: 2px;
             background-color: rgba(255, 255, 255, 0.75);
+        }
+        h4.mainHeader{
+            font-weight: bold;
         }
         .primaryHeader, .secondHeader, .primaryScore, .secondaryScore, .calcScore{
             border: 1px solid darkred;
@@ -22,8 +31,21 @@
         .secondHeader{
             border-radius: 5px 5px 0 0;
         }
+        .primaryScore, .secondaryScore, .calcScore{
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+        }
         .primaryScore{
             border-top: 0px;
+        }
+        .primaryScore.intelligence{
+            border-radius: 0 0 0 5px;
+        }
+        .lastCell{
+            border-radius: 0 0 5px 0;
+        }
+        .primaryScore, .calcScore{
+            min-height: 31px;
         }
         .secondaryScore, .calcScore{
             border-top: 0px;
@@ -33,6 +55,7 @@
             label{
                 font-size: 9px;
                 padding: 3px 0px;
+                text-align: center;
             }
         }
         label{
@@ -41,6 +64,30 @@
         input[type="text"]{
             text-align: center;
         }
+    }
+    .classLevels{
+        .grid{
+            grid-row-gap: 6px;
+        }
+        h2{
+            margin-bottom: 0px;
+            border-bottom: 0px;
+        }
+        div{
+            margin-top: 0px;
+            border: 1px solid darkred;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+        }
+    }
+    .adventuresContainer{
+        background-color: rgba(255, 255, 255, 0.75);
+        padding: 5px;
+        border: 1px solid darkred;
+        border-radius: 5px;
+        text-align: center;
     }
     .fatigue, .attritionContainer{
         input[type="checkbox"]{
@@ -54,7 +101,7 @@
         background-color: rgba(255, 255, 255, 0.75);
         border: 1px solid darkred;
         margin-top: 0px;
-        border-radius: 0 5px 5px 5px;
+        border-radius: 5px;
     }
     .attrition{
         h2{
@@ -78,6 +125,12 @@
         h2{
             margin-bottom: 0px;
             border-bottom: 0px;
+        }
+        .fatigueContainer{
+            gap: 3px;
+            label.rank{
+                justify-content: center;
+            }
         }
     }
 }

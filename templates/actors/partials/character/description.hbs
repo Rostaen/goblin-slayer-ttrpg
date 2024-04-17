@@ -1,1 +1,33 @@
-Description Page Coming Soon!
+<div class="descriptionPage">
+    {{!-- 1st Row --}}
+    <div class="grid grid-10col topRow">
+        <label class="race">{{localize config.character.traits.rac}}</label>
+        <input type="text" name="system.details.race" value="{{actor.details.race}}">
+        <label class="age">{{localize config.character.traits.age}}</label>
+        <input type="text" name="system.details.age" value="{{actor.details.age}}">
+        <label class="gender">{{localize config.character.traits.gen}}</label>
+        <input type="text" name="system.details.gender" value="{{actor.details.gender}}">
+        <label class="hair">{{localize config.character.traits.hai}}</label>
+        <input type="text" name="system.details.hair" value="{{actor.details.hair}}">
+        <label class="eye">{{localize config.character.traits.eye}}</label>
+        <input type="text" name="system.details.eye" value="{{actor.details.eye}}">
+    </div>
+
+    {{!-- 2nd Row --}}
+    <h3 class="physical">{{localize config.character.traits.phy}}</h3>
+    <div class="grid-span-5 physical">
+        {{editor actor.details.traits target="system.details.traits" button=true engine="prosemirror"}}
+    </div>
+
+    {{!-- 3rd Row --}}
+    <h3 class="history">{{localize config.character.traits.his}}</h3>
+    <div class="grid-span-5">
+        {{editor actor.details.history target="system.details.history" button=true engine="prosemirror"}}
+    </div>
+
+    {{!-- 4th Row --}}
+    <h3>{{localize config.character.traits.oth}}</h3>
+    <div class="grid-span-5">
+        {{editor actor.details.other target="system.details.other" button=true engine="prosemirror"}}
+    </div>
+</div>
