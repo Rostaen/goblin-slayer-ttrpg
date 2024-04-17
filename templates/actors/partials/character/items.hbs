@@ -1,1 +1,30 @@
-Items Page Coming Soon!
+<div class="container">
+    <div class="weaponContainer">
+        <h2>Weapons</h2>
+        Weapons to go here
+    </div>
+
+    <div class="armorContainer">
+        <h2>Armor</h2>
+        Armor to go here
+    </div>
+
+    <div class="shieldContainer">
+        <h2>Shields</h2>
+        Shield to go here
+    </div>
+
+    <div class="itemsContainer">
+        <h2>Items</h2>
+        <div class="item-list">
+            {{#each data.items as |item id|}}
+                {{> "systems/gs/templates/items/partials/item-card.hbs" item inSheet=true}}
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="lootEditor">
+        <h2>Loot</h2>
+        Loot Editor to go here
+    </div>
+</div>

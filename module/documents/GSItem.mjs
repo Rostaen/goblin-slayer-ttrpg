@@ -1,8 +1,8 @@
 export class GSItem extends Item {
     chatTemplate = {
-        "weapon": "systems/gs/templates/chatWindow/weapon-card.hbs",
-        "armor": "systems/gs/templates/chatWindow/armor-card.hbs",
-        "item": "systems/gs/templates/chatWindow/item-card.hbs"
+        "weapon": "systems/gs/templates/partials/items/weapon-card.hbs",
+        "armor": "systems/gs/templates/partials/items/armor-card.hbs",
+        "item": "systems/gs/templates/partials/items/item-card.hbs"
         // And so on...
     }
 

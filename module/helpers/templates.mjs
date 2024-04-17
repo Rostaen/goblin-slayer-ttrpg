@@ -7,5 +7,6 @@ export const preloadHandlebarsTemplates = async function() {
         "systems/gs/templates/actors/partials/character/spells.hbs",
         "systems/gs/templates/actors/partials/character/description.hbs",
         "systems/gs/templates/actors/partials/character/effects.hbs",
+        "systems/gs/templates/items/partials/item-card.hbs",
     ]);
 }
