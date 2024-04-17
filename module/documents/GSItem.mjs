@@ -1,4 +1,11 @@
 export class GSItem extends Item {
+    chatTemplate = {
+        "weapon": "systems/gs/templates/chatWindow/weapon-card.hbs",
+        "armor": "systems/gs/templates/chatWindow/armor-card.hbs",
+        "item": "systems/gs/templates/chatWindow/item-card.hbs"
+        // And so on...
+    }
+
     preparedData(){
 
     }
@@ -6,6 +13,18 @@ export class GSItem extends Item {
 
     }
     async roll(){
+        let chatData = {
+            user: game.user._id,
+            speaker: ChatMessage.getSpeaker()
+        };
 
+        let cardData = {
+            ...this.data,
+            owner: this.actor.id
+        };
+
+        chatData.content = await renderTemplate(this.chatTemplate[this.type], cardData);
+        chatData.roll = true;
+        return ChatMessage.create(chatData);
     }
 }
