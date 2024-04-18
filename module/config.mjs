@@ -262,6 +262,11 @@ gs.actor = {
 			effec: "gs.charSheet.tabs.effec"
 		},
 		items: {
+			hitM: "gs.charSheet.items.hitM",
+			rang: "gs.charSheet.items.rang",
+			powe: "gs.charSheet.items.powe",
+			attr: "gs.charSheet.items.attr",
+			use: "gs.charSheet.items.use",
 			quan: "gs.charSheet.items.quan",
 			edit: "gs.charSheet.items.edit",
 			dele: "gs.charSheet.items.dele"

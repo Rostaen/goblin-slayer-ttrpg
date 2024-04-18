@@ -217,6 +217,11 @@
         "effec": "Effects"
       },
       "items": {
+        "hitM": "Hit Modifier",
+        "rang": "Range",
+        "powe": "Power",
+        "attr": "Attribute",
+        "use": "Use",
         "quan": "Quantity",
         "edit": "Edit",
         "dele": "Delete"

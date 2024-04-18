@@ -16,7 +16,6 @@ export class GSActor extends Actor {
     }
 
     _prepareCharacterData(actorData){
-        //console.log("GS | GSActor Page >>>", systemData);
         const systemData = actorData.system;
         const type = actorData.type
 
