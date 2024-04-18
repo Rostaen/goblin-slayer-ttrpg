@@ -215,6 +215,11 @@
         "spell": "Spells",
         "descr": "Description",
         "effec": "Effects"
+      },
+      "items": {
+        "quan": "Quantity",
+        "edit": "Edit",
+        "dele": "Delete"
       }
     }
   }

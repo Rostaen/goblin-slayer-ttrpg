@@ -1,6 +1,10 @@
-<div class="items item" data-item-id="{{_id}}">
-    <div class="name reveal-rollable grid grid-5col">
-        <img src="{{img}}" data-edit="img" title="{{name}}" />
-        <input id="itemName" type="text" value="{{name}}" class="grid-span-4"/>
+<div class="item-card item item-list" data-item-id="{{_id}}">
+    <div class="name reveal-rollable grid grid-10col">
+        <div class="move"><button><i class="fa-solid fa-bars"></i></button></div>
+        <img src="{{img}}" title="{{name}}" />
+        <div class="name grid-span-5">{{name}}</div>
+        <div class="quantity"><input type="text" data-inventory="quantity" value="{{getQuantAtIndex data1.items index 'quantity'}}" data-dtype="Number"></div>
+        <div class="edit"><button class="edit"><i class="fa-solid fa-pen-to-square"></i></button></div>
+        <div class="delete"><button class="delete"><i class="fa-solid fa-trash-can"></i></button></div>
     </div>
 </div>

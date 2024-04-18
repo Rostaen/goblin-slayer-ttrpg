@@ -16,9 +16,16 @@
 
     <div class="itemsContainer">
         <h2>Items</h2>
+        <div class="name reveal-rollable grid grid-10col">
+            <div class="grid-span-2"></div>
+            <div class="grid-span-5">{{localize config.monster.name}}</div>
+            <div>{{localize config.charSheet.items.quan}}</div>
+            <div>{{localize config.charSheet.items.edit}}</div>
+            <div>{{localize config.charSheet.items.dele}}</div>
+        </div>
         <div class="item-list">
             {{#each data.items as |item id|}}
-                {{> "systems/gs/templates/items/partials/item-card.hbs" item inSheet=true}}
+                {{> "systems/gs/templates/items/partials/item-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
             {{/each}}
         </div>
     </div>

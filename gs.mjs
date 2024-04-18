@@ -44,3 +44,10 @@ Handlebars.registerHelper('loopHelper', (loopNum, actor, config, options) => {
 Handlebars.registerHelper('add', (value, increment) => {
 	return value + increment;
 });
+
+Handlebars.registerHelper('getQuantAtIndex', (array, index, field) => {
+	//if(!Array.isArray(array) || isNaN(index) || field === '') return undefined;
+	const value = array[index].system[field];
+	//console.log("Value in helper", value);
+	return value;
+});

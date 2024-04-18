@@ -260,6 +260,11 @@ gs.actor = {
 			spell: "gs.charSheet.tabs.spell",
 			descr: "gs.charSheet.tabs.descr",
 			effec: "gs.charSheet.tabs.effec"
+		},
+		items: {
+			quan: "gs.charSheet.items.quan",
+			edit: "gs.charSheet.items.edit",
+			dele: "gs.charSheet.items.dele"
 		}
 	}
 }
