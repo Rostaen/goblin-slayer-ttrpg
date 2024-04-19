@@ -48,6 +48,7 @@ export default class GSActorSheet extends ActorSheet{
 		return {
 			data,
 			config: data.config.actor,
+			gearConfig: data.config.gear,
 			actor: data.system
 		}
 

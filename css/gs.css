@@ -629,7 +629,8 @@
   margin-bottom: 0px;
 }
 .sidebar div.status,
-.sidebar div.experience {
+.sidebar div.experience,
+.sidebar div.money {
   margin-top: 0px;
   border: 1px solid darkred;
   border-radius: 5px;
@@ -804,5 +805,15 @@
   margin: 0px 0px 10px;
 }
 .descriptionPage .editor .tox.tox-tinymce {
+  height: 125px !important;
+}
+.itemsPage .rowHeader {
+  font-size: 8px;
+}
+.itemsPage .editor {
+  height: 100%;
+  min-height: 25px;
+}
+.itemsPage .editor .tox.tox-tinymce {
   height: 125px !important;
 }

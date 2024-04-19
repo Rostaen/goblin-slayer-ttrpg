@@ -9,5 +9,7 @@ export const preloadHandlebarsTemplates = async function() {
         "systems/gs/templates/actors/partials/character/effects.hbs",
         "systems/gs/templates/items/partials/item-card.hbs",
         "systems/gs/templates/items/partials/weapon-card.hbs",
+        "systems/gs/templates/items/partials/armor-card.hbs",
+        "systems/gs/templates/items/partials/shield-card.hbs",
     ]);
 }

@@ -1,0 +1,13 @@
+<div class="armor-card item item-list" data-item-id="{{_id}}">
+    <div class="reveal-rollable grid grid-10col">
+        <div class="move"><button><i class="fa-solid fa-bars"></i></button></div>
+        <img src="{{img}}" title="{{name}}" />
+        <div class="name grid-span-2">{{name}}</div>
+        <div class="armorScore">{{system.score}}</div>
+        <div class="dodge">{{numberFormat system.dodge decimals=0 sign=true}}</div>
+        <div class="move">{{numberFormat system.move decimals=0 sign=true}}</div>
+        <div class="stealth">{{system.stealth}}</div>
+        <div class="edit"><button class="edit"><i class="fa-solid fa-pen-to-square"></i></button></div>
+        <div class="delete"><button class="delete"><i class="fa-solid fa-trash-can"></i></button></div>
+    </div>
+</div>

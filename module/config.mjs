@@ -207,6 +207,7 @@ gs.actor = {
 		rati: "gs.actor.character.rati",
 		clot: "gs.actor.character.clot",
 		money: {
+			money: "gs.actor.character.money",
 			gold: "gs.actor.character.gold",
 			silv: "gs.actor.character.silv",
 			bron: "gs.actor.character.bron",

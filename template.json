@@ -108,7 +108,48 @@
           "ex": 0
         }
       },
-      "attrition": [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],
+      "attrition": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
       "skills": {
         "adventure": [],
         "general": []
@@ -210,14 +251,14 @@
     },
     "armor": {
       "templates": ["common"],
-      "score": "",
-      "dodge": "",
-      "move": ""
+      "score": 0,
+      "dodge": 0,
+      "move": 0
     },
     "shield": {
       "templates": ["common"],
-      "mod": "",
-      "score": ""
+      "mod": 0,
+      "score": 0
     },
     "item": {
       "templates": ["common"],
