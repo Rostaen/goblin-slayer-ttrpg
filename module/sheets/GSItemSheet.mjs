@@ -26,6 +26,8 @@ export default class GSItemSheet extends ItemSheet {
 		return {
 			data,
 			config: data.config.gear,
+			actorSheet: data.config.actor,
+			raceSheet: data.config.actor.raceSheet,
 			gear: data.system
 		}
 	}

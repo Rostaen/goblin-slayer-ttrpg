@@ -227,6 +227,29 @@
         "edit": "Edit",
         "dele": "Delete"
       }
+    },
+    "raceSheet": {
+      "races": {
+        "hum": "Human",
+        "dwa": "Dwarf",
+        "elf": "Elf",
+        "liz": "Lizardman",
+        "rhe": "Rhea",
+        "pad": "Padfoot",
+        "mir": "Myrmidon",
+        "har": "Harypy",
+        "dar": "Dark Elf",
+        "dem": "Demon",
+        "vam": "Vampire"
+      },
+      "innate": "Innate Skills",
+      "scores": {
+        "pri": "Primary Ability Score",
+        "fix": "Fixed Score",
+        "ran": "Random Determination",
+        "sec": "Secondary Ability Score",
+        "mov": "Racial Movement Modifier"
+      }
     }
   }
 }

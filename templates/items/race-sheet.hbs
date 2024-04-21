@@ -1,0 +1,60 @@
+<form class="{{cssClass}}{{data.item.type}}" autocomplete="off">
+    <div class="grid grid-5col">
+        <img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
+        <div class="description grid-span-4">
+            <div class="grid grid-3col">
+                <label>{{localize actorSheet.character.traits.rac}}</label>
+                <input type="text" name="system.type" value="{{gear.type}}" class="grid-span-2">
+            </div>
+            {{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
+        </div>
+    </div>
+    <div class="innateSkills">
+        <label for="">{{localize raceSheet.innate}}</label>
+        <div class="skills">
+            Add dropped in skills here.
+        </div>
+    </div>
+    <div class="scores grid grid-3col">
+        {{!-- Primary Header --}}
+        <div class="header top">{{localize raceSheet.scores.pri}}</div>
+        <div class="header top">{{localize raceSheet.scores.fix}}</div>
+        <div class="header top">{{localize raceSheet.scores.ran}}</div>
+        {{!-- Str Row --}}
+        <div class="stat str">{{localize actorSheet.character.scores.str}}</div>
+        <div class="stat str"><input type="text" name="system.scores.fixed.str" value="{{gear.scores.fixed.str}}" data-dtype="Number"></div>
+        <div class="stat str"><input type="text" name="system.scores.random.str" value="{{gear.scores.random.str}}"></div>
+        {{!-- Psy Row --}}
+        <div class="stat psy">{{localize actorSheet.character.scores.psy}}</div>
+        <div class="stat psy"><input type="text" name="system.scores.fixed.psy" value="{{gear.scores.fixed.psy}}" data-dtype="Number"></div>
+        <div class="stat psy"><input type="text" name="system.scores.random.psy" value="{{gear.scores.random.psy}}"></div>
+        {{!-- Tec Row --}}
+        <div class="stat tec">{{localize actorSheet.character.scores.tec}}</div>
+        <div class="stat tec"><input type="text" name="system.scores.fixed.tec" value="{{gear.scores.fixed.tec}}" data-dtype="Number"></div>
+        <div class="stat tec"><input type="text" name="system.scores.random.tec" value="{{gear.scores.random.tec}}"></div>
+        {{!-- Int Row --}}
+        <div class="stat int">{{localize actorSheet.character.scores.int}}</div>
+        <div class="stat int"><input type="text" name="system.scores.fixed.int" value="{{gear.scores.fixed.int}}" data-dtype="Number"></div>
+        <div class="stat int"><input type="text" name="system.scores.random.int" value="{{gear.scores.random.int}}"></div>
+
+        {{!-- Secondary Header --}}
+        <div class="header top">{{localize raceSheet.scores.sec}}</div>
+        <div class="header top">{{localize raceSheet.scores.fix}}</div>
+        <div class="header top">{{localize raceSheet.scores.ran}}</div>
+        {{!-- Foc Row --}}
+        <div class="stat foc">{{localize actorSheet.character.scores.foc}}</div>
+        <div class="stat foc"><input type="text" name="system.scores.fixed.foc" value="{{gear.scores.fixed.foc}}" data-dtype="Number"></div>
+        <div class="stat foc"><input type="text" name="system.scores.random.foc" value="{{gear.scores.random.foc}}"></div>
+        {{!-- End Row --}}
+        <div class="stat end">{{localize actorSheet.character.scores.end}}</div>
+        <div class="stat end"><input type="text" name="system.scores.fixed.end" value="{{gear.scores.fixed.end}}" data-dtype="Number"></div>
+        <div class="stat end"><input type="text" name="system.scores.random.end" value="{{gear.scores.random.end}}"></div>
+        {{!-- Ref Row --}}
+        <div class="stat ref">{{localize actorSheet.character.scores.ref}}</div>
+        <div class="stat ref"><input type="text" name="system.scores.fixed.ref" value="{{gear.scores.fixed.ref}}" data-dtype="Number"></div>
+        <div class="stat ref"><input type="text" name="system.scores.random.ref" value="{{gear.scores.random.ref}}"></div>
+        {{!-- Move Row --}}
+        <div class="stat int grid-span-2">{{localize raceSheet.scores.mov}}</div>
+        <div class="stat int"><input type="text" name="system.moveMod" value="{{gear.moveMod}}" data-dtype="Number"></div>
+    </div>
+</form>

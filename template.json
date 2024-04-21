@@ -231,7 +231,7 @@
     }
   },
   "Item": {
-    "types": ["weapon", "armor", "shield", "item", "spell", "skill"],
+    "types": ["weapon", "armor", "shield", "item", "spell", "skill", "race"],
     "templates": {
       "common": {
         "type": "",
@@ -310,6 +310,30 @@
       "expert": "",
       "master": "",
       "legend": ""
+    },
+    "race": {
+      "skills": [],
+      "scores": {
+        "fixed": {
+          "str": 0,
+          "psy": 0,
+          "tec": 0,
+          "int": 0,
+          "foc": 0,
+          "end": 0,
+          "ref": 0
+        },
+        "random": {
+          "str": "",
+          "pys": "",
+          "tec": "",
+          "int": "",
+          "foc": "",
+          "end": "",
+          "ref": ""
+        }
+      },
+      "moveMod": 0
     }
   }
 }

@@ -272,5 +272,28 @@ gs.actor = {
 			edit: "gs.charSheet.items.edit",
 			dele: "gs.charSheet.items.dele"
 		}
+	},
+	raceSheet: {
+		races: {
+			hum: "gs.raceSheet.races.hum",
+			dwa: "gs.raceSheet.races.dwa",
+			elf: "gs.raceSheet.races.elf",
+			liz: "gs.raceSheet.races.liz",
+			rhe: "gs.raceSheet.races.rhe",
+			pad: "gs.raceSheet.races.pad",
+			mir: "gs.raceSheet.races.mir",
+			har: "gs.raceSheet.races.har",
+			dar: "gs.raceSheet.races.dar",
+			dem: "gs.raceSheet.races.dem",
+			vam: "gs.raceSheet.races.vam"
+		},
+		innate: "gs.raceSheet.innate",
+		scores: {
+			pri: "gs.raceSheet.scores.pri",
+			fix: "gs.raceSheet.scores.fix",
+			ran: "gs.raceSheet.scores.ran",
+			sec: "gs.raceSheet.scores.sec",
+			mov: "gs.raceSheet.scores.mov"
+		}
 	}
 }
