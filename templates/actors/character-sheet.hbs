@@ -15,7 +15,7 @@
             <nav class="sheet-tabs tabs" data-group="primary">
                 <a class="item" data-tab="stats">{{localize config.charSheet.tabs.stats}}</a>
                 <a class="item" data-tab="items">{{localize config.charSheet.tabs.items}}</a>
-                <a class="item" data-tab="features">{{localize config.charSheet.tabs.feats}}</a>
+                <a class="item" data-tab="skills">{{localize config.charSheet.tabs.feats}}</a>
                 <a class="item" data-tab="spells">{{localize config.charSheet.tabs.spell}}</a>
                 <a class="item" data-tab="description">{{localize config.charSheet.tabs.descr}}</a>
                 <a class="item" data-tab="effects">{{localize config.charSheet.tabs.effec}}</a>
@@ -31,8 +31,8 @@
                     {{> "systems/gs/templates/actors/partials/character/items.hbs"}}
                 </div>
                 {{!-- Features/Skills --}}
-                <div class="tab stats" data-group="primary" data-tab="features">
-                    {{> "systems/gs/templates/actors/partials/character/features.hbs"}}
+                <div class="tab stats" data-group="primary" data-tab="skills">
+                    {{> "systems/gs/templates/actors/partials/character/skills.hbs"}}
                 </div>
                 {{!-- Spells --}}
                 <div class="tab stats" data-group="primary" data-tab="spells">

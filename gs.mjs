@@ -58,3 +58,15 @@ Handlebars.registerHelper('stripTags', (text) => {
 	}
 	return text;
 });
+
+Handlebars.registerHelper('getSkillRangeText', (object, value) => {
+	let skillLevel = "";
+	// TODO: Will need future checks for levels and ranks to allow higher rank levels
+	if(value == 1) skillLevel = object.system.beginner;
+	else if(value == 2) skillLevel = object.system.intermediate;
+	else if(value == 3) skillLevel = object.system.expert;
+	else if(value == 4) skillLevel = object.system.master;
+	else if(value == 5) skillLevel = object.system.legend;
+	else return "Rank Value must be a number and greater than 0 and less than 3 (Gen) or 5 (Adv).";
+	return skillLevel.replace(/^<p>/, '').replace(/<\/p>$/, '');
+});

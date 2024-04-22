@@ -847,3 +847,35 @@
 .itemsPage .editor .tox.tox-tinymce {
   height: 125px !important;
 }
+.skillsContainer .skillHeader {
+  border-bottom: 0px;
+  margin-bottom: 0px;
+}
+.skillsContainer .skillBox {
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+}
+.skillsContainer .skillBox .header {
+  font-size: 10px;
+}
+.skillsContainer .skillBox .header,
+.skillsContainer .skillBox img,
+.skillsContainer .skillBox .name,
+.skillsContainer .skillBox .bonus,
+.skillsContainer .skillBox .rank {
+  margin-bottom: 5px;
+}
+.skillsContainer .skillBox .name,
+.skillsContainer .skillBox .bonus,
+.skillsContainer .skillBox .rank {
+  display: flex;
+  align-items: center;
+}
+.skillsContainer .skillBox .bonus {
+  font-size: 12px;
+}
+.skillsContainer .skillBox .rank {
+  text-align: center;
+}

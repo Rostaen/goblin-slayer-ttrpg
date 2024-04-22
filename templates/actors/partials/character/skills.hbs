@@ -1,0 +1,45 @@
+<div class="skillsContainer">
+    <h2 class="adventureSkill skillHeader">{{localize config.character.skills.advSW}}</h2>
+    <div class="skillBox grid grid-10col">
+        <div class="blank"></div>
+        <div class="nameHeader header grid-span-4">{{localize config.monster.name}}</div>
+        <div class="bonusHeader header grid-span-4">{{localize config.character.bonus}}</div>
+        <div class="rankHeader header">{{localize config.character.rank}}</div>
+        {{#each data.items as |item id|}}
+            {{#if (eq item.type "race") }}
+                {{#each item.system.skills as |skill id|}}
+                    {{#if skill.system.type}}
+                        <img src="{{skill.img}}" alt="{{skill.name}}">
+                        <div class="name grid-span-4">{{skill.name}}</div>
+                        <div class="bonus grid-span-4">
+                            {{getSkillRangeText skill skill.system.value}}
+                        </div>
+                        <div class="rank"><input type="text" value="{{skill.system.value}}" data-skillId="{{skill._id}}" data-skillType="racial" class="skillRankInput" data-dtype="Number"></div>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+        {{/each}}
+    </div>
+
+    <h2 class="generalSkill skillHeader">{{localize config.character.skills.genSW}}</h2>
+    <div class="skillBox grid grid-10col">
+        <div class="blank"></div>
+        <div class="nameHeader header grid-span-4">{{localize config.monster.name}}</div>
+        <div class="bonusHeader header grid-span-4">{{localize config.character.bonus}}</div>
+        <div class="rankHeader header">{{localize config.character.rank}}</div>
+        {{#each data.items as |item id|}}
+            {{#if (eq item.type "race") }}
+                {{#each item.system.skills as |skill id|}}
+                    {{#if (eq skill.system.type "")}}
+                        <img src="{{skill.img}}" alt="{{skill.name}}">
+                        <div class="name grid-span-4">{{skill.name}}</div>
+                        <div class="bonus grid-span-4">
+                            {{getSkillRangeText skill skill.system.value}}
+                        </div>
+                        <div class="rank"><input type="text" value="{{skill.system.value}}" data-skillId="{{skill._id}}" data-skillType="racial" class="skillRankInput" data-dtype="Number"></div>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+        {{/each}}
+    </div>
+</div>

@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "items"
+				initial: "skills"
 			}]
 		});
 	}
@@ -57,10 +57,43 @@ export default class GSActorSheet extends ActorSheet{
 	activateListeners(html){
 		super.activateListeners(html);
 		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
+		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
 		html.find("button[class='delete']").click(this._deleteItem.bind(this));
 		html.find("button[class='edit']").click(this._editItem.bind(this));
 
 		new ContextMenu(html, ".weapon-card", this.itemContextMenu);
+	}
+
+	_onUpdateSkillRank(event){
+		event.preventDefault();
+		const element = event.currentTarget;
+		const rank = element.value;
+		const skillId = element.dataset.skillid;
+		const skillType = element.dataset.skilltype;
+		const actorId = this.actor._id;
+		const actor = game.actors.get(actorId);
+
+		if(actor){
+			if(skillType === 'racial'){
+				const raceItem = actor.items.find(item => item.type === 'race');
+				if(raceItem){
+					const skills = raceItem.system.skills;
+					const skillIndex = skills.findIndex(skill => skill._id === skillId);
+					if(skillIndex !== -1){
+						skills[skillIndex].system.value = parseInt(rank, 10);
+
+						raceItem.update({
+							'system.skills': skills
+						}).then(updatedItem => {
+							console.log("Skill updated:", updatedItem.system.skills[skillIndex]);
+						}).catch(error => {
+							console.error("Error updating skill:", error);
+						})
+					}
+				}
+			}
+		}
+		console.log("Check if change took:", this.actor);
 	}
 
 	_onUpdateCharQuantity(event){
@@ -70,6 +103,7 @@ export default class GSActorSheet extends ActorSheet{
 		const id = element.closest(".item").dataset.itemId;
 		const actorId = this.actor._id;
 		const actor = game.actors.get(actorId);
+		const itemId = "";
 
 		if(actor){
 			const item = actor.items.get(id);
