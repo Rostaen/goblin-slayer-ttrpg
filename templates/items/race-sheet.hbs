@@ -1,25 +1,53 @@
 <form class="{{cssClass}}{{data.item.type}}" autocomplete="off">
+    <input type="text" name="name" value="{{data.item.name}}">
     <div class="grid grid-5col">
         <img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
         <div class="description grid-span-4">
-            <div class="grid grid-3col">
-                <label>{{localize actorSheet.character.traits.rac}}</label>
-                <input type="text" name="system.type" value="{{gear.type}}" class="grid-span-2">
-            </div>
             {{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
         </div>
     </div>
     <div class="innateSkills">
-        <label for="">{{localize raceSheet.innate}}</label>
-        <div class="skills">
-            Add dropped in skills here.
+        {{!-- <label for="">{{localize raceSheet.innate}}</label> --}}
+        {{#each gear.skills as |skill id|}}
+            {{#if (eq @index 0)}}
+                <h3 class="adventureSkills skillHeader">{{localize ../actorSheet.character.skills.advSW}}</h3>
+            {{/if}}
+            {{#if (eq skill.system.type true)}}
+                <div class="racialSkill grid grid-7col">
+                    <img src="{{skill.img}}" alt="{{skill.name}}">
+                    <div class="textContainer grid-span-6">
+                        <h4>{{skill.name}}</h4>
+                        <div class="beginnerSkill">{{stripTags skill.system.beginner}}</div>
+                    </div>
+                </div>
+            {{/if}}
+        {{/each}}
+        {{#each gear.skills as |skill id|}}
+            {{#if (eq @index 0)}}
+                <h3 class="generalSkills skillHeader">{{localize ../actorSheet.character.skills.genSW}}</h3>
+            {{/if}}
+            {{#if (eq skill.system.type "")}}
+                <div class="racialSkill grid grid-7col">
+                    <img src="{{skill.img}}" alt="{{skill.name}}">
+                    <div class="textContainer grid-span-6">
+                        <h4>{{skill.name}}</h4>
+                        <div class="beginnerSkill">{{stripTags skill.system.beginner}}</div>
+                    </div>
+                </div>
+            {{/if}}
+        {{/each}}
+        {{!-- Removes drop and drop box once three skills have been added --}}
+        {{#if (lt gear.skills.length 3)}}
+        <div class="skills" style="width: 100%; height: 50px; border: 1px solid darkred; border-radius: 5px;">
+            Drop two adventurer and one general skills here.
         </div>
+        {{/if}}
     </div>
     <div class="scores grid grid-3col">
         {{!-- Primary Header --}}
-        <div class="header top">{{localize raceSheet.scores.pri}}</div>
-        <div class="header top">{{localize raceSheet.scores.fix}}</div>
-        <div class="header top">{{localize raceSheet.scores.ran}}</div>
+        <h3 class="header top">{{localize raceSheet.scores.pri}}</h3>
+        <h3 class="header top">{{localize raceSheet.scores.fix}}</h3>
+        <h3 class="header top">{{localize raceSheet.scores.ran}}</h3>
         {{!-- Str Row --}}
         <div class="stat str">{{localize actorSheet.character.scores.str}}</div>
         <div class="stat str"><input type="text" name="system.scores.fixed.str" value="{{gear.scores.fixed.str}}" data-dtype="Number"></div>
@@ -38,9 +66,9 @@
         <div class="stat int"><input type="text" name="system.scores.random.int" value="{{gear.scores.random.int}}"></div>
 
         {{!-- Secondary Header --}}
-        <div class="header top">{{localize raceSheet.scores.sec}}</div>
-        <div class="header top">{{localize raceSheet.scores.fix}}</div>
-        <div class="header top">{{localize raceSheet.scores.ran}}</div>
+        <h3 class="header top">{{localize raceSheet.scores.sec}}</h3>
+        <h3 class="header top">{{localize raceSheet.scores.fix}}</h3>
+        <h3 class="header top">{{localize raceSheet.scores.ran}}</h3>
         {{!-- Foc Row --}}
         <div class="stat foc">{{localize actorSheet.character.scores.foc}}</div>
         <div class="stat foc"><input type="text" name="system.scores.fixed.foc" value="{{gear.scores.fixed.foc}}" data-dtype="Number"></div>
@@ -54,7 +82,8 @@
         <div class="stat ref"><input type="text" name="system.scores.fixed.ref" value="{{gear.scores.fixed.ref}}" data-dtype="Number"></div>
         <div class="stat ref"><input type="text" name="system.scores.random.ref" value="{{gear.scores.random.ref}}"></div>
         {{!-- Move Row --}}
-        <div class="stat int grid-span-2">{{localize raceSheet.scores.mov}}</div>
-        <div class="stat int"><input type="text" name="system.moveMod" value="{{gear.moveMod}}" data-dtype="Number"></div>
+        <div class="stat move grid-span-2">{{localize raceSheet.scores.mov}}</div>
+        <div class="stat move"><input type="text" name="system.moveMod" value="{{gear.moveMod}}" data-dtype="Number"></div>
     </div>
 </form>
+{{log data}}

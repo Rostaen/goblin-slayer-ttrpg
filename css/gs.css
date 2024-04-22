@@ -553,6 +553,10 @@
   height: 100%;
   min-height: 25px;
 }
+.race .innateSkills .racialSkill .textContainer h4 {
+  font-weight: bold;
+  font-size: 16px;
+}
 .race .editor {
   border: 1px solid #999;
   background-color: rgba(0, 0, 0, 0.05);
@@ -566,6 +570,18 @@
 }
 .race .scores {
   text-align: center;
+}
+.race .scores h3.header,
+.race .scores .move {
+  font-size: 14px;
+  margin-bottom: 0px;
+  padding-bottom: 4px;
+  font-weight: bold;
+}
+.race .scores .stat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .monster label {
   display: flex;

@@ -51,3 +51,10 @@ Handlebars.registerHelper('getQuantAtIndex', (array, index, field) => {
 	//console.log("Value in helper", value);
 	return value;
 });
+
+Handlebars.registerHelper('stripTags', (text) => {
+	if(typeof text === 'string'){
+		return text.replace(/^<p>/, '').replace(/<\/p>$/, '');
+	}
+	return text;
+});
