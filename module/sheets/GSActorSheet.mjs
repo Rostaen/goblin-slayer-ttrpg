@@ -219,6 +219,8 @@ export default class GSActorSheet extends ActorSheet{
 					// TODO: verify non-racial skills edit menu shows up
 					item = actorData.items.find(item => item.type === type);
 					if(item._id === id) theSkill = item;
+				}else if(type === 'raceSheet'){
+					theSkill = this.actor.items.get(id);
 				}
 				if (theSkill) {
 					if (typeof theSkill.sheet === 'undefined') {

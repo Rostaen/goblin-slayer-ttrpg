@@ -1,33 +1,44 @@
 <div class="descriptionPage">
+    <div class="topArea grid grid-4col">
+        {{#each actor.items as |item id|}}
+            {{#if (eq item.type "race")}}
+                <div class="raceContainer contextMenu" data-skillId="{{item._id}}" data-skillType="raceSheet">
+                    <h2 class="raceName">{{item.name}}</h2>
+                    <img src="{{item.img}}" alt="{{item.name}}">
+                </div>
+            {{/if}}
+        {{/each}}
+        <div class="grid-span-3">
+            <h3 class="history">{{localize config.character.traits.his}}</h3>
+            {{editor actor.system.details.history target="system.details.history" button=true engine="prosemirror"}}
+        </div>
+    </div>
     {{!-- 1st Row --}}
-    <div class="grid grid-10col topRow">
-        <label class="race">{{localize config.character.traits.rac}}</label>
-        <input type="text" name="system.details.race" value="{{actor.details.race}}">
+    <div class="grid grid-8col topRow">
+        {{!-- <label class="race">{{localize config.character.traits.rac}}</label>
+        <input type="text" name="system.details.race" value="{{actor.system.details.race}}"> --}}
         <label class="age">{{localize config.character.traits.age}}</label>
-        <input type="text" name="system.details.age" value="{{actor.details.age}}">
+        <input type="text" name="system.details.age" value="{{actor.system.details.age}}">
         <label class="gender">{{localize config.character.traits.gen}}</label>
-        <input type="text" name="system.details.gender" value="{{actor.details.gender}}">
+        <input type="text" name="system.details.gender" value="{{actor.system.details.gender}}">
         <label class="hair">{{localize config.character.traits.hai}}</label>
-        <input type="text" name="system.details.hair" value="{{actor.details.hair}}">
+        <input type="text" name="system.details.hair" value="{{actor.system.details.hair}}">
         <label class="eye">{{localize config.character.traits.eye}}</label>
-        <input type="text" name="system.details.eye" value="{{actor.details.eye}}">
+        <input type="text" name="system.details.eye" value="{{actor.system.details.eye}}">
     </div>
 
     {{!-- 2nd Row --}}
     <h3 class="physical">{{localize config.character.traits.phy}}</h3>
     <div class="grid-span-5 physical">
-        {{editor actor.details.traits target="system.details.traits" button=true engine="prosemirror"}}
+        {{editor actor.system.details.traits target="system.details.traits" button=true engine="prosemirror"}}
     </div>
 
     {{!-- 3rd Row --}}
-    <h3 class="history">{{localize config.character.traits.his}}</h3>
-    <div class="grid-span-5">
-        {{editor actor.details.history target="system.details.history" button=true engine="prosemirror"}}
-    </div>
+
 
     {{!-- 4th Row --}}
     <h3>{{localize config.character.traits.oth}}</h3>
     <div class="grid-span-5">
-        {{editor actor.details.other target="system.details.other" button=true engine="prosemirror"}}
+        {{editor actor.system.details.other target="system.details.other" button=true engine="prosemirror"}}
     </div>
 </div>

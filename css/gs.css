@@ -293,7 +293,7 @@
 .armor .comments .editor,
 .shield .comments .editor {
   height: 100%;
-  min-height: 25px;
+  min-height: 40px;
 }
 .weapon .effects .editor .tox.tox-tinymce,
 .armor .effects .editor .tox.tox-tinymce,
@@ -417,7 +417,7 @@
   border-radius: 3px;
   height: 100%;
   width: 100%;
-  min-height: 25px;
+  min-height: 40px;
   padding: 0 5px;
 }
 .skill span .editor .tox.tox-tinymce {
@@ -551,7 +551,7 @@
   background-color: rgba(0, 0, 0, 0.05);
   margin-bottom: 5px;
   height: 100%;
-  min-height: 25px;
+  min-height: 40px;
 }
 .race .innateSkills .racialSkill .textContainer h4 {
   font-weight: bold;
@@ -607,7 +607,7 @@
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.05);
   height: 100%;
-  min-height: 25px;
+  min-height: 40px;
 }
 .monster .editor .tox.tox-tinymce {
   height: 125px !important;
@@ -814,6 +814,7 @@
 .stats .fatigue .fatigueContainer label.rank {
   justify-content: center;
 }
+.descriptionPage h2,
 .descriptionPage h3 {
   margin-bottom: 0px;
   border-bottom: 0px;
@@ -827,8 +828,7 @@
   padding: 5px;
 }
 .descriptionPage .editor {
-  height: 100%;
-  min-height: 25px;
+  min-height: 40px;
   margin-bottom: 10px;
 }
 .descriptionPage .editor p {
