@@ -22,15 +22,54 @@ export default class GSActorSheet extends ActorSheet{
 			name: "Edit",
 			icon: '<i class="fas fa-edit"></i>',
 			callback: element => {
-				const item = this.actor.getOwnedItem(element.data("item-id"));
-				item.sheet.render(true);
+				const actorData = super.getData();
+				console.log("Actor Super Data:",super.getData());
+				const id = element[0].dataset.skillid;
+				const type = element[0].dataset.skilltype;
+				console.log("Element:", element, "ID:", id, "Type:", type);
+				let item = undefined;
+				let theSkill = undefined;
+				if(type === 'race'){
+					item = actorData.items.find(item => item.type === type);
+					if(item){
+						const skills = item.system.skills;
+						const skillIndex = skills.findIndex(skill => skill._id === id);
+						if(skillIndex !== -1){
+							theSkill = skills[skillIndex];
+						}else{
+							console.error("Skill with the given ID not found in the race item.");
+						}
+					}else{
+						console.error("Race item not found.");
+					}
+				}
+				if (theSkill) {
+					if (typeof theSkill.sheet === 'undefined') {
+						// Try creating an item object to get a sheet property
+						try {
+							theSkill = new Item(theSkill);
+						} catch (error) {
+							console.error("Failed to create Item from theSkill:", error);
+							return; // Exit early since it's not possible to render the sheet
+						}
+					}
+					// Check if it has a sheet
+					if (theSkill.sheet) {
+						theSkill.sheet.render(true);
+					} else {
+						console.error("TheSkill has no sheet property even after creating an Item.");
+					}
+				} else {
+					console.error("TheSkill is undefined or not found.");
+				}
 			}
 		},
 		{
 			name: "Delete",
 			icon: '<i class="fas fa-trash"></i>',
 			callback: element => {
-				this.actor.deleteOwnedItem(element.data("item-id"));
+				// Handle item deletion here
+				console.log("Deleting item...");
 			}
 		}
 	];
@@ -43,7 +82,7 @@ export default class GSActorSheet extends ActorSheet{
 		data.system = actorData.system;
 		data.flags = actorData.flags;
 
-		// console.log("Check system data:", data);
+		console.log("Checking Actor Super Data:", data);
 
 		return {
 			data,
@@ -61,7 +100,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("button[class='delete']").click(this._deleteItem.bind(this));
 		html.find("button[class='edit']").click(this._editItem.bind(this));
 
-		new ContextMenu(html, ".weapon-card", this.itemContextMenu);
+		new ContextMenu(html, ".contextMenu", this.itemContextMenu);
 	}
 
 	_onUpdateSkillRank(event){
@@ -150,4 +189,36 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		}
 	}
+
+	// Keeping the below code as reference for future use later on.
+
+	// async _onDrop(event){
+	// 	//event.preventDefault();
+	// 	const data = JSON.parse(event.dataTransfer.getData("text/plain"));
+	// 	// Check if even is a Race sheet
+	// 	if(data.type === Item && data.uuid.startsWith("Item.")){
+	// 		const itemId = data.uuid.split(".")[1];
+	// 		const droppedItem = game.items.get(itemId);
+	// 		if(droppedItem.type === 'race') this._handleRaceDrop(droppedItem);
+	// 	}
+	// }
+
+	// _handleRaceDrop(droppedItem){
+	// 	// Extract skills from the dropped race item
+	// 	const raceSkills = droppedItem.system.skills || [];
+	// 	// Getting all actor data
+	// 	const actorData = super.getData();
+	// 	// Create new items for each skill and add them to the actor's items
+	// 	const skillItems = raceSkills.map(skill => ({
+	// 		name: skill.name,
+	// 		img: skill.img,
+	// 		type: "skill",
+	// 		_id: skill._id,
+	// 		ownership: skill.ownership,
+	// 		sort: skill.sort,
+	// 		system: skill.system
+	// 	}));
+	// 	// Add new skill items to the actor's top level items array
+	// 	actorData.createEmbeddedDocuments("items", skillItems);
+	// }
 }
