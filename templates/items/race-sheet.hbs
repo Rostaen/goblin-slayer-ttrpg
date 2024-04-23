@@ -1,7 +1,9 @@
 <form class="{{cssClass}}{{data.item.type}}" autocomplete="off">
-    <input type="text" name="name" value="{{data.item.name}}">
     <div class="grid grid-5col">
-        <img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
+        <div>
+            <img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
+            <input type="text" name="name" value="{{data.item.name}}">
+        </div>
         <div class="description grid-span-4">
             {{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
         </div>
@@ -86,4 +88,3 @@
         <div class="stat move"><input type="text" name="system.moveMod" value="{{gear.moveMod}}" data-dtype="Number"></div>
     </div>
 </form>
-{{!-- {{log data}} --}}

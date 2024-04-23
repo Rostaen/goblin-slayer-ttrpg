@@ -70,3 +70,7 @@ Handlebars.registerHelper('getSkillRangeText', (object, value) => {
 	else return "Rank Value must be a number and greater than 0 and less than 3 (Gen) or 5 (Adv).";
 	return skillLevel.replace(/^<p>/, '').replace(/<\/p>$/, '');
 });
+
+Handlebars.registerHelper('or', (value1, value2) => {
+	return (value1 || value2) ? true : false;
+})

@@ -5,7 +5,17 @@
         <div class="nameHeader header grid-span-4">{{localize config.monster.name}}</div>
         <div class="bonusHeader header grid-span-4">{{localize config.character.bonus}}</div>
         <div class="rankHeader header">{{localize config.character.rank}}</div>
-        {{#each data.items as |item id|}}
+        {{#each actor.items as |item id|}}
+            {{#if (eq item.type "skill")}}
+                {{#if item.system.type}}
+                    <img src="{{item.img}}" alt="{{item.name}}">
+                    <div class="name grid-span-4 contextMenu" data-skillId="{{item._id}}" data-skillType="skill" >{{item.name}}</div>
+                    <div class="bonus grid-span-4">
+                        {{getSkillRangeText item item.system.value}}
+                    </div>
+                    <div class="rank"><input type="text" name="system.value" value="{{item.system.value}}" data-skillId="{{item._id}}" data-skillType="earned" class="skillRankInput" data-dtype="Number"></div>
+                {{/if}}
+            {{/if}}
             {{#if (eq item.type "race") }}
                 {{#each item.system.skills as |skill id|}}
                     {{#if skill.system.type}}
@@ -27,12 +37,22 @@
         <div class="nameHeader header grid-span-4">{{localize config.monster.name}}</div>
         <div class="bonusHeader header grid-span-4">{{localize config.character.bonus}}</div>
         <div class="rankHeader header">{{localize config.character.rank}}</div>
-        {{#each data.items as |item id|}}
+        {{#each actor.items as |item id|}}
+            {{#if (eq item.type "skill")}}
+                {{#if (or (eq item.system.type "") (eq item.system.type false))}}
+                    <img src="{{item.img}}" alt="{{item.name}}">
+                    <div class="name grid-span-4 contextMenu" data-skillId="{{item._id}}" data-skillType="skill" >{{item.name}}</div>
+                    <div class="bonus grid-span-4">
+                        {{getSkillRangeText item item.system.value}}
+                    </div>
+                    <div class="rank"><input type="text" value="{{item.system.value}}" data-skillId="{{item._id}}" data-skillType="earned" class="skillRankInput" data-dtype="Number"></div>
+                {{/if}}
+            {{/if}}
             {{#if (eq item.type "race") }}
                 {{#each item.system.skills as |skill id|}}
                     {{#if (eq skill.system.type "")}}
                         <img src="{{skill.img}}" alt="{{skill.name}}">
-                        <div class="name grid-span-4">{{skill.name}}</div>
+                        <div class="name grid-span-4 contextMenu" data-skillId="{{skill._id}}" data-skillType="race" >{{skill.name}}</div>
                         <div class="bonus grid-span-4">
                             {{getSkillRangeText skill skill.system.value}}
                         </div>

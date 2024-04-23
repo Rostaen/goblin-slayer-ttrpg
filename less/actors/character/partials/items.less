@@ -2,9 +2,29 @@
     .rowHeader{
         font-size: 8px;
     }
+    h2{
+        border-bottom: 0px;
+        margin-bottom: 0px;
+    }
+    .gearContainer, .editor{
+        border: 1px solid darkred;
+        border-radius: 5px;
+        padding: 5px;
+        background-color: rgba(255,255,255,0.75);
+        margin-bottom: 5px;
+    }
+    .gearContainer{
+        .reveal-rollable{
+            div{
+                display: flex;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    }
     .editor{
         height: 100%;
-        min-height: 25px;
+        min-height: 40px;
         .tox.tox-tinymce{
             height: 125px !important;
         }

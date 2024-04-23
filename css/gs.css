@@ -840,9 +840,26 @@
 .itemsPage .rowHeader {
   font-size: 8px;
 }
+.itemsPage h2 {
+  border-bottom: 0px;
+  margin-bottom: 0px;
+}
+.itemsPage .gearContainer,
+.itemsPage .editor {
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 5px;
+}
+.itemsPage .gearContainer .reveal-rollable div {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
 .itemsPage .editor {
   height: 100%;
-  min-height: 25px;
+  min-height: 40px;
 }
 .itemsPage .editor .tox.tox-tinymce {
   height: 125px !important;

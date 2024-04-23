@@ -1,87 +1,95 @@
 <div class="itemsPage">
     <div class="weaponContainer">
         <h2>Weapons</h2>
-        <div class="rowHeader grid grid-10col">
-            <div class="grid-span-2"></div>
-            <div>{{localize config.monster.name}}</div>
-            <div>{{localize config.charSheet.items.hitM}}</div>
-            <div>{{localize config.charSheet.items.rang}}</div>
-            <div>{{localize config.charSheet.items.powe}}</div>
-            <div>{{localize config.charSheet.items.attr}}</div>
-            <div>{{localize config.charSheet.items.use}}</div>
-            <div>{{localize config.charSheet.items.edit}}</div>
-            <div>{{localize config.charSheet.items.dele}}</div>
-        </div>
-        <div class="item-list">
-            {{#each data.items as |item id|}}
-                {{#if (eq item.type "weapon")}}
-                    {{> "systems/gs/templates/items/partials/weapon-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
-                {{/if}}
-            {{/each}}
+        <div class="gearContainer">
+            <div class="rowHeader grid grid-10col">
+                <div class="grid-span-2"></div>
+                <div class="grid-span-3">{{localize config.monster.name}}</div>
+                <div>{{localize config.charSheet.items.hitM}}</div>
+                <div>{{localize config.charSheet.items.rang}}</div>
+                <div>{{localize config.charSheet.items.powe}}</div>
+                {{!-- <div>{{localize config.charSheet.items.attr}}</div>
+                <div>{{localize config.charSheet.items.use}}</div> --}}
+                <div>{{localize config.charSheet.items.edit}}</div>
+                <div>{{localize config.charSheet.items.dele}}</div>
+            </div>
+            <div class="item-list">
+                {{#each data.items as |item id|}}
+                    {{#if (eq item.type "weapon")}}
+                        {{> "systems/gs/templates/items/partials/weapon-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
+                    {{/if}}
+                {{/each}}
+            </div>
         </div>
     </div>
 
     <div class="armorContainer">
         <h2>Armor</h2>
-        <div class="rowHeader grid grid-10col">
-            <div class="grid-span-2"></div>
-            <div class="grid-span-2">{{localize config.monster.name}}</div>
-            <div>{{localize gearConfig.armor.sco}}</div>
-            <div>{{localize gearConfig.armor.dod}}</div>
-            <div>{{localize gearConfig.armor.mov}}</div>
-            <div>{{localize gearConfig.common.ste}}</div>
-            <div>{{localize config.charSheet.items.edit}}</div>
-            <div>{{localize config.charSheet.items.dele}}</div>
-        </div>
-        <div class="item-list">
-            {{#each data.items as |item id|}}
-                {{#if (eq item.type "armor")}}
-                    {{> "systems/gs/templates/items/partials/armor-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
-                {{/if}}
-            {{/each}}
+        <div class="gearContainer">
+            <div class="rowHeader grid grid-10col">
+                <div class="grid-span-2"></div>
+                <div class="grid-span-2">{{localize config.monster.name}}</div>
+                <div>{{localize gearConfig.armor.sco}}</div>
+                <div>{{localize gearConfig.armor.dod}}</div>
+                <div>{{localize gearConfig.armor.mov}}</div>
+                <div>{{localize gearConfig.common.ste}}</div>
+                <div>{{localize config.charSheet.items.edit}}</div>
+                <div>{{localize config.charSheet.items.dele}}</div>
+            </div>
+            <div class="item-list">
+                {{#each data.items as |item id|}}
+                    {{#if (eq item.type "armor")}}
+                        {{> "systems/gs/templates/items/partials/armor-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
+                    {{/if}}
+                {{/each}}
+            </div>
         </div>
     </div>
 
     <div class="shieldContainer">
         <h2>Shields</h2>
-        <div class="rowHeader grid grid-10col">
-            <div class="grid-span-2"></div>
-            <div class="grid-span-3">{{localize config.monster.name}}</div>
-            <div>{{localize gearConfig.shield.mod}}</div>
-            <div>{{localize gearConfig.shield.sco}}</div>
-            <div>{{localize gearConfig.common.ste}}</div>
-            <div>{{localize config.charSheet.items.edit}}</div>
-            <div>{{localize config.charSheet.items.dele}}</div>
-        </div>
-        <div class="item-list">
-            {{#each data.items as |item id|}}
-                {{#if (eq item.type "shield")}}
-                    {{> "systems/gs/templates/items/partials/shield-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
-                {{/if}}
-            {{/each}}
+        <div class="gearContainer">
+            <div class="rowHeader grid grid-10col">
+                <div class="grid-span-2"></div>
+                <div class="grid-span-3">{{localize config.monster.name}}</div>
+                <div>{{localize gearConfig.shield.mod}}</div>
+                <div>{{localize gearConfig.shield.sco}}</div>
+                <div>{{localize gearConfig.common.ste}}</div>
+                <div>{{localize config.charSheet.items.edit}}</div>
+                <div>{{localize config.charSheet.items.dele}}</div>
+            </div>
+            <div class="item-list">
+                {{#each data.items as |item id|}}
+                    {{#if (eq item.type "shield")}}
+                        {{> "systems/gs/templates/items/partials/shield-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
+                    {{/if}}
+                {{/each}}
+            </div>
         </div>
     </div>
 
     <div class="itemsContainer">
         <h2>Items</h2>
-        <div class="rowHeader grid grid-10col">
-            <div class="grid-span-2"></div>
-            <div class="grid-span-5">{{localize config.monster.name}}</div>
-            <div>{{localize config.charSheet.items.quan}}</div>
-            <div>{{localize config.charSheet.items.edit}}</div>
-            <div>{{localize config.charSheet.items.dele}}</div>
-        </div>
-        <div class="item-list">
-            {{#each data.items as |item id|}}
-                {{#if (eq item.type "item")}}
-                    {{> "systems/gs/templates/items/partials/item-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
-                {{/if}}
-            {{/each}}
+        <div class="gearContainer">
+            <div class="rowHeader grid grid-10col">
+                <div class="grid-span-2"></div>
+                <div class="grid-span-5">{{localize config.monster.name}}</div>
+                <div>{{localize config.charSheet.items.quan}}</div>
+                <div>{{localize config.charSheet.items.edit}}</div>
+                <div>{{localize config.charSheet.items.dele}}</div>
+            </div>
+            <div class="item-list">
+                {{#each data.items as |item id|}}
+                    {{#if (eq item.type "item")}}
+                        {{> "systems/gs/templates/items/partials/item-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
+                    {{/if}}
+                {{/each}}
+            </div>
         </div>
     </div>
 
     <div class="lootEditor">
         <h2>Loot</h2>
-        {{editor actor.loot target="system.loot" button=true engine="prosemirror"}}
+        {{editor actor.system.loot target="system.loot" button=true engine="prosemirror"}}
     </div>
 </div>
