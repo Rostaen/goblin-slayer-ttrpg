@@ -1,4 +1,5 @@
 <div class="descriptionPage">
+    {{!-- 1st Row --}}
     <div class="topArea grid grid-4col">
         {{#each actor.items as |item id|}}
             {{#if (eq item.type "race")}}
@@ -8,12 +9,17 @@
                 </div>
             {{/if}}
         {{/each}}
+        {{#unless (checkInArray actor.items "race")}}
+            <div class="raceSheetPlaceHolder">
+                <p>Drop a Race Sheet here</p>
+            </div>
+        {{/unless}}
         <div class="grid-span-3">
             <h3 class="history">{{localize config.character.traits.his}}</h3>
             {{editor actor.system.details.history target="system.details.history" button=true engine="prosemirror"}}
         </div>
     </div>
-    {{!-- 1st Row --}}
+    {{!-- 2nd Row --}}
     <div class="grid grid-8col topRow">
         {{!-- <label class="race">{{localize config.character.traits.rac}}</label>
         <input type="text" name="system.details.race" value="{{actor.system.details.race}}"> --}}
@@ -27,14 +33,11 @@
         <input type="text" name="system.details.eye" value="{{actor.system.details.eye}}">
     </div>
 
-    {{!-- 2nd Row --}}
+    {{!-- 3rd Row --}}
     <h3 class="physical">{{localize config.character.traits.phy}}</h3>
     <div class="grid-span-5 physical">
         {{editor actor.system.details.traits target="system.details.traits" button=true engine="prosemirror"}}
     </div>
-
-    {{!-- 3rd Row --}}
-
 
     {{!-- 4th Row --}}
     <h3>{{localize config.character.traits.oth}}</h3>

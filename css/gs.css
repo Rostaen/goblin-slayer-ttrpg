@@ -827,6 +827,19 @@
   border-radius: 5px;
   padding: 5px;
 }
+.descriptionPage .raceSheetPlaceHolder {
+  border: 1px dashed darkred;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  display: flex;
+  font-weight: bold;
+  font-size: 20px;
+}
+.descriptionPage .raceSheetPlaceHolder p {
+  display: flex;
+  align-items: center;
+}
 .descriptionPage .editor {
   min-height: 40px;
   margin-bottom: 10px;

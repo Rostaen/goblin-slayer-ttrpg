@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "skills"
+				initial: "spells"
 			}]
 		});
 	}
@@ -43,7 +43,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("button[class='delete']").click(this._deleteItem.bind(this));
 		html.find("button[class='edit']").click(this._editItem.bind(this));
 
-		new ContextMenu(html, ".contextMenu", this.skillContextMenu);
+		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
 	_onUpdateSkillRank(event){
@@ -190,56 +190,45 @@ export default class GSActorSheet extends ActorSheet{
 	// 	// Add new skill items to the actor's top level items array
 	// 	actorData.createEmbeddedDocuments("items", skillItems);
 	// }
-	skillContextMenu = [
+	contextMenu = [
 		{
 			name: "View",
 			icon: '<i class="fas fa-edit"></i>',
 			callback: element => {
-				const actorData = super.getData();
-				console.log("Actor Super Data:",super.getData());
+				const actorData = this.actor;
 				const id = element[0].dataset.skillid;
 				const type = element[0].dataset.skilltype;
-				console.log("Element:", element, "ID:", id, "Type:", type);
 				let item = undefined;
-				let theSkill = undefined;
-				if(type === 'race'){
-					item = actorData.items.find(item => item.type === type);
-					if(item){
-						const skills = item.system.skills;
-						const skillIndex = skills.findIndex(skill => skill._id === id);
-						if(skillIndex !== -1){
-							theSkill = skills[skillIndex];
-						}else{
-							console.error("Skill with the given ID not found in the race item.");
-						}
-					}else{
-						console.error("Race item not found.");
-					}
-				}else if (type === 'skill'){
-					// TODO: verify non-racial skills edit menu shows up
-					item = actorData.items.find(item => item.type === type);
-					if(item._id === id) theSkill = item;
-				}else if(type === 'raceSheet'){
-					theSkill = this.actor.items.get(id);
+
+				// Function to get a skill by ID within an item
+				function getSkillFromItem(item, skillId){
+					const skills = item.system.skills || [];
+					const skillIndex = skills.findIndex( skill => skill._id === skillId );
+					return skillIndex !== -1 ? skills[skillIndex] : undefined;
 				}
-				if (theSkill) {
-					if (typeof theSkill.sheet === 'undefined') {
-						// Try creating an item object to get a sheet property
-						try {
-							theSkill = new Item(theSkill);
-						} catch (error) {
-							console.error("Failed to create Item from theSkill:", error);
-							return; // Exit early since it's not possible to render the sheet
+
+				switch(type){
+					case 'race':
+						const raceItem = actorData.items.find(item => item.type === 'race');
+						if(raceItem) item = getSkillFromItem(raceItem, id);
+						break;
+					case 'skill':
+					case 'raceSheet':
+						item = actorData.items.get(id);
+						break;
+				}
+
+				if(item){
+					try{
+						if(!item.sheet){
+							item = new Item(item); // Ensures it has a sheet property
 						}
+						item.sheet.render(true);
+					}catch(error){
+						console.error("Error rendering skill sheet:", error);
 					}
-					// Check if it has a sheet
-					if (theSkill.sheet) {
-						theSkill.sheet.render(true);
-					} else {
-						console.error("TheSkill has no sheet property even after creating an Item.");
-					}
-				} else {
-					console.error("TheSkill is undefined or not found.");
+				}else{
+					console.error("Skill with ID:", id, "not found.");
 				}
 			}
 		},
@@ -248,10 +237,9 @@ export default class GSActorSheet extends ActorSheet{
 			icon: '<i class="fas fa-trash"></i>',
 			callback: element => {
 				const actor = game.actors.get(this.actor._id);
-				console.log("Actor Super Data:", actor);
 				const id = element[0].dataset.skillid;
 				const type = element[0].dataset.skilltype;
-				console.log("Element:", element, "ID:", id, "Type:", type);
+
 				if(type === 'race'){
 					new Dialog({
 						title: "Racial Skill Deletion",
@@ -288,6 +276,13 @@ export default class GSActorSheet extends ActorSheet{
 					}).catch(error => {
 						console.error("Error deleting skill:", error);
 					});
+				}else if(type === 'raceSheet'){
+					const pcRace = actor.items.get(id);
+					if (pcRace) {
+						pcRace.delete();
+					} else {
+						console.error("Race item not found for deletion.");
+					}
 				}
 			}
 		}

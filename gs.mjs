@@ -30,28 +30,22 @@ Hooks.once("init", () => {
 });
 
 // Define Handlebars Helpers here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// Logs an item from the HTML/HBS pages to see specific information
 Handlebars.registerHelper('log', (item) => console.log("Helper Logging >>> ", item));
 
-Handlebars.registerHelper('loopHelper', (loopNum, actor, config, options) => {
-	//console.log("Loop Helper>>>",actor);
-	let returnValue = '';
-	for (let i = 0; i < loopNum; i++){
-		returnValue += options.fn({ index: i, actor: actor, config: config });
-	}
-	return returnValue
-});
-
+// Returns added values together
 Handlebars.registerHelper('add', (value, increment) => {
 	return value + increment;
 });
 
+// Getting quantity at the index
 Handlebars.registerHelper('getQuantAtIndex', (array, index, field) => {
-	//if(!Array.isArray(array) || isNaN(index) || field === '') return undefined;
 	const value = array[index].system[field];
-	//console.log("Value in helper", value);
 	return value;
 });
 
+// Strips leading and ending tags from editor saved text
 Handlebars.registerHelper('stripTags', (text) => {
 	if(typeof text === 'string'){
 		return text.replace(/^<p>/, '').replace(/<\/p>$/, '');
@@ -59,6 +53,7 @@ Handlebars.registerHelper('stripTags', (text) => {
 	return text;
 });
 
+// Returns the description of the Skill rank for diplaying in PC Skills tab.
 Handlebars.registerHelper('getSkillRangeText', (object, value) => {
 	let skillLevel = "";
 	// TODO: Will need future checks for levels and ranks to allow higher rank levels
@@ -71,6 +66,14 @@ Handlebars.registerHelper('getSkillRangeText', (object, value) => {
 	return skillLevel.replace(/^<p>/, '').replace(/<\/p>$/, '');
 });
 
+// Logical OR check
 Handlebars.registerHelper('or', (value1, value2) => {
 	return (value1 || value2) ? true : false;
 })
+
+// Reviews object array for specific item type
+Handlebars.registerHelper('checkInArray', (object, value) => {
+	let inArray = false;
+	object.find(item => item.type === value) ? inArray = true : undefined;
+	return inArray;
+});
