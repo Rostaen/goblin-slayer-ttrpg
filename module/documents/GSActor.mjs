@@ -37,5 +37,24 @@ export class GSActor extends Actor {
         // Setting 2x LifeForce + any Skills
         // TODO: Learn how to add the Hardiness skill from Skills to character sheet data
         systemData.lifeForce.max = systemData.lifeForce.current * 2;
+
+        // Setting Spell Use Scores
+        // TODO: Add in any spell skills that alter this amount per caster class
+        for(let [id, score] of Object.entries(systemData.spellUse.scores)){
+            let calcScore = 0;
+            if(id === "sorc"){
+                calcScore = systemData.levels.classes.sorcerer + systemData.abilities.calc.if;
+            }else{
+                calcScore = systemData.abilities.calc.pf;
+                switch(id){
+                    case "prie": calcScore += systemData.levels.classes.priest; break;
+                    case "dPri": calcScore += systemData.levels.classes.dragon; break;
+                    case "sham": calcScore += systemData.levels.classes.shaman; break;
+                    default: console.error("Error in Score Spell Use switch statement", score, id); break;
+                }
+            }
+            systemData.spellUse.scores[id] = calcScore;
+        }
+
     }
 }

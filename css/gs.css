@@ -909,3 +909,40 @@
 .skillsContainer .skillBox .rank {
   text-align: center;
 }
+.spellsContainer .spellUsesContainer,
+.spellsContainer .spellBlock1 {
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+}
+.spellsContainer .spellUsesContainer label {
+  font-weight: bold;
+}
+.spellsContainer .spellUsesContainer input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  margin: auto;
+}
+.spellsContainer .spellsHolder h2.spellHeader {
+  border-bottom: 0px;
+  margin-bottom: 0px;
+}
+.spellsContainer .spellsHolder .spellBlock1 {
+  margin-top: 0px;
+}
+.spellsContainer .spellsHolder .spellBlock1 .spellLabels {
+  font-size: 10px;
+}
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div {
+  margin-top: 0px;
+}
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .spellName,
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .spellDif,
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .edit,
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

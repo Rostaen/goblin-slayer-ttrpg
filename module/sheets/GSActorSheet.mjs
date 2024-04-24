@@ -22,7 +22,6 @@ export default class GSActorSheet extends ActorSheet{
 		data.config = CONFIG.gs;
 		const actorData = data.actor;
 		data.rollData = this.actor.getRollData();
-		data.system = actorData.system;
 		data.flags = actorData.flags;
 
 		console.log("Checking Actor Super Data:", data);
@@ -132,14 +131,18 @@ export default class GSActorSheet extends ActorSheet{
 	_deleteItem(event){
 		event.preventDefault();
 		const element = event.currentTarget;
-		const id = element.closest(".item").dataset.itemId;
-		const actorId = this.actor._id;
-		const actor = game.actors.get(actorId);
+		const id = element.dataset.itemid;
+		const actor = this.actor;
+
+		console.log(element, id, actor);
 
 		if(actor){
-			const item = actor.items.get(id);
+			const item = actor.items.find(item => item._id === id);
 			if(item){
-				item.delete();
+				//item.delete();
+				actor.deleteEmbeddedDocuments(
+					'Item', [id]
+				)
 			}
 		}
 	}
@@ -147,12 +150,11 @@ export default class GSActorSheet extends ActorSheet{
 	_editItem(event){
 		event.preventDefault();
 		const element = event.currentTarget;
-		const id = element.closest(".item").dataset.itemId;
-		const actorId = this.actor._id;
-		const actor = game.actors.get(actorId);
+		const id = element.dataset.itemid;
+		const actor = this.actor;
 
 		if(actor){
-			const item = actor.items.get(id);
+			const item = actor.items.find(item => item._id === id);
 			if(item){
 				item.sheet.render(true);
 			}

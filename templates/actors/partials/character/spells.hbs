@@ -1,1 +1,182 @@
-Spells Page Coming Soon!
+<div class="spellsContainer">
+    <div class="grid grid-2col spellUsesContainer">
+        <div class="spellUses">
+            <div class="grid grid-10col">
+                <label class="grid-span-2">{{localize config.character.spUse}}</label>
+                <input type="text" name="system.spellUse.max" value="{{actor.system.spellUse.max}}" data-dtype="Number">
+                <input type="checkbox" name="system.spellUse.checks.0" {{#if actor.system.spellUse.checks.[0]}}checked{{/if}} {{#if (lt actor.system.spellUse.max 1)}}disabled{{/if}}>
+                <input type="checkbox" name="system.spellUse.checks.1" {{#if actor.system.spellUse.checks.[1]}}checked{{/if}} {{#if (lt actor.system.spellUse.max 2)}}disabled{{/if}}>
+                <input type="checkbox" name="system.spellUse.checks.2" {{#if actor.system.spellUse.checks.[2]}}checked{{/if}} {{#if (lt actor.system.spellUse.max 3)}}disabled{{/if}}>
+                <input type="checkbox" name="system.spellUse.checks.3" {{#if actor.system.spellUse.checks.[3]}}checked{{/if}} {{#if (lt actor.system.spellUse.max 4)}}disabled{{/if}}>
+                <input type="checkbox" name="system.spellUse.checks.4" {{#if actor.system.spellUse.checks.[4]}}checked{{/if}} {{#if (lt actor.system.spellUse.max 5)}}disabled{{/if}}>
+                <input type="checkbox" name="system.spellUse.checks.5" {{#if actor.system.spellUse.checks.[5]}}checked{{/if}} {{#if (lt actor.system.spellUse.max 6)}}disabled{{/if}}>
+                <input type="checkbox" name="system.spellUse.checks.6" {{#if actor.system.spellUse.checks.[6]}}checked{{/if}} {{#if (lt actor.system.spellUse.max 7)}}disabled{{/if}}>
+            </div>
+        </div>
+        <div class="spellUseScore">
+            <div class="grid grid-8col">
+                <label class="grid-span-3">{{localize config.character.classes.sorc}}</label>
+                <div class="spellScore">{{numberFormat actor.system.spellUse.scores.sorc decimals=0 sign=true}}</div>
+                <label class="grid-span-3">{{localize config.character.classes.prie}}</label>
+                <div class="spellScore">{{numberFormat actor.system.spellUse.scores.prie decimals=0 sign=true}}</div>
+                <label class="grid-span-3">{{localize config.character.classes.dPri}}</label>
+                <div class="spellScore">{{numberFormat actor.system.spellUse.scores.dPri decimals=0 sign=true}}</div>
+                <label class="grid-span-3">{{localize config.character.classes.sham}}</label>
+                <div class="spellScore">{{numberFormat actor.system.spellUse.scores.sham decimals=0 sign=true}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="wordSpellsCont spellsHolder">
+        <h2 class="spellHeader">{{localize gearConfig.spell.schools.wor}}</h2>
+        <div class="spellBlock1 grid grid-2col">
+            <div>
+                <div class="grid grid-5col spellLabels">
+                    <div></div>
+                    <div>Name</div>
+                    <div>DC</div>
+                    <div>Edit</div>
+                    <div>Delete</div>
+                </div>
+            </div>
+            <div>
+                <div class="grid grid-5col spellLabels">
+                    <div></div>
+                    <div>Name</div>
+                    <div>DC</div>
+                    <div>Edit</div>
+                    <div>Delete</div>
+                </div>
+            </div>
+            {{#each actor.items as |item id|}}
+                {{#if (eq item.type 'spell')}}
+                    {{#if (eq item.system.schoolChoice 'Words of True Power')}}
+                        <div class="singleSpell">
+                            <div class="grid grid-5col">
+                                <img src="{{item.img}}" alt="{{item.name}}">
+                                <div class="spellName">{{item.name}}</div>
+                                <div class="spellDif">{{item.system.difficulty}}</div>
+                                <div class="edit"><button class="edit" data-itemId="{{item._id}}"><i class="fa-solid fa-pen-to-square"></i></button></div>
+                                <div class="delete"><button class="delete" data-itemId="{{item._id}}"><i class="fa-solid fa-trash-can"></i></button></div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+    <div class="miracleSpellsCont spellsHolder">
+        <h2 class="spellHeader">{{localize gearConfig.spell.schools.mir}}</h2>
+        <div class="spellBlock1 grid grid-2col">
+            <div>
+                <div class="grid grid-5col spellLabels">
+                    <div></div>
+                    <div>Name</div>
+                    <div>DC</div>
+                    <div>Edit</div>
+                    <div>Delete</div>
+                </div>
+            </div>
+            <div>
+                <div class="grid grid-5col spellLabels">
+                    <div></div>
+                    <div>Name</div>
+                    <div>DC</div>
+                    <div>Edit</div>
+                    <div>Delete</div>
+                </div>
+            </div>
+            {{#each actor.items as |item id|}}
+                {{#if (eq item.type 'spell')}}
+                    {{#if (eq item.system.schoolChoice 'Miracle')}}
+                        <div class="singleSpell">
+                            <div class="grid grid-5col">
+                                <img src="{{item.img}}" alt="{{item.name}}">
+                                <div class="spellName">{{item.name}}</div>
+                                <div class="spellDif">{{item.system.difficulty}}</div>
+                                <div class="edit"><button class="edit" data-itemId="{{item._id}}"><i class="fa-solid fa-pen-to-square"></i></button></div>
+                                <div class="delete"><button class="delete" data-itemId="{{item._id}}"><i class="fa-solid fa-trash-can"></i></button></div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/each}}
+        </div>
+        <div class="dragonSpellsCont spellsHolder">
+            <h2 class="spellHeader">{{localize gearConfig.spell.schools.anc}}</h2>
+            <div class="spellBlock1 grid grid-2col">
+                <div>
+                    <div class="grid grid-5col spellLabels">
+                        <div></div>
+                        <div>Name</div>
+                        <div>DC</div>
+                        <div>Edit</div>
+                        <div>Delete</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="grid grid-5col spellLabels">
+                        <div></div>
+                        <div>Name</div>
+                        <div>DC</div>
+                        <div>Edit</div>
+                        <div>Delete</div>
+                    </div>
+                </div>
+                {{#each actor.items as |item id|}}
+                    {{#if (eq item.type 'spell')}}
+                        {{#if (eq item.system.schoolChoice 'Ancestral Dragon')}}
+                            <div class="singleSpell">
+                                <div class="grid grid-5col">
+                                    <img src="{{item.img}}" alt="{{item.name}}">
+                                    <div class="spellName">{{item.name}}</div>
+                                    <div class="spellDif">{{item.system.difficulty}}</div>
+                                    <div class="edit"><button class="edit" data-itemId="{{item._id}}"><i class="fa-solid fa-pen-to-square"></i></button></div>
+                                    <div class="delete"><button class="delete" data-itemId="{{item._id}}"><i class="fa-solid fa-trash-can"></i></button></div>
+                                </div>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+            </div>
+        </div>
+        <div class="spiritSpellsCont spellsHolder">
+            <h2 class="spellHeader">{{localize gearConfig.spell.schools.spi}}</h2>
+            <div class="spellBlock1 grid grid-2col">
+                <div>
+                    <div class="grid grid-5col spellLabels">
+                        <div></div>
+                        <div>Name</div>
+                        <div>DC</div>
+                        <div>Edit</div>
+                        <div>Delete</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="grid grid-5col spellLabels">
+                        <div></div>
+                        <div>Name</div>
+                        <div>DC</div>
+                        <div>Edit</div>
+                        <div>Delete</div>
+                    </div>
+                </div>
+                {{#each actor.items as |item id|}}
+                    {{#if (eq item.type 'spell')}}
+                        {{#if (eq item.system.schoolChoice 'Spirit Arts')}}
+                            <div class="singleSpell">
+                                <div class="grid grid-5col">
+                                    <img src="{{item.img}}" alt="{{item.name}}">
+                                    <div class="spellName">{{item.name}}</div>
+                                    <div class="spellDif">{{item.system.difficulty}}</div>
+                                    <div class="edit"><button class="edit" data-itemId="{{item._id}}"><i class="fa-solid fa-pen-to-square"></i></button></div>
+                                    <div class="delete"><button class="delete" data-itemId="{{item._id}}"><i class="fa-solid fa-trash-can"></i></button></div>
+                                </div>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+{{log actor.system.spellUse.checks}}
