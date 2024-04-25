@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "spells"
+				initial: "stats"
 			}]
 		});
 	}
@@ -41,6 +41,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
 		html.find("button[class='delete']").click(this._deleteItem.bind(this));
 		html.find("button[class='edit']").click(this._editItem.bind(this));
+		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -158,6 +159,47 @@ export default class GSActorSheet extends ActorSheet{
 			if(item){
 				item.sheet.render(true);
 			}
+		}
+	}
+
+	_rollStatDice(event){
+		event.preventDefault();
+		let baseDice = "2d6";
+		// Find the parent container that contains the label and input
+		const container = event.currentTarget.closest('.calcScore');
+		if(container){
+			// Find the input field within the same container
+			const input = container.querySelector('input');
+			const label = container.querySelector('label');
+			if(input){
+				const bonusScore = input.value;
+				const labelText = label.innerHTML;
+				// TODO: Update with chat box to add modifiers
+				const rollExpression = `${baseDice} + ${bonusScore}`;
+				const roll = new Roll(rollExpression);
+				roll.evaluate({ async: true }).then(() => {
+					const diceResults = roll.terms[0].results.map(r => r.result);
+
+					let status = "";
+					if(diceResults.length === 2){
+						if(diceResults[0] === 1 && diceResults[1] === 1){
+							status = ": <span class='critFailColor'>Critical Failure!</span>";
+
+						}else if(diceResults[0] === 6 && diceResults[1] === 6){
+							status = ": <span class='critSuccessColor'>Critical Success!</span>";
+						}
+					}
+
+					roll.toMessage({
+						speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+						flavor: `Rolling a ${labelText} check${status}`
+					}); // Sending results to chat
+				});
+			}else{
+				console.error("Input field not found.");
+			}
+		}else{
+			console.error("Container with '.calcScore' class not found.");
 		}
 	}
 

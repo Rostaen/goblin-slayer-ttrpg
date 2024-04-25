@@ -270,7 +270,12 @@ gs.actor = {
 			use: "gs.charSheet.items.use",
 			quan: "gs.charSheet.items.quan",
 			edit: "gs.charSheet.items.edit",
-			dele: "gs.charSheet.items.dele"
+			dele: "gs.charSheet.items.dele",
+			scores: "gs.charSheet.items.scores",
+			weapons: "gs.charSheet.items.weapons",
+			melee: "gs.charSheet.items.melee",
+			throw: "gs.charSheet.items.throw",
+			projectile: "gs.charSheet.items.projectile",
 		}
 	},
 	raceSheet: {

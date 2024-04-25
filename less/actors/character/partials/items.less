@@ -1,32 +1,54 @@
-.itemsPage{
-    .rowHeader{
-        font-size: 8px;
-    }
-    h2{
-        border-bottom: 0px;
-        margin-bottom: 0px;
-    }
-    .gearContainer, .editor{
-        border: 1px solid darkred;
-        border-radius: 5px;
-        padding: 5px;
-        background-color: rgba(255,255,255,0.75);
-        margin-bottom: 5px;
-    }
-    .gearContainer{
-        .reveal-rollable{
-            div{
-                display: flex;
-                align-items: center;
-                text-align: center;
+.itemsPageContainer{
+    .itemsPage{
+        .rowHeader{
+            font-size: 8px;
+        }
+        h2{
+            border-bottom: 0px;
+            margin-bottom: 0px;
+        }
+        .gearContainer, .editor{
+            border: 1px solid darkred;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: rgba(255,255,255,0.75);
+            margin-bottom: 5px;
+        }
+        .gearContainer{
+            .reveal-rollable{
+                div{
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                }
+            }
+        }
+        .editor{
+            height: 100%;
+            min-height: 40px;
+            .tox.tox-tinymce{
+                height: 125px !important;
             }
         }
     }
-    .editor{
-        height: 100%;
-        min-height: 40px;
-        .tox.tox-tinymce{
-            height: 125px !important;
+    .hitScoresContainer{
+        h2{
+            border-bottom: 0px;
+            margin-bottom: 0px;
+        }
+        div.grid-3col{
+            border: 1px solid darkred;
+            border-radius: 5px;
+            background-color: rgba(255,255,255,0.75);
+            padding: 5px;
+            margin-top: 0px;
+            h3{
+                text-align: center;
+                margin-bottom: 5px;
+            }
+            .last{
+                margin-bottom: 10px;
+            }
         }
     }
 }

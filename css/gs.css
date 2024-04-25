@@ -1,3 +1,9 @@
+.critFailColor {
+  color: darkred;
+}
+.critSuccessColor {
+  color: darkgreen;
+}
 .prosemirror .editor-container {
   margin: 5px 5px 0px 5px;
   min-height: 200px;
@@ -748,6 +754,10 @@
   padding: 3px 0px;
   text-align: center;
 }
+.stats .statsContainer .calcScore label.scoreRoll:hover {
+  cursor: pointer;
+  text-shadow: 0px 0px 5px darkred;
+}
 .stats .statsContainer label {
   justify-content: center;
 }
@@ -850,32 +860,50 @@
 .descriptionPage .editor .tox.tox-tinymce {
   height: 125px !important;
 }
-.itemsPage .rowHeader {
+.itemsPageContainer .itemsPage .rowHeader {
   font-size: 8px;
 }
-.itemsPage h2 {
+.itemsPageContainer .itemsPage h2 {
   border-bottom: 0px;
   margin-bottom: 0px;
 }
-.itemsPage .gearContainer,
-.itemsPage .editor {
+.itemsPageContainer .itemsPage .gearContainer,
+.itemsPageContainer .itemsPage .editor {
   border: 1px solid darkred;
   border-radius: 5px;
   padding: 5px;
   background-color: rgba(255, 255, 255, 0.75);
   margin-bottom: 5px;
 }
-.itemsPage .gearContainer .reveal-rollable div {
+.itemsPageContainer .itemsPage .gearContainer .reveal-rollable div {
   display: flex;
   align-items: center;
   text-align: center;
 }
-.itemsPage .editor {
+.itemsPageContainer .itemsPage .editor {
   height: 100%;
   min-height: 40px;
 }
-.itemsPage .editor .tox.tox-tinymce {
+.itemsPageContainer .itemsPage .editor .tox.tox-tinymce {
   height: 125px !important;
+}
+.itemsPageContainer .hitScoresContainer h2 {
+  border-bottom: 0px;
+  margin-bottom: 0px;
+}
+.itemsPageContainer .hitScoresContainer div.grid-3col {
+  border: 1px solid darkred;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 5px;
+  margin-top: 0px;
+}
+.itemsPageContainer .hitScoresContainer div.grid-3col h3 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+.itemsPageContainer .hitScoresContainer div.grid-3col .last {
+  margin-bottom: 10px;
 }
 .skillsContainer .skillHeader {
   border-bottom: 0px;

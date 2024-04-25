@@ -56,5 +56,33 @@ export class GSActor extends Actor {
             systemData.spellUse.scores[id] = calcScore;
         }
 
+        // Setting Base Hit Scores
+        // TODO: Add in any skill modifiers that alter these hit scores
+        for(let [typeId, hitScore] of Object.entries(systemData.attacks.totals)){
+            // Ensure systemData.attacks.totals[typeId] is an object
+            if(typeof systemData.attacks.totals[typeId] !== 'object'){
+                systemData.attacks.totals[typeId] = {}; // Initialized as an empty object
+            }
+            // Getting Technique Focus score for all martial classes to hit with weapons
+            let techFocus = systemData.abilities.calc.tf;
+
+            // Cycling through classes to get levels and modify scores with skills
+            for(let [classId, level] of Object.entries(systemData.levels.classes)){
+                let calcScore = 0;
+
+                if(typeId === 'melee' && (classId === 'fighter' || classId === 'monk' || classId === 'scout')){
+                    calcScore = techFocus + level; // Add skill bonuses here
+                }else if(typeId === 'throw' && (classId === 'monk' || classId === 'ranger' || classId === 'scout')){
+                    calcScore = techFocus + level; // Add skill bonuses here
+                }else if(typeId === 'projectile' && classId === 'ranger'){
+                    calcScore = techFocus + level; // Add skill bonuses here
+                }else{
+                    continue; // Skipping unneeded classes
+                }
+
+                // Assigning the calculated score to the object
+                systemData.attacks.totals[typeId][classId] = calcScore;
+            }
+        }
     }
 }

@@ -225,7 +225,12 @@
         "use": "Use",
         "quan": "Quantity",
         "edit": "Edit",
-        "dele": "Delete"
+        "dele": "Delete",
+        "scores": "Scores",
+        "weapons": "Weapons",
+        "melee": "Melee",
+			  "throw": "Throw",
+			  "projectile": "Projectile"
       }
     },
     "raceSheet": {
