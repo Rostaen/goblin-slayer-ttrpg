@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "stats"
+				initial: "items"
 			}]
 		});
 	}
@@ -42,6 +42,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("button[class='delete']").click(this._deleteItem.bind(this));
 		html.find("button[class='edit']").click(this._editItem.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
+		html.find("div.hitMod").click(this._rollToHit.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -200,6 +201,38 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		}else{
 			console.error("Container with '.calcScore' class not found.");
+		}
+	}
+
+	_rollToHit(event){
+		event.preventDefault();
+		let baseDice = "2d6";
+		const container = event.currentTarget.closest('.reveal-rollable');
+		if(container){
+			const hitMod = container.querySelector('div.hitMod');
+			if(hitMod){
+				let hitBonus = hitMod.innerHTML;
+				hitBonus = parseInt(hitBonus.slice(1,2));
+				const typeHolder = container.querySelector('input[type="hidden"].type');
+				if(typeHolder){
+					const type = typeHolder.value.split('/')[0];
+					//console.log("Inner HTML value:", hitBonus, typeof(hitBonus), type);
+					// TODO: Finish implementing weapon to hit modifiers
+					if(type === 'Projectile'){
+						// Calculate Ranger skills only
+					}else if (type === 'Trown'){
+						// Decide between Ranger/Scout/Monk
+					}else{
+						// Decide between Fighter/Monk/Scout
+					}
+				}else{
+					console.error("Item type not found.");
+				}
+			}else{
+				console.error("Hit modifer not found.");
+			}
+		}else{
+			console.error("Container with '.reveal-rollable' class not found.");
 		}
 	}
 

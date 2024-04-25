@@ -1,5 +1,5 @@
 <div class="weapon-card item item-list">
-    <div class="reveal-rollable grid grid-10col">
+    <div class="reveal-rollable grid grid-10col" data-itemId="{{_id}}">
         <div class="move"><button><i class="fa-solid fa-bars"></i></button></div>
         <img src="{{img}}" title="{{name}}" />
         <div class="name grid-span-3" >{{name}}</div>
@@ -10,5 +10,6 @@
         <div class="use">{{system.use}}</div> --}}
         <div class="edit"><button class="edit" data-itemId="{{_id}}"><i class="fa-solid fa-pen-to-square"></i></button></div>
         <div class="delete"><button class="delete" data-itemId="{{_id}}"><i class="fa-solid fa-trash-can"></i></button></div>
+        <input type="hidden" value="{{system.type}}" class="type">
     </div>
 </div>
