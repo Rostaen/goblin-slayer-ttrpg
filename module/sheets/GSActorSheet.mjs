@@ -163,6 +163,29 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	_rollsToMessage(dice, bonus, label){
+		const rollExpression = `${dice} + ${bonus}`;
+		const roll = new Roll(rollExpression);
+		roll.evaluate({ async: true }).then(() => {
+			const diceResults = roll.terms[0].results.map(r => r.result);
+
+			let status = "";
+			if(diceResults.length === 2){
+				if(diceResults[0] === 1 && diceResults[1] === 1){
+					status = ": <span class='critFailColor'>Critical Failure!</span>";
+
+				}else if(diceResults[0] === 6 && diceResults[1] === 6){
+					status = ": <span class='critSuccessColor'>Critical Success!</span>";
+				}
+			}
+
+			roll.toMessage({
+				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+				flavor: `Rolling a ${label} check${status}`
+			}); // Sending results to chat
+		});
+	}
+
 	_rollStatDice(event){
 		event.preventDefault();
 		let baseDice = "2d6";
@@ -176,26 +199,7 @@ export default class GSActorSheet extends ActorSheet{
 				const bonusScore = input.value;
 				const labelText = label.innerHTML;
 				// TODO: Update with chat box to add modifiers
-				const rollExpression = `${baseDice} + ${bonusScore}`;
-				const roll = new Roll(rollExpression);
-				roll.evaluate({ async: true }).then(() => {
-					const diceResults = roll.terms[0].results.map(r => r.result);
-
-					let status = "";
-					if(diceResults.length === 2){
-						if(diceResults[0] === 1 && diceResults[1] === 1){
-							status = ": <span class='critFailColor'>Critical Failure!</span>";
-
-						}else if(diceResults[0] === 6 && diceResults[1] === 6){
-							status = ": <span class='critSuccessColor'>Critical Success!</span>";
-						}
-					}
-
-					roll.toMessage({
-						speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-						flavor: `Rolling a ${labelText} check${status}`
-					}); // Sending results to chat
-				});
+				this._rollsToMessage(baseDice, bonusScore, labelText);
 			}else{
 				console.error("Input field not found.");
 			}
@@ -215,9 +219,8 @@ export default class GSActorSheet extends ActorSheet{
 				hitBonus = parseInt(hitBonus.slice(1,2));
 				const typeHolder = container.querySelector('input[type="hidden"].type');
 				if(typeHolder){
-					const typeAndWeight = typeHolder.value.split('/').map(item => item.trim());
-					const weight = typeHolder.value.split('/')[1];
-					console.log("Inner HTML value:", hitBonus, typeof(hitBonus), typeAndWeight[0], typeAndWeight[1]);
+					const typeAndWeight = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+					console.log("Weapon Hit Bonus:", hitBonus, typeAndWeight[0], typeAndWeight[1]);
 					// TODO: Finish implementing weapon to hit modifiers
 					if(typeAndWeight[0] === 'Projectile'){
 						// Calculate Ranger skills only
@@ -225,13 +228,31 @@ export default class GSActorSheet extends ActorSheet{
 						// Decide between Ranger/Scout/Monk
 					}else{
 						// Decide between Fighter/Monk/Scout
-						const fighterWeapons = ["sword", "ax", "spear", "mace"];
-						const checkThis = fighterWeapons.some(word => typeAndWeight[0].toLowerCase().includes(word));
-						console.log("In non-ranged weapon check", checkThis);
+						const fighterWeapons = ["sword", "ax", "spear", "mace"]; // Heavy/Light
+						const monkWeapons = ["close-combat", "staff"]; // Heavy/Light
+						const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"]; // Light only
 
-						if( checkThis && this.actor.system.levels.classes.fighter > 0){
-							console.log("PC has fighter level:", this.actor.system.levels.classes.fighter, "and using a", typeAndWeight[0]);
+						if(this.actor.system.levels.classes.fighter > 0){
+							const checkFighterWords = fighterWeapons.some(word => typeAndWeight[0].includes(word));
+							if(checkFighterWords){
+								console.log("PC has fighter level:", this.actor.system.levels.classes.fighter, "and using a", typeAndWeight[0]);
+								// TODO: Find any skills that influence fighter melee hit checks to add here.
+								hitBonus += this.actor.system.attacks.totals.melee.fighter;
+							}
+						}else if(this.actor.system.levels.classes.monk > 0){
+							const checkMonkWords = monkWeapons.some(word => typeAndWeight[0].includes(word))
+							if(checkMonkWords){
+								// TODO: Find any skills that influence monk melee hit checks to add here.
+								hitBonus += this.actor.system.attacks.totals.melee.monk;
+							}
+						}else if(this.actor.system.levels.classes.scout > 0){
+							const checkScoutWords = scoutWeapons.some(word => typeAndWeight[0].includes(word));
+							if(checkScoutWords && typeAndWeight[1] === 'light'){
+								// TODO: Find any skills that influence scout melee hit checks to add here.
+								hitBonus += this.actor.system.attacks.totals.melee.scout;
+							}
 						}
+						this._rollsToMessage(baseDice, hitBonus, game.i18n.localize("gs.actor.character.hit"));
 					}
 				}else{
 					console.error("Item type not found.");

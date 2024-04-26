@@ -1,44 +1,44 @@
 {
-	"id": "gs",
-	"title": "Goblin Slayer TTRPG",
-	"description": "The Goblin Slayer TTRPG game system for FoundryVTT!",
-	"authors":{
-		"name": "Andrew",
-		"discord": "zerrian_"
-	},
-	"url": "",
-	"license": "",
-	"readme": "README.md",
-	"bugs": "",
-	"changelog": "CHANGELOG.md",
-	"media": {
-		"type": "setup",
-		"url": "systems/gs/assets/gslogo.jpg",
-		"thumbnail": "systems/gs/assets/gslogo.jpg"
-	},
-	"version": "0.0.1",
-	"compatibility": {
-		"minimum": 11,
-		"verified": "11.315"
-	},
-	"esmodules": ["gs.mjs"],
-	"styles": ["css/gs.css"],
-	"languages":[
-		{
-			"lang": "en",
-			"name": "English",
-			"path": "lang/en.json",
-			"flags": {}
-		}
-	],
-	"packs": [],
-	"packFolders": [],
-	"socket": false,
-	"manifest": "",
-	"download": "",
-	"background": "systems/gs/assets/gslogo.jpg",
-	"gridDistance": 1,
-	"gridUnits": "meters",
-	"primaryTokenAttribute": "health",
-	"secondaryTokenAttribute": "power"
+  "id": "gs",
+  "title": "Goblin Slayer TTRPG",
+  "description": "The Goblin Slayer TTRPG game system for FoundryVTT!",
+  "authors": {
+    "name": "Andrew",
+    "discord": "zerrian_"
+  },
+  "url": "",
+  "license": "",
+  "readme": "README.md",
+  "bugs": "",
+  "changelog": "CHANGELOG.md",
+  "media": {
+    "type": "setup",
+    "url": "systems/gs/assets/gslogo.jpg",
+    "thumbnail": "systems/gs/assets/gslogo.jpg"
+  },
+  "version": "0.5.0",
+  "compatibility": {
+    "minimum": 11,
+    "verified": "11.315"
+  },
+  "esmodules": ["gs.mjs"],
+  "styles": ["css/gs.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    }
+  ],
+  "packs": [],
+  "packFolders": [],
+  "socket": false,
+  "manifest": "",
+  "download": "",
+  "background": "systems/gs/assets/gslogo.jpg",
+  "gridDistance": 1,
+  "gridUnits": "meters",
+  "primaryTokenAttribute": "health",
+  "secondaryTokenAttribute": "power"
 }
