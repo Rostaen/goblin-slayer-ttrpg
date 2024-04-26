@@ -215,15 +215,23 @@ export default class GSActorSheet extends ActorSheet{
 				hitBonus = parseInt(hitBonus.slice(1,2));
 				const typeHolder = container.querySelector('input[type="hidden"].type');
 				if(typeHolder){
-					const type = typeHolder.value.split('/')[0];
-					//console.log("Inner HTML value:", hitBonus, typeof(hitBonus), type);
+					const typeAndWeight = typeHolder.value.split('/').map(item => item.trim());
+					const weight = typeHolder.value.split('/')[1];
+					console.log("Inner HTML value:", hitBonus, typeof(hitBonus), typeAndWeight[0], typeAndWeight[1]);
 					// TODO: Finish implementing weapon to hit modifiers
-					if(type === 'Projectile'){
+					if(typeAndWeight[0] === 'Projectile'){
 						// Calculate Ranger skills only
-					}else if (type === 'Trown'){
+					}else if (typeAndWeight[0] === 'Thrown'){
 						// Decide between Ranger/Scout/Monk
 					}else{
 						// Decide between Fighter/Monk/Scout
+						const fighterWeapons = ["sword", "ax", "spear", "mace"];
+						const checkThis = fighterWeapons.some(word => typeAndWeight[0].toLowerCase().includes(word));
+						console.log("In non-ranged weapon check", checkThis);
+
+						if( checkThis && this.actor.system.levels.classes.fighter > 0){
+							console.log("PC has fighter level:", this.actor.system.levels.classes.fighter, "and using a", typeAndWeight[0]);
+						}
 					}
 				}else{
 					console.error("Item type not found.");
