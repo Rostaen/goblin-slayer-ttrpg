@@ -212,57 +212,128 @@ export default class GSActorSheet extends ActorSheet{
 		event.preventDefault();
 		let baseDice = "2d6";
 		const container = event.currentTarget.closest('.reveal-rollable');
-		if(container){
-			const hitMod = container.querySelector('div.hitMod');
-			if(hitMod){
-				let hitBonus = hitMod.innerHTML;
-				hitBonus = parseInt(hitBonus.slice(1,2));
-				const typeHolder = container.querySelector('input[type="hidden"].type');
-				if(typeHolder){
-					const typeAndWeight = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
-					console.log("Weapon Hit Bonus:", hitBonus, typeAndWeight[0], typeAndWeight[1]);
-					// TODO: Finish implementing weapon to hit modifiers
-					if(typeAndWeight[0] === 'Projectile'){
-						// Calculate Ranger skills only
-					}else if (typeAndWeight[0] === 'Thrown'){
-						// Decide between Ranger/Scout/Monk
-					}else{
-						// Decide between Fighter/Monk/Scout
-						const fighterWeapons = ["sword", "ax", "spear", "mace"]; // Heavy/Light
-						const monkWeapons = ["close-combat", "staff"]; // Heavy/Light
-						const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"]; // Light only
 
-						if(this.actor.system.levels.classes.fighter > 0){
-							const checkFighterWords = fighterWeapons.some(word => typeAndWeight[0].includes(word));
-							if(checkFighterWords){
-								console.log("PC has fighter level:", this.actor.system.levels.classes.fighter, "and using a", typeAndWeight[0]);
-								// TODO: Find any skills that influence fighter melee hit checks to add here.
-								hitBonus += this.actor.system.attacks.totals.melee.fighter;
-							}
-						}else if(this.actor.system.levels.classes.monk > 0){
-							const checkMonkWords = monkWeapons.some(word => typeAndWeight[0].includes(word))
-							if(checkMonkWords){
-								// TODO: Find any skills that influence monk melee hit checks to add here.
-								hitBonus += this.actor.system.attacks.totals.melee.monk;
-							}
-						}else if(this.actor.system.levels.classes.scout > 0){
-							const checkScoutWords = scoutWeapons.some(word => typeAndWeight[0].includes(word));
-							if(checkScoutWords && typeAndWeight[1] === 'light'){
-								// TODO: Find any skills that influence scout melee hit checks to add here.
-								hitBonus += this.actor.system.attacks.totals.melee.scout;
-							}
-						}
-						this._rollsToMessage(baseDice, hitBonus, game.i18n.localize("gs.actor.character.hit"));
-					}
-				}else{
-					console.error("Item type not found.");
-				}
-			}else{
-				console.error("Hit modifer not found.");
-			}
-		}else{
+		if (!container) {
 			console.error("Container with '.reveal-rollable' class not found.");
+			return;
 		}
+
+		const hitMod = container.querySelector('div.hitMod');
+		if (!hitMod) {
+			console.error("Hit modifer not found.");
+			return;
+		}
+
+		let hitBonus = parseInt(hitMod.textContent.slice(1, 2), 10);
+		hitBonus += this.actor.system.abilities.calc.tf; // Adding base techinique focus to hit bonus from weapon
+
+		const typeHolder = container.querySelector('input[type="hidden"].type');
+		if (!typeHolder) {
+			console.error("Item type not found.");
+			return;
+		}
+
+		const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+
+		console.log("Weapon Hit Bonus:", hitBonus, type, weight);
+
+		const pcClasses = this.actor.system.levels.classes;
+		const fighterWeapons = ["sword", "ax", "spear", "mace"];
+		const monkWeapons = ["close-combat", "staff"];
+		const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"];
+
+		if(type === 'projectile' && pcClasses.ranger > 0){
+			hitBonus += pcClasses.ranger;
+		}else if(type === 'throwing'){
+			if(pcClasses.monk > 0){
+				hitBonus += pcClasses.monk;
+			}else if(pcClasses.ranger > 0){
+				hitBonus += pcClasses.ranger;
+			}else if(pcClasses.scout > 0){
+				hitBonus += pcClasses.scout;
+			}
+		}else{ // Assuming type is a melee weapon
+			if (pcClasses.fighter > 0 && fighterWeapons.some(word => type.includes(word))) {
+				hitBonus += pcClasses.fighter;
+			} else if (pcClasses.monk > 0 && monkWeapons.some(word => type.includes(word))) {
+				hitBonus += pcClasses.monk;
+			} else if (pcClasses.scout > 0 && scoutWeapons.some(word => type.includes(word)) && weight === 'light') {
+				hitBonus += pcClasses.scout;
+			}
+		}
+
+		this._rollsToMessage(baseDice, hitBonus, game.i18n.localize("gs.actor.character.hit"));
+
+
+
+
+		// if(container){
+		// 	const hitMod = container.querySelector('div.hitMod');
+		// 	if(hitMod){
+		// 		let hitBonus = hitMod.innerHTML;
+		// 		hitBonus = parseInt(hitBonus.slice(1,2));
+		// 		const typeHolder = container.querySelector('input[type="hidden"].type');
+		// 		if(typeHolder){
+		// 			const typeAndWeight = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+		// 			console.log("Weapon Hit Bonus:", hitBonus, typeAndWeight[0], typeAndWeight[1]);
+		// 			const pcClasses = this.actor.system.levels.classes;
+		// 			// TODO: Finish implementing weapon to hit modifiers
+		// 			if(typeAndWeight[0] === 'projectile'){
+		// 				// Calculate Ranger skills only
+		// 				if(pcClasses.ranger > 0){
+		// 					// TODO: Find any skills that influence ranger projectile hit checks to add here.
+		// 					hitBonus += this.actor.system.attacks.totals.projectile.ranger;
+		// 				}
+		// 			}else if (typeAndWeight[0] === 'thrown'){
+		// 				// Decide between Ranger/Scout/Monk
+		// 				const thrownClassbonus = this.actor.system.attacks.totals.throw;
+		// 				if(pcClasses.monk > 0){
+		// 					// TODO: Find any skills that influence monk thrown hit checks to add here.
+		// 					hitBonus += thrownClassbonus.monk;
+		// 				}else if(pcClasses.ranger > 0){
+		// 					// TODO: Find any skills that influence ranger thrown hit checks to add here.
+		// 					hitBonus += thrownClassbonus.ranger;
+		// 				}else if(pcClasses.scout > 0){
+		// 					// TODO: Find any skills that influence scout thrown hit checks to add here.
+		// 					hitBonus += thrownClassbonus.scout;
+		// 				}
+		// 			}else{
+		// 				// Decide between Fighter/Monk/Scout
+		// 				const fighterWeapons = ["sword", "ax", "spear", "mace"]; // Heavy/Light
+		// 				const monkWeapons = ["close-combat", "staff"]; // Heavy/Light
+		// 				const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"]; // Light only
+		// 				const meleeClassBonus = this.actor.system.attacks.totals.melee;
+
+		// 				if(pcClasses.fighter > 0){
+		// 					const checkFighterWords = fighterWeapons.some(word => typeAndWeight[0].includes(word));
+		// 					if(checkFighterWords){
+		// 						// TODO: Find any skills that influence fighter melee hit checks to add here.
+		// 						hitBonus += meleeClassBonus.fighter;
+		// 					}
+		// 				}else if(pcClasses.monk > 0){
+		// 					const checkMonkWords = monkWeapons.some(word => typeAndWeight[0].includes(word))
+		// 					if(checkMonkWords){
+		// 						// TODO: Find any skills that influence monk melee hit checks to add here.
+		// 						hitBonus += meleeClassBonus.monk;
+		// 					}
+		// 				}else if(pcClasses.scout > 0){
+		// 					const checkScoutWords = scoutWeapons.some(word => typeAndWeight[0].includes(word));
+		// 					if(checkScoutWords && typeAndWeight[1] === 'light'){
+		// 						// TODO: Find any skills that influence scout melee hit checks to add here.
+		// 						hitBonus += meleeClassBonus.scout;
+		// 					}
+		// 				}
+		// 				this._rollsToMessage(baseDice, hitBonus, game.i18n.localize("gs.actor.character.hit"));
+		// 			}
+		// 		}else{
+		// 			console.error("Item type not found.");
+		// 		}
+		// 	}else{
+		// 		console.error("Hit modifer not found.");
+		// 	}
+		// }else{
+		// 	console.error("Container with '.reveal-rollable' class not found.");
+		// }
 	}
 
 	// Keeping the below code as reference for future use later on.

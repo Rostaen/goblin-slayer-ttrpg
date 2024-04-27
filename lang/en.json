@@ -229,8 +229,8 @@
         "scores": "Scores",
         "weapons": "Weapons",
         "melee": "Melee",
-			  "throw": "Throw",
-			  "projectile": "Projectile"
+        "throw": "Throwing",
+        "projectile": "Projectile"
       }
     },
     "raceSheet": {
