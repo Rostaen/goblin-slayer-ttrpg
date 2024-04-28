@@ -880,6 +880,11 @@
   align-items: center;
   text-align: center;
 }
+.itemsPageContainer .itemsPage .gearContainer .weapon-card .hitMod:hover,
+.itemsPageContainer .itemsPage .gearContainer .weapon-card .power:hover {
+  cursor: pointer;
+  text-shadow: 0 0 5px darkred;
+}
 .itemsPageContainer .itemsPage .editor {
   height: 100%;
   min-height: 40px;

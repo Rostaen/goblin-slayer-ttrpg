@@ -16,14 +16,13 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 
 ### TODO:
 
-- [ ] Melee To Hit checks
+- [ ] Melee/Thrown/Projectile To Hit checks
   - [x] Fighter checks
-  - [ ] Monk checks
-  - [ ] Scout checks
-- [ ] Thrown/Projectile To Hit checks
-  - [ ] Ranger checks
-  - [ ] Monk checks
-  - [ ] Scout checks
+  - [x] Monk checks
+  - [x] Scout checks
+  - [x] Ranger checks
+  - [ ] Skill check modifiers
+- [ ] Move skills from Race to Item level
 - [ ] Context menu for Race skills
 - [ ] Prompt for Roll modifiers
 - [ ] Add conditions and effects to PC effects tab

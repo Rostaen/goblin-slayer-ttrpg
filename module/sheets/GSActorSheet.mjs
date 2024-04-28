@@ -43,6 +43,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("button[class='edit']").click(this._editItem.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find("div.hitMod").click(this._rollToHit.bind(this));
+		html.find("div.power").click(this._rollPower.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -208,40 +209,19 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_rollToHit(event){
-		event.preventDefault();
-		let baseDice = "2d6";
-		const container = event.currentTarget.closest('.reveal-rollable');
+	_getItemType(container){
+		return container.querySelector('input[type="hidden"].type');
+	}
 
-		if (!container) {
-			console.error("Container with '.reveal-rollable' class not found.");
-			return;
-		}
-
-		const hitMod = container.querySelector('div.hitMod');
-		if (!hitMod) {
-			console.error("Hit modifer not found.");
-			return;
-		}
-
-		let hitBonus = parseInt(hitMod.textContent.slice(1, 2), 10);
-		hitBonus += this.actor.system.abilities.calc.tf; // Adding base techinique focus to hit bonus from weapon
-
-		const typeHolder = container.querySelector('input[type="hidden"].type');
-		if (!typeHolder) {
-			console.error("Item type not found.");
-			return;
-		}
-
+	_getClassLevelBonus(typeHolder){
 		const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
-
-		console.log("Weapon Hit Bonus:", hitBonus, type, weight);
-
 		const pcClasses = this.actor.system.levels.classes;
 		const fighterWeapons = ["sword", "ax", "spear", "mace"];
 		const monkWeapons = ["close-combat", "staff"];
 		const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"];
+		let hitBonus = 0;
 
+		// TODO: Find any skills that influence class type hit checks to add here.
 		if(type === 'projectile' && pcClasses.ranger > 0){
 			hitBonus += pcClasses.ranger;
 		}else if(type === 'throwing'){
@@ -261,112 +241,72 @@ export default class GSActorSheet extends ActorSheet{
 				hitBonus += pcClasses.scout;
 			}
 		}
-
-		this._rollsToMessage(baseDice, hitBonus, game.i18n.localize("gs.actor.character.hit"));
-
-
-
-
-		// if(container){
-		// 	const hitMod = container.querySelector('div.hitMod');
-		// 	if(hitMod){
-		// 		let hitBonus = hitMod.innerHTML;
-		// 		hitBonus = parseInt(hitBonus.slice(1,2));
-		// 		const typeHolder = container.querySelector('input[type="hidden"].type');
-		// 		if(typeHolder){
-		// 			const typeAndWeight = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
-		// 			console.log("Weapon Hit Bonus:", hitBonus, typeAndWeight[0], typeAndWeight[1]);
-		// 			const pcClasses = this.actor.system.levels.classes;
-		// 			// TODO: Finish implementing weapon to hit modifiers
-		// 			if(typeAndWeight[0] === 'projectile'){
-		// 				// Calculate Ranger skills only
-		// 				if(pcClasses.ranger > 0){
-		// 					// TODO: Find any skills that influence ranger projectile hit checks to add here.
-		// 					hitBonus += this.actor.system.attacks.totals.projectile.ranger;
-		// 				}
-		// 			}else if (typeAndWeight[0] === 'thrown'){
-		// 				// Decide between Ranger/Scout/Monk
-		// 				const thrownClassbonus = this.actor.system.attacks.totals.throw;
-		// 				if(pcClasses.monk > 0){
-		// 					// TODO: Find any skills that influence monk thrown hit checks to add here.
-		// 					hitBonus += thrownClassbonus.monk;
-		// 				}else if(pcClasses.ranger > 0){
-		// 					// TODO: Find any skills that influence ranger thrown hit checks to add here.
-		// 					hitBonus += thrownClassbonus.ranger;
-		// 				}else if(pcClasses.scout > 0){
-		// 					// TODO: Find any skills that influence scout thrown hit checks to add here.
-		// 					hitBonus += thrownClassbonus.scout;
-		// 				}
-		// 			}else{
-		// 				// Decide between Fighter/Monk/Scout
-		// 				const fighterWeapons = ["sword", "ax", "spear", "mace"]; // Heavy/Light
-		// 				const monkWeapons = ["close-combat", "staff"]; // Heavy/Light
-		// 				const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"]; // Light only
-		// 				const meleeClassBonus = this.actor.system.attacks.totals.melee;
-
-		// 				if(pcClasses.fighter > 0){
-		// 					const checkFighterWords = fighterWeapons.some(word => typeAndWeight[0].includes(word));
-		// 					if(checkFighterWords){
-		// 						// TODO: Find any skills that influence fighter melee hit checks to add here.
-		// 						hitBonus += meleeClassBonus.fighter;
-		// 					}
-		// 				}else if(pcClasses.monk > 0){
-		// 					const checkMonkWords = monkWeapons.some(word => typeAndWeight[0].includes(word))
-		// 					if(checkMonkWords){
-		// 						// TODO: Find any skills that influence monk melee hit checks to add here.
-		// 						hitBonus += meleeClassBonus.monk;
-		// 					}
-		// 				}else if(pcClasses.scout > 0){
-		// 					const checkScoutWords = scoutWeapons.some(word => typeAndWeight[0].includes(word));
-		// 					if(checkScoutWords && typeAndWeight[1] === 'light'){
-		// 						// TODO: Find any skills that influence scout melee hit checks to add here.
-		// 						hitBonus += meleeClassBonus.scout;
-		// 					}
-		// 				}
-		// 				this._rollsToMessage(baseDice, hitBonus, game.i18n.localize("gs.actor.character.hit"));
-		// 			}
-		// 		}else{
-		// 			console.error("Item type not found.");
-		// 		}
-		// 	}else{
-		// 		console.error("Hit modifer not found.");
-		// 	}
-		// }else{
-		// 	console.error("Container with '.reveal-rollable' class not found.");
-		// }
+		return hitBonus;
 	}
 
-	// Keeping the below code as reference for future use later on.
+	_rollToHit(event){
+		event.preventDefault();
+		let baseDice = "2d6";
+		const container = event.currentTarget.closest('.reveal-rollable');
 
-	// async _onDrop(event){
-	// 	//event.preventDefault();
-	// 	const data = JSON.parse(event.dataTransfer.getData("text/plain"));
-	// 	// Check if even is a Race sheet
-	// 	if(data.type === Item && data.uuid.startsWith("Item.")){
-	// 		const itemId = data.uuid.split(".")[1];
-	// 		const droppedItem = game.items.get(itemId);
-	// 		if(droppedItem.type === 'race') this._handleRaceDrop(droppedItem);
-	// 	}
-	// }
+		if (!container) {
+			console.error("Container with '.reveal-rollable' class not found.");
+			return;
+		}
 
-	// _handleRaceDrop(droppedItem){
-	// 	// Extract skills from the dropped race item
-	// 	const raceSkills = droppedItem.system.skills || [];
-	// 	// Getting all actor data
-	// 	const actorData = super.getData();
-	// 	// Create new items for each skill and add them to the actor's items
-	// 	const skillItems = raceSkills.map(skill => ({
-	// 		name: skill.name,
-	// 		img: skill.img,
-	// 		type: "skill",
-	// 		_id: skill._id,
-	// 		ownership: skill.ownership,
-	// 		sort: skill.sort,
-	// 		system: skill.system
-	// 	}));
-	// 	// Add new skill items to the actor's top level items array
-	// 	actorData.createEmbeddedDocuments("items", skillItems);
-	// }
+		const hitMod = container.querySelector('div.hitMod');
+		if (!hitMod) {
+			console.error("Hit modifer not found.");
+			return;
+		}
+
+		let hitBonus = parseInt(hitMod.textContent.slice(1, 2), 10);
+		hitBonus += this.actor.system.abilities.calc.tf; // Adding base techinique focus to hit bonus from weapon
+
+		const typeHolder = this._getItemType(container);
+		if (!typeHolder) {
+			console.error("Item type not found.");
+			return;
+		}
+
+		hitBonus += this._getClassLevelBonus(typeHolder);
+		this._rollsToMessage(baseDice, hitBonus, game.i18n.localize("gs.actor.character.hit"));
+	}
+
+	_rollPower(event){
+		event.preventDefault();
+		const container = event.currentTarget.closest('.reveal-rollable');
+
+		if(!container){
+			console.error("Container with '.reveal-rollable' class not found.");
+			return;
+		}
+
+		const wpnPower = container.querySelector('div.power');
+		if(!wpnPower){
+			console.error("Weapon power not found.");
+			return;
+		}
+
+		const typeHolder = this._getItemType(container);
+		if (!typeHolder) {
+			console.error("Item type not found.");
+			return;
+		}
+
+		let classBonus = this._getClassLevelBonus(typeHolder);
+		const weaponDice = wpnPower.textContent.slice(0,3);
+		let weaponPowerBonus = wpnPower.textContent.slice(-2);
+		console.log("Weapon bonuses:", wpnPower.textContent, "-", weaponPowerBonus, "-", weaponDice);
+		if(weaponPowerBonus !== ""){
+			weaponPowerBonus = parseInt(weaponPowerBonus.slice(1,2), 10);
+		}else{
+			console.log("WPB is empty");
+		}
+
+		this._rollsToMessage(weaponDice, classBonus + weaponPowerBonus, game.i18n.localize("gs.gear.spells.att"));
+	}
+
 	contextMenu = [
 		{
 			name: "View",
