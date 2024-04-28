@@ -7,26 +7,26 @@
                 <input name="name" class="grid-span-2" type="text" value="{{data.actor.name}}" />
 
                 <label>{{localize config.monster.type}}:</label>
-                <input name="system.typ" type="text" value="{{actor.typ}}" />
+                <input name="system.typ" type="text" value="{{actor.system.typ}}" />
 
                 <label>{{localize config.common.leve}}: </label>
-                <input name="system.lifeForce.double" type="text" value="{{actor.lifeForce.double}}" data-dtype="Number" />
+                <input name="system.lifeForce.double" type="text" value="{{actor.system.lifeForce.double}}" data-dtype="Number" />
 
                 {{!-- 2nd Row --}}
 
                 <label>{{localize config.common.life}}: </label>
-                <input name="system.lifeForce.current" type="text" value="{{actor.lifeForce.current}}" data-dtype="Number" />
+                <input name="system.lifeForce.current" type="text" value="{{actor.system.lifeForce.current}}" data-dtype="Number" />
 
                 <label>{{localize config.common.spRe}}: </label>
-                <input name="system.spellRes" type="text" value="{{actor.spellRes}}" />
+                <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" />
 
                 <label>{{localize config.common.move}}: </label>
-                <input type="text" name="system.move" value="{{actor.move}}" data-dtype="Number" />
+                <input type="text" name="system.move" value="{{actor.system.move}}" data-dtype="Number" />
 
                 {{!-- 3rd Row --}}
 
                 <label>{{localize config.monster.init}}: </label>
-                <input type="text" name="system.init" value="{{actor.init}}">
+                <input type="text" name="system.init" value="{{actor.system.init}}">
 
                 <label>{{localize config.monster.inte}}: </label>
                 <select name="system.inte">
@@ -38,21 +38,21 @@
                 </select>
 
                 <label>{{localize config.monster.mora}}: </label>
-                <input type="text" name="system.morale" value="{{actor.morale}}" data-dtype="Number" />
+                <input type="text" name="system.morale" value="{{actor.system.morale}}" data-dtype="Number" />
             </div>
         </div>
     </div>
     <hr>
     {{!-- Attack Row --}}
     <div class="grid grid-10col melee">
-        <h2 class="grid-span-9">{{localize config.monster.atta}}</h2> <input type="text" name="system.numAttacks" value="{{actor.numAttacks}}" data-dtype="Number" />
+        <h2 class="grid-span-9">{{localize config.monster.atta}}</h2> <input type="text" name="system.numAttacks" value="{{actor.system.numAttacks}}" data-dtype="Number" />
         {{!-- 1st Row --}}
         <label>{{localize config.monster.name}}:</label>
-        <input type="text" name="system.attacks.0.name" value="{{actor.attacks.0.name}}" class="grid-span-3" />
+        <input type="text" name="system.attacks.0.name" value="{{actor.system.attacks.0.name}}" class="grid-span-3" />
 
         <label>{{localize config.monster.type}}: </label>
         <select name="system.attacks.0.type" class="grid-span-3">
-            {{#select actor.attacks.0.type}}
+            {{#select actor.system.attacks.0.type}}
                 {{#each config.monster.types as |label id|}}
                     <option value="{{localize label}}">{{localize label}}</option>
                 {{/each}}
@@ -61,7 +61,7 @@
 
         <label>{{localize config.monster.ran}}: </label>
         <select name="system.attacks.0.range">
-            {{#select actor.attacks.0.range}}
+            {{#select actor.system.attacks.0.range}}
                 {{#each config.monster.range as |number id|}}
                     <option value="{{number}}">{{number}}</option>
                 {{/each}}
@@ -71,18 +71,18 @@
         {{!-- 2nd row --}}
         <div></div>
         <label class="grid-span-2">{{localize config.monster.chec}}: </label>
-        <input type="text" name="system.attacks.0.check" value="{{actor.attacks.0.check}}" class="grid-span-2" >
+        <input type="text" name="system.attacks.0.check" value="{{actor.system.attacks.0.check}}" class="grid-span-2" >
 
         <label class="grid-span-2">{{localize config.monster.powe}}: </label>
-        <input type="text" name="system.attacks.0.power" value="{{actor.attacks.0.power}}" class="grid-span-3">
-        {{#if (gte actor.numAttacks 2)}}
+        <input type="text" name="system.attacks.0.power" value="{{actor.system.attacks.0.power}}" class="grid-span-3">
+        {{#if (gte actor.system.numAttacks 2)}}
         {{!-- 1st Row --}}
         <label>{{localize config.monster.name}}:</label>
-        <input type="text" name="system.attacks.1.name" value="{{actor.attacks.1.name}}" class="grid-span-3" />
+        <input type="text" name="system.attacks.1.name" value="{{actor.system.attacks.1.name}}" class="grid-span-3" />
 
         <label>{{localize config.monster.type}}: </label>
         <select name="system.attacks.1.type" class="grid-span-3">
-            {{#select actor.attacks.1.type}}
+            {{#select actor.system.attacks.1.type}}
                 {{#each config.monster.types as |label id|}}
                     <option value="{{localize label}}">{{localize label}}</option>
                 {{/each}}
@@ -91,7 +91,7 @@
 
         <label>{{localize config.monster.ran}}: </label>
         <select name="system.attacks.1.range">
-            {{#select actor.attacks.1.range}}
+            {{#select actor.system.attacks.1.range}}
                 {{#each config.monster.range as |number id|}}
                     <option value="{{number}}">{{number}}</option>
                 {{/each}}
@@ -101,19 +101,19 @@
         {{!-- 2nd row --}}
         <div></div>
         <label class="grid-span-2">{{localize config.monster.chec}}: </label>
-        <input type="text" name="system.attacks.1.check" value="{{actor.attacks.1.check}}" class="grid-span-2" >
+        <input type="text" name="system.attacks.1.check" value="{{actor.system.attacks.1.check}}" class="grid-span-2" >
 
         <label class="grid-span-2">{{localize config.monster.powe}}: </label>
-        <input type="text" name="system.attacks.1.power" value="{{actor.attacks.1.power}}" class="grid-span-3">
+        <input type="text" name="system.attacks.1.power" value="{{actor.system.attacks.1.power}}" class="grid-span-3">
         {{/if}}
-        {{#if (gte actor.numAttacks 3)}}
+        {{#if (gte actor.system.numAttacks 3)}}
         {{!-- 1st Row --}}
         <label>{{localize config.monster.name}}:</label>
-        <input type="text" name="system.attacks.2.name" value="{{actor.attacks.2.name}}" class="grid-span-3" />
+        <input type="text" name="system.attacks.2.name" value="{{actor.system.attacks.2.name}}" class="grid-span-3" />
 
         <label>{{localize config.monster.type}}: </label>
         <select name="system.attacks.2.type" class="grid-span-3">
-            {{#select actor.attacks.2.type}}
+            {{#select actor.system.attacks.2.type}}
                 {{#each config.monster.types as |label id|}}
                     <option value="{{localize label}}">{{localize label}}</option>
                 {{/each}}
@@ -122,7 +122,7 @@
 
         <label>{{localize config.monster.ran}}: </label>
         <select name="system.attacks.2.range">
-            {{#select actor.attacks.2.range}}
+            {{#select actor.system.attacks.2.range}}
                 {{#each config.monster.range as |number id|}}
                     <option value="{{number}}">{{number}}</option>
                 {{/each}}
@@ -132,19 +132,19 @@
         {{!-- 2nd row --}}
         <div></div>
         <label class="grid-span-2">{{localize config.monster.chec}}: </label>
-        <input type="text" name="system.attacks.2.check" value="{{actor.attacks.2.check}}" class="grid-span-2" >
+        <input type="text" name="system.attacks.2.check" value="{{actor.system.attacks.2.check}}" class="grid-span-2" >
 
         <label class="grid-span-2">{{localize config.monster.powe}}: </label>
-        <input type="text" name="system.attacks.2.power" value="{{actor.attacks.2.power}}" class="grid-span-3">
+        <input type="text" name="system.attacks.2.power" value="{{actor.system.attacks.2.power}}" class="grid-span-3">
         {{/if}}
-        {{#if (gte actor.numAttacks 4)}}
+        {{#if (gte actor.system.numAttacks 4)}}
         {{!-- 1st Row --}}
         <label>{{localize config.monster.name}}:</label>
-        <input type="text" name="system.attacks.3.name" value="{{actor.attacks.3.name}}" class="grid-span-3" />
+        <input type="text" name="system.attacks.3.name" value="{{actor.system.attacks.3.name}}" class="grid-span-3" />
 
         <label>{{localize config.monster.type}}: </label>
         <select name="system.attacks.3.type" class="grid-span-3">
-            {{#select actor.attacks.3.type}}
+            {{#select actor.system.attacks.3.type}}
                 {{#each config.monster.types as |label id|}}
                     <option value="{{localize label}}">{{localize label}}</option>
                 {{/each}}
@@ -153,7 +153,7 @@
 
         <label>{{localize config.monster.ran}}: </label>
         <select name="system.attacks.3.range">
-            {{#select actor.attacks.3.range}}
+            {{#select actor.system.attacks.3.range}}
                 {{#each config.monster.range as |number id|}}
                     <option value="{{number}}">{{number}}</option>
                 {{/each}}
@@ -163,10 +163,10 @@
         {{!-- 2nd row --}}
         <div></div>
         <label class="grid-span-2">{{localize config.monster.chec}}: </label>
-        <input type="text" name="system.attacks.3.check" value="{{actor.attacks.3.check}}" class="grid-span-2" >
+        <input type="text" name="system.attacks.3.check" value="{{actor.system.attacks.3.check}}" class="grid-span-2" >
 
         <label class="grid-span-2">{{localize config.monster.powe}}: </label>
-        <input type="text" name="system.attacks.3.power" value="{{actor.attacks.3.power}}" class="grid-span-3">
+        <input type="text" name="system.attacks.3.power" value="{{actor.system.attacks.3.power}}" class="grid-span-3">
         {{/if}}
     </div>
     <hr>
@@ -175,25 +175,25 @@
         <h2>{{localize config.monster.defe}}</h2>
 
         <label>{{localize config.monster.dodg}}:</label>
-        <input type="text" name="system.defenses.dodge" value="{{actor.defenses.dodge}}" class="grid-span-2" />
+        <input type="text" name="system.defenses.dodge" value="{{actor.system.defenses.dodge}}" class="grid-span-2" />
 
         <label>{{localize config.monster.bloc}}:</label>
-        <input type="text" name="system.defenses.block" value="{{actor.defenses.block}}" class="grid-span-2" data-dtype="Number" />
+        <input type="text" name="system.defenses.block" value="{{actor.system.defenses.block}}" class="grid-span-2" data-dtype="Number" />
 
         <label>{{localize config.monster.aSco}}:</label>
-        <input type="text" name="system.defenses.armor" value="{{actor.defenses.armor}}" class="grid-span-2" data-dtype="Number" />
+        <input type="text" name="system.defenses.armor" value="{{actor.system.defenses.armor}}" class="grid-span-2" data-dtype="Number" />
     </div>
     <hr>
     {{!-- Support and Abilities --}}
     <div class="grid grid-6col">
         <label>{{localize config.monster.supp}}:</label>
-        <span class="grid-span-5">{{editor actor.support target="system.support" button=true engine="prosemirror"}}</span>
+        <span class="grid-span-5">{{editor actor.system.support target="system.support" button=true engine="prosemirror"}}</span>
 
         <label>{{localize config.monster.spec}}:</label>
-        <span class="grid-span-5">{{editor actor.abilities target="system.abilities" button=true engine="prosemirror"}}</span>
+        <span class="grid-span-5">{{editor actor.system.abilities target="system.abilities" button=true engine="prosemirror"}}</span>
     </div>
     {{!-- Monster Comment --}}
     <div>
-        {{editor actor.comment target="system.comment" button=true engine="prosemirror"}}
+        {{editor actor.system.comment target="system.comment" button=true engine="prosemirror"}}
     </div>
 </form>
