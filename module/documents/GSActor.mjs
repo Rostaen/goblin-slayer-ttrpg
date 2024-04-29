@@ -57,7 +57,6 @@ export class GSActor extends Actor {
         }
 
         // Setting Base Hit Scores
-        // TODO: Add in any skill modifiers that alter these hit scores
         for(let [typeId, hitScore] of Object.entries(systemData.attacks.totals)){
             // Ensure systemData.attacks.totals[typeId] is an object
             if(typeof systemData.attacks.totals[typeId] !== 'object'){
@@ -83,6 +82,24 @@ export class GSActor extends Actor {
                 // Assigning the calculated score to the object
                 systemData.attacks.totals[typeId][classId] = calcScore;
             }
+        }
+
+        // Setting Dodge Scores
+        if(typeof systemData.defense.dodge.mods !== 'object'){
+            systemData.defense.dodge.mods = {};
+        }
+        let techReflex = systemData.abilities.calc.tr;
+        for(let [classId, level] of Object.entries(systemData.levels.classes)){
+            let calcScore = 0;
+
+            if(classId === 'fighter' || classId === 'monk' || classId === 'scout'){
+                calcScore = techReflex + level;
+            }else{
+                continue; // Skipping unneeded classes
+            }
+
+            systemData.defense.dodge.mods[classId] = calcScore;
+            systemData.defense.block.mods[classId] = calcScore;
         }
     }
 }

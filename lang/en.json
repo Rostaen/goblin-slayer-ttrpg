@@ -230,7 +230,8 @@
         "weapons": "Weapons",
         "melee": "Melee",
         "throw": "Throwing",
-        "projectile": "Projectile"
+        "projectile": "Projectile",
+        "other": "Other"
       }
     },
     "raceSheet": {

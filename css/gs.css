@@ -885,6 +885,14 @@
   cursor: pointer;
   text-shadow: 0 0 5px darkred;
 }
+.itemsPageContainer .itemsPage .gearContainer .armor-card .dodge:hover {
+  cursor: pointer;
+  text-shadow: 0 0 5px darkred;
+}
+.itemsPageContainer .itemsPage .gearContainer .shield-card .blockMod:hover {
+  cursor: pointer;
+  text-shadow: 0 0 5px darkred;
+}
 .itemsPageContainer .itemsPage .editor {
   height: 100%;
   min-height: 40px;

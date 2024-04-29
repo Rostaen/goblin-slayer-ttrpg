@@ -30,7 +30,7 @@
 
                 <label>{{localize config.monster.inte}}: </label>
                 <select name="system.inte">
-                    {{#select actor.inte}}
+                    {{#select actor.system.inte}}
                         {{#each config.monster.intelligence as |label id|}}
                             <option value="{{localize label}}">{{localize label}}</option>
                         {{/each}}

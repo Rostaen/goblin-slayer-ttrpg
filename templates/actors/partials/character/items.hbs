@@ -114,8 +114,24 @@
             <div class="classBonus last">{{numberFormat actor.system.attacks.totals.throw.scout decimals=0 sign=true}}</div>
 
             <h3 class="grid-span-3">{{localize config.charSheet.items.projectile}}</h3>
-            <label class="grid-span-2">{{localize config.character.classes.rang}}</label>
-            <div class="classBonus">{{numberFormat actor.system.attacks.totals.projectile.ranger decimals=0 sign=true}}</div>
+            <label class="grid-span-2 last">{{localize config.character.classes.rang}}</label>
+            <div class="classBonus last">{{numberFormat actor.system.attacks.totals.projectile.ranger decimals=0 sign=true}}</div>
+
+            <h3 class="grid-span-3">{{localize config.character.combat.dodge}}</h3>
+            <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
+            <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.fighter decimals=0 sign=true}}</div>
+            <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
+            <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.monk decimals=0 sign=true}}</div>
+            <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
+            <div class="classBonus last">{{numberFormat actor.system.defense.dodge.mods.scout decimals=0 sign=true}}</div>
+
+            <h3 class="grid-span-3">{{localize config.character.combat.block}}</h3>
+            <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
+            <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.fighter decimals=0 sign=true}}</div>
+            <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
+            <div class="classBonus last">{{numberFormat actor.system.defense.dodge.mods.scout decimals=0 sign=true}}</div>
+            {{!-- <label class="grid-span-2">{{localize config.charSheet.items.other}}</label>
+            <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.other decimals=0 sign=true}}</div> --}}
         </div>
     </div>
 </div>

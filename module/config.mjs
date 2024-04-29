@@ -276,6 +276,7 @@ gs.actor = {
 			melee: "gs.charSheet.items.melee",
 			throw: "gs.charSheet.items.throw",
 			projectile: "gs.charSheet.items.projectile",
+			other: "gs.charSheet.items.other",
 		}
 	},
 	raceSheet: {

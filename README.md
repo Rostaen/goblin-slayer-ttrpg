@@ -12,17 +12,43 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - PC stats rollable
   - Calculated Rolling to chat bar
     - Stats roll to chat bar for checks
-    - Fighter melee to hit checks rolling to chat bar
+    - Melee/Power/Dodge/Block checks rolling to chat bar
+    - Rolls broken down into 'Dice + Stat + Class + Item Mod'
 
 ### TODO:
 
-- [ ] Melee/Thrown/Projectile To Hit checks
-  - [x] Fighter checks
-  - [x] Monk checks
-  - [x] Scout checks
-  - [x] Ranger checks
-  - [ ] Skill check modifiers
-- [ ] Move skills from Race to Item level
+- [ ] Melee/Thrown/Projectile
+  - [ ] To Hit checks
+    - [x] Fighter checks
+    - [x] Monk checks
+    - [x] Scout checks
+    - [x] Ranger checks
+    - [ ] Monster
+    - [ ] Skill modifiers
+  - [ ] Power rolls
+    - [x] Fighter
+    - [x] Monk
+    - [x] Scout
+    - [x] Ranger
+    - [ ] Monster
+    - [ ] Skill Modifiers
+  - [ ] Dodge Checks
+    - [x] Fighter
+    - [x] Monk
+    - [x] Scout
+    - [ ] Monster
+    - [ ] Skill Modifiers
+  - [ ] Block Checks
+    - [x] Fighter
+    - [x] Scout
+    - [ ] Monster
+    - [ ] Skill Modifiers
+  - [ ] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
+- [ ] Movement Updates
+  - [ ] Change movement field for PC creation to maximum
+  - [ ] Create disabled field for modified movement from armor/skills
+- [ ] Move Race skills from Race to Item level
+- [ ] Add in a Parry check
 - [ ] Context menu for Race skills
 - [ ] Prompt for Roll modifiers
 - [ ] Add conditions and effects to PC effects tab
@@ -33,6 +59,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Adding "click to roll" dice when rolls made to chat bar
 - [ ] Create CompediumFolders for all monsters & items
 - [ ] Better sheet styling
+- [ ] Add mouse hover context for game related information
 
 ## How to use the Game System
 

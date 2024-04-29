@@ -44,6 +44,8 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find("div.hitMod").click(this._rollToHit.bind(this));
 		html.find("div.power").click(this._rollPower.bind(this));
+		html.find(".armor-card div.dodge").click(this._rollDodge.bind(this));
+		html.find(".shield-card div.blockMod").click(this._rollBlock.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -164,8 +166,19 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_rollsToMessage(dice, bonus, label){
-		const rollExpression = `${dice} + ${bonus}`;
+	_rollsToMessage(dice, stat, classBonus, modifier, label){
+		let rollExpression = `${dice}`;
+		if(stat > 0){
+			rollExpression += ` + ${stat}`;
+		}
+		if(classBonus > 0){
+			rollExpression += ` + ${classBonus}`;
+		}
+		if(modifier < 0){
+			rollExpression += ` ${modifier}`;
+		}else{
+			rollExpression += ` + ${modifier}`;
+		}
 		const roll = new Roll(rollExpression);
 		roll.evaluate({ async: true }).then(() => {
 			const diceResults = roll.terms[0].results.map(r => r.result);
@@ -213,55 +226,90 @@ export default class GSActorSheet extends ActorSheet{
 		return container.querySelector('input[type="hidden"].type');
 	}
 
-	_getClassLevelBonus(typeHolder){
+	_getClassLevelBonus(typeHolder, gearType){
 		const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
-		const pcClasses = this.actor.system.levels.classes;
-		const fighterWeapons = ["sword", "ax", "spear", "mace"];
-		const monkWeapons = ["close-combat", "staff"];
-		const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"];
-		let hitBonus = 0;
+		const {fighter = 0, monk = 0, ranger = 0, scout = 0 } = this.actor.system.levels.classes;
+
+		let bonus = 0;
+
+		const includesAny = (words, text) => words.some(word => text.includes(word));
 
 		// TODO: Find any skills that influence class type hit checks to add here.
-		if(type === 'projectile' && pcClasses.ranger > 0){
-			hitBonus += pcClasses.ranger;
-		}else if(type === 'throwing'){
-			if(pcClasses.monk > 0){
-				hitBonus += pcClasses.monk;
-			}else if(pcClasses.ranger > 0){
-				hitBonus += pcClasses.ranger;
-			}else if(pcClasses.scout > 0){
-				hitBonus += pcClasses.scout;
+		if(gearType === 'weapon'){
+			if(type === 'projectile' && ranger > 0){
+				bonus += ranger;
+			}else if(type === 'throwing'){
+				if(monk > 0){
+					bonus += monk;
+				}else if(ranger > 0){
+					bonus += ranger;
+				}else if(scout > 0){
+					bonus += scout;
+				}
+			}else{ // Assuming type is a melee weapon
+				const fighterWeapons = ["sword", "ax", "spear", "mace"];
+				const monkWeapons = ["close-combat", "staff"];
+				const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"];
+				if (fighter > 0 && includesAny(fighterWeapons, type)) {
+					bonus += fighter;
+				} else if (monk > 0 && includesAny(monkWeapons, type)) {
+					bonus += monk;
+				} else if (scout > 0 && includesAny(scoutWeapons, type) && weight === 'light') {
+					bonus += scout;
+				}
 			}
-		}else{ // Assuming type is a melee weapon
-			if (pcClasses.fighter > 0 && fighterWeapons.some(word => type.includes(word))) {
-				hitBonus += pcClasses.fighter;
-			} else if (pcClasses.monk > 0 && monkWeapons.some(word => type.includes(word))) {
-				hitBonus += pcClasses.monk;
-			} else if (pcClasses.scout > 0 && scoutWeapons.some(word => type.includes(word)) && weight === 'light') {
-				hitBonus += pcClasses.scout;
+		}else if(gearType === 'armor'){
+			let armorType = type.match(/\((.*?)\)/);
+			console.log("armor type", armorType);
+			if(armorType && armorType[1]){
+				const isCloth = armorType[1] === 'cloth';
+				if(fighter > 0){
+					bonus += fighter;
+				}else if(monk > 0 && isCloth){
+					bonus += monk;
+				}else if(scout > 0 && weight === 'light'){
+					bonus += scout;
+				}
+			}else{
+				console.error("Not text found in type from hidden input");
+			}
+		}else if(gearType === 'shield'){
+			if(fighter > 0){
+				bonus += fighter;
+			}else if(scout && weight === 'light'){
+				bonus += scout;
 			}
 		}
-		return hitBonus;
+		return bonus;
 	}
 
-	_rollToHit(event){
+	_rollWithModifiers(event, modifierSelector, baseDice, localizedMessage, itemType){
 		event.preventDefault();
-		let baseDice = "2d6";
 		const container = event.currentTarget.closest('.reveal-rollable');
+		let diceToRoll = baseDice;
 
 		if (!container) {
 			console.error("Container with '.reveal-rollable' class not found.");
 			return;
 		}
 
-		const hitMod = container.querySelector('div.hitMod');
-		if (!hitMod) {
-			console.error("Hit modifer not found.");
+		const modifierElement = container.querySelector(modifierSelector);
+		if (!modifierElement) {
+			console.error(`${localizedMessage} modifier not found.`);
 			return;
 		}
-
-		let hitBonus = parseInt(hitMod.textContent.slice(1, 2), 10);
-		hitBonus += this.actor.system.abilities.calc.tf; // Adding base techinique focus to hit bonus from weapon
+		console.log("Modifier Element", modifierElement);
+		let modifier;
+		if(modifierSelector === 'div.power'){
+			console.log("getting div.power elements");
+			const diceNotation = modifierElement.textContent;
+			const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
+			diceToRoll = powerDice.trim();
+			modifier = parseInt(powerModifier.trim(), 10);
+		}else{
+			modifier = parseInt(modifierElement.textContent.slice(0, 2), 10);
+		}
+		console.log("Modifier", modifier);
 
 		const typeHolder = this._getItemType(container);
 		if (!typeHolder) {
@@ -269,42 +317,33 @@ export default class GSActorSheet extends ActorSheet{
 			return;
 		}
 
-		hitBonus += this._getClassLevelBonus(typeHolder);
-		this._rollsToMessage(baseDice, hitBonus, game.i18n.localize("gs.actor.character.hit"));
+		let stat = 0;
+		if(modifierSelector === 'div.power'){
+			// Do nothing here
+		}else if(itemType === 'weapon'){
+			stat = this.actor.system.abilities.calc.tf;
+		}else{
+			stat = this.actor.system.abilities.calc.tr;
+		}
+
+		const classBonus = this._getClassLevelBonus(typeHolder, itemType);
+		this._rollsToMessage(diceToRoll, stat, classBonus, modifier, localizedMessage);
+	}
+
+	_rollToHit(event){
+		this._rollWithModifiers(event, 'div.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
 	}
 
 	_rollPower(event){
-		event.preventDefault();
-		const container = event.currentTarget.closest('.reveal-rollable');
+		this._rollWithModifiers(event, 'div.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
+	}
 
-		if(!container){
-			console.error("Container with '.reveal-rollable' class not found.");
-			return;
-		}
+	_rollDodge(event){
+		this._rollWithModifiers(event, 'div.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
+	}
 
-		const wpnPower = container.querySelector('div.power');
-		if(!wpnPower){
-			console.error("Weapon power not found.");
-			return;
-		}
-
-		const typeHolder = this._getItemType(container);
-		if (!typeHolder) {
-			console.error("Item type not found.");
-			return;
-		}
-
-		let classBonus = this._getClassLevelBonus(typeHolder);
-		const weaponDice = wpnPower.textContent.slice(0,3);
-		let weaponPowerBonus = wpnPower.textContent.slice(-2);
-		console.log("Weapon bonuses:", wpnPower.textContent, "-", weaponPowerBonus, "-", weaponDice);
-		if(weaponPowerBonus !== ""){
-			weaponPowerBonus = parseInt(weaponPowerBonus.slice(1,2), 10);
-		}else{
-			console.log("WPB is empty");
-		}
-
-		this._rollsToMessage(weaponDice, classBonus + weaponPowerBonus, game.i18n.localize("gs.gear.spells.att"));
+	_rollBlock(event){
+		this._rollWithModifiers(event, 'div.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
 	}
 
 	contextMenu = [
