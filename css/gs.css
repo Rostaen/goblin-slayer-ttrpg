@@ -596,6 +596,9 @@
   font-weight: bold;
   text-align: end;
 }
+.monster .coreItems input[type="text"] {
+  margin: auto;
+}
 .monster .melee h2 {
   margin-bottom: 0px;
 }
@@ -606,6 +609,11 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+}
+.monster .melee .reveal-rollable .monsterHit label:first-child:hover,
+.monster .melee .reveal-rollable .monsterPower label:first-child:hover {
+  text-shadow: 0 0 5px darkred;
+  cursor: pointer;
 }
 .monster .editor {
   border: 1px solid #666;

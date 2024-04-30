@@ -87,7 +87,10 @@
         "spRe": "Spell Resistance",
         "move": "Movement",
         "leve": "Level",
-        "max": "Max"
+        "max": "Max",
+        "slash": "Slashing",
+        "bludg": "Bludgeoning",
+        "pierc": "Piercing"
       },
       "character": {
         "rank": "Rank",

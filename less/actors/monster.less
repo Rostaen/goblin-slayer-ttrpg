@@ -6,6 +6,11 @@
         font-weight: bold;
         text-align: end;
     }
+    .coreItems{
+        input[type="text"]{
+            margin: auto;
+        }
+    }
     .melee{
         h2{
             margin-bottom: 0px;;
@@ -17,6 +22,14 @@
             justify-content: center;
             align-items: center;
             border-radius: 5px;
+        }
+        .reveal-rollable{
+            .monsterHit, .monsterPower{
+                label:first-child:hover{
+                    text-shadow: 0 0 5px darkred;
+                    cursor: pointer;
+                }
+            }
         }
     }
     .editor{

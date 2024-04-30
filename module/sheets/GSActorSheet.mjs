@@ -47,6 +47,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".dodge").click(this._rollDodge.bind(this));
 		html.find(".blockMod").click(this._rollBlock.bind(this));
 		html.find(".monsterHit").click(this._rollMonsterHit.bind(this));
+		html.find(".monsterPower").click(this._rollMonsterPower.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -59,7 +60,7 @@ export default class GSActorSheet extends ActorSheet{
 		const skillType = element.dataset.skilltype;
 		const actor = game.actors.get(this.actor._id);
 		const items = actor.items;
-		console.log("Check Actor JSON:", actor);
+		//console.log("Check Actor JSON:", actor);
 
 		if(!actor){
 			console.error("Actor not found.");
@@ -140,7 +141,7 @@ export default class GSActorSheet extends ActorSheet{
 		const id = element.dataset.itemid;
 		const actor = this.actor;
 
-		console.log(element, id, actor);
+		//console.log(element, id, actor);
 
 		if(actor){
 			const item = actor.items.find(item => item._id === id);
@@ -261,7 +262,6 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		}else if(gearType === 'armor'){
 			let armorType = type.match(/\((.*?)\)/);
-			console.log("armor type", armorType);
 			if(armorType && armorType[1]){
 				const isCloth = armorType[1] === 'cloth';
 				if(fighter > 0){
@@ -301,21 +301,31 @@ export default class GSActorSheet extends ActorSheet{
 			return;
 		}
 
-		let modifier;
+		let modifier, diceNotation;
+		if(actorType === 'character') diceNotation = modifierElement.textContent;
+		else if(actorType === 'monster') diceNotation = modifierElement.value;
+
+		// Getting monster to hit dice and modifiers (if any)
+		if(modifierSelector === '.hitMod' && actorType === 'monster'){
+			const monsterDice = diceNotation.match(/\((.*?)\)/); // Remember, this is an array. Want location [1]
+			const [powerDice, powerModifier] = monsterDice[1].split('+') ? monsterDice[1].split('+') : [monsterDice, '0'];
+			diceToRoll = powerDice.trim();
+			modifier = parseInt(powerModifier.trim(), 10);
+		}else if(modifierSelector === '.hitMod' && actorType === 'character'){
+			modifier = parseInt(modifierElement.textContent.slice(0, 2), 10);
+		}
+
+		// Getting power attack dice and modifiers (if any)
 		if(modifierSelector === '.power'){
-			const diceNotation = modifierElement.textContent;
 			if(actorType === 'character'){
 				const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
 				diceToRoll = powerDice.trim();
 				modifier = parseInt(powerModifier.trim(), 10);
 			}else if(actorType === 'monster'){
-				const monsterDice = diceNotation.match(/\((.*?)\)/);
-				const [powerDice, powerModifier] = monsterDice.split('+') ? monsterDice.split('+') : [monsterDice, '0'];
+				const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
 				diceToRoll = powerDice.trim();
 				modifier = parseInt(powerModifier.trim(), 10);
 			}
-		}else{
-			modifier = parseInt(modifierElement.textContent.slice(0, 2), 10);
 		}
 
 		let typeHolder;
@@ -361,6 +371,10 @@ export default class GSActorSheet extends ActorSheet{
 
 	_rollMonsterHit(event){
 		this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
+	}
+
+	_rollMonsterPower(event){
+		this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
 	}
 
 	contextMenu = [

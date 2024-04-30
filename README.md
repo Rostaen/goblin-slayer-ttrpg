@@ -23,14 +23,14 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - [x] Monk checks
     - [x] Scout checks
     - [x] Ranger checks
-    - [ ] Monster
+    - [x] Monster
     - [ ] Skill modifiers
   - [ ] Power rolls
     - [x] Fighter
     - [x] Monk
     - [x] Scout
     - [x] Ranger
-    - [ ] Monster
+    - [x] Monster
     - [ ] Skill Modifiers
   - [ ] Dodge Checks
     - [x] Fighter

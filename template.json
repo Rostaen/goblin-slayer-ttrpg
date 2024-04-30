@@ -203,28 +203,32 @@
           "type": "",
           "range": 0,
           "check": 0,
-          "power": ""
+          "power": "",
+          "pType": ""
         },
         {
           "name": "",
           "type": "",
           "range": 0,
           "check": 0,
-          "power": ""
+          "power": "",
+          "pType": ""
         },
         {
           "name": "",
           "type": "",
           "range": 0,
           "check": 0,
-          "power": ""
+          "power": "",
+          "pType": ""
         },
         {
           "name": "",
           "type": "",
           "range": 0,
           "check": 0,
-          "power": ""
+          "power": "",
+          "pType": ""
         }
       ],
       "defenses": {

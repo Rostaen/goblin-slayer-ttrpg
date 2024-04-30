@@ -106,7 +106,7 @@ gs.actor = {
 		spRe: "gs.actor.common.spRe",
 		move: "gs.actor.common.move",
 		leve: "gs.actor.common.leve",
-		max: "gs.actor.common.max"
+		max: "gs.actor.common.max",
 	},
 	character: {
 		rank: "gs.actor.character.rank",
@@ -248,6 +248,11 @@ gs.actor = {
 		supp: "gs.actor.monster.supp",
 		spec: "gs.actor.monster.spec",
 		atta: "gs.actor.monster.atta",
+		attackType: {
+			slash: "gs.actor.common.slash",
+			bludg: "gs.actor.common.bludg",
+			pierc: "gs.actor.common.pierc",
+		},
 		defe: "gs.actor.monster.defe",
 		dodg: "gs.actor.monster.dodg",
 		bloc: "gs.actor.monster.bloc",
