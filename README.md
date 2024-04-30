@@ -7,6 +7,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
   - Adjustable attacks set from 1 - 4
+  - Spell Resistance, To Hit, Power, Dodge, & Block checks are rollable
 - PC sheets setup
   - Tabs for specific pages
   - PC stats rollable
@@ -36,12 +37,12 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - [x] Fighter
     - [x] Monk
     - [x] Scout
-    - [ ] Monster
+    - [x] Monster
     - [ ] Skill Modifiers
   - [ ] Block Checks
     - [x] Fighter
     - [x] Scout
-    - [ ] Monster
+    - [x] Monster
     - [ ] Skill Modifiers
   - [ ] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
 - [ ] Movement Updates

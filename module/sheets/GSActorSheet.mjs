@@ -46,8 +46,14 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".power").click(this._rollPower.bind(this));
 		html.find(".dodge").click(this._rollDodge.bind(this));
 		html.find(".blockMod").click(this._rollBlock.bind(this));
-		html.find(".monsterHit").click(this._rollMonsterHit.bind(this));
-		html.find(".monsterPower").click(this._rollMonsterPower.bind(this));
+		html.find(".minionHit").click(this._rollMinionStatic.bind(this));
+		html.find(".bossHit").click(this._rollMonsterHit.bind(this));
+		html.find(".mPower").click(this._rollMonsterPower.bind(this));
+		html.find(".minionDodge").click(this._rollMinionStatic.bind(this));
+		html.find(".bossDodge").click(this._rollBossDodge.bind(this));
+		html.find(".minionBlock").click(this._rollMinionStatic.bind(this));
+		html.find(".bossBlock").click(this._rollBossBlock.bind(this));
+		html.find(".monsterSR").click(this._rollMonsterSR.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -202,6 +208,25 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	_sendBasicMessage(value, type){
+		const speaker = ChatMessage.getSpeaker({ actor: this.actor });
+		const messageContent = `
+			<h1 style="text-align: center; background-color: rgba(124, 250, 124, 0.75); border: 1px solid green; border-radius: 5px; padding: 5px 10px; width: 100%; height: auto;">
+				${value}
+			</h1>
+		`;
+
+		ChatMessage.create({
+			speaker,
+			flavor: `Basic ${type}`,
+			content: messageContent
+		}).then(() => {
+			console.log("GS || Basic message sent to chat.");
+		}).catch(error => {
+			console.error("Error sending basic message to chat:", error);
+		});
+	}
+
 	_rollStatDice(event){
 		event.preventDefault();
 		let baseDice = "2d6";
@@ -306,8 +331,18 @@ export default class GSActorSheet extends ActorSheet{
 		else if(actorType === 'monster') diceNotation = modifierElement.value;
 
 		// Getting monster to hit dice and modifiers (if any)
-		if(modifierSelector === '.hitMod' && actorType === 'monster'){
-			const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
+		if((modifierSelector === '.hitMod' || modifierSelector === '.boss.dodge' || modifierSelector === '.boss.block' ) && actorType === 'monster'){
+			if(diceNotation != 0){
+				const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
+				diceToRoll = powerDice.trim();
+				modifier = parseInt(powerModifier.trim(), 10);
+			}else{
+				ui.notifications.info(`The check trying to roll has a value of ${diceNotation} and cannot be rolled`);
+				return;
+			}
+		}else if(modifierSelector === '.monster.spellRes' && actorType === 'monster'){
+			let spellResDice = diceNotation.match(/\((.*?)\)/);
+			const [powerDice, powerModifier] = spellResDice[1].split('+') ? spellResDice[1].split('+') : [spellResDice, '0'];
 			diceToRoll = powerDice.trim();
 			modifier = parseInt(powerModifier.trim(), 10);
 		}else if(modifierSelector === '.hitMod' && actorType === 'character'){
@@ -368,12 +403,65 @@ export default class GSActorSheet extends ActorSheet{
 		this._rollWithModifiers(event, '.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
 	}
 
+	_rollMinionStatic(event){
+		event.preventDefault();
+		const container = event.currentTarget.closest('.reveal-rollable');
+		const type = event.currentTarget.classList;
+		let message;
+		if (!container) {
+			console.error("Container with '.reveal-rollable' class not found.");
+			return;
+		}
+		let staticContainer;
+		switch(type[0]){
+			case 'minionHit':
+				message = "Hit Check";
+				staticContainer = container.querySelector('.minionStatic.hit');
+				break;
+			case 'minionDodge':
+				message = "Dodge Check";
+				staticContainer = container.querySelector('.minionStatic.dodge');
+				break;
+			case 'minionBlock':
+				message = "Block Check";
+				staticContainer = container.querySelector('.minionStatic.block');
+				break;
+			default: message = "Type Check Not Found"; break;
+		}
+		if (!staticContainer){
+			console.error("Minion hit amount container not found.");
+			return;
+		}
+		const amount = staticContainer.value;
+		if (amount === NaN || amount === undefined || amount === null){
+			console.error("Minion static hit amount empty or other problem.");
+			return;
+		}else if(amount == 0){
+			ui.notifications.info(`The ${message} has a value of ${amount} and can't be rolled.`);
+			return;
+		}
+
+		this._sendBasicMessage(amount, message);
+	}
+
 	_rollMonsterHit(event){
 		this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
 	}
 
 	_rollMonsterPower(event){
 		this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
+	}
+
+	_rollBossDodge(event){
+		this._rollWithModifiers(event, '.boss.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
+	}
+
+	_rollBossBlock(event){
+		this._rollWithModifiers(event, '.boss.block', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
+	}
+
+	_rollMonsterSR(event){
+		this._rollWithModifiers(event, '.monster.spellRes', '2d6', game.i18n.localize("gs.actor.common.spRe"), 'resistance');
 	}
 
 	contextMenu = [

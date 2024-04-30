@@ -7,14 +7,24 @@
         text-align: end;
     }
     .coreItems{
+        .monsterSR:hover{
+            text-shadow: 0 0 5px darkred;
+            cursor: pointer;
+        }
         input[type="text"]{
             margin: auto;
         }
     }
-    .melee{
-        h2{
-            margin-bottom: 0px;;
+    .melee, .defense{
+        input{
+            margin: auto;
         }
+        label{
+            font-size: 13px;
+        }
+    }
+    .melee{
+        gap: 5px;
         button{
             height: 26px;
             width: 24px;
@@ -25,10 +35,36 @@
         }
         .reveal-rollable{
             .monsterHit, .monsterPower{
+                margin-top: 0px;
+                margin-bottom: 0px;
+            }
+            .monsterHit{
+                label:hover{
+                    text-shadow: 0 0 5px darkred;
+                    cursor: pointer;
+                }
+            }
+            .monsterPower{
                 label:first-child:hover{
                     text-shadow: 0 0 5px darkred;
                     cursor: pointer;
                 }
+            }
+        }
+    }
+    .defense{
+        gap: 5px 0px;
+        h3,h4{
+            margin: auto;
+        }
+        .grid.grid-8col{
+            margin-top:0px;
+            margin-bottom: 0px;
+        }
+        .reveal-rollable{
+            .minionDodge:hover, .minionBlock:hover, .bossDodge:hover, .bossBlock:hover{
+                text-shadow: 0 0 5px darkred;
+                cursor: pointer;
             }
         }
     }

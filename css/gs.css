@@ -596,11 +596,23 @@
   font-weight: bold;
   text-align: end;
 }
+.monster .coreItems .monsterSR:hover {
+  text-shadow: 0 0 5px darkred;
+  cursor: pointer;
+}
 .monster .coreItems input[type="text"] {
   margin: auto;
 }
-.monster .melee h2 {
-  margin-bottom: 0px;
+.monster .melee input,
+.monster .defense input {
+  margin: auto;
+}
+.monster .melee label,
+.monster .defense label {
+  font-size: 13px;
+}
+.monster .melee {
+  gap: 5px;
 }
 .monster .melee button {
   height: 26px;
@@ -610,8 +622,34 @@
   align-items: center;
   border-radius: 5px;
 }
-.monster .melee .reveal-rollable .monsterHit label:first-child:hover,
+.monster .melee .reveal-rollable .monsterHit,
+.monster .melee .reveal-rollable .monsterPower {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.monster .melee .reveal-rollable .monsterHit label:hover {
+  text-shadow: 0 0 5px darkred;
+  cursor: pointer;
+}
 .monster .melee .reveal-rollable .monsterPower label:first-child:hover {
+  text-shadow: 0 0 5px darkred;
+  cursor: pointer;
+}
+.monster .defense {
+  gap: 5px 0px;
+}
+.monster .defense h3,
+.monster .defense h4 {
+  margin: auto;
+}
+.monster .defense .grid.grid-8col {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.monster .defense .reveal-rollable .minionDodge:hover,
+.monster .defense .reveal-rollable .minionBlock:hover,
+.monster .defense .reveal-rollable .bossDodge:hover,
+.monster .defense .reveal-rollable .bossBlock:hover {
   text-shadow: 0 0 5px darkred;
   cursor: pointer;
 }

@@ -2,7 +2,7 @@
     <div class="headerInfo grid grid-5col">
         <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
         <div class="grid-span-4 coreItems">
-            <div class="grid grid-6col">
+            <div class="grid grid-6col reveal-rollable">
                 {{!-- 1st Row --}}
                 <input name="name" class="grid-span-2" type="text" value="{{data.actor.name}}" />
 
@@ -22,8 +22,8 @@
                     </div>
                 </div>
 
-                <label>{{localize config.common.spRe}} </label>
-                <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" />
+                <label class="monsterSR">{{localize config.common.spRe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" class="monster spellRes" />
 
                 <label>{{localize config.common.move}} </label>
                 <input type="text" name="system.move" value="{{actor.system.move}}" data-dtype="Number" />
@@ -76,16 +76,16 @@
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit">
-                <label class="">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input type="text" name="system.attacks.0.mCheck" value="{{actor.system.attacks.0.mCheck}}" class="hitMod" >
-                <label class="">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.0.mCheck" value="{{actor.system.attacks.0.mCheck}}" class="minionStatic hit" >
+                <label class="bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.0.check" value="{{actor.system.attacks.0.check}}" class="hitMod" >
             </div>
         </div>
 
         <div class="grid-span-6 reveal-rollable">
             <div class="grid grid-6col monsterPower">
-                <label class="grid-span-2">{{localize config.monster.powe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="grid-span-2 mPower">{{localize config.monster.powe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.0.power" value="{{actor.system.attacks.0.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.0.pType" class="grid-span-2">
@@ -100,6 +100,7 @@
 
         {{#if (gte actor.system.numAttacks 2)}}
         {{!-- 1st Row --}}
+        <hr class="grid-span-10">
         <label>{{localize config.monster.name}}</label>
         <input type="text" name="system.attacks.1.name" value="{{actor.system.attacks.1.name}}" class="grid-span-3" />
 
@@ -124,16 +125,16 @@
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit">
-                <label class="">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input type="text" name="system.attacks.1.mCheck" value="{{actor.system.attacks.1.mCheck}}" class="hitMod" >
-                <label class="">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.1.mCheck" value="{{actor.system.attacks.1.mCheck}}" class="minionStatic hit" >
+                <label class="bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.1.check" value="{{actor.system.attacks.1.check}}" class="hitMod" >
             </div>
         </div>
 
         <div class="grid-span-6 reveal-rollable">
             <div class="grid grid-6col monsterPower">
-                <label class="grid-span-2">{{localize config.monster.powe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="grid-span-2 mPower">{{localize config.monster.powe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.1.power" value="{{actor.system.attacks.1.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.1.pType" class="grid-span-2">
@@ -149,6 +150,7 @@
 
         {{#if (gte actor.system.numAttacks 3)}}
         {{!-- 1st Row --}}
+        <hr class="grid-span-10">
         <label>{{localize config.monster.name}}</label>
         <input type="text" name="system.attacks.2.name" value="{{actor.system.attacks.2.name}}" class="grid-span-3" />
 
@@ -173,16 +175,16 @@
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit">
-                <label class="">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input type="text" name="system.attacks.2.mCheck" value="{{actor.system.attacks.2.mCheck}}" class="hitMod" >
-                <label class="">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.2.mCheck" value="{{actor.system.attacks.2.mCheck}}" class="minionStatic hit" >
+                <label class="bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.2.check" value="{{actor.system.attacks.2.check}}" class="hitMod" >
             </div>
         </div>
 
         <div class="grid-span-6 reveal-rollable">
             <div class="grid grid-6col monsterPower">
-                <label class="grid-span-2">{{localize config.monster.powe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="grid-span-2 mPower">{{localize config.monster.powe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.2.power" value="{{actor.system.attacks.2.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.2.pType" class="grid-span-2">
@@ -198,6 +200,7 @@
 
         {{#if (gte actor.system.numAttacks 4)}}
         {{!-- 1st Row --}}
+        <hr class="grid-span-10">
         <label>{{localize config.monster.name}}</label>
         <input type="text" name="system.attacks.3.name" value="{{actor.system.attacks.3.name}}" class="grid-span-3" />
 
@@ -222,16 +225,16 @@
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit">
-                <label class="">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input type="text" name="system.attacks.3.mCheck" value="{{actor.system.attacks.3.mCheck}}" class="hitMod" >
-                <label class="">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.3.mCheck" value="{{actor.system.attacks.3.mCheck}}" class="minionStatic hit" >
+                <label class="bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.3.check" value="{{actor.system.attacks.3.check}}" class="hitMod" >
             </div>
         </div>
 
         <div class="grid-span-6 reveal-rollable">
             <div class="grid grid-6col monsterPower">
-                <label class="grid-span-2">{{localize config.monster.powe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="grid-span-2 mPower">{{localize config.monster.powe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.3.power" value="{{actor.system.attacks.3.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.3.pType" class="grid-span-2">
@@ -247,38 +250,44 @@
     </div>
     <hr>
     {{!-- Def Row --}}
-    <div class="grid grid-10col melee">
+    <div class="grid grid-10col defense">
         <h2 class="grid-span-10">{{localize config.monster.defe}}</h2>
 
         {{!-- Minion Values --}}
-        <h3 class="grid-span-2">{{localize config.monster.types.minion}}</h3>
+        <h3 class="">{{localize config.monster.types.minion}}</h3>
+        <div class="grid-span-9">
+            <div class="grid grid-8col reveal-rollable">
+                <label class="minionDodge">{{localize config.monster.dodg}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.defenses.minion.dodge" value="{{actor.system.defenses.minion.dodge}}" data-dtype="Number" class="minionStatic dodge" />
 
-        <label>{{localize config.monster.dodg}}</label>
-        <input type="text" name="system.defenses.minion.dodge" value="{{actor.system.defenses.minion.dodge}}" data-dtype="Number" />
+                <label class="minionBlock">{{localize config.monster.bloc}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.defenses.minion.block" value="{{actor.system.defenses.minion.block}}" data-dtype="Number" class="minionStatic block" />
 
-        <label>{{localize config.monster.bloc}}</label>
-        <input type="text" name="system.defenses.minion.block" value="{{actor.system.defenses.minion.block}}" data-dtype="Number" />
+                <label>{{localize config.monster.aSco}}</label>
+                <input type="text" name="system.defenses.minion.armor" value="{{actor.system.defenses.minion.armor}}" data-dtype="Number" />
 
-        <label>{{localize config.monster.aSco}}</label>
-        <input type="text" name="system.defenses.minion.armor" value="{{actor.system.defenses.minion.armor}}" data-dtype="Number" />
-
-        <label>{{localize config.monster.type}}</label>
-        <input type="text" name="system.defenses.minion.aType" value="{{actor.system.defenses.minion.aType}}">
+                <label>{{localize config.monster.type}}</label>
+                <input type="text" name="system.defenses.minion.aType" value="{{actor.system.defenses.minion.aType}}">
+            </div>
+        </div>
 
         {{!-- Boss Values --}}
-        <h3 class="grid-span-2">{{localize config.monster.types.boss}}</h3>
+        <h3 class="">{{localize config.monster.types.boss}}</h3>
+        <div class="grid-span-9">
+            <div class="grid grid-8col reveal-rollable">
+                <label class="bossDodge">{{localize config.monster.dodg}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.defenses.boss.dodge" value="{{actor.system.defenses.boss.dodge}}" class="boss dodge" />
 
-        <label>{{localize config.monster.dodg}}</label>
-        <input type="text" name="system.defenses.boss.dodge" value="{{actor.system.defenses.boss.dodge}}" />
+                <label class="bossBlock">{{localize config.monster.bloc}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.defenses.boss.block" value="{{actor.system.defenses.boss.block}}" class="boss block" />
 
-        <label>{{localize config.monster.bloc}}</label>
-        <input type="text" name="system.defenses.boss.block" value="{{actor.system.defenses.boss.block}}" />
+                <label>{{localize config.monster.aSco}}</label>
+                <input type="text" name="system.defenses.boss.armor" value="{{actor.system.defenses.boss.armor}}" data-dtype="Number" />
 
-        <label>{{localize config.monster.aSco}}</label>
-        <input type="text" name="system.defenses.boss.armor" value="{{actor.system.defenses.boss.armor}}" data-dtype="Number" />
-
-        <label>{{localize config.monster.type}}</label>
-        <input type="text" name="system.defenses.boss.aType" value="{{actor.system.defenses.boss.aType}}">
+                <label>{{localize config.monster.type}}</label>
+                <input type="text" name="system.defenses.boss.aType" value="{{actor.system.defenses.boss.aType}}">
+            </div>
+        </div>
     </div>
     <hr>
     {{!-- Support and Abilities --}}
