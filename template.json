@@ -203,6 +203,7 @@
           "type": "",
           "range": 0,
           "check": 0,
+          "mCheck": 0,
           "power": "",
           "pType": ""
         },
@@ -211,6 +212,7 @@
           "type": "",
           "range": 0,
           "check": 0,
+          "mCheck": 0,
           "power": "",
           "pType": ""
         },
@@ -219,6 +221,7 @@
           "type": "",
           "range": 0,
           "check": 0,
+          "mCheck": 0,
           "power": "",
           "pType": ""
         },
@@ -227,14 +230,24 @@
           "type": "",
           "range": 0,
           "check": 0,
+          "mCheck": 0,
           "power": "",
           "pType": ""
         }
       ],
       "defenses": {
-        "dodge": 0,
-        "block": 0,
-        "armor": 0
+        "minion": {
+          "dodge": 0,
+          "block": 0,
+          "armor": 0,
+          "aType": ""
+        },
+        "boss": {
+          "dodge": 0,
+          "block": 0,
+          "armor": 0,
+          "aType": ""
+        }
       },
       "support": "",
       "abilities": "",

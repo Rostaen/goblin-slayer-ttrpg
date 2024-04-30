@@ -187,9 +187,12 @@
           "meleeT": "Melee (Throwable)",
           "meleeN": "Melee (Not Throwable)",
           "throw": "Throwable",
-          "projec": "Projectile"
+          "projec": "Projectile",
+          "minion": "Minion",
+          "boss": "Boss"
         },
-        "chec": "Check Score",
+        "mChec": "Minion Check",
+        "chec": "Boss Check",
         "powe": "Power/Attributes",
         "ran": "Range",
         "init": "Initiative",

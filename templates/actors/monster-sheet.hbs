@@ -6,34 +6,34 @@
                 {{!-- 1st Row --}}
                 <input name="name" class="grid-span-2" type="text" value="{{data.actor.name}}" />
 
-                <label>{{localize config.monster.type}}:</label>
+                <label>{{localize config.monster.type}}</label>
                 <input name="system.typ" type="text" value="{{actor.system.typ}}" />
 
-                <label>{{localize config.common.leve}}: </label>
+                <label>{{localize config.common.leve}} </label>
                 <input name="system.lifeForce.double" type="text" value="{{actor.system.lifeForce.double}}" data-dtype="Number" />
 
                 {{!-- 2nd Row --}}
                 <div class="grid-span-2">
                     <div class="grid grid-4col">
-                        <label>{{localize config.common.life}}: </label>
+                        <label>{{localize config.common.life}} </label>
                         <input name="system.lifeForce.min" type="text" value="{{actor.system.lifeForce.min}}" data-dtype="Number" />
-                        <label>{{localize config.common.max}}: </label>
+                        <label>{{localize config.common.max}} </label>
                         <input type="text" name="system.lifeForce.max" value="{{actor.system.lifeForce.max}}" data-dtype="Number" />
                     </div>
                 </div>
 
-                <label>{{localize config.common.spRe}}: </label>
+                <label>{{localize config.common.spRe}} </label>
                 <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" />
 
-                <label>{{localize config.common.move}}: </label>
+                <label>{{localize config.common.move}} </label>
                 <input type="text" name="system.move" value="{{actor.system.move}}" data-dtype="Number" />
 
                 {{!-- 3rd Row --}}
 
-                <label>{{localize config.monster.init}}: </label>
+                <label>{{localize config.monster.init}} </label>
                 <input type="text" name="system.init" value="{{actor.system.init}}">
 
-                <label>{{localize config.monster.inte}}: </label>
+                <label>{{localize config.monster.inte}} </label>
                 <select name="system.inte">
                     {{#select actor.system.inte}}
                         {{#each config.monster.intelligence as |label id|}}
@@ -42,7 +42,7 @@
                     {{/select}}
                 </select>
 
-                <label>{{localize config.monster.mora}}: </label>
+                <label>{{localize config.monster.mora}} </label>
                 <input type="text" name="system.morale" value="{{actor.system.morale}}" data-dtype="Number" />
             </div>
         </div>
@@ -52,10 +52,10 @@
     <div class="grid grid-10col melee">
         <h2 class="grid-span-9">{{localize config.monster.atta}}</h2> <input type="text" name="system.numAttacks" value="{{actor.system.numAttacks}}" data-dtype="Number" />
         {{!-- 1st Row --}}
-        <label>{{localize config.monster.name}}:</label>
+        <label>{{localize config.monster.name}}</label>
         <input type="text" name="system.attacks.0.name" value="{{actor.system.attacks.0.name}}" class="grid-span-3" />
 
-        <label>{{localize config.monster.type}}: </label>
+        <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.0.type" class="grid-span-3">
             {{#select actor.system.attacks.0.type}}
                 {{#each config.monster.types as |label id|}}
@@ -64,7 +64,7 @@
             {{/select}}
         </select>
 
-        <label>{{localize config.monster.ran}}: </label>
+        <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.0.range">
             {{#select actor.system.attacks.0.range}}
                 {{#each config.monster.range as |number id|}}
@@ -75,7 +75,9 @@
 
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
-            <div class="grid grid-2col monsterHit">
+            <div class="grid grid-4col monsterHit">
+                <label class="">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.0.mCheck" value="{{actor.system.attacks.0.mCheck}}" class="hitMod" >
                 <label class="">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.0.check" value="{{actor.system.attacks.0.check}}" class="hitMod" >
             </div>
@@ -98,10 +100,10 @@
 
         {{#if (gte actor.system.numAttacks 2)}}
         {{!-- 1st Row --}}
-        <label>{{localize config.monster.name}}:</label>
+        <label>{{localize config.monster.name}}</label>
         <input type="text" name="system.attacks.1.name" value="{{actor.system.attacks.1.name}}" class="grid-span-3" />
 
-        <label>{{localize config.monster.type}}: </label>
+        <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.1.type" class="grid-span-3">
             {{#select actor.system.attacks.1.type}}
                 {{#each config.monster.types as |label id|}}
@@ -110,7 +112,7 @@
             {{/select}}
         </select>
 
-        <label>{{localize config.monster.ran}}: </label>
+        <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.1.range">
             {{#select actor.system.attacks.1.range}}
                 {{#each config.monster.range as |number id|}}
@@ -121,7 +123,9 @@
 
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
-            <div class="grid grid-2col monsterHit">
+            <div class="grid grid-4col monsterHit">
+                <label class="">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.1.mCheck" value="{{actor.system.attacks.1.mCheck}}" class="hitMod" >
                 <label class="">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.1.check" value="{{actor.system.attacks.1.check}}" class="hitMod" >
             </div>
@@ -145,10 +149,10 @@
 
         {{#if (gte actor.system.numAttacks 3)}}
         {{!-- 1st Row --}}
-        <label>{{localize config.monster.name}}:</label>
+        <label>{{localize config.monster.name}}</label>
         <input type="text" name="system.attacks.2.name" value="{{actor.system.attacks.2.name}}" class="grid-span-3" />
 
-        <label>{{localize config.monster.type}}: </label>
+        <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.2.type" class="grid-span-3">
             {{#select actor.system.attacks.2.type}}
                 {{#each config.monster.types as |label id|}}
@@ -157,7 +161,7 @@
             {{/select}}
         </select>
 
-        <label>{{localize config.monster.ran}}: </label>
+        <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.2.range">
             {{#select actor.system.attacks.2.range}}
                 {{#each config.monster.range as |number id|}}
@@ -168,7 +172,9 @@
 
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
-            <div class="grid grid-2col monsterHit">
+            <div class="grid grid-4col monsterHit">
+                <label class="">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.2.mCheck" value="{{actor.system.attacks.2.mCheck}}" class="hitMod" >
                 <label class="">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.2.check" value="{{actor.system.attacks.2.check}}" class="hitMod" >
             </div>
@@ -192,10 +198,10 @@
 
         {{#if (gte actor.system.numAttacks 4)}}
         {{!-- 1st Row --}}
-        <label>{{localize config.monster.name}}:</label>
+        <label>{{localize config.monster.name}}</label>
         <input type="text" name="system.attacks.3.name" value="{{actor.system.attacks.3.name}}" class="grid-span-3" />
 
-        <label>{{localize config.monster.type}}: </label>
+        <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.3.type" class="grid-span-3">
             {{#select actor.system.attacks.3.type}}
                 {{#each config.monster.types as |label id|}}
@@ -204,7 +210,7 @@
             {{/select}}
         </select>
 
-        <label>{{localize config.monster.ran}}: </label>
+        <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.3.range">
             {{#select actor.system.attacks.3.range}}
                 {{#each config.monster.range as |number id|}}
@@ -215,7 +221,9 @@
 
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
-            <div class="grid grid-2col monsterHit">
+            <div class="grid grid-4col monsterHit">
+                <label class="">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.3.mCheck" value="{{actor.system.attacks.3.mCheck}}" class="hitMod" >
                 <label class="">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.3.check" value="{{actor.system.attacks.3.check}}" class="hitMod" >
             </div>
@@ -240,24 +248,45 @@
     <hr>
     {{!-- Def Row --}}
     <div class="grid grid-10col melee">
-        <h2>{{localize config.monster.defe}}</h2>
+        <h2 class="grid-span-10">{{localize config.monster.defe}}</h2>
 
-        <label>{{localize config.monster.dodg}}:</label>
-        <input type="text" name="system.defenses.dodge" value="{{actor.system.defenses.dodge}}" class="grid-span-2" />
+        {{!-- Minion Values --}}
+        <h3 class="grid-span-2">{{localize config.monster.types.minion}}</h3>
 
-        <label>{{localize config.monster.bloc}}:</label>
-        <input type="text" name="system.defenses.block" value="{{actor.system.defenses.block}}" class="grid-span-2" data-dtype="Number" />
+        <label>{{localize config.monster.dodg}}</label>
+        <input type="text" name="system.defenses.minion.dodge" value="{{actor.system.defenses.minion.dodge}}" data-dtype="Number" />
 
-        <label>{{localize config.monster.aSco}}:</label>
-        <input type="text" name="system.defenses.armor" value="{{actor.system.defenses.armor}}" class="grid-span-2" data-dtype="Number" />
+        <label>{{localize config.monster.bloc}}</label>
+        <input type="text" name="system.defenses.minion.block" value="{{actor.system.defenses.minion.block}}" data-dtype="Number" />
+
+        <label>{{localize config.monster.aSco}}</label>
+        <input type="text" name="system.defenses.minion.armor" value="{{actor.system.defenses.minion.armor}}" data-dtype="Number" />
+
+        <label>{{localize config.monster.type}}</label>
+        <input type="text" name="system.defenses.minion.aType" value="{{actor.system.defenses.minion.aType}}">
+
+        {{!-- Boss Values --}}
+        <h3 class="grid-span-2">{{localize config.monster.types.boss}}</h3>
+
+        <label>{{localize config.monster.dodg}}</label>
+        <input type="text" name="system.defenses.boss.dodge" value="{{actor.system.defenses.boss.dodge}}" />
+
+        <label>{{localize config.monster.bloc}}</label>
+        <input type="text" name="system.defenses.boss.block" value="{{actor.system.defenses.boss.block}}" />
+
+        <label>{{localize config.monster.aSco}}</label>
+        <input type="text" name="system.defenses.boss.armor" value="{{actor.system.defenses.boss.armor}}" data-dtype="Number" />
+
+        <label>{{localize config.monster.type}}</label>
+        <input type="text" name="system.defenses.boss.aType" value="{{actor.system.defenses.boss.aType}}">
     </div>
     <hr>
     {{!-- Support and Abilities --}}
     <div class="grid grid-6col">
-        <label>{{localize config.monster.supp}}:</label>
+        <label>{{localize config.monster.supp}}</label>
         <span class="grid-span-5">{{editor actor.system.support target="system.support" button=true engine="prosemirror"}}</span>
 
-        <label>{{localize config.monster.spec}}:</label>
+        <label>{{localize config.monster.spec}}</label>
         <span class="grid-span-5">{{editor actor.system.abilities target="system.abilities" button=true engine="prosemirror"}}</span>
     </div>
     {{!-- Monster Comment --}}

@@ -307,12 +307,11 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Getting monster to hit dice and modifiers (if any)
 		if(modifierSelector === '.hitMod' && actorType === 'monster'){
-			const monsterDice = diceNotation.match(/\((.*?)\)/); // Remember, this is an array. Want location [1]
-			const [powerDice, powerModifier] = monsterDice[1].split('+') ? monsterDice[1].split('+') : [monsterDice, '0'];
+			const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
 			diceToRoll = powerDice.trim();
 			modifier = parseInt(powerModifier.trim(), 10);
 		}else if(modifierSelector === '.hitMod' && actorType === 'character'){
-			modifier = parseInt(modifierElement.textContent.slice(0, 2), 10);
+			modifier = parseInt(modifierElement.textContent, 10);
 		}
 
 		// Getting power attack dice and modifiers (if any)

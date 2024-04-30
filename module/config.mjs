@@ -222,7 +222,9 @@ gs.actor = {
 			meleeT: "gs.actor.monster.types.meleeT",
 			meleeN: "gs.actor.monster.types.meleeN",
 			throw: "gs.actor.monster.types.throw",
-			projec: "gs.actor.monster.types.projec"
+			projec: "gs.actor.monster.types.projec",
+			minion: "gs.actor.monster.types.minion",
+			boss: "gs.actor.monster.types.boss",
 		},
 		ran: "gs.actor.monster.ran",
 		range: {
@@ -233,6 +235,7 @@ gs.actor = {
 			"60m": 60,
 			"120m": 120
 		},
+		mChec: "gs.actor.monster.mChec",
 		chec: "gs.actor.monster.chec",
 		powe: "gs.actor.monster.powe",
 		init: "gs.actor.monster.init",
