@@ -13,9 +13,14 @@
                 <input name="system.lifeForce.double" type="text" value="{{actor.system.lifeForce.double}}" data-dtype="Number" />
 
                 {{!-- 2nd Row --}}
-
-                <label>{{localize config.common.life}}: </label>
-                <input name="system.lifeForce.current" type="text" value="{{actor.system.lifeForce.current}}" data-dtype="Number" />
+                <div class="grid-span-2">
+                    <div class="grid grid-4col">
+                        <label>{{localize config.common.life}}: </label>
+                        <input name="system.lifeForce.min" type="text" value="{{actor.system.lifeForce.min}}" data-dtype="Number" />
+                        <label>{{localize config.common.max}}: </label>
+                        <input type="text" name="system.lifeForce.max" value="{{actor.system.lifeForce.max}}" data-dtype="Number" />
+                    </div>
+                </div>
 
                 <label>{{localize config.common.spRe}}: </label>
                 <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" />
@@ -70,11 +75,15 @@
 
         {{!-- 2nd row --}}
         <div></div>
-        <label class="grid-span-2">{{localize config.monster.chec}}: </label>
-        <input type="text" name="system.attacks.0.check" value="{{actor.system.attacks.0.check}}" class="grid-span-2" >
+        <div class="grid-span-3 reveal-rollable">
+            <div class="grid grid-3col monsterHit">
+                <label class="grid-span-2">{{localize config.monster.chec}}: </label>
+                <input type="text" name="system.attacks.0.check" value="{{actor.system.attacks.0.check}}" class="grid-span-2 hitMod" >
+            </div>
+        </div>
 
         <label class="grid-span-2">{{localize config.monster.powe}}: </label>
-        <input type="text" name="system.attacks.0.power" value="{{actor.system.attacks.0.power}}" class="grid-span-3">
+        <input type="text" name="system.attacks.0.power" value="{{actor.system.attacks.0.power}}" class="grid-span-3 power">
         {{#if (gte actor.system.numAttacks 2)}}
         {{!-- 1st Row --}}
         <label>{{localize config.monster.name}}:</label>

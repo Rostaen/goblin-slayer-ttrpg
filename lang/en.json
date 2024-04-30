@@ -86,7 +86,8 @@
         "lFor": "Life Force",
         "spRe": "Spell Resistance",
         "move": "Movement",
-        "leve": "Level"
+        "leve": "Level",
+        "max": "Max"
       },
       "character": {
         "rank": "Rank",

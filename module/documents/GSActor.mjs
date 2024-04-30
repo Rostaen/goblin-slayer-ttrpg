@@ -13,6 +13,7 @@ export class GSActor extends Actor {
         const flags = actorData.flags.gs || {};
 
         this._prepareCharacterData(actorData);
+        this._prepareMonsterData(actorData);
     }
 
     _prepareCharacterData(actorData){
@@ -101,5 +102,10 @@ export class GSActor extends Actor {
             systemData.defense.dodge.mods[classId] = calcScore;
             systemData.defense.block.mods[classId] = calcScore;
         }
+    }
+
+    _prepareMonsterData(actorData){
+        if(actorData.type !== 'monster') return;
+
     }
 }

@@ -105,7 +105,8 @@ gs.actor = {
 		lFor: "gs.actor.common.lFor",
 		spRe: "gs.actor.common.spRe",
 		move: "gs.actor.common.move",
-		leve: "gs.actor.common.leve"
+		leve: "gs.actor.common.leve",
+		max: "gs.actor.common.max"
 	},
 	character: {
 		rank: "gs.actor.character.rank",

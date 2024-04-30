@@ -42,10 +42,11 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("button[class='delete']").click(this._deleteItem.bind(this));
 		html.find("button[class='edit']").click(this._editItem.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
-		html.find("div.hitMod").click(this._rollToHit.bind(this));
-		html.find("div.power").click(this._rollPower.bind(this));
-		html.find(".armor-card div.dodge").click(this._rollDodge.bind(this));
-		html.find(".shield-card div.blockMod").click(this._rollBlock.bind(this));
+		html.find(".hitMod").click(this._rollToHit.bind(this));
+		html.find(".power").click(this._rollPower.bind(this));
+		html.find(".dodge").click(this._rollDodge.bind(this));
+		html.find(".blockMod").click(this._rollBlock.bind(this));
+		html.find(".monsterHit").click(this._rollMonsterHit.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -286,6 +287,7 @@ export default class GSActorSheet extends ActorSheet{
 	_rollWithModifiers(event, modifierSelector, baseDice, localizedMessage, itemType){
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
+		const actorType = this.actor.type;
 		let diceToRoll = baseDice;
 
 		if (!container) {
@@ -298,52 +300,67 @@ export default class GSActorSheet extends ActorSheet{
 			console.error(`${localizedMessage} modifier not found.`);
 			return;
 		}
-		console.log("Modifier Element", modifierElement);
+
 		let modifier;
-		if(modifierSelector === 'div.power'){
-			console.log("getting div.power elements");
+		if(modifierSelector === '.power'){
 			const diceNotation = modifierElement.textContent;
-			const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
-			diceToRoll = powerDice.trim();
-			modifier = parseInt(powerModifier.trim(), 10);
+			if(actorType === 'character'){
+				const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
+				diceToRoll = powerDice.trim();
+				modifier = parseInt(powerModifier.trim(), 10);
+			}else if(actorType === 'monster'){
+				const monsterDice = diceNotation.match(/\((.*?)\)/);
+				const [powerDice, powerModifier] = monsterDice.split('+') ? monsterDice.split('+') : [monsterDice, '0'];
+				diceToRoll = powerDice.trim();
+				modifier = parseInt(powerModifier.trim(), 10);
+			}
 		}else{
 			modifier = parseInt(modifierElement.textContent.slice(0, 2), 10);
 		}
-		console.log("Modifier", modifier);
 
-		const typeHolder = this._getItemType(container);
-		if (!typeHolder) {
-			console.error("Item type not found.");
-			return;
+		let typeHolder;
+		if(actorType === 'character') {
+			typeHolder = this._getItemType(container);
+			if (!typeHolder) {
+				console.error("Item type not found.");
+				return;
+			}
 		}
 
 		let stat = 0;
-		if(modifierSelector === 'div.power'){
-			// Do nothing here
-		}else if(itemType === 'weapon'){
-			stat = this.actor.system.abilities.calc.tf;
-		}else{
-			stat = this.actor.system.abilities.calc.tr;
+		if(actorType === 'character'){
+			if(modifierSelector === '.power'){
+				// Do nothing here
+			}else if(itemType === 'weapon'){
+				stat = this.actor.system.abilities.calc.tf;
+			}else{
+				stat = this.actor.system.abilities.calc.tr;
+			}
 		}
 
-		const classBonus = this._getClassLevelBonus(typeHolder, itemType);
+		let classBonus = 0;
+		if(actorType === 'character') classBonus = this._getClassLevelBonus(typeHolder, itemType);
 		this._rollsToMessage(diceToRoll, stat, classBonus, modifier, localizedMessage);
 	}
 
 	_rollToHit(event){
-		this._rollWithModifiers(event, 'div.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
+		this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
 	}
 
 	_rollPower(event){
-		this._rollWithModifiers(event, 'div.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
+		this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
 	}
 
 	_rollDodge(event){
-		this._rollWithModifiers(event, 'div.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
+		this._rollWithModifiers(event, '.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
 	}
 
 	_rollBlock(event){
-		this._rollWithModifiers(event, 'div.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
+		this._rollWithModifiers(event, '.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
+	}
+
+	_rollMonsterHit(event){
+		this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
 	}
 
 	contextMenu = [
