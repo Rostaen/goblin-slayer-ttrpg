@@ -42,19 +42,8 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("button[class='delete']").click(this._deleteItem.bind(this));
 		html.find("button[class='edit']").click(this._editItem.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
-		html.find(".hitMod").click(this._rollToHit.bind(this));
-		html.find(".power").click(this._rollPower.bind(this));
-		html.find(".dodge").click(this._rollDodge.bind(this));
-		html.find(".blockMod").click(this._rollBlock.bind(this));
-		html.find(".minionHit").click(this._rollMinionStatic.bind(this));
-		html.find(".bossHit").click(this._rollMonsterHit.bind(this));
-		html.find(".mPower").click(this._rollMonsterPower.bind(this));
-		html.find(".minionDodge").click(this._rollMinionStatic.bind(this));
-		html.find(".bossDodge").click(this._rollBossDodge.bind(this));
-		html.find(".minionBlock").click(this._rollMinionStatic.bind(this));
-		html.find(".bossBlock").click(this._rollBossBlock.bind(this));
-		html.find(".minionSR").click(this._rollMinionStatic.bind(this));
-		html.find(".bossSR").click(this._rollMonsterSR.bind(this));
+		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
+		html.find(".actorRolls").click(this._actorRolls.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -310,93 +299,75 @@ export default class GSActorSheet extends ActorSheet{
 		return bonus;
 	}
 
-	_rollWithModifiers(event, modifierSelector, baseDice, localizedMessage, itemType){
+	_rollWithModifiers(event, modSelector, baseDice, localizedMessage, itemType){
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const actorType = this.actor.type;
-		let diceToRoll = baseDice;
+		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation;
 
 		if (!container) {
 			console.error("Container with '.reveal-rollable' class not found.");
 			return;
 		}
 
-		const modifierElement = container.querySelector(modifierSelector);
-		if (!modifierElement) {
+		const modElement = container.querySelector(modSelector);
+		if (!modElement) {
 			console.error(`${localizedMessage} modifier not found.`);
 			return;
 		}
 
-		let modifier, diceNotation;
-		if(actorType === 'character') diceNotation = modifierElement.textContent;
-		else if(actorType === 'monster') diceNotation = modifierElement.value;
+		if(actorType === 'character') diceNotation = modElement.textContent;
+		else if(actorType === 'monster') diceNotation = modElement.value;
 
+		console.log("Before dice eval");
 		// Getting monster to hit dice and modifiers (if any)
-		if((modifierSelector === '.hitMod' || modifierSelector === '.boss.dodge' || modifierSelector === '.boss.block' || modifierSelector === '.boss.spellRes') && actorType === 'monster'){
+		if((modSelector === '.hitMod' || modSelector === '.boss.dodge' ||
+			modSelector === '.boss.block' || modSelector === '.boss.spellRes' ||
+			modSelector === '.power') && actorType === 'monster'){
 			if(diceNotation != 0){
-				const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
+				const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
 				diceToRoll = powerDice.trim();
-				modifier = parseInt(powerModifier.trim(), 10);
+				if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
+				else modifier = powerMod;
 			}else{
-				ui.notifications.info(`The check trying to roll has a value of ${diceNotation} and cannot be rolled`);
+				ui.notifications.info(`The check has a value of 0 or undefined and cannot be rolled`);
 				return;
 			}
-		}else if(modifierSelector === '.hitMod' && actorType === 'character'){
-			modifier = parseInt(modifierElement.textContent, 10);
-		}
-
-		// Getting power attack dice and modifiers (if any)
-		if(modifierSelector === '.power'){
-			if(actorType === 'character'){
-				const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
+		}else if(actorType === 'character'){
+			if(modSelector === '.power'){
+				const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
 				diceToRoll = powerDice.trim();
-				modifier = parseInt(powerModifier.trim(), 10);
-			}else if(actorType === 'monster'){
-				const [powerDice, powerModifier] = diceNotation.split('+') ? diceNotation.split('+') : [diceNotation, '0'];
-				diceToRoll = powerDice.trim();
-				modifier = parseInt(powerModifier.trim(), 10);
+				if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
+				else modifier = powerMod;
+			}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
+					 modSelector === '.blockMod'){
+				modifier = parseInt(modElement.textContent, 10);
 			}
 		}
 
-		let typeHolder;
 		if(actorType === 'character') {
+			// Getting hidden item type
 			typeHolder = this._getItemType(container);
 			if (!typeHolder) {
 				console.error("Item type not found.");
 				return;
 			}
-		}
 
-		let stat = 0;
-		if(actorType === 'character'){
-			if(modifierSelector === '.power'){
+			// Getting stat for to hit or damage
+			if(modSelector === '.power'){
 				// Do nothing here
 			}else if(itemType === 'weapon'){
 				stat = this.actor.system.abilities.calc.tf;
 			}else{
 				stat = this.actor.system.abilities.calc.tr;
 			}
+
+			classBonus = this._getClassLevelBonus(typeHolder, itemType);
 		}
 
-		let classBonus = 0;
-		if(actorType === 'character') classBonus = this._getClassLevelBonus(typeHolder, itemType);
+		console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
+
 		this._rollsToMessage(diceToRoll, stat, classBonus, modifier, localizedMessage);
-	}
-
-	_rollToHit(event){
-		this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
-	}
-
-	_rollPower(event){
-		this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
-	}
-
-	_rollDodge(event){
-		this._rollWithModifiers(event, '.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
-	}
-
-	_rollBlock(event){
-		this._rollWithModifiers(event, '.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
 	}
 
 	_rollMinionStatic(event){
@@ -408,7 +379,7 @@ export default class GSActorSheet extends ActorSheet{
 			console.error("Container with '.reveal-rollable' class not found.");
 			return;
 		}
-		switch(type[0]){
+		switch(type[1]){
 			case 'minionHit':
 				message = "Hit Check";
 				staticContainer = container.querySelector('.minionStatic.hit');
@@ -437,32 +408,51 @@ export default class GSActorSheet extends ActorSheet{
 		if (amount === NaN || amount === undefined || amount === null){
 			console.error("Minion static hit amount empty or other problem.");
 			return;
-		}else if(amount == 0){
-			ui.notifications.info(`The ${message} has a value of ${amount} and can't be rolled.`);
+		}else if(amount == 0 || amount == undefined){
+			ui.notifications.info(`The ${message} has a value of 0 or undefined and can't be rolled.`);
 			return;
 		}
 
 		this._sendBasicMessage(amount, message);
 	}
 
-	_rollMonsterHit(event){
-		this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
-	}
+	_actorRolls(event){
+		const classType = event.currentTarget.classList;
+		switch(classType[1]){
+			// PC Character checks/rolls
+			case 'hitMod':
+				this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
+				break;
+			case 'power':
+				this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
+				break;
+			case 'dodge':
+				this._rollWithModifiers(event, '.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
+				break;
+			case 'blockMod':
+				this._rollWithModifiers(event, '.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
+				break;
 
-	_rollMonsterPower(event){
-		this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
-	}
-
-	_rollBossDodge(event){
-		this._rollWithModifiers(event, '.boss.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
-	}
-
-	_rollBossBlock(event){
-		this._rollWithModifiers(event, '.boss.block', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
-	}
-
-	_rollMonsterSR(event){
-		this._rollWithModifiers(event, '.boss.spellRes', '2d6', game.i18n.localize("gs.actor.common.spRe"), 'resistance');
+			// Monster checks/rolls
+			case 'bossHit':
+				this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
+				break;
+			case 'bossDodge':
+				this._rollWithModifiers(event, '.boss.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
+				break;
+			case 'bossBlock':
+				this._rollWithModifiers(event, '.boss.block', '2d6', game.i18n.localize("gs.actor.character.block"), 'armor');
+				break;
+			case 'bossSR':
+				this._rollWithModifiers(event, '.boss.spellRes', '2d6', game.i18n.localize("gs.actor.common.spRe"), 'resistance');
+				break;
+			case 'mPower':
+				this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
+				break;
+			default:
+				ui.notifications.warn(`${classType[0]} was not found in the boss' classes.`);
+				return;
+		}
 	}
 
 	contextMenu = [

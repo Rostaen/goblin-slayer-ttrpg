@@ -230,6 +230,18 @@
         "descr": "Description",
         "effec": "Effects"
       },
+      "ranks": {
+        "porc": "Porcelain",
+        "obsi": "Obsidian",
+        "stee": "Steel",
+        "sapp": "Sapphire",
+        "emer": "Emerald",
+        "ruby": "Ruby",
+        "copp": "Copper",
+        "silv": "Silver",
+        "gold": "Gold",
+        "plat": "Platinum"
+      },
       "items": {
         "hitM": "Hit Modifier",
         "rang": "Range",

@@ -10,6 +10,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - Spell Resistance, To Hit, Power, Dodge, & Block checks are rollable
   - Split minion and boss info to respective fields
 - PC sheets setup
+  - Rank changed to drop down menu
   - Tabs for specific pages
   - PC stats rollable
   - Calculated Rolling to chat bar

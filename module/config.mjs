@@ -276,6 +276,18 @@ gs.actor = {
 			descr: "gs.charSheet.tabs.descr",
 			effec: "gs.charSheet.tabs.effec"
 		},
+		ranks: {
+			porc: "gs.charSheet.ranks.porc",
+			obsi: "gs.charSheet.ranks.obsi",
+			stee: "gs.charSheet.ranks.stee",
+			sapp: "gs.charSheet.ranks.sapp",
+			emer: "gs.charSheet.ranks.emer",
+			ruby: "gs.charSheet.ranks.ruby",
+			copp: "gs.charSheet.ranks.copp",
+			silv: "gs.charSheet.ranks.silv",
+			gold: "gs.charSheet.ranks.gold",
+			plat: "gs.charSheet.ranks.plat"
+		},
 		items: {
 			hitM: "gs.charSheet.items.hitM",
 			rang: "gs.charSheet.items.rang",
