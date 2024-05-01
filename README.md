@@ -8,6 +8,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - Monster sheets setup
   - Adjustable attacks set from 1 - 4
   - Spell Resistance, To Hit, Power, Dodge, & Block checks are rollable
+  - Split minion and boss info to respective fields
 - PC sheets setup
   - Tabs for specific pages
   - PC stats rollable
@@ -45,6 +46,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - [x] Monster
     - [ ] Skill Modifiers
   - [ ] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
+- [ ] Combat Tracking
+  - [ ] Add initiative rolls to combat tracker
+  - [ ] Update tracker to reroll initiative at start of next round
 - [ ] Movement Updates
   - [ ] Change movement field for PC creation to maximum
   - [ ] Create disabled field for modified movement from armor/skills

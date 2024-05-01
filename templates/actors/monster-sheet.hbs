@@ -2,7 +2,7 @@
     <div class="headerInfo grid grid-5col">
         <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
         <div class="grid-span-4 coreItems">
-            <div class="grid grid-6col reveal-rollable">
+            <div class="grid grid-6col">
                 {{!-- 1st Row --}}
                 <input name="name" class="grid-span-2" type="text" value="{{data.actor.name}}" />
 
@@ -11,24 +11,24 @@
 
                 <label>{{localize config.common.leve}} </label>
                 <input name="system.lifeForce.double" type="text" value="{{actor.system.lifeForce.double}}" data-dtype="Number" />
-
+            </div>
+            <div class="grid grid-8col reveal-rollable">
                 {{!-- 2nd Row --}}
-                <div class="grid-span-2">
-                    <div class="grid grid-4col">
-                        <label>{{localize config.common.life}} </label>
-                        <input name="system.lifeForce.min" type="text" value="{{actor.system.lifeForce.min}}" data-dtype="Number" />
-                        <label>{{localize config.common.max}} </label>
-                        <input type="text" name="system.lifeForce.max" value="{{actor.system.lifeForce.max}}" data-dtype="Number" />
-                    </div>
-                </div>
+                <label>{{localize config.common.life}} </label>
+                <input name="system.lifeForce.min" type="text" value="{{actor.system.lifeForce.min}}" data-dtype="Number" />
 
-                <label class="monsterSR">{{localize config.common.spRe}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" class="monster spellRes" />
+                <label>{{localize config.common.max}} </label>
+                <input type="text" name="system.lifeForce.max" value="{{actor.system.lifeForce.max}}" data-dtype="Number" />
 
-                <label>{{localize config.common.move}} </label>
-                <input type="text" name="system.move" value="{{actor.system.move}}" data-dtype="Number" />
+                <label class="minionSR" title="{{localize config.monster.min}} {{localize config.common.spRe}}">{{localize config.monster.mSR}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" class="minion spellRes" />
+
+                <label class="bossSR" title="{{localize config.monster.boss}} {{localize config.common.spRe}}">{{localize config.monster.bSR}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input name="system.bossSR" type="text" value="{{actor.system.bossSR}}" class="boss spellRes" />
 
                 {{!-- 3rd Row --}}
+                <label>{{localize config.common.move}} </label>
+                <input type="text" name="system.move" value="{{actor.system.move}}" data-dtype="Number" />
 
                 <label>{{localize config.monster.init}} </label>
                 <input type="text" name="system.init" value="{{actor.system.init}}">

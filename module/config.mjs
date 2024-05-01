@@ -255,12 +255,17 @@ gs.actor = {
 			slash: "gs.actor.common.slash",
 			bludg: "gs.actor.common.bludg",
 			pierc: "gs.actor.common.pierc",
+			other: "gs.actor.common.other"
 		},
 		defe: "gs.actor.monster.defe",
 		dodg: "gs.actor.monster.dodg",
 		bloc: "gs.actor.monster.bloc",
 		aSco: "gs.actor.monster.aSco",
-		name: "gs.actor.monster.name"
+		name: "gs.actor.monster.name",
+        mSR: "gs.actor.monster.mSR",
+        min: "gs.actor.monster.min",
+        bSR: "gs.actor.monster.bSR",
+        boss: "gs.actor.monster.boss"
 	},
 	charSheet: {
 		tabs: {

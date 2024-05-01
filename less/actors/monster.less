@@ -1,4 +1,10 @@
 .monster{
+    .minionSR, .minionHit, .minionDodge, .minionBlock{
+        color: rgb(0, 60, 0);
+    }
+    .bossSR, .bossHit, .bossDodge, .bossBlock{
+        color: rgb(60, 0, 0);
+    }
     label{
         display: flex;
         justify-content: end;
@@ -6,13 +12,19 @@
         font-weight: bold;
         text-align: end;
     }
-    .coreItems{
-        .monsterSR:hover{
-            text-shadow: 0 0 5px darkred;
-            cursor: pointer;
-        }
-        input[type="text"]{
-            margin: auto;
+    .headerInfo{
+        margin-top: 0px;
+        .coreItems{
+            .grid{
+                margin-top: 0px;
+                .minionSR:hover, .bossSR:hover{
+                    text-shadow: 0 0 5px darkred;
+                    cursor: pointer;
+                }
+                input[type="text"]{
+                    margin: auto;
+                }
+            }
         }
     }
     .melee, .defense{

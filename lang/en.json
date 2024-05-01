@@ -90,7 +90,8 @@
         "max": "Max",
         "slash": "Slashing",
         "bludg": "Bludgeoning",
-        "pierc": "Piercing"
+        "pierc": "Piercing",
+        "other": "Other"
       },
       "character": {
         "rank": "Rank",
@@ -212,7 +213,12 @@
         "dodg": "Dodge",
         "bloc": "Block",
         "aSco": "Armor Score",
-        "name": "Name"
+        "name": "Name",
+        "mSR": "MSR",
+        "min": "Minion",
+        "bSR": "BSR",
+        "boss": "Boss"
+
       }
     },
     "charSheet": {

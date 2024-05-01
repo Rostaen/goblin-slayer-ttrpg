@@ -197,6 +197,7 @@
       "inte": "",
       "morale": 0,
       "numAttacks": 1,
+      "bossSR": 0,
       "attacks": [
         {
           "name": "",
