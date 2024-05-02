@@ -16,6 +16,15 @@ export class GSActor extends Actor {
         this._prepareMonsterData(actorData);
     }
 
+    // Used to add player skills to respective locations in their sheet and rolls
+    _getSkillBonus(skillName){
+        const actorData = this;
+        const skill = actorData.items.filter(item => item.name.toLowerCase() === skillName.toLowerCase());
+        if(skill.length){
+            return parseInt(skill[0].system.value, 10);
+        } else return 0;
+    }
+
     _prepareCharacterData(actorData){
         const systemData = actorData.system;
         const type = actorData.type
@@ -32,12 +41,14 @@ export class GSActor extends Actor {
         }
 
         // Setting Character Spell Resistance
-        // TODO: Learn how to add the Spell Resistance skill from Skills to character sheet data
-        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr;
+        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
 
         // Setting 2x LifeForce + any Skills
-        // TODO: Learn how to add the Hardiness skill from Skills to character sheet data
-        systemData.lifeForce.max = systemData.lifeForce.current * 2;
+        // TODO: Update charater sheet for entered HP and a new life force disabled to reflect skill bonus;
+        let hardinessBonus = this._getSkillBonus("Hardiness");
+        if(hardinessBonus <= 4) hardinessBonus *= 5;
+        else if(hardinessBonus = 5) hardinessBonus = 30;
+        systemData.lifeForce.max = systemData.lifeForce.current * 2 + hardinessBonus;
 
         // Setting Spell Use Scores
         // TODO: Add in any spell skills that alter this amount per caster class

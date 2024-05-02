@@ -13,6 +13,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - Rank changed to drop down menu
   - Tabs for specific pages
   - PC stats rollable
+  - Initiative roller setup with skill bonus
   - Calculated Rolling to chat bar
     - Stats roll to chat bar for checks
     - Melee/Power/Dodge/Block checks rolling to chat bar
@@ -75,6 +76,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Create CompediumFolders for all monsters & items
 - [ ] Better sheet styling
 - [ ] Add mouse hover context for game related information
+- [ ] Block skills from having a higher value when levels and rank are in conflict
 
 ## How to use the Game System
 

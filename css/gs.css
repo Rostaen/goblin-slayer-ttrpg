@@ -1,8 +1,19 @@
+.critFailColor,
+.critSuccessColor {
+  padding: 10px 0px;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 5px;
+}
 .critFailColor {
-  color: darkred;
+  background-color: rgba(193, 0, 0, 0.5);
+  border: 1px solid #d10000;
 }
 .critSuccessColor {
-  color: darkgreen;
+  background-color: rgba(0, 200, 0, 0.5);
+  border: 1px solid green;
 }
 .prosemirror .editor-container {
   margin: 5px 5px 0px 5px;
@@ -615,7 +626,8 @@
   margin-top: 0px;
 }
 .monster .headerInfo .coreItems .grid .minionSR:hover,
-.monster .headerInfo .coreItems .grid .bossSR:hover {
+.monster .headerInfo .coreItems .grid .bossSR:hover,
+.monster .headerInfo .coreItems .grid .initiative:hover {
   text-shadow: 0 0 5px darkred;
   cursor: pointer;
 }
@@ -974,19 +986,31 @@
   border-bottom: 0px;
   margin-bottom: 0px;
 }
-.itemsPageContainer .hitScoresContainer div.grid-3col {
+.itemsPageContainer .hitScoresContainer div.grid-3col,
+.itemsPageContainer .hitScoresContainer .money {
   border: 1px solid darkred;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.75);
   padding: 5px;
   margin-top: 0px;
 }
-.itemsPageContainer .hitScoresContainer div.grid-3col h3 {
+.itemsPageContainer .hitScoresContainer div.grid-3col h3,
+.itemsPageContainer .hitScoresContainer .money h3 {
   text-align: center;
   margin-bottom: 5px;
 }
-.itemsPageContainer .hitScoresContainer div.grid-3col .last {
+.itemsPageContainer .hitScoresContainer div.grid-3col .last,
+.itemsPageContainer .hitScoresContainer .money .last {
   margin-bottom: 10px;
+}
+.itemsPageContainer .hitScoresContainer .money {
+  gap: 5px 2px;
+}
+.itemsPageContainer .hitScoresContainer .money label {
+  text-align: center;
+}
+.itemsPageContainer .hitScoresContainer .money input {
+  text-align: right;
 }
 .skillsContainer .skillHeader {
   border-bottom: 0px;

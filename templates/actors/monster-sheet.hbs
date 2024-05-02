@@ -30,8 +30,8 @@
                 <label>{{localize config.common.move}} </label>
                 <input type="text" name="system.move" value="{{actor.system.move}}" data-dtype="Number" />
 
-                <label>{{localize config.monster.init}} </label>
-                <input type="text" name="system.init" value="{{actor.system.init}}">
+                <label class="initiative">{{localize config.monster.init}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.init" value="{{actor.system.init}}" class="monsterInit">
 
                 <label>{{localize config.monster.inte}} </label>
                 <select name="system.inte">

@@ -37,6 +37,9 @@ export default class GSActorSheet extends ActorSheet{
 
 	activateListeners(html){
 		super.activateListeners(html);
+		html.find("input").keydown(event => {
+			if(event.key === 'Enter'){event.preventDefault();}
+		});
 		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
 		html.find("button[class='delete']").click(this._deleteItem.bind(this));
@@ -45,6 +48,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
 		html.find(".stealthCheck").click(this._promptStealthChoice.bind(this));
+		html.find(".initiative").click(this._rollInitiative.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -165,6 +169,16 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	_checkForCritRolls(diceResults){
+		if(diceResults.length === 2){
+			if(diceResults[0] === 1 && diceResults[1] === 1){
+				return `<br><div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
+			}else if(diceResults[0] === 6 && diceResults[1] === 6){
+				return `<br><div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
+			}else return "";
+		}
+	}
+
 	_rollsToMessage(dice, stat, classBonus, modifier, label){
 		let rollExpression = `${dice}`;
 		if(stat > 0){
@@ -182,15 +196,7 @@ export default class GSActorSheet extends ActorSheet{
 		roll.evaluate({ async: true }).then(() => {
 			const diceResults = roll.terms[0].results.map(r => r.result);
 
-			let status = "";
-			if(diceResults.length === 2){
-				if(diceResults[0] === 1 && diceResults[1] === 1){
-					status = ": <span class='critFailColor'>Critical Failure!</span>";
-
-				}else if(diceResults[0] === 6 && diceResults[1] === 6){
-					status = ": <span class='critSuccessColor'>Critical Success!</span>";
-				}
-			}
+			const status = this._checkForCritRolls(diceResults);
 
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -450,6 +456,11 @@ export default class GSActorSheet extends ActorSheet{
 			case 'mPower':
 				this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
 				break;
+
+			// Common rolls
+			case 'initiative':
+				this._rollWithModifiers(event, '.initiative', '2d6', game.i18n.localize("gs.actor.common.init"), 'initiative');
+				break;
 			default:
 				ui.notifications.warn(`${classType[0]} was not found in the boss' classes.`);
 				return;
@@ -532,12 +543,61 @@ export default class GSActorSheet extends ActorSheet{
 
 		let roll = new Roll(rollMessage);
 		roll.evaluate({ async: true }).then(() => {
+			const diceResults = roll.terms[0].results.map(r => r.result);
+
+			const status = this._checkForCritRolls(diceResults);
 
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `${game.i18n.localize("gs.dialog.stealth.output")}`,
+				flavor: `${game.i18n.localize("gs.dialog.stealth.output")} ${status}`,
 			});
 		});
+	}
+
+	_rollInitiative(event){
+		event.preventDefault();
+		const actorType = this.actor.type;
+		let anticipateBonus = 0, message = "2d6";
+
+		if(actorType === 'character'){
+			const skill = this.actor.items.filter(item => item.type === 'skill');
+			if(skill.length){
+				const anticipate = skill.filter(skill => skill.name.toLowerCase() === "anticipate");
+				if(anticipate.length){
+					anticipateBonus = parseInt(anticipate[0].value, 10);
+				}
+			}
+			if(anticipateBonus > 0){
+				message += ` + ${anticipateBonus}`;
+			}
+		}else if(actorType === 'monster'){
+			const container = event.currentTarget.closest('.reveal-rollable');
+			if(!container){
+				console.error("Error getting monster init container");
+				return;
+			}
+			const initContainer = container.querySelector('.monsterInit');
+			if(!initContainer){
+				console.error("Couldn't get monster init container");
+				return;
+			}
+			const initValue = initContainer.value;
+			const [powerDice, powerMod] = initValue.includes('+') ? initValue.split('+') : [initValue, 0];
+			message = powerDice.trim();
+			if(powerMod != 0) message += ` + ${parseInt(powerMod.trim(), 10)}`;
+		}
+
+		let roll = new Roll(message);
+		roll.evaluate({ async: true }).then(() => {
+			const diceResults = roll.terms[0].results.map(r => r.result);
+			const status = this._checkForCritRolls(diceResults);
+
+			roll.toMessage({
+				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+				flavor: `${game.i18n.localize("gs.actor.common.init")} ${game.i18n.localize("gs.actor.common.roll")} ${status}`,
+				rollMode: game.settings.get("core", "rollMode"),
+			});
+		})
 	}
 
 	contextMenu = [

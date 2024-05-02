@@ -108,6 +108,8 @@ gs.actor = {
 		modMove: "gs.actor.common.modMove",
 		leve: "gs.actor.common.leve",
 		max: "gs.actor.common.max",
+		init: "gs.actor.common.init",
+		roll: "gs.actor.common.roll",
 	},
 	character: {
 		rank: "gs.actor.character.rank",
@@ -327,6 +329,13 @@ gs.actor = {
 			ran: "gs.raceSheet.scores.ran",
 			sec: "gs.raceSheet.scores.sec",
 			mov: "gs.raceSheet.scores.mov"
+		}
+	},
+	dialog: {
+		crits: {
+			crit: "gs.dialog.crits.crit",
+			succ: "gs.dialog.crits.succ",
+			fail: "gs.dialog.crits.fail"
 		}
 	}
 }

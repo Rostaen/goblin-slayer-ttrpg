@@ -92,7 +92,9 @@
         "slash": "Slashing",
         "bludg": "Bludgeoning",
         "pierc": "Piercing",
-        "other": "Other"
+        "other": "Other",
+        "init": "Initiative",
+        "roll": "Roll"
       },
       "character": {
         "rank": "Rank",
@@ -284,6 +286,11 @@
       }
     },
     "dialog": {
+      "crits": {
+        "crit": "Critical",
+        "succ": "Success!",
+        "fail": "Failure!"
+      },
       "stealth": {
         "header": "Stealth Check Type",
         "choice": "Choose a duration",

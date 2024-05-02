@@ -133,6 +133,14 @@
             {{!-- <label class="grid-span-2">{{localize config.charSheet.items.other}}</label>
             <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.other decimals=0 sign=true}}</div> --}}
         </div>
-        <button class="stealthCheck"><i class="fa-solid fa-user-ninja"></i> {{localize gearConfig.common.ste}}</button>
+        <h2>{{localize config.character.money.money}}</h2>
+        <div class="money">
+            <label>{{localize config.character.money.gold}}</label>
+            <input type="text" name="system.money.gold" value="{{actor.system.money.gold}}" data-dtype="Number">
+            <label>{{localize config.character.money.silv}}</label>
+            <input type="text" name="system.money.silv" value="{{actor.system.money.silv}}" data-dtype="Number">
+            <label>{{localize config.character.money.bron}}</label>
+            <input type="text" name="system.money.bron" value="{{actor.system.money.bron}}" data-dtype="Number">
+        </div>
     </div>
 </div>

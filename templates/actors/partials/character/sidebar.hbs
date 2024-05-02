@@ -34,13 +34,6 @@
         <label class="grid-span-2">{{localize config.character.experience.lvl}}</label>
         <input type="text" name="system.levels.adventurer" value="{{actor.system.levels.adventurer}}" data-dtype="Number">
     </div>
-    <h2>{{localize config.character.money.money}}</h2>
-    <div class="money grid grid-2col">
-        <label>{{localize config.character.money.gold}}</label>
-        <input type="text" name="system.money.gold" value="{{actor.system.money.gold}}" data-dtype="Number">
-        <label>{{localize config.character.money.silv}}</label>
-        <input type="text" name="system.money.silv" value="{{actor.system.money.silv}}" data-dtype="Number">
-        <label>{{localize config.character.money.bron}}</label>
-        <input type="text" name="system.money.bron" value="{{actor.system.money.bron}}" data-dtype="Number">
-    </div>
+    <button class="initiative"><i class="fa-solid fa-dice"></i> {{localize config.common.init}}</button>
+    <button class="stealthCheck"><i class="fa-solid fa-user-ninja"></i> {{localize gearConfig.common.ste}}</button>
 </div>
