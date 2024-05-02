@@ -511,10 +511,11 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Getting armor/shield penalties
 		const armor = actorSkills.filter(item => item.type === 'armor');
-		if(armor) armorPenalties += parseInt(armor[0].system.stealth, 10);
+		console.log("No Armor", armor);
+		if(armor.length) armorPenalties += parseInt(armor[0].system.stealth, 10);
 
 		const shield = actorSkills.filter(item => item.type === 'shield');
-		if(shield) armorPenalties += parseInt(shield[0].system.stealth, 10);
+		if(shield.length) armorPenalties += parseInt(shield[0].system.stealth, 10);
 
 
 		// TODO: Add in skill bonuses for stealth here
