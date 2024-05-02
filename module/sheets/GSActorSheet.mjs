@@ -44,6 +44,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
+		html.find(".stealthCheck").click(this._promptStealthChoice.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -453,6 +454,89 @@ export default class GSActorSheet extends ActorSheet{
 				ui.notifications.warn(`${classType[0]} was not found in the boss' classes.`);
 				return;
 		}
+	}
+
+	_promptStealthChoice(event){
+		event.preventDefault();
+
+		const dialogContent = `
+			<h3>${game.i18n.localize("gs.dialog.stealth.choice")}</h3>
+			<ul>
+				<li>${game.i18n.localize("gs.dialog.stealth.long")}${game.i18n.localize("gs.dialog.stealth.longChoice")}</li>
+				<li>${game.i18n.localize("gs.dialog.stealth.short")}${game.i18n.localize("gs.dialog.stealth.shortChoice")}</li>
+			</ul>
+		`;
+
+		new Dialog({
+			title: game.i18n.localize("gs.dialog.stealth.header"),
+			content: dialogContent,
+			buttons: {
+				longTerm: {
+					label: game.i18n.localize("gs.dialog.stealth.long"),
+					callback: () => this._handleStealthChoice("te")
+				},
+				shortTerm: {
+					label: game.i18n.localize("gs.dialog.stealth.short"),
+					callback: () => this._handleStealthChoice("tr")
+				}
+			},
+			default: "shortTerm",
+			close: () => console.log("GS || Stealth check dialog closed"),
+		}).render(true);
+	}
+
+	_handleStealthChoice(choice){
+		let stealthStat, classBonus = 0, skillBonus, rollMessage, armorPenalties = 0;
+		const actorData = this.actor.system;
+		const actorStats = actorData.abilities.calc;
+		const actorClasses = actorData.levels.classes;
+		const actorSkills = this.actor.items; // Filter for skill(s) later
+
+		// Determining which calculated stat to use
+		if(choice === 'te'){
+			stealthStat = parseInt(actorStats.te, 10);
+		}else if(choice === 'tr'){
+			stealthStat = parseInt(actorStats.tr, 10);
+		}else{
+			console.error("Invalid stealth choice.");
+			ui.notifications.warn("Invalid stealth choice.");
+		}
+
+		// Getting Class level bonus
+		if(actorClasses.monk > 0){
+			classBonus = parseInt(actorClasses.monk, 10);
+		}else if(actorClasses.scout > 0){
+			classBonus = parseInt(actorClasses.scout, 10);
+		}
+
+		// Getting armor/shield penalties
+		const armor = actorSkills.filter(item => item.type === 'armor');
+		if(armor) armorPenalties += parseInt(armor[0].system.stealth, 10);
+
+		const shield = actorSkills.filter(item => item.type === 'shield');
+		if(shield) armorPenalties += parseInt(shield[0].system.stealth, 10);
+
+
+		// TODO: Add in skill bonuses for stealth here
+		// Getting skill bonus(es) here
+
+		// Setting up roll message
+		rollMessage = `2d6 + ${stealthStat}`;
+		if(classBonus > 0){
+			rollMessage += ` + ${classBonus}`;
+		}if (armorPenalties < 0){
+			rollMessage += ` ${armorPenalties}`;
+		}
+		console.log("Stat", stealthStat, "CB", classBonus);
+
+		let roll = new Roll(rollMessage);
+		roll.evaluate({ async: true }).then(() => {
+
+			roll.toMessage({
+				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+				flavor: `${game.i18n.localize("gs.dialog.stealth.output")}`,
+			});
+		});
 	}
 
 	contextMenu = [

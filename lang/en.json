@@ -281,6 +281,17 @@
         "sec": "Secondary Ability Score",
         "mov": "Racial Movement Modifier"
       }
+    },
+    "dialog": {
+      "stealth": {
+        "header": "Stealth Check Type",
+        "choice": "Choose a duration",
+        "longChoice": ": Uses Technique Endurance",
+        "shortChoice": ": Uses Technique Reflex",
+        "long": "Long Term",
+        "short": "Short Term",
+        "output": "Stealth Check"
+      }
     }
   }
 }
