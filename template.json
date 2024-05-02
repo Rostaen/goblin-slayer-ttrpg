@@ -4,6 +4,7 @@
     "templates": {
       "common": {
         "move": 0,
+        "modMove": 0,
         "spellRes": 0,
         "lifeForce": {
           "current": 0,

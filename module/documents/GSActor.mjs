@@ -102,6 +102,15 @@ export class GSActor extends Actor {
             systemData.defense.dodge.mods[classId] = calcScore;
             systemData.defense.block.mods[classId] = calcScore;
         }
+
+        // Setting Modified Movement
+        // TODO: Addin in skill modifiers
+        let movePen = systemData.move;
+        const armor = actorData.items.filter(item => item.type === 'armor');
+        if(armor.length){
+            movePen += parseInt(armor[0].system.move, 10);
+        }
+        systemData.modMove = movePen;
     }
 
     _prepareMonsterData(actorData){

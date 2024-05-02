@@ -12,8 +12,13 @@
                 <input type="text" name="system.lifeForce.max" value="{{actor.system.lifeForce.max}}" data-dtype="Number" disabled>
             </div>
         </div>
+
         <label class="grid-span-2">{{localize config.common.move}}</label>
         <input type="text" name="system.move" value="{{actor.system.move}}" data-dtype="Number">
+
+        <label class="grid-span-2">{{localize config.common.modMove}}</label>
+        <input type="text" name="system.modMove" value="{{actor.system.modMove}}" data-dtype="Number" disabled>
+
         <label class="grid-span-2">{{localize config.common.spRe}}</label>
         {{!-- Spell Resistance disabled as game will calculate this --}}
         <input type="text" name="system.spellRes" value="{{actor.system.spellRes}}" data-dtype="Number" disabled>

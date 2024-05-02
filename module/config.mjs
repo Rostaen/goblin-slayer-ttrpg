@@ -105,6 +105,7 @@ gs.actor = {
 		lFor: "gs.actor.common.lFor",
 		spRe: "gs.actor.common.spRe",
 		move: "gs.actor.common.move",
+		modMove: "gs.actor.common.modMove",
 		leve: "gs.actor.common.leve",
 		max: "gs.actor.common.max",
 	},

@@ -17,6 +17,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - Stats roll to chat bar for checks
     - Melee/Power/Dodge/Block checks rolling to chat bar
     - Rolls broken down into 'Dice + Stat + Class + Item Mod'
+  - Stealth rolls to chat bar with class level and item modifiers
 
 ### TODO:
 
@@ -47,12 +48,20 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - [x] Monster
     - [ ] Skill Modifiers
   - [ ] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
+- [ ] PC Stealth
+  - [x] Stealth button rolling
+  - [x] Armor/shield modifiers added in
+  - [x] Classes that stealth added in
+  - [ ] Skill Modifiers
+  - [ ] Update chat window for crit success/fail
 - [ ] Combat Tracking
   - [ ] Add initiative rolls to combat tracker
   - [ ] Update tracker to reroll initiative at start of next round
 - [ ] Movement Updates
-  - [ ] Change movement field for PC creation to maximum
-  - [ ] Create disabled field for modified movement from armor/skills
+  - [x] Change movement field for PC creation to maximum
+  - [x] Create disabled field for modified movement from armor/skills
+  - [x] Armor Modifiers added
+  - [ ] Skill Modifiers
 - [ ] Move Race skills from Race to Item level
 - [ ] Add in a Parry check
 - [ ] Context menu for Race skills

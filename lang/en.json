@@ -86,6 +86,7 @@
         "lFor": "Life Force",
         "spRe": "Spell Resistance",
         "move": "Movement",
+        "modMove": "Mod Movement",
         "leve": "Level",
         "max": "Max",
         "slash": "Slashing",
