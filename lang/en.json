@@ -94,7 +94,8 @@
         "pierc": "Piercing",
         "other": "Other",
         "init": "Initiative",
-        "roll": "Roll"
+        "roll": "Roll",
+        "ed": "ed"
       },
       "character": {
         "rank": "Rank",
@@ -221,7 +222,6 @@
         "min": "Minion",
         "bSR": "BSR",
         "boss": "Boss"
-
       }
     },
     "charSheet": {

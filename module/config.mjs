@@ -110,6 +110,7 @@ gs.actor = {
 		max: "gs.actor.common.max",
 		init: "gs.actor.common.init",
 		roll: "gs.actor.common.roll",
+		ed: "gs.actor.common.ed"
 	},
 	character: {
 		rank: "gs.actor.character.rank",

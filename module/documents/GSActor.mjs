@@ -48,6 +48,7 @@ export class GSActor extends Actor {
         let hardinessBonus = this._getSkillBonus("Hardiness");
         if(hardinessBonus <= 4) hardinessBonus *= 5;
         else if(hardinessBonus = 5) hardinessBonus = 30;
+        systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
         systemData.lifeForce.max = systemData.lifeForce.current * 2 + hardinessBonus;
 
         // Setting Spell Use Scores
@@ -115,7 +116,7 @@ export class GSActor extends Actor {
         }
 
         // Setting Modified Movement
-        // TODO: Addin in skill modifiers
+        // TODO: Add in skill modifiers
         let movePen = systemData.move;
         const armor = actorData.items.filter(item => item.type === 'armor');
         if(armor.length){

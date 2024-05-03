@@ -349,27 +349,33 @@ export default class GSActorSheet extends ActorSheet{
 			}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
 					 modSelector === '.blockMod'){
 				modifier = parseInt(modElement.textContent, 10);
+			}else if(modSelector === '.spellRes'){
+				modifier = parseInt(modElement.value);
 			}
 		}
 
 		if(actorType === 'character') {
 			// Getting hidden item type
-			typeHolder = this._getItemType(container);
-			if (!typeHolder) {
-				console.error("Item type not found.");
-				return;
+			switch(itemType){
+				case 'weapon': case 'armor': case 'shield':
+					typeHolder = this._getItemType(container);
+					if (!typeHolder) {
+						console.error("Item type not found.");
+						return;
+					}
+					classBonus = this._getClassLevelBonus(typeHolder, itemType);
+					break;
+				// Do nothing else for other items types
 			}
 
 			// Getting stat for to hit or damage
-			if(modSelector === '.power'){
+			if(modSelector === '.power' || modSelector === '.spellRes'){
 				// Do nothing here
 			}else if(itemType === 'weapon'){
 				stat = this.actor.system.abilities.calc.tf;
 			}else{
 				stat = this.actor.system.abilities.calc.tr;
 			}
-
-			classBonus = this._getClassLevelBonus(typeHolder, itemType);
 		}
 
 		console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
@@ -439,6 +445,9 @@ export default class GSActorSheet extends ActorSheet{
 			case 'blockMod':
 				this._rollWithModifiers(event, '.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
 				break;
+			case 'charSR':
+				this._rollWithModifiers(event, '.spellRes', '2d6', game.i18n.localize('gs.actor.common.spRe'), 'resistance');
+				break;
 
 			// Monster checks/rolls
 			case 'bossHit':
@@ -457,10 +466,6 @@ export default class GSActorSheet extends ActorSheet{
 				this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
 				break;
 
-			// Common rolls
-			case 'initiative':
-				this._rollWithModifiers(event, '.initiative', '2d6', game.i18n.localize("gs.actor.common.init"), 'initiative');
-				break;
 			default:
 				ui.notifications.warn(`${classType[0]} was not found in the boss' classes.`);
 				return;

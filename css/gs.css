@@ -769,6 +769,9 @@
 .sidebar .grid {
   margin: 5px 0px;
 }
+.sidebar .lifeForceCalc {
+  border-bottom: 1px solid lightgray;
+}
 .stats .grid {
   grid-row-gap: 0px;
 }
