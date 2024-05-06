@@ -31,8 +31,96 @@
       "flags": {}
     }
   ],
-  "packs": [],
-  "packFolders": [],
+  "packs": [
+    {
+      "name": "items",
+      "label": "Items",
+      "system": "gs",
+      "path": "packs/items",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "spells",
+      "label": "Spells",
+      "system": "gs",
+      "path": "packs/spells",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "monsters",
+      "label": "Monsters",
+      "system": "gs",
+      "path": "packs/monsters",
+      "type": "Actor",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "skills",
+      "label": "Skills",
+      "system": "gs",
+      "path": "packs/skills",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "armor",
+      "label": "Armor",
+      "system": "gs",
+      "path": "packs/armor",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "weapons",
+      "label": "Weapons",
+      "system": "gs",
+      "path": "packs/weapons",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "shields",
+      "label": "Shields",
+      "system": "gs",
+      "path": "packs/shields",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "races",
+      "label": "Races",
+      "system": "gs",
+      "path": "packs/races",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Goblin Slayer Items",
+      "sorting": "m",
+      "color": "#999",
+      "packs": [
+        "armor",
+        "items",
+        "races",
+        "shields",
+        "skills",
+        "spells",
+        "weapons"
+      ]
+    }
+  ],
   "socket": false,
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
   "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/archive/refs/tags/v0.5.0-beta.zip",
@@ -40,5 +128,10 @@
   "gridDistance": 1,
   "gridUnits": "meters",
   "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "power"
+  "secondaryTokenAttribute": "power",
+  "settings": {
+    "editor": {
+      "engine": "prosemirror"
+    }
+  }
 }

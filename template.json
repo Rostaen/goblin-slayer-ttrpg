@@ -68,7 +68,7 @@
         "value": 0,
         "min": 0,
         "max": 0,
-        "checks": [false,false,false,false,false,false,false],
+        "checks": [false, false, false, false, false, false, false],
         "scores": {
           "sorc": 0,
           "prie": 0,

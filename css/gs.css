@@ -261,6 +261,9 @@
 .prosemirror .editor-container p {
   margin: 0 0 5px;
 }
+.editor {
+  min-height: 48px;
+}
 .weapon,
 .armor,
 .shield {

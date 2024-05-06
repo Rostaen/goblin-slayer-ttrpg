@@ -13,28 +13,49 @@ export default class GSItemSheet extends ItemSheet {
 		return `${path}/${this.item.type}-sheet.hbs`;
 	}
 
-	getData(){
+	async getData(){
 		const data = super.getData();
+		const item = this.item || this.document;
+
+		console.log("Checking JSON", data);
+		console.log("what is this.document", this.item);
+
+		if(!item){
+			console.error("Item or document is undefined.");
+			return {};
+		}
+		const system = item.system;
+		if(!system){
+			console.error("System is undefined.");
+			return {};
+		}
+		const enrichedEffects = await TextEditor.enrichHTML(
+			system.effects,
+			{
+			  async: true,
+			  rollData: item.getRollData(), // Ensure `item.getRollData()` returns data
+			}
+		);
+
 		data.config = CONFIG.gs;
 		const itemData = data.data;
 		data.rollData = this.item.getRollData();
 		data.system = itemData.system;
 		data.flags = itemData.flags;
 
-		console.log("Check system data:", data.system);
 
 		return {
 			data,
 			config: data.config.gear,
 			actorSheet: data.config.actor,
 			raceSheet: data.config.actor.raceSheet,
-			gear: data.system
+			gear: data.system,
+			enrichedEffects
 		}
 	}
 
 	activateListeners(html){
 		super.activateListeners(html);
-		console.log("Activating listeners for GSItemSheet");
 		html.find("input[type='checkbox']").change(this._onChangeCheckbox.bind(this));
 		html.find('.innateSkills').on('drop', this._onDrop.bind(this)); // Drag N Drop skills into race sheets
 	}
