@@ -191,7 +191,7 @@ export default class GSActorSheet extends ActorSheet{
 		if(label !== casting){ // Add modifier to dice rolls else use modifer as DC check in roll eval
 			if(modifier < 0){
 				rollExpression += ` ${modifier}`;
-			}else{
+			}else if (modifier != 0){
 				rollExpression += ` + ${modifier}`;
 			}
 		}
@@ -254,7 +254,7 @@ export default class GSActorSheet extends ActorSheet{
 				const bonusScore = input.value;
 				const labelText = label.innerHTML;
 				// TODO: Update with chat box to add modifiers
-				this._rollsToMessage(baseDice, bonusScore, labelText);
+				this._rollsToMessage(baseDice, bonusScore, 0, 0, labelText);
 			}else{
 				console.error("Input field not found.");
 			}
