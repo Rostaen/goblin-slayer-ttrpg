@@ -79,7 +79,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Add mouse hover context for game related information
 - [ ] Block skills from having a higher value when levels and rank are in conflict
 
-## How to use the Game System
+# How to use the Game System
 
 At this point in v0 (2024/4/26) you will need to create each monster/item/skills/races/spells that you'll be using for the first game before hand (future updates will add compediums to save you time). Setup skills before creating Races as you can drag 'n drop skills into character sheets. If you drop the wrong skill into a Race, you'll need to make a new one since there is no current way to delete them (future update).
 
@@ -88,6 +88,12 @@ Once all of these items are ready, invite your players in to start creating char
 When moving characters around in the game, the grid is set to 1 meter (or 1m). PCs (player characters) are at close range to another monster at 5m and should be aware of this at all times. So all PCs are within melee range at 5m or less and do not need to be adjacent to their target in order to attack. This gives characters a little bit of room to move without penalties and also block movement checks and so forth.
 
 More How Tos to come...
+
+# Installation
+
+To install and use the Goblin Slayer system for Foundry VTT, please (visit my Ko-Fi page)[https://ko-fi.com/dndcrexposed] to support my efforts and to get a link for system installation and auto updates.
+
+Otherwise, you may manually install the system. To do so, you must clone or extract this repository into the `Data/systems/gs` folder. You may do this by cloning the repository or downloading a zip archive from the `<> Code` button above.
 
 ## Contributors
 

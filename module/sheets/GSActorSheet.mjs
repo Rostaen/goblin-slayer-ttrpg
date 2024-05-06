@@ -206,6 +206,14 @@ export default class GSActorSheet extends ActorSheet{
 		}
 		const roll = new Roll(rollExpression);
 		roll.evaluate({ async: true }).then(() => {
+			// Adding customHeader // Work on this in a later version
+			// const customHeader = `
+			// 	<div style="display: flex; align-items: center;">
+			// 		<img src="${this.actor.img}" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;" />
+			// 		<span>${this.actor.name}</span>
+			// 	</div>
+			// `;
+
 			// Getting Dice roll results
 			const diceResults = roll.terms[0].results.map(r => r.result);
 
@@ -215,18 +223,19 @@ export default class GSActorSheet extends ActorSheet{
 			// Setting up spell casting information
 			let dcCheck = '';
 			if(label === casting){
+				// Getting dice total plus bonuses to compare to DC stored in Modifier
 				const diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
 				if(diceTotal >= modifier && status[0] != 'fail'){
-					dcCheck = `${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.succ')}<br> ${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}`;
+					dcCheck = `<div class="spellCastSuccess">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.succ')}</div><div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}</div>`;
 				}else{
-					dcCheck = `${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}`;
+					dcCheck = `<div class="spellCastFailure">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}</div>`;
 				}
 			}
 
 			// Sending dice rolls to chat window
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `Rolling a ${label} check${status[1]}${dcCheck}`,
+				flavor: `<div class="customFlavor">Rolling a ${label} check${status[1]}${dcCheck}</div>`,
 			});
 		});
 	}
