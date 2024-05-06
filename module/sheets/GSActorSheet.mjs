@@ -171,11 +171,20 @@ export default class GSActorSheet extends ActorSheet{
 
 	_checkForCritRolls(diceResults){
 		if(diceResults.length === 2){
+			let results = [];
 			if(diceResults[0] === 1 && diceResults[1] === 1){
-				return `<br><div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
+				results[0] = 'fail';
+				results[1] = `<br><div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
+				return results;
 			}else if(diceResults[0] === 6 && diceResults[1] === 6){
-				return `<br><div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
-			}else return "";
+				results[0] = 'success';
+				results[1] = `<br><div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
+				return results;
+			}else {
+				results[0] = 'normal';
+				results[1] = '';
+				return results;
+			}
 		}
 	}
 
@@ -207,17 +216,17 @@ export default class GSActorSheet extends ActorSheet{
 			let dcCheck = '';
 			if(label === casting){
 				const diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
-				if(diceTotal >= modifier){
-					dcCheck = `<br>${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.succ')}<br> ${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}`;
+				if(diceTotal >= modifier && status[0] != 'fail'){
+					dcCheck = `${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.succ')}<br> ${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}`;
 				}else{
-					dcCheck = `<br>${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}`;
+					dcCheck = `${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}`;
 				}
 			}
 
 			// Sending dice rolls to chat window
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `Rolling a ${label} check${status}${dcCheck}`,
+				flavor: `Rolling a ${label} check${status[1]}${dcCheck}`,
 			});
 		});
 	}

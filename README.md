@@ -18,6 +18,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - Stats roll to chat bar for checks
     - Melee/Power/Dodge/Block checks rolling to chat bar
     - Rolls broken down into 'Dice + Stat + Class + Item Mod'
+    - Spell DC casting check
   - Stealth rolls to chat bar with class level and item modifiers
 
 ### TODO:
