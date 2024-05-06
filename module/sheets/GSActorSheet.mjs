@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "items"
+				initial: "spells"
 			}]
 		});
 	}
@@ -181,27 +181,44 @@ export default class GSActorSheet extends ActorSheet{
 
 	_rollsToMessage(dice, stat, classBonus, modifier, label){
 		let rollExpression = `${dice}`;
-		if(stat > 0){
+		const casting = game.i18n.localize('gs.dialog.spells.spUse');
+		if(stat > 0){ // Adding stat to dice rolls
 			rollExpression += ` + ${stat}`;
 		}
-		if(classBonus > 0){
+		if(classBonus > 0){ // Adding class bonus to dice rolls
 			rollExpression += ` + ${classBonus}`;
 		}
-		if(modifier < 0){
-			rollExpression += ` ${modifier}`;
-		}else{
-			rollExpression += ` + ${modifier}`;
+		if(label !== casting){ // Add modifier to dice rolls else use modifer as DC check in roll eval
+			if(modifier < 0){
+				rollExpression += ` ${modifier}`;
+			}else{
+				rollExpression += ` + ${modifier}`;
+			}
 		}
 		const roll = new Roll(rollExpression);
 		roll.evaluate({ async: true }).then(() => {
+			// Getting Dice roll results
 			const diceResults = roll.terms[0].results.map(r => r.result);
 
+			// Checking for critial success/failure
 			const status = this._checkForCritRolls(diceResults);
 
+			// Setting up spell casting information
+			let dcCheck = '';
+			if(label === casting){
+				const diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
+				if(diceTotal >= modifier){
+					dcCheck = `<br>${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.succ')}<br> ${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}`;
+				}else{
+					dcCheck = `<br>${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}`;
+				}
+			}
+
+			// Sending dice rolls to chat window
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `Rolling a ${label} check${status}`
-			}); // Sending results to chat
+				flavor: `Rolling a ${label} check${status}${dcCheck}`,
+			});
 		});
 	}
 
@@ -250,16 +267,18 @@ export default class GSActorSheet extends ActorSheet{
 		return container.querySelector('input[type="hidden"].type');
 	}
 
-	_getClassLevelBonus(typeHolder, gearType){
-		const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
-		const {fighter = 0, monk = 0, ranger = 0, scout = 0 } = this.actor.system.levels.classes;
+	_getClassLevelBonus(typeHolder, itemType){
+		if(itemType != 'cast') {
+			const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+		}
+		const {fighter = 0, monk = 0, ranger = 0, scout = 0, sorcerer = 0, priest = 0, dragon = 0, shaman = 0 } = this.actor.system.levels.classes;
 
 		let bonus = 0;
 
 		const includesAny = (words, text) => words.some(word => text.includes(word));
 
 		// TODO: Find any skills that influence class type hit checks to add here.
-		if(gearType === 'weapon'){
+		if(itemType === 'weapon'){
 			if(type === 'projectile' && ranger > 0){
 				bonus += ranger;
 			}else if(type === 'throwing'){
@@ -282,7 +301,7 @@ export default class GSActorSheet extends ActorSheet{
 					bonus += scout;
 				}
 			}
-		}else if(gearType === 'armor'){
+		}else if(itemType === 'armor'){
 			let armorType = type.match(/\((.*?)\)/);
 			if(armorType && armorType[1]){
 				const isCloth = armorType[1] === 'cloth';
@@ -296,11 +315,21 @@ export default class GSActorSheet extends ActorSheet{
 			}else{
 				console.error("Not text found in type from hidden input");
 			}
-		}else if(gearType === 'shield'){
+		}else if(itemType === 'shield'){
 			if(fighter > 0){
 				bonus += fighter;
 			}else if(scout && weight === 'light'){
 				bonus += scout;
+			}
+		}else if(itemType === 'cast'){
+			if(typeHolder.toLowerCase() === "words of true power"){
+				bonus += sorcerer;
+			}else if(typeHolder.toLowerCase() === "miracle"){
+				bonus += priest;
+			}else if(typeHolder.toLowerCase() === "ancestral dragon"){
+				bonus += dragon;
+			}else if(typeHolder.toLowerCase() === "spirit arts"){
+				bonus += shaman;
 			}
 		}
 		return bonus;
@@ -310,6 +339,7 @@ export default class GSActorSheet extends ActorSheet{
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const actorType = this.actor.type;
+		const actorCalcStats = this.actor.system.abilities.calc;
 		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation;
 
 		if (!container) {
@@ -326,7 +356,6 @@ export default class GSActorSheet extends ActorSheet{
 		if(actorType === 'character') diceNotation = modElement.textContent;
 		else if(actorType === 'monster') diceNotation = modElement.value;
 
-		console.log("Before dice eval");
 		// Getting monster to hit dice and modifiers (if any)
 		if((modSelector === '.hitMod' || modSelector === '.boss.dodge' ||
 			modSelector === '.boss.block' || modSelector === '.boss.spellRes' ||
@@ -347,7 +376,7 @@ export default class GSActorSheet extends ActorSheet{
 				if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
 				else modifier = powerMod;
 			}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
-					 modSelector === '.blockMod'){
+					 modSelector === '.blockMod' || modSelector === '.spellDif'){
 				modifier = parseInt(modElement.textContent, 10);
 			}else if(modSelector === '.spellRes'){
 				modifier = parseInt(modElement.value);
@@ -365,6 +394,16 @@ export default class GSActorSheet extends ActorSheet{
 					}
 					classBonus = this._getClassLevelBonus(typeHolder, itemType);
 					break;
+				case 'cast':
+					const school = container.querySelector("input[type='hidden']").value;
+					console.log("Hidden School", school);
+					if(school.toLowerCase() === "words of true power"){
+						stat = actorCalcStats.if;
+					}else{
+						stat = actorCalcStats.pf;
+					}
+					classBonus = this._getClassLevelBonus(school, itemType);
+					break;
 				// Do nothing else for other items types
 			}
 
@@ -372,9 +411,9 @@ export default class GSActorSheet extends ActorSheet{
 			if(modSelector === '.power' || modSelector === '.spellRes'){
 				// Do nothing here
 			}else if(itemType === 'weapon'){
-				stat = this.actor.system.abilities.calc.tf;
-			}else{
-				stat = this.actor.system.abilities.calc.tr;
+				stat = actorCalcStats.tf;
+			}else if(itemType === 'shield' || itemType === 'armor'){
+				stat = actorCalcStats.tr;
 			}
 		}
 
@@ -447,6 +486,9 @@ export default class GSActorSheet extends ActorSheet{
 				break;
 			case 'charSR':
 				this._rollWithModifiers(event, '.spellRes', '2d6', game.i18n.localize('gs.actor.common.spRe'), 'resistance');
+				break;
+			case 'spellName':
+				this._rollWithModifiers(event, '.spellDif', '2d6', game.i18n.localize('gs.dialog.spells.spUse'), 'cast');
 				break;
 
 			// Monster checks/rolls

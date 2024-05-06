@@ -84,7 +84,8 @@ gs.gear = {
 			min: "gs.gear.spells.min",
 			mat: "gs.gear.spells.mat",
 			tim: "gs.gear.spells.tim",
-			spa: "gs.gear.spells.spa"
+			spa: "gs.gear.spells.spa",
+			none: "gs.gear.spells.none",
 		}
 	},
 	skill: {

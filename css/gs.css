@@ -772,6 +772,10 @@
 .sidebar .lifeForceCalc {
   border-bottom: 1px solid lightgray;
 }
+.sidebar .charSR:hover {
+  cursor: pointer;
+  text-shadow: 0 0 5px darkred;
+}
 .stats .grid {
   grid-row-gap: 0px;
 }
@@ -1083,4 +1087,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .spellName:hover {
+  cursor: pointer;
+  text-shadow: 0 0 5px darkred;
 }
