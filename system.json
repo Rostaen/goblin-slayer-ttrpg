@@ -35,7 +35,7 @@
   "packFolders": [],
   "socket": false,
   "manifest": "",
-  "download": "",
+  "download": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
   "background": "systems/gs/assets/gslogo.jpg",
   "gridDistance": 1,
   "gridUnits": "meters",
