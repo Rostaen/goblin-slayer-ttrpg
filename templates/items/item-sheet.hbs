@@ -7,13 +7,13 @@
             </span>
             <span class="value">
                 <label for="itemValue">{{localize config.common.val}}:</label>
-                <input id="itemValue" name="system.value" type="text" value="{{gear.value}}"  data-dtype="Number" />
+                <input id="itemValue" name="system.value" type="text" value="{{numberFormat gear.value decimals=0 sign=false}}"  data-dtype="Number" />
             </span>
         </span>
     </div>
 	<img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
 	<span class="comments grid-span-4">
 		<label for="itemDescription">{{localize config.common.des}}:</label>
-		{{editor enrichedEffects target="system.effects" button=true engine="prosemirror"}}
+		{{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
 	</span>
 </form>

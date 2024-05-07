@@ -262,7 +262,9 @@
   margin: 0 0 5px;
 }
 .editor {
-  min-height: 48px;
+  min-height: 32px !important;
+  max-height: inherit;
+  height: fit-content !important;
 }
 .weapon,
 .armor,

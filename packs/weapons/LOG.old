@@ -1,3 +1,4 @@
-2024/05/06-16:55:02.779 1278 Recovering log #9
-2024/05/06-16:55:02.784 1278 Delete type=0 #9
-2024/05/06-16:55:02.784 1278 Delete type=3 #8
+2024/05/07-10:31:56.281 28ac Log #13: 0 ops saved to Table #14 OK
+2024/05/07-10:31:56.282 28ac Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/000013.log: OK
+2024/05/07-10:31:56.283 28ac Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/MANIFEST-000012: OK
+2024/05/07-10:31:56.286 28ac **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons; recovered 0 files; 0 bytes. Some data may have been lost. ****

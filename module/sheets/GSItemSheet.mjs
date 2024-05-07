@@ -3,7 +3,7 @@ export default class GSItemSheet extends ItemSheet {
 	static get defaultOptions(){
 		return mergeObject(super.defaultOptions, {
 			width: 550,
-			//height: auto,
+			height: "fit-content",
 			classes: ["gs", "sheet", "item"]
 		});
 	}
@@ -17,9 +17,6 @@ export default class GSItemSheet extends ItemSheet {
 		const data = super.getData();
 		const item = this.item || this.document;
 
-		console.log("Checking JSON", data);
-		console.log("what is this.document", this.item);
-
 		if(!item){
 			console.error("Item or document is undefined.");
 			return {};
@@ -29,13 +26,27 @@ export default class GSItemSheet extends ItemSheet {
 			console.error("System is undefined.");
 			return {};
 		}
-		const enrichedEffects = await TextEditor.enrichHTML(
-			system.effects,
-			{
-			  async: true,
-			  rollData: item.getRollData(), // Ensure `item.getRollData()` returns data
-			}
+		data.enrichedEffects = await TextEditor.enrichHTML(
+			system.effects, {async: true, rollData: item.getRollData(), }
 		);
+		if(item.type === 'skill'){
+			console.log("Item Data", item);
+			data.eBeginner = await TextEditor.enrichHTML(
+				system.beginner, {async: true, rollData: item.getRollData(), }
+			);
+			data.eIntermediate = await TextEditor.enrichHTML(
+				system.intermediate, {async: true, rollData: item.getRollData(), }
+			);
+			data.eExpert = await TextEditor.enrichHTML(
+				system.expert, {async: true, rollData: item.getRollData(), }
+			);
+			data.eMaster = await TextEditor.enrichHTML(
+				system.master, {async: true, rollData: item.getRollData(), }
+			);
+			data.eLegend = await TextEditor.enrichHTML(
+				system.legend, {async: true, rollData: item.getRollData(), }
+			);
+		}
 
 		data.config = CONFIG.gs;
 		const itemData = data.data;
@@ -50,7 +61,6 @@ export default class GSItemSheet extends ItemSheet {
 			actorSheet: data.config.actor,
 			raceSheet: data.config.actor.raceSheet,
 			gear: data.system,
-			enrichedEffects
 		}
 	}
 

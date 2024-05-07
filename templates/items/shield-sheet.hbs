@@ -27,7 +27,7 @@
 				<select name="system.stealth">
 					{{#select gear.stealth}}
 						{{#each config.armor.stealth as |number id|}}
-							<option value="{{number}}">{{id}}</option>
+							<option value="{{number}}">{{numberFormat number decimals=0 sign=true}} ({{id}})</option>
 						{{/each}}
 					{{/select}}
 				</select>

@@ -1,3 +1,9 @@
-2024/05/06-17:16:52.278 cd8 Recovering log #16
-2024/05/06-17:16:52.283 cd8 Delete type=0 #16
-2024/05/06-17:16:52.283 cd8 Delete type=3 #14
+2024/05/07-10:31:56.210 4ff4 Delete type=3 #1
+2024/05/07-10:31:56.211 3eac Compacting 4@0 + 0@1 files
+2024/05/07-10:31:56.212 3eac Generated table #22@0: 5 keys, 1832 bytes
+2024/05/07-10:31:56.212 3eac Compacted 4@0 + 0@1 files => 1832 bytes
+2024/05/07-10:31:56.213 3eac compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/05/07-10:31:56.213 3eac Delete type=2 #7
+2024/05/07-10:31:56.213 3eac Delete type=2 #10
+2024/05/07-10:31:56.214 3eac Delete type=2 #15
+2024/05/07-10:31:56.214 3eac Delete type=2 #19

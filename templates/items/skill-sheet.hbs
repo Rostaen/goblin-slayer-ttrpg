@@ -20,7 +20,7 @@
     </span>
     <span class="grid-span-5 description">
         <label for="itemDescription">{{localize config.common.des}}:</label>
-        {{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
+        {{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
     </span>
     <h2 class="grid-span-5">{{localize config.common.eff}} of {{data.item.name}}</h2>
 
@@ -28,18 +28,18 @@
     <h4 class="grid-span-4">{{localize config.common.eff}}</h4>
 
     <span class="effects" for="skillBeginner">{{localize config.skill.beg}}:</span>
-    <span class="grid-span-4">{{editor gear.beginner target="system.beginner" button=true engine="prosemirror" }}</span>
+    <span class="grid-span-4">{{editor data.eBeginner target="system.beginner" button=true engine="prosemirror" }}</span>
 
     <span class="effects" for="skillIntermediate">{{localize config.skill.int}}:</span>
-    <span class="grid-span-4">{{editor gear.intermediate target="system.intermediate" button=true engine="prosemirror" }}</span>
+    <span class="grid-span-4">{{editor data.eIntermediate target="system.intermediate" button=true engine="prosemirror" }}</span>
 
     <span class="effects" for="skillExpert">{{localize config.skill.exp}}:</span>
-    <span class="grid-span-4">{{editor gear.expert target="system.expert" button=true engine="prosemirror" }}</span>
+    <span class="grid-span-4">{{editor data.eExpert target="system.expert" button=true engine="prosemirror" }}</span>
     {{#if gear.type}}
     <span class="effects" for="skillMaster">{{localize config.skill.mas}}:</span>
-    <span class="grid-span-4">{{editor gear.master target="system.master" button=true engine="prosemirror" }}</span>
+    <span class="grid-span-4">{{editor data.eMaster target="system.master" button=true engine="prosemirror" }}</span>
 
     <span class="effects" for="skillLegend">{{localize config.skill.leg}}:</span>
-    <span class="grid-span-4">{{editor gear.legend target="system.legend" button=true engine="prosemirror" }}</span>
+    <span class="grid-span-4">{{editor data.eLegend target="system.legend" button=true engine="prosemirror" }}</span>
     {{/if}}
 </form>
