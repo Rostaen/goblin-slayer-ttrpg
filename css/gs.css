@@ -526,6 +526,9 @@
 .spell span.catalyst label {
   margin-right: 5px;
 }
+.spell span.chant .editor {
+  width: 100%;
+}
 .spell .switch-container {
   display: flex;
   align-items: center;

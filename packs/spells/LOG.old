@@ -1,4 +1,3 @@
-2024/05/07-10:31:56.216 28ac Log #15: 0 ops saved to Table #16 OK
-2024/05/07-10:31:56.217 28ac Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/000015.log: OK
-2024/05/07-10:31:56.219 28ac Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/MANIFEST-000014: OK
-2024/05/07-10:31:56.221 28ac **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells; recovered 0 files; 0 bytes. Some data may have been lost. ****
+2024/05/08-08:37:51.014 4700 Recovering log #21
+2024/05/08-08:37:51.018 4700 Delete type=0 #21
+2024/05/08-08:37:51.018 4700 Delete type=3 #19

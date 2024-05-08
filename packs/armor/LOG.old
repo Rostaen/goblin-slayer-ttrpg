@@ -1,4 +1,3 @@
-2024/05/07-10:31:56.265 4ff4 Log #13: 0 ops saved to Table #14 OK
-2024/05/07-10:31:56.265 4ff4 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/000013.log: OK
-2024/05/07-10:31:56.267 4ff4 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/MANIFEST-000012: OK
-2024/05/07-10:31:56.271 4ff4 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor; recovered 0 files; 0 bytes. Some data may have been lost. ****
+2024/05/08-08:37:51.039 aa0 Recovering log #18
+2024/05/08-08:37:51.041 aa0 Delete type=0 #18
+2024/05/08-08:37:51.041 aa0 Delete type=3 #17

@@ -1,6 +1,13 @@
-2024/05/07-10:31:56.250 28ac Log #16: 7 ops saved to Table #17 OK
-2024/05/07-10:31:56.250 28ac Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/000016.log: OK
-2024/05/07-10:31:56.251 28ac Table #7: 10 entries OK
-2024/05/07-10:31:56.251 28ac Table #17: 7 entries OK
-2024/05/07-10:31:56.253 28ac Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/MANIFEST-000015: OK
-2024/05/07-10:31:56.256 28ac **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills; recovered 2 files; 6023 bytes. Some data may have been lost. ****
+2024/05/08-08:37:51.029 4700 Recovering log #22
+2024/05/08-08:37:51.029 4700 Level-0 table #24: started
+2024/05/08-08:37:51.031 4700 Level-0 table #24: 27169 bytes OK
+2024/05/08-08:37:51.034 4700 Delete type=0 #22
+2024/05/08-08:37:51.035 4700 Delete type=3 #20
+2024/05/08-08:37:51.035 385c Compacting 4@0 + 0@1 files
+2024/05/08-08:37:51.037 385c Generated table #26@0: 29 keys, 18672 bytes
+2024/05/08-08:37:51.037 385c Compacted 4@0 + 0@1 files => 18672 bytes
+2024/05/08-08:37:51.037 385c compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/05/08-08:37:51.038 385c Delete type=2 #7
+2024/05/08-08:37:51.038 385c Delete type=2 #17
+2024/05/08-08:37:51.038 385c Delete type=2 #21
+2024/05/08-08:37:51.038 385c Delete type=2 #24

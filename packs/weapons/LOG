@@ -1,1 +1,5 @@
-2024/05/07-10:31:56.292 28ac Delete type=3 #1
+2024/05/08-10:02:30.301 4bec Recovering log #21
+2024/05/08-10:02:30.301 4bec Level-0 table #23: started
+2024/05/08-10:02:30.302 4bec Level-0 table #23: 2936 bytes OK
+2024/05/08-10:02:30.305 4bec Delete type=0 #21
+2024/05/08-10:02:30.305 4bec Delete type=3 #20
