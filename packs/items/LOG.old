@@ -1,3 +1,5 @@
-2024/05/08-08:37:51.006 aa0 Recovering log #25
-2024/05/08-08:37:51.009 aa0 Delete type=0 #25
-2024/05/08-08:37:51.009 aa0 Delete type=3 #23
+2024/05/09-09:34:59.490 aa4 Recovering log #30
+2024/05/09-09:34:59.490 aa4 Level-0 table #32: started
+2024/05/09-09:34:59.491 aa4 Level-0 table #32: 871 bytes OK
+2024/05/09-09:34:59.493 aa4 Delete type=0 #30
+2024/05/09-09:34:59.493 aa4 Delete type=3 #28

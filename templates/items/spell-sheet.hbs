@@ -1,4 +1,4 @@
-<form class="{{cssClass}}{{data.item.type}}" autocomplete="off">
+<form class="{{#each data.options.classes as |class id|}}{{class}} {{/each}} {{data.item.type}}" autocomplete="off">
 	<div class="grid grid-5col top">
 		<img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
 		<div class="grid-span-4">
@@ -38,11 +38,13 @@
 					</span>
 				</span>
 			</div>
+			<div class="grid-span-2">
+				{{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
+			</div>
 		</div>
 	</div>
-	{{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
 	<span class="effects">
-		<label for="weaponEffects">{{localize config.common.eff}}:</label>
+		{{!-- <label for="weaponEffects">{{localize config.common.eff}}:</label> --}}
         {{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
 	</span>
 	{{!-- <span class="switch-container">

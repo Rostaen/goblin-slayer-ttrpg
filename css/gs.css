@@ -266,6 +266,41 @@
   max-height: inherit;
   height: fit-content !important;
 }
+.sheet.item img {
+  border-radius: 5px;
+}
+.sheet.item input[type="text"],
+.sheet.item select,
+.sheet.item .spell span.style,
+.sheet.item .spell div.editor,
+.sheet.item span.comments,
+.sheet.item span.effects,
+.sheet.item .editor {
+  border: 2px solid darkred;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 5px;
+}
+.sheet.item span.comments .editor,
+.sheet.item span.effects .editor {
+  border: 0px;
+  background-color: inherit;
+  border-radius: inherit;
+}
+.sheet.item label {
+  font-weight: bold;
+}
+table {
+  border-top: 1px solid darkred;
+  border-bottom: 1px solid darkred;
+  background-color: inherit;
+  margin-bottom: 0px;
+}
+table tr:nth-child(odd) {
+  background-color: #8b000033;
+}
+table tr:nth-child(even) {
+  background-color: inherit;
+}
 .weapon,
 .armor,
 .shield {

@@ -54,6 +54,7 @@ export default class GSItemSheet extends ItemSheet {
 		data.system = itemData.system;
 		data.flags = itemData.flags;
 
+		console.log("Review Data", data);
 
 		return {
 			data,

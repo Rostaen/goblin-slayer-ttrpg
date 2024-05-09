@@ -1,4 +1,4 @@
-<form class="{{cssClass}}{{data.actor.type}} grid grid-5col" autocomplete="off" onsubmit="return false;">
+<form class="{{#each data.options.classes as |class id|}}{{class}} {{/each}} {{data.actor.type}} grid grid-5col" autocomplete="off" onsubmit="return false;">
     <div class="sidebar">
         <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
         <div class="actor-main-info">

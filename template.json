@@ -1,6 +1,10 @@
 {
   "Actor": {
     "types": ["character", "monster"],
+    "displayNames": {
+      "character": "Player Character",
+      "monster": "Monsters"
+    },
     "templates": {
       "common": {
         "move": 0,
@@ -258,6 +262,15 @@
   },
   "Item": {
     "types": ["weapon", "armor", "shield", "item", "spell", "skill", "race"],
+    "displayNames": {
+      "weapon": "Weapons",
+      "armor": "Armor",
+      "shield": "Shields",
+      "item": "Items",
+      "spell": "Spells",
+      "skill": "Skills",
+      "race": "Race"
+    },
     "templates": {
       "common": {
         "type": "",
@@ -295,7 +308,7 @@
       "summary": "",
       "difficulty": "",
       "chant": "",
-      "catalyst": "",
+      "catalyst": "None",
       "schoolChoice": "",
       "styleChoice": "",
       "elementChoice": "",
