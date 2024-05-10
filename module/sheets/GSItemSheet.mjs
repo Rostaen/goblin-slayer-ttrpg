@@ -46,6 +46,10 @@ export default class GSItemSheet extends ItemSheet {
 			data.eLegend = await TextEditor.enrichHTML(
 				system.legend, {async: true, rollData: item.getRollData(), }
 			);
+		}else if(item.type === 'race'){
+			data.eComment = await TextEditor.enrichHTML(
+				system.comment, {async: true, rollData: item.getRollData(), }
+			);
 		}
 
 		data.config = CONFIG.gs;

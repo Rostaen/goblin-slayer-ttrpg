@@ -285,7 +285,7 @@
       "use": "",
       "attribute": "",
       "power": "",
-      "hitMod": "",
+      "hitMod": 0,
       "range": ""
     },
     "armor": {
