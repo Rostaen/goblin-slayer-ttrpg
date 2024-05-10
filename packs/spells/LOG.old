@@ -1,1 +1,5 @@
-2024/05/10-07:42:06.586 2ef8 Delete type=3 #1
+2024/05/10-11:36:42.200 3b0c Recovering log #35
+2024/05/10-11:36:42.200 3b0c Level-0 table #37: started
+2024/05/10-11:36:42.202 3b0c Level-0 table #37: 1549 bytes OK
+2024/05/10-11:36:42.207 3b0c Delete type=0 #35
+2024/05/10-11:36:42.208 3b0c Delete type=3 #34
