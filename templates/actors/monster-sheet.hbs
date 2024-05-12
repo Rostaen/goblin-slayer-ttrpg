@@ -296,10 +296,10 @@
         <span class="grid-span-5">{{editor actor.system.support target="system.support" button=true engine="prosemirror"}}</span>
 
         <label>{{localize config.monster.spec}}</label>
-        <span class="grid-span-5">{{editor actor.system.abilities target="system.abilities" button=true engine="prosemirror"}}</span>
+        <span class="grid-span-5">{{editor data.eAbilities target="system.abilities" button=true engine="prosemirror"}}</span>
     </div>
     {{!-- Monster Comment --}}
     <div>
-        {{editor actor.system.comment target="system.comment" button=true engine="prosemirror"}}
+        {{editor data.eComment target="system.comment" button=true engine="prosemirror"}}
     </div>
 </form>

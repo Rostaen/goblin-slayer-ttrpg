@@ -17,7 +17,7 @@ export default class GSActorSheet extends ActorSheet{
 		return `${path}/${this.actor.type}-sheet.hbs`;
 	}
 
-	getData(){
+	async getData(){
 		const data = super.getData();
 		data.config = CONFIG.gs;
 		const actorData = data.actor;
@@ -25,6 +25,15 @@ export default class GSActorSheet extends ActorSheet{
 		data.flags = actorData.flags;
 
 		console.log("Checking Actor Super Data:", data);
+
+		if(this.actor.type === 'monster'){
+			data.eAbilities = await TextEditor.enrichHTML(
+				actorData.system.abilities, {async: true, rollData: actorData.getRollData(), }
+			);
+			data.eComment = await TextEditor.enrichHTML(
+				actorData.system.comment, {async: true, rollData: actorData.getRollData(), }
+			);
+		}
 
 		return {
 			data,
