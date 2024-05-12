@@ -40,9 +40,9 @@
 	</div>
 	<span class="effects grid-span-5">
 		<label for="shieldEffects">{{localize config.common.eff}}:</label>
-		{{editor gear.effects target="system.effects" button=true engine="prosemirror"}}
+		{{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
 	</span>
-	<span class="comments grid-span-5">
+	{{!-- <span class="comments grid-span-5">
 		{{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
-	</span>
+	</span> --}}
 </form>
