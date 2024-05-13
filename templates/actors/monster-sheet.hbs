@@ -20,11 +20,16 @@
                 <label>{{localize config.common.max}} </label>
                 <input type="text" name="system.lifeForce.max" value="{{actor.system.lifeForce.max}}" data-dtype="Number" />
 
+                {{#if actor.system.isBoss}}
                 <label class="minStatic minionSR" title="{{localize config.monster.min}} {{localize config.common.spRe}}">{{localize config.monster.mSR}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" class="minion spellRes" />
 
                 <label class="actorRolls bossSR" title="{{localize config.monster.boss}} {{localize config.common.spRe}}">{{localize config.monster.bSR}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input name="system.bossSR" type="text" value="{{actor.system.bossSR}}" class="boss spellRes" />
+                {{else}}
+                <label class="minStatic minionSR grid-span-2" title="{{localize config.monster.min}} {{localize config.common.spRe}}">{{localize config.monster.mSR}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input name="system.spellRes" type="text" value="{{actor.system.spellRes}}" class="minion spellRes grid-span-2" />
+                {{/if}}
 
                 {{!-- 3rd Row --}}
                 <label>{{localize config.common.move}} </label>
@@ -44,6 +49,24 @@
 
                 <label>{{localize config.monster.mora}} </label>
                 <input type="text" name="system.morale" value="{{actor.system.morale}}" data-dtype="Number" />
+            </div>
+            <div class="toggles grid grid-6col">
+                <span class="switch-container">
+                    <span class="switch-label">{{localize config.monster.types.boss}}?</span>
+                    <label class="switch">
+                        <input type="checkbox" data-key="type" id="skill-switch" name="system.isBoss" {{checked actor.system.isBoss}} />
+                        <span class="slider"></span>
+                    </label>
+                    <span class="switch-label">{{localize config.skill.adv}}</span>
+                </span>
+                <span class="switch-container">
+                    <span class="switch-label">{{localize config.monster.bloc}}?</span>
+                    <label class="switch">
+                        <input type="checkbox" data-key="type" id="skill-switch" name="system.hasBlock" {{checked actor.system.hasBlock}} />
+                        <span class="slider"></span>
+                    </label>
+                    <span class="switch-label">{{localize config.skill.adv}}</span>
+                </span>
             </div>
         </div>
     </div>
@@ -76,10 +99,15 @@
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit">
+                {{#if actor.system.isBoss}}
                 <label class="minStatic minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.0.mCheck" value="{{actor.system.attacks.0.mCheck}}" class="minionStatic hit" >
                 <label class="actorRolls bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.0.check" value="{{actor.system.attacks.0.check}}" class="hitMod" >
+                {{else}}
+                <label class="minStatic minionHit grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.0.mCheck" value="{{actor.system.attacks.0.mCheck}}" class="minionStatic hit grid-span-2" >
+                {{/if}}
             </div>
         </div>
 
@@ -125,10 +153,15 @@
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit">
-                <label class="minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                {{#if actor.system.isBoss}}
+                <label class="minStatic minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.1.mCheck" value="{{actor.system.attacks.1.mCheck}}" class="minionStatic hit" >
                 <label class="actorRolls bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.1.check" value="{{actor.system.attacks.1.check}}" class="hitMod" >
+                {{else}}
+                <label class="minStatic minionHit grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.1.mCheck" value="{{actor.system.attacks.1.mCheck}}" class="minionStatic hit grid-span-2" >
+                {{/if}}
             </div>
         </div>
 
@@ -175,10 +208,15 @@
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit">
-                <label class="minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                {{#if actor.system.isBoss}}
+                <label class="minStatic minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.2.mCheck" value="{{actor.system.attacks.2.mCheck}}" class="minionStatic hit" >
                 <label class="actorRolls bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.2.check" value="{{actor.system.attacks.2.check}}" class="hitMod" >
+                {{else}}
+                <label class="minStatic minionHit grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.2.mCheck" value="{{actor.system.attacks.2.mCheck}}" class="minionStatic hit grid-span-2" >
+                {{/if}}
             </div>
         </div>
 
@@ -225,10 +263,15 @@
         {{!-- 2nd row --}}
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit">
-                <label class="minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                {{#if actor.system.isBoss}}
+                <label class="minStatic minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.3.mCheck" value="{{actor.system.attacks.3.mCheck}}" class="minionStatic hit" >
                 <label class="actorRolls bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.3.check" value="{{actor.system.attacks.3.check}}" class="hitMod" >
+                {{else}}
+                <label class="minStatic minionHit grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.attacks.3.mCheck" value="{{actor.system.attacks.3.mCheck}}" class="minionStatic hit grid-span-2" >
+                {{/if}}
             </div>
         </div>
 
@@ -260,8 +303,10 @@
                 <label class="minStatic minionDodge">{{localize config.monster.dodg}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.minion.dodge" value="{{actor.system.defenses.minion.dodge}}" data-dtype="Number" class="minionStatic dodge" />
 
+                {{#if actor.system.hasBlock}}
                 <label class="minStatic minionBlock">{{localize config.monster.bloc}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.minion.block" value="{{actor.system.defenses.minion.block}}" data-dtype="Number" class="minionStatic block" />
+                {{/if}}
 
                 <label>{{localize config.monster.aSco}}</label>
                 <input type="text" name="system.defenses.minion.armor" value="{{actor.system.defenses.minion.armor}}" data-dtype="Number" />
@@ -270,7 +315,7 @@
                 <input type="text" name="system.defenses.minion.aType" value="{{actor.system.defenses.minion.aType}}">
             </div>
         </div>
-
+        {{#if actor.system.isBoss}}
         {{!-- Boss Values --}}
         <h3 class="">{{localize config.monster.types.boss}}</h3>
         <div class="grid-span-9">
@@ -278,8 +323,10 @@
                 <label class="actorRolls bossDodge">{{localize config.monster.dodg}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.boss.dodge" value="{{actor.system.defenses.boss.dodge}}" class="boss dodge" />
 
+                {{#if actor.system.hasBlock}}
                 <label class="actorRolls bossBlock">{{localize config.monster.bloc}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.boss.block" value="{{actor.system.defenses.boss.block}}" class="boss block" />
+                {{/if}}
 
                 <label>{{localize config.monster.aSco}}</label>
                 <input type="text" name="system.defenses.boss.armor" value="{{actor.system.defenses.boss.armor}}" data-dtype="Number" />
@@ -288,6 +335,7 @@
                 <input type="text" name="system.defenses.boss.aType" value="{{actor.system.defenses.boss.aType}}">
             </div>
         </div>
+        {{/if}}
     </div>
     <hr>
     {{!-- Support and Abilities --}}

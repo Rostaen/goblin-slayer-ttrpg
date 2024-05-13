@@ -257,7 +257,9 @@
       },
       "support": "",
       "abilities": "",
-      "comment": ""
+      "comment": "",
+      "isBoss": false,
+      "hasBlock": false
     }
   },
   "Item": {

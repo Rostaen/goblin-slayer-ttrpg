@@ -1,5 +1,5 @@
-2024/05/10-15:06:49.176 3fbc Recovering log #37
-2024/05/10-15:06:49.177 3fbc Level-0 table #40: started
-2024/05/10-15:06:49.179 3fbc Level-0 table #40: 4985 bytes OK
-2024/05/10-15:06:49.184 3fbc Delete type=0 #37
-2024/05/10-15:06:49.184 3fbc Delete type=3 #35
+2024/05/13-07:46:46.110 411c Recovering log #44
+2024/05/13-07:46:46.112 411c Level-0 table #47: started
+2024/05/13-07:46:46.115 411c Level-0 table #47: 56203 bytes OK
+2024/05/13-07:46:46.120 411c Delete type=0 #44
+2024/05/13-07:46:46.120 411c Delete type=3 #42
