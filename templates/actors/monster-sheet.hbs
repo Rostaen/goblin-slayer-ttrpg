@@ -299,13 +299,16 @@
         {{!-- Minion Values --}}
         <h3 class="">{{localize config.monster.types.minion}}</h3>
         <div class="grid-span-9">
-            <div class="grid grid-8col reveal-rollable">
+            <div class="grid grid-10col reveal-rollable">
                 <label class="minStatic minionDodge">{{localize config.monster.dodg}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.minion.dodge" value="{{actor.system.defenses.minion.dodge}}" data-dtype="Number" class="minionStatic dodge" />
 
                 {{#if actor.system.hasBlock}}
                 <label class="minStatic minionBlock">{{localize config.monster.bloc}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.minion.block" value="{{actor.system.defenses.minion.block}}" data-dtype="Number" class="minionStatic block" />
+
+                <label class="minScore minionBScore">{{localize gearConfig.shield.sco}}</label>
+                <input type="text" name="system.defenses.minion.bScore" value="{{actor.system.defenses.minion.bScore}}" class="minScore minBScore">
                 {{/if}}
 
                 <label>{{localize config.monster.aSco}}</label>
@@ -319,13 +322,16 @@
         {{!-- Boss Values --}}
         <h3 class="">{{localize config.monster.types.boss}}</h3>
         <div class="grid-span-9">
-            <div class="grid grid-8col reveal-rollable">
+            <div class="grid grid-10col reveal-rollable">
                 <label class="actorRolls bossDodge">{{localize config.monster.dodg}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.boss.dodge" value="{{actor.system.defenses.boss.dodge}}" class="boss dodge" />
 
                 {{#if actor.system.hasBlock}}
                 <label class="actorRolls bossBlock">{{localize config.monster.bloc}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.boss.block" value="{{actor.system.defenses.boss.block}}" class="boss block" />
+
+                <label class="bossScore bssBScore">{{localize gearConfig.shield.sco}}</label>
+                <input type="text" name="system.defenses.boss.bScore" value="{{actor.system.defenses.boss.bScore}}" class="bossScore bossBScore">
                 {{/if}}
 
                 <label>{{localize config.monster.aSco}}</label>
