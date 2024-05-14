@@ -1,3 +1,5 @@
-2024/05/13-07:46:46.056 411c Recovering log #44
-2024/05/13-07:46:46.062 411c Delete type=0 #44
-2024/05/13-07:46:46.062 411c Delete type=3 #43
+2024/05/14-09:49:01.972 4bd0 Log #49: 0 ops saved to Table #51 OK
+2024/05/14-09:49:01.972 4bd0 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/000049.log: OK
+2024/05/14-09:49:01.973 4bd0 Table #50: 135 entries OK
+2024/05/14-09:49:01.976 4bd0 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/MANIFEST-000047: OK
+2024/05/14-09:49:01.978 4bd0 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells; recovered 1 files; 152015 bytes. Some data may have been lost. ****

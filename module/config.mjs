@@ -270,7 +270,8 @@ gs.actor = {
         mSR: "gs.actor.monster.mSR",
         min: "gs.actor.monster.min",
         bSR: "gs.actor.monster.bSR",
-        boss: "gs.actor.monster.boss"
+        boss: "gs.actor.monster.boss",
+		description: "gs.actor.monster.description",
 	},
 	charSheet: {
 		tabs: {

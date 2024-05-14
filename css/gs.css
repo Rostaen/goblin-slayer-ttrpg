@@ -672,6 +672,32 @@ table tr:nth-child(even) {
   justify-content: center;
   align-items: center;
 }
+.monster {
+  padding-top: 10px;
+}
+.monster .fa-circle-exclamation {
+  color: #0aa300;
+}
+.monster input,
+.monster select {
+  border: 1px solid darkred;
+  background-color: #8b00000a;
+}
+.monster img {
+  border: 2px solid darkred;
+  border-radius: 5px;
+}
+.monster .coreItems,
+.monster .melee,
+.monster .defense,
+.monster .support .editor,
+.monster .abilities .editor,
+.monster .comment .editor {
+  border: 2px solid darkred;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 5px;
+}
 .monster .minionSR,
 .monster .minionHit,
 .monster .minionDodge,
@@ -694,6 +720,17 @@ table tr:nth-child(even) {
 .monster .headerInfo {
   margin-top: 0px;
 }
+.monster .headerInfo .coreItems {
+  padding-top: 20px;
+}
+.monster .headerInfo .coreItems h2:first-child {
+  padding: 0px;
+}
+.monster .headerInfo .coreItems h2:first-child input[type="text"] {
+  padding: 2px 4px;
+  border: 0px;
+  background-color: inherit;
+}
 .monster .headerInfo .coreItems .grid {
   margin-top: 0px;
 }
@@ -706,16 +743,100 @@ table tr:nth-child(even) {
 .monster .headerInfo .coreItems .grid input[type="text"] {
   margin: auto;
 }
+.monster .support,
+.monster .abilities,
+.monster .comment {
+  margin: 10px 0px;
+}
+.monster .support .editor,
+.monster .abilities .editor {
+  padding-top: 20px;
+}
+.monster .comment .editor {
+  padding-top: 10px;
+}
+.monster .coreItems .alert {
+  margin-right: 5px;
+}
+.monster .coreItems,
+.monster .melee,
+.monster .defense,
+.monster .support,
+.monster .abilities,
+.monster .comment {
+  position: relative;
+}
+.monster .coreItems h2,
+.monster .melee h2,
+.monster .defense h2,
+.monster .support h2,
+.monster .abilities h2,
+.monster .comment h2,
+.monster .coreItems .numOfAttacks,
+.monster .melee .numOfAttacks,
+.monster .defense .numOfAttacks,
+.monster .support .numOfAttacks,
+.monster .abilities .numOfAttacks,
+.monster .comment .numOfAttacks {
+  position: absolute;
+  top: -15px;
+  background-color: #ffffff;
+  border-bottom: 0px;
+  padding: 2px 4px 0px;
+  border: 2px solid darkred;
+  border-radius: 5px;
+}
+.monster .coreItems h2,
+.monster .melee h2,
+.monster .defense h2,
+.monster .support h2,
+.monster .abilities h2,
+.monster .comment h2 {
+  left: 10px;
+  z-index: 100;
+}
+.monster .coreItems .numOfAttacks,
+.monster .melee .numOfAttacks,
+.monster .defense .numOfAttacks,
+.monster .support .numOfAttacks,
+.monster .abilities .numOfAttacks,
+.monster .comment .numOfAttacks {
+  right: 10px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0px;
+  font-size: 15px;
+}
+.monster .coreItems input,
 .monster .melee input,
-.monster .defense input {
+.monster .defense input,
+.monster .support input,
+.monster .abilities input,
+.monster .comment input {
   margin: auto;
 }
+.monster .coreItems label,
 .monster .melee label,
-.monster .defense label {
+.monster .defense label,
+.monster .support label,
+.monster .abilities label,
+.monster .comment label {
   font-size: 13px;
 }
 .monster .melee {
   gap: 5px;
+  padding-top: 20px;
+}
+.monster .melee .alert {
+  position: absolute;
+  right: 4px;
+  z-index: 101;
+  top: -10px;
+  background-color: white;
+  border-radius: 50%;
 }
 .monster .melee button {
   height: 26px;

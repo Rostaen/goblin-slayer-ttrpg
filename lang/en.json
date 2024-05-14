@@ -222,7 +222,8 @@
         "mSR": "MSR",
         "min": "Minion",
         "bSR": "BSR",
-        "boss": "Boss"
+        "boss": "Boss",
+        "description": "Description"
       }
     },
     "charSheet": {
@@ -304,6 +305,11 @@
       "spells": {
         "spUse": "Spell Use",
         "cast": "Cast"
+      },
+      "monsterSheet":{
+        "boss": "Can this monster be a boss?",
+        "block": "Can this monster block?",
+        "numOfAttacks": "Change this number to add/remove monster attacks. Min 1, Max 4"
       }
     }
   }

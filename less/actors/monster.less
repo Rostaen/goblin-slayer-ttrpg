@@ -1,4 +1,22 @@
 .monster{
+    padding-top: 10px;
+    .fa-circle-exclamation{
+        color: #0aa300;
+    }
+    input, select{
+        border: 1px solid darkred;
+        background-color: #8b00000a;
+    }
+    img{
+        border: 2px solid darkred;
+        border-radius: 5px;
+    }
+    .coreItems, .melee, .defense, .support .editor, .abilities .editor, .comment .editor{
+        border: 2px solid darkred;
+        padding: 5px;
+        background-color: rgba(255,255,255,0.75);
+        border-radius: 5px;
+    }
     .minionSR, .minionHit, .minionDodge, .minionBlock{
         color: rgb(0, 60, 0);
     }
@@ -15,6 +33,15 @@
     .headerInfo{
         margin-top: 0px;
         .coreItems{
+            padding-top: 20px;
+            h2:first-child{
+                padding: 0px;
+                input[type="text"]{
+                    padding: 2px 4px;
+                    border: 0px;
+                    background-color: inherit;
+                }
+            }
             .grid{
                 margin-top: 0px;
                 .minionSR:hover, .bossSR:hover, .initiative:hover{
@@ -27,7 +54,49 @@
             }
         }
     }
-    .melee, .defense{
+    .support, .abilities, .comment{
+        margin: 10px 0px;
+    }
+    .support, .abilities{
+        .editor{
+            padding-top: 20px;
+        }
+    }
+    .comment{
+        .editor{
+            padding-top: 10px;
+        }
+    }
+    .coreItems{
+        .alert{
+            margin-right: 5px;
+        }
+    }
+    .coreItems, .melee, .defense, .support, .abilities, .comment{
+        position: relative;
+        h2, .numOfAttacks{
+            position: absolute;
+            top: -15px;
+            background-color: rgba(255,255,255,1);
+            border-bottom: 0px;
+            padding: 2px 4px 0px;
+            border: 2px solid darkred;
+            border-radius: 5px;
+        }
+        h2{
+            left: 10px;
+            z-index: 100;
+        }
+        .numOfAttacks{
+            right: 10px;
+            width: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0px;
+            font-size: 15px;
+        }
         input{
             margin: auto;
         }
@@ -37,6 +106,15 @@
     }
     .melee{
         gap: 5px;
+        padding-top: 20px;
+        .alert{
+            position: absolute;
+            right: 4px;
+            z-index: 101;
+            top: -10px;
+            background-color: white;
+            border-radius: 50%;
+        }
         button{
             height: 26px;
             width: 24px;

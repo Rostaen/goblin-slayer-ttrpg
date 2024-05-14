@@ -47,7 +47,8 @@ export default class GSActorSheet extends ActorSheet{
 	activateListeners(html){
 		super.activateListeners(html);
 		html.find("input").keydown(event => {
-			if(event.key === 'Enter'){event.preventDefault();}
+			if(this.actor.type === 'character')
+				if(event.key === 'Enter'){event.preventDefault();}
 		});
 		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
