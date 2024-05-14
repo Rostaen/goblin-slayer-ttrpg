@@ -127,7 +127,7 @@
   "background": "systems/gs/assets/gslogo.jpg",
   "gridDistance": 1,
   "gridUnits": "meters",
-  "primaryTokenAttribute": "health",
+  "primaryTokenAttribute": "system.lifeForce",
   "secondaryTokenAttribute": "power",
   "settings": {
     "editor": {
