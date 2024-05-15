@@ -345,18 +345,21 @@
         </div>
         {{/if}}
     </div>
-    {{!-- Support and Abilities --}}
-    <div class="support">
-        <h2>{{localize config.monster.supp}}</h2>
-        {{editor actor.system.support target="system.support" button=true engine="prosemirror"}}
-    </div>
+
     <div class="abilities">
         <h2>{{localize config.monster.spec}}</h2>
         {{editor data.eAbilities target="system.abilities" button=true engine="prosemirror"}}
     </div>
-    {{!-- Monster Comment --}}
-    <div class="comment">
-        <h2>{{localize config.monster.description}}</h2>
-        {{editor data.eComment target="system.comment" button=true engine="prosemirror"}}
+    <div class="grid grid-2col">
+        {{!-- Support and Abilities --}}
+        <div class="support">
+            <h2>{{localize config.monster.supp}}</h2>
+            {{editor actor.system.support target="system.support" button=true engine="prosemirror"}}
+        </div>
+        {{!-- Monster Comment --}}
+        <div class="comment">
+            <h2>{{localize config.monster.description}}</h2>
+            {{editor data.eComment target="system.comment" button=true engine="prosemirror"}}
+        </div>
     </div>
 </form>

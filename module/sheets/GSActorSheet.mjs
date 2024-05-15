@@ -229,6 +229,7 @@ export default class GSActorSheet extends ActorSheet{
 
 			// Checking for critial success/failure
 			const status = this._checkForCritRolls(diceResults);
+			console.log("Dice status", status);
 
 			// Setting up spell casting information
 			let dcCheck = '';
@@ -241,11 +242,15 @@ export default class GSActorSheet extends ActorSheet{
 					dcCheck = `<div class="spellCastFailure">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}</div>`;
 				}
 			}
+			let chatFlavor = `<div class="customFlavor">Rolling a ${label} check`;
+			if(status != undefined || status != null)
+				chatFlavor += `${status[1]}`;
+			chatFlavor += `${dcCheck}</div>`;
 
 			// Sending dice rolls to chat window
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `<div class="customFlavor">Rolling a ${label} check${status[1]}${dcCheck}</div>`,
+				flavor: chatFlavor,
 			});
 		});
 	}
