@@ -3,28 +3,26 @@
     <div class="status grid grid-3col reveal-rollable">
         <label class="grid-span-2">{{localize config.character.wounds}}</label>
         <input type="text" name="system.lifeForce.min" value="{{actor.system.lifeForce.min}}" data-dtype="Number" />
-        <label class="grid-span-2">{{localize config.common.roll}}{{localize config.common.ed}} {{localize config.common.lFor}}</label>
-        <input type="text" name="system.lifeForce.current" value="{{actor.system.lifeForce.current}}" data-dtype="Number">
         <div class="grid-span-3 lifeForceCalc">
             <div class="grid grid-4col">
-                <label>{{localize config.common.life}}</label>
+                <label>{{localize config.common.lFor}}</label>
+                <input type="text" name="system.lifeForce.current" value="{{actor.system.lifeForce.current}}" data-dtype="Number">
                 <input type="text" name="system.lifeForce.double" value="{{actor.system.lifeForce.double}}" data-dtype="Number" disabled>
-                <label>2x</label>
                 {{!-- 2x Life Force is disabled as game will calculate this --}}
                 <input type="text" name="system.lifeForce.max" value="{{actor.system.lifeForce.max}}" data-dtype="Number" disabled>
             </div>
         </div>
 
-        <label class="grid-span-2">{{localize config.common.move}}</label>
+        <label>{{localize config.common.move}}</label>
         <input type="text" name="system.move" value="{{actor.system.move}}" data-dtype="Number">
-
-        <label class="grid-span-2">{{localize config.common.modMove}}</label>
         <input type="text" name="system.modMove" value="{{actor.system.modMove}}" data-dtype="Number" disabled>
 
         <label class="actorRolls charSR grid-span-2">{{localize config.common.spRe}}<i class="fa-solid fa-dice"></i></label>
         {{!-- Spell Resistance disabled as game will calculate this --}}
         <input type="text" name="system.spellRes" value="{{actor.system.spellRes}}" data-dtype="Number" class="spellRes" disabled>
     </div>
+</div>
+<div class="sidebar">
     <h2>{{localize config.character.experience.exp}}</h2>
     <div class="experience grid grid-3col">
         <label class="grid-span-2">{{localize config.character.experience.cum}}</label>
@@ -36,6 +34,12 @@
         <label class="grid-span-2">{{localize config.character.experience.lvl}}</label>
         <input type="text" name="system.levels.adventurer" value="{{actor.system.levels.adventurer}}" data-dtype="Number">
     </div>
-    <button class="initiative"><i class="fa-solid fa-dice"></i> {{localize config.common.init}}</button>
-    <button class="stealthCheck"><i class="fa-solid fa-user-ninja"></i> {{localize gearConfig.common.ste}}</button>
+</div>
+<div class="sidebar">
+    <h2>{{localize 'gs.dialog.actorSheet.sidebar.specRolls'}}</h2>
+    <div class="buttons grid grid-5col">
+        <button type="button" class="actorRolls initiative" title="{{localize config.common.init}}"><i class="fa-solid fa-dice"></i></button>
+        <button type="button" class="actorRolls stealthCheck" title="{{localize gearConfig.common.ste}}"><i class="fa-solid fa-user-ninja"></i></button>
+        <button type="button" class="actorRolls sixthSense" title="{{localize 'gs.dialog.actorSheet.sidebar.buttons.6sense'}}"><i class="fa-solid fa-brain"></i></button>
+    </div>
 </div>

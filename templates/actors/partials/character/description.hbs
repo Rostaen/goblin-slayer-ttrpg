@@ -3,7 +3,7 @@
     <div class="topArea grid grid-4col">
         {{#each actor.items as |item id|}}
             {{#if (eq item.type "race")}}
-                <div class="raceContainer contextMenu" data-skillId="{{item._id}}" data-skillType="raceSheet">
+                <div class="raceContainer contextMenu" data-id="{{item._id}}" data-contexttype="raceSheet">
                     <h2 class="raceName">{{item.name}}</h2>
                     <img src="{{item.img}}" alt="{{item.name}}">
                 </div>

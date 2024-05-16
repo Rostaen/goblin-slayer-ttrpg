@@ -20,7 +20,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - Rolls broken down into 'Dice + Stat + Class + Item Mod'
     - Spell DC casting check
   - Stealth rolls to chat bar with class level and item modifiers
-- Full compendium added from coreset.
+- Full compendium added from core book
 
 ### TODO:
 

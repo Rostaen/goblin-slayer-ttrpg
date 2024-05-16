@@ -86,7 +86,7 @@
         "life": "Life",
         "lFor": "Life Force",
         "spRe": "Spell Resistance",
-        "move": "Movement",
+        "move": "Move",
         "modMove": "Mod Movement",
         "leve": "Level",
         "max": "Max",
@@ -118,7 +118,7 @@
         "foc": "Focus",
         "end": "Endurance",
         "ref": "Reflex",
-        "exp": "Experience Points",
+        "exp": "Exp. Points",
         "cum": "Cumulative Pts",
         "cur": "Current Pts",
         "adv": "Advance Pts",
@@ -288,6 +288,7 @@
       }
     },
     "dialog": {
+      "rolling": "Rolling",
       "crits": {
         "crit": "Critical",
         "succ": "Success!",
@@ -317,6 +318,12 @@
           "power": "Roll damage for the weapon",
           "dodge": "Roll a dodge check",
           "block": "Roll a block check"
+        },
+        "sidebar": {
+          "specRolls": "Special Rolls",
+          "buttons": {
+            "6sense": "Sixth Sense"
+          }
         }
       }
     }

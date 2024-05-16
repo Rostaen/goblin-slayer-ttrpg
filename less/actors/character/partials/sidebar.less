@@ -1,21 +1,29 @@
 .sidebar{
     font-size: 12px;
+    position: relative;
+    margin-top: 15px;
+    h2{
+        position: absolute;
+        top: -11px;
+        left: 10px;
+        background-color: rgb(255,255,255);
+        border: 1px solid darkred;
+        border-radius: 5px;
+        z-index: 100;
+        padding: 0px 4px;
+    }
     .grid{
         grid-row-gap: 6px;
+        margin: 5px 0px;
     }
-    h2{
-        font-size: 16px;
-        text-align: center;
-        border-bottom: 0px;
-        margin-bottom: 0px;
-    }
-    div.status, div.experience, div.money{
+    div.status, div.experience, div.buttons{
         margin-top: 0px;
         border: 1px solid darkred;
         border-radius: 5px;
         padding: 5px;
         background-color: rgba(255, 255, 255, 0.75);
         text-align: center;
+        padding-top: 15px;
     }
     label{
         display: flex;
@@ -27,14 +35,29 @@
         height: 100%;
         text-align: center;
     }
-    .grid{
-        margin: 5px 0px;
-    }
     .lifeForceCalc{
         border-bottom: 1px solid lightgray;
+        .grid{
+            gap: 2px;
+        }
     }
     .charSR:hover{
         cursor: pointer;
         text-shadow: 0 0 5px darkred;
+    }
+    .buttons{
+        button{
+            border: 1px solid darkred;
+            background-color: #ede3c7;
+            border-radius: 4px;
+            height: 25px;
+            width: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            i{
+                margin-right: -1px;
+            }
+        }
     }
 }

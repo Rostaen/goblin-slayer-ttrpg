@@ -929,25 +929,33 @@ table tr:nth-child(even) {
 }
 .sidebar {
   font-size: 12px;
+  position: relative;
+  margin-top: 15px;
+}
+.sidebar h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
 }
 .sidebar .grid {
   grid-row-gap: 6px;
-}
-.sidebar h2 {
-  font-size: 16px;
-  text-align: center;
-  border-bottom: 0px;
-  margin-bottom: 0px;
+  margin: 5px 0px;
 }
 .sidebar div.status,
 .sidebar div.experience,
-.sidebar div.money {
+.sidebar div.buttons {
   margin-top: 0px;
   border: 1px solid darkred;
   border-radius: 5px;
   padding: 5px;
   background-color: rgba(255, 255, 255, 0.75);
   text-align: center;
+  padding-top: 15px;
 }
 .sidebar label {
   display: flex;
@@ -959,15 +967,28 @@ table tr:nth-child(even) {
   height: 100%;
   text-align: center;
 }
-.sidebar .grid {
-  margin: 5px 0px;
-}
 .sidebar .lifeForceCalc {
   border-bottom: 1px solid lightgray;
+}
+.sidebar .lifeForceCalc .grid {
+  gap: 2px;
 }
 .sidebar .charSR:hover {
   cursor: pointer;
   text-shadow: 0 0 5px darkred;
+}
+.sidebar .buttons button {
+  border: 1px solid darkred;
+  background-color: #ede3c7;
+  border-radius: 4px;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar .buttons button i {
+  margin-right: -1px;
 }
 .stats .grid {
   grid-row-gap: 0px;
@@ -1182,7 +1203,7 @@ table tr:nth-child(even) {
 .itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll button,
 .itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll button {
   border: 1px solid darkred;
-  background-color: #ffc6c6;
+  background-color: #ede3c7;
   border-radius: 4px;
   height: 22px;
   width: 22px;

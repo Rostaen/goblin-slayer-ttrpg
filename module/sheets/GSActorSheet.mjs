@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "items"
+				initial: "stats"
 			}]
 		});
 	}
@@ -46,17 +46,11 @@ export default class GSActorSheet extends ActorSheet{
 
 	activateListeners(html){
 		super.activateListeners(html);
-		html.find("input").keydown(event => {
-			if(this.actor.type === 'character')
-				if(event.key === 'Enter'){event.preventDefault();}
-		});
 		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
-		html.find(".stealthCheck").click(this._promptStealthChoice.bind(this));
-		html.find(".initiative").click(this._rollInitiative.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -123,24 +117,19 @@ export default class GSActorSheet extends ActorSheet{
 		event.preventDefault();
 		const element = event.currentTarget;
 		const quantity = parseInt(element.value, 10);
-		const id = element.closest(".item").dataset.itemId;
-		const actorId = this.actor._id;
-		const actor = game.actors.get(actorId);
-		const itemId = "";
+		const id = element.closest(".item").dataset.id;
+		const item = this.actor.items.get(id);
 
-		if(actor){
-			const item = actor.items.get(id);
-			if(item){
-				item.update({
-					system: {
-						quantity: quantity
-					}
-				}).then(updatedItem => {
-					console.log("Item Updated:", updatedItem);
-				}).catch(error => {
-					console.log("Error updating item:", error);
-				})
-			}
+		if(item){
+			item.update({
+				system: {
+					quantity: quantity
+				}
+			}).then(updatedItem => {
+				//console.log("Item Updated:", updatedItem);
+			}).catch(error => {
+				console.log("Error updating item:", error);
+			})
 		}
 	}
 
@@ -523,6 +512,15 @@ export default class GSActorSheet extends ActorSheet{
 			case 'spellName':
 				this._rollWithModifiers(event, '.spellDif', '2d6', game.i18n.localize('gs.dialog.spells.spUse'), 'cast');
 				break;
+			case 'initiative':
+				this._rollInitiative(event);
+				break;
+			case 'stealthCheck':
+				this._promptStealthChoice(event);
+				break;
+			case 'sixthSense':
+				this._sixthSenseRoll(event);
+				break;
 
 			// Monster checks/rolls
 			case 'bossHit':
@@ -577,7 +575,7 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	_handleStealthChoice(choice){
-		let stealthStat, classBonus = 0, skillBonus, rollMessage, armorPenalties = 0;
+		let stealthStat, skillBonus, classBonus = 0, rollMessage, armorPenalties = 0;
 		const actorData = this.actor.system;
 		const actorStats = actorData.abilities.calc;
 		const actorClasses = actorData.levels.classes;
@@ -629,13 +627,14 @@ export default class GSActorSheet extends ActorSheet{
 
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `${game.i18n.localize("gs.dialog.stealth.output")} ${status}`,
+				flavor: `${game.i18n.localize("gs.dialog.rolling")} ${game.i18n.localize("gs.dialog.stealth.output")} ${status[1]}`,
 			});
 		});
 	}
 
 	_rollInitiative(event){
 		event.preventDefault();
+		console.log("Event to prompt initiative roll", event);
 		const actorType = this.actor.type;
 		let anticipateBonus = 0, message = "2d6";
 
@@ -674,10 +673,54 @@ export default class GSActorSheet extends ActorSheet{
 
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: `${game.i18n.localize("gs.actor.common.init")} ${game.i18n.localize("gs.actor.common.roll")} ${status}`,
+				flavor: `${game.i18n.localize("gs.dialog.rolling")} ${game.i18n.localize("gs.actor.common.init")} ${status[1]}`,
 				rollMode: game.settings.get("core", "rollMode"),
 			});
 		})
+	}
+
+	_sixthSenseRoll(event){
+		event.preventDefault();
+		const actorData = this.actor.system;
+		const actorStats = actorData.abilities.calc;
+		const actorClasses = actorData.levels.classes;
+		const actorSkills = this.actor.items; // Filter for skill(s) later
+		const stat = actorStats.ir; // Intelligence reflex bonus
+		let classBonus = 0, skillBonus = 0, rollMessage;
+
+		// Getting Class level bonus
+		if(actorClasses.ranger > 0){
+			classBonus = parseInt(actorClasses.ranger, 10);
+		}else if(actorClasses.scout > 0){
+			classBonus = parseInt(actorClasses.scout, 10);
+		}else if(actorClasses.shaman > 0){
+			classBonus = parseInt(actorClasses.shaman, 10);
+		}
+
+		// TODO: Add in skill bonuses for stealth here
+		// Getting skill bonus(es) here
+
+		// Setting up roll message
+		rollMessage = `2d6 + ${stat}`;
+		if(classBonus > 0){
+			rollMessage += ` + ${classBonus}`;
+		}if (skillBonus < 0){
+			rollMessage += ` ${skillBonus}`;
+		}
+		//console.log("Stat", stat, "CB", classBonus);
+
+		let roll = new Roll(rollMessage);
+		roll.evaluate({ async: true }).then(() => {
+			const diceResults = roll.terms[0].results.map(r => r.result);
+
+			const status = this._checkForCritRolls(diceResults);
+
+			roll.toMessage({
+				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+				flavor: `${game.i18n.localize("gs.dialog.rolling")} ${game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.6sense")} ${status[1]}`,
+			});
+		});
+
 	}
 
 	contextMenu = [
