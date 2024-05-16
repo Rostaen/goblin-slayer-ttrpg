@@ -1144,10 +1144,25 @@ table tr:nth-child(even) {
 }
 .itemsPageContainer .itemsPage .rowHeader {
   font-size: 8px;
+  text-align: center;
 }
 .itemsPageContainer .itemsPage h2 {
   border-bottom: 0px;
   margin-bottom: 0px;
+}
+.itemsPageContainer .itemsPage .blockContainer {
+  position: relative;
+  margin-top: 15px;
+}
+.itemsPageContainer .itemsPage .blockContainer h2 {
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
 }
 .itemsPageContainer .itemsPage .gearContainer,
 .itemsPageContainer .itemsPage .editor {
@@ -1161,6 +1176,7 @@ table tr:nth-child(even) {
   display: flex;
   align-items: center;
   text-align: center;
+  justify-content: center;
 }
 .itemsPageContainer .itemsPage .gearContainer .weapon-card .buttonsToRoll button,
 .itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll button,
@@ -1192,20 +1208,31 @@ table tr:nth-child(even) {
 .itemsPageContainer .itemsPage .editor {
   height: 100%;
   min-height: 40px;
+  padding-top: 15px;
 }
 .itemsPageContainer .itemsPage .editor .tox.tox-tinymce {
   height: 125px !important;
 }
+.itemsPageContainer .hitScoresContainer {
+  position: relative;
+  margin-top: 15px;
+}
 .itemsPageContainer .hitScoresContainer h2 {
-  border-bottom: 0px;
-  margin-bottom: 0px;
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
 }
 .itemsPageContainer .hitScoresContainer div.grid-3col,
 .itemsPageContainer .hitScoresContainer .money {
   border: 1px solid darkred;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.75);
-  padding: 5px;
+  padding: 15px 5px 5px;
   margin-top: 0px;
 }
 .itemsPageContainer .hitScoresContainer div.grid-3col h3,

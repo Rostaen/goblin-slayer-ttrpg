@@ -52,8 +52,6 @@ export default class GSActorSheet extends ActorSheet{
 		});
 		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
-		html.find("button[class='delete']").click(this._deleteItem.bind(this));
-		html.find("button[class='edit']").click(this._editItem.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
@@ -146,38 +144,38 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_deleteItem(event){
-		event.preventDefault();
-		const element = event.currentTarget;
-		const id = element.dataset.itemid;
-		const actor = this.actor;
+	// _deleteItem(event){
+	// 	event.preventDefault();
+	// 	const element = event.currentTarget;
+	// 	const id = element.dataset.itemid;
+	// 	const actor = this.actor;
 
-		//console.log(element, id, actor);
+	// 	//console.log(element, id, actor);
 
-		if(actor){
-			const item = actor.items.find(item => item._id === id);
-			if(item){
-				//item.delete();
-				actor.deleteEmbeddedDocuments(
-					'Item', [id]
-				)
-			}
-		}
-	}
+	// 	if(actor){
+	// 		const item = actor.items.find(item => item._id === id);
+	// 		if(item){
+	// 			//item.delete();
+	// 			actor.deleteEmbeddedDocuments(
+	// 				'Item', [id]
+	// 			)
+	// 		}
+	// 	}
+	// }
 
-	_editItem(event){
-		event.preventDefault();
-		const element = event.currentTarget;
-		const id = element.dataset.itemid;
-		const actor = this.actor;
+	// _editItem(event){
+	// 	event.preventDefault();
+	// 	const element = event.currentTarget;
+	// 	const id = element.dataset.itemid;
+	// 	const actor = this.actor;
 
-		if(actor){
-			const item = actor.items.find(item => item._id === id);
-			if(item){
-				item.sheet.render(true);
-			}
-		}
-	}
+	// 	if(actor){
+	// 		const item = actor.items.find(item => item._id === id);
+	// 		if(item){
+	// 			item.sheet.render(true);
+	// 		}
+	// 	}
+	// }
 
 	_checkForCritRolls(diceResults){
 		if(diceResults.length === 2){
@@ -688,8 +686,8 @@ export default class GSActorSheet extends ActorSheet{
 			icon: '<i class="fas fa-edit"></i>',
 			callback: element => {
 				const actorData = this.actor;
-				const id = element[0].dataset.skillid;
-				const type = element[0].dataset.skilltype;
+				const id = element[0].dataset.id;
+				const type = element[0].dataset.contexttype;
 				let item = undefined;
 
 				// Function to get a skill by ID within an item
@@ -704,8 +702,7 @@ export default class GSActorSheet extends ActorSheet{
 						const raceItem = actorData.items.find(item => item.type === 'race');
 						if(raceItem) item = getSkillFromItem(raceItem, id);
 						break;
-					case 'skill':
-					case 'raceSheet':
+					case 'skill':case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':
 						item = actorData.items.get(id);
 						break;
 				}
@@ -729,52 +726,64 @@ export default class GSActorSheet extends ActorSheet{
 			icon: '<i class="fas fa-trash"></i>',
 			callback: element => {
 				const actor = game.actors.get(this.actor._id);
-				const id = element[0].dataset.skillid;
-				const type = element[0].dataset.skilltype;
+				const id = element[0].dataset.id;
+				const type = element[0].dataset.contexttype;
 
-				if(type === 'race'){
-					new Dialog({
-						title: "Racial Skill Deletion",
-						content: "<p>This skill belongs to the selected character race. Please delete the race to delete this skill.</p>",
-						buttons: {
-							yes: {
-								icon: '<i class="fas fa-check"></i>',
-								label: "Okay",
-								callback: () => {
-									// Logic to delete the item
-									ui.notifications.info("Skill not deleted.");
+				switch(type){
+					case 'race':
+						new Dialog({
+							title: "Racial Skill Deletion",
+							content: "<p>This skill belongs to the selected character race. Please delete the race to delete this skill.</p>",
+							buttons: {
+								yes: {
+									icon: '<i class="fas fa-check"></i>',
+									label: "Okay",
+									callback: () => {
+										// Logic to delete the item
+										ui.notifications.info("Skill not deleted.");
+									}
+								},
+								no: {
+									icon: '<i class="fas fa-times"></i>',
+									label: "Cancel",
+									callback: () => {
+										ui.notifications.info("Skill deletion cancelled.");
+									}
 								}
 							},
-							no: {
-								icon: '<i class="fas fa-times"></i>',
-								label: "Cancel",
-								callback: () => {
-									ui.notifications.info("Skill deletion cancelled.");
-								}
-							}
-						},
-						default: "no"
-					}).render(true);
+							default: "no"
+						}).render(true);
+						break;
+					case 'skill':
+						const skill = actor.items.get(id);
+						if(!skill){
+							console.error("Skill not found for deletion.");
+							return;
+						}
+						actor.deleteEmbeddedDocuments(
+							'Item', [id]
+						).then(() => {
+							console.log(`GS || ${skill.name} deleted successfully.`);
+						}).catch(error => {
+							console.error("Error deleting skill:", error);
+						});
+						break;
+					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':
+						const pcTarget = actor.items.get(id);
+						if (pcTarget) {
+							pcTarget.delete();
+						} else {
+							console.error("Race item not found for deletion.");
+						}
+						break;
+				}
+
+				if(type === 'race'){
+
 				}else if(type === 'skill'){
-					const skill = actor.items.get(id);
-					if(!skill){
-						console.error("Skill not found for deletion.");
-                		return;
-					}
-					actor.deleteEmbeddedDocuments(
-						'Item', [id]
-					).then(() => {
-						console.log(`GS || ${skill.name} deleted successfully.`);
-					}).catch(error => {
-						console.error("Error deleting skill:", error);
-					});
+
 				}else if(type === 'raceSheet'){
-					const pcRace = actor.items.get(id);
-					if (pcRace) {
-						pcRace.delete();
-					} else {
-						console.error("Race item not found for deletion.");
-					}
+
 				}
 			}
 		}

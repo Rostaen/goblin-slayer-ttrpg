@@ -9,22 +9,22 @@
             {{#if (eq item.type "skill")}}
                 {{#if item.system.type}}
                     <img src="{{item.img}}" alt="{{item.name}}">
-                    <div class="name grid-span-4 contextMenu" data-skillId="{{item._id}}" data-skillType="skill" >{{item.name}}</div>
+                    <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contextType="skill" >{{item.name}}</div>
                     <div class="bonus grid-span-4">
                         {{getSkillRangeText item item.system.value}}
                     </div>
-                    <div class="rank"><input type="text" name="system.value" value="{{item.system.value}}" data-skillId="{{item._id}}" data-skillType="earned" class="skillRankInput" data-dtype="Number"></div>
+                    <div class="rank"><input type="text" name="system.value" value="{{item.system.value}}" data-id="{{item._id}}" data-contextType="earned" class="skillRankInput" data-dtype="Number"></div>
                 {{/if}}
             {{/if}}
             {{#if (eq item.type "race") }}
                 {{#each item.system.skills as |skill id|}}
                     {{#if skill.system.type}}
                         <img src="{{skill.img}}" alt="{{skill.name}}">
-                        <div class="name grid-span-4 contextMenu" data-skillId="{{skill._id}}" data-skillType="race" >{{skill.name}}</div>
+                        <div class="name grid-span-4 contextMenu" data-id="{{skill._id}}" data-contextType="race" >{{skill.name}}</div>
                         <div class="bonus grid-span-4">
                             {{getSkillRangeText skill skill.system.value}}
                         </div>
-                        <div class="rank"><input type="text" value="{{skill.system.value}}" data-skillId="{{skill._id}}" data-skillType="racial" class="skillRankInput" data-dtype="Number"></div>
+                        <div class="rank"><input type="text" value="{{skill.system.value}}" data-id="{{skill._id}}" data-contextType="racial" class="skillRankInput" data-dtype="Number"></div>
                     {{/if}}
                 {{/each}}
             {{/if}}

@@ -2,10 +2,25 @@
     .itemsPage{
         .rowHeader{
             font-size: 8px;
+            text-align: center;
         }
         h2{
             border-bottom: 0px;
             margin-bottom: 0px;
+        }
+        .blockContainer{
+            position: relative;
+            margin-top: 15px;
+            h2{
+                position: absolute;
+                top: -12px;
+                left: 10px;
+                background-color: rgb(255,255,255);
+                border: 1px solid darkred;
+                border-radius: 5px;
+                z-index: 100;
+                padding: 0px 4px;
+            }
         }
         .gearContainer, .editor{
             border: 1px solid darkred;
@@ -20,6 +35,7 @@
                     display: flex;
                     align-items: center;
                     text-align: center;
+                    justify-content: center;
                 }
             }
             .weapon-card, .armor-card, .shield-card{
@@ -55,21 +71,30 @@
         .editor{
             height: 100%;
             min-height: 40px;
+            padding-top: 15px;
             .tox.tox-tinymce{
                 height: 125px !important;
             }
         }
     }
     .hitScoresContainer{
+        position: relative;
+        margin-top: 15px;
         h2{
-            border-bottom: 0px;
-            margin-bottom: 0px;
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            background-color: rgb(255,255,255);
+            border: 1px solid darkred;
+            border-radius: 5px;
+            z-index: 100;
+            padding: 0px 4px;
         }
         div.grid-3col, .money{
             border: 1px solid darkred;
             border-radius: 5px;
             background-color: rgba(255,255,255,0.75);
-            padding: 5px;
+            padding: 15px 5px 5px;
             margin-top: 0px;
             h3{
                 text-align: center;

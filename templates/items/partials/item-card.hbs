@@ -1,16 +1,9 @@
 <div class="item-card item item-list">
-    <div class="name reveal-rollable grid grid-10col">
-        <div></div>
+    <div class="name reveal-rollable grid grid-6col contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
         <img src="{{img}}" title="{{name}}" />
-        <div class="name grid-span-5">{{name}}</div>
+        <div class="name grid-span-4">{{name}}</div>
         <div class="quantity">
             <input type="text" data-inventory="quantity" value="{{getQuantAtIndex data1.items index 'quantity'}}" data-dtype="Number">
-        </div>
-        <div class="edit">
-            <button class="edit" data-itemId="{{_id}}"><i class="fa-solid fa-pen-to-square"></i></button>
-        </div>
-        <div class="delete">
-            <button class="delete" data-itemId="{{_id}}"><i class="fa-solid fa-trash-can"></i></button>
         </div>
     </div>
 </div>
