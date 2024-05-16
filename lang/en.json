@@ -306,10 +306,18 @@
         "spUse": "Spell Use",
         "cast": "Cast"
       },
-      "monsterSheet":{
+      "monsterSheet": {
         "boss": "Can this monster be a boss?",
         "block": "Can this monster block?",
         "numOfAttacks": "Change this number to add/remove monster attacks. Min 1, Max 4"
+      },
+      "actorSheet": {
+        "itemsTab": {
+          "toHit": "Roll a hit check",
+          "power": "Roll damage for the weapon",
+          "dodge": "Roll a dodge check",
+          "block": "Roll a block check"
+        }
       }
     }
   }
