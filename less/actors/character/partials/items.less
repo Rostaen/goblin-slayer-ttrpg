@@ -22,22 +22,33 @@
                     text-align: center;
                 }
             }
-            .weapon-card{
-                .hitMod:hover, .power:hover{
-                    cursor: pointer;
-                    text-shadow: 0 0 5px darkred;
+            .weapon-card, .armor-card, .shield-card{
+                .buttonsToRoll{
+                    button{
+                        border-color: darkred;
+                        background-color: rgb(210, 96, 96);
+                        border-radius: 4px;
+                        height: 22px;
+                        width: 22px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        i{
+                            margin-right: -1px;
+                        }
+                    }
                 }
             }
-            .armor-card{
-                .dodge:hover{
-                    cursor: pointer;
-                    text-shadow: 0 0 5px darkred;
-                }
-            }
-            .shield-card{
-                .blockMod:hover{
-                    cursor: pointer;
-                    text-shadow: 0 0 5px darkred;
+            .armor-card, .shield-card{
+                .buttonsToRoll{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    button{
+                        i{
+                            margin-right: 1px;
+                        }
+                    }
                 }
             }
         }

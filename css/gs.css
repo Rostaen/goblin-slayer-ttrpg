@@ -1162,18 +1162,32 @@ table tr:nth-child(even) {
   align-items: center;
   text-align: center;
 }
-.itemsPageContainer .itemsPage .gearContainer .weapon-card .hitMod:hover,
-.itemsPageContainer .itemsPage .gearContainer .weapon-card .power:hover {
-  cursor: pointer;
-  text-shadow: 0 0 5px darkred;
+.itemsPageContainer .itemsPage .gearContainer .weapon-card .buttonsToRoll button,
+.itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll button,
+.itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll button {
+  border-color: darkred;
+  background-color: #d26060;
+  border-radius: 4px;
+  height: 22px;
+  width: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.itemsPageContainer .itemsPage .gearContainer .armor-card .dodge:hover {
-  cursor: pointer;
-  text-shadow: 0 0 5px darkred;
+.itemsPageContainer .itemsPage .gearContainer .weapon-card .buttonsToRoll button i,
+.itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll button i,
+.itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll button i {
+  margin-right: -1px;
 }
-.itemsPageContainer .itemsPage .gearContainer .shield-card .blockMod:hover {
-  cursor: pointer;
-  text-shadow: 0 0 5px darkred;
+.itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll,
+.itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll button i,
+.itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll button i {
+  margin-right: 1px;
 }
 .itemsPageContainer .itemsPage .editor {
   height: 100%;

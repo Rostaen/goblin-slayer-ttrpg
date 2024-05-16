@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "spells"
+				initial: "items"
 			}]
 		});
 	}
@@ -301,8 +301,10 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	_getClassLevelBonus(typeHolder, itemType){
+		console.log("Check Class Level Bonus", typeHolder, itemType);
+		let [type, weight] = "";
 		if(itemType != 'cast') {
-			const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+			[type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
 		}
 		const {fighter = 0, monk = 0, ranger = 0, scout = 0, sorcerer = 0, priest = 0, dragon = 0, shaman = 0 } = this.actor.system.levels.classes;
 
@@ -505,16 +507,16 @@ export default class GSActorSheet extends ActorSheet{
 		const classType = event.currentTarget.classList;
 		switch(classType[1]){
 			// PC Character checks/rolls
-			case 'hitMod':
+			case 'toHit':
 				this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
 				break;
-			case 'power':
+			case 'damage':
 				this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
 				break;
-			case 'dodge':
+			case 'avoid':
 				this._rollWithModifiers(event, '.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
 				break;
-			case 'blockMod':
+			case 'block':
 				this._rollWithModifiers(event, '.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
 				break;
 			case 'charSR':
