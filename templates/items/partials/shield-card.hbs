@@ -5,8 +5,8 @@
         </div>
         <img src="{{img}}" title="{{name}}" />
         <div class="name grid-span-3">{{name}}</div>
-        <div class="actorRolls blockMod">{{numberFormat system.mod decimals=0 sign=true}}</div>
-        <div class="blockScore">{{numberFormat system.score decimals=0 sign=false}}</div>
+        <div class="actorRolls blockMod grid-span-2">{{numberFormat system.mod decimals=0 sign=true}}</div>
+        <div class="blockScore grid-span-2">{{numberFormat system.score decimals=0 sign=false}}</div>
         <div class="stealth">{{system.stealth}}</div>
         <input type="hidden" value="{{system.type}}" class="type">
     </div>

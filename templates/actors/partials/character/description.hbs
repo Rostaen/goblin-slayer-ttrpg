@@ -14,8 +14,8 @@
                 <p>Drop a Race Sheet here</p>
             </div>
         {{/unless}}
-        <div class="grid-span-3">
-            <h3 class="history">{{localize config.character.traits.his}}</h3>
+        <div class="grid-span-3 descriptionContainer">
+            <h2 class="history">{{localize config.character.traits.his}}</h2>
             {{editor actor.system.details.history target="system.details.history" button=true engine="prosemirror"}}
         </div>
     </div>
@@ -32,15 +32,17 @@
         <label class="eye">{{localize config.character.traits.eye}}</label>
         <input type="text" name="system.details.eye" value="{{actor.system.details.eye}}">
     </div>
-
+</div>
     {{!-- 3rd Row --}}
-    <h3 class="physical">{{localize config.character.traits.phy}}</h3>
+<div class="descriptionPage descriptionContainer">
+    <h2 class="physical">{{localize config.character.traits.phy}}</h2>
     <div class="grid-span-5 physical">
         {{editor actor.system.details.traits target="system.details.traits" button=true engine="prosemirror"}}
     </div>
-
+</div>
+<div class="descriptionPage descriptionContainer">
     {{!-- 4th Row --}}
-    <h3>{{localize config.character.traits.oth}}</h3>
+    <h2>{{localize config.character.traits.oth}}</h2>
     <div class="grid-span-5">
         {{editor actor.system.details.other target="system.details.other" button=true engine="prosemirror"}}
     </div>

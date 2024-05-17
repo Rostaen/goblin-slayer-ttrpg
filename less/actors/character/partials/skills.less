@@ -1,13 +1,21 @@
 .skillsContainer{
-    .skillHeader{
-        border-bottom: 0px;
-        margin-bottom: 0px;
+    position: relative;
+    margin-top: 15px;
+    h2{
+        position: absolute;
+        top: -11px;
+        left: 10px;
+        background-color: rgb(255,255,255);
+        border: 1px solid darkred;
+        border-radius: 5px;
+        z-index: 100;
+        padding: 0px 4px;
     }
     .skillBox{
         background-color: rgba(255,255,255,0.75);
         border: 1px solid darkred;
         border-radius: 5px;
-        padding: 5px;
+        padding: 20px 5px 5px;
         .header{
             font-size: 10px;
         }
@@ -21,7 +29,7 @@
         .bonus{
             font-size: 12px;
         }
-        .rank{
+        .rank, .rankHeader{
             text-align: center;
         }
     }

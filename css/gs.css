@@ -993,9 +993,6 @@ table tr:nth-child(even) {
 .stats .grid {
   grid-row-gap: 0px;
 }
-.stats h2 {
-  text-align: center;
-}
 .stats .statsContainer {
   gap: 0px;
   margin-top: 0px;
@@ -1069,10 +1066,7 @@ table tr:nth-child(even) {
 }
 .stats .classLevels .grid {
   grid-row-gap: 6px;
-}
-.stats .classLevels h2 {
-  margin-bottom: 0px;
-  border-bottom: 0px;
+  padding-top: 20px;
 }
 .stats .classLevels div {
   margin-top: 0px;
@@ -1102,10 +1096,7 @@ table tr:nth-child(even) {
   border: 1px solid darkred;
   margin-top: 0px;
   border-radius: 5px;
-}
-.stats .attrition h2 {
-  margin-bottom: 0px;
-  border-bottom: 0px;
+  padding-top: 20px;
 }
 .stats .attrition .attritionContainer {
   gap: 5px;
@@ -1117,9 +1108,23 @@ table tr:nth-child(even) {
 .stats .attrition .attritionContainer .attritionBlock .grid input.spiked {
   box-shadow: 0 0 3px 1px rgba(192, 13, 13, 0.75);
 }
+.stats .attrition,
+.stats .classLevels,
+.stats .fatigue {
+  position: relative;
+  margin-top: 15px;
+}
+.stats .attrition h2,
+.stats .classLevels h2,
 .stats .fatigue h2 {
-  margin-bottom: 0px;
-  border-bottom: 0px;
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
 }
 .stats .fatigue .fatigueContainer {
   gap: 3px;
@@ -1127,11 +1132,17 @@ table tr:nth-child(even) {
 .stats .fatigue .fatigueContainer label.rank {
   justify-content: center;
 }
-.descriptionPage h2,
-.descriptionPage h3 {
+.descriptionPage .raceContainer h2.raceName {
   margin-bottom: 0px;
+  border: 1px solid darkred;
   border-bottom: 0px;
+  border-radius: 5px 5px 0 0;
   text-align: center;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.descriptionPage .raceContainer img {
+  border-radius: 0 0 5px 5px;
+  border-color: darkred;
 }
 .descriptionPage .topRow,
 .descriptionPage .editor {
@@ -1154,14 +1165,30 @@ table tr:nth-child(even) {
   align-items: center;
 }
 .descriptionPage .editor {
-  min-height: 40px;
   margin-bottom: 10px;
+  padding-top: 20px;
 }
 .descriptionPage .editor p {
   margin: 0px 0px 10px;
 }
 .descriptionPage .editor .tox.tox-tinymce {
   height: 125px !important;
+}
+.descriptionPage.descriptionContainer,
+.descriptionContainer {
+  position: relative;
+  margin-top: 15px;
+}
+.descriptionPage.descriptionContainer h2,
+.descriptionContainer h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
 }
 .itemsPageContainer .itemsPage .rowHeader {
   font-size: 8px;
@@ -1274,15 +1301,25 @@ table tr:nth-child(even) {
 .itemsPageContainer .hitScoresContainer .money input {
   text-align: right;
 }
-.skillsContainer .skillHeader {
-  border-bottom: 0px;
-  margin-bottom: 0px;
+.skillsContainer {
+  position: relative;
+  margin-top: 15px;
+}
+.skillsContainer h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
 }
 .skillsContainer .skillBox {
   background-color: rgba(255, 255, 255, 0.75);
   border: 1px solid darkred;
   border-radius: 5px;
-  padding: 5px;
+  padding: 20px 5px 5px;
 }
 .skillsContainer .skillBox .header {
   font-size: 10px;
@@ -1303,7 +1340,8 @@ table tr:nth-child(even) {
 .skillsContainer .skillBox .bonus {
   font-size: 12px;
 }
-.skillsContainer .skillBox .rank {
+.skillsContainer .skillBox .rank,
+.skillsContainer .skillBox .rankHeader {
   text-align: center;
 }
 .spellsContainer .spellUsesContainer,
@@ -1322,12 +1360,23 @@ table tr:nth-child(even) {
   height: 15px;
   margin: auto;
 }
-.spellsContainer .spellsHolder h2.spellHeader {
-  border-bottom: 0px;
-  margin-bottom: 0px;
+.spellsContainer .spellsHolder {
+  position: relative;
+  margin-top: 15px;
+}
+.spellsContainer .spellsHolder h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
 }
 .spellsContainer .spellsHolder .spellBlock1 {
   margin-top: 0px;
+  padding-top: 7px;
 }
 .spellsContainer .spellsHolder .spellBlock1 .spellLabels {
   font-size: 10px;

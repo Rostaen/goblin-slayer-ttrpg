@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "stats"
+				initial: "spells"
 			}]
 		});
 	}
@@ -59,8 +59,8 @@ export default class GSActorSheet extends ActorSheet{
 		event.preventDefault();
 		const element = event.currentTarget;
 		const rank = parseInt(element.value, 10);
-		const skillId = element.dataset.skillid;
-		const skillType = element.dataset.skilltype;
+		const skillId = element.dataset.id;
+		const skillType = element.dataset.contexttype;
 		const actor = game.actors.get(this.actor._id);
 		const items = actor.items;
 		//console.log("Check Actor JSON:", actor);
@@ -745,7 +745,7 @@ export default class GSActorSheet extends ActorSheet{
 						const raceItem = actorData.items.find(item => item.type === 'race');
 						if(raceItem) item = getSkillFromItem(raceItem, id);
 						break;
-					case 'skill':case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':
+					case 'skill':case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':
 						item = actorData.items.get(id);
 						break;
 				}
@@ -811,7 +811,7 @@ export default class GSActorSheet extends ActorSheet{
 							console.error("Error deleting skill:", error);
 						});
 						break;
-					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':
+					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':
 						const pcTarget = actor.items.get(id);
 						if (pcTarget) {
 							pcTarget.delete();

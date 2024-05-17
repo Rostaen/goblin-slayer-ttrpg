@@ -63,7 +63,9 @@ Handlebars.registerHelper('getSkillRangeText', (object, value) => {
 	else if(value == 4) skillLevel = object.system.master;
 	else if(value == 5) skillLevel = object.system.legend;
 	else return "Rank Value must be a number and greater than 0 and less than 3 (Gen) or 5 (Adv).";
-	return skillLevel.replace(/^<p>/, '').replace(/<\/p>$/, '');
+	skillLevel = skillLevel.replace(/^<p>/, '').replace(/<\/p>$/, '');
+	skillLevel = skillLevel.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
+	return skillLevel;
 });
 
 // Logical OR check

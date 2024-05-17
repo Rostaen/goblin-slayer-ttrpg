@@ -6,11 +6,9 @@
                 <div class="rowHeader grid grid-10col">
                     <div class="grid-span-2"></div>
                     <div class="grid-span-3">{{localize config.monster.name decimals=0 sign=true}}</div>
-                    <div>{{localize config.charSheet.items.hitM decimals=0 sign=true}}</div>
+                    <div class="grid-span-2">{{localize config.charSheet.items.hitM decimals=0 sign=true}}</div>
                     <div>{{localize config.charSheet.items.rang decimals=0 sign=true}}</div>
-                    <div>{{localize config.charSheet.items.powe decimals=0 sign=true}}</div>
-                    {{!-- <div>{{localize config.charSheet.items.attr decimals=0 sign=true}}</div>
-                    <div>{{localize config.charSheet.items.use decimals=0 sign=true}}</div> --}}
+                    <div class="grid-span-2">{{localize config.charSheet.items.powe decimals=0 sign=true}}</div>
                 </div>
                 <div class="item-list">
                     {{#each data.items as |item id|}}
@@ -49,8 +47,8 @@
                 <div class="rowHeader grid grid-10col">
                     <div class="grid-span-2"></div>
                     <div class="grid-span-3">{{localize config.monster.name}}</div>
-                    <div>{{localize gearConfig.shield.mod}}</div>
-                    <div>{{localize gearConfig.shield.sco}}</div>
+                    <div class="grid-span-2">{{localize gearConfig.shield.mod}}</div>
+                    <div class="grid-span-2">{{localize gearConfig.shield.sco}}</div>
                     <div>{{localize gearConfig.common.ste}}</div>
                 </div>
                 <div class="item-list">

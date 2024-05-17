@@ -2,9 +2,6 @@
     .grid{
         grid-row-gap: 0px;
     }
-    h2{
-        text-align: center;
-    }
     .statsContainer{
         gap: 0px;
         margin-top: 0px;
@@ -72,10 +69,7 @@
     .classLevels{
         .grid{
             grid-row-gap: 6px;
-        }
-        h2{
-            margin-bottom: 0px;
-            border-bottom: 0px;
+            padding-top: 20px;
         }
         div{
             margin-top: 0px;
@@ -106,12 +100,9 @@
         border: 1px solid darkred;
         margin-top: 0px;
         border-radius: 5px;
+        padding-top: 20px;
     }
     .attrition{
-        h2{
-            margin-bottom: 0px;
-            border-bottom: 0px;
-        }
         .attritionContainer{
             gap: 5px;
             .attritionBlock{
@@ -125,11 +116,21 @@
             }
         }
     }
-    .fatigue{
+    .attrition, .classLevels, .fatigue{
+        position: relative;
+        margin-top: 15px;
         h2{
-            margin-bottom: 0px;
-            border-bottom: 0px;
+            position: absolute;
+            top: -11px;
+            left: 10px;
+            background-color: rgb(255,255,255);
+            border: 1px solid darkred;
+            border-radius: 5px;
+            z-index: 100;
+            padding: 0px 4px;
         }
+    }
+    .fatigue{
         .fatigueContainer{
             gap: 3px;
             label.rank{
