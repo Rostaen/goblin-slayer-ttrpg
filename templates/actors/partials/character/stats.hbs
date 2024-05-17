@@ -226,15 +226,15 @@
         <div class="fatigueContainer grid grid-7col">
             {{!-- TODO: Work out fatigue checkbox system --}}
             {{!-- Rank 1 --}}
-            <input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank" title="{{localize config.character.fatigue.ran1}}">1</label>
+            <input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" {{#if (eq actor.system.fatigue.rank1.ex 0)}}disabled{{/if}}/></div><label class="rank" title="{{localize config.character.fatigue.ran1}}">1</label>
             {{!-- Rank 2 --}}
-            <div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank" title="{{localize config.character.fatigue.ran2}}">2</label>
+            <div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" {{#if (eq actor.system.fatigue.rank2.ex 0)}}disabled{{/if}}/></div><label class="rank" title="{{localize config.character.fatigue.ran2}}">2</label>
             {{!-- Rank 3 --}}
-            <div></div><div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank" title="{{localize config.character.fatigue.ran3}}">3</label>
+            <div></div><div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" {{#if (eq actor.system.fatigue.rank3.ex 0)}}disabled{{/if}}/></div><label class="rank" title="{{localize config.character.fatigue.ran3}}">3</label>
             {{!-- Rank 4 --}}
-            <div></div><div></div><div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank" title="{{localize config.character.fatigue.ran4}}">4</label>
+            <div></div><div></div><div></div><input type="checkbox" name="" /><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" {{#if (eq actor.system.fatigue.rank4.ex 0)}}disabled{{/if}}/></div><label class="rank" title="{{localize config.character.fatigue.ran4}}">4</label>
             {{!-- Rank 5 --}}
-            <div></div><div></div><div></div><div></div><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" disabled/></div><label class="rank" title="{{localize config.character.fatigue.ran5}}">5</label>
+            <div></div><div></div><div></div><div></div><input type="checkbox" name="" /><div class="ex"><input type="checkbox" name="" {{#if (eq actor.system.fatigue.rank5.ex 0)}}disabled{{/if}}/></div><label class="rank" title="{{localize config.character.fatigue.ran5}}">5</label>
         </div>
     </div>
 </div>

@@ -1,6 +1,1 @@
-2024/05/16-20:11:49.404 2d30 Log #54: 0 ops saved to Table #55 OK
-2024/05/16-20:11:49.404 2d30 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\races/000054.log: OK
-2024/05/16-20:11:49.406 2d30 Table #25: 116 entries OK
-2024/05/16-20:11:49.407 2d30 Table #47: 26 entries OK
-2024/05/16-20:11:49.410 2d30 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\races/MANIFEST-000053: OK
-2024/05/16-20:11:49.413 2d30 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\races; recovered 2 files; 280335 bytes. Some data may have been lost. ****
+2024/05/16-20:11:49.421 2d30 Delete type=3 #1

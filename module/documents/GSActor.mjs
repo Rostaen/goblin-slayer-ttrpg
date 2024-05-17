@@ -20,6 +20,7 @@ export class GSActor extends Actor {
     _getSkillBonus(skillName){
         const actorData = this;
         const skill = actorData.items.filter(item => item.name.toLowerCase() === skillName.toLowerCase());
+        //console.log("What skill am I looking at?", skill);
         if(skill.length){
             return parseInt(skill[0].system.value, 10);
         } else return 0;
@@ -49,7 +50,24 @@ export class GSActor extends Actor {
         if(hardinessBonus <= 4) hardinessBonus *= 5;
         else if(hardinessBonus = 5) hardinessBonus = 30;
         systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
-        systemData.lifeForce.max = systemData.lifeForce.current * 2 + hardinessBonus;
+        systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
+
+        // Setting EX Fatigue
+        let perseverance = this._getSkillBonus("Perseverance");
+        if(perseverance >= 1){
+            systemData.fatigue.rank1.ex = 1;
+            if(perseverance >= 2){
+                systemData.fatigue.rank2.ex = 1;
+                if(perseverance >= 3){
+                        systemData.fatigue.rank3.ex = 1;
+                    if(perseverance >= 4){
+                        systemData.fatigue.rank4.ex = 1;
+                        if(perseverance == 5)
+                            systemData.fatigue.rank5.ex = 1;
+                    }
+                }
+            }
+        }
 
         // Setting Spell Use Scores
         // TODO: Add in any spell skills that alter this amount per caster class

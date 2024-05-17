@@ -65,6 +65,9 @@ Handlebars.registerHelper('getSkillRangeText', (object, value) => {
 	else return "Rank Value must be a number and greater than 0 and less than 3 (Gen) or 5 (Adv).";
 	skillLevel = skillLevel.replace(/^<p>/, '').replace(/<\/p>$/, '');
 	skillLevel = skillLevel.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
+	// data.eComment = await TextEditor.enrichHTML(
+	// 	actorData.system.comment, {async: true, rollData: actorData.getRollData(), }
+	// );
 	return skillLevel;
 });
 

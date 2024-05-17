@@ -7,7 +7,7 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "spells"
+				initial: "details"
 			}]
 		});
 	}
@@ -15,6 +15,45 @@ export default class GSActorSheet extends ActorSheet{
 	get template(){
 		const path = "systems/gs/templates/actors";
 		return `${path}/${this.actor.type}-sheet.hbs`;
+	}
+
+	// Use this section to manage item drops without overwritting core functionality
+	async _onDropItem(event, data){
+		const itemData = await super._onDropItem(event, data);
+
+		// Check if item dropped is a race item
+		if(itemData[0].type === 'race'){
+			this._inheritRaceSkills(itemData);
+		}
+		return itemData;
+	}
+
+	async _inheritRaceSkills(raceItem){
+		const raceSkills = raceItem[0].system.skills || [];
+		if (raceSkills.length === 0) {
+			console.error("No skills found in the race item.");
+			return;
+		}
+
+		const skillItems = raceSkills.map(skill => {
+			return {
+				flags: skill.flogs,
+				img: skill.img,
+				name: skill.name,
+				ownership: {...skill.ownership},
+				sort: skill.sort,
+				system: {...skill.system},
+				type: 'skill',
+				_stats: {...skill._stats}
+			};
+		});
+
+		try{
+			const createdSkills = await this.actor.createEmbeddedDocuments('Item', skillItems);
+			console.log(`Added ${createdSkills.length} skills from race item to actor.`);
+		} catch (error) {
+			console.error("Error adding skills to actor:", error);
+		}
 	}
 
 	async getData(){
@@ -46,6 +85,7 @@ export default class GSActorSheet extends ActorSheet{
 
 	activateListeners(html){
 		super.activateListeners(html);
+		// html.find(".topArea").update(this._inheritRaceSkills.bind(this));
 		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
@@ -521,6 +561,9 @@ export default class GSActorSheet extends ActorSheet{
 			case 'sixthSense':
 				this._sixthSenseRoll(event);
 				break;
+			case 'luck':
+				this._luckRoll(event);
+				break;
 
 			// Monster checks/rolls
 			case 'bossHit':
@@ -684,28 +727,35 @@ export default class GSActorSheet extends ActorSheet{
 		const actorData = this.actor.system;
 		const actorStats = actorData.abilities.calc;
 		const actorClasses = actorData.levels.classes;
-		const actorSkills = this.actor.items; // Filter for skill(s) later
 		const stat = actorStats.ir; // Intelligence reflex bonus
 		let classBonus = 0, skillBonus = 0, rollMessage;
 
 		// Getting Class level bonus
-		if(actorClasses.ranger > 0){
+		if(actorClasses.ranger > classBonus){
 			classBonus = parseInt(actorClasses.ranger, 10);
-		}else if(actorClasses.scout > 0){
+		}else if(actorClasses.scout > classBonus){
 			classBonus = parseInt(actorClasses.scout, 10);
-		}else if(actorClasses.shaman > 0){
+		}else if(actorClasses.shaman > classBonus){
 			classBonus = parseInt(actorClasses.shaman, 10);
 		}
 
-		// TODO: Add in skill bonuses for stealth here
-		// Getting skill bonus(es) here
+		// Getting skill bonus here
+		const skill = this.actor.items.filter(item => item.type === 'skill');
+		if(skill.length){
+			console.log("Skill Length > 0");
+			const skillBonusValue = skill.filter(skill => skill.name.toLowerCase() === "sixth sense");
+			if(skillBonusValue.length){
+				console.log("Skill Bonus > 0", skillBonusValue[0].system.value);
+				skillBonus = parseInt(skillBonusValue[0].system.value, 10);
+			}
+		}
 
 		// Setting up roll message
 		rollMessage = `2d6 + ${stat}`;
 		if(classBonus > 0){
 			rollMessage += ` + ${classBonus}`;
-		}if (skillBonus < 0){
-			rollMessage += ` ${skillBonus}`;
+		}if (skillBonus > 0){
+			rollMessage += ` + ${skillBonus}`;
 		}
 		//console.log("Stat", stat, "CB", classBonus);
 
@@ -720,7 +770,41 @@ export default class GSActorSheet extends ActorSheet{
 				flavor: `${game.i18n.localize("gs.dialog.rolling")} ${game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.6sense")} ${status[1]}`,
 			});
 		});
+	}
 
+	_luckRoll(event){
+		event.preventDefault();
+		let skillBonus = 0, rollMessage;
+
+		// Getting skill bonus here
+		// const skill = this.actor.items.filter(item => item.type === 'skill');
+		// if(skill.length){
+		// 	console.log("Skill Length > 0");
+		// 	const skillBonusValue = skill.filter(skill => skill.name.toLowerCase() === "sixth sense");
+		// 	if(skillBonusValue.length){
+		// 		console.log("Skill Bonus > 0", skillBonusValue[0].system.value);
+		// 		skillBonus = parseInt(skillBonusValue[0].system.value, 10);
+		// 	}
+		// }
+
+		// Setting up roll message
+		rollMessage = `2d6`;
+		if (skillBonus > 0){
+			rollMessage += ` + ${skillBonus}`;
+		}
+		//console.log("Stat", stat, "CB", classBonus);
+
+		let roll = new Roll(rollMessage);
+		roll.evaluate({ async: true }).then(() => {
+			const diceResults = roll.terms[0].results.map(r => r.result);
+
+			const status = this._checkForCritRolls(diceResults);
+
+			roll.toMessage({
+				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+				flavor: `${game.i18n.localize("gs.dialog.rolling")} ${game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.luck")} ${status[1]}`,
+			});
+		});
 	}
 
 	contextMenu = [
@@ -731,23 +815,13 @@ export default class GSActorSheet extends ActorSheet{
 				const actorData = this.actor;
 				const id = element[0].dataset.id;
 				const type = element[0].dataset.contexttype;
-				let item = undefined;
+				let item = actorData.items.get(id);
 
 				// Function to get a skill by ID within an item
 				function getSkillFromItem(item, skillId){
 					const skills = item.system.skills || [];
 					const skillIndex = skills.findIndex( skill => skill._id === skillId );
 					return skillIndex !== -1 ? skills[skillIndex] : undefined;
-				}
-
-				switch(type){
-					case 'race':
-						const raceItem = actorData.items.find(item => item.type === 'race');
-						if(raceItem) item = getSkillFromItem(raceItem, id);
-						break;
-					case 'skill':case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':
-						item = actorData.items.get(id);
-						break;
 				}
 
 				if(item){
@@ -773,30 +847,6 @@ export default class GSActorSheet extends ActorSheet{
 				const type = element[0].dataset.contexttype;
 
 				switch(type){
-					case 'race':
-						new Dialog({
-							title: "Racial Skill Deletion",
-							content: "<p>This skill belongs to the selected character race. Please delete the race to delete this skill.</p>",
-							buttons: {
-								yes: {
-									icon: '<i class="fas fa-check"></i>',
-									label: "Okay",
-									callback: () => {
-										// Logic to delete the item
-										ui.notifications.info("Skill not deleted.");
-									}
-								},
-								no: {
-									icon: '<i class="fas fa-times"></i>',
-									label: "Cancel",
-									callback: () => {
-										ui.notifications.info("Skill deletion cancelled.");
-									}
-								}
-							},
-							default: "no"
-						}).render(true);
-						break;
 					case 'skill':
 						const skill = actor.items.get(id);
 						if(!skill){
@@ -819,14 +869,6 @@ export default class GSActorSheet extends ActorSheet{
 							console.error("Race item not found for deletion.");
 						}
 						break;
-				}
-
-				if(type === 'race'){
-
-				}else if(type === 'skill'){
-
-				}else if(type === 'raceSheet'){
-
 				}
 			}
 		}
