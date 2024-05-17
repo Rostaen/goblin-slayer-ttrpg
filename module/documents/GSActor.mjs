@@ -8,6 +8,7 @@ export class GSActor extends Actor {
     }
 
     prepareDerivedData(){
+        super.prepareDerivedData();
         const actorData = this;
         const systemData = actorData.system;
         const flags = actorData.flags.gs || {};
@@ -18,8 +19,7 @@ export class GSActor extends Actor {
 
     // Used to add player skills to respective locations in their sheet and rolls
     _getSkillBonus(skillName){
-        const actorData = this;
-        const skill = actorData.items.filter(item => item.name.toLowerCase() === skillName.toLowerCase());
+        const skill = this.items.filter(item => item.name.toLowerCase() === skillName.toLowerCase());
         //console.log("What skill am I looking at?", skill);
         if(skill.length){
             return parseInt(skill[0].system.value, 10);
@@ -27,48 +27,112 @@ export class GSActor extends Actor {
     }
 
     // Update character with Hardiness Skill
-    _hardinessSkillCall(systemData){
+    _hardinessSkillCall(){
         // TODO: Update charater sheet for entered HP and a new life force disabled to reflect skill bonus;
-        let hardinessBonus = this._getSkillBonus("Hardiness");
-        if(hardinessBonus <= 4) hardinessBonus *= 5;
-        else if(hardinessBonus = 5) hardinessBonus = 30;
-        systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
-        systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
+        let skillBonus = this._getSkillBonus("Hardiness");
+        if(skillBonus <= 4) skillBonus *= 5;
+        else if(skillBonus = 5) skillBonus = 30;
+        return skillBonus;
     }
 
     // Update character fatigue with EX checkboxes
     _perserveranceSkillCall(systemData){
         let perseverance = this._getSkillBonus("Perseverance");
-        for(let rank = 1; rank <= perseverance; rank++)
-            systemData.fatigue[`rank${rank}`].ex = 1;
+        for(let rank = 1; rank <= perseverance; rank++){
+            systemData.fatigue[`rank${rank}`].ex = 1; // allowing an extra fatigue point
+            systemData.fatigue[`rank${rank}`].max += 1; // updating max fatigue +1
+        }
     }
 
-    _prepareCharacterData(actorData){
+    // Function to initialize original ability scores if not already set for Fatigue changes
+    async _initOriginalAbilities(){
+        const originalPrimary = this.getFlag('gs', 'originalPrimaryAbilities');
+        const originalSecondary = this.getFlag('gs', 'originalSecondaryAbilities');
+
+        if(!originalPrimary || !originalSecondary){
+            console.log(">>> Checking this 1", this);
+            await this.setFlag('gs', 'originalPrimaryAbilities', duplicate(this.system.abilities.primary));
+            await this.setFlag('gs', 'originalSecondaryAbilities', duplicate(this.system.abilities.secondary));
+            console.log(">>> Checking this 2", this);
+        }
+    }
+
+    // Apply or revert fatigue modifiers
+    async applyFatigueModifiers(apply){
+        const originalPrimary = this.getFlag('gs', 'originalPrimaryAbilities');
+        const originalSecondary = this.getFlag('gs', 'originalSecondaryAbilities');
+        const systemData = this.system;
+
+        for (const id in systemData.abilities.primary) {
+            apply ? systemData.abilities.primary[id] -= 1 : systemData.abilities.primary[id] = originalPrimary[id];
+        }
+        for (const id in systemData.abilities.secondary) {
+            apply ? systemData.abilities.secondary[id] -= 1 : systemData.abilities.secondary[id] = originalSecondary[id];
+        }
+
+        await this.update({
+            'system.abilities.primary': systemData.abilities.primary,
+            'system.abilities.secondary': systemData.abilities.secondary
+        });
+    }
+
+    // Handle fatigue logic
+    async handleFatigue(){
+        await this._initOriginalAbilities();
+
+        const systemData = this.system;
+
+        // Checking Fatigue scores
+        const rank1 = systemData.fatigue.rank1;
+        const rank2 = systemData.fatigue.rank2;
+        const rank3 = systemData.fatigue.rank3;
+        const rank4 = systemData.fatigue.rank4;
+        const rank5 = systemData.fatigue.rank5;
+
+        // Update the fatigue min values based on marked properties
+        const updateFatigueMin = (rank, count) => {
+            for (let i = 1; i <= count; i++) {
+                if (rank.marked[i]) rank.min += 1;
+            }
+        };
+
+        updateFatigueMin(rank1, 6);
+        updateFatigueMin(rank2, 5);
+        updateFatigueMin(rank3, 4);
+        updateFatigueMin(rank4, 3);
+        updateFatigueMin(rank5, 2);
+
+        // Check for rank1 fatigue and apply or revert modifiers
+        if (rank1.min >= rank1.max) {
+            await this.applyFatigueModifiers(true); // Apply modifiers
+        } else if (rank1.min < rank1.max) {
+            await this.applyFatigueModifiers(false); // Revert modifiers if previously applied
+        }
+    }
+
+    async _prepareCharacterData(actorData){
         const systemData = actorData.system;
-        const type = actorData.type
+        const type = actorData.type;
+        let hardinessBonus = 0;
 
         if(type !== 'character') return;
-
-        // Setting up character ability scores
-        for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
-            for(const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)){
-                const calcString = keyP.substring(0,1) + keyS.substring(0,1);
-                const calcScore = scoreP + scoreS;
-                systemData.abilities.calc[calcString] = calcScore;
-            }
-        }
 
         // Getting character skills
         const actorSkills = this.items.filter(item => item.type === 'skill');
         for(const [id, skill] of Object.entries(actorSkills)){
             // Switching on skills to save processing time
-            switch(skill){
+            // console.log("===> For Loop Skill Check", skill);
+            switch(skill.name){
                 case "Hardiness": // Setting 2x LifeForce + any Skills
-                    this._hardinessSkillCall(systemData); break;
+                    hardinessBonus = this._hardinessSkillCall(); break;
                 case "Perseverance": // Setting EX Fatigue
                     this._perserveranceSkillCall(systemData); break;
             }
         }
+
+        // Setting Life Force
+        systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
+        systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
 
         // Setting Character Spell Resistance
         systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
@@ -145,6 +209,19 @@ export class GSActor extends Actor {
             movePen += parseInt(armor[0].system.move, 10);
         }
         systemData.modMove = movePen;
+
+        // Checking Fatigue scores
+        //await this.handleFatigue();
+
+        // Setting up character calculated ability scores
+        for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
+            for(const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)){
+                const calcString = keyP.substring(0,1) + keyS.substring(0,1);
+                const calcScore = scoreP + scoreS;
+                systemData.abilities.calc[calcString] = calcScore;
+            }
+        }
+
     }
 
     _prepareMonsterData(actorData){

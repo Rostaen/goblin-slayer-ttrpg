@@ -91,6 +91,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
+		html.find(".attritionCBox").click(this._updateFatigue.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -152,7 +153,7 @@ export default class GSActorSheet extends ActorSheet{
 		}else{
 			console.error("Unknown skill type:", skillType);
 		}
-		console.log("Check if change took:", this.actor);
+		// console.log("Check if change took:", this.actor);
 	}
 
 	_onUpdateCharQuantity(event){
@@ -175,38 +176,19 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	// _deleteItem(event){
-	// 	event.preventDefault();
-	// 	const element = event.currentTarget;
-	// 	const id = element.dataset.itemid;
-	// 	const actor = this.actor;
+	_updateFatigue(event){
+		event.preventDefault();
+		const element = event.currentTarget;
+		const attritionNum = parseInt(element.dataset.cbox, 10);
+		const systemData = this.actor.system;
+		const currentWounds = systemData.lifeForce.current;
+		const lifeFroceHalf = systemData.lifeForce.double;
 
-	// 	//console.log(element, id, actor);
-
-	// 	if(actor){
-	// 		const item = actor.items.find(item => item._id === id);
-	// 		if(item){
-	// 			//item.delete();
-	// 			actor.deleteEmbeddedDocuments(
-	// 				'Item', [id]
-	// 			)
-	// 		}
-	// 	}
-	// }
-
-	// _editItem(event){
-	// 	event.preventDefault();
-	// 	const element = event.currentTarget;
-	// 	const id = element.dataset.itemid;
-	// 	const actor = this.actor;
-
-	// 	if(actor){
-	// 		const item = actor.items.find(item => item._id === id);
-	// 		if(item){
-	// 			item.sheet.render(true);
-	// 		}
-	// 	}
-	// }
+		if(attritionNum == 5 || attritionNum == 8 || attritionNum == 11 || attritionNum == 14 ||
+		   attritionNum == 16 || attritionNum == 18 || attritionNum >= 20){
+			// check min vs max to update as needed.
+		}
+	}
 
 	_checkForCritRolls(diceResults){
 		if(diceResults.length === 2){
