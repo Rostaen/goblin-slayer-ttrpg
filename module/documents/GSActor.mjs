@@ -26,6 +26,23 @@ export class GSActor extends Actor {
         } else return 0;
     }
 
+    // Update character with Hardiness Skill
+    _hardinessSkillCall(systemData){
+        // TODO: Update charater sheet for entered HP and a new life force disabled to reflect skill bonus;
+        let hardinessBonus = this._getSkillBonus("Hardiness");
+        if(hardinessBonus <= 4) hardinessBonus *= 5;
+        else if(hardinessBonus = 5) hardinessBonus = 30;
+        systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
+        systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
+    }
+
+    // Update character fatigue with EX checkboxes
+    _perserveranceSkillCall(systemData){
+        let perseverance = this._getSkillBonus("Perseverance");
+        for(let rank = 1; rank <= perseverance; rank++)
+            systemData.fatigue[`rank${rank}`].ex = 1;
+    }
+
     _prepareCharacterData(actorData){
         const systemData = actorData.system;
         const type = actorData.type
@@ -41,33 +58,20 @@ export class GSActor extends Actor {
             }
         }
 
-        // Setting Character Spell Resistance
-        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
-
-        // Setting 2x LifeForce + any Skills
-        // TODO: Update charater sheet for entered HP and a new life force disabled to reflect skill bonus;
-        let hardinessBonus = this._getSkillBonus("Hardiness");
-        if(hardinessBonus <= 4) hardinessBonus *= 5;
-        else if(hardinessBonus = 5) hardinessBonus = 30;
-        systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
-        systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
-
-        // Setting EX Fatigue
-        let perseverance = this._getSkillBonus("Perseverance");
-        if(perseverance >= 1){
-            systemData.fatigue.rank1.ex = 1;
-            if(perseverance >= 2){
-                systemData.fatigue.rank2.ex = 1;
-                if(perseverance >= 3){
-                        systemData.fatigue.rank3.ex = 1;
-                    if(perseverance >= 4){
-                        systemData.fatigue.rank4.ex = 1;
-                        if(perseverance == 5)
-                            systemData.fatigue.rank5.ex = 1;
-                    }
-                }
+        // Getting character skills
+        const actorSkills = this.items.filter(item => item.type === 'skill');
+        for(const [id, skill] of Object.entries(actorSkills)){
+            // Switching on skills to save processing time
+            switch(skill){
+                case "Hardiness": // Setting 2x LifeForce + any Skills
+                    this._hardinessSkillCall(systemData); break;
+                case "Perseverance": // Setting EX Fatigue
+                    this._perserveranceSkillCall(systemData); break;
             }
         }
+
+        // Setting Character Spell Resistance
+        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
 
         // Setting Spell Use Scores
         // TODO: Add in any spell skills that alter this amount per caster class

@@ -129,11 +129,12 @@ export default class GSActorSheet extends ActorSheet{
 			skills[skillIndex].system.value = rank;
 			raceItem.update({
 				'system.skills': skills
-			}).then(updatedItem => {
-				console.log("Skill updated:", updatedItem.system.skills[skillIndex]);
-			}).catch(error => {
-				console.error("Error updating racial skill:", error);
 			});
+			// .then(updatedItem => {
+			// 	console.log("Skill updated:", updatedItem.system.skills[skillIndex]);
+			// }).catch(error => {
+			// 	console.error("Error updating racial skill:", error);
+			// });
 		}else if(skillType === 'earned'){
 			const skill = items.get(skillId);
 			if(!skill){
@@ -142,11 +143,12 @@ export default class GSActorSheet extends ActorSheet{
 			}
 			skill.update({
 				'system.value': rank
-			}).then(updatedSkill => {
-				console.log("Skill updated:", updatedSkill.system);
-			}).catch(error => {
-				console.error("Error updating earned skill:", error);
 			});
+			// .then(updatedSkill => {
+			// 	console.log("Skill updated:", updatedSkill.system);
+			// }).catch(error => {
+			// 	console.error("Error updating earned skill:", error);
+			// });
 		}else{
 			console.error("Unknown skill type:", skillType);
 		}
