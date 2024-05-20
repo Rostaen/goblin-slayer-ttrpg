@@ -91,9 +91,32 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
-		html.find(".attritionCBox").click(this._updateFatigue.bind(this));
+		html.find(".attritionCBox").click(this._updateAttrition.bind(this));
+		html.find(".fatigueCBox").click(this._updateFatigue.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
+	}
+
+	_getRollMod(html, target){
+		const rollMod = html.find(`${target}`)[0].value;
+		return parseInt(rollMod, 10);
+	}
+
+	_setRollMessage(dice = "2d6", stat = 0, firstMod = 0, secondMod = 0, thirdMod = 0){
+		let rollMessage = dice;
+		if(stat > 0)
+			rollMessage += `  + ${stat}`;
+		if(firstMod > 0) // Class Bonus
+			rollMessage += ` + ${firstMod}`;
+		if(secondMod < 0) // Item/gear +/-
+			rollMessage += ` - ${Math.abs(secondMod)}`;
+		else if(secondMod > 0)
+			rollMessage += ` + ${secondMod}`;
+		if (thirdMod > 0) // Extra roll modifiers
+			rollMessage += ` + ${thirdMod}`;
+		else if(thirdMod < 0)
+			rollMessage += ` - ${Math.abs(thirdMod)}`
+		return rollMessage;
 	}
 
 	_onUpdateSkillRank(event){
@@ -176,17 +199,39 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_updateFatigue(event){
-		event.preventDefault();
+	_updateAttrition(event){
+		//event.preventDefault();
 		const element = event.currentTarget;
 		const attritionNum = parseInt(element.dataset.cbox, 10);
 		const systemData = this.actor.system;
 		const currentWounds = systemData.lifeForce.current;
-		const lifeFroceHalf = systemData.lifeForce.double;
+		const lifeForceHalf = systemData.lifeForce.double;
 
-		if(attritionNum == 5 || attritionNum == 8 || attritionNum == 11 || attritionNum == 14 ||
-		   attritionNum == 16 || attritionNum == 18 || attritionNum >= 20){
-			// check min vs max to update as needed.
+		if(currentWounds < lifeForceHalf){ // Only gain fatigue per red checkbox
+			if(attritionNum == 5 || attritionNum == 8 || attritionNum == 11 || attritionNum == 14 ||
+			attritionNum == 16 || attritionNum == 18 || attritionNum >= 20){
+				// check min vs max to update as needed.
+			}
+		}else{ // Gain one fatigue for regular check boxes and two fatigue for red checkboxes
+			if(attritionNum == 5 || attritionNum == 8 || attritionNum == 11 || attritionNum == 14 ||
+				attritionNum == 16 || attritionNum == 18 || attritionNum >= 20){
+				// Gain two fatigue checkboxes
+			}else{
+				// Gain one fatigue checkbox
+			}
+		}
+	}
+
+	_updateFatigue(event){
+		//event.preventDefault();
+		const element = event.currentTarget;
+		const fatigueNum = parseInt(element.dataset.fcbox, 10);
+		const checked = element.value;
+		const systemData = this.actor.system;
+		const fatigue = systemData.fatigue;
+
+		if(fatigueNum == 16 || fatigueNum == 15){
+			this.actor.setFlag('gs', 'reduceAbilityScores');
 		}
 	}
 
@@ -209,22 +254,16 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_rollsToMessage(dice, stat, classBonus, modifier, label){
+	async _rollsToMessage(dice, stat, classBonus, modifier, label, rollMod = 0){
 		let rollExpression = `${dice}`;
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
-		if(stat > 0){ // Adding stat to dice rolls
-			rollExpression += ` + ${stat}`;
-		}
-		if(classBonus > 0){ // Adding class bonus to dice rolls
-			rollExpression += ` + ${classBonus}`;
-		}
-		if(label !== casting){ // Add modifier to dice rolls else use modifer as DC check in roll eval
-			if(modifier < 0){
-				rollExpression += ` ${modifier}`;
-			}else if (modifier != 0){
-				rollExpression += ` + ${modifier}`;
-			}
-		}
+
+		// Getting roll modifiers from user
+		rollMod = await this._promptWindowChoice("rollMod", label);
+
+		// Setting up roll message
+		rollExpression = this._setRollMessage("2d6", stat, classBonus, modifier, rollMod);
+
 		const roll = new Roll(rollExpression);
 		roll.evaluate({ async: true }).then(() => {
 			// Adding customHeader // Work on this in a later version
@@ -285,9 +324,10 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	_rollStatDice(event){
+	async _rollStatDice(event){
 		event.preventDefault();
 		let baseDice = "2d6";
+
 		// Find the parent container that contains the label and input
 		const container = event.currentTarget.closest('.calcScore');
 		if(container){
@@ -328,22 +368,22 @@ export default class GSActorSheet extends ActorSheet{
 			if(type === 'projectile' && ranger > 0){
 				bonus += ranger;
 			}else if(type === 'throwing'){
-				if(monk > 0){
+				if(monk > bonus){
 					bonus += monk;
-				}else if(ranger > 0){
+				}else if(ranger > bonus){
 					bonus += ranger;
-				}else if(scout > 0){
+				}else if(scout > bonus){
 					bonus += scout;
 				}
 			}else{ // Assuming type is a melee weapon
 				const fighterWeapons = ["sword", "ax", "spear", "mace"];
 				const monkWeapons = ["close-combat", "staff"];
 				const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"];
-				if (fighter > 0 && includesAny(fighterWeapons, type)) {
+				if (fighter > bonus && includesAny(fighterWeapons, type)) {
 					bonus += fighter;
-				} else if (monk > 0 && includesAny(monkWeapons, type)) {
+				} else if (monk > bonus && includesAny(monkWeapons, type)) {
 					bonus += monk;
-				} else if (scout > 0 && includesAny(scoutWeapons, type) && weight === 'light') {
+				} else if (scout > bonus && includesAny(scoutWeapons, type) && weight === 'light') {
 					bonus += scout;
 				}
 			}
@@ -351,18 +391,18 @@ export default class GSActorSheet extends ActorSheet{
 			let armorType = type.match(/\((.*?)\)/);
 			if(armorType && armorType[1]){
 				const isCloth = armorType[1] === 'cloth';
-				if(fighter > 0){
+				if(fighter > bonus){
 					bonus += fighter;
-				}else if(monk > 0 && isCloth){
+				}else if(monk > bonus && isCloth){
 					bonus += monk;
-				}else if(scout > 0 && weight === 'light'){
+				}else if(scout > bonus && weight === 'light'){
 					bonus += scout;
 				}
 			}else{
 				console.error("Not text found in type from hidden input");
 			}
 		}else if(itemType === 'shield'){
-			if(fighter > 0){
+			if(fighter > bonus){
 				bonus += fighter;
 			}else if(scout && weight === 'light'){
 				bonus += scout;
@@ -540,7 +580,7 @@ export default class GSActorSheet extends ActorSheet{
 				this._rollInitiative(event);
 				break;
 			case 'stealthCheck':
-				this._promptStealthChoice(event);
+				this._promptWindowChoice("stealth");
 				break;
 			case 'sixthSense':
 				this._sixthSenseRoll(event);
@@ -572,36 +612,71 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_promptStealthChoice(event){
-		event.preventDefault();
+	_promptWindowChoice(promptType, promptName = ''){
+		return new Promise ((resolve) => {
+			let dialogContent, promptTitle, buttonOne, buttonTwo;
 
-		const dialogContent = `
-			<h3>${game.i18n.localize("gs.dialog.stealth.choice")}</h3>
-			<ul>
-				<li>${game.i18n.localize("gs.dialog.stealth.long")}${game.i18n.localize("gs.dialog.stealth.longChoice")}</li>
-				<li>${game.i18n.localize("gs.dialog.stealth.short")}${game.i18n.localize("gs.dialog.stealth.shortChoice")}</li>
-			</ul>
-		`;
+			switch(promptType){
+				case 'stealth':
+					dialogContent = `
+						<h3>${game.i18n.localize("gs.dialog.stealth.choice")}</h3>
+						<ul>
+							<li>${game.i18n.localize("gs.dialog.stealth.long")}${game.i18n.localize("gs.dialog.stealth.longChoice")}</li>
+							<li>${game.i18n.localize("gs.dialog.stealth.short")}${game.i18n.localize("gs.dialog.stealth.shortChoice")}</li>
+						</ul>
+						<h3>${game.i18n.localize("gs.dialog.mods.addMod")}</h3>
+						<p>${game.i18n.localize("gs.dialog.mods.addInfo")}</p>
+						<input type="text" class="rollMod" style="margin-bottom: 10px;" />`;
+					promptTitle = game.i18n.localize("gs.dialog.stealth.header");
+					buttonOne = {
+						label: game.i18n.localize("gs.dialog.stealth.long"),
+						callback: (html) => {
+							resolve(this._getRollMod(html, ".rollMod"));
+                        	this._handleStealthChoice("te", this._getRollMod(html, ".rollMod"));
+						}
+					};
+					buttonTwo = {
+						label: game.i18n.localize("gs.dialog.stealth.short"),
+						callback: (html) => {
+							resolve(this._getRollMod(html, ".rollMod"));
+                        	this._handleStealthChoice("tr", this._getRollMod(html, ".rollMod"));
+						}
+					};
+					break;
+				case 'rollMod':
+					dialogContent = `
+						<h3>${game.i18n.localize("gs.dialog.mods.addMod")}</h3>
+						<p>${game.i18n.localize("gs.dialog.mods.addInfo")}</p>
+						<input type="text" class="rollMod" style="margin-bottom: 10px;" />`;
+					promptTitle = promptName + " " + game.i18n.localize("gs.dialog.mods.mod");
+					buttonOne = {
+						label: game.i18n.localize("gs.dialog.mods.addMod"),
+						callback: (html) => {
+							resolve(this._getRollMod(html, ".rollMod"));
+						}
+					};
+					buttonTwo = {
+						label: game.i18n.localize("gs.dialog.cancel"),
+						callback: () => {
+							resolve(0);
+						}
+					};
+					break;
+				default:
+					break;
+			}
 
-		new Dialog({
-			title: game.i18n.localize("gs.dialog.stealth.header"),
-			content: dialogContent,
-			buttons: {
-				longTerm: {
-					label: game.i18n.localize("gs.dialog.stealth.long"),
-					callback: () => this._handleStealthChoice("te")
-				},
-				shortTerm: {
-					label: game.i18n.localize("gs.dialog.stealth.short"),
-					callback: () => this._handleStealthChoice("tr")
-				}
-			},
-			default: "shortTerm",
-			close: () => console.log("GS || Stealth check dialog closed"),
-		}).render(true);
+			new Dialog({
+				title: promptTitle,
+				content: dialogContent,
+				buttons: { buttonOne: buttonOne, buttonTwo: buttonTwo },
+				default: "buttonOne",
+				close: () => console.log("GS || Window prompt closed"),
+			}).render(true);
+		});
 	}
 
-	_handleStealthChoice(choice){
+	_handleStealthChoice(choice, rollMod = 0){
 		let stealthStat, skillBonus, classBonus = 0, rollMessage, armorPenalties = 0;
 		const actorData = this.actor.system;
 		const actorStats = actorData.abilities.calc;
@@ -638,13 +713,8 @@ export default class GSActorSheet extends ActorSheet{
 		// Getting skill bonus(es) here
 
 		// Setting up roll message
-		rollMessage = `2d6 + ${stealthStat}`;
-		if(classBonus > 0){
-			rollMessage += ` + ${classBonus}`;
-		}if (armorPenalties < 0){
-			rollMessage += ` ${armorPenalties}`;
-		}
-		console.log("Stat", stealthStat, "CB", classBonus);
+		rollMessage = this._setRollMessage("2d6", stealthStat, classBonus, armorPenalties, rollMod);
+		// console.log("Stat", stealthStat, "CB", classBonus);
 
 		let roll = new Roll(rollMessage);
 		roll.evaluate({ async: true }).then(() => {
@@ -659,23 +729,27 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	_rollInitiative(event){
+	async _rollInitiative(event){
 		event.preventDefault();
-		console.log("Event to prompt initiative roll", event);
+
 		const actorType = this.actor.type;
 		let anticipateBonus = 0, message = "2d6";
 
 		if(actorType === 'character'){
 			const skill = this.actor.items.filter(item => item.type === 'skill');
+			const rollMod = await this._promptWindowChoice("rollMod", game.i18n.localize('gs.actor.common.init'));
 			if(skill.length){
 				const anticipate = skill.filter(skill => skill.name.toLowerCase() === "anticipate");
 				if(anticipate.length){
 					anticipateBonus = parseInt(anticipate[0].value, 10);
 				}
 			}
-			if(anticipateBonus > 0){
+			if(anticipateBonus > 0)
 				message += ` + ${anticipateBonus}`;
-			}
+			if(rollMod > 0)
+				message += ` + ${rollMod}`;
+			else if(rollMod < 0)
+				message += ` - ${Math.abs(rollMod)}`;
 		}else if(actorType === 'monster'){
 			const container = event.currentTarget.closest('.reveal-rollable');
 			if(!container){
@@ -706,13 +780,13 @@ export default class GSActorSheet extends ActorSheet{
 		})
 	}
 
-	_sixthSenseRoll(event){
+	async _sixthSenseRoll(event){
 		event.preventDefault();
 		const actorData = this.actor.system;
 		const actorStats = actorData.abilities.calc;
 		const actorClasses = actorData.levels.classes;
 		const stat = actorStats.ir; // Intelligence reflex bonus
-		let classBonus = 0, skillBonus = 0, rollMessage;
+		let classBonus = 0, skillBonus = 0, rollMessage, rollMod;
 
 		// Getting Class level bonus
 		if(actorClasses.ranger > classBonus){
@@ -734,13 +808,10 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		}
 
+		rollMod = await this._promptWindowChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.6sense'));
+
 		// Setting up roll message
-		rollMessage = `2d6 + ${stat}`;
-		if(classBonus > 0){
-			rollMessage += ` + ${classBonus}`;
-		}if (skillBonus > 0){
-			rollMessage += ` + ${skillBonus}`;
-		}
+		rollMessage = this._setRollMessage("2d6", stat, classBonus, skillBonus, rollMod);
 		//console.log("Stat", stat, "CB", classBonus);
 
 		let roll = new Roll(rollMessage);
@@ -756,9 +827,9 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	_luckRoll(event){
+	async _luckRoll(event){
 		event.preventDefault();
-		let skillBonus = 0, rollMessage;
+		let skillBonus = 0, rollMessage, rollMod;
 
 		// Getting skill bonus here
 		// const skill = this.actor.items.filter(item => item.type === 'skill');
@@ -771,11 +842,11 @@ export default class GSActorSheet extends ActorSheet{
 		// 	}
 		// }
 
+		// Getting roll modifiers from user
+		rollMod = await this._promptWindowChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.luck'));
+
 		// Setting up roll message
-		rollMessage = `2d6`;
-		if (skillBonus > 0){
-			rollMessage += ` + ${skillBonus}`;
-		}
+		rollMessage = this._setRollMessage("2d6", 0, 0, skillBonus, rollMod);
 		//console.log("Stat", stat, "CB", classBonus);
 
 		let roll = new Roll(rollMessage);

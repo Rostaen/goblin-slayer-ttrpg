@@ -289,6 +289,12 @@
     },
     "dialog": {
       "rolling": "Rolling",
+      "cancel": "Cancel",
+      "mods": {
+        "mod": "Modifier",
+        "addMod": "Add Modifiers",
+        "addInfo": "Add in any extra modifiers from skills or other sources here:"
+      },
       "crits": {
         "crit": "Critical",
         "succ": "Success!",

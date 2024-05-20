@@ -117,6 +117,21 @@ export class GSActor extends Actor {
 
         if(type !== 'character') return;
 
+        // Checking Fatigue scores
+        //await this.handleFatigue();
+
+        // Setting up character calculated ability scores
+        for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
+            for(const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)){
+                const calcString = keyP.substring(0,1) + keyS.substring(0,1);
+                const calcScore = scoreP + scoreS;
+                systemData.abilities.calc[calcString] = calcScore;
+            }
+        }
+
+        // Setting Character Spell Resistance
+        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
+
         // Getting character skills
         const actorSkills = this.items.filter(item => item.type === 'skill');
         for(const [id, skill] of Object.entries(actorSkills)){
@@ -133,9 +148,6 @@ export class GSActor extends Actor {
         // Setting Life Force
         systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
         systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
-
-        // Setting Character Spell Resistance
-        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
 
         // Setting Spell Use Scores
         // TODO: Add in any spell skills that alter this amount per caster class
@@ -209,18 +221,6 @@ export class GSActor extends Actor {
             movePen += parseInt(armor[0].system.move, 10);
         }
         systemData.modMove = movePen;
-
-        // Checking Fatigue scores
-        //await this.handleFatigue();
-
-        // Setting up character calculated ability scores
-        for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
-            for(const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)){
-                const calcString = keyP.substring(0,1) + keyS.substring(0,1);
-                const calcScore = scoreP + scoreS;
-                systemData.abilities.calc[calcString] = calcScore;
-            }
-        }
 
     }
 

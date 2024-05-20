@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0
+## Current State v0.6.1
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
@@ -20,52 +20,48 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - Rolls broken down into 'Dice + Stat + Class + Item Mod'
     - Spell DC casting check
   - Stealth rolls to chat bar with class level and item modifiers
+  - Misc. modifier pop-up window for all player rolls
 - Full compendium added from core book
 
 ### TODO:
 
 - [ ] Melee/Thrown/Projectile
-  - [ ] To Hit checks
+  - [x] To Hit checks
     - [x] Fighter checks
     - [x] Monk checks
     - [x] Scout checks
     - [x] Ranger checks
     - [x] Monster
-    - [ ] Skill modifiers
-  - [ ] Power rolls
+  - [x] Power rolls
     - [x] Fighter
     - [x] Monk
     - [x] Scout
     - [x] Ranger
     - [x] Monster
-    - [ ] Skill Modifiers
-  - [ ] Dodge Checks
+  - [x] Dodge Checks
     - [x] Fighter
     - [x] Monk
     - [x] Scout
     - [x] Monster
-    - [ ] Skill Modifiers
-  - [ ] Block Checks
+  - [x] Block Checks
     - [x] Fighter
     - [x] Scout
     - [x] Monster
-    - [ ] Skill Modifiers
   - [ ] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
-- [ ] PC Stealth
+- [x] PC Stealth
   - [x] Stealth button rolling
   - [x] Armor/shield modifiers added in
   - [x] Classes that stealth added in
-  - [ ] Skill Modifiers
-  - [ ] Update chat window for crit success/fail
+  - [x] Skill Modifiers
+  - [x] Update chat window for crit success/fail
 - [ ] Combat Tracking
   - [ ] Add initiative rolls to combat tracker
   - [ ] Update tracker to reroll initiative at start of next round
-- [ ] Movement Updates
+- [x] Movement Updates
   - [x] Change movement field for PC creation to maximum
   - [x] Create disabled field for modified movement from armor/skills
   - [x] Armor Modifiers added
-  - [ ] Skill Modifiers
-- [ ] Move Race skills from Race to Item level
+- [x] Move Race skills from Race to Item level
 - [ ] Add in a Parry check
 - [ ] Context menu for Race skills
 - [ ] Prompt for Roll modifiers
@@ -81,6 +77,82 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [x] Monster sheet '!' information hovers
 - [ ] Block skills from having a higher value when levels and rank are in conflict
 - [ ] Supplement book items added to game
+
+### Skill Implementation Tracking
+
+#### Adventerer Skills
+
+- [ ] Alert
+- [x] Anticipate
+- [ ] Armor: XX
+- [ ] Binding Attack
+- [ ] Bonus Spells: XX
+- [ ] Burst of Strength
+- [ ] Curved Shot
+- [ ] Defensive
+- [ ] Dual Wielding
+- [ ] Encumbered Action
+- [ ] Enhance Spells: Power
+- [ ] First Aid
+- [ ] Guard
+- [ ] Handiwork
+- [x] Hardiness
+- [ ] Healing Affinity
+- [ ] Iron Fist
+- [ ] Lucky
+- [ ] Magical Talent
+- [ ] Martial Arts
+- [ ] Master of XX
+- [ ] Monster Knowledge
+- [ ] Mow Down
+- [ ] Observe
+- [ ] Parry
+- [x] Perseverance
+- [ ] Piercing Attack
+- [ ] Provoke
+- [ ] Rampart
+- [ ] Rapid Fire
+- [ ] Shields
+- [ ] Sixth Sense
+- [ ] Slice Attack
+- [ ] Slip Behind
+- [ ] Snipe
+- [ ] Spell Expertise: XX
+- [x] Spell Resistance
+- [ ] Stealth
+- [ ] Strengthened Immunity
+- [ ] Strong Blow: Bludgeon
+- [ ] Strong Blow: Slash
+- [ ] Tactical Movement
+- [ ] Weapons: XX
+
+#### General Skills
+
+- [ ] Appraisal
+- [ ] Artisan: XX
+- [ ] Beloved of the Fae
+- [ ] Cooking
+- [ ] Cool and Collected
+- [ ] Craftsmanship
+- [ ] Criminal Knowledge
+- [ ] Darkvision
+- [ ] Draconic Heritage
+- [ ] Etiquette
+- [ ] Faith: XX
+- [ ] General Knowledge
+- [ ] Labor
+- [ ] Leadership
+- [ ] Long-Distance Movement
+- [ ] Meditate
+- [ ] Negotiate: XX
+- [ ] No Preconceptions
+- [ ] Perform: XX
+- [ ] Production: XX
+- [ ] Research
+- [ ] Riding
+- [ ] Survivalism
+- [ ] Theology
+- [ ] Worship
 
 # How to use the Game System
 
