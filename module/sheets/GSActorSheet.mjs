@@ -91,8 +91,8 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
-		html.find(".attritionCBox").click(this._updateAttrition.bind(this));
-		html.find(".fatigueCBox").click(this._updateFatigue.bind(this));
+		// html.find(".attritionCBox").click(this._updateAttrition.bind(this));
+		// html.find(".fatigueCBox").click(this._updateFatigue.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -104,6 +104,7 @@ export default class GSActorSheet extends ActorSheet{
 
 	_setRollMessage(dice = "2d6", stat = 0, firstMod = 0, secondMod = 0, thirdMod = 0){
 		let rollMessage = dice;
+		const fatigueMod = this.actor.system.fatigue.fatigueMod;
 		if(stat > 0)
 			rollMessage += `  + ${stat}`;
 		if(firstMod > 0) // Class Bonus
@@ -112,10 +113,12 @@ export default class GSActorSheet extends ActorSheet{
 			rollMessage += ` - ${Math.abs(secondMod)}`;
 		else if(secondMod > 0)
 			rollMessage += ` + ${secondMod}`;
-		if (thirdMod > 0) // Extra roll modifiers
+		if(thirdMod > 0) // Extra roll modifiers
 			rollMessage += ` + ${thirdMod}`;
 		else if(thirdMod < 0)
-			rollMessage += ` - ${Math.abs(thirdMod)}`
+			rollMessage += ` - ${Math.abs(thirdMod)}`;
+		if(fatigueMod < 0)
+			rollMessage += ` - ${Math.abs(fatigueMod)}`;
 		return rollMessage;
 	}
 
@@ -219,19 +222,6 @@ export default class GSActorSheet extends ActorSheet{
 			}else{
 				// Gain one fatigue checkbox
 			}
-		}
-	}
-
-	_updateFatigue(event){
-		//event.preventDefault();
-		const element = event.currentTarget;
-		const fatigueNum = parseInt(element.dataset.fcbox, 10);
-		const checked = element.value;
-		const systemData = this.actor.system;
-		const fatigue = systemData.fatigue;
-
-		if(fatigueNum == 16 || fatigueNum == 15){
-			this.actor.setFlag('gs', 'reduceAbilityScores');
 		}
 	}
 

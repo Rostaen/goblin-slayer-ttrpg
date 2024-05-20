@@ -44,50 +44,73 @@ export class GSActor extends Actor {
         }
     }
 
-    // Function to initialize original ability scores if not already set for Fatigue changes
-    async _initOriginalAbilities(){
-        const originalPrimary = this.getFlag('gs', 'originalPrimaryAbilities');
-        const originalSecondary = this.getFlag('gs', 'originalSecondaryAbilities');
+    _checkFlags() {
+        const flags = this.flags.gs;
+        if (!flags) return;
+        console.log("Check Flags", flags);
 
-        if(!originalPrimary || !originalSecondary){
-            console.log(">>> Checking this 1", this);
-            await this.setFlag('gs', 'originalPrimaryAbilities', duplicate(this.system.abilities.primary));
-            await this.setFlag('gs', 'originalSecondaryAbilities', duplicate(this.system.abilities.secondary));
-            console.log(">>> Checking this 2", this);
+        if (flags.reduceAbilityScores) {
+
+        }
+        if (flags.revertAbilityScores) {
+
         }
     }
 
     // Apply or revert fatigue modifiers
-    async applyFatigueModifiers(apply){
-        const originalPrimary = this.getFlag('gs', 'originalPrimaryAbilities');
-        const originalSecondary = this.getFlag('gs', 'originalSecondaryAbilities');
+    _applyAbilityScoreFatigueMods(apply, rank) {
         const systemData = this.system;
 
-        for (const id in systemData.abilities.primary) {
-            apply ? systemData.abilities.primary[id] -= 1 : systemData.abilities.primary[id] = originalPrimary[id];
+        switch(rank){
+            case "rank1":
+                for (const id in systemData.abilities.primary)
+                    apply ? systemData.abilities.primary[id] -= 1 : systemData.abilities.primary[id] += 1;
+                for (const id in systemData.abilities.secondary)
+                    apply ? systemData.abilities.secondary[id] -= 1 : systemData.abilities.secondary[id] += 1;
+                this.update({
+                    'system.abilities.primary': systemData.abilities.primary,
+                    'system.abilities.secondary': systemData.abilities.secondary
+                });
+                break;
+            case "rank2":
+                let moveMod;
+                let rollMod;
+                if(apply){
+                    rollMod = -2;
+                    moveMod = systemData.move / 2;
+                    if(moveMod % 1 != 0){
+                        moveMod = Math.floor(moveMod);
+                        this.setFlag('gs', 'rank2Decimal', 0.5);
+                    }
+                }else{
+                    rollMod = 0;
+                    moveMod = systemData.move * 2;
+                    const decimalFlag = this.getFlag('gs', 'rank2Decimal');
+                    if(decimalFlag){
+                        moveMod += 1;
+                        this.unsetFlag('gs', 'rank2Decimal');
+                    }
+                }
+                this.update({
+                    'system.fatigue.fatigueMod': rollMod,
+                    'system.move': moveMod
+                });
+                break;
         }
-        for (const id in systemData.abilities.secondary) {
-            apply ? systemData.abilities.secondary[id] -= 1 : systemData.abilities.secondary[id] = originalSecondary[id];
-        }
-
-        await this.update({
-            'system.abilities.primary': systemData.abilities.primary,
-            'system.abilities.secondary': systemData.abilities.secondary
-        });
     }
 
-    // Handle fatigue logic
-    async handleFatigue(){
-        await this._initOriginalAbilities();
-
-        const systemData = this.system;
-
-        // Checking Fatigue scores
-        const rank1 = systemData.fatigue.rank1;
-        const rank2 = systemData.fatigue.rank2;
-        const rank3 = systemData.fatigue.rank3;
-        const rank4 = systemData.fatigue.rank4;
-        const rank5 = systemData.fatigue.rank5;
+    _checkFatigue(){
+        const fatigue = this.system.fatigue;
+        const rank1 = fatigue.rank1;
+        const rank2 = fatigue.rank2;
+        const rank3 = fatigue.rank3;
+        const rank4 = fatigue.rank4;
+        const rank5 = fatigue.rank5;
+        const rank1Flag = this.getFlag('gs', 'fatigueRank1');
+        const rank2Flag = this.getFlag('gs', 'fatigueRank2');
+        const rank3Flag = this.getFlag('gs', 'fatigueRank3');
+        const rank4Flag = this.getFlag('gs', 'fatigueRank4');
+        const rank5Flag = this.getFlag('gs', 'fatigueRank5');
 
         // Update the fatigue min values based on marked properties
         const updateFatigueMin = (rank, count) => {
@@ -102,23 +125,46 @@ export class GSActor extends Actor {
         updateFatigueMin(rank4, 3);
         updateFatigueMin(rank5, 2);
 
-        // Check for rank1 fatigue and apply or revert modifiers
-        if (rank1.min >= rank1.max) {
-            await this.applyFatigueModifiers(true); // Apply modifiers
-        } else if (rank1.min < rank1.max) {
-            await this.applyFatigueModifiers(false); // Revert modifiers if previously applied
+        if(rank1.min == rank1.max && !rank1Flag){
+            this.setFlag('gs', 'fatigueRank1', -1);
+            this._applyAbilityScoreFatigueMods(true, "rank1");
+        }else if(rank1.min < rank1.max && rank1Flag){
+            this.unsetFlag('gs', 'fatigueRank1');
+            this._applyAbilityScoreFatigueMods(false, "rank1");
+        }
+        if(rank2.min == rank2.max && !rank2Flag){
+            this.setFlag('gs', 'fatigueRank2', -1);
+            this._applyAbilityScoreFatigueMods(true, "rank2");
+        }else if(rank2.min < rank2.max && rank2Flag){
+            this.unsetFlag('gs', 'fatigueRank2');
+            this._applyAbilityScoreFatigueMods(false, "rank2");
+        }
+        if(rank3.min == rank3.max && !rank3Flag){
+            this.setFlag('gs', 'fatigueRank3', -1);
+            this._applyAbilityScoreFatigueMods(true, "rank3");
+        }else if(rank3.min < rank3.max && rank3Flag){
+            this.unsetFlag('gs', 'fatigueRank3');
+            this._applyAbilityScoreFatigueMods(false, "rank3");
+        }
+        if(rank4.min == rank4.max && !rank4Flag){
+            this.setFlag('gs', 'fatigueRank4', -1);
+            this._applyAbilityScoreFatigueMods(true, "rank4");
+        }else if(rank4.min < rank4.max && rank4Flag){
+            this.unsetFlag('gs', 'fatigueRank4');
+            this._applyAbilityScoreFatigueMods(false, "rank4");
+        }
+        if(rank5.min == rank5.max && !rank5Flag){
+            this.setFlag('gs', 'fatigueRank5', -1);
+            this._applyAbilityScoreFatigueMods(true, "rank5");
         }
     }
 
-    async _prepareCharacterData(actorData){
+    _prepareCharacterData(actorData){
         const systemData = actorData.system;
         const type = actorData.type;
         let hardinessBonus = 0;
 
         if(type !== 'character') return;
-
-        // Checking Fatigue scores
-        //await this.handleFatigue();
 
         // Setting up character calculated ability scores
         for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
@@ -128,6 +174,9 @@ export class GSActor extends Actor {
                 systemData.abilities.calc[calcString] = calcScore;
             }
         }
+
+                // Checking Flags for character sheet changes
+        //this._checkFlags();
 
         // Setting Character Spell Resistance
         systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
@@ -144,6 +193,9 @@ export class GSActor extends Actor {
                     this._perserveranceSkillCall(systemData); break;
             }
         }
+
+        // Check Fatigue Levels
+        this._checkFatigue();
 
         // Setting Life Force
         systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
