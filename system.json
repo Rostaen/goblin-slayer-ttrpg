@@ -105,22 +105,6 @@
       "flags": {}
     }
   ],
-  "packFolders": [
-    {
-      "name": "Goblin Slayer Items",
-      "sorting": "m",
-      "color": "#999999",
-      "packs": [
-        "armor",
-        "items",
-        "races",
-        "shields",
-        "skills",
-        "spells",
-        "weapons"
-      ]
-    }
-  ],
   "socket": false,
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
   "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/archive/refs/tags/v0.7.0-beta.zip",
