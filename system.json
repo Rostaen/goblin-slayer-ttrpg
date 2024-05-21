@@ -109,7 +109,7 @@
     {
       "name": "Goblin Slayer Items",
       "sorting": "m",
-      "color": "#999",
+      "color": "#999999",
       "packs": [
         "armor",
         "items",
