@@ -104,6 +104,33 @@
       "type": "Item",
       "private": false,
       "flags": {}
+    },
+    {
+      "name": "rules",
+      "label": "Goblin Slayer Rules",
+      "system": "gs",
+      "path": "packs/rules",
+      "type": "JournalEntry",
+      "private": false,
+      "flags": {}
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Goblin Slayer Content",
+      "sorting": "m",
+      "color": "#333333",
+      "packs": [
+        "items",
+        "spells",
+        "monsters",
+        "skills",
+        "armor",
+        "weapons",
+        "shields",
+        "races",
+        "rules"
+      ]
     }
   ],
   "socket": false,
