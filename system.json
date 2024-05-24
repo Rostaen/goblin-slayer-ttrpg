@@ -5,11 +5,18 @@
   "authors": [
     {
       "name": "Andrew",
+<<<<<<< HEAD
       "url": "https://github.com/Rostaen",
       "flags": {}
     }
   ],
   "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
+=======
+      "url": "https://github.com/Rostaen"
+    }
+  ],
+  "license": "",
+>>>>>>> 3252cb4898287d1cdb2baf3e943280c2acb11629
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
   "version": "0.7.0",
@@ -122,6 +129,7 @@
       "system": "gs",
       "path": "packs/races",
       "type": "Item",
+<<<<<<< HEAD
       "flags": {},
       "ownership": {
         "PLAYER": "OBSERVER",
@@ -129,6 +137,41 @@
       }
     }
   ],
+=======
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "rules",
+      "label": "Goblin Slayer Rules",
+      "system": "gs",
+      "path": "packs/rules",
+      "type": "JournalEntry",
+      "private": false,
+      "flags": {}
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Goblin Slayer Content",
+      "sorting": "m",
+      "color": "#333333",
+      "packs": [
+        "items",
+        "spells",
+        "monsters",
+        "skills",
+        "armor",
+        "weapons",
+        "shields",
+        "races",
+        "rules"
+      ]
+    }
+  ],
+  "socket": false,
+  "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
+>>>>>>> 3252cb4898287d1cdb2baf3e943280c2acb11629
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
   "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/archive/refs/tags/v0.7.0-beta.zip",
   "background": "systems/gs/assets/gslogo.jpg",
