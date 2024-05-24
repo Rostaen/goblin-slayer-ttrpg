@@ -29,11 +29,7 @@
 			<span class="stealth">
 				<label for="armorStealth">{{localize config.common.ste}}:</label>
 				<select name="system.stealth">
-					{{#select gear.stealth}}
-						{{#each config.armor.stealth as |number id|}}
-							<option value="{{number}}">{{id}} ({{number}})</option>
-						{{/each}}
-					{{/select}}
+					{{selectOptions config.armor.stealth selected=system.stealth localize=true}}
 				</select>
 			</span>
 			<span class="value">

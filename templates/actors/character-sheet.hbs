@@ -10,11 +10,7 @@
             <input name="name" type="text" value="{{data.actor.name}}" class="grid-span-3" />
             <label>{{localize config.character.rank}}</label>
             <select name="system.details.rank" class="grid-span-2">
-                {{#select actor.system.details.rank}}
-                    {{#each config.charSheet.ranks as |rank id|}}
-                        <option value="{{localize rank}}">{{localize rank}}</option>
-                    {{/each}}
-                {{/select}}
+                {{selectOptions config.charSheet.ranks selected=system.details.rank localize=true}}
             </select>
         </h1>
         <div class="mainContent">

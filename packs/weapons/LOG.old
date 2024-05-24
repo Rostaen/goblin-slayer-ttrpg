@@ -1,11 +1,9 @@
-2024/05/24-16:57:35.805 18f0 Log #78: 94 ops saved to Table #86 OK
-2024/05/24-16:57:35.806 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/000078.log: OK
-2024/05/24-16:57:35.808 18f0 Log #85: 90 ops saved to Table #87 OK
-2024/05/24-16:57:35.809 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/000085.log: OK
-2024/05/24-16:57:35.809 18f0 Table #45: 87 entries OK
-2024/05/24-16:57:35.809 18f0 Table #47: 281 entries OK
-2024/05/24-16:57:35.809 18f0 Table #86: 94 entries OK
-2024/05/24-16:57:35.810 18f0 Table #87: 90 entries OK
-2024/05/24-16:57:35.812 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/MANIFEST-000077: OK
-2024/05/24-16:57:35.813 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/MANIFEST-000084: OK
-2024/05/24-16:57:35.816 18f0 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons; recovered 4 files; 152919 bytes. Some data may have been lost. ****
+2024/05/24-16:57:35.823 18f0 Delete type=3 #1
+2024/05/24-16:57:35.824 383c Compacting 4@0 + 0@1 files
+2024/05/24-16:57:35.827 383c Generated table #90@0: 104 keys, 37724 bytes
+2024/05/24-16:57:35.827 383c Compacted 4@0 + 0@1 files => 37724 bytes
+2024/05/24-16:57:35.829 383c compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/05/24-16:57:35.829 383c Delete type=2 #45
+2024/05/24-16:57:35.829 383c Delete type=2 #47
+2024/05/24-16:57:35.830 383c Delete type=2 #86
+2024/05/24-16:57:35.830 383c Delete type=2 #87

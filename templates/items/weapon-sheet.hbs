@@ -33,11 +33,7 @@
 			<span class="range">
 				<label for="weaponRange">{{localize config.weapons.ran}}:</label>
 				<select name="system.range">
-					{{#select gear.range}}
-						{{#each config.weapons.range as |number id|}}
-							<option value="{{numberFormat number decimals=0 sign=false}}" data-dtype="Number">{{id}}</option>
-						{{/each}}
-					{{/select}}
+					{{selectOptions config.weapons.range selected=system.range localize=true}}
 				</select>
 			</span>
 			<span class="value">

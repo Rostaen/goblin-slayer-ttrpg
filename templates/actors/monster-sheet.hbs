@@ -40,11 +40,7 @@
                 {{!-- 3rd Row --}}
                 <label>{{localize config.monster.inte}} </label>
                 <select name="system.inte">
-                    {{#select actor.system.inte}}
-                        {{#each config.monster.intelligence as |label id|}}
-                            <option value="{{localize label}}">{{localize label}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions config.monster.intelligence selected=actor.system.inte localize=true}}
                 </select>
 
                 <label>{{localize config.monster.mora}} </label>
@@ -83,20 +79,12 @@
 
         <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.0.type" class="grid-span-3">
-            {{#select actor.system.attacks.0.type}}
-                {{#each config.monster.types as |label id|}}
-                    <option value="{{localize label}}">{{localize label}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions config.monster.types selected=system.attacks.0.type localize=true}}
         </select>
 
         <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.0.range">
-            {{#select actor.system.attacks.0.range}}
-                {{#each config.monster.range as |number id|}}
-                    <option value="{{number}}">{{number}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions config.monster.range selected=system.attacks.0.range localize=true}}
         </select>
 
         {{!-- 2nd row --}}
@@ -120,11 +108,7 @@
                 <input type="text" name="system.attacks.0.power" value="{{actor.system.attacks.0.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.0.pType" class="grid-span-2">
-                    {{#select actor.system.attacks.0.pType}}
-                        {{#each config.monster.attackType as |attack id|}}
-                            <option value="{{localize attack}}">{{localize attack}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions config.monster.attackType selected=system.attacks.0.pType localize=true}}
                 </select>
             </div>
         </div>
@@ -137,20 +121,12 @@
 
         <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.1.type" class="grid-span-3">
-            {{#select actor.system.attacks.1.type}}
-                {{#each config.monster.types as |label id|}}
-                    <option value="{{localize label}}">{{localize label}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions config.monster.types selected=system.attacks.1.type localize=true}}
         </select>
 
         <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.1.range">
-            {{#select actor.system.attacks.1.range}}
-                {{#each config.monster.range as |number id|}}
-                    <option value="{{number}}">{{number}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions config.monster.range selected=system.attacks.1.range localize=true}}
         </select>
 
         {{!-- 2nd row --}}
@@ -174,11 +150,7 @@
                 <input type="text" name="system.attacks.1.power" value="{{actor.system.attacks.1.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.1.pType" class="grid-span-2">
-                    {{#select actor.system.attacks.1.pType}}
-                        {{#each config.monster.attackType as |attack id|}}
-                            <option value="{{localize attack}}">{{localize attack}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions config.monster.attackType selected=system.attacks.1.pType localize=true}}
                 </select>
             </div>
         </div>
@@ -192,20 +164,12 @@
 
         <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.2.type" class="grid-span-3">
-            {{#select actor.system.attacks.2.type}}
-                {{#each config.monster.types as |label id|}}
-                    <option value="{{localize label}}">{{localize label}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions config.monster.types selected=system.attacks.2.type localize=true}}
         </select>
 
         <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.2.range">
-            {{#select actor.system.attacks.2.range}}
-                {{#each config.monster.range as |number id|}}
-                    <option value="{{number}}">{{number}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions config.monster.range selected=system.attacks.2.range localize=true}}
         </select>
 
         {{!-- 2nd row --}}
@@ -229,11 +193,7 @@
                 <input type="text" name="system.attacks.2.power" value="{{actor.system.attacks.2.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.2.pType" class="grid-span-2">
-                    {{#select actor.system.attacks.2.pType}}
-                        {{#each config.monster.attackType as |attack id|}}
-                            <option value="{{localize attack}}">{{localize attack}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions config.monster.attackType selected=system.attacks.2.pType localize=true}}
                 </select>
             </div>
         </div>
@@ -247,20 +207,12 @@
 
         <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.3.type" class="grid-span-3">
-            {{#select actor.system.attacks.3.type}}
-                {{#each config.monster.types as |label id|}}
-                    <option value="{{localize label}}">{{localize label}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions config.monster.types selected=system.attacks.3.type localize=true}}
         </select>
 
         <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.3.range">
-            {{#select actor.system.attacks.3.range}}
-                {{#each config.monster.range as |number id|}}
-                    <option value="{{number}}">{{number}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions config.monster.range selected=system.attacks.3.range localize=true}}
         </select>
 
         {{!-- 2nd row --}}
@@ -284,11 +236,7 @@
                 <input type="text" name="system.attacks.3.power" value="{{actor.system.attacks.3.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.3.pType" class="grid-span-2">
-                    {{#select actor.system.attacks.3.pType}}
-                        {{#each config.monster.attackType as |attack id|}}
-                            <option value="{{localize attack}}">{{localize attack}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions config.monster.attackType selected=system.attacks.3.pType localize=true}}
                 </select>
             </div>
         </div>

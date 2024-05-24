@@ -1,9 +1,1 @@
-2024/05/24-16:57:35.690 36f4 Log #78: 126 ops saved to Table #86 OK
-2024/05/24-16:57:35.691 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/000078.log: OK
-2024/05/24-16:57:35.691 36f4 Log #85: 0 ops saved to Table #87 OK
-2024/05/24-16:57:35.692 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/000085.log: OK
-2024/05/24-16:57:35.692 36f4 Table #50: 135 entries OK
-2024/05/24-16:57:35.693 36f4 Table #86: 126 entries OK
-2024/05/24-16:57:35.695 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/MANIFEST-000077: OK
-2024/05/24-16:57:35.696 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/MANIFEST-000084: OK
-2024/05/24-16:57:35.699 36f4 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells; recovered 2 files; 303942 bytes. Some data may have been lost. ****
+2024/05/24-16:57:35.706 36f4 Delete type=3 #1

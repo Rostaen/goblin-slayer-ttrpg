@@ -1,10 +1,1 @@
-2024/05/24-16:57:35.755 3114 Log #80: 68 ops saved to Table #88 OK
-2024/05/24-16:57:35.756 3114 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/000080.log: OK
-2024/05/24-16:57:35.756 3114 Log #87: 0 ops saved to Table #89 OK
-2024/05/24-16:57:35.756 3114 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/000087.log: OK
-2024/05/24-16:57:35.757 3114 Table #41: 73 entries OK
-2024/05/24-16:57:35.757 3114 Table #62: 1 entries OK
-2024/05/24-16:57:35.757 3114 Table #88: 68 entries OK
-2024/05/24-16:57:35.760 3114 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/MANIFEST-000079: OK
-2024/05/24-16:57:35.760 3114 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/MANIFEST-000086: OK
-2024/05/24-16:57:35.764 3114 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills; recovered 3 files; 103572 bytes. Some data may have been lost. ****
+2024/05/24-16:57:35.772 3114 Delete type=3 #1

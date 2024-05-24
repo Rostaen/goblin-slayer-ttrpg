@@ -1,10 +1,1 @@
-2024/05/24-16:57:35.781 36f4 Log #70: 20 ops saved to Table #78 OK
-2024/05/24-16:57:35.781 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/000070.log: OK
-2024/05/24-16:57:35.783 36f4 Log #77: 16 ops saved to Table #79 OK
-2024/05/24-16:57:35.783 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/000077.log: OK
-2024/05/24-16:57:35.783 36f4 Table #39: 188 entries OK
-2024/05/24-16:57:35.784 36f4 Table #78: 20 entries OK
-2024/05/24-16:57:35.784 36f4 Table #79: 16 entries OK
-2024/05/24-16:57:35.786 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/MANIFEST-000069: OK
-2024/05/24-16:57:35.786 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/MANIFEST-000076: OK
-2024/05/24-16:57:35.789 36f4 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor; recovered 3 files; 35237 bytes. Some data may have been lost. ****
+2024/05/24-16:57:35.797 36f4 Delete type=3 #1

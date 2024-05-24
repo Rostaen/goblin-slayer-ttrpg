@@ -8,27 +8,15 @@
 				</span>
 				<span class="schools">
 					<select name="system.schoolChoice">
-						{{#select gear.schoolChoice}}
-							{{#each config.spell.schools as |name id|}}
-								<option value="{{localize name}}">{{localize name}}</option>
-							{{/each}}
-						{{/select}}
+						{{selectOptions config.spell.schools selected=system.schoolChoice localize=true}}
 					</select>
 				</span>
 				<span class="style">
 					<select name="system.styleChoice">
-						{{#select gear.styleChoice}}
-							{{#each config.spell.styles as |name id|}}
-								<option value="{{localize name}}">{{localize name}}</option>
-							{{/each}}
-						{{/select}}
+						{{selectOptions config.spell.styles selected=system.styleChoice localize=true}}
 					</select>
 					<select name="system.elementChoice">
-						{{#select gear.elementChoice}}
-							{{#each config.spell.elements as |name id|}}
-								<option value="{{localize name}}">{{localize name}}</option>
-							{{/each}}
-						{{/select}}
+						{{selectOptions config.spell.elements selected=system.elementChoice localize=true}}
 					</select>
 				</span>
 				<span class="difficulty">
