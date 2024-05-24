@@ -2,27 +2,27 @@
   "id": "gs",
   "title": "Goblin Slayer TTRPG",
   "description": "The Goblin Slayer TTRPG game system for FoundryVTT!",
-  "authors": {
-    "name": "Andrew",
-    "discord": "zerrian_"
-  },
-  "url": "",
-  "license": "",
+  "authors": [
+    {
+      "name": "Andrew",
+      "url": "https://github.com/Rostaen",
+      "flags": {}
+    }
+  ],
+  "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
   "readme": "README.md",
-  "bugs": "",
   "changelog": "CHANGELOG.md",
-  "media": {
-    "type": "setup",
-    "url": "systems/gs/assets/gslogo.jpg",
-    "thumbnail": "systems/gs/assets/gslogo.jpg"
-  },
   "version": "0.7.0",
   "compatibility": {
-    "minimum": 11,
+    "minimum": "11",
     "verified": "11.315"
   },
-  "esmodules": ["gs.mjs"],
-  "styles": ["css/gs.css"],
+  "esmodules": [
+    "gs.mjs"
+  ],
+  "styles": [
+    "css/gs.css"
+  ],
   "languages": [
     {
       "lang": "en",
@@ -38,8 +38,11 @@
       "system": "gs",
       "path": "packs/items",
       "type": "Item",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "name": "spells",
@@ -47,8 +50,11 @@
       "system": "gs",
       "path": "packs/spells",
       "type": "Item",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "name": "monsters",
@@ -56,8 +62,11 @@
       "system": "gs",
       "path": "packs/monsters",
       "type": "Actor",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "name": "skills",
@@ -65,8 +74,11 @@
       "system": "gs",
       "path": "packs/skills",
       "type": "Item",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "name": "armor",
@@ -74,8 +86,11 @@
       "system": "gs",
       "path": "packs/armor",
       "type": "Item",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "name": "weapons",
@@ -83,8 +98,11 @@
       "system": "gs",
       "path": "packs/weapons",
       "type": "Item",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "name": "shields",
@@ -92,8 +110,11 @@
       "system": "gs",
       "path": "packs/shields",
       "type": "Item",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     },
     {
       "name": "races",
@@ -101,37 +122,18 @@
       "system": "gs",
       "path": "packs/races",
       "type": "Item",
-      "private": false,
-      "flags": {}
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
-  "packFolders": [
-    {
-      "name": "Goblin Slayer Items",
-      "sorting": "m",
-      "color": "#999",
-      "packs": [
-        "armor",
-        "items",
-        "races",
-        "shields",
-        "skills",
-        "spells",
-        "weapons"
-      ]
-    }
-  ],
-  "socket": false,
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
   "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/archive/refs/tags/v0.7.0-beta.zip",
   "background": "systems/gs/assets/gslogo.jpg",
   "gridDistance": 1,
   "gridUnits": "meters",
   "primaryTokenAttribute": "system.lifeForce",
-  "secondaryTokenAttribute": "power",
-  "settings": {
-    "editor": {
-      "engine": "prosemirror"
-    }
-  }
+  "secondaryTokenAttribute": "power"
 }
