@@ -1,9 +1,11 @@
-<<<<<<< HEAD
-2024/05/20-07:50:21.535 3278 Recovering log #74
-2024/05/20-07:50:21.540 3278 Delete type=0 #74
-2024/05/20-07:50:21.540 3278 Delete type=3 #73
-=======
-2024/05/22-14:56:32.649 2898 Recovering log #81
-2024/05/22-14:56:32.653 2898 Delete type=0 #81
-2024/05/22-14:56:32.653 2898 Delete type=3 #80
->>>>>>> 3252cb4898287d1cdb2baf3e943280c2acb11629
+2024/05/24-16:57:35.805 18f0 Log #78: 94 ops saved to Table #86 OK
+2024/05/24-16:57:35.806 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/000078.log: OK
+2024/05/24-16:57:35.808 18f0 Log #85: 90 ops saved to Table #87 OK
+2024/05/24-16:57:35.809 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/000085.log: OK
+2024/05/24-16:57:35.809 18f0 Table #45: 87 entries OK
+2024/05/24-16:57:35.809 18f0 Table #47: 281 entries OK
+2024/05/24-16:57:35.809 18f0 Table #86: 94 entries OK
+2024/05/24-16:57:35.810 18f0 Table #87: 90 entries OK
+2024/05/24-16:57:35.812 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/MANIFEST-000077: OK
+2024/05/24-16:57:35.813 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/MANIFEST-000084: OK
+2024/05/24-16:57:35.816 18f0 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons; recovered 4 files; 152919 bytes. Some data may have been lost. ****

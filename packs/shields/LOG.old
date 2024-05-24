@@ -1,9 +1,10 @@
-<<<<<<< HEAD
-2024/05/20-07:50:21.547 42c4 Recovering log #63
-2024/05/20-07:50:21.551 42c4 Delete type=0 #63
-2024/05/20-07:50:21.552 42c4 Delete type=3 #62
-=======
-2024/05/22-14:56:32.657 1304 Recovering log #70
-2024/05/22-14:56:32.660 1304 Delete type=0 #70
-2024/05/22-14:56:32.660 1304 Delete type=3 #69
->>>>>>> 3252cb4898287d1cdb2baf3e943280c2acb11629
+2024/05/24-16:57:35.833 3114 Log #67: 10 ops saved to Table #75 OK
+2024/05/24-16:57:35.833 3114 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields/000067.log: OK
+2024/05/24-16:57:35.834 3114 Log #74: 0 ops saved to Table #76 OK
+2024/05/24-16:57:35.834 3114 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields/000074.log: OK
+2024/05/24-16:57:35.834 3114 Table #14: 110 entries OK
+2024/05/24-16:57:35.834 3114 Table #36: 13 entries OK
+2024/05/24-16:57:35.834 3114 Table #75: 10 entries OK
+2024/05/24-16:57:35.837 3114 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields/MANIFEST-000066: OK
+2024/05/24-16:57:35.837 3114 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields/MANIFEST-000073: OK
+2024/05/24-16:57:35.841 3114 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields; recovered 3 files; 26996 bytes. Some data may have been lost. ****

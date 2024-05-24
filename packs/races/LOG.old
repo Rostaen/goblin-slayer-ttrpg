@@ -1,9 +1,10 @@
-<<<<<<< HEAD
-2024/05/20-07:50:21.558 3278 Recovering log #61
-2024/05/20-07:50:21.563 3278 Delete type=0 #61
-2024/05/20-07:50:21.563 3278 Delete type=3 #60
-=======
-2024/05/22-14:56:32.665 2898 Recovering log #68
-2024/05/22-14:56:32.668 2898 Delete type=0 #68
-2024/05/22-14:56:32.668 2898 Delete type=3 #67
->>>>>>> 3252cb4898287d1cdb2baf3e943280c2acb11629
+2024/05/24-16:57:35.855 36f4 Log #65: 5 ops saved to Table #73 OK
+2024/05/24-16:57:35.855 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\races/000065.log: OK
+2024/05/24-16:57:35.856 36f4 Log #72: 0 ops saved to Table #74 OK
+2024/05/24-16:57:35.856 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\races/000072.log: OK
+2024/05/24-16:57:35.857 36f4 Table #25: 116 entries OK
+2024/05/24-16:57:35.857 36f4 Table #47: 26 entries OK
+2024/05/24-16:57:35.857 36f4 Table #73: 5 entries OK
+2024/05/24-16:57:35.860 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\races/MANIFEST-000064: OK
+2024/05/24-16:57:35.860 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\races/MANIFEST-000071: OK
+2024/05/24-16:57:35.863 36f4 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\races; recovered 3 files; 292984 bytes. Some data may have been lost. ****

@@ -1,1 +1,5 @@
-2024/05/22-14:56:32.679 1304 Delete type=3 #1
+2024/05/24-16:57:35.877 18f0 Log #6: 0 ops saved to Table #7 OK
+2024/05/24-16:57:35.878 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\rules/000006.log: OK
+2024/05/24-16:57:35.878 18f0 Table #5: 35 entries OK
+2024/05/24-16:57:35.881 18f0 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\rules/MANIFEST-000004: OK
+2024/05/24-16:57:35.884 18f0 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\rules; recovered 1 files; 49127 bytes. Some data may have been lost. ****

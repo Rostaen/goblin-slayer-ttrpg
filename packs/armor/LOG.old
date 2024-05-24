@@ -1,9 +1,10 @@
-<<<<<<< HEAD
-2024/05/20-07:50:21.523 42c4 Recovering log #66
-2024/05/20-07:50:21.528 42c4 Delete type=0 #66
-2024/05/20-07:50:21.528 42c4 Delete type=3 #65
-=======
-2024/05/22-14:56:32.641 1304 Recovering log #73
-2024/05/22-14:56:32.643 1304 Delete type=0 #73
-2024/05/22-14:56:32.644 1304 Delete type=3 #72
->>>>>>> 3252cb4898287d1cdb2baf3e943280c2acb11629
+2024/05/24-16:57:35.781 36f4 Log #70: 20 ops saved to Table #78 OK
+2024/05/24-16:57:35.781 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/000070.log: OK
+2024/05/24-16:57:35.783 36f4 Log #77: 16 ops saved to Table #79 OK
+2024/05/24-16:57:35.783 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/000077.log: OK
+2024/05/24-16:57:35.783 36f4 Table #39: 188 entries OK
+2024/05/24-16:57:35.784 36f4 Table #78: 20 entries OK
+2024/05/24-16:57:35.784 36f4 Table #79: 16 entries OK
+2024/05/24-16:57:35.786 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/MANIFEST-000069: OK
+2024/05/24-16:57:35.786 36f4 Archiving C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/MANIFEST-000076: OK
+2024/05/24-16:57:35.789 36f4 **** Repaired leveldb C:\Users\AFill\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor; recovered 3 files; 35237 bytes. Some data may have been lost. ****

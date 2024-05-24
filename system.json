@@ -5,31 +5,19 @@
   "authors": [
     {
       "name": "Andrew",
-<<<<<<< HEAD
-      "url": "https://github.com/Rostaen",
-      "flags": {}
-    }
-  ],
-  "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
-=======
       "url": "https://github.com/Rostaen"
     }
   ],
   "license": "",
->>>>>>> 3252cb4898287d1cdb2baf3e943280c2acb11629
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
   "version": "0.7.0",
   "compatibility": {
     "minimum": "11",
-    "verified": "11.315"
+    "verified": "12.324"
   },
-  "esmodules": [
-    "gs.mjs"
-  ],
-  "styles": [
-    "css/gs.css"
-  ],
+  "esmodules": ["gs.mjs"],
+  "styles": ["css/gs.css"],
   "languages": [
     {
       "lang": "en",
@@ -129,15 +117,6 @@
       "system": "gs",
       "path": "packs/races",
       "type": "Item",
-<<<<<<< HEAD
-      "flags": {},
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      }
-    }
-  ],
-=======
       "private": false,
       "flags": {}
     },
@@ -171,7 +150,6 @@
   ],
   "socket": false,
   "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
->>>>>>> 3252cb4898287d1cdb2baf3e943280c2acb11629
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
   "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/archive/refs/tags/v0.7.0-beta.zip",
   "background": "systems/gs/assets/gslogo.jpg",
