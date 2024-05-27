@@ -1,3 +1,5 @@
+const {mergeObject} = foundry.utils;
+
 export default class GSItemSheet extends ItemSheet {
 
 	static get defaultOptions(){
@@ -66,6 +68,7 @@ export default class GSItemSheet extends ItemSheet {
 			actorSheet: data.config.actor,
 			raceSheet: data.config.actor.raceSheet,
 			gear: data.system,
+			item,
 		}
 	}
 

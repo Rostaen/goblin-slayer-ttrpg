@@ -1392,7 +1392,21 @@ table tr:nth-child(even) {
   justify-content: center;
   align-items: center;
 }
-.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .spellName:hover {
-  cursor: pointer;
-  text-shadow: 0 0 5px darkred;
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell .buttonsToRoll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell .buttonsToRoll button {
+  border: 1px solid darkred;
+  background-color: #ede3c7;
+  border-radius: 4px;
+  height: 22px;
+  width: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell .buttonsToRoll button i {
+  margin-right: -1px;
 }

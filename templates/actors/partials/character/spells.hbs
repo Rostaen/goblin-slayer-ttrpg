@@ -47,9 +47,12 @@
                 {{#if (eq item.type 'spell')}}
                     {{#if (eq item.system.schoolChoice 'Words of True Power')}}
                         <div class="singleSpell">
-                            <div class="grid grid-5col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                                <div class="buttonsToRoll">
+                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
+                                </div>
                                 <img src="{{item.img}}" alt="{{item.name}}">
-                                <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
+                                <div class="spellName grid-span-3">{{item.name}}</div>
                                 <div class="spellDif">{{item.system.difficulty}}</div>
                                 <input type="hidden" value="{{item.system.schoolChoice}}">
                             </div>
@@ -80,7 +83,10 @@
                 {{#if (eq item.type 'spell')}}
                     {{#if (eq item.system.schoolChoice 'Miracle')}}
                         <div class="singleSpell">
-                            <div class="grid grid-5col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                                <div class="buttonsToRoll">
+                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
+                                </div>
                                 <img src="{{item.img}}" alt="{{item.name}}">
                                 <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
                                 <div class="spellDif">{{item.system.difficulty}}</div>
@@ -112,7 +118,10 @@
                     {{#if (eq item.type 'spell')}}
                         {{#if (eq item.system.schoolChoice 'Ancestral Dragon')}}
                             <div class="singleSpell">
-                                <div class="grid grid-5col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                                <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                                    <div class="buttonsToRoll">
+                                        <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
+                                    </div>
                                     <img src="{{item.img}}" alt="{{item.name}}">
                                     <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
                                     <div class="spellDif">{{item.system.difficulty}}</div>
@@ -145,7 +154,10 @@
                     {{#if (eq item.type 'spell')}}
                         {{#if (eq item.system.schoolChoice 'Spirit Arts')}}
                             <div class="singleSpell">
-                                <div class="grid grid-5col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                                <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                                    <div class="buttonsToRoll">
+                                        <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
+                                    </div>
                                     <img src="{{item.img}}" alt="{{item.name}}">
                                     <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
                                     <div class="spellDif">{{item.system.difficulty}}</div>

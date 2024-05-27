@@ -8,15 +8,27 @@
 				</span>
 				<span class="schools">
 					<select name="system.schoolChoice">
-						{{selectOptions config.spell.schools selected=system.schoolChoice localize=true}}
+						{{#each config.spell.schools as |label key|}}
+							<option value="{{localize label}}" {{#if (eq (localize label) ../gear.schoolChoice)}}selected{{/if}}>
+								{{localize label}}
+							</option>
+						{{/each}}
 					</select>
 				</span>
 				<span class="style">
 					<select name="system.styleChoice">
-						{{selectOptions config.spell.styles selected=system.styleChoice localize=true}}
+						{{#each config.spell.styles as |label key|}}
+							<option value="{{localize label}}" {{#if (eq (localize label) ../gear.styleChoice)}}selected{{/if}}>
+								{{localize label}}
+							</option>
+						{{/each}}
 					</select>
 					<select name="system.elementChoice">
-						{{selectOptions config.spell.elements selected=system.elementChoice localize=true}}
+						{{#each config.spell.elements as |label key|}}
+							<option value="{{localize label}}" {{#if (eq (localize label) ../gear.elementChoice)}}selected{{/if}}>
+								{{localize label}}
+							</option>
+						{{/each}}
 					</select>
 				</span>
 				<span class="difficulty">
