@@ -153,8 +153,10 @@
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
   "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/archive/refs/tags/v0.7.0-beta.zip",
   "background": "systems/gs/assets/gslogo.jpg",
-  "gridDistance": 1,
-  "gridUnits": "meters",
+  "grid": {
+    "distanc": 1,
+    "units": "meters"
+  },
   "primaryTokenAttribute": "system.lifeForce",
   "secondaryTokenAttribute": "power"
 }

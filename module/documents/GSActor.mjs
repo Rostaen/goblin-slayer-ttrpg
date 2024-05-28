@@ -60,7 +60,7 @@ export class GSActor extends Actor {
     // Apply or revert fatigue modifiers
     _applyAbilityScoreFatigueMods(apply, rank) {
         const systemData = this.system;
-        let moveMod = 0, rollMod = 0, lifeForceDeduction = 0;
+        let moveMod = 0, rollMod = 0, lifeForceDeduction = 0, unconsciousFlag;
 
         switch(rank){
             case "rank1":
@@ -101,7 +101,7 @@ export class GSActor extends Actor {
                     lifeForceDeduction = systemData.lifeForce.current / 2;
                     if(lifeForceDeduction % 1 != 0){
                         lifeForceDeduction = Math.floor(lifeForceDeduction);
-                        this.setFlag('gs', 'rank3LifeForce');
+                        this.setFlag('gs', 'rank3LifeForce', -1);
                     }
                 }else{
                     rollMod = -2;
@@ -117,6 +117,35 @@ export class GSActor extends Actor {
                     'system.lifeForce.current': lifeForceDeduction
                 });
                 break;
+            case "rank4":
+                if(apply){
+                    rollMod = -4;
+                    ui.notifications.warn(`Warning: You are now unconscious until your fatigue drops to rank 3 or less!`);
+                    const rank4rollMod = this.getFlag('gs', 'rank4RollMod');
+                    if(!rank4rollMod){
+                        this.setFlag('gs', 'rank4Unconscious', -1);
+                        this.setFlag('gs', 'rank4RollMod', -1);
+                    }
+                }else{
+                    rollMod = -3;
+                    const rank4rollMod = this.getFlag('gs', 'rank4RollMod');
+                    if(rank4rollMod){
+                        this.unsetFlag('gs', 'rank4RollMod');
+                    }
+                }
+                this.update({
+                    'system.fatigue.fatigueMod': rollMod
+                });
+                console.log("Rank 4 Flags", this.flags.gs);
+                break;
+            case "rank5":
+                if(apply){
+                    this.setFlag('gs', 'rank5Death', -1);
+                    ui.notifications.error(`Sadly, you have succumbed to your wounds and can no longer fight. Rest in peace ${this.name}...`);
+                    // TODO: add in disable JS here and well as changing skills and other areas to 0.
+                }else{
+                    this.unsetFlag('gs', 'rank5Death');
+                }
         }
     }
 
@@ -132,6 +161,7 @@ export class GSActor extends Actor {
         const rank3Flag = this.getFlag('gs', 'fatigueRank3');
         const rank4Flag = this.getFlag('gs', 'fatigueRank4');
         const rank5Flag = this.getFlag('gs', 'fatigueRank5');
+        const rank4Unconscious = this.getFlag('gs', 'rank4Unconscious');
 
         // Update the fatigue min values based on marked properties
         const updateFatigueMin = (rank, count) => {
@@ -170,13 +200,21 @@ export class GSActor extends Actor {
         if(rank4.min == rank4.max && !rank4Flag){
             this.setFlag('gs', 'fatigueRank4', -1);
             this._applyAbilityScoreFatigueMods(true, "rank4");
-        }else if(rank4.min < rank4.max && rank4Flag){
+        }else if(rank4.min < rank4.max && (rank4Flag)){
             this.unsetFlag('gs', 'fatigueRank4');
             this._applyAbilityScoreFatigueMods(false, "rank4");
+        }
+        if(rank4.min === 0 && rank4Unconscious){
+            this.unsetFlag('gs', 'rank4Unconscious');
+            ui.notifications.info(`You are no longer unconscious and may act normally again.`);
         }
         if(rank5.min == rank5.max && !rank5Flag){
             this.setFlag('gs', 'fatigueRank5', -1);
             this._applyAbilityScoreFatigueMods(true, "rank5");
+        }else if(rank5.min < rank5.max && rank5Flag){
+            // TODO: Remove this section at production
+            this.unsetFlag('gs', 'fatigueRank5');
+            this._applyAbilityScoreFatigueMods(false, "rank5");
         }
     }
 

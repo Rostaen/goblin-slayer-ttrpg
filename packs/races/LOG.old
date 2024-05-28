@@ -1,7 +1,3 @@
-2024/05/28-09:41:30.316 14d4 Recovering log #97
-2024/05/28-09:41:30.320 14d4 Delete type=0 #97
-2024/05/28-09:41:30.321 14d4 Delete type=3 #95
-2024/05/28-09:46:41.941 2abc Level-0 table #102: started
-2024/05/28-09:46:41.941 2abc Level-0 table #102: 0 bytes OK
-2024/05/28-09:46:41.943 2abc Delete type=0 #100
-2024/05/28-09:46:41.943 2abc Manual compaction at level-0 from '!items!5phX4YlyTrBibHhS' @ 72057594037927935 : 1 .. '!items!v0N0TeVjBkfzVlaJ' @ 0 : 0; will stop at (end)
+2024/05/28-10:09:21.199 1094 Recovering log #101
+2024/05/28-10:09:21.205 1094 Delete type=0 #101
+2024/05/28-10:09:21.205 1094 Delete type=3 #99
