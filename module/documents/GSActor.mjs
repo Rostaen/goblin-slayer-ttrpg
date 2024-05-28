@@ -194,6 +194,14 @@ export class GSActor extends Actor {
         }
     }
 
+    _checkAttrition(systemData){
+        const wounds = systemData.lifeForce.wounds;
+        const doubleLF = systemData.lifeForce.double;
+        const attritionTrack = systemData.attrition;
+
+        // TODO: work out how to apply fatigue from attrition boxes.
+    }
+
     _prepareCharacterData(actorData){
         const systemData = actorData.system;
         const type = actorData.type;
@@ -228,6 +236,9 @@ export class GSActor extends Actor {
                     this._perserveranceSkillCall(systemData); break;
             }
         }
+
+        // Check Attrition Levels
+        this._checkAttrition(systemData);
 
         // Check Fatigue Levels
         this._checkFatigue();
