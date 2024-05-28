@@ -60,161 +60,137 @@ export class GSActor extends Actor {
     // Apply or revert fatigue modifiers
     _applyAbilityScoreFatigueMods(apply, rank) {
         const systemData = this.system;
-        let moveMod = 0, rollMod = 0, lifeForceDeduction = 0, unconsciousFlag;
+        let moveMod = 0, rollMod = 0, lifeForceDeduction = 0;
 
-        switch(rank){
+        const updateAbilities = (primaryModifier, secondaryModifier) => {
+            for (const id in systemData.abilities.primary){
+                systemData.abilities.primary[id] += primaryModifier;
+            }
+            for (const id in systemData.abilities.secondary){
+                systemData.abilities.secondary[id] += secondaryModifier;
+            }
+            this.update({
+                'system.abilities.primary': systemData.abilities.primary,
+                'system.abilities.secondary': systemData.abilities.secondary
+            });
+        };
+
+        const updateMove = (apply, factor) => {
+            moveMod = apply ? Math.floor(systemData.move / factor) : systemData.move * factor;
+            if(apply && systemData.move % factor !== 0){
+                this.setFlag('gs', 'rank2Decimal', 0.5);
+            }else if(!apply){
+                const decimalFlag = this.getFlag('gs', 'rank2Decimal');
+                if(decimalFlag){
+                    moveMod += 1;
+                    this.unsetFlag('gs', 'rank2Decimal');
+                }
+            }
+            this.update({
+                'system.fatigue.fatigueMod': rollMod,
+                'system.move': moveMod
+            });
+        };
+
+        const updateLifeForce = (apply, factor) => {
+            lifeForceDeduction = apply ? Math.floor(systemData.lifeForce.current / factor) : systemData.lifeForce.current * factor;
+            if(apply && systemData.lifeForce.current % factor !== 0){
+                this.setFlag('gs', 'rank3LifeForce', -1);
+            } else if(!apply){
+                const lifeForceFlag = this.getFlag('gs', 'rank3LifeForce');
+                if(lifeForceFlag){
+                    lifeForceDeduction += 1;
+                    this.unsetFlag('gs', 'rank3LifeForce');
+                }
+            }
+            this.update({
+                'system.fatigue.fatigueMod': rollMod,
+                'system.lifeForce.current': lifeForceDeduction
+            })
+        };
+
+        switch (rank) {
             case "rank1":
-                for (const id in systemData.abilities.primary)
-                    apply ? systemData.abilities.primary[id] -= 1 : systemData.abilities.primary[id] += 1;
-                for (const id in systemData.abilities.secondary)
-                    apply ? systemData.abilities.secondary[id] -= 1 : systemData.abilities.secondary[id] += 1;
-                this.update({
-                    'system.abilities.primary': systemData.abilities.primary,
-                    'system.abilities.secondary': systemData.abilities.secondary
-                });
+                updateAbilities(apply ? -1 : 1, apply ? -1 : 1);
                 break;
             case "rank2":
-                if(apply){
-                    rollMod = -2;
-                    moveMod = systemData.move / 2;
-                    if(moveMod % 1 != 0){
-                        moveMod = Math.floor(moveMod);
-                        this.setFlag('gs', 'rank2Decimal', 0.5);
-                    }
-                }else{
-                    rollMod = 0;
-                    moveMod = systemData.move * 2;
-                    const decimalFlag = this.getFlag('gs', 'rank2Decimal');
-                    if(decimalFlag){
-                        moveMod += 1;
-                        this.unsetFlag('gs', 'rank2Decimal');
-                    }
-                }
-                this.update({
-                    'system.fatigue.fatigueMod': rollMod,
-                    'system.move': moveMod
-                });
+                rollMod = apply ? -2 : 0;
+                updateMove(apply, 2);
                 break;
             case "rank3":
-                if(apply){
-                    rollMod = -3;
-                    lifeForceDeduction = systemData.lifeForce.current / 2;
-                    if(lifeForceDeduction % 1 != 0){
-                        lifeForceDeduction = Math.floor(lifeForceDeduction);
-                        this.setFlag('gs', 'rank3LifeForce', -1);
-                    }
-                }else{
-                    rollMod = -2;
-                    lifeForceDeduction = systemData.lifeForce.current * 2;
-                    const lifeForceFlag = this.getFlag('gs', 'rank3LifeForce');
-                    if(lifeForceFlag){
-                        lifeForceDeduction += 1;
-                        this.unsetFlag('gs', 'rank3LifeForce');
-                    }
-                }
-                this.update({
-                    'system.fatigue.fatigueMod': rollMod,
-                    'system.lifeForce.current': lifeForceDeduction
-                });
+                rollMod = apply ? -3 : -2;
+                updateLifeForce(apply, 2);
                 break;
             case "rank4":
+                rollMod = apply ? -4 : -3;
                 if(apply){
-                    rollMod = -4;
                     ui.notifications.warn(`Warning: You are now unconscious until your fatigue drops to rank 3 or less!`);
-                    const rank4rollMod = this.getFlag('gs', 'rank4RollMod');
-                    if(!rank4rollMod){
+                    if(!this.getFlag('gs', 'rank4RollMod')){
                         this.setFlag('gs', 'rank4Unconscious', -1);
                         this.setFlag('gs', 'rank4RollMod', -1);
                     }
                 }else{
-                    rollMod = -3;
-                    const rank4rollMod = this.getFlag('gs', 'rank4RollMod');
-                    if(rank4rollMod){
-                        this.unsetFlag('gs', 'rank4RollMod');
-                    }
+                    this.unsetFlag('gs', 'rank4RollMod');
                 }
                 this.update({
                     'system.fatigue.fatigueMod': rollMod
                 });
-                console.log("Rank 4 Flags", this.flags.gs);
                 break;
             case "rank5":
-                if(apply){
+                if (apply) {
                     this.setFlag('gs', 'rank5Death', -1);
                     ui.notifications.error(`Sadly, you have succumbed to your wounds and can no longer fight. Rest in peace ${this.name}...`);
                     // TODO: add in disable JS here and well as changing skills and other areas to 0.
-                }else{
+                } else {
                     this.unsetFlag('gs', 'rank5Death');
                 }
+                break;
         }
     }
 
     _checkFatigue(){
         const fatigue = this.system.fatigue;
-        const rank1 = fatigue.rank1;
-        const rank2 = fatigue.rank2;
-        const rank3 = fatigue.rank3;
-        const rank4 = fatigue.rank4;
-        const rank5 = fatigue.rank5;
-        const rank1Flag = this.getFlag('gs', 'fatigueRank1');
-        const rank2Flag = this.getFlag('gs', 'fatigueRank2');
-        const rank3Flag = this.getFlag('gs', 'fatigueRank3');
-        const rank4Flag = this.getFlag('gs', 'fatigueRank4');
-        const rank5Flag = this.getFlag('gs', 'fatigueRank5');
-        const rank4Unconscious = this.getFlag('gs', 'rank4Unconscious');
+        const ranks = [
+            { rank: fatigue.rank1, flag: 'fatigueRank1', minMaxCount: 6, label: 'rank1' },
+            { rank: fatigue.rank2, flag: 'fatigueRank2', minMaxCount: 5, label: 'rank2' },
+            { rank: fatigue.rank3, flag: 'fatigueRank3', minMaxCount: 4, label: 'rank3' },
+            { rank: fatigue.rank4, flag: 'fatigueRank4', minMaxCount: 3, label: 'rank4' },
+            { rank: fatigue.rank5, flag: 'fatigueRank5', minMaxCount: 2, label: 'rank5' }
+        ];
 
-        // Update the fatigue min values based on marked properties
+        const flags = {
+            fatigueRank1: this.getFlag('gs', 'fatigueRank1'),
+            fatigueRank2: this.getFlag('gs', 'fatigueRank2'),
+            fatigueRank3: this.getFlag('gs', 'fatigueRank3'),
+            fatigueRank4: this.getFlag('gs', 'fatigueRank4'),
+            fatigueRank5: this.getFlag('gs', 'fatigueRank5'),
+            rank4Unconscious: this.getFlag('gs', 'rank4Unconscious')
+        };
+
+        // Iterrate over fatigue to update min to/from max
         const updateFatigueMin = (rank, count) => {
-            for (let i = 1; i <= count; i++) {
+            rank.min = 0;
+            for (let i = 1; i <= count; i++){
                 if (rank.marked[i]) rank.min += 1;
             }
         };
 
-        updateFatigueMin(rank1, 6);
-        updateFatigueMin(rank2, 5);
-        updateFatigueMin(rank3, 4);
-        updateFatigueMin(rank4, 3);
-        updateFatigueMin(rank5, 2);
+        // Checking over fatigue and applying negative modifiers as needed
+        for(const { rank, flag, minMaxCount, label } of ranks ){
+            updateFatigueMin(rank, minMaxCount);
+            if(rank.min == rank.max && !flags[flag]){
+                this.setFlag('gs', flag, -1);
+                this._applyAbilityScoreFatigueMods(true, label);
+            }else if(rank.min < rank.max && flags[flag]){
+                this.unsetFlag('gs', flag);
+                this._applyAbilityScoreFatigueMods(false, label);
+            }
+        }
 
-        if(rank1.min == rank1.max && !rank1Flag){
-            this.setFlag('gs', 'fatigueRank1', -1);
-            this._applyAbilityScoreFatigueMods(true, "rank1");
-        }else if(rank1.min < rank1.max && rank1Flag){
-            this.unsetFlag('gs', 'fatigueRank1');
-            this._applyAbilityScoreFatigueMods(false, "rank1");
-        }
-        if(rank2.min == rank2.max && !rank2Flag){
-            this.setFlag('gs', 'fatigueRank2', -1);
-            this._applyAbilityScoreFatigueMods(true, "rank2");
-        }else if(rank2.min < rank2.max && rank2Flag){
-            this.unsetFlag('gs', 'fatigueRank2');
-            this._applyAbilityScoreFatigueMods(false, "rank2");
-        }
-        if(rank3.min == rank3.max && !rank3Flag){
-            this.setFlag('gs', 'fatigueRank3', -1);
-            this._applyAbilityScoreFatigueMods(true, "rank3");
-        }else if(rank3.min < rank3.max && rank3Flag){
-            this.unsetFlag('gs', 'fatigueRank3');
-            this._applyAbilityScoreFatigueMods(false, "rank3");
-        }
-        if(rank4.min == rank4.max && !rank4Flag){
-            this.setFlag('gs', 'fatigueRank4', -1);
-            this._applyAbilityScoreFatigueMods(true, "rank4");
-        }else if(rank4.min < rank4.max && (rank4Flag)){
-            this.unsetFlag('gs', 'fatigueRank4');
-            this._applyAbilityScoreFatigueMods(false, "rank4");
-        }
-        if(rank4.min === 0 && rank4Unconscious){
+        // Special case to remove unconscious when rank 4 fully cleared
+        if(fatigue.rank4.min === 0 && flags.rank4Unconscious){
             this.unsetFlag('gs', 'rank4Unconscious');
             ui.notifications.info(`You are no longer unconscious and may act normally again.`);
-        }
-        if(rank5.min == rank5.max && !rank5Flag){
-            this.setFlag('gs', 'fatigueRank5', -1);
-            this._applyAbilityScoreFatigueMods(true, "rank5");
-        }else if(rank5.min < rank5.max && rank5Flag){
-            // TODO: Remove this section at production
-            this.unsetFlag('gs', 'fatigueRank5');
-            this._applyAbilityScoreFatigueMods(false, "rank5");
         }
     }
 
