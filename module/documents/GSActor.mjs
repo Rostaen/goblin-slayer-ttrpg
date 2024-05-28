@@ -60,6 +60,7 @@ export class GSActor extends Actor {
     // Apply or revert fatigue modifiers
     _applyAbilityScoreFatigueMods(apply, rank) {
         const systemData = this.system;
+        let moveMod = 0, rollMod = 0, lifeForceDeduction = 0;
 
         switch(rank){
             case "rank1":
@@ -73,8 +74,6 @@ export class GSActor extends Actor {
                 });
                 break;
             case "rank2":
-                let moveMod;
-                let rollMod;
                 if(apply){
                     rollMod = -2;
                     moveMod = systemData.move / 2;
@@ -97,27 +96,26 @@ export class GSActor extends Actor {
                 });
                 break;
             case "rank3":
-                // let lifeForceDeduction;
-                // if(apply){
-                //     rollMod = -3;
-                //     lifeForceDeduction = systemData.lifeForce.current / 2;
-                //     if(lifeForceDeduction % 1 != 0){
-                //         lifeForceDeduction = Math.floor(lifeForceDeduction);
-                //         this.setFlag('gs', 'rank3LifeForce');
-                //     }
-                // }else{
-                //     rollMod = -2;
-                //     lifeForceDeduction = systemData.lifeForce.current * 2;
-                //     const lifeForceFlag = this.getFlag('gs', 'rank3LifeForce');
-                //     if(lifeForceFlag){
-                //         lifeForceDeduction += 1;
-                //         this.unsetFlag('gs', 'rank3LifeForce');
-                //     }
-                // }
-                // this.update({
-                //     'system.fatigue.fatigueMod': rollMod,
-                //     'system.lifeForce.current': lifeForceDeduction
-                // });
+                if(apply){
+                    rollMod = -3;
+                    lifeForceDeduction = systemData.lifeForce.current / 2;
+                    if(lifeForceDeduction % 1 != 0){
+                        lifeForceDeduction = Math.floor(lifeForceDeduction);
+                        this.setFlag('gs', 'rank3LifeForce');
+                    }
+                }else{
+                    rollMod = -2;
+                    lifeForceDeduction = systemData.lifeForce.current * 2;
+                    const lifeForceFlag = this.getFlag('gs', 'rank3LifeForce');
+                    if(lifeForceFlag){
+                        lifeForceDeduction += 1;
+                        this.unsetFlag('gs', 'rank3LifeForce');
+                    }
+                }
+                this.update({
+                    'system.fatigue.fatigueMod': rollMod,
+                    'system.lifeForce.current': lifeForceDeduction
+                });
                 break;
         }
     }
@@ -296,7 +294,6 @@ export class GSActor extends Actor {
             movePen += parseInt(armor[0].system.move, 10);
         }
         systemData.modMove = movePen;
-
     }
 
     _prepareMonsterData(actorData){

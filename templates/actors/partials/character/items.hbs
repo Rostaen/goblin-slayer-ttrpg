@@ -93,39 +93,39 @@
             <div class="grid grid-3col">
                 <h3 class="grid-span-3">{{localize config.charSheet.items.melee}}</h3>
                 <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
-                <div class="classBonus">{{numberFormat actor.system.attacks.totals.melee.fighter decimals=0 sign=true}}</div>
+                <div class="classBonus">{{actor.system.attacks.totals.melee.fighter}}</div>
                 <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
-                <div class="classBonus">{{numberFormat actor.system.attacks.totals.melee.monk decimals=0 sign=true}}</div>
+                <div class="classBonus">{{actor.system.attacks.totals.melee.monk}}</div>
                 <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
-                <div class="classBonus last">{{numberFormat actor.system.attacks.totals.melee.scout decimals=0 sign=true}}</div>
+                <div class="classBonus last">{{actor.system.attacks.totals.melee.scout}}</div>
 
                 <h3 class="grid-span-3">{{localize config.charSheet.items.throw}}</h3>
                 <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
-                <div class="classBonus">{{numberFormat actor.system.attacks.totals.throw.monk decimals=0 sign=true}}</div>
+                <div class="classBonus">{{actor.system.attacks.totals.throw.monk}}</div>
                 <label class="grid-span-2">{{localize config.character.classes.rang}}</label>
-                <div class="classBonus">{{numberFormat actor.system.attacks.totals.throw.ranger decimals=0 sign=true}}</div>
+                <div class="classBonus">{{actor.system.attacks.totals.throw.ranger}}</div>
                 <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
-                <div class="classBonus last">{{numberFormat actor.system.attacks.totals.throw.scout decimals=0 sign=true}}</div>
+                <div class="classBonus last">{{actor.system.attacks.totals.throw.scout}}</div>
 
                 <h3 class="grid-span-3">{{localize config.charSheet.items.projectile}}</h3>
                 <label class="grid-span-2 last">{{localize config.character.classes.rang}}</label>
-                <div class="classBonus last">{{numberFormat actor.system.attacks.totals.projectile.ranger decimals=0 sign=true}}</div>
+                <div class="classBonus last">{{actor.system.attacks.totals.projectile.ranger}}</div>
 
                 <h3 class="grid-span-3">{{localize config.character.combat.dodge}}</h3>
                 <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
-                <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.fighter decimals=0 sign=true}}</div>
+                <div class="classBonus">{{actor.system.defense.dodge.mods.fighter}}</div>
                 <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
-                <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.monk decimals=0 sign=true}}</div>
+                <div class="classBonus">{{actor.system.defense.dodge.mods.monk}}</div>
                 <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
-                <div class="classBonus last">{{numberFormat actor.system.defense.dodge.mods.scout decimals=0 sign=true}}</div>
+                <div class="classBonus last">{{actor.system.defense.dodge.mods.scout}}</div>
 
                 <h3 class="grid-span-3">{{localize config.character.combat.block}}</h3>
                 <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
-                <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.fighter decimals=0 sign=true}}</div>
+                <div class="classBonus">{{actor.system.defense.dodge.mods.fighter}}</div>
                 <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
-                <div class="classBonus last">{{numberFormat actor.system.defense.dodge.mods.scout decimals=0 sign=true}}</div>
+                <div class="classBonus last">{{actor.system.defense.dodge.mods.scout}}</div>
                 {{!-- <label class="grid-span-2">{{localize config.charSheet.items.other}}</label>
-                <div class="classBonus">{{numberFormat actor.system.defense.dodge.mods.other decimals=0 sign=true}}</div> --}}
+                <div class="classBonus">{{actor.system.defense.dodge.mods.other}}</div> --}}
             </div>
         </div>
         <div class="hitScoresContainer">

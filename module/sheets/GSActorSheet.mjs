@@ -9,14 +9,13 @@ export default class GSActorSheet extends ActorSheet{
 			tabs: [{
 				navSelector: ".sheet-tabs",
 				contentSelector: ".sheet-body",
-				initial: "details"
+				initial: "stats"
 			}]
 		});
 	}
 
 	get template(){
 		const path = "systems/gs/templates/actors";
-		console.log("Checking actor type", this.actor.type);
 		return `${path}/${this.actor.type}-sheet.hbs`;
 	}
 
