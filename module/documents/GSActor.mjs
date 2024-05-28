@@ -96,6 +96,29 @@ export class GSActor extends Actor {
                     'system.move': moveMod
                 });
                 break;
+            case "rank3":
+                // let lifeForceDeduction;
+                // if(apply){
+                //     rollMod = -3;
+                //     lifeForceDeduction = systemData.lifeForce.current / 2;
+                //     if(lifeForceDeduction % 1 != 0){
+                //         lifeForceDeduction = Math.floor(lifeForceDeduction);
+                //         this.setFlag('gs', 'rank3LifeForce');
+                //     }
+                // }else{
+                //     rollMod = -2;
+                //     lifeForceDeduction = systemData.lifeForce.current * 2;
+                //     const lifeForceFlag = this.getFlag('gs', 'rank3LifeForce');
+                //     if(lifeForceFlag){
+                //         lifeForceDeduction += 1;
+                //         this.unsetFlag('gs', 'rank3LifeForce');
+                //     }
+                // }
+                // this.update({
+                //     'system.fatigue.fatigueMod': rollMod,
+                //     'system.lifeForce.current': lifeForceDeduction
+                // });
+                break;
         }
     }
 
