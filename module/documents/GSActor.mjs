@@ -196,10 +196,53 @@ export class GSActor extends Actor {
 
     _checkAttrition(systemData){
         const wounds = systemData.lifeForce.wounds;
-        const doubleLF = systemData.lifeForce.double;
-        const attritionTrack = systemData.attrition;
+        const doubleLF = systemData.lifeForce.current;
+        const fatigue = systemData.fatigue;
+        const attrition = systemData.attrition;
+        let attritionLevel = 0;
+        let attritionFlag = this.getFlag('gs', 'attritionFlag');
+
+        for (let x = 0; x < Object.keys(attrition).length; x++){
+            if(attrition[x] === false){
+                attritionLevel = x++;
+                break;
+            }
+        }
+
+        console.log("GSActor >>> wounds:", wounds);
+        console.log("GSActor >>> life force:", doubleLF);
+        console.log("GSActor >>> Checking Attrition Level:", attritionLevel);
+
+        const updateFatigue = (min, rank) => {
+            let newMin = min++;
+            console.log("GSActor >>> New Min", rank, min, newMin);
+            this.update({
+                [`system.fatigue.${rank}.min`]: newMin,
+                [`system.fatigue.${rank}.marked.${newMin}`]: true
+            });
+        };
 
         // TODO: work out how to apply fatigue from attrition boxes.
+        if(wounds < doubleLF){
+            if(attritionLevel == 5 || attritionLevel == 8 || attritionLevel == 11 || attritionLevel == 14 ||
+                attritionLevel == 16 || attritionLevel == 18 || attritionLevel >= 20){
+                console.log("GSActor >>> Inside wounds<doubleLF attrition if statement");
+                if(fatigue.rank1.min < fatigue.rank1.max){
+                    console.log("GSActor >>> Checking Rank1 min", fatigue.rank1.min);
+                    updateFatigue(fatigue.rank1.min, "rank1");
+                }else if(fatigue.rank2.min < fatigue.rank2.max){
+                    updateFatigue(fatigue.rank2.min, "rank2");
+                }else if(fatigue.rank3.min < fatigue.rank3.max){
+                    updateFatigue(fatigue.rank3.min, "rank3");
+                }else if(fatigue.rank4.min < fatigue.rank4.max){
+                    updateFatigue(fatigue.rank4.min, "rank4");
+                }else if(fatigue.rank5.min < fatigue.rank5.max){
+                    updateFatigue(fatigue.rank5.min, "rank5");
+                }
+            }
+        }else{
+
+        }
     }
 
     _prepareCharacterData(actorData){
@@ -237,11 +280,11 @@ export class GSActor extends Actor {
             }
         }
 
-        // Check Attrition Levels
-        this._checkAttrition(systemData);
-
         // Check Fatigue Levels
         this._checkFatigue();
+
+        // Check Attrition Levels
+        this._checkAttrition(systemData);
 
         // Setting Life Force
         systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
