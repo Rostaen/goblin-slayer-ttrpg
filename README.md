@@ -27,26 +27,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 
 - [ ] Melee/Thrown/Projectile
   - [x] To Hit checks
-    - [x] Fighter checks
-    - [x] Monk checks
-    - [x] Scout checks
-    - [x] Ranger checks
-    - [x] Monster
   - [x] Power rolls
-    - [x] Fighter
-    - [x] Monk
-    - [x] Scout
-    - [x] Ranger
-    - [x] Monster
   - [x] Dodge Checks
-    - [x] Fighter
-    - [x] Monk
-    - [x] Scout
-    - [x] Monster
   - [x] Block Checks
-    - [x] Fighter
-    - [x] Scout
-    - [x] Monster
   - [ ] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
 - [x] PC Stealth
   - [x] Stealth button rolling
@@ -68,7 +51,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Add conditions and effects to PC effects tab
 - [ ] Add skill bonuses where needed
 - [ ] Allow attrition to update fatigue
-- [ ] Allow fatigue to modify character sheet
+- [x] Allow fatigue to modify character sheet
 - [ ] Setup effects page in character sheet for status effects (if needed)
 - [ ] Adding "click to roll" dice when rolls made to chat bar
 - [x] Create CompediumFolders for all monsters & items
@@ -156,7 +139,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 
 # How to use the Game System
 
-At this point in v0.6.0 (2024/5/15):
+At this point in v0.6.1 (2024/5/20):
 
 All items are drag 'n drop ready and will show up in their respective tabs. Players will be able to roll for checks you give them by clicking on the labels for each calculated stat. When a player needs to roll a "To Hit" check or roll "Power" for damage, they can click the 'target' or 'explosion' icon to the left of the weapon. To roll a dodge check, click on the person icon to the left of the armor. Finally, block checks, click on the shield icon to the left of the shield equipped. Initiative, stealth, sixth sense, and luck rolls can be found in the left sidebar of the player sheet. Each time a player clicks a roll, a prompt window will be presented to the player. Enter in and skill/misc. modifiers here to be added to the roll.
 

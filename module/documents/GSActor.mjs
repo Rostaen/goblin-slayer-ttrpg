@@ -195,12 +195,12 @@ export class GSActor extends Actor {
     }
 
     _checkAttrition(systemData){
-        const wounds = systemData.lifeForce.wounds;
+        const wounds = systemData.lifeForce.min;
         const doubleLF = systemData.lifeForce.current;
         const fatigue = systemData.fatigue;
         const attrition = systemData.attrition;
         let attritionLevel = 0;
-        let attritionFlag = this.getFlag('gs', 'attritionFlag');
+        let attritionChecked = this.getFlag('gs', 'attritionChecked');
 
         for (let x = 0; x < Object.keys(attrition).length; x++){
             if(attrition[x] === false){
@@ -209,38 +209,47 @@ export class GSActor extends Actor {
             }
         }
 
-        console.log("GSActor >>> wounds:", wounds);
-        console.log("GSActor >>> life force:", doubleLF);
         console.log("GSActor >>> Checking Attrition Level:", attritionLevel);
+        console.log("GSActor >>> Stored attrition level:", this.flags.gs);
 
-        const updateFatigue = (min, rank) => {
-            let newMin = min++;
-            console.log("GSActor >>> New Min", rank, min, newMin);
+        const updateFatigue = (rank) => {
+            const fatigueMin = `system.fatigue.${rank}.min`;
+            const fatigueMarked = `system.fatigue.${rank}.marked`;
+            const currentMin = fatigue[rank].min;
             this.update({
-                [`system.fatigue.${rank}.min`]: newMin,
-                [`system.fatigue.${rank}.marked.${newMin}`]: true
+                [fatigueMin]: currentMin + 1,
+                [`${fatigueMarked}.${currentMin + 1}`]: true
             });
+            console.log("GSActor >>> New Min", rank, currentMin + 1);
+        };
+
+        const checkFatigueRanks = fatigue => {
+            if(fatigue.rank1.min < fatigue.rank1.max){updateFatigue("rank1");}
+            else if(fatigue.rank2.min < fatigue.rank2.max){updateFatigue("rank2");}
+            else if(fatigue.rank3.min < fatigue.rank3.max){updateFatigue("rank3");}
+            else if(fatigue.rank4.min < fatigue.rank4.max){updateFatigue("rank4");}
+            else if(fatigue.rank5.min < fatigue.rank5.max){updateFatigue("rank5");}
         };
 
         // TODO: work out how to apply fatigue from attrition boxes.
+        const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
         if(wounds < doubleLF){
-            if(attritionLevel == 5 || attritionLevel == 8 || attritionLevel == 11 || attritionLevel == 14 ||
-                attritionLevel == 16 || attritionLevel == 18 || attritionLevel >= 20){
+            if(attritionThresholds.includes(attritionLevel)){
                 console.log("GSActor >>> Inside wounds<doubleLF attrition if statement");
-                if(fatigue.rank1.min < fatigue.rank1.max){
-                    console.log("GSActor >>> Checking Rank1 min", fatigue.rank1.min);
-                    updateFatigue(fatigue.rank1.min, "rank1");
-                }else if(fatigue.rank2.min < fatigue.rank2.max){
-                    updateFatigue(fatigue.rank2.min, "rank2");
-                }else if(fatigue.rank3.min < fatigue.rank3.max){
-                    updateFatigue(fatigue.rank3.min, "rank3");
-                }else if(fatigue.rank4.min < fatigue.rank4.max){
-                    updateFatigue(fatigue.rank4.min, "rank4");
-                }else if(fatigue.rank5.min < fatigue.rank5.max){
-                    updateFatigue(fatigue.rank5.min, "rank5");
+                if(!attritionChecked){
+                    this.setFlag('gs', 'attritionChecked', attritionLevel);
+                    checkFatigueRanks(fatigue);
+                }else if(attritionChecked && (this.flags.gs.attritionChecked + 1) == attritionLevel){
+                    this.unsetFlag('gs', 'attritionChecked');
+                    this.setFlag('gs', 'attritionChecked', attritionLevel);
+                    checkFatigueRanks(fatigue);
                 }
+            }else if(attritionChecked){
+                this.unsetFlag('gs', 'attritionChecked');
+                console.log(">>> Unset attritionCheck flag");
             }
         }else{
+            console.log("===> High Wounds fatigue");
 
         }
     }
