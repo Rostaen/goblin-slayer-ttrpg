@@ -93,7 +93,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
-		// html.find(".attritionCBox").click(this._updateAttrition.bind(this));
+		html.find(".attritionCBox").click(this._updateAttritionFlag.bind(this));
 		// html.find(".fatigueCBox").click(this._updateFatigue.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
@@ -221,26 +221,19 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_updateAttrition(event){
-		//event.preventDefault();
+	_updateAttritionFlag(event){
+		event.preventDefault();
 		const element = event.currentTarget;
-		const attritionNum = parseInt(element.dataset.cbox, 10);
 		const systemData = this.actor.system;
+		const checkBoxNum = element.dataset.cbox;
 		const currentWounds = systemData.lifeForce.current;
 		const lifeForceHalf = systemData.lifeForce.double;
 
-		if(currentWounds < lifeForceHalf){ // Only gain fatigue per red checkbox
-			if(attritionNum == 5 || attritionNum == 8 || attritionNum == 11 || attritionNum == 14 ||
-			attritionNum == 16 || attritionNum == 18 || attritionNum >= 20){
-				// check min vs max to update as needed.
-			}
-		}else{ // Gain one fatigue for regular check boxes and two fatigue for red checkboxes
-			if(attritionNum == 5 || attritionNum == 8 || attritionNum == 11 || attritionNum == 14 ||
-				attritionNum == 16 || attritionNum == 18 || attritionNum >= 20){
-				// Gain two fatigue checkboxes
-			}else{
-				// Gain one fatigue checkbox
-			}
+		if(currentWounds >= lifeForceHalf){ // Only gain fatigue per red checkbox
+			this.actor.setFlag('gs', 'dangerAttritionClicked', parseInt(checkBoxNum, 10));
+			this.actor.update({
+				[`system.attrition.${checkBoxNum - 1}`]: systemData.attrition[checkBoxNum - 1] ? false : true
+			});
 		}
 	}
 
