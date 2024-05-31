@@ -221,7 +221,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_updateAttritionFlag(event){
+	_updateAttritionFlag = async (event) => {
 		event.preventDefault();
 		const element = event.currentTarget;
 		const systemData = this.actor.system;
@@ -239,23 +239,24 @@ export default class GSActorSheet extends ActorSheet{
                 break;
             }
         }
-		console.log("Attrition", attrition);
-		console.log("Attrition level", attritionLevel);
+		// console.log("Attrition", attrition);
+		// console.log("Attrition level", attritionLevel);
 
 		const updateFatigue = async (rank) => {
-            console.log("In updateFatigue function");
-            const fatigueMin = `system.fatigue.${rank}.min`;
+			const fatigueMin = `system.fatigue.${rank}.min`;
             const fatigueMarked = `system.fatigue.${rank}.marked`;
-            const currentMin = fatigue[rank].min;
+            const currentMin = this.actor.system.fatigue[rank].min;
+            //console.log("In updateFatigue function; fatigueMin", fatigueMin, "fatigueMarked", fatigueMarked, "currentMin", currentMin);
             await this.actor.update({
                 [fatigueMin]: currentMin + 1,
                 [`${fatigueMarked}.${currentMin + 1}`]: true
             });
-            console.log("GSActor >>> New Min", rank, currentMin + 1);
+			await this.actor.render(true);
+            //console.log("GSActor >>> New Min", rank, this.actor.system.fatigue[rank].min);
         };
 
         const checkFatigueRanks = async (fatigue) => {
-            console.log("In checkFatigueRanks function");
+            //console.log("In checkFatigueRanks function");
             if(fatigue.rank1.min < fatigue.rank1.max){await updateFatigue("rank1");}
             else if(fatigue.rank2.min < fatigue.rank2.max){await updateFatigue("rank2");}
             else if(fatigue.rank3.min < fatigue.rank3.max){await updateFatigue("rank3");}
@@ -268,15 +269,22 @@ export default class GSActorSheet extends ActorSheet{
 			[`system.attrition.${checkBoxNum - 1}`]: systemData.attrition[checkBoxNum - 1] ? false : true
 		});
 
+		// Refresh the actor's data to ensure stat consistency
+		// await this.actor.prepareData();
+
 		// Checking the state of actor and checkbox for fatigue
 		if(currentWounds < lifeForceHalf && attritionThresholds.includes(attritionLevel)){
 			checkFatigueRanks(fatigue);
 		}else if(currentWounds >= lifeForceHalf){
-			checkFatigueRanks(fatigue);
+			console.log(">>> First check fatigue");
+			await checkFatigueRanks(fatigue);
+			await this.actor.render(true);
 			if(attritionThresholds.includes(attritionLevel)){
-				checkFatigueRanks(fatigue);
-				// setTimeout(async () => {
-				// }, 100);
+				setTimeout(async () => {
+					console.log(">>> Second check fatigue");
+					await checkFatigueRanks(fatigue);
+					await this.actor.render(true);
+				}, 100);
 			}
 		}
 	}
