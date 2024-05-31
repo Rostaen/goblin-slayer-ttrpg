@@ -201,7 +201,7 @@ export class GSActor extends Actor {
         const attrition = systemData.attrition;
         let attritionLevel = 0;
         let attritionChecked = this.getFlag('gs', 'attritionChecked');
-        let dangerAttrition = this.getFlag('gs', 'dangerAttritionClicked');
+        let dangerAttrition = this.getFlag('gs', 'dangerAttrition');
         let updating = this.getFlag('gs', 'updating');
 
         for (let x = 0; x < Object.keys(attrition).length; x++){
@@ -214,9 +214,10 @@ export class GSActor extends Actor {
         // console.log("---> Wounds", wounds);
         // console.log("----> LF", doubleLF);
         console.log("GSActor >>> Checking Attrition Level:", attritionLevel);
-        console.log("GSActor >>> Stored attrition level:", this.flags.gs);
+        console.log("GSActor >>> Stored flags:", this.flags.gs);
 
-        const updateFatigue = (rank) => {
+        const updateFatigue =(rank) => {
+            console.log("In updateFatigue function");
             const fatigueMin = `system.fatigue.${rank}.min`;
             const fatigueMarked = `system.fatigue.${rank}.marked`;
             const currentMin = fatigue[rank].min;
@@ -227,7 +228,8 @@ export class GSActor extends Actor {
             console.log("GSActor >>> New Min", rank, currentMin + 1);
         };
 
-        const checkFatigueRanks = fatigue => {
+        const checkFatigueRanks=(fatigue) => {
+            console.log("In checkFatigueRanks function");
             if(fatigue.rank1.min < fatigue.rank1.max){updateFatigue("rank1");}
             else if(fatigue.rank2.min < fatigue.rank2.max){updateFatigue("rank2");}
             else if(fatigue.rank3.min < fatigue.rank3.max){updateFatigue("rank3");}
@@ -237,41 +239,40 @@ export class GSActor extends Actor {
 
         // TODO: work out how to apply fatigue from attrition boxes.
         const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
-        if(!updating){
-            this.setFlag('gs', 'updating', true);
-            if(wounds < doubleLF){
-                if(attritionThresholds.includes(attritionLevel)){
-                    if(!attritionChecked){
-                        this.setFlag('gs', 'attritionChecked', attritionLevel);
-                        checkFatigueRanks(fatigue);
-                        this.unsetFlag('gs', 'updating');
-                    }else if(attritionChecked && (this.flags.gs.attritionChecked + 1) == attritionLevel){
-                        this.unsetFlag('gs', 'attritionChecked');
-                        this.setFlag('gs', 'attritionChecked', attritionLevel);
-                        checkFatigueRanks(fatigue);
-                        this.unsetFlag('gs', 'updating');
-                    }
-                }else if(attritionChecked){
-                    this.unsetFlag('gs', 'attritionChecked');
-                    console.log(">>> Unset attritionCheck flag");
-                    this.unsetFlag('gs', 'updating');
-                }
-            }else if(wounds >= doubleLF && dangerAttrition){
-                this.unsetFlag('gs', 'dangerAttritionClicked');
-                if(this.flags.gs.attritionChecked + 1 == attritionLevel || attritionLevel === 1){
-                    attritionLevel ? this.unsetFlag('gs', 'attritionChecked') : null;
+
+        console.log(">> Updating attrition track");
+        if(wounds < doubleLF){
+            console.log(">> wounds < doubleLF");
+            if(attritionThresholds.includes(attritionLevel)){
+                console.log(">> attrition threshold met");
+                if(!attritionChecked){
+                    console.log(">> attrition not checked");
                     this.setFlag('gs', 'attritionChecked', attritionLevel);
-                    if(attritionThresholds.includes(attritionLevel))
-                        checkFatigueRanks(fatigue);
                     checkFatigueRanks(fatigue);
-                    this.unsetFlag('gs', 'updating');
-                }else if(this.flags.gs.attritionChecked == attritionLevel){
-                    attritionLevel ? this.unsetFlag('gs', 'attritionChecked') : null;
+                }else if(attritionChecked && (this.flags.gs.attritionChecked + 1) == attritionLevel){
+                    console.log(">> attrition checked ");
+                    this.unsetFlag('gs', 'attritionChecked');
                     this.setFlag('gs', 'attritionChecked', attritionLevel);
-                    this.unsetFlag('gs', 'updating');
+                    checkFatigueRanks(fatigue);
                 }
+            }else if(attritionChecked){
+                this.unsetFlag('gs', 'attritionChecked');
+                console.log(">>> Unset attritionCheck flag");
+            }
+        }else{
+            this.setFlag('gs', 'dangerAttrition', attritionLevel);
+            if(this.flags.gs.attritionChecked + 1 == attritionLevel || attritionLevel === 1){
+                attritionLevel ? this.unsetFlag('gs', 'attritionChecked') : null;
+                this.setFlag('gs', 'attritionChecked', attritionLevel);
+                if(attritionThresholds.includes(attritionLevel))
+                    checkFatigueRanks(fatigue);
+                checkFatigueRanks(fatigue);
+            }else if(this.flags.gs.attritionChecked == attritionLevel){
+                attritionLevel ? this.unsetFlag('gs', 'attritionChecked') : null;
+                this.setFlag('gs', 'attritionChecked', attritionLevel);
             }
         }
+        console.log("GSActor >>> Stored flags:", this.flags.gs);
     }
 
     _prepareCharacterData(actorData){
@@ -313,7 +314,7 @@ export class GSActor extends Actor {
         this._checkFatigue();
 
         // Check Attrition Levels
-        this._checkAttrition(systemData);
+        //this._checkAttrition(systemData);
 
         // Setting Life Force
         systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;

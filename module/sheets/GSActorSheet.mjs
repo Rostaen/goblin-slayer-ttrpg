@@ -65,7 +65,7 @@ export default class GSActorSheet extends ActorSheet{
 		data.rollData = this.actor.getRollData();
 		data.flags = actorData.flags;
 
-		console.log("Checking Actor Super Data:", data);
+		console.log("GSActorSheet >>> Checking Actor Super Data:", data);
 
 		if(this.actor.type === 'monster'){
 			data.eAbilities = await TextEditor.enrichHTML(
@@ -93,7 +93,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
-		html.find(".attritionCBox").click(this._updateAttritionFlag.bind(this));
+		html.find(".attritionCBox").off('click').click(this._updateAttritionFlag.bind(this));
 		// html.find(".fatigueCBox").click(this._updateFatigue.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
@@ -226,14 +226,58 @@ export default class GSActorSheet extends ActorSheet{
 		const element = event.currentTarget;
 		const systemData = this.actor.system;
 		const checkBoxNum = element.dataset.cbox;
-		const currentWounds = systemData.lifeForce.current;
+		const currentWounds = systemData.lifeForce.min;
 		const lifeForceHalf = systemData.lifeForce.double;
+		const attrition = systemData.attrition;
+		const fatigue = systemData.fatigue;
+		const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+		let attritionLevel = 0;
 
-		if(currentWounds >= lifeForceHalf){ // Only gain fatigue per red checkbox
-			this.actor.setFlag('gs', 'dangerAttritionClicked', parseInt(checkBoxNum, 10));
-			this.actor.update({
-				[`system.attrition.${checkBoxNum - 1}`]: systemData.attrition[checkBoxNum - 1] ? false : true
-			});
+		for (let x = 0; x < Object.keys(attrition).length; x++){
+            if(attrition[x] === false){
+                attritionLevel = x+1;
+                break;
+            }
+        }
+		console.log("Attrition", attrition);
+		console.log("Attrition level", attritionLevel);
+
+		const updateFatigue = async (rank) => {
+            console.log("In updateFatigue function");
+            const fatigueMin = `system.fatigue.${rank}.min`;
+            const fatigueMarked = `system.fatigue.${rank}.marked`;
+            const currentMin = fatigue[rank].min;
+            await this.actor.update({
+                [fatigueMin]: currentMin + 1,
+                [`${fatigueMarked}.${currentMin + 1}`]: true
+            });
+            console.log("GSActor >>> New Min", rank, currentMin + 1);
+        };
+
+        const checkFatigueRanks = async (fatigue) => {
+            console.log("In checkFatigueRanks function");
+            if(fatigue.rank1.min < fatigue.rank1.max){await updateFatigue("rank1");}
+            else if(fatigue.rank2.min < fatigue.rank2.max){await updateFatigue("rank2");}
+            else if(fatigue.rank3.min < fatigue.rank3.max){await updateFatigue("rank3");}
+            else if(fatigue.rank4.min < fatigue.rank4.max){await updateFatigue("rank4");}
+            else if(fatigue.rank5.min < fatigue.rank5.max){await updateFatigue("rank5");}
+        };
+
+		// Updating checkbox
+		this.actor.update({
+			[`system.attrition.${checkBoxNum - 1}`]: systemData.attrition[checkBoxNum - 1] ? false : true
+		});
+
+		// Checking the state of actor and checkbox for fatigue
+		if(currentWounds < lifeForceHalf && attritionThresholds.includes(attritionLevel)){
+			checkFatigueRanks(fatigue);
+		}else if(currentWounds >= lifeForceHalf){
+			checkFatigueRanks(fatigue);
+			if(attritionThresholds.includes(attritionLevel)){
+				checkFatigueRanks(fatigue);
+				// setTimeout(async () => {
+				// }, 100);
+			}
 		}
 	}
 
