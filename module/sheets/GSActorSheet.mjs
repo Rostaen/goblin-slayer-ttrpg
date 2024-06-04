@@ -224,8 +224,9 @@ export default class GSActorSheet extends ActorSheet{
 	_updateAttritionFlag = async (event) => {
 		event.preventDefault();
 		const element = event.currentTarget;
-		const systemData = this.actor.system;
 		const checkBoxNum = element.dataset.cbox;
+		const boxHasAttrition = element.checked;
+		const systemData = this.actor.system;
 		const currentWounds = systemData.lifeForce.min;
 		const lifeForceHalf = systemData.lifeForce.double;
 		const attrition = systemData.attrition;
@@ -233,9 +234,11 @@ export default class GSActorSheet extends ActorSheet{
 		const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
 		let attritionLevel = 0;
 
+		console.log("Checking element value", boxHasAttrition);
+
 		for (let x = 0; x < Object.keys(attrition).length; x++){
-            if(attrition[x] === false){
-                attritionLevel = x+1;
+            if(!attrition[x]){
+                attritionLevel = x + 1;
                 break;
             }
         }
@@ -246,45 +249,42 @@ export default class GSActorSheet extends ActorSheet{
 			const fatigueMin = `system.fatigue.${rank}.min`;
             const fatigueMarked = `system.fatigue.${rank}.marked`;
             const currentMin = this.actor.system.fatigue[rank].min;
-            //console.log("In updateFatigue function; fatigueMin", fatigueMin, "fatigueMarked", fatigueMarked, "currentMin", currentMin);
+
             await this.actor.update({
                 [fatigueMin]: currentMin + 1,
                 [`${fatigueMarked}.${currentMin + 1}`]: true
             });
-			await this.actor.render(true);
-            //console.log("GSActor >>> New Min", rank, this.actor.system.fatigue[rank].min);
         };
 
-        const checkFatigueRanks = async (fatigue) => {
-            //console.log("In checkFatigueRanks function");
-            if(fatigue.rank1.min < fatigue.rank1.max){await updateFatigue("rank1");}
-            else if(fatigue.rank2.min < fatigue.rank2.max){await updateFatigue("rank2");}
-            else if(fatigue.rank3.min < fatigue.rank3.max){await updateFatigue("rank3");}
-            else if(fatigue.rank4.min < fatigue.rank4.max){await updateFatigue("rank4");}
-            else if(fatigue.rank5.min < fatigue.rank5.max){await updateFatigue("rank5");}
+        const checkFatigueRanks = async () => {
+			const ranks = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5'];
+			for(const rank of ranks){
+				const currentMin = this.actor.system.fatigue[rank].min;
+				const max = this.actor.system.fatigue[rank].max;
+				if(currentMin < max){
+					await updateFatigue(rank);
+					break;
+				}
+			}
         };
 
 		// Updating checkbox
 		this.actor.update({
-			[`system.attrition.${checkBoxNum - 1}`]: systemData.attrition[checkBoxNum - 1] ? false : true
+			[`system.attrition.${checkBoxNum - 1}`]: !systemData.attrition[checkBoxNum - 1]
 		});
 
-		// Refresh the actor's data to ensure stat consistency
-		// await this.actor.prepareData();
-
-		// Checking the state of actor and checkbox for fatigue
-		if(currentWounds < lifeForceHalf && attritionThresholds.includes(attritionLevel)){
-			checkFatigueRanks(fatigue);
-		}else if(currentWounds >= lifeForceHalf){
-			console.log(">>> First check fatigue");
-			await checkFatigueRanks(fatigue);
-			await this.actor.render(true);
-			if(attritionThresholds.includes(attritionLevel)){
-				setTimeout(async () => {
-					console.log(">>> Second check fatigue");
-					await checkFatigueRanks(fatigue);
-					await this.actor.render(true);
-				}, 100);
+		// Checking if checkbox is checked or not, if checked, skip check to indicate attrition healing.
+		if(boxHasAttrition){
+			// Checking the state of actor and checkbox for fatigue
+			if(currentWounds < lifeForceHalf && attritionThresholds.includes(attritionLevel)){
+				await checkFatigueRanks();
+			}else if(currentWounds >= lifeForceHalf){
+				await checkFatigueRanks();
+				if(attritionThresholds.includes(attritionLevel)){
+					setTimeout(async () => {
+						await checkFatigueRanks();
+					}, 100);
+				}
 			}
 		}
 	}
