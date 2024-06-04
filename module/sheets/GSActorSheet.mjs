@@ -236,15 +236,15 @@ export default class GSActorSheet extends ActorSheet{
 
 		console.log("Checking element value", boxHasAttrition);
 
+		// Getting attrition level from JSON array
 		for (let x = 0; x < Object.keys(attrition).length; x++){
             if(!attrition[x]){
                 attritionLevel = x + 1;
                 break;
             }
         }
-		// console.log("Attrition", attrition);
-		// console.log("Attrition level", attritionLevel);
 
+		// Updates current fatigue rank by 1
 		const updateFatigue = async (rank) => {
 			const fatigueMin = `system.fatigue.${rank}.min`;
             const fatigueMarked = `system.fatigue.${rank}.marked`;
@@ -256,6 +256,7 @@ export default class GSActorSheet extends ActorSheet{
             });
         };
 
+		// Checks through fatigue ranks to find rank now maxed out yet
         const checkFatigueRanks = async () => {
 			const ranks = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5'];
 			for(const rank of ranks){
@@ -317,9 +318,9 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Setting up roll message
 		if(label === casting)
-			rollExpression = this._setRollMessage("2d6", stat, classBonus, 0, rollMod);
+			rollExpression = this._setRollMessage(dice, stat, classBonus, 0, rollMod);
 		else
-			rollExpression = this._setRollMessage("2d6", stat, classBonus, modifier, rollMod);
+			rollExpression = this._setRollMessage(dice, stat, classBonus, modifier, rollMod);
 
 		try{
 			const roll = new Roll(rollExpression);
@@ -399,7 +400,7 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	_getClassLevelBonus(typeHolder, itemType){
-		console.log("Check Class Level Bonus", typeHolder, itemType);
+		// console.log("Check Class Level Bonus", typeHolder, itemType);
 		let [type, weight] = "";
 		if(itemType != 'cast') {
 			[type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
@@ -502,6 +503,7 @@ export default class GSActorSheet extends ActorSheet{
 				ui.notifications.info(`The check has a value of 0 or undefined and cannot be rolled`);
 				return;
 			}
+		// Getting character elements ready
 		}else if(actorType === 'character'){
 			if(modSelector === '.power'){
 				const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
@@ -550,7 +552,7 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		}
 
-		console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
+		// console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
 
 		this._rollsToMessage(diceToRoll, stat, classBonus, modifier, localizedMessage);
 	}
@@ -642,12 +644,12 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	async _healAttrFatigue(healType){
-		let amountToHeal = 0;
-		amountToHeal = await this._promptHealingAmount(healType) - 1;
+		let amountToHeal = await this._promptHealingAmount(healType);
 
 		if(amountToHeal > 0){
 			if(healType === 'healAttrition'){
 				const attritionTrack = this.actor.system.attrition;
+				amountToHeal -= 1;
 				let attritionAmount = 0;
 				for(attritionAmount; attritionAmount < Object.entries(attritionTrack).length; attritionAmount++){
 					if(attritionTrack[attritionAmount] === false){
@@ -666,6 +668,32 @@ export default class GSActorSheet extends ActorSheet{
 				const fatigueTracks = this.actor.system.fatigue;
 				const ranks = ['rank5', 'rank4', 'rank3', 'rank2', 'rank1'];
 
+				for(const rank of ranks){
+					const currentMin = this.actor.system.fatigue[rank].min;
+					const max = this.actor.system.fatigue[rank].max;
+
+					if(amountToHeal == 0) break;
+					else if(currentMin == 0) continue;
+					else{
+						let healedMin = currentMin - amountToHeal;
+						console.log("=== currentMin", currentMin);
+						console.log("=== amountToHeal", amountToHeal);
+						console.log("=== healedMin", healedMin);
+						if(healedMin < 0){
+							healedMin = 0;
+							amountToHeal -= currentMin;
+						}
+						for(let x = currentMin; x > healedMin; x--){
+							fatigueTracks[rank].marked[x] = false;
+						}
+
+						this.actor.update({
+							[`system.fatigue.${rank}.min`]: healedMin,
+							[`system.fatigue.${rank}.marked`]: fatigueTracks[rank].marked
+						});
+					}
+
+				}
 			}
 		}
 	}

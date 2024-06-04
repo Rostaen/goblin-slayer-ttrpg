@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0.6.1
+## Current State v0.7.0
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
@@ -21,16 +21,21 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - Spell DC casting check
   - Stealth rolls to chat bar with class level and item modifiers
   - Misc. modifier pop-up window for all player rolls
+  - Attrition & Fatigue
+    - Attrition tracking works properly for both under half and over half health, triggering fatigue as required
+    - Fatigue tracking adds modifiers to character sheets
+    - Hover over fatigue numbers to see how they affect the character
+    - Attrition & Fatigue healing buttons have been added to recover each item from resting/potions/spells
 - Full compendium added from core book
 
 ### TODO:
 
-- [ ] Melee/Thrown/Projectile
+- [x] Melee/Thrown/Projectile
   - [x] To Hit checks
   - [x] Power rolls
   - [x] Dodge Checks
   - [x] Block Checks
-  - [ ] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
+  - [x] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
 - [x] PC Stealth
   - [x] Stealth button rolling
   - [x] Armor/shield modifiers added in
@@ -47,19 +52,19 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Move Race skills from Race to Item level
 - [ ] Add in a Parry check
 - [ ] Context menu for Race skills
-- [ ] Prompt for Roll modifiers
+- [x] Prompt for Roll modifiers
 - [ ] Add conditions and effects to PC effects tab
 - [ ] Add skill bonuses where needed
-- [ ] Allow attrition to update fatigue
+- [x] Allow attrition to update fatigue
 - [x] Allow fatigue to modify character sheet
-- [ ] Setup effects page in character sheet for status effects (if needed)
-- [ ] Adding "click to roll" dice when rolls made to chat bar
 - [x] Create CompediumFolders for all monsters & items
 - [x] Better sheet styling
 - [ ] Add mouse hover context for game related information
   - [x] Monster sheet '!' information hovers
 - [ ] Block skills from having a higher value when levels and rank are in conflict
 - [ ] Supplement book items added to game
+- [ ] Add button for resting and apply properl healing to all areas
+- [ ] Regulate items with an "equipped" button to determine misc. modifiers
 
 ### Skill Implementation Tracking
 
@@ -139,9 +144,15 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 
 # How to use the Game System
 
-At this point in v0.6.1 (2024/5/20):
+## v0.7.0 (2024/06/04)
 
-All items are drag 'n drop ready and will show up in their respective tabs. Players will be able to roll for checks you give them by clicking on the labels for each calculated stat. When a player needs to roll a "To Hit" check or roll "Power" for damage, they can click the 'target' or 'explosion' icon to the left of the weapon. To roll a dodge check, click on the person icon to the left of the armor. Finally, block checks, click on the shield icon to the left of the shield equipped. Initiative, stealth, sixth sense, and luck rolls can be found in the left sidebar of the player sheet. Each time a player clicks a roll, a prompt window will be presented to the player. Enter in and skill/misc. modifiers here to be added to the roll.
+Players will be able to roll for checks the GM gives them by clicking on the labels for each calculated stat.
+
+All items are drag 'n drop ready and will show up in their respective tabs when dropped from a compendium. When a player needs to roll a "To Hit" check or roll "Power" for damage, they can click the 'target' or 'explosion' icon to the left of the weapon. To roll a dodge check, click on the person icon to the left of the armor. Finally, block checks, click on the shield icon to the left of the shield equipped. Right-click on any item to get a context menu to view or delete the given item. _*Please note*_ that there is currently no code to stop a person from adding more armor or shields to their character sheet. For the time being, only drag and drop what your character has equipped and write down any extra gear/loot into the loot section of the character sheet (a future update will fix this).
+
+Spells have a wand button next to the image to roll spell effectiveness checks. The resulting information in the chat window will determine if the spell was successful or not against the given DC value with an Effectiveness value. Right-click on a spell to get a context menu to see the spell's information or to delete the spell.
+
+Initiative, stealth, sixth sense, and luck rolls can be found in the left sidebar of the player sheet. Each time a player clicks a roll, a prompt window will be presented to the player. Enter in and skill/misc. modifiers here to be added to the roll. There is currently no way to bypass the modifier window and either a 0 or the Cancel button will evauluate the dice roll without a modifier (bypassing to come in a future update)
 
 When moving characters around in the game, the grid is set to 1 meter (or 1m). PCs (player characters) are at close range to another monster at 5m and should be aware of this at all times. So all PCs are within melee range at 5m or less and do not need to be adjacent to their target in order to attack. This gives characters a little bit of room to move without penalties and also block movement checks and so forth.
 
