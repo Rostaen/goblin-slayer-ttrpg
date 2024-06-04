@@ -162,6 +162,7 @@ gs.actor = {
 			sham: "gs.actor.character.sham"
 		},
 		fatW: "gs.actor.character.fatW",
+		heal: "gs.actor.character.heal",
 		fatigue: {
 			rank: "gs.actor.character.rank",
 			pena: "gs.actor.character.pena",
@@ -172,6 +173,7 @@ gs.actor = {
 			ran5: "gs.actor.character.ran5",
 		},
 		attr: "gs.actor.character.attr",
+		track: "gs.actor.character.track",
 		skills: {
 			advSW: "gs.actor.character.advSW",
 			genSW: "gs.actor.character.genSW",

@@ -313,7 +313,7 @@ export default class GSActorSheet extends ActorSheet{
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
 
 		// Getting roll modifiers from user
-		rollMod = await this._promptWindowChoice("rollMod", label);
+		rollMod = await this._promptStealthChoice("rollMod", label);
 
 		// Setting up roll message
 		if(label === casting)
@@ -601,6 +601,75 @@ export default class GSActorSheet extends ActorSheet{
 		this._sendBasicMessage(amount, message);
 	}
 
+	_promptHealingAmount(healType){
+		let healingTitle = game.i18n.localize('gs.actor.character.heal') + " ";
+		if(healType === 'healAttrition')
+			healingTitle += game.i18n.localize('gs.actor.character.attr');
+		else
+			healingTitle += game.i18n.localize('gs.actor.character.fatW');
+
+		return new Promise ((resolve) => {
+			let dialogContent, promptTitle, buttonOne, buttonTwo;
+			dialogContent = `
+				<h3>${healingTitle}</h3>
+				<p>${game.i18n.localize('gs.dialog.healingPrompt.healAmount')}</p>
+				<input type="text" class="healAmount" style="margin-bottom: 10px;" />
+			`;
+			promptTitle = game.i18n.localize('gs.actor.character.heal');
+			buttonOne = {
+				label: game.i18n.localize('gs.actor.character.heal'),
+				callback: (html) => {
+					let amount;
+					resolve(
+						amount = parseInt(html.find('.healAmount')[0].value, 10)
+					);
+				}
+			};
+			buttonTwo = {
+				label: game.i18n.localize("gs.dialog.cancel"),
+				callback: () => {
+					resolve(0);
+				}
+			};
+			new Dialog({
+				title: promptTitle,
+				content: dialogContent,
+				buttons: { buttonOne: buttonOne, buttonTwo: buttonTwo },
+				default: "buttonOne",
+				close: () => "",
+			}).render(true);
+		});
+	}
+
+	async _healAttrFatigue(healType){
+		let amountToHeal = 0;
+		amountToHeal = await this._promptHealingAmount(healType) - 1;
+
+		if(amountToHeal > 0){
+			if(healType === 'healAttrition'){
+				const attritionTrack = this.actor.system.attrition;
+				let attritionAmount = 0;
+				for(attritionAmount; attritionAmount < Object.entries(attritionTrack).length; attritionAmount++){
+					if(attritionTrack[attritionAmount] === false){
+						attritionAmount -= 1;
+						break;
+					}
+				}
+				for(let x = attritionAmount; x >= attritionAmount - amountToHeal; x--){
+					if(x < 0) {// Check to ensure x doesn't break below array position 0
+						break;
+					}
+					attritionTrack[x] = false;
+				}
+				this.actor.update({ 'system.attrition': attritionTrack });
+			}else{
+				const fatigueTracks = this.actor.system.fatigue;
+				const ranks = ['rank5', 'rank4', 'rank3', 'rank2', 'rank1'];
+
+			}
+		}
+	}
+
 	_actorRolls(event){
 		const classType = event.currentTarget.classList;
 		switch(classType[1]){
@@ -623,11 +692,15 @@ export default class GSActorSheet extends ActorSheet{
 			case 'spellCast':
 				this._rollWithModifiers(event, '.spellDif', '2d6', game.i18n.localize('gs.dialog.spells.spUse'), 'cast');
 				break;
+			case 'healAttrition':
+			case 'healFatigue':
+				this._healAttrFatigue(classType[1]);
+				break;
 			case 'initiative':
 				this._rollInitiative(event);
 				break;
 			case 'stealthCheck':
-				this._promptWindowChoice("stealth");
+				this._promptStealthChoice("stealth");
 				break;
 			case 'sixthSense':
 				this._sixthSenseRoll(event);
@@ -659,7 +732,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_promptWindowChoice(promptType, promptName = ''){
+	_promptStealthChoice(promptType, promptName = ''){
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo;
 
@@ -773,7 +846,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(actorType === 'character'){
 			const skill = this.actor.items.filter(item => item.type === 'skill');
-			const rollMod = await this._promptWindowChoice("rollMod", game.i18n.localize('gs.actor.common.init'));
+			const rollMod = await this._promptStealthChoice("rollMod", game.i18n.localize('gs.actor.common.init'));
 			if(skill.length){
 				const anticipate = skill.filter(skill => skill.name.toLowerCase() === "anticipate");
 				if(anticipate.length){
@@ -824,7 +897,7 @@ export default class GSActorSheet extends ActorSheet{
 			classBonus = parseInt(actorClasses.shaman, 10);
 		}
 
-		const rollMod = await this._promptWindowChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.6sense'));
+		const rollMod = await this._promptStealthChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.6sense'));
 		const rollMessage = this._setRollMessage("2d6", stat, classBonus, skillBonus, rollMod);
 
 		this._sendRollMessage(rollMessage, `${game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.6sense")}`);
@@ -850,7 +923,7 @@ export default class GSActorSheet extends ActorSheet{
 	async _luckRoll(event){
 		event.preventDefault();
 
-		const rollMod = await this._promptWindowChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.luck'));
+		const rollMod = await this._promptStealthChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.luck'));
 		const skillBonus = this._getSkillBonus("Sixth Sense");
 		const rollMessage = this._setRollMessage('2d6', 0, 0, skillBonus, rollMod);
 

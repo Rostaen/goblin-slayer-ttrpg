@@ -145,7 +145,7 @@
         "ran3": "-3 to all checks. Life force & movement speed halved.",
         "ran4": "Unconscious. -4 to all checks. Life force & movement speed halved.",
         "ran5": "Death.",
-        "attr": "Attrition Track",
+        "attr": "Attrition",
         "advSW": "Adventurer Skills",
         "genSW": "General Skills",
         "mast": "Mastery Grade",
@@ -184,7 +184,9 @@
         "gold": "Gold",
         "silv": "Silver",
         "bron": "Bronze",
-        "piec": "Pieces"
+        "piec": "Pieces",
+        "heal": "Heal",
+        "track": "Track"
       },
       "monster": {
         "type": "Type",
@@ -332,6 +334,9 @@
             "luck": "Luck"
           }
         }
+      },
+      "healingPrompt": {
+        "healAmount": "Heal the following amount."
       }
     }
   }
