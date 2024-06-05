@@ -331,8 +331,10 @@ export default class GSActorSheet extends ActorSheet{
 			let dcCheck = '';
 			if(label === casting){
 				// Getting dice total plus bonuses to compare to DC stored in Modifier
-				const diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
+				let diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
 				if(diceTotal >= modifier && status[0] != 'fail'){
+					if(status[0] === 'success')
+						diceTotal += 5;
 					dcCheck = `<div class="spellCastSuccess">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.succ')}</div><div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}</div>`;
 				}else{
 					dcCheck = `<div class="spellCastFailure">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}</div>`;
