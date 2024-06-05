@@ -166,5 +166,6 @@ Otherwise, you may manually install the system. To do so, you must clone or extr
 
 ## Contributors
 
-- Andrew F. (zerrian\_ on Discord): full-stack developer
+- Andrew F. (zerrian\_ on Discord): full-stack developer & game system creator
 - HerrDoctor: token artwork
+- Elán from Elánowe Tabletopy: Polish translations
