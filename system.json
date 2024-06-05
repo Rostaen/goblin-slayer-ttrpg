@@ -14,7 +14,7 @@
   "version": "0.7.0",
   "compatibility": {
     "minimum": "11",
-    "verified": "12.324"
+    "verified": "12.325"
   },
   "esmodules": ["gs.mjs"],
   "styles": ["css/gs.css"],

@@ -48,7 +48,7 @@
 
                 <span class="switch-container grid-span-2">
                     <div class="alert" title="{{localize "gs.dialog.monsterSheet.boss"}}"><i class="fa-solid fa-circle-exclamation"></i></div>
-                    <span class="switch-label">{{localize config.monster.types.boss}}?</span>
+                    <span class="switch-label">{{localize config.monster.boss}}?</span>
                     <label class="switch">
                         <input type="checkbox" data-key="type" id="skill-switch" name="system.isBoss" {{checked actor.system.isBoss}} />
                         <span class="slider"></span>
@@ -79,12 +79,20 @@
 
         <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.0.type" class="grid-span-3">
-            {{selectOptions config.monster.types selected=system.attacks.0.type localize=true}}
+            {{#each config.monster.types as |label key|}}
+                <option value="{{localize label}}" {{#if (eq (localize label) ../actor.system.attacks.0.type)}}selected{{/if}}>
+                    {{localize label}}
+                </option>
+            {{/each}}
         </select>
 
         <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.0.range">
-            {{selectOptions config.monster.range selected=system.attacks.0.range localize=true}}
+            {{#each config.monster.range as |label key|}}
+                <option value="{{label}}" {{#if (eq label ../actor.system.attacks.0.range)}}selected{{/if}} data-dtype="Number">
+                    {{key}}
+                </option>
+            {{/each}}
         </select>
 
         {{!-- 2nd row --}}
@@ -121,12 +129,20 @@
 
         <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.1.type" class="grid-span-3">
-            {{selectOptions config.monster.types selected=system.attacks.1.type localize=true}}
+            {{#each config.monster.types as |label key|}}
+                <option value="{{localize label}}" {{#if (eq (localize label) ../actor.system.attacks.1.type)}}selected{{/if}}>
+                    {{localize label}}
+                </option>
+            {{/each}}
         </select>
 
         <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.1.range">
-            {{selectOptions config.monster.range selected=system.attacks.1.range localize=true}}
+            {{#each config.monster.range as |label key|}}
+                <option value="{{label}}" {{#if (eq label ../actor.system.attacks.1.range)}}selected{{/if}} data-dtype="Number">
+                    {{key}}
+                </option>
+            {{/each}}
         </select>
 
         {{!-- 2nd row --}}
@@ -164,12 +180,20 @@
 
         <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.2.type" class="grid-span-3">
-            {{selectOptions config.monster.types selected=system.attacks.2.type localize=true}}
+            {{#each config.monster.types as |label key|}}
+                <option value="{{localize label}}" {{#if (eq (localize label) ../actor.system.attacks.2.type)}}selected{{/if}}>
+                    {{localize label}}
+                </option>
+            {{/each}}
         </select>
 
         <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.2.range">
-            {{selectOptions config.monster.range selected=system.attacks.2.range localize=true}}
+            {{#each config.monster.range as |label key|}}
+                <option value="{{label}}" {{#if (eq label ../actor.system.attacks.2.range)}}selected{{/if}} data-dtype="Number">
+                    {{key}}
+                </option>
+            {{/each}}
         </select>
 
         {{!-- 2nd row --}}
@@ -207,12 +231,20 @@
 
         <label>{{localize config.monster.type}} </label>
         <select name="system.attacks.3.type" class="grid-span-3">
-            {{selectOptions config.monster.types selected=system.attacks.3.type localize=true}}
+            {{#each config.monster.types as |label key|}}
+                <option value="{{localize label}}" {{#if (eq (localize label) ../actor.system.attacks.3.type)}}selected{{/if}}>
+                    {{localize label}}
+                </option>
+            {{/each}}
         </select>
 
         <label>{{localize config.monster.ran}} </label>
         <select name="system.attacks.3.range">
-            {{selectOptions config.monster.range selected=system.attacks.3.range localize=true}}
+            {{#each config.monster.range as |label key|}}
+                <option value="{{label}}" {{#if (eq label ../actor.system.attacks.3.range)}}selected{{/if}} data-dtype="Number">
+                    {{key}}
+                </option>
+            {{/each}}
         </select>
 
         {{!-- 2nd row --}}
@@ -247,7 +279,7 @@
         <h2 class="grid-span-10">{{localize config.monster.defe}}</h2>
 
         {{!-- Minion Values --}}
-        <h3 class="">{{localize config.monster.types.minion}}</h3>
+        <h3 class="">{{localize config.monster.minion}}</h3>
         <div class="grid-span-9">
             <div class="grid grid-10col reveal-rollable">
                 <label class="minStatic minionDodge">{{localize config.monster.dodg}}&nbsp;<i class="fa-solid fa-dice"></i></label>
@@ -270,7 +302,7 @@
         </div>
         {{#if actor.system.isBoss}}
         {{!-- Boss Values --}}
-        <h3 class="">{{localize config.monster.types.boss}}</h3>
+        <h3 class="">{{localize config.monster.boss}}</h3>
         <div class="grid-span-9">
             <div class="grid grid-10col reveal-rollable">
                 <label class="actorRolls bossDodge">{{localize config.monster.dodg}}&nbsp;<i class="fa-solid fa-dice"></i></label>

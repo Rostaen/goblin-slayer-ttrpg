@@ -1,5 +1,1 @@
-2024/06/04-09:42:17.556 1254 Log #134: 0 ops saved to Table #135 OK
-2024/06/04-09:42:17.556 1254 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/000134.log: OK
-2024/06/04-09:42:17.557 1254 Table #105: 23 entries OK
-2024/06/04-09:42:17.558 1254 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/MANIFEST-000133: OK
-2024/06/04-09:42:17.560 1254 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor; recovered 1 files; 6128 bytes. Some data may have been lost. ****
+2024/06/04-09:42:17.564 1254 Delete type=3 #1

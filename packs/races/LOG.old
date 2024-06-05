@@ -1,5 +1,1 @@
-2024/06/04-09:42:17.597 1254 Log #127: 0 ops saved to Table #128 OK
-2024/06/04-09:42:17.597 1254 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\races/000127.log: OK
-2024/06/04-09:42:17.598 1254 Table #94: 5 entries OK
-2024/06/04-09:42:17.599 1254 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\races/MANIFEST-000126: OK
-2024/06/04-09:42:17.601 1254 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\races; recovered 1 files; 12845 bytes. Some data may have been lost. ****
+2024/06/04-09:42:17.605 1254 Delete type=3 #1
