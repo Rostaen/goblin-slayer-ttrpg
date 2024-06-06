@@ -210,7 +210,9 @@ export class GSActor extends Actor {
             }
         }
 
-                // Checking Flags for character sheet changes
+        // TODO: Set a value for a non-existing field for max spells for each spell system
+
+        // Checking Flags for character sheet changes
         //this._checkFlags();
 
         // Setting Character Spell Resistance
@@ -308,6 +310,25 @@ export class GSActor extends Actor {
             movePen += parseInt(armor[0].system.move, 10);
         }
         systemData.modMove = movePen;
+
+        // Updating ArmorScore if skill: Armor:XX is present
+        // Currently, only the top level armor will have this score applied to it if skill is present
+        // TODO: Update for future "equipped" status.
+        const armorValues = {
+            cloth: this._getSkillBonus("Armor: Cloth"),
+            light: this._getSkillBonus("Armor: Light"),
+            heavy: this._getSkillBonus("Armor: Heavy"),
+        };
+        // If value is truthy
+        if(armorValues.cloth || armorValues.light || armorValues.heavy){
+            let armorWorn = this.items.filter(item => item.type.toLowerCase() === "armor");
+            // Is armor presently being worn?
+            if (armorWorn) {
+                if (armorValues.cloth > 0) armorWorn[0].system.score += armorValues.cloth;
+                else if (armorValues.light > 0) armorWorn[0].system.score += armorValues.light;
+                else if (armorValues.heavy > 0) armorWorn[0].system.score += armorValues.heavy;
+            }
+        }
     }
 
     _prepareMonsterData(actorData){

@@ -29,6 +29,7 @@
     <div class="wordSpellsCont spellsHolder">
         <h2 class="spellHeader">{{localize gearConfig.spell.schools.wor}}</h2>
         <div class="spellBlock1 grid grid-2col">
+            <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.abilities.calc.if}}</h4>
             <div>
                 <div class="grid grid-5col spellLabels">
                     <div></div>
@@ -65,6 +66,7 @@
     <div class="miracleSpellsCont spellsHolder">
         <h2 class="spellHeader">{{localize gearConfig.spell.schools.mir}}</h2>
         <div class="spellBlock1 grid grid-2col">
+            <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.abilities.calc.pf}}</h4>
             <div>
                 <div class="grid grid-5col spellLabels">
                     <div></div>
@@ -97,77 +99,79 @@
                 {{/if}}
             {{/each}}
         </div>
-        <div class="dragonSpellsCont spellsHolder">
-            <h2 class="spellHeader">{{localize gearConfig.spell.schools.anc}}</h2>
-            <div class="spellBlock1 grid grid-2col">
-                <div>
-                    <div class="grid grid-5col spellLabels">
-                        <div></div>
-                        <div class="grid-span-3">Name</div>
-                        <div>DC</div>
-                    </div>
+    </div>
+    <div class="dragonSpellsCont spellsHolder">
+        <h2 class="spellHeader">{{localize gearConfig.spell.schools.anc}}</h2>
+        <div class="spellBlock1 grid grid-2col">
+            <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.abilities.calc.pf}}</h4>
+            <div>
+                <div class="grid grid-5col spellLabels">
+                    <div></div>
+                    <div class="grid-span-3">Name</div>
+                    <div>DC</div>
                 </div>
-                <div>
-                    <div class="grid grid-5col spellLabels">
-                        <div></div>
-                        <div class="grid-span-3">Name</div>
-                        <div>DC</div>
-                    </div>
-                </div>
-                {{#each actor.items as |item id|}}
-                    {{#if (eq item.type 'spell')}}
-                        {{#if (eq item.system.schoolChoice 'Ancestral Dragon')}}
-                            <div class="singleSpell">
-                                <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-                                    <div class="buttonsToRoll">
-                                        <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
-                                    </div>
-                                    <img src="{{item.img}}" alt="{{item.name}}">
-                                    <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
-                                    <div class="spellDif">{{item.system.difficulty}}</div>
-                                    <input type="hidden" value="{{item.system.schoolChoice}}">
-                                </div>
-                            </div>
-                        {{/if}}
-                    {{/if}}
-                {{/each}}
             </div>
+            <div>
+                <div class="grid grid-5col spellLabels">
+                    <div></div>
+                    <div class="grid-span-3">Name</div>
+                    <div>DC</div>
+                </div>
+            </div>
+            {{#each actor.items as |item id|}}
+                {{#if (eq item.type 'spell')}}
+                    {{#if (eq item.system.schoolChoice 'Ancestral Dragon')}}
+                        <div class="singleSpell">
+                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                                <div class="buttonsToRoll">
+                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
+                                </div>
+                                <img src="{{item.img}}" alt="{{item.name}}">
+                                <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
+                                <div class="spellDif">{{item.system.difficulty}}</div>
+                                <input type="hidden" value="{{item.system.schoolChoice}}">
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/each}}
         </div>
-        <div class="spiritSpellsCont spellsHolder">
-            <h2 class="spellHeader">{{localize gearConfig.spell.schools.spi}}</h2>
-            <div class="spellBlock1 grid grid-2col">
-                <div>
-                    <div class="grid grid-5col spellLabels">
-                        <div></div>
-                        <div class="grid-span-3">Name</div>
-                        <div>DC</div>
-                    </div>
+    </div>
+    <div class="spiritSpellsCont spellsHolder">
+        <h2 class="spellHeader">{{localize gearConfig.spell.schools.spi}}</h2>
+        <div class="spellBlock1 grid grid-2col">
+            <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.abilities.calc.pf}}</h4>
+            <div>
+                <div class="grid grid-5col spellLabels">
+                    <div></div>
+                    <div class="grid-span-3">Name</div>
+                    <div>DC</div>
                 </div>
-                <div>
-                    <div class="grid grid-5col spellLabels">
-                        <div></div>
-                        <div class="grid-span-3">Name</div>
-                        <div>DC</div>
-                    </div>
-                </div>
-                {{#each actor.items as |item id|}}
-                    {{#if (eq item.type 'spell')}}
-                        {{#if (eq item.system.schoolChoice 'Spirit Arts')}}
-                            <div class="singleSpell">
-                                <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-                                    <div class="buttonsToRoll">
-                                        <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
-                                    </div>
-                                    <img src="{{item.img}}" alt="{{item.name}}">
-                                    <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
-                                    <div class="spellDif">{{item.system.difficulty}}</div>
-                                    <input type="hidden" value="{{item.system.schoolChoice}}">
-                                </div>
-                            </div>
-                        {{/if}}
-                    {{/if}}
-                {{/each}}
             </div>
+            <div>
+                <div class="grid grid-5col spellLabels">
+                    <div></div>
+                    <div class="grid-span-3">Name</div>
+                    <div>DC</div>
+                </div>
+            </div>
+            {{#each actor.items as |item id|}}
+                {{#if (eq item.type 'spell')}}
+                    {{#if (eq item.system.schoolChoice 'Spirit Arts')}}
+                        <div class="singleSpell">
+                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                                <div class="buttonsToRoll">
+                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
+                                </div>
+                                <img src="{{item.img}}" alt="{{item.name}}">
+                                <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
+                                <div class="spellDif">{{item.system.difficulty}}</div>
+                                <input type="hidden" value="{{item.system.schoolChoice}}">
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/each}}
         </div>
     </div>
 </div>

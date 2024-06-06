@@ -70,10 +70,10 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 
 #### Adventerer Skills
 
-- [ ] Alert
+- [x] Alert
 - [x] Anticipate
-- [ ] Armor: XX
-- [ ] Binding Attack
+- [x] Armor: XX
+- [ ] Binding Attack (Future update to affect targets and add conditions)
 - [ ] Bonus Spells: XX
 - [ ] Burst of Strength
 - [ ] Curved Shot

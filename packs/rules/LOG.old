@@ -1,3 +1,13 @@
-2024/06/05-09:48:17.220 4680 Recovering log #63
-2024/06/05-09:48:17.222 4680 Delete type=0 #63
-2024/06/05-09:48:17.223 4680 Delete type=3 #62
+2024/06/06-13:43:50.686 58a4 Recovering log #70
+2024/06/06-13:43:50.689 58a4 Delete type=0 #70
+2024/06/06-13:43:50.689 58a4 Delete type=3 #69
+2024/06/06-15:17:20.585 3a1c Level-0 table #74: started
+2024/06/06-15:17:20.585 3a1c Level-0 table #74: 0 bytes OK
+2024/06/06-15:17:20.586 3a1c Delete type=0 #72
+2024/06/06-15:17:20.599 3a1c Manual compaction at level-0 from '!journal!QKzabwVIEIxLgy0S' @ 72057594037927935 : 1 .. '!journal.pages!QKzabwVIEIxLgy0S.qGkXUPVS47rShPFR' @ 0 : 0; will stop at '!journal.pages!QKzabwVIEIxLgy0S.qGkXUPVS47rShPFR' @ 39 : 1
+2024/06/06-15:17:20.599 3a1c Compacting 1@0 + 0@1 files
+2024/06/06-15:17:20.601 3a1c Generated table #75@0: 7 keys, 22201 bytes
+2024/06/06-15:17:20.601 3a1c Compacted 1@0 + 0@1 files => 22201 bytes
+2024/06/06-15:17:20.601 3a1c compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/06/06-15:17:20.601 3a1c Delete type=2 #31
+2024/06/06-15:17:20.606 3a1c Manual compaction at level-0 from '!journal.pages!QKzabwVIEIxLgy0S.qGkXUPVS47rShPFR' @ 39 : 1 .. '!journal.pages!QKzabwVIEIxLgy0S.qGkXUPVS47rShPFR' @ 0 : 0; will stop at (end)

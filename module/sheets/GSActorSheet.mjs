@@ -290,14 +290,41 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_checkForCritRolls(diceResults){
+	_checkForCritRolls(diceResults, label){
 		if(diceResults.length === 2){
-			let results = [];
-			if(diceResults[0] === 1 && diceResults[1] === 1){
+			let skills, skillValue, critSuccess = 12, critFail = 2, results = [];
+			const actorType = this.actor.type;
+
+			// Checking actor type to get skills
+			if(actorType === "character"){
+				skills = this.actor.items.filter(item => item.type === 'skill');
+
+				// Updating the Critical Success/Failure rate based on the given skill
+				const setCritValues = (skillValue) => {
+					if(skillValue === 1){ critSuccess = 11; critFail = 5; }
+					else if(skillValue === 2){ critSuccess = 11; critFail = 4; }
+					else if(skillValue === 3){ critSuccess = 10; critFail = 4; }
+					else if(skillValue === 4){ critSuccess = 10; critFail = 3; }
+					else if(skillValue === 5){ critSuccess = 9; critFail = 3; }
+				};
+
+				// Checking over each character skill to modify success rates
+				for(const skill of skills){
+					skillValue = skill.system.value;
+					switch(`${skill.name.toLowerCase()}-${label.toLowerCase()}`){
+						case 'alert-dodge':
+							setCritValues(skillValue);
+							break;
+					}
+				}
+			}
+
+			// Checking dice results vs. crit fail/success otherwise this is a regular result
+			if(diceResults[0] + diceResults[1] <= critFail){
 				results[0] = 'fail';
 				results[1] = `<br><div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
 				return results;
-			}else if(diceResults[0] === 6 && diceResults[1] === 6){
+			}else if(diceResults[0] + diceResults[1] >= critSuccess){
 				results[0] = 'success';
 				results[1] = `<br><div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
 				return results;
@@ -327,7 +354,7 @@ export default class GSActorSheet extends ActorSheet{
 			await roll.evaluate();
 
 			const diceResults = roll.terms[0].results.map(r => r.result);
-			const status = this._checkForCritRolls(diceResults);
+			const status = this._checkForCritRolls(diceResults, label);
 			let dcCheck = '';
 			if(label === casting){
 				// Getting dice total plus bonuses to compare to DC stored in Modifier
@@ -476,7 +503,7 @@ export default class GSActorSheet extends ActorSheet{
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const actorType = this.actor.type;
 		const actorCalcStats = this.actor.system.abilities.calc;
-		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation;
+		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills;
 
 		if (!container) {
 			console.error("Container with '.reveal-rollable' class not found.");
