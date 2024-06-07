@@ -1340,6 +1340,11 @@ table tr:nth-child(even) {
   border-radius: 5px;
   padding: 20px 5px 5px;
 }
+.skillsContainer .skillBox .skillImageCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .skillsContainer .skillBox .header {
   font-size: 10px;
 }

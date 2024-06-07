@@ -9,7 +9,7 @@
             {{#if (eq item.type "skill")}}
                 {{!-- Checks to see if skill is Adventurer --}}
                 {{#if item.system.type}}
-                    <img src="{{item.img}}" alt="{{item.name}}">
+                    <div class="skillImageCont"><img src="{{item.img}}" alt="{{item.name}}"></div>
                     <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contextType="skill" >{{item.name}}</div>
                     <div class="bonus grid-span-4">
                         {{getSkillRangeText item item.system.value}}
