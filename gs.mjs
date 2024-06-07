@@ -4,6 +4,7 @@ import GSActorSheet from "./module/sheets/GSActorSheet.mjs";
 import { GSActor } from "./module/documents/GSActor.mjs";
 import { preloadHandlebarsTemplates } from "./module/helpers/templates.mjs";
 import { GSItem } from "./module/documents/GSItem.mjs";
+// import { TextEditor } from 'foundry.js';
 
 Hooks.once("init", () => {
 	game.gs = { GSActor }
@@ -63,11 +64,11 @@ Handlebars.registerHelper('getSkillRangeText', (object, value) => {
 	else if(value == 4) skillLevel = object.system.master;
 	else if(value == 5) skillLevel = object.system.legend;
 	else return "Rank Value must be a number and greater than 0 and less than 3 (Gen) or 5 (Adv).";
+
+	// Remove wrapping paragraph/span tags
 	skillLevel = skillLevel.replace(/^<p>/, '').replace(/<\/p>$/, '');
 	skillLevel = skillLevel.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
-	// data.eComment = await TextEditor.enrichHTML(
-	// 	actorData.system.comment, {async: true, rollData: actorData.getRollData(), }
-	// );
+
 	return skillLevel;
 });
 

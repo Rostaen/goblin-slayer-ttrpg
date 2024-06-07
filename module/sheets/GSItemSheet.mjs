@@ -32,22 +32,20 @@ export default class GSItemSheet extends ItemSheet {
 			system.effects, {async: true, rollData: item.getRollData(), }
 		);
 		if(item.type === 'skill'){
-			console.log("Item Data", item);
-			data.eBeginner = await TextEditor.enrichHTML(
-				system.beginner, {async: true, rollData: item.getRollData(), }
-			);
-			data.eIntermediate = await TextEditor.enrichHTML(
-				system.intermediate, {async: true, rollData: item.getRollData(), }
-			);
-			data.eExpert = await TextEditor.enrichHTML(
-				system.expert, {async: true, rollData: item.getRollData(), }
-			);
-			data.eMaster = await TextEditor.enrichHTML(
-				system.master, {async: true, rollData: item.getRollData(), }
-			);
-			data.eLegend = await TextEditor.enrichHTML(
-				system.legend, {async: true, rollData: item.getRollData(), }
-			);
+			data.eBeginner = await TextEditor.enrichHTML(system.beginner, {async: true, rollData: item.getRollData(), });
+			data.eIntermediate = await TextEditor.enrichHTML(system.intermediate, {async: true, rollData: item.getRollData(), });
+			data.eExpert = await TextEditor.enrichHTML(system.expert, {async: true, rollData: item.getRollData(), });
+			data.eMaster = await TextEditor.enrichHTML(system.master, {async: true, rollData: item.getRollData(), });
+			data.eLegend = await TextEditor.enrichHTML(system.legend, {async: true, rollData: item.getRollData(), });
+			this.item.update({
+				'system.enrichedText': {
+					'beginner': data.eBeginner,
+					'intermediate': data.eIntermediate,
+					'expert': data.eExpert,
+					'master': data.eMaster,
+					'legend': data.eLegend
+				}
+			});
 		}else if(item.type === 'race'){
 			data.eComment = await TextEditor.enrichHTML(
 				system.comment, {async: true, rollData: item.getRollData(), }

@@ -52,7 +52,6 @@ export default class GSActorSheet extends ActorSheet{
 
 		try{
 			const createdSkills = await this.actor.createEmbeddedDocuments('Item', skillItems);
-			console.log(`Added ${createdSkills.length} skills from race item to actor.`);
 		} catch (error) {
 			console.error("Error adding skills to actor:", error);
 		}
@@ -102,10 +101,8 @@ export default class GSActorSheet extends ActorSheet{
 	_getSkillBonus(skillName){
 		const skills = this.actor.items.filter(item => item.type === 'skill');
 		if(skills.length){
-			console.log("Skill Length > 0");
 			const skillBonusValue = skills.filter(skill => skill.name.toLowerCase() === skillName);
 			if(skillBonusValue.length){
-				console.log("Skill Bonus > 0", skillBonusValue[0].system.value);
 				return parseInt(skillBonusValue[0].system.value, 10);
 			}
 		}
@@ -219,7 +216,7 @@ export default class GSActorSheet extends ActorSheet{
 			}).then(updatedItem => {
 				//console.log("Item Updated:", updatedItem);
 			}).catch(error => {
-				console.log("Error updating item:", error);
+				console.error("Error updating item:", error);
 			})
 		}
 	}
@@ -261,8 +258,6 @@ export default class GSActorSheet extends ActorSheet{
 		const fatigue = systemData.fatigue;
 		const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
 		let attritionLevel = 0;
-
-		console.log("Checking element value", boxHasAttrition);
 
 		// Getting attrition level from JSON array
 		for (let x = 0; x < Object.keys(attrition).length; x++){
@@ -340,7 +335,6 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	async _rollsToMessage(dice, stat, classBonus, modifier, label, skillBonus = 0, rollMod = 0){
-		console.log(">>> rollsToMessage Check:", skillBonus);
 		let rollExpression = `${dice}`;
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
 
@@ -399,7 +393,7 @@ export default class GSActorSheet extends ActorSheet{
 			flavor: `Basic ${type}`,
 			content: messageContent
 		}).then(() => {
-			console.log("GS || Basic message sent to chat.");
+			//console.log("GS || Basic message sent to chat.");
 		}).catch(error => {
 			console.error("Error sending basic message to chat:", error);
 		});
@@ -598,7 +592,6 @@ export default class GSActorSheet extends ActorSheet{
 					break;
 				case 'cast':
 					const school = container.querySelector("input[type='hidden']").value;
-					console.log("Hidden School", school);
 					if(school.toLowerCase() === "words of true power"){
 						stat = actorCalcStats.if;
 					}else{
@@ -743,9 +736,6 @@ export default class GSActorSheet extends ActorSheet{
 					else if(currentMin == 0) continue;
 					else{
 						let healedMin = currentMin - amountToHeal;
-						console.log("=== currentMin", currentMin);
-						console.log("=== amountToHeal", amountToHeal);
-						console.log("=== healedMin", healedMin);
 						if(healedMin < 0){
 							healedMin = 0;
 							amountToHeal -= currentMin;
@@ -1108,7 +1098,7 @@ export default class GSActorSheet extends ActorSheet{
 						actor.deleteEmbeddedDocuments(
 							'Item', [id]
 						).then(() => {
-							console.log(`GS || ${skill.name} deleted successfully.`);
+							// console.log(`GS || ${skill.name} deleted successfully.`);
 						}).catch(error => {
 							console.error("Error deleting skill:", error);
 						});

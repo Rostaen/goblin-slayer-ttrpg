@@ -69,7 +69,6 @@ export class GSActor extends Actor {
     _bonusSpellsKnownSkillCall(skill){
         const skillValue = skill.system.value;
         const spellDomain = skill.name.split(": ")[1];
-        console.log("---> Check made values:", skillValue, spellDomain);
         switch(spellDomain.toLowerCase()){
             case "words of true power":
             case "words":
