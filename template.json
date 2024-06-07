@@ -295,7 +295,12 @@
       "templates": ["common"],
       "score": 0,
       "dodge": 0,
-      "move": 0
+      "move": 0,
+      "heavy": {
+        "value": false,
+        "x": 0,
+        "y": 0
+      }
     },
     "shield": {
       "templates": ["common"],

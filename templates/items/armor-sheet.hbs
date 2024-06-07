@@ -36,6 +36,13 @@
 				<label for="armorValue">{{localize config.common.val}}:</label>
 				<input id="armorValue" name="system.value" type="text" value="{{gear.value}}" data-dtype="Number" />
 			</span>
+			<span class="heavy">
+				<label for="heavyValue">{{localize config.armor.hea}}</label>
+				<input id="heavyValue" type="checkbox" name="system.heavy.value" {{#if item.system.heavy.value}}checked{{/if}} />
+				{{#if item.system.heavy.value}}
+					<input type="text" name="system.heavy.x" value="{{item.system.heavy.x}}" />&nbsp;/&nbsp;<input type="text" name="system.heavy.y" value="{{item.system.heavy.y}}" />
+				{{/if}}
+			</span>
 		</div>
 	</div>
 	<span class="effects grid-span-5">

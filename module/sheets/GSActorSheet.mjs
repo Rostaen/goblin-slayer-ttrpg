@@ -255,8 +255,9 @@ export default class GSActorSheet extends ActorSheet{
 		const currentWounds = systemData.lifeForce.min;
 		const lifeForceHalf = systemData.lifeForce.double;
 		const attrition = systemData.attrition;
-		const fatigue = systemData.fatigue;
 		const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+		const armor = this.actor.items.filter(item => item.type.toLowerCase() === 'armor');
+		const armorWorn = armor[0].system.heavy;
 		let attritionLevel = 0;
 
 		// Getting attrition level from JSON array
@@ -272,17 +273,28 @@ export default class GSActorSheet extends ActorSheet{
 			[`system.attrition.${checkBoxNum - 1}`]: !systemData.attrition[checkBoxNum - 1]
 		});
 
+		// Checking if character is wearing heavy armor and if Str End is less than value, true? +1 fatigue
+		const checkIfHeavy = async (armorWorn) => {
+			if(armorWorn.value && this.actor.system.abilities.calc.se < armorWorn.x){
+				setTimeout(async () => {
+					await this._checkFatigueRanks();
+				}, 200);
+			}
+		}
+
 		// Checking if checkbox is checked or not, if checked, skip check to indicate attrition healing.
 		if(boxHasAttrition){
 			// Checking the state of actor and checkbox for fatigue
 			if(currentWounds < lifeForceHalf && attritionThresholds.includes(attritionLevel)){
 				await this._checkFatigueRanks();
+				checkIfHeavy(armorWorn);
 			}else if(currentWounds >= lifeForceHalf){
 				await this._checkFatigueRanks();
 				if(attritionThresholds.includes(attritionLevel)){
 					setTimeout(async () => {
 						await this._checkFatigueRanks();
 					}, 100);
+					checkIfHeavy(armorWorn);
 				}
 			}
 		}
@@ -574,6 +586,14 @@ export default class GSActorSheet extends ActorSheet{
 			}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
 					 modSelector === '.blockMod' || modSelector === '.spellDif'){
 				modifier = parseInt(modElement.textContent, 10);
+				// Checking for dodging and heavy classified armor vs Str End score
+				if(modSelector === '.dodge'){
+					const armor = this.actor.items.filter(item => item.type === 'armor');
+					const strEnd = this.actor.system.abilities.calc.se;
+					if(armor[0].system.heavy.value && strEnd >= armor[0].system.heavy.y){
+						modifier = Math.floor(modifier / 2);
+					}
+				}
 			}else if(modSelector === '.spellRes'){
 				modifier = parseInt(modElement.value);
 			}

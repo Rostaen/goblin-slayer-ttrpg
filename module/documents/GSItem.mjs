@@ -12,6 +12,7 @@ export class GSItem extends Item {
     getRollData(){
 
     }
+
     async roll(){
         let chatData = {
             user: game.user._id,

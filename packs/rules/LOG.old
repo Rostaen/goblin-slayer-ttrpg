@@ -1,7 +1,3 @@
-2024/06/07-07:45:51.894 4bf0 Recovering log #77
-2024/06/07-07:45:51.900 4bf0 Delete type=0 #77
-2024/06/07-07:45:51.900 4bf0 Delete type=3 #76
-2024/06/07-07:45:53.979 22ac Level-0 table #81: started
-2024/06/07-07:45:53.979 22ac Level-0 table #81: 0 bytes OK
-2024/06/07-07:45:53.981 22ac Delete type=0 #79
-2024/06/07-07:45:53.986 22ac Manual compaction at level-0 from '!journal!QKzabwVIEIxLgy0S' @ 72057594037927935 : 1 .. '!journal.pages!QKzabwVIEIxLgy0S.qGkXUPVS47rShPFR' @ 0 : 0; will stop at (end)
+2024/06/07-14:26:01.483 4b18 Recovering log #83
+2024/06/07-14:26:01.489 4b18 Delete type=0 #83
+2024/06/07-14:26:01.489 4b18 Delete type=3 #82

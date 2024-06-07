@@ -367,7 +367,10 @@ export class GSActor extends Actor {
         let movePen = systemData.move;
         const armor = actorData.items.filter(item => item.type === 'armor');
         if(armor.length){
-            movePen += parseInt(armor[0].system.move, 10);
+            if(armor[0].system.heavy.value && this.system.abilities.calc.se >= armor[0].system.heavy.y){
+                movePen += Math.floor(parseInt(armor[0].system.move, 10) / 2);
+            }else
+                movePen += parseInt(armor[0].system.move, 10);
         }
         systemData.modMove = movePen;
 

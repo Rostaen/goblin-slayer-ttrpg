@@ -28,6 +28,7 @@ gs.gear = {
 		sco: "gs.gear.armor.sco",
 		dod: "gs.gear.armor.dod",
 		mov: "gs.gear.armor.mov",
+		hea: "gs.gear.armor.hea",
 		stealth: {
 			Good: 0,
 			Normal: -4,

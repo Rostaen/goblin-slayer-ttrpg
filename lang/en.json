@@ -19,7 +19,8 @@
       "armor": {
         "sco": "Armor Score",
         "dod": "Dodge Mod",
-        "mov": "Move Mod"
+        "mov": "Move Mod",
+        "hea": "Heavy"
       },
       "shield": {
         "mod": "Block Mod",

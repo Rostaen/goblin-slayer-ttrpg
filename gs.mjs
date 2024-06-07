@@ -4,7 +4,6 @@ import GSActorSheet from "./module/sheets/GSActorSheet.mjs";
 import { GSActor } from "./module/documents/GSActor.mjs";
 import { preloadHandlebarsTemplates } from "./module/helpers/templates.mjs";
 import { GSItem } from "./module/documents/GSItem.mjs";
-// import { TextEditor } from 'foundry.js';
 
 Hooks.once("init", () => {
 	game.gs = { GSActor }
