@@ -44,6 +44,52 @@ export class GSActor extends Actor {
         }
     }
 
+    // Updating Armor Score with Armor:XX skill bonus level
+    // Currently, only the top level armor will have this score applied to it if skill is present
+    _armorSkillCall(){
+        // TODO: Update for future "equipped" status.
+        const armorValues = {
+            cloth: this._getSkillBonus("Armor: Cloth"),
+            light: this._getSkillBonus("Armor: Light"),
+            heavy: this._getSkillBonus("Armor: Heavy"),
+        };
+        // If value is truthy
+        if(armorValues.cloth || armorValues.light || armorValues.heavy){
+            let armorWorn = this.items.filter(item => item.type.toLowerCase() === "armor");
+            // Is armor presently being worn?
+            if (armorWorn) {
+                if (armorValues.cloth > 0) armorWorn[0].system.score += armorValues.cloth;
+                else if (armorValues.light > 0) armorWorn[0].system.score += armorValues.light;
+                else if (armorValues.heavy > 0) armorWorn[0].system.score += armorValues.heavy;
+            }
+        }
+    }
+
+    // Adding bonus spells known based on skill level
+    _bonusSpellsKnownSkillCall(skill){
+        const skillValue = skill.system.value;
+        const spellDomain = skill.name.split(": ")[1];
+        console.log("---> Check made values:", skillValue, spellDomain);
+        switch(spellDomain.toLowerCase()){
+            case "words of true power":
+            case "words":
+            case "true power":
+                this.system.spellUse.totalSpellsKnown.sorc += skillValue;
+                break;
+            case "miracles":
+            case "miracle":
+                this.system.spellUse.totalSpellsKnown.prie += skillValue;
+                break;
+            case "ancestral dragon arts":
+            case "dragon arts":
+                this.system.spellUse.totalSpellsKnown.dPri += skillValue;
+                break;
+            case "spirit arts":
+                this.system.spellUse.totalSpellsKnown.sham += skillValue;
+                break;
+        }
+    }
+
     _checkFlags() {
         const flags = this.flags.gs;
         if (!flags) return;
@@ -211,6 +257,12 @@ export class GSActor extends Actor {
         }
 
         // TODO: Set a value for a non-existing field for max spells for each spell system
+        systemData.spellUse.totalSpellsKnown = {
+            "sorc": systemData.levels.classes.sorcerer,
+            "prie": systemData.levels.classes.priest,
+            "dPri": systemData.levels.classes.dragon,
+            "sham": systemData.levels.classes.shaman
+        };
 
         // Checking Flags for character sheet changes
         //this._checkFlags();
@@ -222,12 +274,21 @@ export class GSActor extends Actor {
         const actorSkills = this.items.filter(item => item.type === 'skill');
         for(const [id, skill] of Object.entries(actorSkills)){
             // Switching on skills to save processing time
-            // console.log("===> For Loop Skill Check", skill);
+            // console.log("===> For Loop Skill Check", skill.name);
             switch(skill.name){
                 case "Hardiness": // Setting 2x LifeForce + any Skills
                     hardinessBonus = this._hardinessSkillCall(); break;
                 case "Perseverance": // Setting EX Fatigue
                     this._perserveranceSkillCall(systemData); break;
+                case "Armor: Cloth":
+                case "Armor: Light":
+                case "Armor: Heavy":
+                    this._armorSkillCall(); break;
+                case "Bonus Spells: Words of True Power":
+                case "Bonus Spells: Miracles":
+                case "Bonus Spells: Ancestral Dragon Arts":
+                case "Bonus Spells: Spirit Arts":
+                    this._bonusSpellsKnownSkillCall(skill); break;
             }
         }
 
@@ -311,24 +372,6 @@ export class GSActor extends Actor {
         }
         systemData.modMove = movePen;
 
-        // Updating ArmorScore if skill: Armor:XX is present
-        // Currently, only the top level armor will have this score applied to it if skill is present
-        // TODO: Update for future "equipped" status.
-        const armorValues = {
-            cloth: this._getSkillBonus("Armor: Cloth"),
-            light: this._getSkillBonus("Armor: Light"),
-            heavy: this._getSkillBonus("Armor: Heavy"),
-        };
-        // If value is truthy
-        if(armorValues.cloth || armorValues.light || armorValues.heavy){
-            let armorWorn = this.items.filter(item => item.type.toLowerCase() === "armor");
-            // Is armor presently being worn?
-            if (armorWorn) {
-                if (armorValues.cloth > 0) armorWorn[0].system.score += armorValues.cloth;
-                else if (armorValues.light > 0) armorWorn[0].system.score += armorValues.light;
-                else if (armorValues.heavy > 0) armorWorn[0].system.score += armorValues.heavy;
-            }
-        }
     }
 
     _prepareMonsterData(actorData){

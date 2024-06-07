@@ -74,9 +74,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Anticipate
 - [x] Armor: XX
 - [ ] Binding Attack (Future update to affect targets and add conditions)
-- [ ] Bonus Spells: XX
-- [ ] Burst of Strength
-- [ ] Curved Shot
+- [x] Bonus Spells: XX
+- [x] Burst of Strength
+- [ ] Curved Shot (Future update to affect targets dodge/block checks)
 - [ ] Defensive
 - [ ] Dual Wielding
 - [ ] Encumbered Action

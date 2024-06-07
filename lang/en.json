@@ -337,7 +337,13 @@
       },
       "healingPrompt": {
         "healAmount": "Heal the following amount."
-      }
+      },
+      "burstOfStr": {
+        "title": "Burst of Strength Skill",
+        "header": "Fatigue for Power",
+        "label": "Enter a number of fatigue to spend for extra power. Maximum:"
+      },
+      "confirm": "Confirm"
     }
   }
 }

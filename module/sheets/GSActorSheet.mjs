@@ -116,7 +116,8 @@ export default class GSActorSheet extends ActorSheet{
 		return parseInt(rollMod, 10);
 	}
 
-	_setRollMessage(dice = "2d6", stat = 0, firstMod = 0, secondMod = 0, thirdMod = 0){
+	_setRollMessage(dice = "2d6", stat = 0, firstMod = 0, secondMod = 0, thirdMod = 0, fourthMod = 0){
+		console.log(">>> setRollMessage Check:", fourthMod);
 		let rollMessage = dice, fatigueMod;
 
 		if(this.actor.type === 'character')
@@ -136,6 +137,8 @@ export default class GSActorSheet extends ActorSheet{
 			rollMessage += ` + ${thirdMod}`;
 		else if(thirdMod < 0)
 			rollMessage += ` - ${Math.abs(thirdMod)}`;
+		if(fourthMod > 0 || fourthMod !== "")
+			rollMessage += ` + ${fourthMod}`;
 		if(fatigueMod < 0)
 			rollMessage += ` - ${Math.abs(fatigueMod)}`;
 		return rollMessage;
@@ -221,6 +224,31 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	// Updates current fatigue rank by 1
+	async _updateFatigue(rank){
+		const fatigueMin = `system.fatigue.${rank}.min`;
+		const fatigueMarked = `system.fatigue.${rank}.marked`;
+		const currentMin = this.actor.system.fatigue[rank].min;
+
+		await this.actor.update({
+			[fatigueMin]: currentMin + 1,
+			[`${fatigueMarked}.${currentMin + 1}`]: true
+		});
+	}
+
+	// Checks through fatigue ranks to find rank now maxed out yet
+	async _checkFatigueRanks(){
+		const ranks = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5'];
+		for(const rank of ranks){
+			const currentMin = this.actor.system.fatigue[rank].min;
+			const max = this.actor.system.fatigue[rank].max;
+			if(currentMin < max){
+				await this._updateFatigue(rank);
+				break;
+			}
+		}
+	}
+
 	_updateAttritionFlag = async (event) => {
 		event.preventDefault();
 		const element = event.currentTarget;
@@ -244,31 +272,6 @@ export default class GSActorSheet extends ActorSheet{
             }
         }
 
-		// Updates current fatigue rank by 1
-		const updateFatigue = async (rank) => {
-			const fatigueMin = `system.fatigue.${rank}.min`;
-            const fatigueMarked = `system.fatigue.${rank}.marked`;
-            const currentMin = this.actor.system.fatigue[rank].min;
-
-            await this.actor.update({
-                [fatigueMin]: currentMin + 1,
-                [`${fatigueMarked}.${currentMin + 1}`]: true
-            });
-        };
-
-		// Checks through fatigue ranks to find rank now maxed out yet
-        const checkFatigueRanks = async () => {
-			const ranks = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5'];
-			for(const rank of ranks){
-				const currentMin = this.actor.system.fatigue[rank].min;
-				const max = this.actor.system.fatigue[rank].max;
-				if(currentMin < max){
-					await updateFatigue(rank);
-					break;
-				}
-			}
-        };
-
 		// Updating checkbox
 		this.actor.update({
 			[`system.attrition.${checkBoxNum - 1}`]: !systemData.attrition[checkBoxNum - 1]
@@ -278,12 +281,12 @@ export default class GSActorSheet extends ActorSheet{
 		if(boxHasAttrition){
 			// Checking the state of actor and checkbox for fatigue
 			if(currentWounds < lifeForceHalf && attritionThresholds.includes(attritionLevel)){
-				await checkFatigueRanks();
+				await this._checkFatigueRanks();
 			}else if(currentWounds >= lifeForceHalf){
-				await checkFatigueRanks();
+				await this._checkFatigueRanks();
 				if(attritionThresholds.includes(attritionLevel)){
 					setTimeout(async () => {
-						await checkFatigueRanks();
+						await this._checkFatigueRanks();
 					}, 100);
 				}
 			}
@@ -336,7 +339,8 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	async _rollsToMessage(dice, stat, classBonus, modifier, label, rollMod = 0){
+	async _rollsToMessage(dice, stat, classBonus, modifier, label, skillBonus = 0, rollMod = 0){
+		console.log(">>> rollsToMessage Check:", skillBonus);
 		let rollExpression = `${dice}`;
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
 
@@ -347,7 +351,7 @@ export default class GSActorSheet extends ActorSheet{
 		if(label === casting)
 			rollExpression = this._setRollMessage(dice, stat, classBonus, 0, rollMod);
 		else
-			rollExpression = this._setRollMessage(dice, stat, classBonus, modifier, rollMod);
+			rollExpression = this._setRollMessage(dice, stat, classBonus, modifier, rollMod, skillBonus);
 
 		try{
 			const roll = new Roll(rollExpression);
@@ -498,12 +502,12 @@ export default class GSActorSheet extends ActorSheet{
 		return bonus;
 	}
 
-	_rollWithModifiers(event, modSelector, baseDice, localizedMessage, itemType){
+	async _rollWithModifiers(event, modSelector, baseDice, localizedMessage, itemType){
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const actorType = this.actor.type;
 		const actorCalcStats = this.actor.system.abilities.calc;
-		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills;
+		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills, skillBonus = 0;
 
 		if (!container) {
 			console.error("Container with '.reveal-rollable' class not found.");
@@ -516,8 +520,10 @@ export default class GSActorSheet extends ActorSheet{
 			return;
 		}
 
-		if(actorType === 'character') diceNotation = modElement.textContent;
-		else if(actorType === 'monster') diceNotation = modElement.value;
+		if(actorType === 'character'){
+			diceNotation = modElement.textContent;
+			skills = this.actor.items.filter(item => item.type === 'skill');
+		}else if(actorType === 'monster') diceNotation = modElement.value;
 
 		// Getting monster to hit dice and modifiers (if any)
 		if((modSelector === '.hitMod' || modSelector === '.boss.dodge' ||
@@ -535,10 +541,42 @@ export default class GSActorSheet extends ActorSheet{
 		// Getting character elements ready
 		}else if(actorType === 'character'){
 			if(modSelector === '.power'){
+				// Breaking down weapon power for damage dice and +N modifiers, if any
 				const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
 				diceToRoll = powerDice.trim();
 				if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
 				else modifier = powerMod;
+
+				// Checking if character has monk levels and burst of strength skill
+				if(this.actor.system.levels.classes.monk > 0){
+					const typeHolder = this._getItemType(container);
+					let [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+					if(type === 'close-combat'){
+						for(const skill of skills){
+							// console.log(">>> Checking skills", skill.name);
+							if(skill.name.toLowerCase() === 'burst of strength'){
+								switch(skill.system.value){
+									case 1: skillBonus = 1; break;
+									case 2: skillBonus = 2; break;
+									case 3: skillBonus = "1d3"; break;
+									case 4:
+									case 5: skillBonus = "1d6"; break;
+								}
+								const powerBonus = await this._promptFatigueForPower();
+								if(powerBonus > 0){
+									for(let x = 0; x < powerBonus; x++)
+										await this._checkFatigueRanks();
+									if(skill.system.value <= 2)
+										skillBonus += powerBonus;
+									else if(skill.system.value <= 4)
+										skillBonus += `+${powerBonus}`;
+									else
+										skillBonus += `+${powerBonus * 2}`;
+								}
+							}
+						}
+					}
+				}
 			}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
 					 modSelector === '.blockMod' || modSelector === '.spellDif'){
 				modifier = parseInt(modElement.textContent, 10);
@@ -583,7 +621,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		// console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
 
-		this._rollsToMessage(diceToRoll, stat, classBonus, modifier, localizedMessage);
+		this._rollsToMessage(diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
 	}
 
 	_rollMinionStatic(event){
@@ -787,6 +825,40 @@ export default class GSActorSheet extends ActorSheet{
 				ui.notifications.warn(`${classType[0]} was not found in the boss' classes.`);
 				return;
 		}
+	}
+
+	_promptFatigueForPower(){
+		return new Promise ((resolve) => {
+			let dialogContent, promptTitle, buttonOne, buttonTwo;
+
+			dialogContent = `
+				<h3>${game.i18n.localize("gs.dialog.burstOfStr.header")}</h3>
+				<p>${game.i18n.localize("gs.dialog.burstOfStr.label")} ${this.actor.system.abilities.primary.psy}</p>
+				<input type="test" class="burstSkill" style="margin-bottom: 10px;" />`;
+			promptTitle = game.i18n.localize("gs.dialog.burstOfStr.title");
+			buttonOne = {
+				label: game.i18n.localize('gs.dialog.confirm'),
+				callback: (html) => {
+					let amount;
+					resolve(
+						amount = parseInt(html.find('.burstSkill')[0].value, 10)
+					);
+				}
+			};
+			buttonTwo = {
+				label: game.i18n.localize("gs.dialog.cancel"),
+				callback: () => {
+					resolve(0);
+				}
+			};
+			new Dialog({
+				title: promptTitle,
+				content: dialogContent,
+				buttons: { buttonOne: buttonOne, buttonTwo: buttonTwo },
+				default: "buttonOne",
+				close: () => "",
+			}).render(true);
+		});
 	}
 
 	_promptStealthChoice(promptType, promptName = ''){
