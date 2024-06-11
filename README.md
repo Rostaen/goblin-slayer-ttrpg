@@ -77,7 +77,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Bonus Spells: XX
 - [x] Burst of Strength
 - [ ] Curved Shot (Future update to affect targets dodge/block checks)
-- [0] Defensive (May not need auto intergration for this skill)
+- [ ] Defensive (May not need auto intergration for this skill)
 - [x] Dual Wielding (Use misc modifiers for this skill)
 - [x] Encumbered Action
 - [ ] Enhance Spells: Power (Future update spell damage rolls)
