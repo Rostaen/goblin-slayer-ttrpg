@@ -1,7 +1,5 @@
-2024/06/10-11:21:37.357 3a14 Recovering log #181
-2024/06/10-11:21:37.362 3a14 Delete type=0 #181
-2024/06/10-11:21:37.362 3a14 Delete type=3 #180
-2024/06/10-11:27:16.852 45d8 Level-0 table #185: started
-2024/06/10-11:27:16.852 45d8 Level-0 table #185: 0 bytes OK
-2024/06/10-11:27:16.854 45d8 Delete type=0 #183
-2024/06/10-11:27:16.854 45d8 Manual compaction at level-0 from '!folders!Qlnrra2ECXr8UZIJ' @ 72057594037927935 : 1 .. '!items!y6UZlHEO1WanYV6V' @ 0 : 0; will stop at (end)
+2024/06/11-09:27:12.464 19d0 Log #187: 0 ops saved to Table #188 OK
+2024/06/11-09:27:12.464 19d0 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/000187.log: OK
+2024/06/11-09:27:12.464 19d0 Table #171: 23 entries OK
+2024/06/11-09:27:12.465 19d0 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor/MANIFEST-000186: OK
+2024/06/11-09:27:12.468 19d0 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\armor; recovered 1 files; 6519 bytes. Some data may have been lost. ****

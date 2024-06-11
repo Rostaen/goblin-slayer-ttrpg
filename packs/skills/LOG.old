@@ -1,7 +1,5 @@
-2024/06/10-11:21:37.346 153c Recovering log #188
-2024/06/10-11:21:37.351 153c Delete type=0 #188
-2024/06/10-11:21:37.352 153c Delete type=3 #187
-2024/06/10-11:27:16.850 45d8 Level-0 table #192: started
-2024/06/10-11:27:16.850 45d8 Level-0 table #192: 0 bytes OK
-2024/06/10-11:27:16.852 45d8 Delete type=0 #190
-2024/06/10-11:27:16.854 45d8 Manual compaction at level-0 from '!folders!0vY2ifDflIY066On' @ 72057594037927935 : 1 .. '!items!zjj9JSBDaJxXPeJw' @ 0 : 0; will stop at (end)
+2024/06/11-09:27:12.434 1454 Log #194: 0 ops saved to Table #195 OK
+2024/06/11-09:27:12.435 1454 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/000194.log: OK
+2024/06/11-09:27:12.435 1454 Table #178: 73 entries OK
+2024/06/11-09:27:12.439 1454 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/MANIFEST-000193: OK
+2024/06/11-09:27:12.452 1454 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills; recovered 1 files; 52580 bytes. Some data may have been lost. ****

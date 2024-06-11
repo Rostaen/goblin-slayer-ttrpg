@@ -187,7 +187,8 @@
         "bron": "Bronze",
         "piec": "Pieces",
         "heal": "Heal",
-        "track": "Track"
+        "aTrack": "Attrition Track",
+        "dc": "DC"
       },
       "monster": {
         "type": "Type",

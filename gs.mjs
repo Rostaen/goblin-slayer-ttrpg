@@ -54,15 +54,19 @@ Handlebars.registerHelper('stripTags', (text) => {
 });
 
 // Returns the description of the Skill rank for diplaying in PC Skills tab.
-Handlebars.registerHelper('getSkillRangeText', (object, value) => {
-	let skillLevel = "";
-	// TODO: Will need future checks for levels and ranks to allow higher rank levels
-	if(value == 1) skillLevel = object.system.beginner;
-	else if(value == 2) skillLevel = object.system.intermediate;
-	else if(value == 3) skillLevel = object.system.expert;
-	else if(value == 4) skillLevel = object.system.master;
-	else if(value == 5) skillLevel = object.system.legend;
-	else return "Rank Value must be a number and greater than 0 and less than 3 (Gen) or 5 (Adv).";
+Handlebars.registerHelper('getSkillRangeText', (object, value, skillType) => {
+	const levels = ['beginner', 'intermediate', 'expert', 'master', 'legend'];
+
+	// Determine the maximum value based on skillType
+	const maxLevel = skillType === 'adv' ? 5 : (skillType === 'gen' ? 3 : 0);
+
+	// Validate the value
+	if (value < 1 || value > maxLevel) {
+		return `Rank Value must be a number between 1 and ${maxLevel}.`;
+	}
+
+	// Get the corresponding skill level text
+	let skillLevel = object.system[levels[value - 1]];
 
 	// Remove wrapping paragraph/span tags
 	skillLevel = skillLevel.replace(/^<p>/, '').replace(/<\/p>$/, '');

@@ -73,16 +73,16 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Alert
 - [x] Anticipate
 - [x] Armor: XX
-- [ ] Binding Attack (Future update to affect targets and add conditions)
+- [-] Binding Attack (Future update to affect targets and add conditions)
 - [x] Bonus Spells: XX
 - [x] Burst of Strength
-- [ ] Curved Shot (Future update to affect targets dodge/block checks)
-- [ ] Defensive (May not need auto intergration for this skill)
+- [-] Curved Shot (Future update to affect targets dodge/block checks)
+- [0] Defensive (May not need auto intergration for this skill)
 - [x] Dual Wielding (Use misc modifiers for this skill)
 - [x] Encumbered Action
-- [ ] Enhance Spells: Power (Future update spell damage rolls)
-- [x] First Aid
-- [ ] Guard (May not need auto intergration for this skill)
+- [-] Enhance Spells: Power (Future update spell damage rolls)
+- [-] First Aid (Add skill to healing amount when implemented)
+- [0] Guard (May not need auto intergration for this skill)
 - [ ] Handiwork
 - [x] Hardiness
 - [ ] Healing Affinity

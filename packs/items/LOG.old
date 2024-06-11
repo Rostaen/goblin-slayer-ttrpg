@@ -1,7 +1,5 @@
-2024/06/10-11:21:37.311 3a14 Recovering log #185
-2024/06/10-11:21:37.316 3a14 Delete type=0 #185
-2024/06/10-11:21:37.317 3a14 Delete type=3 #184
-2024/06/10-11:27:16.845 45d8 Level-0 table #189: started
-2024/06/10-11:27:16.845 45d8 Level-0 table #189: 0 bytes OK
-2024/06/10-11:27:16.847 45d8 Delete type=0 #187
-2024/06/10-11:27:16.854 45d8 Manual compaction at level-0 from '!items!04KosICX9SjwDDhz' @ 72057594037927935 : 1 .. '!items!znuXeSYnkKR7Ai0z' @ 0 : 0; will stop at (end)
+2024/06/11-09:27:12.368 1454 Log #191: 0 ops saved to Table #192 OK
+2024/06/11-09:27:12.369 1454 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\items/000191.log: OK
+2024/06/11-09:27:12.369 1454 Table #155: 97 entries OK
+2024/06/11-09:27:12.371 1454 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\items/MANIFEST-000190: OK
+2024/06/11-09:27:12.374 1454 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\items; recovered 1 files; 39985 bytes. Some data may have been lost. ****

@@ -12,7 +12,7 @@
                     <div class="skillImageCont"><img src="{{item.img}}" alt="{{item.name}}"></div>
                     <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contextType="skill" >{{item.name}}</div>
                     <div class="bonus grid-span-4">
-                        {{getSkillRangeText item item.system.value}}
+                        {{getSkillRangeText item item.system.value 'adv'}}
                         {{!-- {{#if (eq item.system.value 1)}}
                             {{item.system.enrichedText.beginner}}
                         {{else if (eq item.system.value 2)}}
@@ -45,7 +45,7 @@
                     <img src="{{item.img}}" alt="{{item.name}}">
                     <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contexttype="skill" >{{item.name}}</div>
                     <div class="bonus grid-span-4">
-                        {{getSkillRangeText item item.system.value}}
+                        {{getSkillRangeText item item.system.value 'gen'}}
                         {{!-- {{#if (eq item.system.value 1)}}
                             {{item.system.enrichedText.beginner}}
                         {{else if (eq item.system.value 2)}}

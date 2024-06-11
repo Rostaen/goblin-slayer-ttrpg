@@ -1,7 +1,5 @@
-2024/06/10-11:21:37.322 3f00 Recovering log #188
-2024/06/10-11:21:37.328 3f00 Delete type=0 #188
-2024/06/10-11:21:37.328 3f00 Delete type=3 #187
-2024/06/10-11:27:16.847 45d8 Level-0 table #192: started
-2024/06/10-11:27:16.848 45d8 Level-0 table #192: 0 bytes OK
-2024/06/10-11:27:16.849 45d8 Delete type=0 #190
-2024/06/10-11:27:16.854 45d8 Manual compaction at level-0 from '!folders!5CwVSa9i3zi9EIiI' @ 72057594037927935 : 1 .. '!items!ziXu30TRsCzTEVU3' @ 0 : 0; will stop at (end)
+2024/06/11-09:27:12.387 19d0 Log #194: 0 ops saved to Table #195 OK
+2024/06/11-09:27:12.388 19d0 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/000194.log: OK
+2024/06/11-09:27:12.389 19d0 Table #158: 135 entries OK
+2024/06/11-09:27:12.392 19d0 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/MANIFEST-000193: OK
+2024/06/11-09:27:12.395 19d0 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells; recovered 1 files; 154197 bytes. Some data may have been lost. ****

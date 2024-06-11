@@ -1,7 +1,5 @@
-2024/06/10-11:21:37.378 b10 Recovering log #174
-2024/06/10-11:21:37.384 b10 Delete type=0 #174
-2024/06/10-11:21:37.384 b10 Delete type=3 #173
-2024/06/10-11:27:16.862 45d8 Level-0 table #178: started
-2024/06/10-11:27:16.862 45d8 Level-0 table #178: 0 bytes OK
-2024/06/10-11:27:16.864 45d8 Delete type=0 #176
-2024/06/10-11:27:16.864 45d8 Manual compaction at level-0 from '!folders!V24DOlpEiS441EH7' @ 72057594037927935 : 1 .. '!items!jnMujlm1uTTWEygo' @ 0 : 0; will stop at (end)
+2024/06/11-09:27:12.492 1454 Log #180: 0 ops saved to Table #181 OK
+2024/06/11-09:27:12.493 1454 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields/000180.log: OK
+2024/06/11-09:27:12.493 1454 Table #144: 12 entries OK
+2024/06/11-09:27:12.494 1454 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields/MANIFEST-000179: OK
+2024/06/11-09:27:12.496 1454 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields; recovered 1 files; 5489 bytes. Some data may have been lost. ****

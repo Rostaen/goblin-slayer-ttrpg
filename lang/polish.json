@@ -187,7 +187,8 @@
         "bron": "Brąz",
         "piec": "Fragmenty",
         "heal": "Leczenie",
-        "track": "Ślad"
+        "aTrack": "Wyczerpanie",
+        "dc": "ST"
       },
       "monster": {
         "type": "Typ",

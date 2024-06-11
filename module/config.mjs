@@ -16,12 +16,12 @@ gs.gear = {
 		hit: "gs.gear.weapons.hit",
 		ran: "gs.gear.weapons.ran",
 		range: {
-			"5m": 5,
-			"10m": 10,
-			"20m": 20,
-			"30m": 30,
-			"60m": 60,
-			"120m": 120
+			"5m": "5",
+			"10m": "10",
+			"20m": "20",
+			"30m": "30",
+			"60m": "60",
+			"120m": "120"
 		}
 	},
 	armor: {
@@ -221,7 +221,8 @@ gs.actor = {
 			silv: "gs.actor.character.silv",
 			bron: "gs.actor.character.bron",
 			piec: "gs.actor.character.piec"
-		}
+		},
+		dc: "gs.actor.character.dc"
 	},
 	monster: {
 		type: "gs.actor.monster.type",
