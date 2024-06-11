@@ -89,6 +89,18 @@ export class GSActor extends Actor {
         }
     }
 
+    // Returns skill bonus value
+    _getSkillBonus(skillName){
+		const skills = this.items.filter(item => item.type === 'skill');
+		if(skills.length){
+			const skillBonusValue = skills.filter(skill => skill.name.toLowerCase() === skillName.toLowerCase());
+			if(skillBonusValue.length){
+				return parseInt(skillBonusValue[0].system.value, 10);
+			}else
+				return 0;
+		}
+	}
+
     _checkFlags() {
         const flags = this.flags.gs;
         if (!flags) return;
@@ -367,7 +379,7 @@ export class GSActor extends Actor {
         let movePen = systemData.move;
         const armor = actorData.items.filter(item => item.type === 'armor');
         if(armor.length){
-            if(armor[0].system.heavy.value && this.system.abilities.calc.se >= armor[0].system.heavy.y){
+            if(armor[0].system.heavy.value && (this.system.abilities.calc.se + this._getSkillBonus('Encumbered Action')) >= armor[0].system.heavy.y){
                 movePen += Math.floor(parseInt(armor[0].system.move, 10) / 2);
             }else
                 movePen += parseInt(armor[0].system.move, 10);

@@ -1,3 +1,7 @@
-2024/06/07-14:26:01.413 fec Recovering log #168
-2024/06/07-14:26:01.418 fec Delete type=0 #168
-2024/06/07-14:26:01.418 fec Delete type=3 #167
+2024/06/10-11:21:37.334 b10 Recovering log #190
+2024/06/10-11:21:37.339 b10 Delete type=0 #190
+2024/06/10-11:21:37.339 b10 Delete type=3 #189
+2024/06/10-11:27:16.858 45d8 Level-0 table #194: started
+2024/06/10-11:27:16.858 45d8 Level-0 table #194: 0 bytes OK
+2024/06/10-11:27:16.860 45d8 Delete type=0 #192
+2024/06/10-11:27:16.864 45d8 Manual compaction at level-0 from '!actors!0VE0foQa487q8OCG' @ 72057594037927935 : 1 .. '!folders!z2UyaynphsbOdQdD' @ 0 : 0; will stop at (end)

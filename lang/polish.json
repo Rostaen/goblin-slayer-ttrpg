@@ -19,7 +19,8 @@
       "armor": {
         "sco": "Wartość Pancerza",
         "dod": "Mod Uniku",
-        "mov": "Mod Ruchu"
+        "mov": "Mod Ruchu",
+        "hea": "Ciężki"
       },
       "shield": {
         "mod": "Mod Parowania",
@@ -331,13 +332,20 @@
           "specRolls": "Spec. Rzuty",
           "buttons": {
             "6sense": "Szósty Zmysł",
-            "luck": "Szczęście"
+            "luck": "Szczęście",
+            "firstAid": "Pierwsza Pomoc"
           }
         }
       },
       "healingPrompt": {
         "healAmount": "Wylecz daną wartość."
-      }
+      },
+      "burstOfStr": {
+        "title": "Umiejętność 'Wybuch Siły'",
+        "header": "Zmęczenie dla Mocy",
+        "label": "Wprowadź liczbę punktów zmęczenia do wydania na dodatkową moc. Maksimum:"
+      },
+      "confirm": "Potwierdź"
     }
   }
 }

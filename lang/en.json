@@ -332,7 +332,8 @@
           "specRolls": "Special Rolls",
           "buttons": {
             "6sense": "Sixth Sense",
-            "luck": "Luck"
+            "luck": "Luck",
+            "firstAid": "First Aid"
           }
         }
       },

@@ -67,7 +67,7 @@
         "current": 0,
         "completed": 0
       },
-      "advancePoints": 15,
+      "advancePoints": 10,
       "spellUse": {
         "value": 0,
         "min": 0,
@@ -277,7 +277,7 @@
     "templates": {
       "common": {
         "type": "",
-        "value": 0,
+        "value": 1,
         "effects": "",
         "stealth": "",
         "comment": ""

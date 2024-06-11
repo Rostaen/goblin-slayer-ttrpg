@@ -101,10 +101,11 @@ export default class GSActorSheet extends ActorSheet{
 	_getSkillBonus(skillName){
 		const skills = this.actor.items.filter(item => item.type === 'skill');
 		if(skills.length){
-			const skillBonusValue = skills.filter(skill => skill.name.toLowerCase() === skillName);
+			const skillBonusValue = skills.filter(skill => skill.name.toLowerCase() === skillName.toLowerCase());
 			if(skillBonusValue.length){
 				return parseInt(skillBonusValue[0].system.value, 10);
-			}
+			}else
+				return 0;
 		}
 	}
 
@@ -275,7 +276,10 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Checking if character is wearing heavy armor and if Str End is less than value, true? +1 fatigue
 		const checkIfHeavy = async (armorWorn) => {
-			if(armorWorn.value && this.actor.system.abilities.calc.se < armorWorn.x){
+			const skills = this.actor.items.filter(item => item.type === 'skill');
+			let encActionSkillValue = this._getSkillBonus('Encumbered Action');
+
+			if(armorWorn.value && (this.actor.system.abilities.calc.se + encActionSkillValue) < armorWorn.x){
 				setTimeout(async () => {
 					await this._checkFatigueRanks();
 				}, 200);
@@ -300,7 +304,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_checkForCritRolls(diceResults, label){
+	_checkForCritRolls(diceResults, label=""){
 		if(diceResults.length === 2){
 			let skills, skillValue, critSuccess = 12, critFail = 2, results = [];
 			const actorType = this.actor.type;
@@ -321,6 +325,7 @@ export default class GSActorSheet extends ActorSheet{
 				// Checking over each character skill to modify success rates
 				for(const skill of skills){
 					skillValue = skill.system.value;
+					console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), label);
 					switch(`${skill.name.toLowerCase()}-${label.toLowerCase()}`){
 						case 'alert-dodge':
 							setCritValues(skillValue);
@@ -351,7 +356,7 @@ export default class GSActorSheet extends ActorSheet{
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
 
 		// Getting roll modifiers from user
-		rollMod = await this._promptStealthChoice("rollMod", label);
+		rollMod = await this._promptMiscModChoice("rollMod", label);
 
 		// Setting up roll message
 		if(label === casting)
@@ -805,13 +810,16 @@ export default class GSActorSheet extends ActorSheet{
 				this._rollInitiative(event);
 				break;
 			case 'stealthCheck':
-				this._promptStealthChoice("stealth");
+				this._promptMiscModChoice("stealth");
 				break;
 			case 'sixthSense':
 				this._sixthSenseRoll(event);
 				break;
 			case 'luck':
-				this._luckRoll(event);
+				this._specialRolls(event, 'luck', 'Sixth Sense');
+				break;
+			case 'firstAid':
+				this._specialRolls(event, 'firstAid', 'First Aid');
 				break;
 
 			// Monster checks/rolls
@@ -871,7 +879,7 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	_promptStealthChoice(promptType, promptName = ''){
+	_promptMiscModChoice(promptType, promptName = ''){
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo;
 
@@ -985,7 +993,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(actorType === 'character'){
 			const skill = this.actor.items.filter(item => item.type === 'skill');
-			const rollMod = await this._promptStealthChoice("rollMod", game.i18n.localize('gs.actor.common.init'));
+			const rollMod = await this._promptMiscModChoice("rollMod", game.i18n.localize('gs.actor.common.init'));
 			if(skill.length){
 				const anticipate = skill.filter(skill => skill.name.toLowerCase() === "anticipate");
 				if(anticipate.length){
@@ -1018,6 +1026,23 @@ export default class GSActorSheet extends ActorSheet{
 		this._sendRollMessage(rollMessage, `${game.i18n.localize("gs.actor.common.init")}`);
 	}
 
+	async _sendRollMessage(rollMessage, flavorMessage){
+		try{
+			const roll = new Roll(rollMessage);
+			await roll.evaluate();
+
+			const diceResults = roll.terms[0].results.map(r => r.result);
+			const status = this._checkForCritRolls(diceResults);
+
+			await roll.toMessage({
+				speaker: ChatMessage.getSpeaker({actor: this.actor}),
+				flavor: `${game.i18n.localize("gs.dialog.rolling")} ${flavorMessage} ${status[1]}`,
+			});
+		} catch (error) {
+			console.error("Error evaluating roll:", error);
+		}
+	}
+
 	async _sixthSenseRoll(event){
 		event.preventDefault();
 		const actorData = this.actor.system;
@@ -1036,37 +1061,21 @@ export default class GSActorSheet extends ActorSheet{
 			classBonus = parseInt(actorClasses.shaman, 10);
 		}
 
-		const rollMod = await this._promptStealthChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.6sense'));
+		const rollMod = await this._promptMiscModChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.6sense'));
 		const rollMessage = this._setRollMessage("2d6", stat, classBonus, skillBonus, rollMod);
 
 		this._sendRollMessage(rollMessage, `${game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.6sense")}`);
 	}
 
-	async _sendRollMessage(rollMessage, flavorMessage){
-		try{
-			const roll = new Roll(rollMessage);
-			await roll.evaluate();
-
-			const diceResults = roll.terms[0].results.map(r => r.result);
-			const status = this._checkForCritRolls(diceResults);
-
-			await roll.toMessage({
-				speaker: ChatMessage.getSpeaker({actor: this.actor}),
-				flavor: `${game.i18n.localize("gs.dialog.rolling")} ${flavorMessage} ${status[1]}`,
-			});
-		} catch (error) {
-			console.error("Error evaluating roll:", error);
-		}
-	}
-
-	async _luckRoll(event){
+	async _specialRolls(event, rollType, skillName){
 		event.preventDefault();
+		const dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
 
-		const rollMod = await this._promptStealthChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.luck'));
-		const skillBonus = this._getSkillBonus("Sixth Sense");
+		const rollMod = await this._promptMiscModChoice("rollMod", dialogMessage);
+		const skillBonus = this._getSkillBonus(skillName);
 		const rollMessage = this._setRollMessage('2d6', 0, 0, skillBonus, rollMod);
 
-		this._sendRollMessage(rollMessage, `${game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.luck")}`);
+		this._sendRollMessage(rollMessage, dialogMessage);
 	}
 
 	contextMenu = [
