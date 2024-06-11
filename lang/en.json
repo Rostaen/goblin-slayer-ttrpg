@@ -332,7 +332,7 @@
         "sidebar": {
           "specRolls": "Special Rolls",
           "buttons": {
-            "6sense": "Sixth Sense",
+            "sixthSense": "Sixth Sense",
             "luck": "Luck",
             "firstAid": "First Aid"
           }

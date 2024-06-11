@@ -86,18 +86,21 @@ export default class GSActorSheet extends ActorSheet{
 
 	activateListeners(html){
 		super.activateListeners(html);
-		// html.find(".topArea").update(this._inheritRaceSkills.bind(this));
 		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
 		html.find(".attritionCBox").off('click').click(this._updateAttritionFlag.bind(this));
-		// html.find(".fatigueCBox").click(this._updateFatigue.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
+	/**
+	 * Looks for a given skill name in the actor's list of items to retrieve the value associated with the current skill level
+	 * @param {string} skillName Name of the skill to be searched for, not case sensitive
+	 * @returns The value (level) of the given skill
+	 */
 	_getSkillBonus(skillName){
 		const skills = this.actor.items.filter(item => item.type === 'skill');
 		if(skills.length){
@@ -109,11 +112,27 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	/**
+	 * Looks for the 'target' piece of HTML code inside of the 'html' sent to the method
+	 * @param {*} html Large chunk of HTML to be search over for the target
+	 * @param {string} target The target to be found inside of the HTML
+	 * @returns The value associated with the target
+	 */
 	_getRollMod(html, target){
 		const rollMod = html.find(`${target}`)[0].value;
 		return parseInt(rollMod, 10);
 	}
 
+	/**
+	 * Prepares the roll message with all associated bonus. The message will resemble this: "2d6 + 1 + 2 +/- 3 + 4 - 5"
+	 * @param {string} dice The amount of dice that is being rolled.
+	 * @param {int} stat The ability score bonus that should be used.
+	 * @param {int} firstMod Class bonus for given roll.
+	 * @param {int} secondMod Bonus from weapons/armor/shields/etc.
+	 * @param {int} thirdMod Extra modifier from prompt.
+	 * @param {int} fourthMod TBD
+	 * @returns Roll message to be evaluated by Foundry.
+	 */
 	_setRollMessage(dice = "2d6", stat = 0, firstMod = 0, secondMod = 0, thirdMod = 0, fourthMod = 0){
 		console.log(">>> setRollMessage Check:", fourthMod);
 		let rollMessage = dice, fatigueMod;
@@ -177,11 +196,6 @@ export default class GSActorSheet extends ActorSheet{
 			raceItem.update({
 				'system.skills': skills
 			});
-			// .then(updatedItem => {
-			// 	console.log("Skill updated:", updatedItem.system.skills[skillIndex]);
-			// }).catch(error => {
-			// 	console.error("Error updating racial skill:", error);
-			// });
 		}else if(skillType === 'earned'){
 			const skill = items.get(skillId);
 			if(!skill){
@@ -191,11 +205,6 @@ export default class GSActorSheet extends ActorSheet{
 			skill.update({
 				'system.value': rank
 			});
-			// .then(updatedSkill => {
-			// 	console.log("Skill updated:", updatedSkill.system);
-			// }).catch(error => {
-			// 	console.error("Error updating earned skill:", error);
-			// });
 		}else{
 			console.error("Unknown skill type:", skillType);
 		}
@@ -439,12 +448,22 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	/**
+	 * Simple method to find the hidden input item type and return it for filtering purposes
+	 * @param {html} container The HTML container
+	 * @returns Hidden input item type
+	 */
 	_getItemType(container){
 		return container.querySelector('input[type="hidden"].type');
 	}
 
+	/**
+	 * Sorts through item/spell to help determin what class level to use for the bonus and apply it to the roll message
+	 * @param {string} typeHolder The Type of the item/spell being used with a variety of information for items or spell name
+	 * @param {string} itemType Either weapon/armor/shield/cast to help decide how to proceed ahead with calculations
+	 * @returns The bonus for the class level of the item/spell being used
+	 */
 	_getClassLevelBonus(typeHolder, itemType){
-		// console.log("Check Class Level Bonus", typeHolder, itemType);
 		let [type, weight] = "";
 		if(itemType != 'cast') {
 			[type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
@@ -513,6 +532,15 @@ export default class GSActorSheet extends ActorSheet{
 		return bonus;
 	}
 
+	/**
+	 * Gathers specific information for character or monster rolls and then sends the message out to the chat window
+	 * @param {*} event The click event
+	 * @param {string} modSelector They type of modifier to be used such at hit/block/dodge checks, power/damage attacks, etc.
+	 * @param {string} baseDice Dice to be used in the roll, usually either: 1d3, 1d6, or 2d6, can be more in future updates
+	 * @param {string} localizedMessage Message to be used in the flavor text of the roll and chat window
+	 * @param {string} itemType Help determine if the roll is part of a weapon/armor/shield for characters, otherwise ignored
+	 * @returns Nothing, used to break the method early in certain cases
+	 */
 	async _rollWithModifiers(event, modSelector, baseDice, localizedMessage, itemType){
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
@@ -642,6 +670,11 @@ export default class GSActorSheet extends ActorSheet{
 		this._rollsToMessage(diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
 	}
 
+	/**
+	 * A simple method that pushes static minion data to the chat window
+	 * @param {*} event The click event
+	 * @returns Nothing and break out of the method early if nothing is found
+	 */
 	_rollMinionStatic(event){
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
@@ -688,6 +721,11 @@ export default class GSActorSheet extends ActorSheet{
 		this._sendBasicMessage(amount, message);
 	}
 
+	/**
+	 * Prompts the user with a window to set the amount of healing to be done
+	 * @param {string} healType Helps determin what language to use in the prompt: healAttrition or healFatigue
+	 * @returns A value to be used to heal the selected track
+	 */
 	_promptHealingAmount(healType){
 		let healingTitle = game.i18n.localize('gs.actor.character.heal') + " ";
 		if(healType === 'healAttrition')
@@ -728,6 +766,10 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	/**
+	 * The method will either heal Attrition or Fatigue based on the parameter sent in.
+	 * @param {string} healType The word to heal either attrition or fatigue
+	 */
 	async _healAttrFatigue(healType){
 		let amountToHeal = await this._promptHealingAmount(healType);
 
@@ -780,71 +822,49 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	/**
+	 * A sorting function for actor sheet rolls
+	 * @param {*} event The click event
+	 */
 	_actorRolls(event){
-		const classType = event.currentTarget.classList;
-		switch(classType[1]){
-			// PC Character checks/rolls
-			case 'toHit':
-				this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
-				break;
-			case 'damage':
-				this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
-				break;
-			case 'avoid':
-				this._rollWithModifiers(event, '.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
-				break;
-			case 'block':
-				this._rollWithModifiers(event, '.blockMod', '2d6', game.i18n.localize('gs.actor.character.block'), 'shield');
-				break;
-			case 'charSR':
-				this._rollWithModifiers(event, '.spellRes', '2d6', game.i18n.localize('gs.actor.common.spRe'), 'resistance');
-				break;
-			case 'spellCast':
-				this._rollWithModifiers(event, '.spellDif', '2d6', game.i18n.localize('gs.dialog.spells.spUse'), 'cast');
-				break;
-			case 'healAttrition':
-			case 'healFatigue':
-				this._healAttrFatigue(classType[1]);
-				break;
-			case 'initiative':
-				this._rollInitiative(event);
-				break;
-			case 'stealthCheck':
-				this._promptMiscModChoice("stealth");
-				break;
-			case 'sixthSense':
-				this._sixthSenseRoll(event);
-				break;
-			case 'luck':
-				this._specialRolls(event, 'luck', 'Sixth Sense');
-				break;
-			case 'firstAid':
-				this._specialRolls(event, 'firstAid', 'First Aid');
-				break;
+		const cssClassType = event.currentTarget.classList;
+		const classType = cssClassType[1];
 
-			// Monster checks/rolls
-			case 'bossHit':
-				this._rollWithModifiers(event, '.hitMod', '2d6', game.i18n.localize("gs.actor.character.hit"), 'weapon');
-				break;
-			case 'bossDodge':
-				this._rollWithModifiers(event, '.boss.dodge', '2d6', game.i18n.localize("gs.actor.character.dodge"), 'armor');
-				break;
-			case 'bossBlock':
-				this._rollWithModifiers(event, '.boss.block', '2d6', game.i18n.localize("gs.actor.character.block"), 'armor');
-				break;
-			case 'bossSR':
-				this._rollWithModifiers(event, '.boss.spellRes', '2d6', game.i18n.localize("gs.actor.common.spRe"), 'resistance');
-				break;
-			case 'mPower':
-				this._rollWithModifiers(event, '.power', '2d6', game.i18n.localize("gs.gear.spells.att"), 'weapon');
-				break;
+		const rollMappings = {
+			'toHit': { mod: '.hitMod', dice: '2d6', label: 'gs.actor.character.hit', type: 'weapon' },
+			'damage': { mod: '.power', dice: '2d6', label: 'gs.gear.spells.att', type: 'weapon' },
+			'avoid': { mod: '.dodge', dice: '2d6', label: 'gs.actor.character.dodge', type: 'armor' },
+			'block': { mod: '.blockMod', dice: '2d6', label: 'gs.actor.character.block', type: 'shield' },
+			'charSR': { mod: '.spellRes', dice: '2d6', label: 'gs.actor.common.spRe', type: 'resistance' },
+			'spellCast': { mod: '.spellDif', dice: '2d6', label: 'gs.dialog.spells.spUse', type: 'cast' },
+			'bossHit': { mod: '.hitMod', dice: '2d6', label: 'gs.actor.character.hit', type: 'weapon' },
+			'bossDodge': { mod: '.boss.dodge', dice: '2d6', label: 'gs.actor.character.dodge', type: 'armor' },
+			'bossBlock': { mod: '.boss.block', dice: '2d6', label: 'gs.actor.character.block', type: 'armor' },
+			'bossSR': { mod: '.boss.spellRes', dice: '2d6', label: 'gs.actor.common.spRe', type: 'resistance' },
+			'mPower': { mod: '.power', dice: '2d6', label: 'gs.gear.spells.att', type: 'weapon' }
+		};
 
-			default:
-				ui.notifications.warn(`${classType[0]} was not found in the boss' classes.`);
-				return;
+		const specialRolls = ['stealth', 'sixthSense', 'luck', 'firstAid', 'initiative'];
+    	const healActions = ['healAttrition', 'healFatigue'];
+
+		if (rollMappings[classType]) {
+			const { mod, dice, label, type } = rollMappings[classType];
+			this._rollWithModifiers(event, mod, dice, game.i18n.localize(label), type);
+		} else if (healActions.includes(classType)) {
+			this._healAttrFatigue(classType);
+		} else if (classType === 'initiative') {
+			this._rollInitiative(event);
+		} else if (specialRolls.includes(classType)) {
+			this._specialRolls(event, classType, classType.charAt(0).toUpperCase() + classType.slice(1).replace(/([A-Z])/g, ' $1').trim());
+		} else {
+			console.error(`GS _actorRolls || ${classType} was not found in the method.`);
 		}
 	}
 
+	/**
+	 * Prompts the Monk class user with a choice to use fatigue for extra damage during combat with the Burst of Strength skill
+	 * @returns A promised value depending on select amount and skill
+	 */
 	_promptFatigueForPower(){
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo;
@@ -879,6 +899,12 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	/**
+	 * Helps determine to prompt the user with either a Stealth or Misc Modifier message and get any roll modifiers not apart of skills or other variables.
+	 * @param {string} promptType Decides to prompt player with a Misc Modifier or Stealth Choice
+	 * @param {string} promptName Used with Misc Mod to help give flavor to the rolled message
+	 * @returns A promised value to be added to the roll message
+	 */
 	_promptMiscModChoice(promptType, promptName = ''){
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo;
@@ -943,6 +969,11 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	/**
+	 * Helps determine if a stealth roll is for long term and out of battle or in combat and hiding from enemies
+	 * @param {string} choice Determines wether to use Technique Endurance/Reflex for the given stealth roll
+	 * @param {int} rollMod Misc number adding to the stealh for various bonus/negative circumstances
+	 */
 	_handleStealthChoice(choice, rollMod = 0){
 		let stealthStat, skillBonus = 0, classBonus = 0, rollMessage, armorPenalties = 0;
 		const actorData = this.actor.system;
@@ -985,6 +1016,11 @@ export default class GSActorSheet extends ActorSheet{
 		this._sendRollMessage(rollMessage, `${game.i18n.localize("gs.dialog.stealth.output")}`);
 	}
 
+	/**
+	 * Helps roll initiative for both characters and monsters
+	 * @param {*} event The click event
+	 * @returns Nothing to break out of method early
+	 */
 	async _rollInitiative(event){
 		event.preventDefault();
 
@@ -992,14 +1028,8 @@ export default class GSActorSheet extends ActorSheet{
 		let anticipateBonus = 0, rollMessage = "2d6";
 
 		if(actorType === 'character'){
-			const skill = this.actor.items.filter(item => item.type === 'skill');
 			const rollMod = await this._promptMiscModChoice("rollMod", game.i18n.localize('gs.actor.common.init'));
-			if(skill.length){
-				const anticipate = skill.filter(skill => skill.name.toLowerCase() === "anticipate");
-				if(anticipate.length){
-					anticipateBonus = parseInt(anticipate[0].value, 10);
-				}
-			}
+			anticipateBonus = this._getSkillBonus('Anticipate');
 			if(anticipateBonus > 0)
 				rollMessage += ` + ${anticipateBonus}`;
 			if(rollMod > 0)
@@ -1026,6 +1056,11 @@ export default class GSActorSheet extends ActorSheet{
 		this._sendRollMessage(rollMessage, `${game.i18n.localize("gs.actor.common.init")}`);
 	}
 
+	/**
+	 * A basic method to send Rolled messages to the chat window
+	 * @param {string} rollMessage A string of characters to be evaluated: eg '2d6 + 2 - 1'
+	 * @param {string} flavorMessage A message to go along with the roll to understand what the roll is for
+	 */
 	async _sendRollMessage(rollMessage, flavorMessage){
 		try{
 			const roll = new Roll(rollMessage);
@@ -1043,41 +1078,85 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	async _sixthSenseRoll(event){
-		event.preventDefault();
-		const actorData = this.actor.system;
-		const actorStats = actorData.abilities.calc;
-		const actorClasses = actorData.levels.classes;
-		const stat = actorStats.ir; // Intelligence reflex bonus
-		const skillBonus = this._getSkillBonus("Sixth Sense"); // TODO: Check if this should get bonus from this skill
-		let classBonus = 0;
+	/**
+	 * Returns the highest class level bonus for a given special roll type
+	 * @param {string} rollType The type of roll being made
+	 * @returns Highest class level associated with the roll
+	 */
+	_specialRollsClassBonus(rollType){
+		let bonus = 0;
+		const actorClasses = this.actor.system.levels.classes;
 
-		// Getting Class level bonus
-		if(actorClasses.ranger > classBonus){
-			classBonus = parseInt(actorClasses.ranger, 10);
-		}else if(actorClasses.scout > classBonus){
-			classBonus = parseInt(actorClasses.scout, 10);
-		}else if(actorClasses.shaman > classBonus){
-			classBonus = parseInt(actorClasses.shaman, 10);
+		if(rollType === 'luck') return;
+
+		// Defining class mappings for each roll type
+		const rollTypeMapping = {
+			'firstAid': ['ranger', 'priest', 'dragon'],
+			'sixthSense': ['ranger', 'scout', 'shaman'],
+			'stealth': ['ranger', 'scout'],
 		}
 
-		const rollMod = await this._promptMiscModChoice("rollMod", game.i18n.localize('gs.dialog.actorSheet.sidebar.buttons.6sense'));
-		const rollMessage = this._setRollMessage("2d6", stat, classBonus, skillBonus, rollMod);
+		// Getting the relevant classes for the roll type
+		const relevantClasses = rollTypeMapping[rollType];
 
-		this._sendRollMessage(rollMessage, `${game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.6sense")}`);
+		if(relevantClasses){
+			relevantClasses.forEach(className => {
+				if((actorClasses[className]) > bonus){
+					bonus = parseInt(actorClasses[className], 10);
+				}
+			});
+		}else{
+			console.error(`GS _specialRollsClassBonus || Unknown roll type: ${rollType}`);
+		}
+
+		return bonus;
 	}
 
+	/**
+	 * Finds the proper calculated ability score for a given string
+	 * @param {string} calcAbilityScore A two character string representing a calculated ability score: E.G. se = Strength Endurance
+	 * @returns A number associated with the given string
+	 */
+	_findTheCalcAbilityScore(calcAbilityScore){
+		const abilityCalcScores = this.actor.system.abilities.calc;
+		return abilityCalcScores[calcAbilityScore];
+	}
+
+	/**
+	 * Sorts the special roll from the character sheet side bar and helps get all associated bonuses for this roll check
+	 * @param {*} event The event of the click
+	 * @param {string} rollType The type of roll being made, must be lowercase
+	 * @param {string} skillName The skill associated with the roll for any applicable bonus
+	 */
 	async _specialRolls(event, rollType, skillName){
 		event.preventDefault();
+		let abilityScore = 0;
 		const dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
 
-		const rollMod = await this._promptMiscModChoice("rollMod", dialogMessage);
+		switch(rollType){
+			case 'luck': // No ability score added to this special roll.
+				break;
+			case 'sixthSense':
+				abilityScore = this._findTheCalcAbilityScore('ir');
+			case 'stealth':
+			case 'firstAid':
+				abilityScore = this._findTheCalcAbilityScore('tf');
+				break;
+		}
+
+		const classBonus = this._specialRollsClassBonus(rollType);
+		const rollMod = rollType === "stealth"
+			? await this._promptMiscModChoice("stealth", dialogMessage)
+			: await this._promptMiscModChoice("rollMod", dialogMessage);
 		const skillBonus = this._getSkillBonus(skillName);
-		const rollMessage = this._setRollMessage('2d6', 0, 0, skillBonus, rollMod);
+		const rollMessage = this._setRollMessage('2d6', abilityScore, classBonus, skillBonus, rollMod);
 
 		this._sendRollMessage(rollMessage, dialogMessage);
 	}
 
+	/**
+	 * A special right-click menu that shows up for the particular item in question. Will show either a "view" to see the item's sheet or "delete" to remove the item
+	 */
 	contextMenu = [
 		{
 			name: "View",

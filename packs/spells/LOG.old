@@ -1,5 +1,11 @@
-2024/06/11-09:27:12.387 19d0 Log #194: 0 ops saved to Table #195 OK
-2024/06/11-09:27:12.388 19d0 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/000194.log: OK
-2024/06/11-09:27:12.389 19d0 Table #158: 135 entries OK
-2024/06/11-09:27:12.392 19d0 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells/MANIFEST-000193: OK
-2024/06/11-09:27:12.395 19d0 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\spells; recovered 1 files; 154197 bytes. Some data may have been lost. ****
+2024/06/11-09:27:12.402 19d0 Delete type=3 #1
+2024/06/11-15:22:58.614 9d0 Level-0 table #199: started
+2024/06/11-15:22:58.614 9d0 Level-0 table #199: 0 bytes OK
+2024/06/11-15:22:58.615 9d0 Delete type=0 #197
+2024/06/11-15:22:58.624 9d0 Manual compaction at level-0 from '!folders!5CwVSa9i3zi9EIiI' @ 72057594037927935 : 1 .. '!items!ziXu30TRsCzTEVU3' @ 0 : 0; will stop at '!items!ziXu30TRsCzTEVU3' @ 1366 : 1
+2024/06/11-15:22:58.624 9d0 Compacting 1@0 + 0@1 files
+2024/06/11-15:22:58.629 9d0 Generated table #200@0: 135 keys, 154197 bytes
+2024/06/11-15:22:58.629 9d0 Compacted 1@0 + 0@1 files => 154197 bytes
+2024/06/11-15:22:58.629 9d0 compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/06/11-15:22:58.629 9d0 Delete type=2 #158
+2024/06/11-15:22:58.635 9d0 Manual compaction at level-0 from '!items!ziXu30TRsCzTEVU3' @ 1366 : 1 .. '!items!ziXu30TRsCzTEVU3' @ 0 : 0; will stop at (end)

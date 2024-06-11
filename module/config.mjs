@@ -174,7 +174,7 @@ gs.actor = {
 			ran5: "gs.actor.character.ran5",
 		},
 		attr: "gs.actor.character.attr",
-		track: "gs.actor.character.track",
+		aTrack: "gs.actor.character.aTrack",
 		skills: {
 			advSW: "gs.actor.character.advSW",
 			genSW: "gs.actor.character.genSW",
