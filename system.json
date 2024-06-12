@@ -11,7 +11,7 @@
   "license": "",
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "compatibility": {
     "minimum": "11",
     "verified": "12.325"
@@ -157,10 +157,10 @@
   "socket": false,
   "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
-  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/archive/refs/tags/v0.7.0-open-beta.zip",
+  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/archive/refs/tags/v0.7.1-open-beta.zip",
   "background": "systems/gs/assets/gslogo.jpg",
   "grid": {
-    "distanc": 1,
+    "distance": 1,
     "units": "meters"
   },
   "primaryTokenAttribute": "system.lifeForce",

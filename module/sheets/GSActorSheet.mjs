@@ -126,14 +126,14 @@ export default class GSActorSheet extends ActorSheet{
 	/**
 	 * Prepares the roll message with all associated bonus. The message will resemble this: "2d6 + 1 + 2 +/- 3 + 4 - 5"
 	 * @param {string} dice The amount of dice that is being rolled.
-	 * @param {int} stat The ability score bonus that should be used.
-	 * @param {int} firstMod Class bonus for given roll.
-	 * @param {int} secondMod Bonus from weapons/armor/shields/etc.
-	 * @param {int} thirdMod Extra modifier from prompt.
+	 * @param {int} abilityScore The ability score bonus that should be used.
+	 * @param {int} classBonus Class bonus for given roll.
+	 * @param {int} skillItemMod Bonus from weapons/armor/shields/etc.
+	 * @param {int} promptMod Extra modifier from prompt.
 	 * @param {int} fourthMod TBD
 	 * @returns Roll message to be evaluated by Foundry.
 	 */
-	_setRollMessage(dice = "2d6", stat = 0, firstMod = 0, secondMod = 0, thirdMod = 0, fourthMod = 0){
+	_setRollMessage(dice = "2d6", abilityScore = 0, classBonus = 0, skillItemMod = 0, promptMod = 0, fourthMod = 0){
 		console.log(">>> setRollMessage Check:", fourthMod);
 		let rollMessage = dice, fatigueMod;
 
@@ -142,25 +142,30 @@ export default class GSActorSheet extends ActorSheet{
 		else
 			fatigueMod = 0;
 
-		if(stat > 0)
-			rollMessage += `  + ${stat}`;
-		if(firstMod > 0) // Class Bonus
-			rollMessage += ` + ${firstMod}`;
-		if(secondMod < 0) // Item/gear +/-
-			rollMessage += ` - ${Math.abs(secondMod)}`;
-		else if(secondMod > 0)
-			rollMessage += ` + ${secondMod}`;
-		if(thirdMod > 0) // Extra roll modifiers
-			rollMessage += ` + ${thirdMod}`;
-		else if(thirdMod < 0)
-			rollMessage += ` - ${Math.abs(thirdMod)}`;
-		if(fourthMod > 0 || fourthMod !== "")
+		if(abilityScore > 0)
+			rollMessage += `  + ${abilityScore}`;
+		if(classBonus > 0) // Class Bonus
+			rollMessage += ` + ${classBonus}`;
+		if(skillItemMod < 0) // Item/gear +/-
+			rollMessage += ` - ${Math.abs(skillItemMod)}`;
+		else if(skillItemMod > 0)
+			rollMessage += ` + ${skillItemMod}`;
+		if(promptMod > 0) // Extra roll modifiers
+			rollMessage += ` + ${promptMod}`;
+		else if(promptMod < 0)
+			rollMessage += ` - ${Math.abs(promptMod)}`;
+		if(fourthMod > 0 && fourthMod !== "")
 			rollMessage += ` + ${fourthMod}`;
 		if(fatigueMod < 0)
 			rollMessage += ` - ${Math.abs(fatigueMod)}`;
 		return rollMessage;
 	}
 
+	/**
+	 * Updates the actor's skill rank in the embedded collection of items
+	 * @param {*} event The click event
+	 * @returns Nothing, used to break method early
+	 */
 	_onUpdateSkillRank(event){
 		event.preventDefault();
 		const element = event.currentTarget;
@@ -211,6 +216,10 @@ export default class GSActorSheet extends ActorSheet{
 		// console.log("Check if change took:", this.actor);
 	}
 
+	/**
+	 * Updates the current item quanity by the value supplied.
+	 * @param {*} event The click event
+	 */
 	_onUpdateCharQuantity(event){
 		event.preventDefault();
 		const element = event.currentTarget;
@@ -231,7 +240,10 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	// Updates current fatigue rank by 1
+	/**
+	 * Updates current fatigue rank by 1
+	 * @param {string} rank Current fatigue rank being checked, eg 'rank1', 'rank2', etc.
+	 */
 	async _updateFatigue(rank){
 		const fatigueMin = `system.fatigue.${rank}.min`;
 		const fatigueMarked = `system.fatigue.${rank}.marked`;
@@ -243,7 +255,9 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	// Checks through fatigue ranks to find rank now maxed out yet
+	/**
+	 * Checks through fatigue ranks to find rank is maxed out yet then shifts to the next rank if so.
+	 */
 	async _checkFatigueRanks(){
 		const ranks = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5'];
 		for(const rank of ranks){
@@ -256,6 +270,10 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	/**
+	 * Checks the currently clicked attrition check box for the type of checkbox, wounds vs life force, heavy armor and associated skills
+	 * @param {*} event The click event
+	 */
 	_updateAttritionFlag = async (event) => {
 		event.preventDefault();
 		const element = event.currentTarget;
@@ -313,6 +331,12 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	/**
+	 * Method to help determin if the dice rolled a critical success/failure or a regular result. The critical rates are modified by any skills that are present in the character's items array.
+	 * @param {array} diceResults An integer array of dice values
+	 * @param {string} label The type of action being checked for skills
+	 * @returns Fail/Success/Normal
+	 */
 	_checkForCritRolls(diceResults, label=""){
 		if(diceResults.length === 2){
 			let skills, skillValue, critSuccess = 12, critFail = 2, results = [];
@@ -360,6 +384,16 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	/**
+	 * Method to set specific information in various areas and then evaluate the roll and send to the chat window.
+	 * @param {string} dice A string representing the dice to be rolled, eg 1d3, 1d6, 2d6, etc
+	 * @param {int} stat An integer value of the ability score bonus for the given roll
+	 * @param {int} classBonus An integer for the level of the class that can be used in the roll
+	 * @param {int} modifier A value that is usually attached to an item for extra power, eg. Weapon 1d3+2 damage where '+2' is the modifier
+	 * @param {string} label A string to help make function/method call decisions, eg Weapon, Cast, etc.
+	 * @param {int} skillBonus The value of the skill to help determine how much to add to a given roll
+	 * @param {int} rollMod Misc. integer value to be added from the window prompt
+	 */
 	async _rollsToMessage(dice, stat, classBonus, modifier, label, skillBonus = 0, rollMod = 0){
 		let rollExpression = `${dice}`;
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
@@ -406,6 +440,11 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	/**
+	 * Sends a quick message to the chat window for the average dice value rather than rolling
+	 * @param {int} value The amount of the basic score to send as a quick chat message
+	 * @param {string} type Flavor text of the average dice roll being sent
+	 */
 	_sendBasicMessage(value, type){
 		const speaker = ChatMessage.getSpeaker({ actor: this.actor });
 		const messageContent = `
@@ -425,6 +464,10 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	/**
+	 * Simple method to roll calculated ability scores to the chat window for random events and GM calls
+	 * @param {*} event The click event
+	 */
 	async _rollStatDice(event){
 		event.preventDefault();
 		let baseDice = "2d6";
@@ -844,7 +887,7 @@ export default class GSActorSheet extends ActorSheet{
 			'mPower': { mod: '.power', dice: '2d6', label: 'gs.gear.spells.att', type: 'weapon' }
 		};
 
-		const specialRolls = ['stealth', 'sixthSense', 'luck', 'firstAid', 'initiative'];
+		const specialRolls = ['stealth', 'sixthSense', 'luck', 'firstAid', 'initiative', 'handiwork'];
     	const healActions = ['healAttrition', 'healFatigue'];
 
 		if (rollMappings[classType]) {
@@ -1081,19 +1124,20 @@ export default class GSActorSheet extends ActorSheet{
 	/**
 	 * Returns the highest class level bonus for a given special roll type
 	 * @param {string} rollType The type of roll being made
-	 * @returns Highest class level associated with the roll
+	 * @returns Highest class level associated with the roll, if any
 	 */
 	_specialRollsClassBonus(rollType){
+		if(rollType === 'luck') return;
+
 		let bonus = 0;
 		const actorClasses = this.actor.system.levels.classes;
-
-		if(rollType === 'luck') return;
 
 		// Defining class mappings for each roll type
 		const rollTypeMapping = {
 			'firstAid': ['ranger', 'priest', 'dragon'],
 			'sixthSense': ['ranger', 'scout', 'shaman'],
 			'stealth': ['ranger', 'scout'],
+			'handiwork': ['ranger', 'scout'],
 		}
 
 		// Getting the relevant classes for the roll type
@@ -1130,7 +1174,7 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	async _specialRolls(event, rollType, skillName){
 		event.preventDefault();
-		let abilityScore = 0;
+		let abilityScore = 0, dice = '2d6';
 		const dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
 
 		switch(rollType){
@@ -1140,6 +1184,7 @@ export default class GSActorSheet extends ActorSheet{
 				abilityScore = this._findTheCalcAbilityScore('ir');
 			case 'stealth':
 			case 'firstAid':
+			case 'handiwork':
 				abilityScore = this._findTheCalcAbilityScore('tf');
 				break;
 		}
@@ -1149,7 +1194,7 @@ export default class GSActorSheet extends ActorSheet{
 			? await this._promptMiscModChoice("stealth", dialogMessage)
 			: await this._promptMiscModChoice("rollMod", dialogMessage);
 		const skillBonus = this._getSkillBonus(skillName);
-		const rollMessage = this._setRollMessage('2d6', abilityScore, classBonus, skillBonus, rollMod);
+		const rollMessage = this._setRollMessage(dice, abilityScore, classBonus, skillBonus, rollMod);
 
 		this._sendRollMessage(rollMessage, dialogMessage);
 	}

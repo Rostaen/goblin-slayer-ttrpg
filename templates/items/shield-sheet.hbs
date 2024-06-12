@@ -24,8 +24,12 @@
 			</span>
 			<span class="stealth">
 				<label for="shieldStealth">{{localize config.common.ste}}:</label>
-				<select name="system.stealth">
-					{{selectOptions config.armor.stealth selected=system.stealth localize=true}}
+				<select name="system.stealth" data-dtype="Number">
+					{{#each config.armor.stealth as |label key|}}
+						<option value="{{label}}" {{#if (eq label ../item.system.stealth)}}selected{{/if}}>
+							{{key}} {{label}}
+						</option>
+					{{/each}}
 				</select>
 			</span>
 			<span class="value">

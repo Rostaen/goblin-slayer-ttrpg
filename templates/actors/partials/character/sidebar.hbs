@@ -1,8 +1,9 @@
 <div class="sidebar">
     <h2>{{localize config.character.status}}</h2>
     <div class="status grid grid-3col reveal-rollable">
-        <label class="grid-span-2">{{localize config.character.wounds}}</label>
+        <label>{{localize config.character.wounds}}</label>
         <input type="text" name="system.lifeForce.min" value="{{actor.system.lifeForce.min}}" data-dtype="Number" />
+        <button type="button" class="actorRolls healing" title="{{localize config.character.heal}} {{localize config.character.wounds}}"><i class="fa-solid fa-heart-pulse"></i></button>
         <div class="grid-span-3 lifeForceCalc">
             <div class="grid grid-4col">
                 <label>{{localize config.common.lFor}}</label>
@@ -43,5 +44,6 @@
         <button type="button" class="actorRolls sixthSense" title="{{localize 'gs.dialog.actorSheet.sidebar.buttons.sixthSense'}}"><i class="fa-solid fa-brain"></i></button>
         <button type="button" class="actorRolls luck" title="{{localize 'gs.dialog.actorSheet.sidebar.buttons.luck'}}"><i class="fa-solid fa-clover"></i></button>
         <button type="button" class="actorRolls firstAid" title="{{localize 'gs.dialog.actorSheet.sidebar.buttons.firstAid'}}"><i class="fa-solid fa-user-nurse"></i></button>
+        <button type="button" class="actorRolls handiwork" title="{{localize 'gs.dialog.actorSheet.sidebar.buttons.handiwork'}}"><i class="fa-solid fa-lock-open"></i></button>
     </div>
 </div>

@@ -334,7 +334,8 @@
           "buttons": {
             "sixthSense": "Sixth Sense",
             "luck": "Luck",
-            "firstAid": "First Aid"
+            "firstAid": "First Aid",
+            "handiwork": "Handiwork"
           }
         }
       },

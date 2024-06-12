@@ -40,7 +40,11 @@
                 {{!-- 3rd Row --}}
                 <label>{{localize config.monster.inte}} </label>
                 <select name="system.inte">
-                    {{selectOptions config.monster.intelligence selected=actor.system.inte localize=true}}
+                    {{#each config.monster.intelligence as |label key|}}
+						<option value="{{label}}" {{#if (eq label ../actor.system.inte)}}selected{{/if}}>
+							{{localize label}}
+						</option>
+					{{/each}}
                 </select>
 
                 <label>{{localize config.monster.mora}} </label>
@@ -116,7 +120,11 @@
                 <input type="text" name="system.attacks.0.power" value="{{actor.system.attacks.0.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.0.pType" class="grid-span-2">
-                    {{selectOptions config.monster.attackType selected=system.attacks.0.pType localize=true}}
+                    {{#each config.monster.attackType as |label key|}}
+						<option value="{{label}}" {{#if (eq label ../actor.system.attacks.0.pType)}}selected{{/if}}>
+							{{localize label}}
+						</option>
+					{{/each}}
                 </select>
             </div>
         </div>
@@ -166,7 +174,11 @@
                 <input type="text" name="system.attacks.1.power" value="{{actor.system.attacks.1.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.1.pType" class="grid-span-2">
-                    {{selectOptions config.monster.attackType selected=system.attacks.1.pType localize=true}}
+                    {{#each config.monster.attackType as |label key|}}
+						<option value="{{label}}" {{#if (eq label ../actor.system.attacks.1.pType)}}selected{{/if}}>
+							{{localize label}}
+						</option>
+					{{/each}}
                 </select>
             </div>
         </div>
@@ -217,7 +229,11 @@
                 <input type="text" name="system.attacks.2.power" value="{{actor.system.attacks.2.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.2.pType" class="grid-span-2">
-                    {{selectOptions config.monster.attackType selected=system.attacks.2.pType localize=true}}
+                    {{#each config.monster.attackType as |label key|}}
+						<option value="{{label}}" {{#if (eq label ../actor.system.attacks.2.pType)}}selected{{/if}}>
+							{{localize label}}
+						</option>
+					{{/each}}
                 </select>
             </div>
         </div>
@@ -268,7 +284,11 @@
                 <input type="text" name="system.attacks.3.power" value="{{actor.system.attacks.3.power}}" class="power">
                 <label>{{localize config.monster.type}}</label>
                 <select name="system.attacks.3.pType" class="grid-span-2">
-                    {{selectOptions config.monster.attackType selected=system.attacks.3.pType localize=true}}
+                    {{#each config.monster.attackType as |label key|}}
+						<option value="{{label}}" {{#if (eq label ../actor.system.attacks.3.pType)}}selected{{/if}}>
+							{{localize label}}
+						</option>
+					{{/each}}
                 </select>
             </div>
         </div>

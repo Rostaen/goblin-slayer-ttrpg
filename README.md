@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0.7.0
+## Current State v0.7.1
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
@@ -83,7 +83,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Enhance Spells: Power (Future update spell damage rolls)
 - [ ] First Aid (Add skill to healing amount when implemented)
 - [ ] Guard (May not need auto intergration for this skill)
-- [ ] Handiwork
+- [x] Handiwork
 - [x] Hardiness
 - [ ] Healing Affinity
 - [ ] Iron Fist
