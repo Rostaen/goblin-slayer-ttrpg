@@ -134,7 +134,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Roll message to be evaluated by Foundry.
 	 */
 	_setRollMessage(dice = "2d6", abilityScore = 0, classBonus = 0, skillItemMod = 0, promptMod = 0, fourthMod = 0){
-		console.log(">>> setRollMessage Check:", fourthMod);
 		let rollMessage = dice, fatigueMod;
 
 		if(this.actor.type === 'character')
@@ -358,7 +357,7 @@ export default class GSActorSheet extends ActorSheet{
 				// Checking over each character skill to modify success rates
 				for(const skill of skills){
 					skillValue = skill.system.value;
-					console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), label);
+					// console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), label);
 					switch(`${skill.name.toLowerCase()}-${label.toLowerCase()}`){
 						case 'alert-dodge':
 							setCritValues(skillValue);
@@ -629,13 +628,37 @@ export default class GSActorSheet extends ActorSheet{
 				if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
 				else modifier = powerMod;
 
-				// Checking if character has monk levels and burst of strength skill
+				// Checking if character has monk levels and various monk skills
 				if(this.actor.system.levels.classes.monk > 0){
 					const typeHolder = this._getItemType(container);
 					let [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+					const weaponName = container.querySelector('div.name').innerHTML.split(" ")[0].trim();
+					console.log(">>> Review container contents", container, weaponName);
+
+					// Checking for barehanded weapons for Iron First skill
+					if(weaponName.toLowerCase() === 'barehanded'){
+						for(const skill of skills){
+							if(skill.name.toLowerCase() === 'iron fist'){
+								switch(skill.system.value){
+									case 1:
+									case 2:
+										skillBonus += skill.system.value;
+										break;
+									case 3:
+									case 4:
+										skillBonus += skill.system.value + Math.floor(skill.system.value / 2);
+										break;
+									case 5:
+										skillBonus += skill.system.value + Math.round(skill.system.value / 2);
+										break;
+								}
+							}
+						}
+					}
+
+					// Checking for close-combat weapon used and burst of strength skill
 					if(type === 'close-combat'){
 						for(const skill of skills){
-							// console.log(">>> Checking skills", skill.name);
 							if(skill.name.toLowerCase() === 'burst of strength'){
 								switch(skill.system.value){
 									case 1: skillBonus = 1; break;
@@ -773,8 +796,10 @@ export default class GSActorSheet extends ActorSheet{
 		let healingTitle = game.i18n.localize('gs.actor.character.heal') + " ";
 		if(healType === 'healAttrition')
 			healingTitle += game.i18n.localize('gs.actor.character.attr');
-		else
+		else if(healType === 'healFatigue')
 			healingTitle += game.i18n.localize('gs.actor.character.fatW');
+		else if(healType === 'healing')
+			healingTitle += game.i18n.localize('gs.actor.character.wounds');
 
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo;
@@ -834,13 +859,12 @@ export default class GSActorSheet extends ActorSheet{
 					attritionTrack[x] = false;
 				}
 				this.actor.update({ 'system.attrition': attritionTrack });
-			}else{
+			}else if(healType === 'healFatigue'){
 				const fatigueTracks = this.actor.system.fatigue;
 				const ranks = ['rank5', 'rank4', 'rank3', 'rank2', 'rank1'];
 
 				for(const rank of ranks){
 					const currentMin = this.actor.system.fatigue[rank].min;
-					const max = this.actor.system.fatigue[rank].max;
 
 					if(amountToHeal == 0) break;
 					else if(currentMin == 0) continue;
@@ -861,6 +885,24 @@ export default class GSActorSheet extends ActorSheet{
 					}
 
 				}
+			}else if(healType === 'healing'){
+				const skills = this.actor.items.filter(item => item.type === 'skill');
+				let skillMod = 0;
+
+				for(const skill of skills){
+					if(skill.name.toLowerCase() === 'first aid')
+						skillMod += skill.system.value;
+					if(skill.name.toLowerCase() === 'healing affinity')
+						skillMod += skill.system.value * 2;
+				}
+
+				let healAmount = this.actor.system.lifeForce.min - amountToHeal - skillMod;
+				if(healAmount < 0)
+					healAmount = 0;
+
+				this.actor.update({
+					'system.lifeForce.min': healAmount
+				});
 			}
 		}
 	}
@@ -888,7 +930,7 @@ export default class GSActorSheet extends ActorSheet{
 		};
 
 		const specialRolls = ['stealth', 'sixthSense', 'luck', 'firstAid', 'initiative', 'handiwork'];
-    	const healActions = ['healAttrition', 'healFatigue'];
+    	const healActions = ['healAttrition', 'healFatigue', 'healing'];
 
 		if (rollMappings[classType]) {
 			const { mod, dice, label, type } = rollMappings[classType];

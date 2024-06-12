@@ -3,7 +3,9 @@
     <div class="status grid grid-3col reveal-rollable">
         <label>{{localize config.character.wounds}}</label>
         <input type="text" name="system.lifeForce.min" value="{{actor.system.lifeForce.min}}" data-dtype="Number" />
-        <button type="button" class="actorRolls healing" title="{{localize config.character.heal}} {{localize config.character.wounds}}"><i class="fa-solid fa-heart-pulse"></i></button>
+        <div class="woundHealingCont">
+            <button type="button" class="actorRolls healing" title="{{localize config.character.heal}} {{localize config.character.wounds}}"><i class="fa-solid fa-heart-pulse"></i></button>
+        </div>
         <div class="grid-span-3 lifeForceCalc">
             <div class="grid grid-4col">
                 <label>{{localize config.common.lFor}}</label>

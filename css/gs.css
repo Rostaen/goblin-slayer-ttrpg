@@ -956,6 +956,7 @@ table tr:nth-child(even) {
   background-color: rgba(255, 255, 255, 0.75);
   text-align: center;
   padding-top: 15px;
+  grid-column-gap: 3px;
 }
 .sidebar label {
   display: flex;
@@ -980,7 +981,12 @@ table tr:nth-child(even) {
 .sidebar .buttons.specialRolls {
   grid-column-gap: 0px;
 }
-.sidebar .buttons.specialRolls button {
+.sidebar .woundHealingCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar button {
   border: 1px solid darkred;
   background-color: #ede3c7;
   border-radius: 4px;
@@ -990,7 +996,7 @@ table tr:nth-child(even) {
   justify-content: center;
   align-items: center;
 }
-.sidebar .buttons.specialRolls button i {
+.sidebar button i {
   margin-right: -1px;
 }
 .stats .grid {

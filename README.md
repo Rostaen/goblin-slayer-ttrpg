@@ -81,12 +81,12 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Dual Wielding (Use misc modifiers for this skill)
 - [x] Encumbered Action
 - [ ] Enhance Spells: Power (Future update spell damage rolls)
-- [ ] First Aid (Add skill to healing amount when implemented)
+- [x] First Aid (Future update for allies healing target)
 - [ ] Guard (May not need auto intergration for this skill)
 - [x] Handiwork
 - [x] Hardiness
-- [ ] Healing Affinity
-- [ ] Iron Fist
+- [x] Healing Affinity
+- [x] Iron Fist
 - [ ] Lucky
 - [ ] Magical Talent
 - [ ] Martial Arts
