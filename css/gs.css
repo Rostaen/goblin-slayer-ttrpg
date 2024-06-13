@@ -1003,23 +1003,39 @@ table tr:nth-child(even) {
   grid-row-gap: 0px;
 }
 .stats .attrition button,
-.stats .fatigue button {
-  border: 1px solid darkred;
-  background-color: #ede3c7;
-  border-radius: 4px;
+.stats .fatigue button,
+.stats .checks button {
   height: 25px;
   width: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.stats .attrition button i,
+.stats .fatigue button i,
+.stats .checks button i {
+  margin-right: -1px;
+}
+.stats .attrition button,
+.stats .fatigue button,
+.stats .checks button.actorRolls {
+  border: 1px solid darkred;
+  background-color: #ede3c7;
+  border-radius: 4px;
+}
+.stats .attrition button,
+.stats .fatigue button {
   position: absolute;
   z-index: 101;
   top: -10px;
   right: 10px;
 }
-.stats .attrition button i,
-.stats .fatigue button i {
-  margin-right: -1px;
+.stats .checks button.starred {
+  border: 0px;
+  background-color: inherit;
+}
+.stats .checks button.starred:hover {
+  box-shadow: 0 0 0px;
 }
 .stats .statsContainer {
   gap: 0px;
@@ -1118,7 +1134,8 @@ table tr:nth-child(even) {
   margin: 0px;
 }
 .stats .attrition .attritionContainer,
-.stats .fatigue .fatigueContainer {
+.stats .fatigue .fatigueContainer,
+.stats .checks {
   padding: 5px 2px;
   background-color: rgba(255, 255, 255, 0.75);
   border: 1px solid darkred;
@@ -1138,13 +1155,15 @@ table tr:nth-child(even) {
 }
 .stats .attrition,
 .stats .classLevels,
-.stats .fatigue {
+.stats .fatigue,
+.stats .checks {
   position: relative;
   margin-top: 15px;
 }
 .stats .attrition h2,
 .stats .classLevels h2,
-.stats .fatigue h2 {
+.stats .fatigue h2,
+.stats .checks h2 {
   position: absolute;
   top: -11px;
   left: 10px;
@@ -1159,6 +1178,13 @@ table tr:nth-child(even) {
 }
 .stats .fatigue .fatigueContainer label.rank {
   justify-content: center;
+}
+.stats .checks .checksCont {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  column-gap: 2px;
+  margin-bottom: 5px;
 }
 .descriptionPage .raceContainer h2.raceName {
   margin-bottom: 0px;

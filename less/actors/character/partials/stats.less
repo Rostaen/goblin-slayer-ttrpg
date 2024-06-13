@@ -2,22 +2,33 @@
     .grid{
         grid-row-gap: 0px;
     }
-    .attrition button, .fatigue button{
-        border: 1px solid darkred;
-        background-color: #ede3c7;
-        border-radius: 4px;
+    .attrition button, .fatigue button, .checks button{
         height: 25px;
         width: 25px;
         display: flex;
         justify-content: center;
         align-items: center;
+        i{
+            margin-right: -1px;
+        }
+    }
+    .attrition button, .fatigue button, .checks button.actorRolls{
+        border: 1px solid darkred;
+        background-color: #ede3c7;
+        border-radius: 4px;
+    }
+    .attrition button, .fatigue button{
         position: absolute;
         z-index: 101;
         top: -10px;
         right: 10px;
-        i{
-            margin-right: -1px;
-        }
+    }
+    .checks button.starred{
+        border: 0px;
+        background-color: inherit;
+    }
+    .checks button.starred:hover{
+        box-shadow: 0 0 0px;
     }
     .statsContainer{
         gap: 0px;
@@ -111,7 +122,7 @@
             margin: 0px;
         }
     }
-    .attrition .attritionContainer, .fatigue .fatigueContainer{
+    .attrition .attritionContainer, .fatigue .fatigueContainer, .checks{
         padding: 5px 2px;
         background-color: rgba(255, 255, 255, 0.75);
         border: 1px solid darkred;
@@ -133,7 +144,7 @@
             }
         }
     }
-    .attrition, .classLevels, .fatigue{
+    .attrition, .classLevels, .fatigue, .checks{
         position: relative;
         margin-top: 15px;
         h2{
@@ -153,6 +164,15 @@
             label.rank{
                 justify-content: center;
             }
+        }
+    }
+    .checks{
+        .checksCont{
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            column-gap: 2px;
+            margin-bottom: 5px;
         }
     }
 }

@@ -87,8 +87,8 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Hardiness
 - [x] Healing Affinity
 - [x] Iron Fist
-- [ ] Lucky
-- [ ] Magical Talent
+- [x] Lucky
+- [x] Magical Talent
 - [ ] Martial Arts
 - [ ] Master of XX
 - [ ] Monster Knowledge

@@ -267,6 +267,16 @@ export class GSActor extends Actor {
             }
         }
 
+        // Adding favorites into the JSON object
+        if (!systemData.favorites) systemData.favorites = {};
+        if (!systemData.favorites.checked){
+            systemData.favorites.checked = [];
+            // Initialize the 'checked' array with default values
+            for (let x = 0; x < 10; x++)
+                systemData.favorites.checked[x] = false;
+        }
+        if (!systemData.favorites.values) systemData.favorites.values = {};
+
         // TODO: Set a value for a non-existing field for max spells for each spell system
         systemData.spellUse.totalSpellsKnown = {
             "sorc": systemData.levels.classes.sorcerer,
@@ -285,7 +295,7 @@ export class GSActor extends Actor {
         const actorSkills = this.items.filter(item => item.type === 'skill');
         for(const [id, skill] of Object.entries(actorSkills)){
             // Switching on skills to save processing time
-            // console.log("===> For Loop Skill Check", skill.name);
+            //console.log("===> For Loop Skill Check", skill.name);
             switch(skill.name){
                 case "Hardiness": // Setting 2x LifeForce + any Skills
                     hardinessBonus = this._hardinessSkillCall(); break;
@@ -300,6 +310,8 @@ export class GSActor extends Actor {
                 case "Bonus Spells: Ancestral Dragon Arts":
                 case "Bonus Spells: Spirit Arts":
                     this._bonusSpellsKnownSkillCall(skill); break;
+                case "Magical Talent":
+                    this.system.spellUse.max += skill.system.value; break;
             }
         }
 

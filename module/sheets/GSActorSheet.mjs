@@ -92,8 +92,34 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
 		html.find(".attritionCBox").off('click').click(this._updateAttritionFlag.bind(this));
+		html.find(".starred").change(this._addRollToFavorites.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
+	}
+
+	_addRollToFavorites(event){
+		const container = event.currentTarget.closest(".checksCont");
+		const checkStatus = container.querySelector('.starred').checked;
+		const checkName = container.querySelector('.checkName').innerHTML;
+		const button = container.querySelector('button.actorRolls');
+
+		if(checkStatus){
+			this.actor.update({
+				'system.favorites.values': {
+					...this.actor.system.favorites.values,
+					[checkName]: {
+						'name': checkName,
+						'button': button
+					}
+				}
+			});
+		}else{
+			const favorites = { ...this.actor.system.favorites.values };
+			delete favorites[checkName];
+			this.actor.update({
+				'system.favorites.values': favorites
+			});
+		}
 	}
 
 	/**
@@ -209,6 +235,7 @@ export default class GSActorSheet extends ActorSheet{
 			skill.update({
 				'system.value': rank
 			});
+			this.actor.render(true);
 		}else{
 			console.error("Unknown skill type:", skillType);
 		}
@@ -685,12 +712,23 @@ export default class GSActorSheet extends ActorSheet{
 			}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
 					 modSelector === '.blockMod' || modSelector === '.spellDif'){
 				modifier = parseInt(modElement.textContent, 10);
-				// Checking for dodging and heavy classified armor vs Str End score
+				// Checking for dodging and heavy classified armor vs Str End score or Martial Arts skill to dodge
 				if(modSelector === '.dodge'){
 					const armor = this.actor.items.filter(item => item.type === 'armor');
 					const strEnd = this.actor.system.abilities.calc.se;
 					if(armor[0].system.heavy.value && strEnd >= armor[0].system.heavy.y){
 						modifier = Math.floor(modifier / 2);
+					}
+					for(const skill of skills){
+						if(skill.name.toLowerCase() === "martial arts"){
+							const skillValue = skill.system.value;
+							const {monk, scout} = this.actor.system.levels.classes;
+
+							if(skillValue <= 3 || (skillValue >= 4 && (monk >= 7 || scout >= 7)))
+								skillBonus += skillValue;
+							else
+								ui.notifications.warn(`Your Monk (${monk}) or Scout (${scout}) Level does meet the requirements for ${skill.name} level!`);
+						}
 					}
 				}
 			}else if(modSelector === '.spellRes'){
@@ -929,7 +967,7 @@ export default class GSActorSheet extends ActorSheet{
 			'mPower': { mod: '.power', dice: '2d6', label: 'gs.gear.spells.att', type: 'weapon' }
 		};
 
-		const specialRolls = ['stealth', 'sixthSense', 'luck', 'firstAid', 'initiative', 'handiwork'];
+		const specialRolls = ['stealth', 'sixthSense', 'lucky', 'firstAid', 'initiative', 'handiwork'];
     	const healActions = ['healAttrition', 'healFatigue', 'healing'];
 
 		if (rollMappings[classType]) {

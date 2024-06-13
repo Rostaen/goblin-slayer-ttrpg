@@ -266,6 +266,9 @@
         "throw": "Miotane",
         "projectile": "Pociski",
         "other": "Inne"
+      },
+      "statsPage":{
+        "checks": "Testy"
       }
     },
     "raceSheet": {

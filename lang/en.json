@@ -266,6 +266,9 @@
         "throw": "Throwing",
         "projectile": "Projectile",
         "other": "Other"
+      },
+      "statsPage":{
+        "checks": "Checks"
       }
     },
     "raceSheet": {
