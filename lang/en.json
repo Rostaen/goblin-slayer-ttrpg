@@ -370,7 +370,12 @@
         "header": "Fatigue for Power",
         "label": "Enter a number of fatigue to spend for extra power. Maximum:"
       },
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "moveRes": {
+        "title": "Movement Resistance Choice",
+        "header": "Strength Focus or Technique Focus",
+        "label": "Which is your better ability score to stop the target from moving?"
+      }
     }
   }
 }

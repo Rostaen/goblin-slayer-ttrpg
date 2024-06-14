@@ -89,7 +89,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Iron Fist
 - [x] Lucky
 - [x] Magical Talent
-- [ ] Martial Arts
+- [x] Martial Arts
 - [ ] Master of XX
 - [ ] Monster Knowledge
 - [ ] Mow Down
@@ -97,8 +97,8 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Parry
 - [x] Perseverance
 - [ ] Piercing Attack
-- [ ] Provoke
-- [ ] Rampart
+- [x] Provoke
+- [x] Rampart
 - [ ] Rapid Fire
 - [ ] Shields
 - [ ] Sixth Sense
@@ -108,7 +108,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Spell Expertise: XX
 - [x] Spell Resistance
 - [ ] Stealth
-- [ ] Strengthened Immunity
+- [x] Strengthened Immunity
 - [ ] Strong Blow: Bludgeon
 - [ ] Strong Blow: Slash
 - [ ] Tactical Movement

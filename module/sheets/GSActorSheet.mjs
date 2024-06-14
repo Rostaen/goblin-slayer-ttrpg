@@ -98,15 +98,14 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	_addRollToFavorites(event){
-		event.preventDefault();
+		//event.preventDefault();
 		const container = event.currentTarget.closest(".checksCont");
 		const $target = $(event.currentTarget).closest(".checksCont");
 		const checkStatus = container.querySelector('.starred').checked;
 		const checkName = container.querySelector('.checkName').innerHTML;
+		//const index = event.currentTarget.dataset.index;
 		const buttonClass = $target.find('button.actorRolls').attr("class");
 		const iconClass = $target.find('i').attr("class");
-
-		console.log(">>> Event Target", event.currentTarget);
 
 		if(checkStatus){
 			this.actor.setFlag('gs', `favorites.${checkName}`, {
@@ -965,7 +964,8 @@ export default class GSActorSheet extends ActorSheet{
 			'mPower': { mod: '.power', dice: '2d6', label: 'gs.gear.spells.att', type: 'weapon' }
 		};
 
-		const specialRolls = ['stealth', 'sixthSense', 'lucky', 'firstAid', 'initiative', 'handiwork'];
+		const specialRolls = ['stealth', 'sixthSense', 'lucky', 'firstAid', 'initiative', 'handiwork', 'swim', 'climbF',
+			'acrobatics', 'jump', 'provoke', 'moveObs', 'moveRes', 'strRes'];
     	const healActions = ['healAttrition', 'healFatigue', 'healing'];
 
 		if (rollMappings[classType]) {
@@ -1073,6 +1073,24 @@ export default class GSActorSheet extends ActorSheet{
 						label: game.i18n.localize("gs.dialog.cancel"),
 						callback: () => {
 							resolve(0);
+						}
+					};
+					break;
+				case 'moveRes':
+					dialogContent = `
+						<h3>${game.i18n.localize("gs.dialog.moveRes.header")}</h3>
+						<p>${game.i18n.localize("gs.dialog.moveRes.label")}</p>`;
+					promptTitle = game.i18n.localize("gs.dialog.moveRes.title");
+					buttonOne = {
+						label: game.i18n.localize("gs.actor.character.str") + " " + game.i18n.localize("gs.actor.character.foc"),
+						callback: () => {
+							resolve(this.actor.system.abilities.calc.sf);
+						}
+					};
+					buttonTwo = {
+						label: game.i18n.localize("gs.actor.character.tec") + " " + game.i18n.localize("gs.actor.character.foc"),
+						callback: () => {
+							resolve(this.actor.system.abilities.calc.tf);
 						}
 					};
 					break;
@@ -1205,7 +1223,9 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Highest class level associated with the roll, if any
 	 */
 	_specialRollsClassBonus(rollType){
-		if(rollType === 'luck') return;
+		switch(rollType){
+			case 'luck': case 'swim': case 'strRes': return;
+		}
 
 		let bonus = 0;
 		const actorClasses = this.actor.system.levels.classes;
@@ -1216,6 +1236,12 @@ export default class GSActorSheet extends ActorSheet{
 			'sixthSense': ['ranger', 'scout', 'shaman'],
 			'stealth': ['ranger', 'scout'],
 			'handiwork': ['ranger', 'scout'],
+			'jump': ['monk', 'ranger', 'scout'],
+			'acrobatics': ['monk', 'ranger', 'scout'],
+			'climbF': ['ranger', 'scout'],
+			'provoke': ['fighter', 'monk'],
+			'moveObs': ['fighter'],
+			'moveRes': ['fighter', 'monk', 'scout'],
 		}
 
 		// Getting the relevant classes for the roll type
@@ -1245,6 +1271,14 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	/**
+	 * Returns the overall adventurer level rather than a class level
+	 * @returns Adventurer level
+	 */
+	_getAdventurerLevel(){
+		return this.actor.system.levels.adventurer;
+	}
+
+	/**
 	 * Sorts the special roll from the character sheet side bar and helps get all associated bonuses for this roll check
 	 * @param {*} event The event of the click
 	 * @param {string} rollType The type of roll being made, must be lowercase
@@ -1254,24 +1288,48 @@ export default class GSActorSheet extends ActorSheet{
 		event.preventDefault();
 		let abilityScore = 0, dice = '2d6';
 		const dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
+		const intelligenceReflexChecks = ['sixthSense'];
+		const psycheReflexChecks = ['provoke'];
+		const strengthReflexChecks = ['moveObs', 'strRes'];
+		const techniqueFocusChecks = ['stealth', 'firstAid', 'handiwork', 'swim', 'climbF', 'acrobatics', 'jump'];
+		const martialArtsChecks = ['Swim', 'Climb F', 'Acrobatics', 'Jump'];
+		const adventurerLevel = ['swim', 'strRes'];
 
-		switch(rollType){
-			case 'luck': // No ability score added to this special roll.
-				break;
-			case 'sixthSense':
-				abilityScore = this._findTheCalcAbilityScore('ir');
-			case 'stealth':
-			case 'firstAid':
-			case 'handiwork':
-				abilityScore = this._findTheCalcAbilityScore('tf');
-				break;
+		console.log(">>> Skill Name check", rollType, skillName);
+
+		if(intelligenceReflexChecks.includes(rollType))
+			abilityScore = this._findTheCalcAbilityScore('ir');
+		else if(techniqueFocusChecks.includes(rollType))
+			abilityScore = this._findTheCalcAbilityScore('tf');
+		else if(psycheReflexChecks.includes(rollType))
+			abilityScore = this._findTheCalcAbilityScore('pr');
+		else if(strengthReflexChecks.includes(rollType))
+			abilityScore = this._findTheCalcAbilityScore('sr');
+		else if(rollType === 'moveRes'){
+			abilityScore = await this._promptMiscModChoice(rollType, dialogMessage);
 		}
 
-		const classBonus = this._specialRollsClassBonus(rollType);
+		let classBonus = this._specialRollsClassBonus(rollType);
+		if(adventurerLevel.includes(rollType))
+			classBonus = this._getAdventurerLevel();
 		const rollMod = rollType === "stealth"
 			? await this._promptMiscModChoice("stealth", dialogMessage)
 			: await this._promptMiscModChoice("rollMod", dialogMessage);
-		const skillBonus = this._getSkillBonus(skillName);
+
+		// Updating skillName when special roll != skill name
+		if(martialArtsChecks.includes(skillName)){
+			martialArtsChecks.forEach(check => { if(check === skillName) skillName = 'Martial Arts'; });
+		}
+		if(rollType === 'moveObs') skillName = 'Rampart';
+		else if(rollType === 'strRes') skillName = 'Strengthened Immunity';
+
+		// Getting skill bonus
+		let skillBonus = this._getSkillBonus(skillName);
+		console.log(">>> Checking skill bonus", skillBonus);
+		// Correcting skill bonuses here as needed
+		if(rollType === 'provoke') skillBonus -= 1;
+		else if(rollType === 'moveObs') skillBonus += 1;
+
 		const rollMessage = this._setRollMessage(dice, abilityScore, classBonus, skillBonus, rollMod);
 
 		this._sendRollMessage(rollMessage, dialogMessage);
