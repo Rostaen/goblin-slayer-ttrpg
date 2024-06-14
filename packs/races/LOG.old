@@ -1,3 +1,9 @@
-2024/06/13-09:42:56.957 2e74 Recovering log #192
-2024/06/13-09:42:56.959 2e74 Delete type=0 #192
-2024/06/13-09:42:56.959 2e74 Delete type=3 #191
+2024/06/14-07:55:05.689 1040 Recovering log #196
+2024/06/14-07:55:05.690 1040 Recovering log #200
+2024/06/14-07:55:05.695 1040 Delete type=0 #196
+2024/06/14-07:55:05.696 1040 Delete type=0 #200
+2024/06/14-07:55:05.696 1040 Delete type=3 #195
+2024/06/14-07:56:07.446 e2c Level-0 table #203: started
+2024/06/14-07:56:07.446 e2c Level-0 table #203: 0 bytes OK
+2024/06/14-07:56:07.448 e2c Delete type=0 #201
+2024/06/14-07:56:07.461 e2c Manual compaction at level-0 from '!items!5phX4YlyTrBibHhS' @ 72057594037927935 : 1 .. '!items!v0N0TeVjBkfzVlaJ' @ 0 : 0; will stop at (end)

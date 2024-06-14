@@ -1,5 +1,6 @@
 <div class="stats grid grid-7col">
     <div class="grid-span-5 left">
+        {{!-- Ability Scores --}}
         <div class="grid grid-4col statsContainer">
             {{!-- Header Row --}}
             <h4 class="mainHeader">{{localize config.character.ability}}</h4>
@@ -104,6 +105,7 @@
             <label>{{localize config.character.experience.com}}: </label>
             <input type="text" name="system.adventures.completed" value="{{actor.system.adventures.completed}}" data-dtype="Number">
         </div>
+        {{!-- Attrition --}}
         <div class="attrition">
             <h2>{{localize config.character.aTrack}}</h2>
             <button type="button" class="actorRolls healAttrition" title="{{localize config.character.heal}} {{localize config.character.attr}}"><i class="fa-solid fa-heart-pulse"></i></button>
@@ -192,18 +194,19 @@
                 </div>
             </div>
         </div>
-        <div class="checks">
+        {{!-- Special Checks --}}
+        {{!-- <div class="checks">
             <h2>{{localize 'gs.charSheet.statsPage.checks'}}</h2>
             <div class="grid grid-3col">
                 <div class="checksCont">
                     <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.0" {{#if actor.system.favorites.checked.[0]}}{{checked}}{{/if}}></div>
                     <div class="checkIcon"><button type="button" class="actorRolls initiative"><i class="fa-solid fa-dice"></i></button></div>
-                    <div class="checkName">{{localize config.common.init}}</div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.initiative'}}</div>
                 </div>
                 <div class="checksCont">
                     <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.1" {{#if actor.system.favorites.checked.[1]}}{{checked}}{{/if}}></div>
                     <div class="checkIcon"><button type="button" class="actorRolls stealth"><i class="fa-solid fa-user-ninja"></i></button></div>
-                    <div class="checkName">{{localize gearConfig.common.ste}}</div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.stealth'}}</div>
                 </div>
                 <div class="checksCont">
                     <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.2" {{#if actor.system.favorites.checked.[2]}}{{checked}}{{/if}}></div>
@@ -225,10 +228,113 @@
                     <div class="checkIcon"><button type="button" class="actorRolls handiwork"><i class="fa-solid fa-lock-open"></i></button></div>
                     <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.handiwork'}}</div>
                 </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.6" {{#if actor.system.favorites.checked.[6]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls provoke"><i class="fa-solid fa-fire"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.provoke'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.7" {{#if actor.system.favorites.checked.[7]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls moveObs"><i class="fa-solid fa-hand"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.moveObs'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.8" {{#if actor.system.favorites.checked.[8]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls moveRes"><i class="fa-solid fa-hand-fist"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.moveRes'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.9" {{#if actor.system.favorites.checked.[9]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls strRes"><i class="fa-solid fa-hill-rockslide"></i></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.strRes'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.10" {{#if actor.system.favorites.checked.[10]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls psyRes"><i class="fa-solid fa-brain"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.psyRes'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.11" {{#if actor.system.favorites.checked.[11]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls intRes"><i class="fa-solid fa-book"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.intRes'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.12" {{#if actor.system.favorites.checked.[12]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls strength"><i class="fa-solid fa-dumbbell"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.strength'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.13" {{#if actor.system.favorites.checked.[13]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls escape"><i class="fa-solid fa-user-lock"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.escape'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.14" {{#if actor.system.favorites.checked.[14]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls climbM"><i class="fa-solid fa-up-long"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.climbM'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.15" {{#if actor.system.favorites.checked.[15]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls swim"><i class="fa-solid fa-person-swimming"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.swim'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.16" {{#if actor.system.favorites.checked.[16]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls climbF"><i class="fa-solid fa-arrow-up-long"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.climbF'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.17" {{#if actor.system.favorites.checked.[17]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls acrobatics"><i class="fa-solid fa-cat"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.acrobatics'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.18" {{#if actor.system.favorites.checked.[18]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls jump"><i class="fa-solid fa-person-running"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.jump'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.19" {{#if actor.system.favorites.checked.[19]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls monsterKnow"><i class="fa-solid fa-ghost"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.monsterKnow'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.20" {{#if actor.system.favorites.checked.[20]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls generalKnow"><i class="fa-solid fa-map"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.generalKnow'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.21" {{#if actor.system.favorites.checked.[21]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls magicalKnow"><i class="fa-solid fa-hand-sparkles"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.magicalKnow'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.22" {{#if actor.system.favorites.checked.[22]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls observation"><i class="fa-regular fa-eye"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.observation'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.23" {{#if actor.system.favorites.checked.[23]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls longDistance"><i class="fa-solid fa-person-hiking"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.longDistance'}}</div>
+                </div>
+            </div>
+        </div> --}}
+        <div class="checks">
+            <h2>{{localize 'gs.charSheet.statsPage.checks'}}</h2>
+            <div class="grid grid-2col">
+                {{#each config.charSheet.checks as |value key| }}
+                    <div class="checksCont">
+                        <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.{{@index}}" {{#if actor.system.favorites.checked.[{{../@index}}]}}{{checked}}{{/if}}></div>
+                        <div class="checkIcon"><button type="button" class="actorRolls {{key}}"><i class="{{value.icon}}"></i></button></div>
+                        <div class="checkName">{{localize value.name}}</div>
+                    </div>
+                {{/each}}
             </div>
         </div>
     </div>
     <div class="grid-span-2 right">
+        {{!-- Class Levels --}}
         <div class="classLevels">
             <h2>{{localize config.character.clWd}}</h2>
             <div class="grid grid-3col">
@@ -258,6 +364,7 @@
                 <input type="text" name="system.levels.classes.shaman" value="{{actor.system.levels.classes.shaman}}" data-dtype="Number">
             </div>
         </div>
+        {{!-- Fatigue Boxes --}}
         <div class="fatigue">
             <h2>{{localize config.character.fatW}}</h2>
             <button type="button" class="actorRolls healFatigue" title="{{localize config.character.heal}} {{localize config.character.fatW}}"><i class="fa-solid fa-heart-pulse"></i></button>

@@ -267,7 +267,7 @@
         "projectile": "Projectile",
         "other": "Other"
       },
-      "statsPage":{
+      "statsPage": {
         "checks": "Checks"
       }
     },
@@ -335,10 +335,30 @@
         "sidebar": {
           "specRolls": "Special Rolls",
           "buttons": {
+            "initiative": "Initiative",
             "sixthSense": "Sixth Sense",
             "luck": "Luck",
             "firstAid": "First Aid",
-            "handiwork": "Handiwork"
+            "handiwork": "Handiwork",
+            "stealth": "Stealth",
+            "provoke": "Provoke",
+            "moveObs": "Movement Obstruction",
+            "moveRes": "Movement Resistance",
+            "strRes": "Strenght Resistance",
+            "psyRes": "Psyche Resistance",
+            "intRes": "Intelligence Resistance",
+            "strength": "Strength",
+            "escape": "Escape",
+            "climbM": "Climb (Muscle)",
+            "swim": "Swim",
+            "climbF": "Climb (Fitness)",
+            "acrobatics": "Acrobatics",
+            "jump": "Jump",
+            "monsterKnow": "Monster Knowledge",
+            "generalKnow": "General Knowledge",
+            "magicalKnow": "Magical Knowledge",
+            "observation": "Observation",
+            "longDistance": "Long Distance Movement"
           }
         }
       },

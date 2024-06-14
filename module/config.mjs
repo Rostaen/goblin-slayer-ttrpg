@@ -313,6 +313,104 @@ gs.actor = {
 			throw: "gs.charSheet.items.throw",
 			projectile: "gs.charSheet.items.projectile",
 			other: "gs.charSheet.items.other",
+		},
+		checks: {
+            acrobatics: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.acrobatics",
+				icon: "fa-solid fa-cat"
+			},
+            climbF: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.climbF",
+				icon: "fa-solid fa-arrow-up-long"
+			},
+            climbM: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.climbM",
+				icon: "fa-solid fa-up-long"
+			},
+            escape: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.escape",
+				icon: "fa-solid fa-user-lock"
+			},
+            firstAid: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.firstAid",
+				icon: "fa-solid fa-user-nurse"
+			},
+            generalKnow: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.generalKnow",
+				icon: "fa-solid fa-map"
+			},
+            handiwork: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.handiwork",
+				icon: "fa-solid fa-lock-open"
+			},
+			initiative: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.initiative",
+				icon: "fa-solid fa-dice"
+			},
+            intRes: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.intRes",
+				icon: "fa-solid fa-book"
+			},
+            jump: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.jump",
+				icon: "fa-solid fa-person-running"
+			},
+            longDistance: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.longDistance",
+				icon: "fa-solid fa-person-hiking"
+			},
+            luck: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.luck",
+				icon: "fa-solid fa-clover"
+			},
+            magicalKnow: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.magicalKnow",
+				icon: "fa-solid fa-hand-sparkles"
+			},
+            monsterKnow: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.monsterKnow",
+				icon: "fa-solid fa-ghost"
+			},
+            moveObs: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.moveObs",
+				icon: "fa-solid fa-hand"
+			},
+            moveRes: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.moveRes",
+				icon: "fa-solid fa-hand-fist"
+			},
+            observation: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.observation",
+				icon: "fa-regular fa-eye"
+			},
+            provoke: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.provoke",
+				icon: "fa-solid fa-fire"
+			},
+            psyRes: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.psyRes",
+				icon: "fa-solid fa-brain"
+			},
+            sixthSense: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.sixthSense",
+				icon: "fa-solid fa-eye"
+			},
+            stealth: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.stealth",
+				icon: "fa-solid fa-user-ninja"
+			},
+            strength: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.strength",
+				icon: "fa-solid fa-dumbbell"
+			},
+            strRes: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.strRes",
+				icon: "fa-solid fa-hill-rockslide"
+			},
+            swim: {
+				name: "gs.dialog.actorSheet.sidebar.buttons.swim",
+				icon: "fa-solid fa-person-swimming"
+			},
 		}
 	},
 	raceSheet: {

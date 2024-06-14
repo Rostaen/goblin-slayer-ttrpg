@@ -98,27 +98,24 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	_addRollToFavorites(event){
+		event.preventDefault();
 		const container = event.currentTarget.closest(".checksCont");
+		const $target = $(event.currentTarget).closest(".checksCont");
 		const checkStatus = container.querySelector('.starred').checked;
 		const checkName = container.querySelector('.checkName').innerHTML;
-		const button = container.querySelector('button.actorRolls');
+		const buttonClass = $target.find('button.actorRolls').attr("class");
+		const iconClass = $target.find('i').attr("class");
+
+		console.log(">>> Event Target", event.currentTarget);
 
 		if(checkStatus){
-			this.actor.update({
-				'system.favorites.values': {
-					...this.actor.system.favorites.values,
-					[checkName]: {
-						'name': checkName,
-						'button': button
-					}
-				}
+			this.actor.setFlag('gs', `favorites.${checkName}`, {
+				'name': checkName,
+				'button': buttonClass,
+				'icon': iconClass
 			});
 		}else{
-			const favorites = { ...this.actor.system.favorites.values };
-			delete favorites[checkName];
-			this.actor.update({
-				'system.favorites.values': favorites
-			});
+			this.actor.unsetFlag('gs', `favorites.${checkName}`);
 		}
 	}
 
@@ -451,6 +448,7 @@ export default class GSActorSheet extends ActorSheet{
 					dcCheck = `<div class="spellCastFailure">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}</div>`;
 				}
 			}
+			// TODO: Localize this message
 			let chatFlavor = `<div class="customFlavor">Rolling a ${label} check`;
 			if(status != undefined || status != null)
 				chatFlavor += `${status[1]}`;

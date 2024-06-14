@@ -1,3 +1,9 @@
-2024/06/13-09:42:56.929 2e74 Recovering log #208
-2024/06/13-09:42:56.932 2e74 Delete type=0 #208
-2024/06/13-09:42:56.932 2e74 Delete type=3 #207
+2024/06/14-07:55:05.640 2be4 Recovering log #212
+2024/06/14-07:55:05.640 2be4 Recovering log #216
+2024/06/14-07:55:05.645 2be4 Delete type=0 #212
+2024/06/14-07:55:05.646 2be4 Delete type=0 #216
+2024/06/14-07:55:05.646 2be4 Delete type=3 #211
+2024/06/14-07:56:07.425 e2c Level-0 table #219: started
+2024/06/14-07:56:07.425 e2c Level-0 table #219: 0 bytes OK
+2024/06/14-07:56:07.427 e2c Delete type=0 #217
+2024/06/14-07:56:07.440 e2c Manual compaction at level-0 from '!folders!0vY2ifDflIY066On' @ 72057594037927935 : 1 .. '!items!zjj9JSBDaJxXPeJw' @ 0 : 0; will stop at (end)

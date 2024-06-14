@@ -41,6 +41,8 @@
 <div class="sidebar">
     <h2>{{localize 'gs.dialog.actorSheet.sidebar.specRolls'}}</h2>
     <div class="buttons grid grid-5col specialRolls">
-        Favorite Buttons coming soon!
+        {{#each actor.flags.gs.favorites as |value id| }}
+            <button type="button" class="{{value.button}}" title="{{localize id}}"><i class="{{value.icon}}"></i></button>
+        {{/each}}
     </div>
 </div>

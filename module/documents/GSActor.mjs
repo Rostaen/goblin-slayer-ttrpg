@@ -272,7 +272,7 @@ export class GSActor extends Actor {
         if (!systemData.favorites.checked){
             systemData.favorites.checked = [];
             // Initialize the 'checked' array with default values
-            for (let x = 0; x < 10; x++)
+            for (let x = 0; x < 25; x++)
                 systemData.favorites.checked[x] = false;
         }
         if (!systemData.favorites.values) systemData.favorites.values = {};

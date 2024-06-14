@@ -267,7 +267,7 @@
         "projectile": "Pociski",
         "other": "Inne"
       },
-      "statsPage":{
+      "statsPage": {
         "checks": "Testy"
       }
     },
@@ -338,7 +338,8 @@
             "sixthSense": "Szósty Zmysł",
             "luck": "Szczęście",
             "firstAid": "Pierwsza Pomoc",
-            "handiwork": "Rękodzieło"
+            "handiwork": "Rękodzieło",
+            "stealth": "Ukrycie"
           }
         }
       },
