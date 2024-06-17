@@ -91,9 +91,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Magical Talent
 - [x] Martial Arts
 - [ ] Master of XX
-- [ ] Monster Knowledge
+- [x] Monster Knowledge
 - [ ] Mow Down
-- [ ] Observe
+- [x] Observe
 - [ ] Parry
 - [x] Perseverance
 - [ ] Piercing Attack
@@ -101,7 +101,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Rampart
 - [ ] Rapid Fire
 - [ ] Shields
-- [ ] Sixth Sense
+- [x] Sixth Sense
 - [ ] Slice Attack
 - [ ] Slip Behind
 - [ ] Snipe
@@ -127,10 +127,10 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Draconic Heritage
 - [ ] Etiquette
 - [ ] Faith: XX
-- [ ] General Knowledge
+- [x] General Knowledge
 - [ ] Labor
 - [ ] Leadership
-- [ ] Long-Distance Movement
+- [x] Long-Distance Movement
 - [ ] Meditate
 - [ ] Negotiate: XX
 - [ ] No Preconceptions

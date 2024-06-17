@@ -307,17 +307,6 @@
         "succ": "Success!",
         "fail": "Failure!"
       },
-      "stealth": {
-        "header": "Stealth Check Type",
-        "choice": "Choose a duration",
-        "longChoice": ": Uses Technique Endurance",
-        "shortChoice": ": Uses Technique Focus",
-        "immChoice": ": Uses Technique Reflex",
-        "long": "Long Term",
-        "short": "Short Term",
-        "immediate": "Immediate",
-        "output": "Stealth Check"
-      },
       "spells": {
         "spUse": "Spell Use",
         "cast": "Cast"
@@ -359,7 +348,7 @@
             "monsterKnow": "Monster Knowledge",
             "generalKnow": "General Knowledge",
             "magicalKnow": "Magical Knowledge",
-            "observation": "Observation",
+            "observe": "Observe",
             "longDistance": "Long Distance Movement"
           }
         }
@@ -397,6 +386,16 @@
         "title": "Strength Check Choice",
         "header": "Strength Focus or Endurance",
         "label": "Use Strength Focus for very short periods of time. Use Strength Endurance very long periods of time."
+      },
+      "stealth": {
+        "title": "Stealth Choice",
+        "header": "Technique Focus, Endurance, or Reflex",
+        "label": "Use Technique Focus for hiding before someone finds you. Use Technique Endurance to hide for a very long period of time. Use Technique Reflex to hide during combat or when a target is distracted."
+      },
+      "monsterKnow": {
+        "title": "Monster Knowledge Choice",
+        "header": "Intelligence Focus or Reflex",
+        "label": "Use Intelligence Focus when you encounters monsters before battle. Use Intelligence Reflex to recall knowledge when you hear or read about a monster to immediately recall info about them."
       }
     }
   }

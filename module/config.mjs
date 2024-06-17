@@ -379,7 +379,7 @@ gs.actor = {
 				name: "gs.dialog.actorSheet.sidebar.buttons.moveRes",
 				icon: "fa-solid fa-hand-fist"
 			},
-            observation: {
+            observe: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.observation",
 				icon: "fa-regular fa-eye"
 			},

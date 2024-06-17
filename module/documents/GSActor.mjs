@@ -90,16 +90,16 @@ export class GSActor extends Actor {
     }
 
     // Returns skill bonus value
-    _getSkillBonus(skillName){
-		const skills = this.items.filter(item => item.type === 'skill');
-		if(skills.length){
-			const skillBonusValue = skills.filter(skill => skill.name.toLowerCase() === skillName.toLowerCase());
-			if(skillBonusValue.length){
-				return parseInt(skillBonusValue[0].system.value, 10);
-			}else
-				return 0;
-		}
-	}
+    // _getSkillBonus(skillName){
+	// 	const skills = this.items.filter(item => item.type === 'skill');
+	// 	if(skills.length){
+	// 		const skillBonusValue = skills.filter(skill => skill.name.toLowerCase() === skillName.toLowerCase());
+	// 		if(skillBonusValue.length){
+	// 			return parseInt(skillBonusValue[0].system.value, 10);
+	// 		}else
+	// 			return 0;
+	// 	}
+	// }
 
     _checkFlags() {
         const flags = this.flags.gs;
@@ -312,6 +312,14 @@ export class GSActor extends Actor {
                     this._bonusSpellsKnownSkillCall(skill); break;
                 case "Magical Talent":
                     this.system.spellUse.max += skill.system.value; break;
+                case "Long-Distance Movement":
+                    let moveBonus = 0;
+                    if(skill.system.value === 2)
+                        moveBonus += 2;
+                    else if(skill.system.value === 3)
+                        moveBonus += 4;
+                    systemData.modMove += moveBonus;
+                    console.log(">> Check moveBonus and Move", moveBonus, systemData.modMove);
             }
         }
 
@@ -387,7 +395,7 @@ export class GSActor extends Actor {
         }
 
         // Setting Modified Movement
-        // TODO: Add in skill modifiers
+        // Skill Long-Distance movement is affecting modfiers above
         let movePen = systemData.move;
         const armor = actorData.items.filter(item => item.type === 'armor');
         if(armor.length){
@@ -396,7 +404,7 @@ export class GSActor extends Actor {
             }else
                 movePen += parseInt(armor[0].system.move, 10);
         }
-        systemData.modMove = movePen;
+        systemData.modMove += movePen;
 
     }
 

@@ -968,7 +968,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		const specialRolls = ['stealth', 'sixthSense', 'lucky', 'firstAid', 'initiative', 'handiwork', 'swim', 'climbF',
 			'acrobatics', 'jump', 'provoke', 'moveObs', 'moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'escape',
-			'climbM'];
+			'climbM', 'monsterKnow', 'generalKnow', 'magicalKnow', 'observe', 'longDistance'];
     	const healActions = ['healAttrition', 'healFatigue', 'healing'];
 
 		if (rollMappings[classType]) {
@@ -1034,40 +1034,6 @@ export default class GSActorSheet extends ActorSheet{
 			let dialogContent, promptTitle, buttonOne, buttonTwo, buttonThree, buttons;
 
 			switch(promptType){
-				case 'stealth':
-					dialogContent = `
-						<h3>${game.i18n.localize("gs.dialog.stealth.choice")}</h3>
-						<ul>
-							<li>${game.i18n.localize("gs.dialog.stealth.short")}${game.i18n.localize("gs.dialog.stealth.shortChoice")}</li>
-							<li>${game.i18n.localize("gs.dialog.stealth.long")}${game.i18n.localize("gs.dialog.stealth.longChoice")}</li>
-							<li>${game.i18n.localize("gs.dialog.stealth.immediate")}${game.i18n.localize("gs.dialog.stealth.immChoice")}</li>
-						</ul>
-						<h3>${game.i18n.localize("gs.dialog.mods.addMod")}</h3>
-						<p>${game.i18n.localize("gs.dialog.mods.addInfo")}</p>
-						<input type="text" class="rollMod" style="margin-bottom: 10px;" />`;
-					promptTitle = game.i18n.localize("gs.dialog.stealth.header");
-					buttonOne = {
-						label: game.i18n.localize("gs.dialog.stealth.short"),
-						callback: (html) => {
-							resolve(this._getRollMod(html, ".rollMod"));
-                        	this._handleStealthChoice("tf", this._getRollMod(html, ".rollMod"));
-						}
-					};
-					buttonTwo = {
-						label: game.i18n.localize("gs.dialog.stealth.long"),
-						callback: (html) => {
-							resolve(this._getRollMod(html, ".rollMod"));
-                        	this._handleStealthChoice("te", this._getRollMod(html, ".rollMod"));
-						}
-					};
-					buttonThree = {
-						label: game.i18n.localize("gs.dialog.stealth.immediate"),
-						callback: (html) => {
-							resolve(this._getRollMod(html, ".rollMod"));
-                        	this._handleStealthChoice("tr", this._getRollMod(html, ".rollMod"));
-						}
-					};
-					break;
 				case 'rollMod':
 					dialogContent = `
 						<h3>${game.i18n.localize("gs.dialog.mods.addMod")}</h3>
@@ -1088,43 +1054,24 @@ export default class GSActorSheet extends ActorSheet{
 					};
 					break;
 				case 'moveRes':
-					dialogContent = `
-						<h3>${game.i18n.localize("gs.dialog.moveRes.header")}</h3>
-						<p>${game.i18n.localize("gs.dialog.moveRes.label")}</p>`;
-					promptTitle = game.i18n.localize("gs.dialog.moveRes.title");
-					buttonOne = {
-						label: game.i18n.localize("gs.actor.character.str") + " " + game.i18n.localize("gs.actor.character.foc"),
-						callback: () => {
-							resolve(this.actor.system.abilities.calc.sf);
-						}
-					};
-					buttonTwo = {
-						label: game.i18n.localize("gs.actor.character.tec") + " " + game.i18n.localize("gs.actor.character.foc"),
-						callback: () => {
-							resolve(this.actor.system.abilities.calc.tf);
-						}
-					};
-					break;
 				case 'strRes':
 				case 'psyRes':
 				case 'intRes':
 				case 'strength':
+				case 'stealth':
+				case 'monsterKnow':
 					const header = game.i18n.localize(`gs.dialog.${promptType}.header`);
 					const paragraph = game.i18n.localize(`gs.dialog.${promptType}.label`);
-					const promptMapping1 = {
-						'strRes': 'str',
-						'psyRes': 'pys',
-						'intRes': 'int',
-						'strength': 'str'
+					const promptMapping = {
+						'moveRes': {word1: 'str', word2: 'foc', word3: 'tec', word4: 'foc'},
+						'strRes': {word1: 'str', word2: 'ref', word3: 'str', word4: 'end'},
+						'psyRes': {word1: 'psy', word2: 'ref', word3: 'psy', word4: 'end'},
+						'intRes': {word1: 'int', word2: 'ref', word3: 'int', word4: 'end'},
+						'strength': {word1: 'str', word2: 'foc', word3: 'str', word4: 'end'},
+						'monsterKnow': {word1: 'int', word2: 'foc', word3: 'int', word4: 'ref'},
+						'stealth': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref'},
 					};
-					const promptMapping2 = {
-						'strRes': { word2: 'ref', word3: 'end'},
-						'psyRes': { word2: 'ref', word3: 'end'},
-						'intRes': { word2: 'ref', word3: 'end'},
-						'strength': { word2: 'foc', word3: 'end'},
-					}
-					const word1 = promptMapping1[promptType] || '';
-					const {word2, word3} = promptMapping2[promptType] || {};
+					const {word1, word2, word3, word4, word5, word6} = promptMapping[promptType] || '';
 
 					dialogContent = `
 						<h3>${header}</h3>
@@ -1134,26 +1081,43 @@ export default class GSActorSheet extends ActorSheet{
 						label: game.i18n.localize(`gs.actor.character.${word1}`) + " " + game.i18n.localize(`gs.actor.character.${word2}`),
 						callback: () => {
 							const abilityMapping = {
+								'moveRes': this.actor.system.abilities.calc.sf,
 								'strRes': this.actor.system.abilities.calc.sr,
 								'psyRes': this.actor.system.abilities.calc.pr,
 								'intRes': this.actor.system.abilities.calc.ir,
-								'strength': this.actor.system.abilities.calc.sf
+								'strength': this.actor.system.abilities.calc.sf,
+								'stealth': this.actor.system.abilities.calc.tf,
+								'monsterKnow': this.actor.system.abilities.calc.if
 							};
 							resolve(abilityMapping[promptType]);
 						}
 					};
 					buttonTwo = {
-						label: game.i18n.localize(`gs.actor.character.${word1}`) + " " + game.i18n.localize(`gs.actor.character.${word3}`),
+						label: game.i18n.localize(`gs.actor.character.${word3}`) + " " + game.i18n.localize(`gs.actor.character.${word4}`),
 						callback: () => {
 							const abilityMapping = {
+								'moveRes': this.actor.system.abilities.calc.tf,
 								'strRes': this.actor.system.abilities.calc.se,
 								'psyRes': this.actor.system.abilities.calc.pe,
 								'intRes': this.actor.system.abilities.calc.ie,
-								'strength': this.actor.system.abilities.calc.se
+								'strength': this.actor.system.abilities.calc.se,
+								'stealth': this.actor.system.abilities.calc.te,
+								'monsterKnow': this.actor.system.abilities.calc.ir
 							};
 							resolve(abilityMapping[promptType]);
 						}
 					};
+					if(promptType === 'stealth'){
+						buttonThree = {
+							label: game.i18n.localize(`gs.actor.character.${word5}`) + " " + game.i18n.localize(`gs.actor.character.${word6}`),
+							callback: () => {
+								const abilityMapping = {
+									'stealth': this.actor.system.abilities.calc.tr
+								};
+								resolve(abilityMapping[promptType]);
+							}
+						};
+					}
 					break;
 				default:
 					break;
@@ -1288,7 +1252,7 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_specialRollsClassBonus(rollType){
 		switch(rollType){
-			case 'luck': case 'swim': case 'strRes': return
+			case 'luck': case 'swim': case 'strRes': case 'longDistance': return;
 			case 'psyRes': case 'intRes':
 				const advLevel = this.actor.system.levels.adventurer;
 				const dragonLevel = this.actor.system.levels.classes.dragon;
@@ -1314,6 +1278,10 @@ export default class GSActorSheet extends ActorSheet{
 			'strength': ['fighter', 'monk'],
 			'escape': ['fighter', 'monk'],
 			'climbM': ['fighter', 'monk'],
+			'monsterKnow': ['sorcerer', 'priest', 'dragon', 'shaman'],
+			'generalKnow': ['sorcerer'],
+			'magicalKnow': ['sorcerer'],
+			'observe': ['ranger', 'scout'],
 		}
 
 		// Getting the relevant classes for the roll type
@@ -1359,20 +1327,23 @@ export default class GSActorSheet extends ActorSheet{
 	async _specialRolls(event, rollType, skillName){
 		event.preventDefault();
 		let abilityScore = 0, dice = '2d6';
-		const dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
+		let dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
+		const intelligenceFocusChecks = ['generalKnow', 'magicalKnow', 'observe'];
 		const intelligenceReflexChecks = ['sixthSense'];
 		const psycheReflexChecks = ['provoke'];
 		const strengthReflexChecks = ['moveObs'];
 		const strengthFocusChecks = ['escape'];
-		const strengthEnduranceChecks = ['climbM'];
-		const techniqueFocusChecks = ['stealth', 'firstAid', 'handiwork', 'swim', 'climbF', 'acrobatics', 'jump'];
-		const adventurerLevel = ['swim', 'strRes'];
-		const specialPrompts = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength' ];
+		const strengthEnduranceChecks = ['climbM', 'longDistance'];
+		const techniqueFocusChecks = ['firstAid', 'handiwork', 'swim', 'climbF', 'acrobatics', 'jump'];
+		const adventurerLevel = ['swim', 'strRes', 'longDistance'];
+		const specialPrompts = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'monsterKnow'];
 
 		console.log(">>> Skill Name check", rollType, skillName);
 
 		if(intelligenceReflexChecks.includes(rollType))
 			abilityScore = this._findTheCalcAbilityScore('ir');
+		else if(intelligenceFocusChecks.includes(rollType))
+			abilityScore = this._findTheCalcAbilityScore('if');
 		else if(techniqueFocusChecks.includes(rollType))
 			abilityScore = this._findTheCalcAbilityScore('tf');
 		else if(psycheReflexChecks.includes(rollType))
@@ -1386,18 +1357,25 @@ export default class GSActorSheet extends ActorSheet{
 		else if(specialPrompts.includes(rollType)){
 			abilityScore = await this._promptMiscModChoice(rollType, dialogMessage);
 		}
+		dialogMessage += `<div class="abilScore">${game.i18n.localize('gs.actor.character.abil')}: ${abilityScore}`;
 
+		// Getting class bonus or adventurer level in certain cases.
 		let classBonus = this._specialRollsClassBonus(rollType);
 		if(adventurerLevel.includes(rollType))
 			classBonus = this._getAdventurerLevel();
-		const rollMod = rollType === "stealth"
-			? await this._promptMiscModChoice("stealth", dialogMessage)
-			: await this._promptMiscModChoice("rollMod", dialogMessage);
+		if(classBonus > 0)
+			dialogMessage += `<div class="levelScore">${game.i18n.localize('gs.actor.common.leve')}: ${classBonus}`;
+
+		// Getting misc modifiers such as circumstance bonuses or terrain disadvantages and etc.
+		const rollMod = await this._promptMiscModChoice("rollMod", dialogMessage);
 
 		// Updating skillName when special roll != skill name
 		const rollTypeMapping = {
 			'moveObs': 'Rampart',
 			'strRes': 'Strengthened Immunity',
+			'monsterKnow': 'Monster Knowledge',
+			'generalKnow': 'General Knowledge',
+			'longDistance': 'Long-Distance Movement',
 			'psyRes': 'Cool and Collected', 'intRes': 'Cool and Collected',
 			'strength': 'Encumbered Action', 'escape': 'Encumbered Action', 'climbM': 'Encumbered Action',
 			'swim': 'Martial Arts', 'climbF': 'Martial Arts', 'acrobatics': 'Martial Arts', 'jump': 'Martial Arts'
@@ -1410,6 +1388,14 @@ export default class GSActorSheet extends ActorSheet{
 		// Correcting skill bonuses here as needed
 		if(rollType === 'provoke') skillBonus -= 1;
 		else if(rollType === 'moveObs') skillBonus += 1;
+		else if(rollType === 'monsterKnow') skillBonus = skillBonus * 2;
+		else if(rollType === 'generalKnow' || rollType === 'longDistance')
+			skillBonus = skillBonus === 3 ? 4 : skillBonus;
+
+		if(skillBonus > 0)
+			dialogMessage += `<div class="skillScore">${game.i18n.localize('gs.actor.character.skills')}: ${skillBonus}`;
+		if(rollMod > 0)
+			dialogMessage += `<div class="rollScore">${game.i18n.localize('gs.dialog.mods.mod')}: ${rollMod}`;
 
 		const rollMessage = this._setRollMessage(dice, abilityScore, classBonus, skillBonus, rollMod);
 
