@@ -163,6 +163,8 @@ export default class GSActorSheet extends ActorSheet{
 		else
 			fatigueMod = 0;
 
+		console.log(">>> AbilScore", abilityScore, "CB", classBonus, "ItemMod", skillItemMod, "promptMod", promptMod, "fourthMod", fourthMod);
+
 		if(abilityScore > 0)
 			rollMessage += `  + ${abilityScore}`;
 		if(classBonus > 0) // Class Bonus
@@ -965,7 +967,8 @@ export default class GSActorSheet extends ActorSheet{
 		};
 
 		const specialRolls = ['stealth', 'sixthSense', 'lucky', 'firstAid', 'initiative', 'handiwork', 'swim', 'climbF',
-			'acrobatics', 'jump', 'provoke', 'moveObs', 'moveRes', 'strRes'];
+			'acrobatics', 'jump', 'provoke', 'moveObs', 'moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'escape',
+			'climbM'];
     	const healActions = ['healAttrition', 'healFatigue', 'healing'];
 
 		if (rollMappings[classType]) {
@@ -1028,29 +1031,37 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_promptMiscModChoice(promptType, promptName = ''){
 		return new Promise ((resolve) => {
-			let dialogContent, promptTitle, buttonOne, buttonTwo;
+			let dialogContent, promptTitle, buttonOne, buttonTwo, buttonThree, buttons;
 
 			switch(promptType){
 				case 'stealth':
 					dialogContent = `
 						<h3>${game.i18n.localize("gs.dialog.stealth.choice")}</h3>
 						<ul>
-							<li>${game.i18n.localize("gs.dialog.stealth.long")}${game.i18n.localize("gs.dialog.stealth.longChoice")}</li>
 							<li>${game.i18n.localize("gs.dialog.stealth.short")}${game.i18n.localize("gs.dialog.stealth.shortChoice")}</li>
+							<li>${game.i18n.localize("gs.dialog.stealth.long")}${game.i18n.localize("gs.dialog.stealth.longChoice")}</li>
+							<li>${game.i18n.localize("gs.dialog.stealth.immediate")}${game.i18n.localize("gs.dialog.stealth.immChoice")}</li>
 						</ul>
 						<h3>${game.i18n.localize("gs.dialog.mods.addMod")}</h3>
 						<p>${game.i18n.localize("gs.dialog.mods.addInfo")}</p>
 						<input type="text" class="rollMod" style="margin-bottom: 10px;" />`;
 					promptTitle = game.i18n.localize("gs.dialog.stealth.header");
 					buttonOne = {
+						label: game.i18n.localize("gs.dialog.stealth.short"),
+						callback: (html) => {
+							resolve(this._getRollMod(html, ".rollMod"));
+                        	this._handleStealthChoice("tf", this._getRollMod(html, ".rollMod"));
+						}
+					};
+					buttonTwo = {
 						label: game.i18n.localize("gs.dialog.stealth.long"),
 						callback: (html) => {
 							resolve(this._getRollMod(html, ".rollMod"));
                         	this._handleStealthChoice("te", this._getRollMod(html, ".rollMod"));
 						}
 					};
-					buttonTwo = {
-						label: game.i18n.localize("gs.dialog.stealth.short"),
+					buttonThree = {
+						label: game.i18n.localize("gs.dialog.stealth.immediate"),
 						callback: (html) => {
 							resolve(this._getRollMod(html, ".rollMod"));
                         	this._handleStealthChoice("tr", this._getRollMod(html, ".rollMod"));
@@ -1094,14 +1105,68 @@ export default class GSActorSheet extends ActorSheet{
 						}
 					};
 					break;
+				case 'strRes':
+				case 'psyRes':
+				case 'intRes':
+				case 'strength':
+					const header = game.i18n.localize(`gs.dialog.${promptType}.header`);
+					const paragraph = game.i18n.localize(`gs.dialog.${promptType}.label`);
+					const promptMapping1 = {
+						'strRes': 'str',
+						'psyRes': 'pys',
+						'intRes': 'int',
+						'strength': 'str'
+					};
+					const promptMapping2 = {
+						'strRes': { word2: 'ref', word3: 'end'},
+						'psyRes': { word2: 'ref', word3: 'end'},
+						'intRes': { word2: 'ref', word3: 'end'},
+						'strength': { word2: 'foc', word3: 'end'},
+					}
+					const word1 = promptMapping1[promptType] || '';
+					const {word2, word3} = promptMapping2[promptType] || {};
+
+					dialogContent = `
+						<h3>${header}</h3>
+						<p>${paragraph}</p>`;
+					promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
+					buttonOne = {
+						label: game.i18n.localize(`gs.actor.character.${word1}`) + " " + game.i18n.localize(`gs.actor.character.${word2}`),
+						callback: () => {
+							const abilityMapping = {
+								'strRes': this.actor.system.abilities.calc.sr,
+								'psyRes': this.actor.system.abilities.calc.pr,
+								'intRes': this.actor.system.abilities.calc.ir,
+								'strength': this.actor.system.abilities.calc.sf
+							};
+							resolve(abilityMapping[promptType]);
+						}
+					};
+					buttonTwo = {
+						label: game.i18n.localize(`gs.actor.character.${word1}`) + " " + game.i18n.localize(`gs.actor.character.${word3}`),
+						callback: () => {
+							const abilityMapping = {
+								'strRes': this.actor.system.abilities.calc.se,
+								'psyRes': this.actor.system.abilities.calc.pe,
+								'intRes': this.actor.system.abilities.calc.ie,
+								'strength': this.actor.system.abilities.calc.se
+							};
+							resolve(abilityMapping[promptType]);
+						}
+					};
+					break;
 				default:
 					break;
 			}
 
+			buttons = { buttonOne: buttonOne, buttonTwo: buttonTwo };
+			if(promptType === 'stealth')
+				buttons.buttonThree = buttonThree;
+
 			new Dialog({
 				title: promptTitle,
 				content: dialogContent,
-				buttons: { buttonOne: buttonOne, buttonTwo: buttonTwo },
+				buttons: buttons,
 				default: "buttonOne",
 				close: () => "",
 			}).render(true);
@@ -1114,7 +1179,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} rollMod Misc number adding to the stealh for various bonus/negative circumstances
 	 */
 	_handleStealthChoice(choice, rollMod = 0){
-		let stealthStat, skillBonus = 0, classBonus = 0, rollMessage, armorPenalties = 0;
+		let stealthStat, classBonus = 0, rollMessage, armorPenalties = 0;
 		const actorData = this.actor.system;
 		const actorStats = actorData.abilities.calc;
 		const actorClasses = actorData.levels.classes;
@@ -1125,10 +1190,13 @@ export default class GSActorSheet extends ActorSheet{
 			stealthStat = parseInt(actorStats.te, 10);
 		}else if(choice === 'tr'){
 			stealthStat = parseInt(actorStats.tr, 10);
+		}else if(choice === 'tf'){
+			stealthStat = parseInt(actorStats.tf, 10);
 		}else{
 			console.error("Invalid stealth choice.");
 			ui.notifications.warn("Invalid stealth choice.");
 		}
+		//console.log("Stealth choice", choice, stealthStat);
 
 		// Getting Class level bonus
 		if(actorClasses.monk > 0){
@@ -1143,10 +1211,6 @@ export default class GSActorSheet extends ActorSheet{
 
 		const shield = actorSkills.filter(item => item.type === 'shield');
 		if(shield.length) armorPenalties += parseInt(shield[0].system.stealth, 10);
-
-
-		// TODO: Add in skill bonuses for stealth here
-		// Getting skill bonus(es) here
 
 		// Setting up roll message
 		rollMessage = this._setRollMessage("2d6", stealthStat, classBonus, armorPenalties, rollMod);
@@ -1224,7 +1288,12 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_specialRollsClassBonus(rollType){
 		switch(rollType){
-			case 'luck': case 'swim': case 'strRes': return;
+			case 'luck': case 'swim': case 'strRes': return
+			case 'psyRes': case 'intRes':
+				const advLevel = this.actor.system.levels.adventurer;
+				const dragonLevel = this.actor.system.levels.classes.dragon;
+				if(advLevel >= dragonLevel) return parseInt(advLevel, 10);
+				else return parseInt(dragonLevel, 10);					;
 		}
 
 		let bonus = 0;
@@ -1242,6 +1311,9 @@ export default class GSActorSheet extends ActorSheet{
 			'provoke': ['fighter', 'monk'],
 			'moveObs': ['fighter'],
 			'moveRes': ['fighter', 'monk', 'scout'],
+			'strength': ['fighter', 'monk'],
+			'escape': ['fighter', 'monk'],
+			'climbM': ['fighter', 'monk'],
 		}
 
 		// Getting the relevant classes for the roll type
@@ -1290,10 +1362,12 @@ export default class GSActorSheet extends ActorSheet{
 		const dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
 		const intelligenceReflexChecks = ['sixthSense'];
 		const psycheReflexChecks = ['provoke'];
-		const strengthReflexChecks = ['moveObs', 'strRes'];
+		const strengthReflexChecks = ['moveObs'];
+		const strengthFocusChecks = ['escape'];
+		const strengthEnduranceChecks = ['climbM'];
 		const techniqueFocusChecks = ['stealth', 'firstAid', 'handiwork', 'swim', 'climbF', 'acrobatics', 'jump'];
-		const martialArtsChecks = ['Swim', 'Climb F', 'Acrobatics', 'Jump'];
 		const adventurerLevel = ['swim', 'strRes'];
+		const specialPrompts = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength' ];
 
 		console.log(">>> Skill Name check", rollType, skillName);
 
@@ -1305,7 +1379,11 @@ export default class GSActorSheet extends ActorSheet{
 			abilityScore = this._findTheCalcAbilityScore('pr');
 		else if(strengthReflexChecks.includes(rollType))
 			abilityScore = this._findTheCalcAbilityScore('sr');
-		else if(rollType === 'moveRes'){
+		else if(strengthFocusChecks.includes(rollType))
+			abilityScore = this._findTheCalcAbilityScore('sf');
+		else if(strengthEnduranceChecks.includes(rollType))
+			abilityScore = this._findTheCalcAbilityScore('se');
+		else if(specialPrompts.includes(rollType)){
 			abilityScore = await this._promptMiscModChoice(rollType, dialogMessage);
 		}
 
@@ -1317,11 +1395,14 @@ export default class GSActorSheet extends ActorSheet{
 			: await this._promptMiscModChoice("rollMod", dialogMessage);
 
 		// Updating skillName when special roll != skill name
-		if(martialArtsChecks.includes(skillName)){
-			martialArtsChecks.forEach(check => { if(check === skillName) skillName = 'Martial Arts'; });
-		}
-		if(rollType === 'moveObs') skillName = 'Rampart';
-		else if(rollType === 'strRes') skillName = 'Strengthened Immunity';
+		const rollTypeMapping = {
+			'moveObs': 'Rampart',
+			'strRes': 'Strengthened Immunity',
+			'psyRes': 'Cool and Collected', 'intRes': 'Cool and Collected',
+			'strength': 'Encumbered Action', 'escape': 'Encumbered Action', 'climbM': 'Encumbered Action',
+			'swim': 'Martial Arts', 'climbF': 'Martial Arts', 'acrobatics': 'Martial Arts', 'jump': 'Martial Arts'
+		};
+		skillName = rollTypeMapping[rollType] || skillName;
 
 		// Getting skill bonus
 		let skillBonus = this._getSkillBonus(skillName);

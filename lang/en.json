@@ -311,9 +311,11 @@
         "header": "Stealth Check Type",
         "choice": "Choose a duration",
         "longChoice": ": Uses Technique Endurance",
-        "shortChoice": ": Uses Technique Reflex",
+        "shortChoice": ": Uses Technique Focus",
+        "immChoice": ": Uses Technique Reflex",
         "long": "Long Term",
         "short": "Short Term",
+        "immediate": "Immediate",
         "output": "Stealth Check"
       },
       "spells": {
@@ -344,7 +346,7 @@
             "provoke": "Provoke",
             "moveObs": "Movement Obstruction",
             "moveRes": "Movement Resistance",
-            "strRes": "Strenght Resistance",
+            "strRes": "Strength Resistance",
             "psyRes": "Psyche Resistance",
             "intRes": "Intelligence Resistance",
             "strength": "Strength",
@@ -375,6 +377,26 @@
         "title": "Movement Resistance Choice",
         "header": "Strength Focus or Technique Focus",
         "label": "Which is your better ability score to stop the target from moving?"
+      },
+      "strRes": {
+        "title": "Strength Resistance Choice",
+        "header": "Strength Reflex or Strength Endurance",
+        "label": "Use Strength Reflex when you are the target of a spell. Use Strength Endurance when recovering from an effect."
+      },
+      "psyRes": {
+        "title": "Pysche Resistance Choice",
+        "header": "Pysche Reflex or Pysche Endurance",
+        "label": "Use Pysche Reflex when you are the target of a spell. Use Pysche Endurance when recovering from an effect."
+      },
+      "intRes": {
+        "title": "Intelligence Resistance Choice",
+        "header": "Intelligence Reflex or Intelligence Endurance",
+        "label": "Use Intelligence Reflex when you are the target of a spell. Use Intelligence Endurance when recovering from an effect."
+      },
+      "strength": {
+        "title": "Strength Check Choice",
+        "header": "Strength Focus or Endurance",
+        "label": "Use Strength Focus for very short periods of time. Use Strength Endurance very long periods of time."
       }
     }
   }
