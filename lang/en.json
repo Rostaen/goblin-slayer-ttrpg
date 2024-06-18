@@ -396,6 +396,14 @@
         "title": "Monster Knowledge Choice",
         "header": "Intelligence Focus or Reflex",
         "label": "Use Intelligence Focus when you encounters monsters before battle. Use Intelligence Reflex to recall knowledge when you hear or read about a monster to immediately recall info about them."
+      },
+      "mowDown": {
+        "title": "Mow Down Skill",
+        "header": "How Many Targeted Enemies?",
+        "label0": "Selecting 2 targets adds a -4 penalty. ",
+        "label1": "Each extra enemy adds -2 to the check. You can add this many more enemies to the check: ",
+        "label2": "Each extra enemy adds -1 to the check. You can add this many more enemies to the check: ",
+        "targets": "Targets: "
       }
     }
   }

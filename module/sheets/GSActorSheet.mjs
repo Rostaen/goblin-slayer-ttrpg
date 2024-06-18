@@ -387,7 +387,7 @@ export default class GSActorSheet extends ActorSheet{
 				// Checking over each character skill to modify success rates
 				for(const skill of skills){
 					skillValue = skill.system.value;
-					console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), label);
+					//console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), label);
 					const critSuccessFailSkills = ['alert-dodge'];
 					const critSuccessOnlySkills = ['master of fire', 'master of water', 'master of wind',
 						'master of earth', 'master of life'];
@@ -612,6 +612,17 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	/**
+	 * Adds a string to the chat message to show what is modifying the final dice results and how
+	 * @param {string} cssClass class name to color message
+	 * @param {JSON} skill the skill for associated information
+	 * @param {int} amount a value modifying final dice results
+	 * @returns A string to be added to the chat message
+	 */
+	_addStringToChatMessage(cssClass, skill, amount){
+		return  `<div class="${cssClass} specialRollChatMessage">${skill.name}: ${amount}</div>`;
+	}
+
+	/**
 	 * Gathers specific information for character or monster rolls and then sends the message out to the chat window
 	 * @param {*} event The click event
 	 * @param {string} modSelector They type of modifier to be used such at hit/block/dodge checks, power/damage attacks, etc.
@@ -734,10 +745,27 @@ export default class GSActorSheet extends ActorSheet{
 							const skillValue = skill.system.value;
 							const {monk, scout} = this.actor.system.levels.classes;
 
-							if(skillValue <= 3 || (skillValue >= 4 && (monk >= 7 || scout >= 7)))
+							if(skillValue <= 3 || (skillValue >= 4 && (monk >= 7 || scout >= 7))){
 								skillBonus += skillValue;
-							else
+								localizedMessage += this._addStringToChatMessage("skillScore", skill, skillValue);
+							}else
 								ui.notifications.warn(`Your Monk (${monk}) or Scout (${scout}) Level does meet the requirements for ${skill.name} level!`);
+						}
+					}
+				// Checking for to hit and mow down skill
+				}else if(modSelector === '.hitMod'){
+					for(const skill of skills){
+						if(skill.name.toLowerCase() === 'mow down'){
+							const weaponUse = container.querySelector('.weaponUse').value;
+							const weaponAttr = container.querySelector('.weaponAttr').value;
+							const weaponAttrSplit = weaponAttr.split('/');
+							const attributes = ['Slash', 'Bludgeoning'];
+							console.log(">>>", weaponAttrSplit);
+							if(weaponUse.toLowerCase() === 'two-handed' && weaponAttrSplit.some(attr => attributes.includes(attr))){
+								const modHitPen = await this._promptMiscModChoice("mowDown", skill.system.value);
+								modifier += modHitPen;
+								localizedMessage += this._addStringToChatMessage("skillScore", skill, modHitPen);
+							}
 						}
 					}
 				}
@@ -1041,6 +1069,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A promised value to be added to the roll message
 	 */
 	_promptMiscModChoice(promptType, promptName = ''){
+		console.log(promptType);
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo, buttonThree, buttons;
 
@@ -1074,61 +1103,75 @@ export default class GSActorSheet extends ActorSheet{
 					const header = game.i18n.localize(`gs.dialog.${promptType}.header`);
 					const paragraph = game.i18n.localize(`gs.dialog.${promptType}.label`);
 					const promptMapping = {
-						'moveRes': {word1: 'str', word2: 'foc', word3: 'tec', word4: 'foc'},
-						'strRes': {word1: 'str', word2: 'ref', word3: 'str', word4: 'end'},
-						'psyRes': {word1: 'psy', word2: 'ref', word3: 'psy', word4: 'end'},
-						'intRes': {word1: 'int', word2: 'ref', word3: 'int', word4: 'end'},
-						'strength': {word1: 'str', word2: 'foc', word3: 'str', word4: 'end'},
-						'monsterKnow': {word1: 'int', word2: 'foc', word3: 'int', word4: 'ref'},
-						'stealth': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref'},
+						'moveRes': {word1: 'str', word2: 'foc', word3: 'tec', word4: 'foc', ability1: 'sf', ability2: 'tf'},
+						'strRes': {word1: 'str', word2: 'ref', word3: 'str', word4: 'end', ability1: 'sr', ability2: 'se'},
+						'psyRes': {word1: 'psy', word2: 'ref', word3: 'psy', word4: 'end', ability1: 'pr', ability2: 'pe'},
+						'intRes': {word1: 'int', word2: 'ref', word3: 'int', word4: 'end', ability1: 'ir', ability2: 'ie'},
+						'strength': {word1: 'str', word2: 'foc', word3: 'str', word4: 'end', ability1: 'sf', ability2: 'se'},
+						'monsterKnow': {word1: 'int', word2: 'foc', word3: 'int', word4: 'ref', ability1: 'if', ability2: 'ir'},
+						'stealth': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref', ability1: 'tf', ability2: 'te', ability3: 'tr'},
 					};
-					const {word1, word2, word3, word4, word5, word6} = promptMapping[promptType] || '';
+
+					const { word1, word2, word3, word4, word5, word6, ability1, ability2, ability3 } = promptMapping[promptType] || {};
 
 					dialogContent = `
 						<h3>${header}</h3>
 						<p>${paragraph}</p>`;
 					promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
+
+					const createButton = (labelWords, ability) => ({
+						label: game.i18n.localize(`gs.actor.character.${labelWords[0]}`) + " " + game.i18n.localize(`gs.actor.character.${labelWords[1]}`),
+						callback: () => resolve(this.actor.system.abilities.calc[ability])
+					});
+
+					buttonOne = createButton([word1, word2], ability1);
+					buttonTwo = createButton([word3, word4], ability2);
+
+					if(promptType === 'stealth'){
+						buttonThree = createButton([word5, word6, ability3]);
+					}
+					break;
+				case 'mowDown':
+					const skillValue = parseInt(promptName, 10);
+					const mDHeader = game.i18n.localize(`gs.dialog.${promptType}.header`);
+					let mDParagraph = game.i18n.localize(`gs.dialog.${promptType}.label0`);
+
+					mDParagraph += skillValue < 5 ?
+						game.i18n.localize(`gs.dialog.${promptType}.label1`) + (skillValue - 1) :
+						game.i18n.localize(`gs.dialog.${promptType}.label2`) + 5;
+
+					dialogContent = `
+						<h3>${mDHeader}</h3>
+						<p>${mDParagraph}</p>
+						<label>${game.i18n.localize(`gs.dialog.${promptType}.targets`)}</label>
+						<select id="targetSelect" style="margin-bottom:10px;">
+							${[1,2,3,4,5].map(value =>
+								value <= skillValue + 1 ? `<option value"${value}">${value}</option>` : ""
+							).join('')}
+						</select>`;
+
+					promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
 					buttonOne = {
-						label: game.i18n.localize(`gs.actor.character.${word1}`) + " " + game.i18n.localize(`gs.actor.character.${word2}`),
-						callback: () => {
-							const abilityMapping = {
-								'moveRes': this.actor.system.abilities.calc.sf,
-								'strRes': this.actor.system.abilities.calc.sr,
-								'psyRes': this.actor.system.abilities.calc.pr,
-								'intRes': this.actor.system.abilities.calc.ir,
-								'strength': this.actor.system.abilities.calc.sf,
-								'stealth': this.actor.system.abilities.calc.tf,
-								'monsterKnow': this.actor.system.abilities.calc.if
-							};
-							resolve(abilityMapping[promptType]);
+						label: game.i18n.localize(`gs.dialog.mods.addMod`),
+						callback: (html) => {
+							const selectedValue = parseInt(html.find('#targetSelect').val(), 10);
+							let returnValue = 0;
+
+							// Finding amount to be returned when attacking 2+ targets
+							if (selectedValue > 1) {
+								returnValue = -4;
+								if (selectedValue > 2) {
+									returnValue += (selectedValue - 2) * (skillValue < 5 ? -2 : -1);
+								}
+							}
+
+							resolve(returnValue);
 						}
 					};
 					buttonTwo = {
-						label: game.i18n.localize(`gs.actor.character.${word3}`) + " " + game.i18n.localize(`gs.actor.character.${word4}`),
-						callback: () => {
-							const abilityMapping = {
-								'moveRes': this.actor.system.abilities.calc.tf,
-								'strRes': this.actor.system.abilities.calc.se,
-								'psyRes': this.actor.system.abilities.calc.pe,
-								'intRes': this.actor.system.abilities.calc.ie,
-								'strength': this.actor.system.abilities.calc.se,
-								'stealth': this.actor.system.abilities.calc.te,
-								'monsterKnow': this.actor.system.abilities.calc.ir
-							};
-							resolve(abilityMapping[promptType]);
-						}
+						label: game.i18n.localize('gs.dialog.cancel'),
+						callback: () => resolve(0)
 					};
-					if(promptType === 'stealth'){
-						buttonThree = {
-							label: game.i18n.localize(`gs.actor.character.${word5}`) + " " + game.i18n.localize(`gs.actor.character.${word6}`),
-							callback: () => {
-								const abilityMapping = {
-									'stealth': this.actor.system.abilities.calc.tr
-								};
-								resolve(abilityMapping[promptType]);
-							}
-						};
-					}
 					break;
 				default:
 					break;
@@ -1146,52 +1189,6 @@ export default class GSActorSheet extends ActorSheet{
 				close: () => "",
 			}).render(true);
 		});
-	}
-
-	/**
-	 * Helps determine if a stealth roll is for long term and out of battle or in combat and hiding from enemies
-	 * @param {string} choice Determines wether to use Technique Endurance/Reflex for the given stealth roll
-	 * @param {int} rollMod Misc number adding to the stealh for various bonus/negative circumstances
-	 */
-	_handleStealthChoice(choice, rollMod = 0){
-		let stealthStat, classBonus = 0, rollMessage, armorPenalties = 0;
-		const actorData = this.actor.system;
-		const actorStats = actorData.abilities.calc;
-		const actorClasses = actorData.levels.classes;
-		const actorSkills = this.actor.items; // Filter for skill(s) later
-
-		// Determining which calculated stat to use
-		if(choice === 'te'){
-			stealthStat = parseInt(actorStats.te, 10);
-		}else if(choice === 'tr'){
-			stealthStat = parseInt(actorStats.tr, 10);
-		}else if(choice === 'tf'){
-			stealthStat = parseInt(actorStats.tf, 10);
-		}else{
-			console.error("Invalid stealth choice.");
-			ui.notifications.warn("Invalid stealth choice.");
-		}
-		//console.log("Stealth choice", choice, stealthStat);
-
-		// Getting Class level bonus
-		if(actorClasses.monk > 0){
-			classBonus = parseInt(actorClasses.monk, 10);
-		}else if(actorClasses.scout > 0){
-			classBonus = parseInt(actorClasses.scout, 10);
-		}
-
-		// Getting armor/shield penalties
-		const armor = actorSkills.filter(item => item.type === 'armor');
-		if(armor.length) armorPenalties += parseInt(armor[0].system.stealth, 10);
-
-		const shield = actorSkills.filter(item => item.type === 'shield');
-		if(shield.length) armorPenalties += parseInt(shield[0].system.stealth, 10);
-
-		// Setting up roll message
-		rollMessage = this._setRollMessage("2d6", stealthStat, classBonus, armorPenalties, rollMod);
-		// console.log("Stat", stealthStat, "CB", classBonus);
-
-		this._sendRollMessage(rollMessage, `${game.i18n.localize("gs.dialog.stealth.output")}`);
 	}
 
 	/**
