@@ -163,7 +163,7 @@ export default class GSActorSheet extends ActorSheet{
 		else
 			fatigueMod = 0;
 
-		console.log(">>> AbilScore", abilityScore, "CB", classBonus, "ItemMod", skillItemMod, "promptMod", promptMod, "fourthMod", fourthMod);
+		//console.log(">>> AbilScore", abilityScore, "CB", classBonus, "ItemMod", skillItemMod, "promptMod", promptMod, "fourthMod", fourthMod);
 
 		if(abilityScore > 0)
 			rollMessage += `  + ${abilityScore}`;
@@ -361,7 +361,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} label The type of action being checked for skills
 	 * @returns Fail/Success/Normal
 	 */
-	_checkForCritRolls(diceResults, label=""){
+	_checkForCritRolls(diceResults, label="", event=""){
 		if(diceResults.length === 2){
 			let skills, skillValue, critSuccess = 12, critFail = 2, results = [];
 			const actorType = this.actor.type;
@@ -371,22 +371,33 @@ export default class GSActorSheet extends ActorSheet{
 				skills = this.actor.items.filter(item => item.type === 'skill');
 
 				// Updating the Critical Success/Failure rate based on the given skill
-				const setCritValues = (skillValue) => {
+				const setSuccessFailValues = (skillValue) => {
 					if(skillValue === 1){ critSuccess = 11; critFail = 5; }
 					else if(skillValue === 2){ critSuccess = 11; critFail = 4; }
 					else if(skillValue === 3){ critSuccess = 10; critFail = 4; }
 					else if(skillValue === 4){ critSuccess = 10; critFail = 3; }
 					else if(skillValue === 5){ critSuccess = 9; critFail = 3; }
 				};
+				const setCritSuccessValues = (skillValue) => {
+					if(skillValue < 3) critSuccess = 11;
+					else if(skillValue < 5) critSuccess = 10;
+					else if(skillValue == 5) critSuccess = 9;
+				}
 
 				// Checking over each character skill to modify success rates
 				for(const skill of skills){
 					skillValue = skill.system.value;
-					// console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), label);
-					switch(`${skill.name.toLowerCase()}-${label.toLowerCase()}`){
-						case 'alert-dodge':
-							setCritValues(skillValue);
-							break;
+					console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), label);
+					const critSuccessFailSkills = ['alert-dodge'];
+					const critSuccessOnlySkills = ['master of fire', 'master of water', 'master of wind',
+						'master of earth', 'master of life'];
+					if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`))
+						setSuccessFailValues(skillValue);
+					else if(critSuccessOnlySkills.includes(`${skill.name.toLowerCase()}`)){
+						const element = event.currentTarget.closest('.reveal-rollable').querySelector("#element").value;
+						const splitSkillName = skill.name.split(" ");
+						if(splitSkillName[2].toLowerCase() === element.toLowerCase())
+							setCritSuccessValues(skillValue);
 					}
 				}
 			}
@@ -418,7 +429,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} skillBonus The value of the skill to help determine how much to add to a given roll
 	 * @param {int} rollMod Misc. integer value to be added from the window prompt
 	 */
-	async _rollsToMessage(dice, stat, classBonus, modifier, label, skillBonus = 0, rollMod = 0){
+	async _rollsToMessage(event, dice, stat, classBonus, modifier, label, skillBonus = 0, rollMod = 0){
 		let rollExpression = `${dice}`;
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
 
@@ -436,7 +447,7 @@ export default class GSActorSheet extends ActorSheet{
 			await roll.evaluate();
 
 			const diceResults = roll.terms[0].results.map(r => r.result);
-			const status = this._checkForCritRolls(diceResults, label);
+			const status = this._checkForCritRolls(diceResults, label, event);
 			let dcCheck = '';
 			if(label === casting){
 				// Getting dice total plus bonuses to compare to DC stored in Modifier
@@ -770,7 +781,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		// console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
 
-		this._rollsToMessage(diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
+		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
 	}
 
 	/**
@@ -1357,14 +1368,14 @@ export default class GSActorSheet extends ActorSheet{
 		else if(specialPrompts.includes(rollType)){
 			abilityScore = await this._promptMiscModChoice(rollType, dialogMessage);
 		}
-		dialogMessage += `<div class="abilScore">${game.i18n.localize('gs.actor.character.abil')}: ${abilityScore}`;
+		dialogMessage += `<div class="abilScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.abil')}: ${abilityScore}</div>`;
 
 		// Getting class bonus or adventurer level in certain cases.
 		let classBonus = this._specialRollsClassBonus(rollType);
 		if(adventurerLevel.includes(rollType))
 			classBonus = this._getAdventurerLevel();
 		if(classBonus > 0)
-			dialogMessage += `<div class="levelScore">${game.i18n.localize('gs.actor.common.leve')}: ${classBonus}`;
+			dialogMessage += `<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.actor.common.leve')}: ${classBonus}</div>`;
 
 		// Getting misc modifiers such as circumstance bonuses or terrain disadvantages and etc.
 		const rollMod = await this._promptMiscModChoice("rollMod", dialogMessage);
@@ -1393,9 +1404,9 @@ export default class GSActorSheet extends ActorSheet{
 			skillBonus = skillBonus === 3 ? 4 : skillBonus;
 
 		if(skillBonus > 0)
-			dialogMessage += `<div class="skillScore">${game.i18n.localize('gs.actor.character.skills')}: ${skillBonus}`;
+			dialogMessage += `<div class="skillScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.skills')}: ${skillBonus}</div>`;
 		if(rollMod > 0)
-			dialogMessage += `<div class="rollScore">${game.i18n.localize('gs.dialog.mods.mod')}: ${rollMod}`;
+			dialogMessage += `<div class="rollScore specialRollChatMessage">${game.i18n.localize('gs.dialog.mods.mod')}: ${rollMod}</div>`;
 
 		const rollMessage = this._setRollMessage(dice, abilityScore, classBonus, skillBonus, rollMod);
 

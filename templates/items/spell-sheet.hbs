@@ -23,7 +23,7 @@
 							</option>
 						{{/each}}
 					</select>
-					<select name="system.elementChoice">
+					<select name="system.elementChoice" class="elementChoice">
 						{{#each config.spell.elements as |label key|}}
 							<option value="{{localize label}}" {{#if (eq (localize label) ../gear.elementChoice)}}selected{{/if}}>
 								{{localize label}}

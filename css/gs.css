@@ -211,6 +211,29 @@
 .full-width {
   width: 100%;
 }
+.specialRollChatMessage {
+  display: inline-flex;
+  margin-left: 5px;
+  border-radius: 3px;
+  padding: 0px 3px;
+  margin-bottom: 5px;
+}
+.abilScore {
+  background-color: #bebeff;
+  border: 1px solid #6464af;
+}
+.levelScore {
+  background-color: #ffbebe;
+  border: 1px solid #af6464;
+}
+.skillScore {
+  background-color: #beffbe;
+  border: 1px solid #64af64;
+}
+rollScore .rollScore {
+  background-color: #ffffbe;
+  border: 1px solid #afaf64;
+}
 .spellCastSuccess,
 .spellEffectivenessScore,
 .spellCastFailure {

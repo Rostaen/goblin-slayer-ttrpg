@@ -319,7 +319,7 @@ export class GSActor extends Actor {
                     else if(skill.system.value === 3)
                         moveBonus += 4;
                     systemData.modMove += moveBonus;
-                    console.log(">> Check moveBonus and Move", moveBonus, systemData.modMove);
+                    break;
             }
         }
 
