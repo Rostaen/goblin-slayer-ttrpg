@@ -430,6 +430,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} rollMod Misc. integer value to be added from the window prompt
 	 */
 	async _rollsToMessage(event, dice, stat, classBonus, modifier, label, skillBonus = 0, rollMod = 0){
+		console.log(">>> in rollstomessage", classBonus);
 		let rollExpression = `${dice}`;
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
 
@@ -543,7 +544,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The bonus for the class level of the item/spell being used
 	 */
 	_getClassLevelBonus(typeHolder, itemType){
-		let [type, weight] = "";
+		let [type, weight] = "", className = "";
 		if(itemType != 'cast') {
 			[type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
 		}
@@ -557,13 +558,17 @@ export default class GSActorSheet extends ActorSheet{
 		if(itemType === 'weapon'){
 			if(type === 'projectile' && ranger > 0){
 				bonus += ranger;
+				className = game.i18n.localize('gs.actor.character.rang');
 			}else if(type === 'throwing'){
 				if(monk > bonus){
 					bonus += monk;
+					className = game.i18n.localize('gs.actor.character.monk');
 				}else if(ranger > bonus){
 					bonus += ranger;
+					className = game.i18n.localize('gs.actor.character.rang');
 				}else if(scout > bonus){
 					bonus += scout;
+					className = game.i18n.localize('gs.actor.character.scou');
 				}
 			}else{ // Assuming type is a melee weapon
 				const fighterWeapons = ["sword", "ax", "spear", "mace"];
@@ -571,10 +576,13 @@ export default class GSActorSheet extends ActorSheet{
 				const scoutWeapons = ["sword", "ax", "spear", "mace", "close-combat", "staff"];
 				if (fighter > bonus && includesAny(fighterWeapons, type)) {
 					bonus += fighter;
+					className = game.i18n.localize('gs.actor.character.figh');
 				} else if (monk > bonus && includesAny(monkWeapons, type)) {
 					bonus += monk;
+					className = game.i18n.localize('gs.actor.character.monk');
 				} else if (scout > bonus && includesAny(scoutWeapons, type) && weight === 'light') {
 					bonus += scout;
+					className = game.i18n.localize('gs.actor.character.scou');
 				}
 			}
 		}else if(itemType === 'armor'){
@@ -583,10 +591,13 @@ export default class GSActorSheet extends ActorSheet{
 				const isCloth = armorType[1] === 'cloth';
 				if(fighter > bonus){
 					bonus += fighter;
+					className = game.i18n.localize('gs.actor.character.figh');
 				}else if(monk > bonus && isCloth){
 					bonus += monk;
+					className = game.i18n.localize('gs.actor.character.monk');
 				}else if(scout > bonus && weight === 'light'){
 					bonus += scout;
+					className = game.i18n.localize('gs.actor.character.scou');
 				}
 			}else{
 				console.error("Not text found in type from hidden input");
@@ -594,21 +605,27 @@ export default class GSActorSheet extends ActorSheet{
 		}else if(itemType === 'shield'){
 			if(fighter > bonus){
 				bonus += fighter;
+				className = game.i18n.localize('gs.actor.character.figh');
 			}else if(scout && weight === 'light'){
 				bonus += scout;
+				className = game.i18n.localize('gs.actor.character.scou');
 			}
 		}else if(itemType === 'cast'){
 			if(typeHolder.toLowerCase() === "words of true power"){
 				bonus += sorcerer;
+				className = game.i18n.localize('gs.actor.character.sorc');
 			}else if(typeHolder.toLowerCase() === "miracle"){
 				bonus += priest;
+				className = game.i18n.localize('gs.actor.character.prie');
 			}else if(typeHolder.toLowerCase() === "ancestral dragon"){
 				bonus += dragon;
+				className = game.i18n.localize('gs.actor.character.dPri');
 			}else if(typeHolder.toLowerCase() === "spirit arts"){
 				bonus += shaman;
+				className = game.i18n.localize('gs.actor.character.sham');
 			}
 		}
-		return bonus;
+		return {bonus, className};
 	}
 
 	/**
@@ -649,168 +666,405 @@ export default class GSActorSheet extends ActorSheet{
 			return;
 		}
 
+		diceNotation = this._getDiceNotation(modElement, actorType, modSelector);
+		if(!diceNotation) return;
+
 		if(actorType === 'character'){
-			diceNotation = modElement.textContent;
+			stat = this._getStatForItemType(itemType, modSelector);
+			if(stat > 0) localizedMessage += `<div class="abilScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.abil')}: ${stat}</div>`;
+
+			const { bonus, className} = this._getClassLevelBonus(this._getItemType(container), itemType);
+			classBonus = bonus;
+			if(classBonus > 0) localizedMessage += `<div class="levelScore specialRollChatMessage">${className}: ${classBonus}</div>`;
+			console.log(">>> ClassBonus", classBonus, className);
+
 			skills = this.actor.items.filter(item => item.type === 'skill');
-		}else if(actorType === 'monster') diceNotation = modElement.value;
-
-		// Getting monster to hit dice and modifiers (if any)
-		if((modSelector === '.hitMod' || modSelector === '.boss.dodge' ||
-			modSelector === '.boss.block' || modSelector === '.boss.spellRes' ||
-			modSelector === '.power') && actorType === 'monster'){
-			if(diceNotation != 0){
-				const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
-				diceToRoll = powerDice.trim();
-				if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
-				else modifier = powerMod;
-			}else{
-				ui.notifications.info(`The check has a value of 0 or undefined and cannot be rolled`);
-				return;
-			}
-		// Getting character elements ready
-		}else if(actorType === 'character'){
 			if(modSelector === '.power'){
-				// Breaking down weapon power for damage dice and +N modifiers, if any
-				const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
-				diceToRoll = powerDice.trim();
-				if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
-				else modifier = powerMod;
-
-				// Checking if character has monk levels and various monk skills
+				const {dice, mod} = this._parseDiceNotation(diceNotation);
+				diceToRoll = dice;
+				modifier = mod;
 				if(this.actor.system.levels.classes.monk > 0){
 					const typeHolder = this._getItemType(container);
-					let [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
-					const weaponName = container.querySelector('div.name').innerHTML.split(" ")[0].trim();
-					console.log(">>> Review container contents", container, weaponName);
-
-					// Checking for barehanded weapons for Iron First skill
-					if(weaponName.toLowerCase() === 'barehanded'){
-						for(const skill of skills){
-							if(skill.name.toLowerCase() === 'iron fist'){
-								switch(skill.system.value){
-									case 1:
-									case 2:
-										skillBonus += skill.system.value;
-										break;
-									case 3:
-									case 4:
-										skillBonus += skill.system.value + Math.floor(skill.system.value / 2);
-										break;
-									case 5:
-										skillBonus += skill.system.value + Math.round(skill.system.value / 2);
-										break;
-								}
-							}
-						}
-					}
-
-					// Checking for close-combat weapon used and burst of strength skill
-					if(type === 'close-combat'){
-						for(const skill of skills){
-							if(skill.name.toLowerCase() === 'burst of strength'){
-								switch(skill.system.value){
-									case 1: skillBonus = 1; break;
-									case 2: skillBonus = 2; break;
-									case 3: skillBonus = "1d3"; break;
-									case 4:
-									case 5: skillBonus = "1d6"; break;
-								}
-								const powerBonus = await this._promptFatigueForPower();
-								if(powerBonus > 0){
-									for(let x = 0; x < powerBonus; x++)
-										await this._checkFatigueRanks();
-									if(skill.system.value <= 2)
-										skillBonus += powerBonus;
-									else if(skill.system.value <= 4)
-										skillBonus += `+${powerBonus}`;
-									else
-										skillBonus += `+${powerBonus * 2}`;
-								}
-							}
-						}
-					}
+					const {weaponName, type} = this._parseWeaponType(container, typeHolder);
+					if(weaponName.toLowerCase() === 'barehanded')
+						skillBonus += this._calculateIronFistBonus(skills, 'iron fist');
+					if(type === 'close-combat')
+						skillBonus += await this._calculateBurstOfStrengthBonus(skills);
 				}
-			}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
-					 modSelector === '.blockMod' || modSelector === '.spellDif'){
+			}else if(['.hitMod', '.dodge', '.blockMod', '.spellDif'].includes(modSelector)){
 				modifier = parseInt(modElement.textContent, 10);
-				// Checking for dodging and heavy classified armor vs Str End score or Martial Arts skill to dodge
 				if(modSelector === '.dodge'){
-					const armor = this.actor.items.filter(item => item.type === 'armor');
-					const strEnd = this.actor.system.abilities.calc.se;
-					if(armor[0].system.heavy.value && strEnd >= armor[0].system.heavy.y){
-						modifier = Math.floor(modifier / 2);
-					}
-					for(const skill of skills){
-						if(skill.name.toLowerCase() === "martial arts"){
-							const skillValue = skill.system.value;
-							const {monk, scout} = this.actor.system.levels.classes;
-
-							if(skillValue <= 3 || (skillValue >= 4 && (monk >= 7 || scout >= 7))){
-								skillBonus += skillValue;
-								localizedMessage += this._addStringToChatMessage("skillScore", skill, skillValue);
-							}else
-								ui.notifications.warn(`Your Monk (${monk}) or Scout (${scout}) Level does meet the requirements for ${skill.name} level!`);
-						}
-					}
-				// Checking for to hit and mow down skill
-				}else if(modSelector === '.hitMod'){
-					for(const skill of skills){
-						if(skill.name.toLowerCase() === 'mow down'){
-							const weaponUse = container.querySelector('.weaponUse').value;
-							const weaponAttr = container.querySelector('.weaponAttr').value;
-							const weaponAttrSplit = weaponAttr.split('/');
-							const attributes = ['Slash', 'Bludgeoning'];
-							console.log(">>>", weaponAttrSplit);
-							if(weaponUse.toLowerCase() === 'two-handed' && weaponAttrSplit.some(attr => attributes.includes(attr))){
-								const modHitPen = await this._promptMiscModChoice("mowDown", skill.system.value);
-								modifier += modHitPen;
-								localizedMessage += this._addStringToChatMessage("skillScore", skill, modHitPen);
-							}
-						}
-					}
+					const {modifier: mod, localizedMessage: message} = this._calculateDodgeModifier(modifier, skills, localizedMessage);
+					modifier = mod;
+					localizedMessage = message;
 				}
-			}else if(modSelector === '.spellRes'){
+				else if(modSelector === '.hitMod'){
+					const {modifier: mod, localizedMessage: message} = await this._calculateMowDownModifier(container, skills, modifier, localizedMessage);
+					modifier = mod;
+					localizedMessage = message;
+				}
+			}else if(modSelector === '.spellDif')
 				modifier = parseInt(modElement.value);
-			}
 		}
-
-		if(actorType === 'character') {
-			// Getting hidden item type
-			switch(itemType){
-				case 'weapon': case 'armor': case 'shield':
-					typeHolder = this._getItemType(container);
-					if (!typeHolder) {
-						console.error("Item type not found.");
-						return;
-					}
-					classBonus = this._getClassLevelBonus(typeHolder, itemType);
-					break;
-				case 'cast':
-					const school = container.querySelector("input[type='hidden']").value;
-					if(school.toLowerCase() === "words of true power"){
-						stat = actorCalcStats.if;
-					}else{
-						stat = actorCalcStats.pf;
-					}
-					classBonus = this._getClassLevelBonus(school, itemType);
-					break;
-				// Do nothing else for other items types
-			}
-
-			// Getting stat for to hit or damage
-			if(modSelector === '.power' || modSelector === '.spellRes'){
-				// Do nothing here
-			}else if(itemType === 'weapon'){
-				stat = actorCalcStats.tf;
-			}else if(itemType === 'shield' || itemType === 'armor'){
-				stat = actorCalcStats.tr;
-			}
-		}
-
-		// console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
 
 		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
 	}
+
+	/**
+	 * Helps determine if the dice/value is from a monster/character and how to proceed in extracting the proper value.
+	 * @param {variable} modElement Containers either an int (monsters) or string (character)
+	 * @param {string} actorType Either 'monster' or 'character' to determine dice values
+	 * @param {string} modSelector CSS string to help identify what kind of value is being pulled
+	 * @returns The dice being used in the roll or a value to modifier the dice roll
+	 */
+	_getDiceNotation(modElement, actorType, modSelector){
+		if(actorType === 'monster' && ['.hitMod', '.boss.dodge', '.boss.block', '.boss.spellRes', '.power'].includes(modSelector)){
+			const diceNotation = modElement.value;
+			if(diceNotation != 0)
+				return diceNotation;
+			else{
+				ui.notifications.info(`The check has a value of 0 or undefined and cannot be rolled`);
+            	return null;
+			}
+		}else if(actorType === 'character')
+			return modElement.textContent;
+		return null;
+	}
+
+	/**
+	 * Helps determine the dice being sent to the roller  where 'N' is the number of dice being rolled and '3/6 is either a 3-sided or 6-sided die.
+	 * @param {string} diceNotation A dice notation in either "Nd3/6 + N" or "Nd3/6"
+	 * @returns The dice to roll and any modifers
+	 */
+	_parseDiceNotation(diceNotation){
+		const [dice, mod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
+		return {
+			dice: dice.trim(),
+			mod: parseInt(mod === 0 ? 0 : mod.trim(), 10)
+		};
+	}
+
+	/**
+	 * Helps find the name and the type of the weapon by extracting it's parts from the HTML provided
+	 * @param {html} container The html block of the weapon to parse
+	 * @param {string} typeHolder Type of weapon being sent, such as "One-Handed Sword / Light"
+	 * @returns The name of the weapon and it's type (excluding weight)
+	 */
+	_parseWeaponType(container, typeHolder){
+		const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+		const weaponName = container.querySelector('div.name').innerHTML.split(" ")[0].trim();
+		return { weaponName, type};
+	}
+
+	/**
+	 * Special method only used to find the skill bonus for the Iron Fist monk (fighter) skill
+	 * @param {JSON} skills An array of JSON objects
+	 * @param {string} skillName Name of skill to find
+	 * @returns Skill bonus for the associated skill
+	 */
+	_calculateIronFistBonus(skills, skillName){
+		let skillBonus = 0;
+		for(const skill of skills){
+			if(skill.name.toLowerCase === skillName){
+				switch (skill.system.value) {
+					case 1:
+					case 2:
+						skillBonus += skill.system.value;
+						break;
+					case 3:
+					case 4:
+						skillBonus += skill.system.value + Math.floor(skill.system.value / 2);
+						break;
+					case 5:
+						skillBonus += skill.system.value + Math.round(skill.system.value / 2);
+						break;
+				}
+			}
+		}
+		return skillBonus;
+	}
+
+	/**
+	 * Finds the skill bonus associated with the monk skill Burst of Strength and modifiers the character after selection.
+	 * @param {JSON} skills An array of JSON objects
+	 * @returns The skill bonus int value
+	 */
+	async _calculateBurstOfStrengthBonus(skills) {
+		let skillBonus = 0;
+		for(const skill of skills){
+			if(skill.name.toLowerCase() === 'burst of strength'){
+				switch (skill.system.value) {
+					case 1: skillBonus = 1; break;
+					case 2: skillBonus = 2; break;
+					case 3: skillBonus = "1d3"; break;
+					case 4:
+					case 5: skillBonus = "1d6"; break;
+				}
+				const powerBonus = await this._promptFatigueForPower();
+				if(powerBonus > 0){
+					for (let x = 0; x < powerBonus; x++)
+						await this._checkFatigueRanks();
+					if (skill.system.value <= 2)
+						skillBonus += powerBonus;
+					else if (skill.system.value <= 4)
+						skillBonus += `+${powerBonus}`;
+					else
+						skillBonus += `+${powerBonus * 2}`;
+				}
+			}
+		}
+		return skillBonus;
+	}
+
+	/**
+	 * Updates the dodge modifier when this roll/check is being made. Adds more value if the character has the Martial Arts skill
+	 * @param {int} modifier Extra modifier value for the dice roll
+	 * @param {JSON} skills An array of JSON objects
+	 * @param {string} localizedMessage Flavor message to display in the chat window
+	 * @returns Updated modifier and localized message
+	 */
+	_calculateDodgeModifier(modifier, skills, localizedMessage){
+		const armor = this.actor.items.filter(item => item.type === 'armor')
+		const strEnd = this.actor.system.abilities.calc.se;
+		if(armor[0].system.heavy.value && strEnd >= armor[0].system.heavy.y)
+			modifier = Math.floor(modifier / 2);
+		for(const skill of skills){
+			if(skill.name.toLowerCase() === 'martial arts'){
+				const skillValue = skill.system.value;
+				const {monk, scout} = this.actor.system.levels.classes;
+				if(skillValue <= 3 || (skillValue >= 4 && (monk >= 7 || scout >= 7))){
+					modifier += skillValue;
+					localizedMessage += this._addStringToChatMessage("skillScore", skill, skillValue);
+				}else
+					ui.notifications.warn(`Your Monk (${monk}) or Scout (${scout}) Level does meet the requirements for ${skill.name} level!`);
+			}
+		}
+		return {modifier, localizedMessage};
+	}
+
+	/**
+	 * Used in tandem with the Mod Down skill for two-handed slash/bludgeoning weapons. Updates the modifier and localized message if the skill is present.
+	 * @param {HTML} container The weapon HTML container
+	 * @param {JSON} skills An array of JSON objects
+	 * @param {int} modifier The modifier value to be added to the dice roller
+	 * @param {string} localizedMessage A flavor message for the chat window
+	 * @returns Updated modifier and localized message
+	 */
+	async _calculateMowDownModifier(container, skills, modifier, localizedMessage){
+		for(const skill of skills){
+			if(skill.name.toLowerCase() === 'mow down'){
+				const weaponUse = container.querySelector('.weaponUse').value;
+				const weaponAttr = container.querySelector('.weaponAttr').value;
+				const weaponAttrSplit = weaponAttr.split('/');
+				const attributes = ['Slash', 'Bludgeoning'];
+				if (weaponUse.toLowerCase() === 'two-handed' && weaponAttrSplit.some(attr => attributes.includes(attr))) {
+					const modHitPen = await this._promptMiscModChoice("mowDown", skill.system.value);
+					modifier += modHitPen;
+					localizedMessage += this._addStringToChatMessage("skillScore", skill, modHitPen);
+				}
+			}
+		}
+		return {modifier, localizedMessage};
+	}
+
+	/**
+	 * Determines what calculated ability score to use for the given item type of weapon, armor/shield, or casting
+	 * @param {string} itemType Identifier for the type of item being used in the roll
+	 * @param {string} modSelector CSS class being used to identify what type of value to use
+	 * @returns A value from the characters calculated abilities
+	 */
+	_getStatForItemType(itemType, modSelector){
+		const actorCalcStats = this.actor.system.abilities.calc;
+		switch(itemType){
+			case 'weapon': return modSelector === '.power' || modSelector === '.spellRes' ? 0 : actorCalcStats.tf;
+			case 'armor': case 'shield': return actorCalcStats.tr;
+			case 'cast':
+				const school = container.querySelector("input[type='hidden']").value;
+				return school.toLowerCase() === "words of true power" ? actorCalcStats.if : actorCalcStats.pf;
+			default: return 0;
+		}
+	}
+
+	// async _rollWithModifiers2(event, modSelector, baseDice, localizedMessage, itemType){
+	// 	event.preventDefault();
+	// 	const container = event.currentTarget.closest('.reveal-rollable');
+	// 	const actorType = this.actor.type;
+	// 	const actorCalcStats = this.actor.system.abilities.calc;
+	// 	let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills, skillBonus = 0;
+
+	// 	if (!container) {
+	// 		console.error("Container with '.reveal-rollable' class not found.");
+	// 		return;
+	// 	}
+
+	// 	const modElement = container.querySelector(modSelector);
+	// 	if (!modElement) {
+	// 		console.error(`${localizedMessage} modifier not found.`);
+	// 		return;
+	// 	}
+
+	// 	if(actorType === 'character'){
+	// 		diceNotation = modElement.textContent;
+	// 		skills = this.actor.items.filter(item => item.type === 'skill');
+	// 	}else if(actorType === 'monster') diceNotation = modElement.value;
+
+	// 	// Getting monster to hit dice and modifiers (if any)
+	// 	if((modSelector === '.hitMod' || modSelector === '.boss.dodge' ||
+	// 		modSelector === '.boss.block' || modSelector === '.boss.spellRes' ||
+	// 		modSelector === '.power') && actorType === 'monster'){
+	// 		if(diceNotation != 0){
+	// 			const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
+	// 			diceToRoll = powerDice.trim();
+	// 			if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
+	// 			else modifier = powerMod;
+	// 		}else{
+	// 			ui.notifications.info(`The check has a value of 0 or undefined and cannot be rolled`);
+	// 			return;
+	// 		}
+	// 	// Getting character elements ready
+	// 	}else if(actorType === 'character'){
+	// 		if(modSelector === '.power'){
+	// 			// Breaking down weapon power for damage dice and +N modifiers, if any
+	// 			const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
+	// 			diceToRoll = powerDice.trim();
+	// 			if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
+	// 			else modifier = powerMod;
+
+	// 			// Checking if character has monk levels and various monk skills
+	// 			if(this.actor.system.levels.classes.monk > 0){
+	// 				const typeHolder = this._getItemType(container);
+	// 				let [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
+	// 				const weaponName = container.querySelector('div.name').innerHTML.split(" ")[0].trim();
+	// 				console.log(">>> Review container contents", container, weaponName);
+
+	// 				// Checking for barehanded weapons for Iron First skill
+	// 				if(weaponName.toLowerCase() === 'barehanded'){
+	// 					for(const skill of skills){
+	// 						if(skill.name.toLowerCase() === 'iron fist'){
+	// 							switch(skill.system.value){
+	// 								case 1:
+	// 								case 2:
+	// 									skillBonus += skill.system.value;
+	// 									break;
+	// 								case 3:
+	// 								case 4:
+	// 									skillBonus += skill.system.value + Math.floor(skill.system.value / 2);
+	// 									break;
+	// 								case 5:
+	// 									skillBonus += skill.system.value + Math.round(skill.system.value / 2);
+	// 									break;
+	// 							}
+	// 						}
+	// 					}
+	// 				}
+
+	// 				// Checking for close-combat weapon used and burst of strength skill
+	// 				if(type === 'close-combat'){
+	// 					for(const skill of skills){
+	// 						if(skill.name.toLowerCase() === 'burst of strength'){
+	// 							switch(skill.system.value){
+	// 								case 1: skillBonus = 1; break;
+	// 								case 2: skillBonus = 2; break;
+	// 								case 3: skillBonus = "1d3"; break;
+	// 								case 4:
+	// 								case 5: skillBonus = "1d6"; break;
+	// 							}
+	// 							const powerBonus = await this._promptFatigueForPower();
+	// 							if(powerBonus > 0){
+	// 								for(let x = 0; x < powerBonus; x++)
+	// 									await this._checkFatigueRanks();
+	// 								if(skill.system.value <= 2)
+	// 									skillBonus += powerBonus;
+	// 								else if(skill.system.value <= 4)
+	// 									skillBonus += `+${powerBonus}`;
+	// 								else
+	// 									skillBonus += `+${powerBonus * 2}`;
+	// 							}
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
+	// 				 modSelector === '.blockMod' || modSelector === '.spellDif'){
+	// 			modifier = parseInt(modElement.textContent, 10);
+	// 			// Checking for dodging and heavy classified armor vs Str End score or Martial Arts skill to dodge
+	// 			if(modSelector === '.dodge'){
+	// 				const armor = this.actor.items.filter(item => item.type === 'armor');
+	// 				const strEnd = this.actor.system.abilities.calc.se;
+	// 				if(armor[0].system.heavy.value && strEnd >= armor[0].system.heavy.y){
+	// 					modifier = Math.floor(modifier / 2);
+	// 				}
+	// 				for(const skill of skills){
+	// 					if(skill.name.toLowerCase() === "martial arts"){
+	// 						const skillValue = skill.system.value;
+	// 						const {monk, scout} = this.actor.system.levels.classes;
+
+	// 						if(skillValue <= 3 || (skillValue >= 4 && (monk >= 7 || scout >= 7))){
+	// 							skillBonus += skillValue;
+	// 							localizedMessage += this._addStringToChatMessage("skillScore", skill, skillValue);
+	// 						}else
+	// 							ui.notifications.warn(`Your Monk (${monk}) or Scout (${scout}) Level does meet the requirements for ${skill.name} level!`);
+	// 					}
+	// 				}
+	// 			// Checking for to hit and mow down skill
+	// 			}else if(modSelector === '.hitMod'){
+	// 				for(const skill of skills){
+	// 					if(skill.name.toLowerCase() === 'mow down'){
+	// 						const weaponUse = container.querySelector('.weaponUse').value;
+	// 						const weaponAttr = container.querySelector('.weaponAttr').value;
+	// 						const weaponAttrSplit = weaponAttr.split('/');
+	// 						const attributes = ['Slash', 'Bludgeoning'];
+	// 						console.log(">>>", weaponAttrSplit);
+	// 						if(weaponUse.toLowerCase() === 'two-handed' && weaponAttrSplit.some(attr => attributes.includes(attr))){
+	// 							const modHitPen = await this._promptMiscModChoice("mowDown", skill.system.value);
+	// 							modifier += modHitPen;
+	// 							localizedMessage += this._addStringToChatMessage("skillScore", skill, modHitPen);
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		}else if(modSelector === '.spellRes'){
+	// 			modifier = parseInt(modElement.value);
+	// 		}
+	// 	}
+
+	// 	if(actorType === 'character') {
+	// 		// Getting hidden item type
+	// 		switch(itemType){
+	// 			case 'weapon': case 'armor': case 'shield':
+	// 				typeHolder = this._getItemType(container);
+	// 				if (!typeHolder) {
+	// 					console.error("Item type not found.");
+	// 					return;
+	// 				}
+	// 				classBonus = this._getClassLevelBonus(typeHolder, itemType);
+	// 				break;
+	// 			case 'cast':
+	// 				const school = container.querySelector("input[type='hidden']").value;
+	// 				if(school.toLowerCase() === "words of true power"){
+	// 					stat = actorCalcStats.if;
+	// 				}else{
+	// 					stat = actorCalcStats.pf;
+	// 				}
+	// 				classBonus = this._getClassLevelBonus(school, itemType);
+	// 				break;
+	// 			// Do nothing else for other items types
+	// 		}
+
+	// 		// Getting stat for to hit or damage
+	// 		if(modSelector === '.power' || modSelector === '.spellRes'){
+	// 			// Do nothing here
+	// 		}else if(itemType === 'weapon'){
+	// 			stat = actorCalcStats.tf;
+	// 		}else if(itemType === 'shield' || itemType === 'armor'){
+	// 			stat = actorCalcStats.tr;
+	// 		}
+	// 	}
+
+	// 	// console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
+
+	// 	this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
+	// }
 
 	/**
 	 * A simple method that pushes static minion data to the chat window
@@ -1069,7 +1323,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A promised value to be added to the roll message
 	 */
 	_promptMiscModChoice(promptType, promptName = ''){
-		console.log(promptType);
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo, buttonThree, buttons;
 
