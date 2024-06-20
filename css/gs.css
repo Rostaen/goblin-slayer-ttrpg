@@ -234,6 +234,10 @@
   background-color: #ffffbe;
   border: 1px solid #afaf64;
 }
+.miscScore {
+  background-color: #ffbeff;
+  border: 1px solid #af64af;
+}
 .spellCastSuccess,
 .spellEffectivenessScore,
 .spellCastFailure {

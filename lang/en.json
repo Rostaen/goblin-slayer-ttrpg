@@ -300,7 +300,8 @@
       "mods": {
         "mod": "Modifier",
         "addMod": "Add Modifiers",
-        "addInfo": "Add in any extra modifiers from skills or other sources here:"
+        "addInfo": "Add in any extra modifiers from skills or other sources here:",
+        "misc": "Misc."
       },
       "crits": {
         "crit": "Critical",

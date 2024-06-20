@@ -430,12 +430,12 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} rollMod Misc. integer value to be added from the window prompt
 	 */
 	async _rollsToMessage(event, dice, stat, classBonus, modifier, label, skillBonus = 0, rollMod = 0){
-		console.log(">>> in rollstomessage", classBonus);
 		let rollExpression = `${dice}`;
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
 
 		// Getting roll modifiers from user
 		rollMod = await this._promptMiscModChoice("rollMod", label);
+		if(rollMod != 0) label += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
 
 		// Setting up roll message
 		if(label === casting)
@@ -462,7 +462,7 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}
 			// TODO: Localize this message
-			let chatFlavor = `<div class="customFlavor">Rolling a ${label} check`;
+			let chatFlavor = `<div class="customFlavor">${label}`;
 			if(status != undefined || status != null)
 				chatFlavor += `${status[1]}`;
 			chatFlavor += `${dcCheck}</div>`;
@@ -671,11 +671,11 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(actorType === 'character'){
 			stat = this._getStatForItemType(itemType, modSelector);
-			if(stat > 0) localizedMessage += `<div class="abilScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.abil')}: ${stat}</div>`;
+			if(stat > 0) localizedMessage += this._addToFlavorMessage("abilScore", game.i18n.localize('gs.actor.character.abil'), stat);
 
 			const { bonus, className} = this._getClassLevelBonus(this._getItemType(container), itemType);
 			classBonus = bonus;
-			if(classBonus > 0) localizedMessage += `<div class="levelScore specialRollChatMessage">${className}: ${classBonus}</div>`;
+			if(classBonus > 0) localizedMessage += this._addToFlavorMessage("levelScore", className, classBonus);
 			console.log(">>> ClassBonus", classBonus, className);
 
 			skills = this.actor.items.filter(item => item.type === 'skill');
@@ -705,9 +705,25 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}else if(modSelector === '.spellDif')
 				modifier = parseInt(modElement.value);
+			if(modifier != 0) localizedMessage += this._addToFlavorMessage("rollScore", game.i18n.localize('gs.dialog.mods.mod'), modifier);
+		}else if(actorType === 'monster'){
+			const {dice, mod} = this._parseDiceNotation(diceNotation);
+			diceToRoll = dice;
+			modifier = mod;
 		}
 
 		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
+	}
+
+	/**
+	 * Sets up a simple return statement to add the correct items and values to the localized message for debugging and player knowledge
+	 * @param {string} cssClass Class string to color the message
+	 * @param {*} labelName What is modifying the the dice roll
+	 * @param {*} labelMessage How much is being modified
+	 * @returns A string to be added to the localized message
+	 */
+	_addToFlavorMessage(cssClass, labelName, labelMessage){
+		return `<div class="${cssClass} specialRollChatMessage">${labelName}: ${labelMessage}</div>`;
 	}
 
 	/**
@@ -1266,7 +1282,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		if (rollMappings[classType]) {
 			const { mod, dice, label, type } = rollMappings[classType];
-			this._rollWithModifiers(event, mod, dice, game.i18n.localize(label), type);
+			this._rollWithModifiers(event, mod, dice, game.i18n.localize(label) + " " + game.i18n.localize('gs.charSheet.statsPage.checks'), type);
 		} else if (healActions.includes(classType)) {
 			this._healAttrFatigue(classType);
 		} else if (classType === 'initiative') {
