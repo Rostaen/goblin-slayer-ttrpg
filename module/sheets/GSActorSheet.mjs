@@ -652,7 +652,6 @@ export default class GSActorSheet extends ActorSheet{
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const actorType = this.actor.type;
-		const actorCalcStats = this.actor.system.abilities.calc;
 		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills, skillBonus = 0;
 
 		if (!container) {
@@ -676,7 +675,6 @@ export default class GSActorSheet extends ActorSheet{
 			const { bonus, className} = this._getClassLevelBonus(this._getItemType(container), itemType);
 			classBonus = bonus;
 			if(classBonus > 0) localizedMessage += this._addToFlavorMessage("levelScore", className, classBonus);
-			console.log(">>> ClassBonus", classBonus, className);
 
 			skills = this.actor.items.filter(item => item.type === 'skill');
 			if(modSelector === '.power'){
@@ -684,7 +682,7 @@ export default class GSActorSheet extends ActorSheet{
 				diceToRoll = dice;
 				modifier = mod;
 				if(this.actor.system.levels.classes.monk > 0){
-					const typeHolder = this._getItemType(container);
+					typeHolder = this._getItemType(container);
 					const {weaponName, type} = this._parseWeaponType(container, typeHolder);
 					if(weaponName.toLowerCase() === 'barehanded')
 						skillBonus += this._calculateIronFistBonus(skills, 'iron fist');
@@ -840,21 +838,35 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Updated modifier and localized message
 	 */
 	_calculateDodgeModifier(modifier, skills, localizedMessage){
-		const armor = this.actor.items.filter(item => item.type === 'armor')
+		const armor = this.actor.items.filter(item => item.type === 'armor');
+		const shield = this.actor.items.filter(item => item.type === 'shield');
+		const weapons = this.actor.items.filter(item => item.type === 'weapon');
 		const strEnd = this.actor.system.abilities.calc.se;
+		const {monk, scout, fighter} = this.actor.system.levels.classes;
+
+		// Checking if character is wearing heavy armor and adjusting as needed
 		if(armor[0].system.heavy.value && strEnd >= armor[0].system.heavy.y)
 			modifier = Math.floor(modifier / 2);
-		for(const skill of skills){
-			if(skill.name.toLowerCase() === 'martial arts'){
-				const skillValue = skill.system.value;
-				const {monk, scout} = this.actor.system.levels.classes;
-				if(skillValue <= 3 || (skillValue >= 4 && (monk >= 7 || scout >= 7))){
-					modifier += skillValue;
-					localizedMessage += this._addStringToChatMessage("skillScore", skill, skillValue);
-				}else
-					ui.notifications.warn(`Your Monk (${monk}) or Scout (${scout}) Level does meet the requirements for ${skill.name} level!`);
+
+		// Helper function to add skill bonus and message
+		const addSkillBonus = (skill, minLevel, requiredClassLevel, bonusModifier = (val) => val) => {
+			const skillValue = skill.system.value;
+			if(skillValue <= minLevel - 1 || (skillValue >= minLevel && requiredClassLevel >= 7)){
+				const adjustedModifier = bonusModifier(skillValue);
+				modifier += adjustedModifier;
+				localizedMessage += this._addStringToChatMessage("skillScore", skill, adjustedModifier);
+			}else
+				ui.notifications.warn(`Your ${skill.name} level does not meet the requirements!`);
+		};
+
+		// Process skills
+		skills.forEach(skill => {
+			switch(skill.name.toLowerCase()){
+				case 'martial arts': addSkillBonus(skill, 4, Math.max(monk, scout)); break;
+				case 'parry': addSkillBonus(skill, 4, fighter, (val) = val - 1); break;
 			}
-		}
+		});
+
 		return {modifier, localizedMessage};
 	}
 
