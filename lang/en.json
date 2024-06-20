@@ -14,7 +14,23 @@
         "att": "Attribute",
         "pow": "Power",
         "hit": "Hit Mod",
-        "ran": "Range"
+        "ran": "Range",
+        "effects": {
+          "bind": "Bind",
+          "noParry": "Cannot Parry",
+          "mFThrow": "Made for Throwing",
+          "massive": "Massive",
+          "nThrow": "Not Throwable",
+          "parry": "Parry",
+          "pierce": "Pierce",
+          "rFire": "Rapid Fire",
+          "retrieve": "Retrievable",
+          "slice": "Slice",
+          "sbBludg": "SB: Bludgeon",
+          "sbSlash": "SB: Slash",
+          "throw": "Throwable",
+          "throwSpc": "Throwing Specialization"
+        }
       },
       "armor": {
         "sco": "Armor Score",

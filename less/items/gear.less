@@ -32,10 +32,46 @@
         }
     }
     .effects, .comments{
+        position: relative;
+        h2{
+            position: absolute;
+            top: -15px;
+            background-color: rgba(255,255,255,1);
+            border-bottom: 0px;
+            padding: 2px 4px 0px;
+            border: 2px solid darkred;
+            border-radius: 5px;
+        }
         border: 1px solid #666;
         border-radius: 3px;
         padding: 5px;
         background-color: rgba(0,0,0,0.05);
+        .wELeft .grid, .wEMiddle .grid, .wERight .grid{
+            grid-gap: 3px;
+        }
+        .effectName, .effectCheckbox, .effectValue{
+            display: flex;
+            align-items: center;
+        }
+        input[type="checkbox"].effectCheckbox{
+            width: 15px;
+            height: 15px;
+            justify-content: center;
+            margin: 0px;
+        }
+        .effectName{
+            font-size: 12px;
+        }
+        .effectValue{
+            font-size: 12px;
+            height: 15px;
+            width: 15px;
+            border: 1px solid darkred !important;
+            display: grid;
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+        }
         .editor{
             height: 100%;
             min-height: 40px;

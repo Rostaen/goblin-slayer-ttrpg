@@ -460,10 +460,100 @@ table tr:nth-child(even) {
 .weapon .comments,
 .armor .comments,
 .shield .comments {
+  position: relative;
   border: 1px solid #666;
   border-radius: 3px;
   padding: 5px;
   background-color: rgba(0, 0, 0, 0.05);
+}
+.weapon .effects h2,
+.armor .effects h2,
+.shield .effects h2,
+.weapon .comments h2,
+.armor .comments h2,
+.shield .comments h2 {
+  position: absolute;
+  top: -15px;
+  background-color: #ffffff;
+  border-bottom: 0px;
+  padding: 2px 4px 0px;
+  border: 2px solid darkred;
+  border-radius: 5px;
+}
+.weapon .effects .wELeft .grid,
+.armor .effects .wELeft .grid,
+.shield .effects .wELeft .grid,
+.weapon .comments .wELeft .grid,
+.armor .comments .wELeft .grid,
+.shield .comments .wELeft .grid,
+.weapon .effects .wEMiddle .grid,
+.armor .effects .wEMiddle .grid,
+.shield .effects .wEMiddle .grid,
+.weapon .comments .wEMiddle .grid,
+.armor .comments .wEMiddle .grid,
+.shield .comments .wEMiddle .grid,
+.weapon .effects .wERight .grid,
+.armor .effects .wERight .grid,
+.shield .effects .wERight .grid,
+.weapon .comments .wERight .grid,
+.armor .comments .wERight .grid,
+.shield .comments .wERight .grid {
+  grid-gap: 3px;
+}
+.weapon .effects .effectName,
+.armor .effects .effectName,
+.shield .effects .effectName,
+.weapon .comments .effectName,
+.armor .comments .effectName,
+.shield .comments .effectName,
+.weapon .effects .effectCheckbox,
+.armor .effects .effectCheckbox,
+.shield .effects .effectCheckbox,
+.weapon .comments .effectCheckbox,
+.armor .comments .effectCheckbox,
+.shield .comments .effectCheckbox,
+.weapon .effects .effectValue,
+.armor .effects .effectValue,
+.shield .effects .effectValue,
+.weapon .comments .effectValue,
+.armor .comments .effectValue,
+.shield .comments .effectValue {
+  display: flex;
+  align-items: center;
+}
+.weapon .effects input[type="checkbox"].effectCheckbox,
+.armor .effects input[type="checkbox"].effectCheckbox,
+.shield .effects input[type="checkbox"].effectCheckbox,
+.weapon .comments input[type="checkbox"].effectCheckbox,
+.armor .comments input[type="checkbox"].effectCheckbox,
+.shield .comments input[type="checkbox"].effectCheckbox {
+  width: 15px;
+  height: 15px;
+  justify-content: center;
+  margin: 0px;
+}
+.weapon .effects .effectName,
+.armor .effects .effectName,
+.shield .effects .effectName,
+.weapon .comments .effectName,
+.armor .comments .effectName,
+.shield .comments .effectName {
+  font-size: 12px;
+}
+.weapon .effects .effectValue,
+.armor .effects .effectValue,
+.shield .effects .effectValue,
+.weapon .comments .effectValue,
+.armor .comments .effectValue,
+.shield .comments .effectValue {
+  font-size: 12px;
+  height: 15px;
+  width: 15px;
+  border: 1px solid darkred !important;
+  display: grid;
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
 }
 .weapon .effects .editor,
 .armor .effects .editor,
