@@ -14,7 +14,23 @@
         "att": "Atrybut",
         "pow": "Moc",
         "hit": "Mod Trafienia",
-        "ran": "Zasięg"
+        "ran": "Zasięg",
+        "effects": {
+          "bind": "Bind",
+          "noParry": "Cannot Parry",
+          "mFThrow": "Made for Throwing",
+          "massive": "Massive",
+          "nThrow": "Not Throwable",
+          "parry": "Parry",
+          "pierce": "Pierce",
+          "rFire": "Rapid Fire",
+          "retrieve": "Retrievable",
+          "slice": "Slice",
+          "sbBludg": "SB: Bludgeon",
+          "sbSlash": "SB: Slash",
+          "throw": "Throwable",
+          "throwSpc": "Throwing Specialization"
+        }
       },
       "armor": {
         "sco": "Wartość Pancerza",
@@ -300,21 +316,13 @@
       "mods": {
         "mod": "Mod",
         "addMod": "Dodaj Mody",
-        "addInfo": "Dodaj resztę modów z umiejętności i innych źródeł:"
+        "addInfo": "Dodaj resztę modów z umiejętności i innych źródeł:",
+        "misc": "Misc."
       },
       "crits": {
         "crit": "Krytyk!",
         "succ": "Sukces!",
         "fail": "Porażka!"
-      },
-      "stealth": {
-        "header": "Rodzaj Ukrycia",
-        "choice": "Wybierz czas trwania",
-        "longChoice": ": Używa Techniki Wytrzymałości",
-        "shortChoice": ": Używa Techniki Refleksu",
-        "long": "Długoterminowe",
-        "short": "Krótkoterminowe",
-        "output": "Test Ukrycia"
       },
       "spells": {
         "spUse": "Użycie zaklęcia",
@@ -335,11 +343,30 @@
         "sidebar": {
           "specRolls": "Spec. Rzuty",
           "buttons": {
+            "initiative": "Initiative",
             "sixthSense": "Szósty Zmysł",
             "luck": "Szczęście",
             "firstAid": "Pierwsza Pomoc",
             "handiwork": "Rękodzieło",
-            "stealth": "Ukrycie"
+            "stealth": "Ukrycie",
+            "provoke": "Provoke",
+            "moveObs": "Movement Obstruction",
+            "moveRes": "Movement Resistance",
+            "strRes": "Strength Resistance",
+            "psyRes": "Psyche Resistance",
+            "intRes": "Intelligence Resistance",
+            "strength": "Strength",
+            "escape": "Escape",
+            "climbM": "Climb (Muscle)",
+            "swim": "Swim",
+            "climbF": "Climb (Fitness)",
+            "acrobatics": "Acrobatics",
+            "jump": "Jump",
+            "monsterKnow": "Monster Knowledge",
+            "generalKnow": "General Knowledge",
+            "magicalKnow": "Magical Knowledge",
+            "observe": "Observe",
+            "longDistance": "Long Distance Movement"
           }
         }
       },
@@ -351,7 +378,50 @@
         "header": "Zmęczenie dla Mocy",
         "label": "Wprowadź liczbę punktów zmęczenia do wydania na dodatkową moc. Maksimum:"
       },
-      "confirm": "Potwierdź"
+      "confirm": "Potwierdź",
+      "moveRes": {
+        "title": "Movement Resistance Choice",
+        "header": "Strength Focus or Technique Focus",
+        "label": "Which is your better ability score to stop the target from moving?"
+      },
+      "strRes": {
+        "title": "Strength Resistance Choice",
+        "header": "Strength Reflex or Strength Endurance",
+        "label": "Use Strength Reflex when you are the target of a spell. Use Strength Endurance when recovering from an effect."
+      },
+      "psyRes": {
+        "title": "Pysche Resistance Choice",
+        "header": "Pysche Reflex or Pysche Endurance",
+        "label": "Use Pysche Reflex when you are the target of a spell. Use Pysche Endurance when recovering from an effect."
+      },
+      "intRes": {
+        "title": "Intelligence Resistance Choice",
+        "header": "Intelligence Reflex or Intelligence Endurance",
+        "label": "Use Intelligence Reflex when you are the target of a spell. Use Intelligence Endurance when recovering from an effect."
+      },
+      "strength": {
+        "title": "Strength Check Choice",
+        "header": "Strength Focus or Endurance",
+        "label": "Use Strength Focus for very short periods of time. Use Strength Endurance very long periods of time."
+      },
+      "stealth": {
+        "title": "Stealth Choice",
+        "header": "Technique Focus, Endurance, or Reflex",
+        "label": "Use Technique Focus for hiding before someone finds you. Use Technique Endurance to hide for a very long period of time. Use Technique Reflex to hide during combat or when a target is distracted."
+      },
+      "monsterKnow": {
+        "title": "Monster Knowledge Choice",
+        "header": "Intelligence Focus or Reflex",
+        "label": "Use Intelligence Focus when you encounters monsters before battle. Use Intelligence Reflex to recall knowledge when you hear or read about a monster to immediately recall info about them."
+      },
+      "mowDown": {
+        "title": "Mow Down Skill",
+        "header": "How Many Targeted Enemies?",
+        "label0": "Selecting 2 targets adds a -4 penalty. ",
+        "label1": "Each extra enemy adds -2 to the check. You can add this many more enemies to the check: ",
+        "label2": "Each extra enemy adds -1 to the check. You can add this many more enemies to the check: ",
+        "targets": "Targets: "
+      }
     }
   }
 }

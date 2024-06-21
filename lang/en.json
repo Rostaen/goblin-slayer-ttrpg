@@ -15,6 +15,7 @@
         "pow": "Power",
         "hit": "Hit Mod",
         "ran": "Range",
+        "resistance": "Resistance",
         "effects": {
           "bind": "Bind",
           "noParry": "Cannot Parry",

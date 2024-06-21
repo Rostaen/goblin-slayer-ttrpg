@@ -1013,12 +1013,16 @@ table tr:nth-child(even) {
   justify-content: end;
   align-items: center;
 }
+.character .leftSide img {
+  box-shadow: 3px 3px 10px;
+}
 .character .mainContent h1 {
   background-color: rgba(255, 255, 255, 0.75);
   padding: 5px;
   border: 1px solid darkred !important;
   border-radius: 5px;
   margin-top: 0px;
+  box-shadow: 3px 3px 10px;
 }
 .character .mainContent input[type="text"] {
   padding: 0px 3px;
@@ -1074,6 +1078,7 @@ table tr:nth-child(even) {
   text-align: center;
   padding-top: 15px;
   grid-column-gap: 3px;
+  box-shadow: 3px 3px 10px;
 }
 .sidebar label {
   display: flex;
@@ -1157,6 +1162,7 @@ table tr:nth-child(even) {
 .stats .statsContainer {
   gap: 0px;
   margin-top: 0px;
+  box-shadow: 3px 3px 10px;
 }
 .stats .statsContainer h4 {
   margin-bottom: 0px;
@@ -1168,6 +1174,8 @@ table tr:nth-child(even) {
 }
 .stats .statsContainer h4.mainHeader {
   font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 5px 0 0 0;
 }
 .stats .statsContainer .primaryHeader,
 .stats .statsContainer .secondHeader,
@@ -1225,6 +1233,9 @@ table tr:nth-child(even) {
 .stats .statsContainer input[type="text"] {
   text-align: center;
 }
+.stats .classLevels {
+  box-shadow: 3px 3px 10px;
+}
 .stats .classLevels .grid {
   grid-row-gap: 6px;
   padding-top: 20px;
@@ -1243,6 +1254,7 @@ table tr:nth-child(even) {
   border: 1px solid darkred;
   border-radius: 5px;
   text-align: center;
+  box-shadow: 3px 3px 10px;
 }
 .stats .fatigue input[type="checkbox"],
 .stats .attritionContainer input[type="checkbox"] {
@@ -1262,6 +1274,7 @@ table tr:nth-child(even) {
 }
 .stats .attrition .attritionContainer {
   gap: 5px;
+  box-shadow: 3px 3px 10px;
 }
 .stats .attrition .attritionContainer .attritionBlock .grid {
   margin: 0px;
@@ -1292,9 +1305,13 @@ table tr:nth-child(even) {
 }
 .stats .fatigue .fatigueContainer {
   gap: 3px;
+  box-shadow: 3px 3px 10px;
 }
 .stats .fatigue .fatigueContainer label.rank {
   justify-content: center;
+}
+.stats .checks {
+  box-shadow: 3px 3px 10px;
 }
 .stats .checks .checksCont {
   display: flex;
@@ -1302,6 +1319,9 @@ table tr:nth-child(even) {
   justify-content: start;
   column-gap: 2px;
   margin-bottom: 5px;
+}
+.descriptionPage .raceContainer {
+  box-shadow: 3px 3px 10px;
 }
 .descriptionPage .raceContainer h2.raceName {
   margin-bottom: 0px;
@@ -1314,6 +1334,9 @@ table tr:nth-child(even) {
 .descriptionPage .raceContainer img {
   border-radius: 0 0 5px 5px;
   border-color: darkred;
+}
+.descriptionPage .topRow {
+  box-shadow: 3px 3px 10px;
 }
 .descriptionPage .topRow,
 .descriptionPage .editor {
@@ -1338,6 +1361,7 @@ table tr:nth-child(even) {
 .descriptionPage .editor {
   margin-bottom: 10px;
   padding-top: 20px;
+  box-shadow: 3px 3px 10px;
 }
 .descriptionPage .editor p {
   margin: 0px 0px 10px;
@@ -1372,6 +1396,7 @@ table tr:nth-child(even) {
 .itemsPageContainer .itemsPage .blockContainer {
   position: relative;
   margin-top: 15px;
+  box-shadow: 3px 3px 10px;
 }
 .itemsPageContainer .itemsPage .blockContainer h2 {
   position: absolute;
@@ -1446,6 +1471,9 @@ table tr:nth-child(even) {
   z-index: 100;
   padding: 0px 4px;
 }
+.itemsPageContainer .hitScoresContainer .scoresCont {
+  box-shadow: 3px 3px 10px;
+}
 .itemsPageContainer .hitScoresContainer div.grid-3col,
 .itemsPageContainer .hitScoresContainer .money {
   border: 1px solid darkred;
@@ -1465,6 +1493,7 @@ table tr:nth-child(even) {
 }
 .itemsPageContainer .hitScoresContainer .money {
   gap: 5px 2px;
+  box-shadow: 3px 3px 10px;
 }
 .itemsPageContainer .hitScoresContainer .money label {
   text-align: center;
@@ -1475,6 +1504,7 @@ table tr:nth-child(even) {
 .skillsContainer {
   position: relative;
   margin-top: 15px;
+  box-shadow: 3px 3px 10px;
 }
 .skillsContainer h2 {
   position: absolute;
@@ -1528,6 +1558,9 @@ table tr:nth-child(even) {
   padding: 5px;
   text-align: center;
 }
+.spellsContainer .spellUsesContainer {
+  box-shadow: 3px 3px 10px;
+}
 .spellsContainer .spellUsesContainer label {
   font-weight: bold;
 }
@@ -1539,6 +1572,7 @@ table tr:nth-child(even) {
 .spellsContainer .spellsHolder {
   position: relative;
   margin-top: 15px;
+  box-shadow: 3px 3px 10px;
 }
 .spellsContainer .spellsHolder h2 {
   position: absolute;

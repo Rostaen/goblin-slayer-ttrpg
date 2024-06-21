@@ -39,7 +39,23 @@
 		</div>
 	</div>
 	<span class="effects grid-span-5">
-		<label for="shieldEffects">{{localize config.common.eff}}:</label>
+		<h2 for="shieldEffects">{{localize config.common.eff}}:</h2>
+		<div class="grid grid-3col">
+			<div class="wELeft">
+				<div class="grid grid-6col">
+					<input class="effectCheckbox" type="checkbox" name="system.effect.checked.0" {{checked gear.effect.checked.[0]}}><div class="effectName grid-span-5">{{localize 'gs.gear.weapons.effects.nThrow'}}</div>
+				</div>
+			</div>
+			<div class="wEMiddle">
+				<div class="grid grid-6col">
+					<input class="effectCheckbox" type="checkbox" name="system.effect.checked.1" {{checked gear.effect.checked.[1]}}><div class="effectName grid-span-4">{{localize 'gs.gear.weapons.effects.parry'}}</div><input class="effectValue" type="text" name="system.effect.parry" value="{{gear.effect.parry}}" data-dtype="Number">
+				</div>
+			</div>
+			<div class="wERight">
+				<div class="grid grid-6col">
+				</div>
+			</div>
+		</div>
 		{{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
 	</span>
 	{{!-- <span class="comments grid-span-5">

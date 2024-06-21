@@ -1,5 +1,5 @@
 <form class="{{#each data.options.classes as |class id|}}{{class}} {{/each}} {{data.actor.type}} grid grid-5col" autocomplete="off" onsubmit="return false;">
-    <div class="sidebar">
+    <div class="leftSide">
         <img src="{{data.actor.img}}" data-edit="img" title="{{data.actor.name}}" />
         <div class="actor-main-info">
             {{> "systems/gs/templates/actors/partials/character/sidebar.hbs" }}
