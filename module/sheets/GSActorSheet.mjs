@@ -141,8 +141,10 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The value associated with the target
 	 */
 	_getRollMod(html, target){
-		const rollMod = html.find(`${target}`)[0].value;
-		return parseInt(rollMod, 10);
+		let rollMod = html.find(`${target}`)[0].value;
+		if(!rollMod) rollMod = 0;
+		rollMod = parseInt(rollMod, 10);
+		return rollMod;
 	}
 
 	/**
@@ -405,11 +407,11 @@ export default class GSActorSheet extends ActorSheet{
 			// Checking dice results vs. crit fail/success otherwise this is a regular result
 			if(diceResults[0] + diceResults[1] <= critFail){
 				results[0] = 'fail';
-				results[1] = `<br><div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
+				results[1] = `<div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
 				return results;
 			}else if(diceResults[0] + diceResults[1] >= critSuccess){
 				results[0] = 'success';
-				results[1] = `<br><div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
+				results[1] = `<div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
 				return results;
 			}else {
 				results[0] = 'normal';
@@ -425,20 +427,20 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} stat An integer value of the ability score bonus for the given roll
 	 * @param {int} classBonus An integer for the level of the class that can be used in the roll
 	 * @param {int} modifier A value that is usually attached to an item for extra power, eg. Weapon 1d3+2 damage where '+2' is the modifier
-	 * @param {string} label A string to help make function/method call decisions, eg Weapon, Cast, etc.
+	 * @param {string} localizedMessage A string to help make function/method call decisions, eg Weapon, Cast, etc.
 	 * @param {int} skillBonus The value of the skill to help determine how much to add to a given roll
 	 * @param {int} rollMod Misc. integer value to be added from the window prompt
 	 */
-	async _rollsToMessage(event, dice, stat, classBonus, modifier, label, skillBonus = 0, rollMod = 0){
+	async _rollsToMessage(event, dice, stat, classBonus, modifier, localizedMessage, skillBonus = 0, rollMod = 0){
 		let rollExpression = `${dice}`;
 		const casting = game.i18n.localize('gs.dialog.spells.spUse');
 
 		// Getting roll modifiers from user
-		rollMod = await this._promptMiscModChoice("rollMod", label);
-		if(rollMod != 0) label += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
+		rollMod = await this._promptMiscModChoice("rollMod", localizedMessage);
+		if(rollMod != 0) localizedMessage += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
 
 		// Setting up roll message
-		if(label === casting)
+		if(localizedMessage === casting)
 			rollExpression = this._setRollMessage(dice, stat, classBonus, 0, rollMod);
 		else
 			rollExpression = this._setRollMessage(dice, stat, classBonus, modifier, rollMod, skillBonus);
@@ -448,21 +450,45 @@ export default class GSActorSheet extends ActorSheet{
 			await roll.evaluate();
 
 			const diceResults = roll.terms[0].results.map(r => r.result);
-			const status = this._checkForCritRolls(diceResults, label, event);
+			const status = this._checkForCritRolls(diceResults, localizedMessage, event);
 			let dcCheck = '';
-			if(label === casting){
-				// Getting dice total plus bonuses to compare to DC stored in Modifier
-				let diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
+
+			// Getting dice total plus bonuses to compare to DC stored in Modifier
+			let diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
+
+			// Setting up casting results for critical success
+			if(localizedMessage === casting){
 				if(diceTotal >= modifier && status[0] != 'fail'){
 					if(status[0] === 'success')
 						diceTotal += 5;
-					dcCheck = `<div class="spellCastSuccess">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.succ')}</div><div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}</div>`;
+					dcCheck = `<div class="spellCastSuccess">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.succ')}</div>`;
 				}else{
 					dcCheck = `<div class="spellCastFailure">${game.i18n.localize('gs.dialog.spells.cast')} ${game.i18n.localize('gs.dialog.crits.fail')}</div>`;
 				}
+			}else{
+				diceTotal += modifier;
 			}
+
+			// Checking skills for Piercing Attack skill and weapon
+			const skills = this.actor.items.filter(item => item.type === 'skill');
+			skills.forEach(skill => {
+				if(skill.name.toLowerCase() === "piercing attack"){
+					// Getting Weapon ID to check for Piercing trait
+					const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
+					const currentWeapon = this.actor.items.get(eventID);
+					let pierceAmount = currentWeapon.system.effect?.pierce;
+					if(pierceAmount){
+						pierceAmount *= skill.system.value;
+						diceTotal += pierceAmount;
+						localizedMessage += this._addToFlavorMessage("skillScore", game.i18n.localize('gs.actor.common.pierc') + " " + game.i18n.localize('gs.actor.monster.atta'), pierceAmount );
+					}
+					//console.log(">>> Checking Current Weapon", currentWeapon);
+				}
+			});
+
 			// TODO: Localize this message
-			let chatFlavor = `<div class="customFlavor">${label}`;
+			localizedMessage += `<div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}</div>`;
+			let chatFlavor = `<div class="customFlavor">${localizedMessage}`;
 			if(status != undefined || status != null)
 				chatFlavor += `${status[1]}`;
 			chatFlavor += `${dcCheck}</div>`;
@@ -549,10 +575,10 @@ export default class GSActorSheet extends ActorSheet{
 			[type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
 		}
 		const {fighter = 0, monk = 0, ranger = 0, scout = 0, sorcerer = 0, priest = 0, dragon = 0, shaman = 0 } = this.actor.system.levels.classes;
-
+		const includesAny = (words, text) => words.some(word => text.includes(word));
 		let bonus = 0;
 
-		const includesAny = (words, text) => words.some(word => text.includes(word));
+		//console.log(">>> Checking types", typeHolder, itemType);
 
 		// TODO: Find any skills that influence class type hit checks to add here.
 		if(itemType === 'weapon'){
@@ -611,6 +637,7 @@ export default class GSActorSheet extends ActorSheet{
 				className = game.i18n.localize('gs.actor.character.scou');
 			}
 		}else if(itemType === 'cast'){
+			typeHolder = typeHolder.value;
 			if(typeHolder.toLowerCase() === "words of true power"){
 				bonus += sorcerer;
 				className = game.i18n.localize('gs.actor.character.sorc');
@@ -669,7 +696,7 @@ export default class GSActorSheet extends ActorSheet{
 		if(!diceNotation) return;
 
 		if(actorType === 'character'){
-			stat = this._getStatForItemType(itemType, modSelector);
+			stat = this._getStatForItemType(itemType, modSelector, container);
 			if(stat > 0) localizedMessage += this._addToFlavorMessage("abilScore", game.i18n.localize('gs.actor.character.abil'), stat);
 
 			const { bonus, className} = this._getClassLevelBonus(this._getItemType(container), itemType);
@@ -691,9 +718,11 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}else if(['.hitMod', '.dodge', '.blockMod', '.spellDif'].includes(modSelector)){
 				modifier = parseInt(modElement.textContent, 10);
-				localizedMessage += this._addToFlavorMessage("armorDodgeScore", game.i18n.localize('gs.gear.equipment'), modifier)
-				if(modSelector === '.dodge'){
-					const {modifier: mod, localizedMessage: message} = this._calculateDodgeModifier(modifier, skills, localizedMessage);
+				if(modSelector === '.dodge' || modSelector === '.blockMod'){
+					localizedMessage += this._addToFlavorMessage("armorDodgeScore", game.i18n.localize('gs.gear.equipment'), modifier)
+					const {modifier: mod, localizedMessage: message} = modSelector === '.dodge'
+						? this._calculateDodgeModifier(modifier, skills, localizedMessage)
+						: this._calculateBlockModifier(modifier, skills, localizedMessage);
 					modifier = mod;
 					localizedMessage = message;
 				}
@@ -704,7 +733,7 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}else if(modSelector === '.spellDif')
 				modifier = parseInt(modElement.value);
-			if(modifier != 0) localizedMessage += this._addToFlavorMessage("rollScore", game.i18n.localize('gs.dialog.mods.mod'), modifier);
+			if(modifier != 0 && modSelector != '.spellDif') localizedMessage += this._addToFlavorMessage("rollScore", game.i18n.localize('gs.dialog.mods.mod'), modifier);
 		}else if(actorType === 'monster'){
 			const {dice, mod} = this._parseDiceNotation(diceNotation);
 			diceToRoll = dice;
@@ -884,7 +913,6 @@ export default class GSActorSheet extends ActorSheet{
 					modifier += gearBonus
 				}
 				const adjustedModifier = bonusModifier(skillValue);
-				console.log(">>> Checking mods", adjustedModifier, modifier);
 				modifier += adjustedModifier;
 				localizedMessage += this._addStringToChatMessage("skillScore", skill, adjustedModifier + gearBonus);
 			}else
@@ -899,6 +927,23 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		});
 
+		return {modifier, localizedMessage};
+	}
+
+	/**
+	 * Searches through the character's skills to find the Block skill and update the modifier as needed.
+	 * @param {int} modifier The value of the current modifier for the dice roll
+	 * @param {JSON} skills An array of JSON objects containing the skill in question
+	 * @param {string} localizedMessage The message to be added to the flavor text of the chat window
+	 * @returns Updated modifier and localized message
+	 */
+	_calculateBlockModifier(modifier, skills, localizedMessage){
+		skills.forEach(skill => {
+			if(skill.name.toLowerCase() === 'shield'){
+				modifier += skill.system.value;
+				localizedMessage += this._addStringToChatMessage("skillScore", skill, skill.system.value);
+			}
+		});
 		return {modifier, localizedMessage};
 	}
 
@@ -933,7 +978,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} modSelector CSS class being used to identify what type of value to use
 	 * @returns A value from the characters calculated abilities
 	 */
-	_getStatForItemType(itemType, modSelector){
+	_getStatForItemType(itemType, modSelector, container){
 		const actorCalcStats = this.actor.system.abilities.calc;
 		switch(itemType){
 			case 'weapon': return modSelector === '.power' || modSelector === '.spellRes' ? 0 : actorCalcStats.tf;
@@ -1705,7 +1750,6 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Getting skill bonus
 		let skillBonus = this._getSkillBonus(skillName);
-		console.log(">>> Checking skill bonus", skillBonus);
 		// Correcting skill bonuses here as needed
 		if(rollType === 'provoke') skillBonus -= 1;
 		else if(rollType === 'moveObs') skillBonus += 1;

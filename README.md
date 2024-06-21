@@ -96,10 +96,10 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Observe
 - [x] Parry
 - [x] Perseverance
-- [ ] Piercing Attack
+- [x] Piercing Attack
 - [x] Provoke
 - [x] Rampart
-- [ ] Rapid Fire
+- [ ] Rapid Fire (May not need auto integration and use Misc. Modifier prompt instead)
 - [ ] Shields
 - [x] Sixth Sense
 - [ ] Slice Attack
