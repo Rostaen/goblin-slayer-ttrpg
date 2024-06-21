@@ -691,6 +691,7 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}else if(['.hitMod', '.dodge', '.blockMod', '.spellDif'].includes(modSelector)){
 				modifier = parseInt(modElement.textContent, 10);
+				localizedMessage += this._addToFlavorMessage("armorDodgeScore", game.i18n.localize('gs.gear.equipment'), modifier)
 				if(modSelector === '.dodge'){
 					const {modifier: mod, localizedMessage: message} = this._calculateDodgeModifier(modifier, skills, localizedMessage);
 					modifier = mod;
@@ -839,22 +840,53 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_calculateDodgeModifier(modifier, skills, localizedMessage){
 		const armor = this.actor.items.filter(item => item.type === 'armor');
-		const shield = this.actor.items.filter(item => item.type === 'shield');
-		const weapons = this.actor.items.filter(item => item.type === 'weapon');
 		const strEnd = this.actor.system.abilities.calc.se;
 		const {monk, scout, fighter} = this.actor.system.levels.classes;
+
+		console.log("+++ Check initial mod", modifier);
 
 		// Checking if character is wearing heavy armor and adjusting as needed
 		if(armor[0].system.heavy.value && strEnd >= armor[0].system.heavy.y)
 			modifier = Math.floor(modifier / 2);
 
+		// Helper function to return bonus Parry values on gear
+		const checkGear = (skill) => {
+			const shield = this.actor.items.filter(item => item.type === 'shield');
+			const weapons = this.actor.items.filter(item => item.type === 'weapon');
+			let highestParry = 0, highestWeapon = 0;
+
+			shield.forEach(item => {
+				if(item.system.effect?.parry != undefined){
+					if(item.system.effect.parry > highestParry)
+						highestParry = item.system.effect.parry;
+				}
+			});
+			weapons.forEach(item => {
+				if(item.system.effect?.parry != undefined){
+					if(item.system.effect.parry > highestWeapon)
+						highestWeapon = item.system.effect.parry;
+				}
+			});
+			if(skill.system.value > 3)
+				return highestParry += highestWeapon;
+			else
+				highestParry >= highestWeapon ? null : highestParry = highestWeapon;
+			return highestParry;
+		};
+
 		// Helper function to add skill bonus and message
 		const addSkillBonus = (skill, minLevel, requiredClassLevel, bonusModifier = (val) => val) => {
 			const skillValue = skill.system.value;
+			let gearBonus = 0;
 			if(skillValue <= minLevel - 1 || (skillValue >= minLevel && requiredClassLevel >= 7)){
+				if(skill.name.toLowerCase() === 'parry'){
+					gearBonus = checkGear(skill);
+					modifier += gearBonus
+				}
 				const adjustedModifier = bonusModifier(skillValue);
+				console.log(">>> Checking mods", adjustedModifier, modifier);
 				modifier += adjustedModifier;
-				localizedMessage += this._addStringToChatMessage("skillScore", skill, adjustedModifier);
+				localizedMessage += this._addStringToChatMessage("skillScore", skill, adjustedModifier + gearBonus);
 			}else
 				ui.notifications.warn(`Your ${skill.name} level does not meet the requirements!`);
 		};
@@ -863,7 +895,7 @@ export default class GSActorSheet extends ActorSheet{
 		skills.forEach(skill => {
 			switch(skill.name.toLowerCase()){
 				case 'martial arts': addSkillBonus(skill, 4, Math.max(monk, scout)); break;
-				case 'parry': addSkillBonus(skill, 4, fighter, (val) = val - 1); break;
+				case 'parry': addSkillBonus(skill, 4, fighter, (val) => val - 1); break;
 			}
 		});
 

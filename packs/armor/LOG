@@ -1,5 +1,3 @@
-2024/06/21-10:53:09.523 a0c Recovering log #231
-2024/06/21-10:53:09.523 a0c Level-0 table #233: started
-2024/06/21-10:53:09.526 a0c Level-0 table #233: 8803 bytes OK
-2024/06/21-10:53:09.531 a0c Delete type=0 #231
-2024/06/21-10:53:09.532 a0c Delete type=3 #230
+2024/06/21-13:46:29.518 4ec Recovering log #243
+2024/06/21-13:46:29.523 4ec Delete type=0 #243
+2024/06/21-13:46:29.523 4ec Delete type=3 #242

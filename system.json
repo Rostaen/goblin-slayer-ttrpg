@@ -34,6 +34,18 @@
   ],
   "packs": [
     {
+      "name": "rollTable",
+      "label": "Roll Tables",
+      "system": "gs",
+      "path": "packs/rollTables",
+      "type": "RollTable",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
       "name": "items",
       "label": "Items",
       "system": "gs",
@@ -150,7 +162,8 @@
         "weapons",
         "shields",
         "races",
-        "rules"
+        "rules",
+        "rollTables"
       ]
     }
   ],

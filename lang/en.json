@@ -97,7 +97,8 @@
         "leg": "Legend",
         "adv": "Adventurer",
         "gen": "General"
-      }
+      },
+      "equipment": "Equipment"
     },
     "actor": {
       "common": {

@@ -238,6 +238,10 @@
   background-color: #ffbeff;
   border: 1px solid #af64af;
 }
+.armorDodgeScore {
+  background-color: #ffe1be;
+  border: 1px solid #af8c64;
+}
 .spellCastSuccess,
 .spellEffectivenessScore,
 .spellCastFailure {
@@ -283,7 +287,7 @@
 }
 .prosemirror .editor-container {
   margin: 5px 5px 0px 5px;
-  min-height: 700px;
+  min-height: 350px;
 }
 .prosemirror .editor-container p {
   margin: 0 0 5px;

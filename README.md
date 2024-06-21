@@ -94,7 +94,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Monster Knowledge
 - [x] Mow Down
 - [x] Observe
-- [ ] Parry
+- [x] Parry
 - [x] Perseverance
 - [ ] Piercing Attack
 - [x] Provoke
