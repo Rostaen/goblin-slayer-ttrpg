@@ -416,6 +416,11 @@
         "header": "Intelligence Focus or Reflex",
         "label": "Use Intelligence Focus when you encounters monsters before battle. Use Intelligence Reflex to recall knowledge when you hear or read about a monster to immediately recall info about them."
       },
+      "acrobatics": {
+        "title": "Acrobatics Choice",
+        "header": "Technique Focus, Endurance, or Reflex",
+        "label": "Use Technique Focus for short duration balancing. Use Technique Endurance to balance for extended periods of time such as walking over a rope bridge. Use Technique Reflex for sudden reactions such as rolling into a fall or tumbling out of the way."
+      },
       "mowDown": {
         "title": "Mow Down Skill",
         "header": "How Many Targeted Enemies?",

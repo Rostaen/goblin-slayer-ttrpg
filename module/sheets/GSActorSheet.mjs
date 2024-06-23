@@ -433,14 +433,16 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	async _rollsToMessage(event, dice, stat, classBonus, modifier, localizedMessage, skillBonus = 0, rollMod = 0){
 		let rollExpression = `${dice}`;
-		const casting = game.i18n.localize('gs.dialog.spells.spUse');
+		const casting = 'spellCast';
+		const cssClassType = event.currentTarget.classList;
+		const spellCastCSSCheck = cssClassType[1];
 
 		// Getting roll modifiers from user
 		rollMod = await this._promptMiscModChoice("rollMod", localizedMessage);
 		if(rollMod != 0) localizedMessage += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
 
 		// Setting up roll message
-		if(localizedMessage === casting)
+		if(spellCastCSSCheck === casting)
 			rollExpression = this._setRollMessage(dice, stat, classBonus, 0, rollMod);
 		else
 			rollExpression = this._setRollMessage(dice, stat, classBonus, modifier, rollMod, skillBonus);
@@ -457,7 +459,7 @@ export default class GSActorSheet extends ActorSheet{
 			let diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
 
 			// Setting up casting results for critical success
-			if(localizedMessage === casting){
+			if(spellCastCSSCheck === casting){
 				if(diceTotal >= modifier && status[0] != 'fail'){
 					if(status[0] === 'success')
 						diceTotal += 5;
@@ -1457,6 +1459,7 @@ export default class GSActorSheet extends ActorSheet{
 				case 'intRes':
 				case 'strength':
 				case 'stealth':
+				case 'acrobatics':
 				case 'monsterKnow':
 					const header = game.i18n.localize(`gs.dialog.${promptType}.header`);
 					const paragraph = game.i18n.localize(`gs.dialog.${promptType}.label`);
@@ -1468,6 +1471,7 @@ export default class GSActorSheet extends ActorSheet{
 						'strength': {word1: 'str', word2: 'foc', word3: 'str', word4: 'end', ability1: 'sf', ability2: 'se'},
 						'monsterKnow': {word1: 'int', word2: 'foc', word3: 'int', word4: 'ref', ability1: 'if', ability2: 'ir'},
 						'stealth': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref', ability1: 'tf', ability2: 'te', ability3: 'tr'},
+						'acrobatics': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref', ability1: 'tf', ability2: 'te', ability3: 'tr'},
 					};
 
 					const { word1, word2, word3, word4, word5, word6, ability1, ability2, ability3 } = promptMapping[promptType] || {};
@@ -1485,8 +1489,8 @@ export default class GSActorSheet extends ActorSheet{
 					buttonOne = createButton([word1, word2], ability1);
 					buttonTwo = createButton([word3, word4], ability2);
 
-					if(promptType === 'stealth'){
-						buttonThree = createButton([word5, word6, ability3]);
+					if(promptType === 'stealth' || promptType === 'acrobatics'){
+						buttonThree = createButton([word5, word6], ability3);
 					}
 					break;
 				case 'mowDown':
@@ -1536,8 +1540,10 @@ export default class GSActorSheet extends ActorSheet{
 			}
 
 			buttons = { buttonOne: buttonOne, buttonTwo: buttonTwo };
-			if(promptType === 'stealth')
+			if(promptType === 'stealth' || promptType === 'acrobatics'){
 				buttons.buttonThree = buttonThree;
+			}
+			console.log(">>> Checking buttons", buttons);
 
 			new Dialog({
 				title: promptTitle,
@@ -1700,9 +1706,9 @@ export default class GSActorSheet extends ActorSheet{
 		const strengthReflexChecks = ['moveObs'];
 		const strengthFocusChecks = ['escape'];
 		const strengthEnduranceChecks = ['climbM', 'longDistance'];
-		const techniqueFocusChecks = ['firstAid', 'handiwork', 'swim', 'climbF', 'acrobatics', 'jump'];
+		const techniqueFocusChecks = ['firstAid', 'handiwork', 'swim', 'climbF', 'jump'];
 		const adventurerLevel = ['swim', 'strRes', 'longDistance'];
-		const specialPrompts = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'monsterKnow'];
+		const specialPrompts = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'monsterKnow', 'acrobatics'];
 
 		console.log(">>> Skill Name check", rollType, skillName);
 
