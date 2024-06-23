@@ -434,13 +434,13 @@ export default class GSActorSheet extends ActorSheet{
 	async _rollsToMessage(event, dice, stat, classBonus, modifier, localizedMessage, skillBonus = 0, rollMod = 0){
 		let rollExpression = `${dice}`;
 		const casting = 'spellCast';
-		const cssClassType = event.currentTarget.classList;
+		const cssClassType = event.currentTarget?.classList || ["", ""];
 		const spellCastCSSCheck = cssClassType[1];
 
 		// Getting roll modifiers from user
 		rollMod = await this._promptMiscModChoice("rollMod", localizedMessage);
 		if(rollMod != 0) localizedMessage += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
-
+		console.log(">>> Checking rollMod", rollMod);
 		// Setting up roll message
 		if(spellCastCSSCheck === casting)
 			rollExpression = this._setRollMessage(dice, stat, classBonus, 0, rollMod);
@@ -456,7 +456,8 @@ export default class GSActorSheet extends ActorSheet{
 			let dcCheck = '';
 
 			// Getting dice total plus bonuses to compare to DC stored in Modifier
-			let diceTotal = diceResults[0] + diceResults[1] + stat + classBonus;
+			let diceTotal = diceResults[0] + diceResults[1] + parseInt(stat, 10) + parseInt(classBonus, 10);
+			console.log(">>> Chekcing dice", diceResults, diceTotal, stat, classBonus);
 
 			// Setting up casting results for critical success
 			if(spellCastCSSCheck === casting){
@@ -547,7 +548,7 @@ export default class GSActorSheet extends ActorSheet{
 				const bonusScore = input.value;
 				const labelText = label.innerHTML;
 				// TODO: Update with chat box to add modifiers
-				this._rollsToMessage(baseDice, bonusScore, 0, 0, labelText);
+				this._rollsToMessage(event, baseDice, bonusScore, 0, 0, labelText);
 			}else{
 				console.error("Input field not found.");
 			}
