@@ -48,20 +48,17 @@ export class GSActor extends Actor {
     // Currently, only the top level armor will have this score applied to it if skill is present
     _armorSkillCall(){
         // TODO: Update for future "equipped" status.
-        const armorValues = {
-            cloth: this._getSkillBonus("Armor: Cloth"),
-            light: this._getSkillBonus("Armor: Light"),
-            heavy: this._getSkillBonus("Armor: Heavy"),
-        };
-        // If value is truthy
-        if(armorValues.cloth || armorValues.light || armorValues.heavy){
-            let armorWorn = this.items.filter(item => item.type.toLowerCase() === "armor");
-            // Setting flag if first time equipping armor skill
+        let armorWorn = this.items.filter(item => item.type.toLowerCase() === "armor");
+        const type = armorWorn[0].system.type.split(" ");
 
-            this.setFlag('gs', 'baseArmorScore', armorWorn[0].system.score);
-            if (armorValues.cloth > 0) armorWorn[0].system.score += armorValues.cloth;
-            else if (armorValues.light > 0) armorWorn[0].system.score += armorValues.light;
-            else if (armorValues.heavy > 0) armorWorn[0].system.score += armorValues.heavy;
+        const armorValue = this._getSkillBonus(`Armor: ${type[0]}`);
+        if(armorValue){
+            if(!armorWorn[0].system.original)
+                armorWorn[0].system.original = armorWorn[0].system.score;
+            if(armorWorn[0].system.original + armorValue > armorWorn[0].system.score){
+                armorWorn[0].system.score += armorValue;
+                armorWorn[0].system.original = armorWorn[0].system.score;
+            }
         }
     }
 
