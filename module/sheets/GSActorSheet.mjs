@@ -431,7 +431,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} skillBonus The value of the skill to help determine how much to add to a given roll
 	 * @param {int} rollMod Misc. integer value to be added from the window prompt
 	 */
-	async _rollsToMessage(event, dice, stat, classBonus, modifier, localizedMessage, skillBonus = 0, rollMod = 0){
+	async _rollsToMessage(event, dice, stat, classBonus, modifier, localizedMessage, skillBonus = 0, rollMod = 0, modSelector = ""){
 		let rollExpression = `${dice}`;
 		const casting = 'spellCast';
 		const cssClassType = event.currentTarget?.classList || ["", ""];
@@ -440,7 +440,6 @@ export default class GSActorSheet extends ActorSheet{
 		// Getting roll modifiers from user
 		rollMod = await this._promptMiscModChoice("rollMod", localizedMessage);
 		if(rollMod != 0) localizedMessage += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
-		console.log(">>> Checking rollMod", rollMod);
 		// Setting up roll message
 		if(spellCastCSSCheck === casting)
 			rollExpression = this._setRollMessage(dice, stat, classBonus, 0, rollMod);
@@ -457,7 +456,6 @@ export default class GSActorSheet extends ActorSheet{
 
 			// Getting dice total plus bonuses to compare to DC stored in Modifier
 			let diceTotal = diceResults[0] + diceResults[1] + parseInt(stat, 10) + parseInt(classBonus, 10);
-			console.log(">>> Chekcing dice", diceResults, diceTotal, stat, classBonus);
 
 			// Setting up casting results for critical success
 			if(spellCastCSSCheck === casting){
@@ -485,12 +483,13 @@ export default class GSActorSheet extends ActorSheet{
 						diceTotal += pierceAmount;
 						localizedMessage += this._addToFlavorMessage("skillScore", game.i18n.localize('gs.actor.common.pierc') + " " + game.i18n.localize('gs.actor.monster.atta'), pierceAmount );
 					}
-					//console.log(">>> Checking Current Weapon", currentWeapon);
 				}
 			});
 
-			// TODO: Localize this message
-			localizedMessage += `<div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}</div>`;
+
+			// Checking if a power/damage roll is coming through to remove Effectiveness message
+			if(modSelector != ".power")
+				localizedMessage += `<div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}</div>`;
 			let chatFlavor = `<div class="customFlavor">${localizedMessage}`;
 			if(status != undefined || status != null)
 				chatFlavor += `${status[1]}`;
@@ -680,9 +679,12 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	async _rollWithModifiers(event, modSelector, baseDice, localizedMessage, itemType){
 		event.preventDefault();
+		console.log(">>> In rollWithModifiers");
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const actorType = this.actor.type;
 		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills, skillBonus = 0;
+
+		console.log(">>> Actor Type", actorType, modSelector);
 
 		if (!container) {
 			console.error("Container with '.reveal-rollable' class not found.");
@@ -741,9 +743,10 @@ export default class GSActorSheet extends ActorSheet{
 			const {dice, mod} = this._parseDiceNotation(diceNotation);
 			diceToRoll = dice;
 			modifier = mod;
+			console.log(">>> This is a monster with", dice, mod);
 		}
 
-		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
+		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus, 0, modSelector);
 	}
 
 	/**
@@ -765,7 +768,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The dice being used in the roll or a value to modifier the dice roll
 	 */
 	_getDiceNotation(modElement, actorType, modSelector){
-		if(actorType === 'monster' && ['.hitMod', '.boss.dodge', '.boss.block', '.boss.spellRes', '.power'].includes(modSelector)){
+		if(actorType === 'monster' && ['.hitMod', '.boss.dodge', '.boss.block', '.boss.spellRes', '.power', '.moraleCheck'].includes(modSelector)){
 			const diceNotation = modElement.value;
 			if(diceNotation != 0)
 				return diceNotation;
@@ -784,7 +787,12 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The dice to roll and any modifers
 	 */
 	_parseDiceNotation(diceNotation){
-		const [dice, mod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
+		let [dice, mod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
+		if(dice != "1d6" || dice != "2d6" || dice != "1d3"){
+			// Checks for moral bonus being a solo number
+			mod = dice;
+			dice = "2d6";
+		}
 		return {
 			dice: dice.trim(),
 			mod: parseInt(mod === 0 ? 0 : mod.trim(), 10)
@@ -993,187 +1001,6 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	// async _rollWithModifiers2(event, modSelector, baseDice, localizedMessage, itemType){
-	// 	event.preventDefault();
-	// 	const container = event.currentTarget.closest('.reveal-rollable');
-	// 	const actorType = this.actor.type;
-	// 	const actorCalcStats = this.actor.system.abilities.calc;
-	// 	let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills, skillBonus = 0;
-
-	// 	if (!container) {
-	// 		console.error("Container with '.reveal-rollable' class not found.");
-	// 		return;
-	// 	}
-
-	// 	const modElement = container.querySelector(modSelector);
-	// 	if (!modElement) {
-	// 		console.error(`${localizedMessage} modifier not found.`);
-	// 		return;
-	// 	}
-
-	// 	if(actorType === 'character'){
-	// 		diceNotation = modElement.textContent;
-	// 		skills = this.actor.items.filter(item => item.type === 'skill');
-	// 	}else if(actorType === 'monster') diceNotation = modElement.value;
-
-	// 	// Getting monster to hit dice and modifiers (if any)
-	// 	if((modSelector === '.hitMod' || modSelector === '.boss.dodge' ||
-	// 		modSelector === '.boss.block' || modSelector === '.boss.spellRes' ||
-	// 		modSelector === '.power') && actorType === 'monster'){
-	// 		if(diceNotation != 0){
-	// 			const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
-	// 			diceToRoll = powerDice.trim();
-	// 			if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
-	// 			else modifier = powerMod;
-	// 		}else{
-	// 			ui.notifications.info(`The check has a value of 0 or undefined and cannot be rolled`);
-	// 			return;
-	// 		}
-	// 	// Getting character elements ready
-	// 	}else if(actorType === 'character'){
-	// 		if(modSelector === '.power'){
-	// 			// Breaking down weapon power for damage dice and +N modifiers, if any
-	// 			const [powerDice, powerMod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
-	// 			diceToRoll = powerDice.trim();
-	// 			if(powerMod != 0) modifier = parseInt(powerMod.trim(), 10);
-	// 			else modifier = powerMod;
-
-	// 			// Checking if character has monk levels and various monk skills
-	// 			if(this.actor.system.levels.classes.monk > 0){
-	// 				const typeHolder = this._getItemType(container);
-	// 				let [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
-	// 				const weaponName = container.querySelector('div.name').innerHTML.split(" ")[0].trim();
-	// 				console.log(">>> Review container contents", container, weaponName);
-
-	// 				// Checking for barehanded weapons for Iron First skill
-	// 				if(weaponName.toLowerCase() === 'barehanded'){
-	// 					for(const skill of skills){
-	// 						if(skill.name.toLowerCase() === 'iron fist'){
-	// 							switch(skill.system.value){
-	// 								case 1:
-	// 								case 2:
-	// 									skillBonus += skill.system.value;
-	// 									break;
-	// 								case 3:
-	// 								case 4:
-	// 									skillBonus += skill.system.value + Math.floor(skill.system.value / 2);
-	// 									break;
-	// 								case 5:
-	// 									skillBonus += skill.system.value + Math.round(skill.system.value / 2);
-	// 									break;
-	// 							}
-	// 						}
-	// 					}
-	// 				}
-
-	// 				// Checking for close-combat weapon used and burst of strength skill
-	// 				if(type === 'close-combat'){
-	// 					for(const skill of skills){
-	// 						if(skill.name.toLowerCase() === 'burst of strength'){
-	// 							switch(skill.system.value){
-	// 								case 1: skillBonus = 1; break;
-	// 								case 2: skillBonus = 2; break;
-	// 								case 3: skillBonus = "1d3"; break;
-	// 								case 4:
-	// 								case 5: skillBonus = "1d6"; break;
-	// 							}
-	// 							const powerBonus = await this._promptFatigueForPower();
-	// 							if(powerBonus > 0){
-	// 								for(let x = 0; x < powerBonus; x++)
-	// 									await this._checkFatigueRanks();
-	// 								if(skill.system.value <= 2)
-	// 									skillBonus += powerBonus;
-	// 								else if(skill.system.value <= 4)
-	// 									skillBonus += `+${powerBonus}`;
-	// 								else
-	// 									skillBonus += `+${powerBonus * 2}`;
-	// 							}
-	// 						}
-	// 					}
-	// 				}
-	// 			}
-	// 		}else if(modSelector === '.hitMod' || modSelector === '.dodge' ||
-	// 				 modSelector === '.blockMod' || modSelector === '.spellDif'){
-	// 			modifier = parseInt(modElement.textContent, 10);
-	// 			// Checking for dodging and heavy classified armor vs Str End score or Martial Arts skill to dodge
-	// 			if(modSelector === '.dodge'){
-	// 				const armor = this.actor.items.filter(item => item.type === 'armor');
-	// 				const strEnd = this.actor.system.abilities.calc.se;
-	// 				if(armor[0].system.heavy.value && strEnd >= armor[0].system.heavy.y){
-	// 					modifier = Math.floor(modifier / 2);
-	// 				}
-	// 				for(const skill of skills){
-	// 					if(skill.name.toLowerCase() === "martial arts"){
-	// 						const skillValue = skill.system.value;
-	// 						const {monk, scout} = this.actor.system.levels.classes;
-
-	// 						if(skillValue <= 3 || (skillValue >= 4 && (monk >= 7 || scout >= 7))){
-	// 							skillBonus += skillValue;
-	// 							localizedMessage += this._addStringToChatMessage("skillScore", skill, skillValue);
-	// 						}else
-	// 							ui.notifications.warn(`Your Monk (${monk}) or Scout (${scout}) Level does meet the requirements for ${skill.name} level!`);
-	// 					}
-	// 				}
-	// 			// Checking for to hit and mow down skill
-	// 			}else if(modSelector === '.hitMod'){
-	// 				for(const skill of skills){
-	// 					if(skill.name.toLowerCase() === 'mow down'){
-	// 						const weaponUse = container.querySelector('.weaponUse').value;
-	// 						const weaponAttr = container.querySelector('.weaponAttr').value;
-	// 						const weaponAttrSplit = weaponAttr.split('/');
-	// 						const attributes = ['Slash', 'Bludgeoning'];
-	// 						console.log(">>>", weaponAttrSplit);
-	// 						if(weaponUse.toLowerCase() === 'two-handed' && weaponAttrSplit.some(attr => attributes.includes(attr))){
-	// 							const modHitPen = await this._promptMiscModChoice("mowDown", skill.system.value);
-	// 							modifier += modHitPen;
-	// 							localizedMessage += this._addStringToChatMessage("skillScore", skill, modHitPen);
-	// 						}
-	// 					}
-	// 				}
-	// 			}
-	// 		}else if(modSelector === '.spellRes'){
-	// 			modifier = parseInt(modElement.value);
-	// 		}
-	// 	}
-
-	// 	if(actorType === 'character') {
-	// 		// Getting hidden item type
-	// 		switch(itemType){
-	// 			case 'weapon': case 'armor': case 'shield':
-	// 				typeHolder = this._getItemType(container);
-	// 				if (!typeHolder) {
-	// 					console.error("Item type not found.");
-	// 					return;
-	// 				}
-	// 				classBonus = this._getClassLevelBonus(typeHolder, itemType);
-	// 				break;
-	// 			case 'cast':
-	// 				const school = container.querySelector("input[type='hidden']").value;
-	// 				if(school.toLowerCase() === "words of true power"){
-	// 					stat = actorCalcStats.if;
-	// 				}else{
-	// 					stat = actorCalcStats.pf;
-	// 				}
-	// 				classBonus = this._getClassLevelBonus(school, itemType);
-	// 				break;
-	// 			// Do nothing else for other items types
-	// 		}
-
-	// 		// Getting stat for to hit or damage
-	// 		if(modSelector === '.power' || modSelector === '.spellRes'){
-	// 			// Do nothing here
-	// 		}else if(itemType === 'weapon'){
-	// 			stat = actorCalcStats.tf;
-	// 		}else if(itemType === 'shield' || itemType === 'armor'){
-	// 			stat = actorCalcStats.tr;
-	// 		}
-	// 	}
-
-	// 	// console.log("Before rollsToMessage check:", modSelector, diceToRoll, stat, classBonus, modifier, localizedMessage);
-
-	// 	this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus);
-	// }
-
 	/**
 	 * A simple method that pushes static minion data to the chat window
 	 * @param {*} event The click event
@@ -1363,8 +1190,9 @@ export default class GSActorSheet extends ActorSheet{
 			'bossHit': { mod: '.hitMod', dice: '2d6', label: 'gs.actor.character.hit', type: 'weapon' },
 			'bossDodge': { mod: '.boss.dodge', dice: '2d6', label: 'gs.actor.character.dodge', type: 'armor' },
 			'bossBlock': { mod: '.boss.block', dice: '2d6', label: 'gs.actor.character.block', type: 'armor' },
+			'morale': { mod: '.moraleCheck', dice: '2d6', label: 'gs.actor.monster.mora', type: 'morale' },
 			'bossSR': { mod: '.boss.spellRes', dice: '2d6', label: 'gs.actor.common.spRe', type: 'resistance' },
-			'mPower': { mod: '.power', dice: '2d6', label: 'gs.gear.spells.att', type: 'weapon' }
+			'mPower': { mod: '.power', dice: '2d6', label: 'gs.gear.spells.att', type: 'weapon' },
 		};
 
 		const specialRolls = ['stealth', 'sixthSense', 'lucky', 'firstAid', 'initiative', 'handiwork', 'swim', 'climbF',

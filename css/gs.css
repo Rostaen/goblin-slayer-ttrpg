@@ -857,7 +857,8 @@ table tr:nth-child(even) {
 }
 .monster .headerInfo .coreItems .grid .minionSR:hover,
 .monster .headerInfo .coreItems .grid .bossSR:hover,
-.monster .headerInfo .coreItems .grid .initiative:hover {
+.monster .headerInfo .coreItems .grid .initiative:hover,
+.monster .headerInfo .coreItems .grid .morale:hover {
   text-shadow: 0 0 5px darkred;
   cursor: pointer;
 }

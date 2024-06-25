@@ -1,3 +1,5 @@
-2024/06/23-16:38:59.112 1540 Recovering log #253
-2024/06/23-16:38:59.118 1540 Delete type=0 #253
-2024/06/23-16:38:59.118 1540 Delete type=3 #252
+2024/06/25-11:24:43.336 30ec Log #257: 0 ops saved to Table #258 OK
+2024/06/25-11:24:43.336 30ec Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/000257.log: OK
+2024/06/25-11:24:43.337 30ec Table #200: 73 entries OK
+2024/06/25-11:24:43.339 30ec Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills/MANIFEST-000256: OK
+2024/06/25-11:24:43.340 30ec **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\skills; recovered 1 files; 52580 bytes. Some data may have been lost. ****

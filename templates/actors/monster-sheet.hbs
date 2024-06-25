@@ -47,8 +47,8 @@
 					{{/each}}
                 </select>
 
-                <label>{{localize config.monster.mora}} </label>
-                <input type="text" name="system.morale" value="{{actor.system.morale}}" data-dtype="Number" />
+                <label class="actorRolls morale">{{localize config.monster.mora}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <input type="text" name="system.morale" value="{{actor.system.morale}}" data-dtype="Number" class="moraleCheck" />
 
                 <span class="switch-container grid-span-2">
                     <div class="alert" title="{{localize "gs.dialog.monsterSheet.boss"}}"><i class="fa-solid fa-circle-exclamation"></i></div>
