@@ -56,12 +56,12 @@ export class GSActor extends Actor {
         // If value is truthy
         if(armorValues.cloth || armorValues.light || armorValues.heavy){
             let armorWorn = this.items.filter(item => item.type.toLowerCase() === "armor");
-            // Is armor presently being worn?
-            if (armorWorn) {
-                if (armorValues.cloth > 0) armorWorn[0].system.score += armorValues.cloth;
-                else if (armorValues.light > 0) armorWorn[0].system.score += armorValues.light;
-                else if (armorValues.heavy > 0) armorWorn[0].system.score += armorValues.heavy;
-            }
+            // Setting flag if first time equipping armor skill
+
+            this.setFlag('gs', 'baseArmorScore', armorWorn[0].system.score);
+            if (armorValues.cloth > 0) armorWorn[0].system.score += armorValues.cloth;
+            else if (armorValues.light > 0) armorWorn[0].system.score += armorValues.light;
+            else if (armorValues.heavy > 0) armorWorn[0].system.score += armorValues.heavy;
         }
     }
 
@@ -258,6 +258,8 @@ export class GSActor extends Actor {
 
         if(type !== 'character') return;
 
+        const actorSkills = this.items.filter(item => item.type === 'skill');
+
         // Setting up character calculated ability scores
         for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
             for(const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)){
@@ -292,7 +294,6 @@ export class GSActor extends Actor {
         systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
 
         // Getting character skills
-        const actorSkills = this.items.filter(item => item.type === 'skill');
         for(const [id, skill] of Object.entries(actorSkills)){
             // Switching on skills to save processing time
             //console.log("===> For Loop Skill Check", skill.name);

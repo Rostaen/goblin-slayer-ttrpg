@@ -950,7 +950,7 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_calculateBlockModifier(modifier, skills, localizedMessage){
 		skills.forEach(skill => {
-			if(skill.name.toLowerCase() === 'shield'){
+			if(skill.name.toLowerCase() === 'shields'){
 				modifier += skill.system.value;
 				localizedMessage += this._addStringToChatMessage("skillScore", skill, skill.system.value);
 			}

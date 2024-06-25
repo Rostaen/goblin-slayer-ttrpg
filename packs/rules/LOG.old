@@ -1,5 +1,1 @@
-2024/06/25-11:24:43.402 2138 Log #178: 0 ops saved to Table #179 OK
-2024/06/25-11:24:43.402 2138 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rules/000178.log: OK
-2024/06/25-11:24:43.403 2138 Table #121: 8 entries OK
-2024/06/25-11:24:43.405 2138 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rules/MANIFEST-000177: OK
-2024/06/25-11:24:43.406 2138 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rules; recovered 1 files; 40868 bytes. Some data may have been lost. ****
+2024/06/25-11:24:43.410 2138 Delete type=3 #1
