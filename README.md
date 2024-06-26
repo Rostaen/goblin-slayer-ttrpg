@@ -105,7 +105,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Slice Attack
 - [ ] Slip Behind (Requires advanced features not yet implemented)
 - [ ] Snipe (Requires advanced features not yet implemented)
-- [ ] Spell Expertise: XX
+- [x] Spell Expertise: XX (Partial setup, spell maintenance button required to finish)
 - [x] Spell Resistance
 - [x] Stealth
 - [x] Strengthened Immunity

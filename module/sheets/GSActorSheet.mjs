@@ -403,8 +403,8 @@ export default class GSActorSheet extends ActorSheet{
 					'master of earth', 'master of life'];
 				for(const skill of skills){
 					skillValue = skill.system.value;
-					console.log(">>> Check skill name", skill.name.toLowerCase(), label, critSuccessFailSkills, `${skill.name.toLowerCase()}-${label.toLowerCase()}`);
-					console.log("Truthy?", critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`));
+					// console.log(">>> Check skill name", skill.name.toLowerCase(), label, critSuccessFailSkills, `${skill.name.toLowerCase()}-${label.toLowerCase()}`);
+					// console.log("Truthy?", critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`));
 					if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`))
 						setSuccessFailValues(skillValue);
 					else if(critSuccessOnlySkills.includes(`${skill.name.toLowerCase()}`)){
@@ -414,7 +414,6 @@ export default class GSActorSheet extends ActorSheet{
 							setCritSuccessValues(skillValue);
 					}
 				}
-				console.log("=== Checking crit/fail values", critSuccess, critFail);
 			}
 
 			// Checking dice results vs. crit fail/success otherwise this is a regular result
@@ -454,10 +453,7 @@ export default class GSActorSheet extends ActorSheet{
 		rollMod = await this._promptMiscModChoice("rollMod", localizedMessage);
 		if(rollMod != 0) localizedMessage += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
 		// Setting up roll message
-		if(spellCastCSSCheck === casting)
-			rollExpression = this._setRollMessage(dice, stat, classBonus, 0, rollMod);
-		else
-			rollExpression = this._setRollMessage(dice, stat, classBonus, modifier, rollMod, skillBonus);
+		rollExpression = this._setRollMessage(dice, stat, classBonus, spellCastCSSCheck === casting ? 0 : modifier, rollMod, skillBonus);
 
 		try{
 			const roll = new Roll(rollExpression);
@@ -468,7 +464,7 @@ export default class GSActorSheet extends ActorSheet{
 			let dcCheck = '';
 
 			// Getting dice total plus bonuses to compare to DC stored in Modifier
-			let diceTotal = diceResults[0] + diceResults[1] + parseInt(stat, 10) + parseInt(classBonus, 10);
+			let diceTotal = diceResults[0] + diceResults[1] + parseInt(stat, 10) + parseInt(classBonus, 10) + parseInt(skillBonus, 10);
 
 			// Setting up casting results for critical success
 			if(spellCastCSSCheck === casting){
@@ -742,20 +738,23 @@ export default class GSActorSheet extends ActorSheet{
 						: this._calculateBlockModifier(modifier, skills, localizedMessage);
 					modifier = mod;
 					localizedMessage = message;
-				}
-				else if(modSelector === '.hitMod'){
+				}else if(modSelector === '.hitMod'){
 					const {modifier: mod, localizedMessage: message} = await this._calculateMowDownModifier(container, skills, modifier, localizedMessage);
 					modifier = mod;
 					localizedMessage = message;
+				}else if(modSelector === '.spellDif'){
+					const spellID = container.dataset.id;
+					const {skillBonus: bonus, localizedMessage: message} = await this._calculateSpellExpertise(skills, localizedMessage, spellID);
+					skillBonus += bonus;
+					localizedMessage = message;
 				}
-			}else if(modSelector === '.spellDif')
-				modifier = parseInt(modElement.value);
-			if(modifier != 0 && modSelector != '.spellDif') localizedMessage += this._addToFlavorMessage("rollScore", game.i18n.localize('gs.dialog.mods.mod'), modifier);
+			}
+			if(modifier != 0 && modSelector != '.spellDif')
+				localizedMessage += this._addToFlavorMessage("rollScore", game.i18n.localize('gs.dialog.mods.mod'), modifier);
 		}else if(actorType === 'monster'){
 			const {dice, mod} = this._parseDiceNotation(diceNotation);
 			diceToRoll = dice;
 			modifier = mod;
-			console.log(">>> This is a monster with", dice, mod);
 		}
 
 		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus, 0, modSelector);
@@ -821,6 +820,29 @@ export default class GSActorSheet extends ActorSheet{
 		const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
 		const weaponName = container.querySelector('div.name').innerHTML.split(" ")[0].trim();
 		return { weaponName, type};
+	}
+
+	/**
+	 * Searches through the players skills for the Spell Expertise skill and compares it to the spell being cast for bonuses.
+	 * @param {JSON} skills An array of JSON skill objects
+	 * @param {string} localizedMessage A string message to output to the chat window
+	 * @param {string} spellID The idea of the spell being cast
+	 * @returns Updated skill bonus value and localized message with skill information.
+	 */
+	_calculateSpellExpertise(skills, localizedMessage, spellID){
+		const spellTypes = ['Spell Expertise: Attack Spells', 'Spell Expertise: Imbuement Spells', 'Spell Expertise: Creation Spells', 'Spell Expertise: Control Spells', 'Spell Expertise: Healing Spells', 'Spell Expertise: General Spells'];
+		const spell = this.actor.items.get(spellID);
+		let skillBonus = 0;
+		skills.forEach(skill => {
+			for(let x = 0; x < spellTypes.length; x++){
+				const spellSplit = spellTypes[x].split(" ");
+				if(skill.name.toLowerCase() === spellTypes[x].toLowerCase() && spell.system.styleChoice === spellSplit[2]){
+					skillBonus = skill.system.value;
+					localizedMessage += this._addStringToChatMessage("skillScore", skill, skillBonus);
+				}
+			}
+		});
+		return {skillBonus, localizedMessage};
 	}
 
 	/**
