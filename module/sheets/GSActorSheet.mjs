@@ -374,6 +374,7 @@ export default class GSActorSheet extends ActorSheet{
 
 				// Updating the Critical Success/Failure rate based on the given skill
 				const setSuccessFailValues = (skillValue) => {
+					console.log("=== Checking skillValue sent", skillValue);
 					if(skillValue === 1){ critSuccess = 11; critFail = 5; }
 					else if(skillValue === 2){ critSuccess = 11; critFail = 4; }
 					else if(skillValue === 3){ critSuccess = 10; critFail = 4; }
@@ -391,19 +392,20 @@ export default class GSActorSheet extends ActorSheet{
 				const eventItem = this.actor.items.get(eventID);
 				let sliceAttr;
 				if(eventItem.type === 'weapon'){
-					sliceAttr = eventItem.system.effects.checked[9];
+					sliceAttr = eventItem.system.effect?.checked[9];
 				}
 
 				// Checking over each character skill to modify success rates
+				let critSuccessFailSkills = ['alert-.dodge'];
+				if(sliceAttr)
+					critSuccessFailSkills.push('slice attack-.hitmod');
+				const critSuccessOnlySkills = ['master of fire', 'master of water', 'master of wind',
+					'master of earth', 'master of life'];
 				for(const skill of skills){
 					skillValue = skill.system.value;
-					console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), eventItem);
-					let critSuccessFailSkills = ['alert'];
-					if(sliceAttr)
-						critSuccessFailSkills.push('slice attack');
-					const critSuccessOnlySkills = ['master of fire', 'master of water', 'master of wind',
-						'master of earth', 'master of life'];
-					if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}`))
+					console.log(">>> Check skill name", skill.name.toLowerCase(), label, critSuccessFailSkills, `${skill.name.toLowerCase()}-${label.toLowerCase()}`);
+					console.log("Truthy?", critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`));
+					if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`))
 						setSuccessFailValues(skillValue);
 					else if(critSuccessOnlySkills.includes(`${skill.name.toLowerCase()}`)){
 						const element = event.currentTarget.closest('.reveal-rollable').querySelector("#element").value;
@@ -412,6 +414,7 @@ export default class GSActorSheet extends ActorSheet{
 							setCritSuccessValues(skillValue);
 					}
 				}
+				console.log("=== Checking crit/fail values", critSuccess, critFail);
 			}
 
 			// Checking dice results vs. crit fail/success otherwise this is a regular result
@@ -461,7 +464,7 @@ export default class GSActorSheet extends ActorSheet{
 			await roll.evaluate();
 
 			const diceResults = roll.terms[0].results.map(r => r.result);
-			const status = this._checkForCritRolls(diceResults, localizedMessage, event);
+			const status = this._checkForCritRolls(diceResults, modSelector, event);
 			let dcCheck = '';
 
 			// Getting dice total plus bonuses to compare to DC stored in Modifier

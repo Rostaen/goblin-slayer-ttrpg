@@ -102,12 +102,12 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Rapid Fire (May not need auto integration and use Misc. Modifier prompt instead)
 - [x] Shields
 - [x] Sixth Sense
-- [ ] Slice Attack
-- [ ] Slip Behind
-- [ ] Snipe
+- [x] Slice Attack
+- [ ] Slip Behind (Requires advanced features not yet implemented)
+- [ ] Snipe (Requires advanced features not yet implemented)
 - [ ] Spell Expertise: XX
 - [x] Spell Resistance
-- [ ] Stealth
+- [x] Stealth
 - [x] Strengthened Immunity
 - [ ] Strong Blow: Bludgeon
 - [ ] Strong Blow: Slash
