@@ -1666,8 +1666,8 @@ export default class GSActorSheet extends ActorSheet{
 						else
 							console.error("Race item not found for deletion.");
 
-						if(type === 'armor')
-							this.actor.unsetFlag('gs', 'origAC');
+						if(type === 'armor' || type === 'shield')
+							this.actor.unsetFlag('gs', type);
 						break;
 				}
 			}

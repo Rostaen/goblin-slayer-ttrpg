@@ -46,25 +46,26 @@ export class GSActor extends Actor {
 
     // Updating Armor Score with Armor:XX skill bonus level
     // Currently, only the top level armor will have this score applied to it if skill is present
-    async _armorSkillCall(){
+    async _armorSkillCall(armorType){
         // TODO: Update for future "equipped" status.
-        let armorWorn = this.items.filter(item => item.type.toLowerCase() === "armor");
+        let armorWorn = this.items.filter(item => item.type.toLowerCase() === armorType);
+        console.log(">>> Checking armor values", armorWorn[0]);
 
         // If no armor, exit
         if (armorWorn.length === 0) return;
 
         const armorID = armorWorn[0]._id;
         const type = armorWorn[0].system.type.split(" ");
-        const armorValue = this._getSkillBonus(`Armor: ${type[0]}`);
+        const armorValue = this._getSkillBonus(armorType === 'armor' ? `Armor: ${type[0]}` : 'Shields');
 
         // Retrieve flag and value
-        const flagAC = this.getFlag('gs', 'origAC');
+        const flagAC = this.getFlag('gs', armorType);
 
         console.log(">>> Checking armor values", flagAC, armorValue, armorWorn[0].system.score, armorID);
 
         if(armorValue){
             if(!flagAC){
-                await this.setFlag('gs', 'origAC', armorWorn[0].system.score);
+                await this.setFlag('gs', armorType, armorWorn[0].system.score);
                 armorWorn[0].system.score += armorValue;
                 await armorWorn[0].update({ 'system.score': armorWorn[0].system.score });
                 console.log("+++ TRIGGER 1 - Armor score updated and flag set");
@@ -313,7 +314,9 @@ export class GSActor extends Actor {
                 case "Armor: Cloth":
                 case "Armor: Light":
                 case "Armor: Heavy":
-                    this._armorSkillCall(); break;
+                    this._armorSkillCall("armor"); break;
+                case "Shields":
+                    this._armorSkillCall("shield"); break;
                 case "Bonus Spells: Words of True Power":
                 case "Bonus Spells: Miracles":
                 case "Bonus Spells: Ancestral Dragon Arts":
