@@ -1661,11 +1661,13 @@ export default class GSActorSheet extends ActorSheet{
 						break;
 					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':
 						const pcTarget = actor.items.get(id);
-						if (pcTarget) {
+						if (pcTarget)
 							pcTarget.delete();
-						} else {
+						else
 							console.error("Race item not found for deletion.");
-						}
+
+						if(type === 'armor')
+							this.actor.unsetFlag('gs', 'origAC');
 						break;
 				}
 			}

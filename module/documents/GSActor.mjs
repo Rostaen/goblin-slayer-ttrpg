@@ -46,19 +46,30 @@ export class GSActor extends Actor {
 
     // Updating Armor Score with Armor:XX skill bonus level
     // Currently, only the top level armor will have this score applied to it if skill is present
-    _armorSkillCall(){
+    async _armorSkillCall(){
         // TODO: Update for future "equipped" status.
         let armorWorn = this.items.filter(item => item.type.toLowerCase() === "armor");
-        const type = armorWorn[0].system.type.split(" ");
 
+        // If no armor, exit
+        if (armorWorn.length === 0) return;
+
+        const armorID = armorWorn[0]._id;
+        const type = armorWorn[0].system.type.split(" ");
         const armorValue = this._getSkillBonus(`Armor: ${type[0]}`);
+
+        // Retrieve flag and value
+        const flagAC = this.getFlag('gs', 'origAC');
+
+        console.log(">>> Checking armor values", flagAC, armorValue, armorWorn[0].system.score, armorID);
+
         if(armorValue){
-            if(!armorWorn[0].system.original)
-                armorWorn[0].system.original = armorWorn[0].system.score;
-            if(armorWorn[0].system.original + armorValue > armorWorn[0].system.score){
+            if(!flagAC){
+                await this.setFlag('gs', 'origAC', armorWorn[0].system.score);
                 armorWorn[0].system.score += armorValue;
-                armorWorn[0].system.original = armorWorn[0].system.score;
-            }
+                await armorWorn[0].update({ 'system.score': armorWorn[0].system.score });
+                console.log("+++ TRIGGER 1 - Armor score updated and flag set");
+            }else if(flagAC + armorValue > armorWorn[0].system.score)
+                await armorWorn[0].update({ 'system.score': flagAC + armorValue });
         }
     }
 
