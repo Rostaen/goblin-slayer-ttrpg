@@ -49,7 +49,6 @@ export class GSActor extends Actor {
     async _armorSkillCall(armorType){
         // TODO: Update for future "equipped" status.
         let armorWorn = this.items.filter(item => item.type.toLowerCase() === armorType);
-        console.log(">>> Checking armor values", armorWorn[0]);
 
         // If no armor, exit
         if (armorWorn.length === 0) return;
@@ -61,7 +60,7 @@ export class GSActor extends Actor {
         // Retrieve flag and value
         const flagAC = this.getFlag('gs', armorType);
 
-        console.log(">>> Checking armor values", flagAC, armorValue, armorWorn[0].system.score, armorID);
+        //console.log(">>> Checking armor values", flagAC, armorValue, armorWorn[0].system.score, armorID);
 
         if(armorValue){
             if(!flagAC){

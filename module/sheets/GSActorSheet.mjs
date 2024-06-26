@@ -386,14 +386,24 @@ export default class GSActorSheet extends ActorSheet{
 					else if(skillValue == 5) critSuccess = 9;
 				}
 
+				// Setting up info for Slice Attack skill
+				const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
+				const eventItem = this.actor.items.get(eventID);
+				let sliceAttr;
+				if(eventItem.type === 'weapon'){
+					sliceAttr = eventItem.system.effects.checked[9];
+				}
+
 				// Checking over each character skill to modify success rates
 				for(const skill of skills){
 					skillValue = skill.system.value;
-					//console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), label);
-					const critSuccessFailSkills = ['alert-dodge'];
+					console.log(">>> Check skill name", skill.name, skill.name.toLowerCase(), eventItem);
+					let critSuccessFailSkills = ['alert'];
+					if(sliceAttr)
+						critSuccessFailSkills.push('slice attack');
 					const critSuccessOnlySkills = ['master of fire', 'master of water', 'master of wind',
 						'master of earth', 'master of life'];
-					if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`))
+					if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}`))
 						setSuccessFailValues(skillValue);
 					else if(critSuccessOnlySkills.includes(`${skill.name.toLowerCase()}`)){
 						const element = event.currentTarget.closest('.reveal-rollable').querySelector("#element").value;
@@ -679,12 +689,11 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	async _rollWithModifiers(event, modSelector, baseDice, localizedMessage, itemType){
 		event.preventDefault();
-		console.log(">>> In rollWithModifiers");
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const actorType = this.actor.type;
 		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills, skillBonus = 0;
 
-		console.log(">>> Actor Type", actorType, modSelector);
+		//console.log(">>> Actor Type", actorType, modSelector);
 
 		if (!container) {
 			console.error("Container with '.reveal-rollable' class not found.");
@@ -1372,7 +1381,6 @@ export default class GSActorSheet extends ActorSheet{
 			if(promptType === 'stealth' || promptType === 'acrobatics'){
 				buttons.buttonThree = buttonThree;
 			}
-			console.log(">>> Checking buttons", buttons);
 
 			new Dialog({
 				title: promptTitle,
