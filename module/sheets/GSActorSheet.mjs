@@ -1,3 +1,5 @@
+import res from "express/lib/response";
+
 const {mergeObject} = foundry.utils;
 
 export default class GSActorSheet extends ActorSheet{
@@ -386,21 +388,23 @@ export default class GSActorSheet extends ActorSheet{
 					else if(skillValue < 5) critSuccess = 10;
 					else if(skillValue == 5) critSuccess = 9;
 				}
-
-				// Setting up info for Slice Attack skill
-				const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
-				const eventItem = this.actor.items.get(eventID);
-				let sliceAttr;
-				if(eventItem.type === 'weapon'){
-					sliceAttr = eventItem.system.effect?.checked[9];
-				}
-
 				// Checking over each character skill to modify success rates
 				let critSuccessFailSkills = ['alert-.dodge'];
-				if(sliceAttr)
-					critSuccessFailSkills.push('slice attack-.hitmod');
 				const critSuccessOnlySkills = ['master of fire', 'master of water', 'master of wind',
 					'master of earth', 'master of life'];
+
+				// Setting up info for Slice Attack skill
+				if(event != ""){
+					const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
+					const eventItem = this.actor.items.get(eventID);
+					let sliceAttr;
+					if(eventItem.type === 'weapon'){
+						sliceAttr = eventItem.system.effect?.checked[9];
+					}
+					if(sliceAttr)
+						critSuccessFailSkills.push('slice attack-.hitmod');
+				}
+
 				for(const skill of skills){
 					skillValue = skill.system.value;
 					// console.log(">>> Check skill name", skill.name.toLowerCase(), label, critSuccessFailSkills, `${skill.name.toLowerCase()}-${label.toLowerCase()}`);
@@ -481,16 +485,31 @@ export default class GSActorSheet extends ActorSheet{
 
 			// Checking skills for Piercing Attack skill and weapon
 			const skills = this.actor.items.filter(item => item.type === 'skill');
+			// Getting Weapon ID to check for Piercing trait
+			const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
+			const currentWeapon = this.actor.items.get(eventID);
 			skills.forEach(skill => {
 				if(skill.name.toLowerCase() === "piercing attack"){
-					// Getting Weapon ID to check for Piercing trait
-					const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
-					const currentWeapon = this.actor.items.get(eventID);
 					let pierceAmount = currentWeapon.system.effect?.pierce;
 					if(pierceAmount){
 						pierceAmount *= skill.system.value;
 						diceTotal += pierceAmount;
 						localizedMessage += this._addToFlavorMessage("skillScore", game.i18n.localize('gs.actor.common.pierc') + " " + game.i18n.localize('gs.actor.monster.atta'), pierceAmount );
+					}
+				}else if(skill.name.toLowerCase() === 'strong blow: bludgeon' || skill.name.toLowerCase() === 'strong blow: slash'){
+					console.log(">>> In SB: Slash check");
+					const skillName = skill.name.toLowerCase();
+					let strongBlow = skillName === 'strong blow: bludgeon' ? currentWeapon.system.effect?.checked[10] : currentWeapon.system.effect?.checked[11];
+					if(strongBlow){
+						const weaponSBValue = skillName === 'strong blow: bludgeon' ? currentWeapon.system.effect?.sbBludg : currentWeapon.system.effect?.sbSlash;
+						let strBonus = this.actor.system.abilities.primary.str;
+						const skillValue = skill.system.value;
+
+						const strBonusMultiplier = skillValue === 1 ? 0.25 : skillValue === 2 ? 0.5 : skillValue === 3 ? 1 : skillValue === 4 ? 1.5 : 2;
+						strBonus = Math.floor(strBonus * strBonusMultiplier);
+
+						diceTotal += weaponSBValue + strBonus;
+						localizedMessage += this._addToFlavorMessage("skillScore", game.i18n.localize(skillName === 'strong blow: bludgeon' ? 'gs.gear.weapons.effects.sbBludg' : 'gs.gear.weapons.effects.sbSlash'), weaponSBValue + strBonus );
 					}
 				}
 			});
@@ -1231,7 +1250,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		const specialRolls = ['stealth', 'sixthSense', 'lucky', 'firstAid', 'initiative', 'handiwork', 'swim', 'climbF',
 			'acrobatics', 'jump', 'provoke', 'moveObs', 'moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'escape',
-			'climbM', 'monsterKnow', 'generalKnow', 'magicalKnow', 'observe', 'longDistance'];
+			'climbM', 'monsterKnow', 'generalKnow', 'magicalKnow', 'observe', 'longDistance', 'tacMove', 'spellMaint'];
     	const healActions = ['healAttrition', 'healFatigue', 'healing'];
 
 		if (rollMappings[classType]) {
@@ -1292,7 +1311,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} promptName Used with Misc Mod to help give flavor to the rolled message
 	 * @returns A promised value to be added to the roll message
 	 */
-	_promptMiscModChoice(promptType, promptName = ''){
+	async _promptMiscModChoice(promptType, promptName = ''){
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo, buttonThree, buttons;
 
@@ -1398,11 +1417,29 @@ export default class GSActorSheet extends ActorSheet{
 						callback: () => resolve(0)
 					};
 					break;
+				case 'returnSpell':
+					const spells = this.actor.items.filter(item => item.type === 'spell');
+					const header1 = game.i18n.localize(`gs.dialog.spellMaint.header`);
+					promptTitle = game.i18n.localize(`gs.dialog.spellMaint.title`);
+					dialogContent = `<h3>${header1}</h3>`;
+
+					const createSpellButton = (spell) => ({
+						label: spell.img + " " + spell.name,
+						callback: () => resolve(spell)
+					});
+
+					// Finishe for loop here
+
+					break;
 				default:
 					break;
 			}
 
-			buttons = { buttonOne: buttonOne, buttonTwo: buttonTwo };
+			if(promptType != 'returnSpell')
+				buttons = { buttonOne: buttonOne, buttonTwo: buttonTwo };
+			else
+				buttons = {}
+
 			if(promptType === 'stealth' || promptType === 'acrobatics'){
 				buttons.buttonThree = buttonThree;
 			}
@@ -1486,7 +1523,7 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_specialRollsClassBonus(rollType){
 		switch(rollType){
-			case 'luck': case 'swim': case 'strRes': case 'longDistance': return;
+			case 'luck': case 'swim': case 'strRes': case 'longDistance': case 'tacMove': return;
 			case 'psyRes': case 'intRes':
 				const advLevel = this.actor.system.levels.adventurer;
 				const dragonLevel = this.actor.system.levels.classes.dragon;
@@ -1562,33 +1599,38 @@ export default class GSActorSheet extends ActorSheet{
 		event.preventDefault();
 		let abilityScore = 0, dice = '2d6';
 		let dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
-		const intelligenceFocusChecks = ['generalKnow', 'magicalKnow', 'observe'];
+		let maintainedSpell;
+		const intelligenceFocusChecks = ['generalKnow', 'magicalKnow', 'observe', 'tacMove'];
 		const intelligenceReflexChecks = ['sixthSense'];
+		const intelligenceEduranceChecks = [];
 		const psycheReflexChecks = ['provoke'];
+		const pyscheEnduranceChecks = [];
 		const strengthReflexChecks = ['moveObs'];
 		const strengthFocusChecks = ['escape'];
 		const strengthEnduranceChecks = ['climbM', 'longDistance'];
 		const techniqueFocusChecks = ['firstAid', 'handiwork', 'swim', 'climbF', 'jump'];
-		const adventurerLevel = ['swim', 'strRes', 'longDistance'];
+		const adventurerLevel = ['swim', 'strRes', 'longDistance', 'tacMove'];
 		const specialPrompts = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'monsterKnow', 'acrobatics'];
+		const abilityMapping = {
+			ir: intelligenceReflexChecks, if: intelligenceFocusChecks, ie: intelligenceEduranceChecks,
+			tf: techniqueFocusChecks, pr: psycheReflexChecks, pe: pyscheEnduranceChecks,
+			sr: strengthReflexChecks, se: strengthEnduranceChecks, sf: strengthFocusChecks
+		};
 
-		console.log(">>> Skill Name check", rollType, skillName);
+		if(rollType === 'spellMaint'){
+			maintainedSpell = await this._promptMiscModChoice('returnSpell', dialogMessage);
+			maintainedSpell.system.schoolChoice.toLowerCase() === 'words of true power' ? intelligenceEduranceChecks.push('spellMaint') : pyscheEnduranceChecks.puch('spellMaint');
+		}
 
-		if(intelligenceReflexChecks.includes(rollType))
-			abilityScore = this._findTheCalcAbilityScore('ir');
-		else if(intelligenceFocusChecks.includes(rollType))
-			abilityScore = this._findTheCalcAbilityScore('if');
-		else if(techniqueFocusChecks.includes(rollType))
-			abilityScore = this._findTheCalcAbilityScore('tf');
-		else if(psycheReflexChecks.includes(rollType))
-			abilityScore = this._findTheCalcAbilityScore('pr');
-		else if(strengthReflexChecks.includes(rollType))
-			abilityScore = this._findTheCalcAbilityScore('sr');
-		else if(strengthFocusChecks.includes(rollType))
-			abilityScore = this._findTheCalcAbilityScore('sf');
-		else if(strengthEnduranceChecks.includes(rollType))
-			abilityScore = this._findTheCalcAbilityScore('se');
-		else if(specialPrompts.includes(rollType)){
+		//console.log(">>> Skill Name check", rollType, skillName);
+
+		for (const [key, checks] of Object.entries(abilityMapping)){
+			if(checks.includes(rollType)){
+				abilityScore = this._findTheCalcAbilityScore(key);
+				break;
+			}
+		}
+		if(specialPrompts.includes(rollType)){
 			abilityScore = await this._promptMiscModChoice(rollType, dialogMessage);
 		}
 		dialogMessage += `<div class="abilScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.abil')}: ${abilityScore}</div>`;
@@ -1610,6 +1652,7 @@ export default class GSActorSheet extends ActorSheet{
 			'monsterKnow': 'Monster Knowledge',
 			'generalKnow': 'General Knowledge',
 			'longDistance': 'Long-Distance Movement',
+			'tacMove': 'Tactical Movement',
 			'psyRes': 'Cool and Collected', 'intRes': 'Cool and Collected',
 			'strength': 'Encumbered Action', 'escape': 'Encumbered Action', 'climbM': 'Encumbered Action',
 			'swim': 'Martial Arts', 'climbF': 'Martial Arts', 'acrobatics': 'Martial Arts', 'jump': 'Martial Arts'
@@ -1619,7 +1662,7 @@ export default class GSActorSheet extends ActorSheet{
 		// Getting skill bonus
 		let skillBonus = this._getSkillBonus(skillName);
 		// Correcting skill bonuses here as needed
-		if(rollType === 'provoke') skillBonus -= 1;
+		if(rollType === 'provoke' || (rollType === 'tacMove' && skillBonus != 0)) skillBonus -= 1;
 		else if(rollType === 'moveObs') skillBonus += 1;
 		else if(rollType === 'monsterKnow') skillBonus = skillBonus * 2;
 		else if(rollType === 'generalKnow' || rollType === 'longDistance')
@@ -1630,6 +1673,7 @@ export default class GSActorSheet extends ActorSheet{
 		if(rollMod > 0)
 			dialogMessage += `<div class="rollScore specialRollChatMessage">${game.i18n.localize('gs.dialog.mods.mod')}: ${rollMod}</div>`;
 
+		//console.log("=== Checking", dice, abilityScore, classBonus, skillBonus, rollMod);
 		const rollMessage = this._setRollMessage(dice, abilityScore, classBonus, skillBonus, rollMod);
 
 		this._sendRollMessage(rollMessage, dialogMessage);

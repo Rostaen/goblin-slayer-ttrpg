@@ -368,7 +368,9 @@
             "generalKnow": "General Knowledge",
             "magicalKnow": "Magical Knowledge",
             "observe": "Observe",
-            "longDistance": "Long Distance Movement"
+            "longDistance": "Long Distance Movement",
+            "tacMove": "Tactical Movement",
+            "spellMaint": "Spell Maintenance"
           }
         }
       },
@@ -428,6 +430,10 @@
         "label1": "Each extra enemy adds -2 to the check. You can add this many more enemies to the check: ",
         "label2": "Each extra enemy adds -1 to the check. You can add this many more enemies to the check: ",
         "targets": "Targets: "
+      },
+      "spellMaint": {
+        "title": "Spell Maintenance",
+        "header": "Which spell are you maintaining?"
       }
     }
   }

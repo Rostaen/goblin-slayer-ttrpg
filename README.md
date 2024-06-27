@@ -109,9 +109,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Spell Resistance
 - [x] Stealth
 - [x] Strengthened Immunity
-- [ ] Strong Blow: Bludgeon
-- [ ] Strong Blow: Slash
-- [ ] Tactical Movement
+- [x] Strong Blow: Bludgeon
+- [x] Strong Blow: Slash
+- [x] Tactical Movement
 - [ ] Weapons: XX
 
 #### General Skills
