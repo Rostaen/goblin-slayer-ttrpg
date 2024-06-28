@@ -1,4 +1,4 @@
-import res from "express/lib/response";
+// import res from "express/lib/response";
 
 const {mergeObject} = foundry.utils;
 
@@ -1438,7 +1438,7 @@ export default class GSActorSheet extends ActorSheet{
 			if(promptType != 'returnSpell')
 				buttons = { buttonOne: buttonOne, buttonTwo: buttonTwo };
 			else
-				buttons = {}
+				buttons = {};
 
 			if(promptType === 'stealth' || promptType === 'acrobatics'){
 				buttons.buttonThree = buttonThree;
