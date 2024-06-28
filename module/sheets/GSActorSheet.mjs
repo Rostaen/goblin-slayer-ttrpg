@@ -367,8 +367,13 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_checkForCritRolls(diceResults, label="", event=""){
 		if(diceResults.length === 2){
-			let skills, skillValue, critSuccess = 12, critFail = 2, results = [];
+			let skills, skillValue, critSuccess = 12, critFail = 2, results = [], maintainedSpell;
 			const actorType = this.actor.type;
+
+			if(typeof(label) === "object"){
+				maintainedSpell = label;
+				label = "x";
+			}
 
 			// Checking actor type to get skills
 			if(actorType === "character"){
@@ -409,14 +414,19 @@ export default class GSActorSheet extends ActorSheet{
 					skillValue = skill.system.value;
 					// console.log(">>> Check skill name", skill.name.toLowerCase(), label, critSuccessFailSkills, `${skill.name.toLowerCase()}-${label.toLowerCase()}`);
 					// console.log("Truthy?", critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`));
-					if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`))
-						setSuccessFailValues(skillValue);
-					else if(critSuccessOnlySkills.includes(`${skill.name.toLowerCase()}`)){
-						const element = event.currentTarget.closest('.reveal-rollable').querySelector("#element").value;
-						const splitSkillName = skill.name.split(" ");
+					if(critSuccessOnlySkills.includes(`${skill.name.toLowerCase()}`)){
+						let element, splitSkillName;
+						if(typeof(maintainedSpell) === "object"){
+							element = maintainedSpell.system.elementChoice;
+							splitSkillName = [0, 0, maintainedSpell.system.elementChoice];
+						}else{
+							element = event.currentTarget.closest('.reveal-rollable').querySelector("#element").value;
+							splitSkillName = skill.name.split(" ");
+						}
 						if(splitSkillName[2].toLowerCase() === element.toLowerCase())
 							setCritSuccessValues(skillValue);
-					}
+					}else if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`))
+						setSuccessFailValues(skillValue);
 				}
 			}
 
@@ -1500,13 +1510,13 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} rollMessage A string of characters to be evaluated: eg '2d6 + 2 - 1'
 	 * @param {string} flavorMessage A message to go along with the roll to understand what the roll is for
 	 */
-	async _sendRollMessage(rollMessage, flavorMessage){
+	async _sendRollMessage(rollMessage, flavorMessage, maintainedSpell = ""){
 		try{
 			const roll = new Roll(rollMessage);
 			await roll.evaluate();
 
 			const diceResults = roll.terms[0].results.map(r => r.result);
-			const status = this._checkForCritRolls(diceResults);
+			const status = this._checkForCritRolls(diceResults, maintainedSpell ? maintainedSpell : "");
 
 			await roll.toMessage({
 				speaker: ChatMessage.getSpeaker({actor: this.actor}),
@@ -1616,11 +1626,6 @@ export default class GSActorSheet extends ActorSheet{
 		const techniqueFocusChecks = ['firstAid', 'handiwork', 'swim', 'climbF', 'jump'];
 		const adventurerLevel = ['swim', 'strRes', 'longDistance', 'tacMove'];
 		const specialPrompts = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'monsterKnow', 'acrobatics'];
-		const abilityMapping = {
-			ir: intelligenceReflexChecks, if: intelligenceFocusChecks, ie: intelligenceEduranceChecks,
-			tf: techniqueFocusChecks, pr: psycheReflexChecks, pe: pyscheEnduranceChecks,
-			sr: strengthReflexChecks, se: strengthEnduranceChecks, sf: strengthFocusChecks
-		};
 
 		if(rollType === 'spellMaint'){
 			maintainedSpell = await this._promptMiscModChoice('returnSpell', dialogMessage);
@@ -1630,11 +1635,13 @@ export default class GSActorSheet extends ActorSheet{
 				: maintainedSpellSchool === 'miracle' ? (pyscheEnduranceChecks.push('spellMaintPp'), rollType="spellMaintPp")
 				: maintainedSpellSchool === 'ancestral dragon' ? (pyscheEnduranceChecks.push('spellMaintPd'), rollType="spellMaintPd")
 				: (pyscheEnduranceChecks.push('spellMaintPs'), rollType="spellMaintPs");
-			//console.log(">>> Check return spell", maintainedSpell, intelligenceEduranceChecks, pyscheEnduranceChecks);
 		}
 
-		//console.log(">>> Skill Name check", rollType, skillName);
-
+		const abilityMapping = {
+			ir: intelligenceReflexChecks, if: intelligenceFocusChecks, ie: intelligenceEduranceChecks,
+			tf: techniqueFocusChecks, pr: psycheReflexChecks, pe: pyscheEnduranceChecks,
+			sr: strengthReflexChecks, se: strengthEnduranceChecks, sf: strengthFocusChecks
+		};
 		for (const [key, checks] of Object.entries(abilityMapping)){
 			if(checks.includes(rollType)){
 				abilityScore = this._findTheCalcAbilityScore(key);
@@ -1691,8 +1698,6 @@ export default class GSActorSheet extends ActorSheet{
 				break;
 		}
 
-		console.log(">>> Checking skillName", skillName, spellTypeMaintained);
-
 		// Getting skill bonus
 		let skillBonus = this._getSkillBonus(skillName);
 		// Correcting skill bonuses here as needed
@@ -1710,7 +1715,7 @@ export default class GSActorSheet extends ActorSheet{
 		//console.log("=== Checking", dice, abilityScore, classBonus, skillBonus, rollMod);
 		const rollMessage = this._setRollMessage(dice, abilityScore, classBonus, skillBonus, rollMod);
 
-		this._sendRollMessage(rollMessage, dialogMessage);
+		this._sendRollMessage(rollMessage, dialogMessage, maintainedSpell ? maintainedSpell : "");
 	}
 
 	/**

@@ -90,7 +90,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Lucky
 - [x] Magical Talent
 - [x] Martial Arts
-- [ ] Master of XX (Partial setup for Spell Use only)
+- [x] Master of XX (Requires advanced features not yet implemented to finish)
 - [x] Monster Knowledge
 - [x] Mow Down
 - [x] Observe
