@@ -1313,7 +1313,7 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	async _promptMiscModChoice(promptType, promptName = ''){
 		return new Promise ((resolve) => {
-			let dialogContent, promptTitle, buttonOne, buttonTwo, buttonThree, buttons;
+			let dialogContent, promptTitle, button1, button2, button3, buttons = {};
 
 			switch(promptType){
 				case 'rollMod':
@@ -1322,13 +1322,13 @@ export default class GSActorSheet extends ActorSheet{
 						<p>${game.i18n.localize("gs.dialog.mods.addInfo")}</p>
 						<input type="text" class="rollMod" style="margin-bottom: 10px;" />`;
 					promptTitle = promptName + " " + game.i18n.localize("gs.dialog.mods.mod");
-					buttonOne = {
+					button1 = {
 						label: game.i18n.localize("gs.dialog.mods.addMod"),
 						callback: (html) => {
 							resolve(this._getRollMod(html, ".rollMod"));
 						}
 					};
-					buttonTwo = {
+					button2 = {
 						label: game.i18n.localize("gs.dialog.cancel"),
 						callback: () => {
 							resolve(0);
@@ -1368,11 +1368,11 @@ export default class GSActorSheet extends ActorSheet{
 						callback: () => resolve(this.actor.system.abilities.calc[ability])
 					});
 
-					buttonOne = createButton([word1, word2], ability1);
-					buttonTwo = createButton([word3, word4], ability2);
+					button1 = createButton([word1, word2], ability1);
+					button2 = createButton([word3, word4], ability2);
 
 					if(promptType === 'stealth' || promptType === 'acrobatics'){
-						buttonThree = createButton([word5, word6], ability3);
+						button3 = createButton([word5, word6], ability3);
 					}
 					break;
 				case 'mowDown':
@@ -1395,7 +1395,7 @@ export default class GSActorSheet extends ActorSheet{
 						</select>`;
 
 					promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
-					buttonOne = {
+					button1 = {
 						label: game.i18n.localize(`gs.dialog.mods.addMod`),
 						callback: (html) => {
 							const selectedValue = parseInt(html.find('#targetSelect').val(), 10);
@@ -1412,7 +1412,7 @@ export default class GSActorSheet extends ActorSheet{
 							resolve(returnValue);
 						}
 					};
-					buttonTwo = {
+					button2 = {
 						label: game.i18n.localize('gs.dialog.cancel'),
 						callback: () => resolve(0)
 					};
@@ -1423,32 +1423,33 @@ export default class GSActorSheet extends ActorSheet{
 					promptTitle = game.i18n.localize(`gs.dialog.spellMaint.title`);
 					dialogContent = `<h3>${header1}</h3>`;
 
+					// Function to create a button containing the spell image and name
 					const createSpellButton = (spell) => ({
-						label: spell.img + " " + spell.name,
+						label: `<img src="${spell.img}" alt="spell icon" /> ${spell.name}`,
 						callback: () => resolve(spell)
 					});
 
-					// Finishe for loop here
-
+					// Loops through all of the spells the player has and creates a button
+					for(const [index, spell] of spells.entries()){
+						buttons[index] = createSpellButton(spell);
+					}
 					break;
 				default:
 					break;
 			}
 
 			if(promptType != 'returnSpell')
-				buttons = { buttonOne: buttonOne, buttonTwo: buttonTwo };
-			else
-				buttons = {};
+				buttons = { button1: button1, buttonTwo: button2 };
 
 			if(promptType === 'stealth' || promptType === 'acrobatics'){
-				buttons.buttonThree = buttonThree;
+				buttons.button3 = button3;
 			}
 
 			new Dialog({
 				title: promptTitle,
 				content: dialogContent,
 				buttons: buttons,
-				default: "buttonOne",
+				default: "button1",
 				close: () => "",
 			}).render(true);
 		});
@@ -1553,17 +1554,15 @@ export default class GSActorSheet extends ActorSheet{
 			'generalKnow': ['sorcerer'],
 			'magicalKnow': ['sorcerer'],
 			'observe': ['ranger', 'scout'],
+			'spellMaintI': ['sorcerer'],
+			'spellMaintPp': ['priest'], 'spellMaintPd': ['dragon'], 'spellMaintPs': ['shaman'],
 		}
 
 		// Getting the relevant classes for the roll type
 		const relevantClasses = rollTypeMapping[rollType];
 
 		if(relevantClasses){
-			relevantClasses.forEach(className => {
-				if((actorClasses[className]) > bonus){
-					bonus = parseInt(actorClasses[className], 10);
-				}
-			});
+			relevantClasses.forEach(className => actorClasses[className] > bonus ? bonus = parseInt(actorClasses[className], 10) : bonus );
 		}else{
 			console.error(`GS _specialRollsClassBonus || Unknown roll type: ${rollType}`);
 		}
@@ -1619,7 +1618,12 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(rollType === 'spellMaint'){
 			maintainedSpell = await this._promptMiscModChoice('returnSpell', dialogMessage);
-			maintainedSpell.system.schoolChoice.toLowerCase() === 'words of true power' ? intelligenceEduranceChecks.push('spellMaint') : pyscheEnduranceChecks.puch('spellMaint');
+			const maintainedSpellSchool = maintainedSpell.system.schoolChoice.toLowerCase();
+			maintainedSpellSchool === 'words of true power' ? (intelligenceEduranceChecks.push('spellMaintI'), rollType = "spellMaintI")
+				: maintainedSpellSchool === 'miracle' ? (pyscheEnduranceChecks.push('spellMaintPp'), rollType="spellMaintPp")
+				: maintainedSpellSchool === 'ancestral dragon' ? (pyscheEnduranceChecks.push('spellMaintPd'), rollType="spellMaintPd")
+				: (pyscheEnduranceChecks.push('spellMaintPs'), rollType="spellMaintPs");
+			//console.log(">>> Check return spell", maintainedSpell, intelligenceEduranceChecks, pyscheEnduranceChecks);
 		}
 
 		//console.log(">>> Skill Name check", rollType, skillName);
