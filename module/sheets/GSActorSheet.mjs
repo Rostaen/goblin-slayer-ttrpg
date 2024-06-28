@@ -1522,7 +1522,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} rollType The type of roll being made
 	 * @returns Highest class level associated with the roll, if any
 	 */
-	_specialRollsClassBonus(rollType){
+	_specialRollsClassBonus(rollType, dialogMessage){
 		switch(rollType){
 			case 'luck': case 'swim': case 'strRes': case 'longDistance': case 'tacMove': return;
 			case 'psyRes': case 'intRes':
@@ -1532,7 +1532,7 @@ export default class GSActorSheet extends ActorSheet{
 				else return parseInt(dragonLevel, 10);					;
 		}
 
-		let bonus = 0;
+		let classBonus = 0, selectedClass = "";
 		const actorClasses = this.actor.system.levels.classes;
 
 		// Defining class mappings for each roll type
@@ -1554,20 +1554,27 @@ export default class GSActorSheet extends ActorSheet{
 			'generalKnow': ['sorcerer'],
 			'magicalKnow': ['sorcerer'],
 			'observe': ['ranger', 'scout'],
-			'spellMaintI': ['sorcerer'],
-			'spellMaintPp': ['priest'], 'spellMaintPd': ['dragon'], 'spellMaintPs': ['shaman'],
+			'spellMaintI': ['sorcerer'], 'spellMaintPp': ['priest'], 'spellMaintPd': ['dragon'], 'spellMaintPs': ['shaman'],
+		}
+		const classNameMapping = {
+			'fighter': 'gs.actor.character.figh', 'monk': 'gs.actor.character.monk', 'ranger': 'gs.actor.character.rang', 'scout': 'gs.actor.character.scou',
+			'sorcerer': 'gs.actor.character.sorc', 'priest': 'gs.actor.character.prie', 'dragon': 'gs.actor.character.dPri', 'shaman': 'gs.actor.character.sham',
 		}
 
 		// Getting the relevant classes for the roll type
 		const relevantClasses = rollTypeMapping[rollType];
 
 		if(relevantClasses){
-			relevantClasses.forEach(className => actorClasses[className] > bonus ? bonus = parseInt(actorClasses[className], 10) : bonus );
+			relevantClasses.forEach(className => actorClasses[className] > classBonus
+				? (classBonus = parseInt(actorClasses[className], 10), selectedClass = className.charAt(0).toUpperCase() + className.slice(1))
+				: classBonus );
 		}else{
 			console.error(`GS _specialRollsClassBonus || Unknown roll type: ${rollType}`);
 		}
 
-		return bonus;
+		dialogMessage += `<div class="levelScore specialRollChatMessage">${game.i18n.localize(selectedClass)}: ${classBonus}</div>`;
+
+		return {classBonus, dialogMessage};
 	}
 
 	/**
@@ -1596,9 +1603,8 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	async _specialRolls(event, rollType, skillName){
 		event.preventDefault();
-		let abilityScore = 0, dice = '2d6';
+		let abilityScore = 0, dice = '2d6', classBonus = 0, maintainedSpell, spellTypeMaintained;
 		let dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
-		let maintainedSpell;
 		const intelligenceFocusChecks = ['generalKnow', 'magicalKnow', 'observe', 'tacMove'];
 		const intelligenceReflexChecks = ['sixthSense'];
 		const intelligenceEduranceChecks = [];
@@ -1619,6 +1625,7 @@ export default class GSActorSheet extends ActorSheet{
 		if(rollType === 'spellMaint'){
 			maintainedSpell = await this._promptMiscModChoice('returnSpell', dialogMessage);
 			const maintainedSpellSchool = maintainedSpell.system.schoolChoice.toLowerCase();
+			spellTypeMaintained = maintainedSpell.system.styleChoice.toLowerCase();
 			maintainedSpellSchool === 'words of true power' ? (intelligenceEduranceChecks.push('spellMaintI'), rollType = "spellMaintI")
 				: maintainedSpellSchool === 'miracle' ? (pyscheEnduranceChecks.push('spellMaintPp'), rollType="spellMaintPp")
 				: maintainedSpellSchool === 'ancestral dragon' ? (pyscheEnduranceChecks.push('spellMaintPd'), rollType="spellMaintPd")
@@ -1640,28 +1647,51 @@ export default class GSActorSheet extends ActorSheet{
 		dialogMessage += `<div class="abilScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.abil')}: ${abilityScore}</div>`;
 
 		// Getting class bonus or adventurer level in certain cases.
-		let classBonus = this._specialRollsClassBonus(rollType);
-		if(adventurerLevel.includes(rollType))
-			classBonus = this._getAdventurerLevel();
-		if(classBonus > 0)
-			dialogMessage += `<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.actor.common.leve')}: ${classBonus}</div>`;
+		const {classBonus: cBonus, dialogMessage: dMessage} = this._specialRollsClassBonus(rollType, dialogMessage);
+		classBonus += cBonus;
+		dialogMessage = dMessage;
+		if(adventurerLevel.includes(rollType)){
+			classBonus = this._getAdventurerLevel(dialogMessage);
+			if(classBonus > 0)
+				dialogMessage += `<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.actor.common.leve')}: ${classBonus}</div>`;
+		}
 
 		// Getting misc modifiers such as circumstance bonuses or terrain disadvantages and etc.
 		const rollMod = await this._promptMiscModChoice("rollMod", dialogMessage);
 
 		// Updating skillName when special roll != skill name
-		const rollTypeMapping = {
-			'moveObs': 'Rampart',
-			'strRes': 'Strengthened Immunity',
-			'monsterKnow': 'Monster Knowledge',
-			'generalKnow': 'General Knowledge',
-			'longDistance': 'Long-Distance Movement',
-			'tacMove': 'Tactical Movement',
-			'psyRes': 'Cool and Collected', 'intRes': 'Cool and Collected',
-			'strength': 'Encumbered Action', 'escape': 'Encumbered Action', 'climbM': 'Encumbered Action',
-			'swim': 'Martial Arts', 'climbF': 'Martial Arts', 'acrobatics': 'Martial Arts', 'jump': 'Martial Arts'
-		};
-		skillName = rollTypeMapping[rollType] || skillName;
+		switch(rollType){
+			case 'spellMaintI':
+			case 'spellMaintPp':
+			case 'spellMaintPd':
+			case 'spellMaintPs':
+				const styleMapping = {
+					'attack': 'Spell Expertise: Attack Spells',
+					'imbuement': 'Spell Expertise: Imbuement Spells',
+					'creation': 'Spell Expertise: Creation Spells',
+					'control': 'Spell Expertise: Control Spells',
+					'healing': 'Spell Expertise: Healing Spells',
+					'general': 'Spell Expertise: General Spells',
+				};
+				skillName = styleMapping[spellTypeMaintained] || skillName;
+				break;
+			default:
+				const rollTypeMapping = {
+					'moveObs': 'Rampart',
+					'strRes': 'Strengthened Immunity',
+					'monsterKnow': 'Monster Knowledge',
+					'generalKnow': 'General Knowledge',
+					'longDistance': 'Long-Distance Movement',
+					'tacMove': 'Tactical Movement',
+					'psyRes': 'Cool and Collected', 'intRes': 'Cool and Collected',
+					'strength': 'Encumbered Action', 'escape': 'Encumbered Action', 'climbM': 'Encumbered Action',
+					'swim': 'Martial Arts', 'climbF': 'Martial Arts', 'acrobatics': 'Martial Arts', 'jump': 'Martial Arts',
+				};
+				skillName = rollTypeMapping[rollType] || skillName;
+				break;
+		}
+
+		console.log(">>> Checking skillName", skillName, spellTypeMaintained);
 
 		// Getting skill bonus
 		let skillBonus = this._getSkillBonus(skillName);
