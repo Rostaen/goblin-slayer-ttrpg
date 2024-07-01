@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["character", "monster"],
+    "types": ["character", "monster", "fate"],
     "displayNames": {
       "character": "Player Character",
       "monster": "Monsters"
@@ -261,6 +261,9 @@
       "comment": "",
       "isBoss": false,
       "hasBlock": false
+    },
+    "fate": {
+      "value": 3
     }
   },
   "Item": {
