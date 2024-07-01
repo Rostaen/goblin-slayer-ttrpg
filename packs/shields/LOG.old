@@ -1,3 +1,11 @@
-2024/06/27-11:37:56.253 f68 Recovering log #277
-2024/06/27-11:37:56.255 f68 Delete type=0 #277
-2024/06/27-11:37:56.256 f68 Delete type=3 #275
+2024/07/01-09:58:15.955 640 Delete type=3 #1
+2024/07/01-09:58:29.668 4b18 Level-0 table #287: started
+2024/07/01-09:58:29.668 4b18 Level-0 table #287: 0 bytes OK
+2024/07/01-09:58:29.668 4b18 Delete type=0 #285
+2024/07/01-09:58:29.675 4b18 Manual compaction at level-0 from '!folders!V24DOlpEiS441EH7' @ 72057594037927935 : 1 .. '!items!jnMujlm1uTTWEygo' @ 0 : 0; will stop at '!items!jnMujlm1uTTWEygo' @ 164 : 1
+2024/07/01-09:58:29.675 4b18 Compacting 1@0 + 0@1 files
+2024/07/01-09:58:29.676 4b18 Generated table #288@0: 12 keys, 5795 bytes
+2024/07/01-09:58:29.676 4b18 Compacted 1@0 + 0@1 files => 5795 bytes
+2024/07/01-09:58:29.677 4b18 compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/07/01-09:58:29.677 4b18 Delete type=2 #264
+2024/07/01-09:58:29.679 4b18 Manual compaction at level-0 from '!items!jnMujlm1uTTWEygo' @ 164 : 1 .. '!items!jnMujlm1uTTWEygo' @ 0 : 0; will stop at (end)

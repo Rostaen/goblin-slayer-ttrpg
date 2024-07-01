@@ -99,6 +99,10 @@ export default class GSActorSheet extends ActorSheet{
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
+	/**
+	 * Adds Check roll buttons to the favorites bar in the left sidbar.
+	 * @param {HTML} event The click event
+	 */
 	_addRollToFavorites(event){
 		//event.preventDefault();
 		const container = event.currentTarget.closest(".checksCont");
@@ -768,9 +772,19 @@ export default class GSActorSheet extends ActorSheet{
 					modifier = mod;
 					localizedMessage = message;
 				}else if(modSelector === '.hitMod'){
-					const {modifier: mod, localizedMessage: message} = await this._calculateMowDownModifier(container, skills, modifier, localizedMessage);
-					modifier = mod;
-					localizedMessage = message;
+					const weaponsXX = ['Weapons: Axes', 'Weapons: Close-Combat', 'Weapons: Maces', 'Weapons: Bows', 'Weapons: Throwing Weapons', 'Weapons: Spears', 'Weapons: Staves', 'Weapons: One-Handed Swords', 'Weapons: Two-Handed Swords'];
+					skills.forEach(skill => {
+						if(skill.name.toLowerCase === 'mow down'){
+							const {modifier: mod, localizedMessage: message} = this._calculateMowDownModifier(container, skill, modifier, localizedMessage);
+							modifier = mod;
+							localizedMessage = message;
+						}
+						if(weaponsXX.includes(skill.name)){
+							const {modifier: mod, localizedMessage: message} = this._addSpecificWeaponBonus(container, skill, modifier, localizedMessage, weaponsXX);
+							modifier = mod;
+							localizedMessage = message;
+						}
+					});
 				}else if(modSelector === '.spellDif'){
 					const spellID = container.dataset.id;
 					const {skillBonus: bonus, localizedMessage: message} = await this._calculateSpellExpertise(skills, localizedMessage, spellID);
@@ -787,6 +801,21 @@ export default class GSActorSheet extends ActorSheet{
 		}
 
 		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus, 0, modSelector);
+	}
+
+	_addSpecificWeaponBonus(container, skill, modifier, localizedMessage, weaponsXX){
+		const weaponAttr = container.querySelector('.type').value;
+		const typeContainer = weaponAttr.split('/');
+		const weaponType = typeContainer[0].trim();
+		const weaponTypes = ['Ax', 'Close-Combat', 'Mace', 'Bow', 'Throwing', 'Spear', 'Staff', 'One-Handed Sword', 'Two-Handed Sword'];
+		for(let x = 0; x < weaponTypes.length; x++){
+			if(skill.name === weaponsXX[x] && weaponType === weaponTypes[x]){
+				modifier += skill.system.value;
+				localizedMessage += this._addStringToChatMessage("skillScore", skill, skill.system.value);
+				break;
+			}
+		}
+		return {modifier, localizedMessage};
 	}
 
 	/**
@@ -1024,24 +1053,20 @@ export default class GSActorSheet extends ActorSheet{
 	/**
 	 * Used in tandem with the Mod Down skill for two-handed slash/bludgeoning weapons. Updates the modifier and localized message if the skill is present.
 	 * @param {HTML} container The weapon HTML container
-	 * @param {JSON} skills An array of JSON objects
+	 * @param {JSON} skill The JSON object of the Mow Down skill
 	 * @param {int} modifier The modifier value to be added to the dice roller
 	 * @param {string} localizedMessage A flavor message for the chat window
 	 * @returns Updated modifier and localized message
 	 */
-	async _calculateMowDownModifier(container, skills, modifier, localizedMessage){
-		for(const skill of skills){
-			if(skill.name.toLowerCase() === 'mow down'){
-				const weaponUse = container.querySelector('.weaponUse').value;
-				const weaponAttr = container.querySelector('.weaponAttr').value;
-				const weaponAttrSplit = weaponAttr.split('/');
-				const attributes = ['Slash', 'Bludgeoning'];
-				if (weaponUse.toLowerCase() === 'two-handed' && weaponAttrSplit.some(attr => attributes.includes(attr))) {
-					const modHitPen = await this._promptMiscModChoice("mowDown", skill.system.value);
-					modifier += modHitPen;
-					localizedMessage += this._addStringToChatMessage("skillScore", skill, modHitPen);
-				}
-			}
+	async _calculateMowDownModifier(container, skill, modifier, localizedMessage){
+		const weaponUse = container.querySelector('.weaponUse').value;
+		const weaponAttr = container.querySelector('.weaponAttr').value;
+		const weaponAttrSplit = weaponAttr.split('/');
+		const attributes = ['Slash', 'Bludgeoning'];
+		if (weaponUse.toLowerCase() === 'two-handed' && weaponAttrSplit.some(attr => attributes.includes(attr))) {
+			const modHitPen = await this._promptMiscModChoice("mowDown", skill.system.value);
+			modifier += modHitPen;
+			localizedMessage += this._addStringToChatMessage("skillScore", skill, modHitPen);
 		}
 		return {modifier, localizedMessage};
 	}
