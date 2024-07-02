@@ -98,8 +98,24 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
 		html.find(".attritionCBox").off('click').click(this._updateAttritionFlag.bind(this));
 		html.find(".starred").change(this._addRollToFavorites.bind(this));
+		html.find(".genSkillContainer").on('mouseenter', this._changeSkillImage.bind(this, true));
+		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
+	}
+
+	_changeSkillImage(isHover, event){
+		const skillImage = $(event.currentTarget).find('.genSkills img');
+		console.log(">>> Check image html", skillImage[0], isHover);
+		if(isHover){
+			const skillImageURL = skillImage.attr('src');
+			this.actor.setFlag('gs', 'genSkillImage', skillImageURL);
+			skillImage.attr('src', 'icons/svg/d20-highlight.svg');
+		}else{
+			const oldImage = this.actor.getFlag('gs', 'genSkillImage');
+			this.actor.unsetFlag('gs', 'genSkillImage');
+			skillImage.attr('src', oldImage);
+		}
 	}
 
 	/**

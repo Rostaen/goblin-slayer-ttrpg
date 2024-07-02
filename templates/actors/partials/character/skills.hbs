@@ -9,23 +9,16 @@
             {{#if (eq item.type "skill")}}
                 {{!-- Checks to see if skill is Adventurer --}}
                 {{#if item.system.type}}
-                    <div class="skillImageCont"><img src="{{item.img}}" alt="{{item.name}}"></div>
-                    <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contextType="skill" >{{item.name}}</div>
-                    <div class="bonus grid-span-4">
-                        {{getSkillRangeText item item.system.value 'adv'}}
-                        {{!-- {{#if (eq item.system.value 1)}}
-                            {{item.system.enrichedText.beginner}}
-                        {{else if (eq item.system.value 2)}}
-                            {{item.system.enrichedText.intermediate}}
-                        {{else if (eq item.system.value 3)}}
-                            {{item.system.enrichedText.expert}}
-                        {{else if (eq item.system.value 4)}}
-                            {{item.system.enrichedText.master}}
-                        {{else if (eq item.system.value 5)}}
-                            {{item.system.enrichedText.legend}}
-                        {{/if}} --}}
+                <div class="grid-span-10">
+                    <div class="grid grid-10col skillContainer advSkillContainer">
+                        <div class="skillImageCont advSkills"><img src="{{item.img}}" alt="{{item.name}}"></div>
+                        <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contextType="skill" >{{item.name}}</div>
+                        <div class="bonus grid-span-4">
+                            {{getSkillRangeText item item.system.value 'adv'}}
+                        </div>
+                        <div class="rank"><input type="text" name="system.value" value="{{item.system.value}}" data-id="{{item._id}}" data-contextType="earned" class="skillRankInput" data-dtype="Number"></div>
                     </div>
-                    <div class="rank"><input type="text" name="system.value" value="{{item.system.value}}" data-id="{{item._id}}" data-contextType="earned" class="skillRankInput" data-dtype="Number"></div>
+                </div>
                 {{/if}}
             {{/if}}
         {{/each}}
@@ -42,19 +35,16 @@
             {{#if (eq item.type "skill")}}
                 {{!-- Checks to see if skill is General --}}
                 {{#if (or (eq item.system.type "") (eq item.system.type false))}}
-                    <img src="{{item.img}}" alt="{{item.name}}">
-                    <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contexttype="skill" >{{item.name}}</div>
-                    <div class="bonus grid-span-4">
-                        {{getSkillRangeText item item.system.value 'gen'}}
-                        {{!-- {{#if (eq item.system.value 1)}}
-                            {{item.system.enrichedText.beginner}}
-                        {{else if (eq item.system.value 2)}}
-                            {{item.system.enrichedText.intermediate}}
-                        {{else if (eq item.system.value 3)}}
-                            {{item.system.enrichedText.expert}}
-                        {{/if}} --}}
+                <div class="grid-span-10">
+                    <div class="grid grid-10col skillContainer genSkillContainer">
+                        <div class="skillImageCont genSkills"><img src="{{item.img}}" alt="{{item.name}}"></div>
+                        <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contexttype="skill" >{{item.name}}</div>
+                        <div class="bonus grid-span-4">
+                            {{getSkillRangeText item item.system.value 'gen'}}
+                        </div>
+                        <div class="rank"><input type="text" value="{{item.system.value}}" data-id="{{item._id}}" data-contexttype="earned" class="skillRankInput" data-dtype="Number"></div>
                     </div>
-                    <div class="rank"><input type="text" value="{{item.system.value}}" data-id="{{item._id}}" data-contexttype="earned" class="skillRankInput" data-dtype="Number"></div>
+                </div>
                 {{/if}}
             {{/if}}
         {{/each}}
