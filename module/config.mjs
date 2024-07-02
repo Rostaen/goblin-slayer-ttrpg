@@ -277,6 +277,14 @@ gs.actor = {
         boss: "gs.actor.monster.boss",
 		description: "gs.actor.monster.description",
 	},
+	fate: {
+		textBoxes: {
+			"upResultText": "gs.actor.fate.upResultText",
+			"rerollText": "gs.actor.fate.rerollText",
+			"fleeText": "gs.actor.fate.retreatText",
+			"hintText": "gs.actor.fate.hintText"
+		}
+	},
 	charSheet: {
 		tabs: {
 			stats: "gs.charSheet.tabs.stats",

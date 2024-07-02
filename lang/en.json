@@ -246,6 +246,21 @@
         "bSR": "BSR",
         "boss": "Boss",
         "description": "Description"
+      },
+      "fate": {
+        "gmInstructions": "GM, enter adventure Fate here (only you can see this message), 3: Easy, 5: Moderate, 7: Hard",
+        "fatePoints": "Fate Points",
+        "upResult": "Increase Result",
+        "reroll": "Reroll Dice",
+        "flee": "Automatic Flee",
+        "hint": "Hint",
+        "upResultText": "When you use a fate point to increase a check's result, it upgrades a failure to a success or a success to a critical success, but cannot change a critical failure. This applies even if the final score is lower than needed. For example, if a spell's difficulty is higher than the check score, the spell still succeeds at its lowest effectiveness. Only one fate point can be used per check.",
+        "rerollText": "When using a fate point to reroll dice (except for a check or prayer), you can reroll all the dice and add 1 to each result. This can only be done once per dice roll opportunity. If a die rolls a 6, it becomes 7.",
+        "fleeText": "Using a fate point to flee allows all PCs to escape combat to a safe place automatically, without rolling. This increases the fate points by 3. The GM will describe a sudden event explaining the escape. The new area is temporarily safe, but the GM decides how long this safety lasts.",
+        "hintText": "Using fate points for an adventure hint automatically gives the PCs a helpful clue or event to move the story forward. This increases the fate points by 3. The GM decides when to offer hints and whether the PCs' request for a hint is appropriate.",
+        "bonusExp": "Fate Points Bonus Experience",
+        "currentFate": "Current Fate Points",
+        "bonusPerPerson": "Bonus XP / Person"
       }
     },
     "charSheet": {

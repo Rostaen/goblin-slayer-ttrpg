@@ -793,6 +793,47 @@ table tr:nth-child(even) {
   justify-content: center;
   align-items: center;
 }
+.fate .headerInfo,
+.fate .buttonText,
+.fate .bonusXP,
+.fate h1,
+.fate h2 {
+  background-color: #ffffff;
+  border-bottom: 0px;
+  padding: 2px 4px 0px;
+  border: 1px solid darkred;
+  border-radius: 5px;
+}
+.fate .headerInfo,
+.fate .buttonText {
+  position: relative;
+  margin-top: 20px;
+  padding: 20px 5px 5px;
+}
+.fate .headerInfo h1,
+.fate .buttonText h1,
+.fate .headerInfo h2,
+.fate .buttonText h2 {
+  position: absolute;
+  top: -15px;
+}
+.fate .headerInfo,
+.fate .buttonText,
+.fate .bonusXP {
+  box-shadow: 3px 3px 10px #333333;
+}
+.fate .bonusXP {
+  grid-gap: 5px 10px;
+  padding: 3px 5px 5px;
+}
+.fate .bonusXP h3 {
+  margin-bottom: 0px;
+}
+.fate .bonusXP .bonusContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .monster {
   padding-top: 10px;
 }

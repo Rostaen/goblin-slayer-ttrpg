@@ -76,6 +76,9 @@ export default class GSActorSheet extends ActorSheet{
 				actorData.system.comment, {async: true, rollData: actorData.getRollData(), }
 			);
 		}
+		if(this.actor.type === 'fate'){
+			data.isGM = game.users.current.isGM;
+		}
 
 		return {
 			data,
@@ -803,6 +806,15 @@ export default class GSActorSheet extends ActorSheet{
 		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus, 0, modSelector);
 	}
 
+	/**
+	 * The method search over each skill and compares it to the current weapon to see if a to hit bonus is going to be applied.
+	 * @param {HTML} container HTML container of the weapon being used
+	 * @param {JSON} skill JSON object of the skill that could affect weapon to hit
+	 * @param {int} modifier Pos/Neg bonus modifier for the to hit
+	 * @param {string} localizedMessage A string to be added to the flavor message of the chat window
+	 * @param {array} weaponsXX An array of strings that have the different weapon skill types to check over
+	 * @returns Updated modifier and loclizedMessage with any possible changes
+	 */
 	_addSpecificWeaponBonus(container, skill, modifier, localizedMessage, weaponsXX){
 		const weaponAttr = container.querySelector('.type').value;
 		const typeContainer = weaponAttr.split('/');
@@ -1287,6 +1299,7 @@ export default class GSActorSheet extends ActorSheet{
 			'acrobatics', 'jump', 'provoke', 'moveObs', 'moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'escape',
 			'climbM', 'monsterKnow', 'generalKnow', 'magicalKnow', 'observe', 'longDistance', 'tacMove', 'spellMaint'];
     	const healActions = ['healAttrition', 'healFatigue', 'healing'];
+		const fateButtons = ['byOne', 'byThree'];
 
 		if (rollMappings[classType]) {
 			const { mod, dice, label, type } = rollMappings[classType];
@@ -1297,9 +1310,28 @@ export default class GSActorSheet extends ActorSheet{
 			this._rollInitiative(event);
 		} else if (specialRolls.includes(classType)) {
 			this._specialRolls(event, classType, classType.charAt(0).toUpperCase() + classType.slice(1).replace(/([A-Z])/g, ' $1').trim());
+		} else if (fateButtons.includes(classType)){
+			this._fateAdjustment(event, classType);
 		} else {
 			console.error(`GS _actorRolls || ${classType} was not found in the method.`);
 		}
+	}
+
+	/**
+	 * Updates the player's Fate value by 1 or 3 depending on the choic clicked.
+	 * @param {HTML} event The click event
+	 * @param {string} byAmount Either 'byOne' or 'byThree'
+	 */
+	_fateAdjustment(event, byAmount){
+		event.preventDefault();
+		let fateUpdate = 0;
+		if(byAmount === 'byOne')
+			fateUpdate = 1;
+		else
+			fateUpdate = 3;
+		this.actor.update({
+			'system.value': parseInt(this.actor.system.value, 10) + fateUpdate
+		});
 	}
 
 	/**
