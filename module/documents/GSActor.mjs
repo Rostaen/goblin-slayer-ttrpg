@@ -48,29 +48,42 @@ export class GSActor extends Actor {
     // Currently, only the top level armor will have this score applied to it if skill is present
     async _armorSkillCall(armorType){
         // TODO: Update for future "equipped" status.
-        let armorWorn = this.items.filter(item => item.type.toLowerCase() === armorType);
+        let tempType = armorType;
+        if (armorType === 'lizardman')
+             tempType = 'armor';
+        let armorWorn = this.items.filter(item => item.type.toLowerCase() === tempType);
 
         // If no armor, exit
         if (armorWorn.length === 0) return;
 
-        const armorID = armorWorn[0]._id;
+        //const armorID = armorWorn[0]._id;
         const type = armorWorn[0].system.type.split(" ");
-        const armorValue = this._getSkillBonus(armorType === 'armor' ? `Armor: ${type[0]}` : 'Shields');
+        const armorValue = this._getSkillBonus(armorType === 'armor' ? `Armor: ${type[0]}` : armorType === 'shield' ? 'Shields' : 'Draconic Heritage');
 
         // Retrieve flag and value
         const flagAC = this.getFlag('gs', armorType);
 
-        //console.log(">>> Checking armor values", flagAC, armorValue, armorWorn[0].system.score, armorID);
+        //console.log(">>> Checking armor values", flagAC, armorValue, armorWorn[0].system.score);
 
         if(armorValue){
             if(!flagAC){
                 await this.setFlag('gs', armorType, armorWorn[0].system.score);
                 armorWorn[0].system.score += armorValue;
                 await armorWorn[0].update({ 'system.score': armorWorn[0].system.score });
-                console.log("+++ TRIGGER 1 - Armor score updated and flag set");
             }else if(flagAC + armorValue > armorWorn[0].system.score)
                 await armorWorn[0].update({ 'system.score': flagAC + armorValue });
         }
+    }
+
+    _updateWeapon(weaponType){
+        let tempType = weaponType;
+        if(weaponType === 'lizardman')
+            tempType = 'close-combat';
+        let weapons = this.items.filter(item => item.type.toLowerCase() === tempType);
+
+        if(weapons.length === 0) return;
+
+        // Finish setting up Draconic Hertiage on barehand attacks
     }
 
     // Adding bonus spells known based on skill level
@@ -96,18 +109,6 @@ export class GSActor extends Actor {
                 break;
         }
     }
-
-    // Returns skill bonus value
-    // _getSkillBonus(skillName){
-	// 	const skills = this.items.filter(item => item.type === 'skill');
-	// 	if(skills.length){
-	// 		const skillBonusValue = skills.filter(skill => skill.name.toLowerCase() === skillName.toLowerCase());
-	// 		if(skillBonusValue.length){
-	// 			return parseInt(skillBonusValue[0].system.value, 10);
-	// 		}else
-	// 			return 0;
-	// 	}
-	// }
 
     _checkFlags() {
         const flags = this.flags.gs;
@@ -316,6 +317,9 @@ export class GSActor extends Actor {
                     this._armorSkillCall("armor"); break;
                 case "Shields":
                     this._armorSkillCall("shield"); break;
+                case "Draconic Heritage":
+                    this._armorSkillCall("lizardman");
+                    this._updateWeapon("lizardman"); break;
                 case "Bonus Spells: Words of True Power":
                 case "Bonus Spells: Miracles":
                 case "Bonus Spells: Ancestral Dragon Arts":

@@ -1596,6 +1596,9 @@ table tr:nth-child(even) {
 .skillsContainer .skillBox .rankHeader {
   text-align: center;
 }
+.skillsContainer .skillBox .genSkillContainer {
+  cursor: pointer;
+}
 .spellsContainer .spellUsesContainer,
 .spellsContainer .spellBlock1 {
   background-color: rgba(255, 255, 255, 0.75);

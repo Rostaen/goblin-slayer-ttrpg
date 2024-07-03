@@ -100,13 +100,41 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".starred").change(this._addRollToFavorites.bind(this));
 		html.find(".genSkillContainer").on('mouseenter', this._changeSkillImage.bind(this, true));
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
+		html.find(".genSkillContainer").click(this._rollGenSkills.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
+	async _rollGenSkills(event){
+		event.preventDefault();
+		const container = event.currentTarget;
+		const skillId = container.dataset.id;
+		const skill = this.actor.items.get(skillId);
+		const standardBonus = ['Draconic Heritage'];
+		const differentBonus = ['Beloved of the Fae', 'Cool and Collected', 'Darkvision', 'Faith: Supreme God', 'Faith: Earth Mother',
+			'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie', 'Faith: Ancestral Dragon'];
+
+		if(standardBonus.includes(skill.name)) return;
+
+		if(skill.name.toLowerCase() === 'long-distance movement')
+			this._specialRolls(event, 'longDistance', 'Long-Distance Movement');
+		else if(skill.name.toLowerCase() === 'cool and collected'){
+			const resistType = await this._promptMiscModChoice('coolAndCollected');
+			this._specialRolls(event, resistType === "int" ? "intRes" : "psyRes", "default");
+		}
+
+
+		// console.log(">>>", container, skillId, skill);
+	}
+
+	/**
+	 * Simple method to swap the image of the General Skills to indicate these are rollable skills
+	 * @param {boolean} isHover True when hovering, False when not
+	 * @param {*} event HTML container event
+	 */
 	_changeSkillImage(isHover, event){
 		const skillImage = $(event.currentTarget).find('.genSkills img');
-		console.log(">>> Check image html", skillImage[0], isHover);
+		// console.log(">>> Check image html", skillImage[0], isHover);
 		if(isHover){
 			const skillImageURL = skillImage.attr('src');
 			this.actor.setFlag('gs', 'genSkillImage', skillImageURL);
@@ -1399,6 +1427,22 @@ export default class GSActorSheet extends ActorSheet{
 			let dialogContent, promptTitle, button1, button2, button3, buttons = {};
 
 			switch(promptType){
+				case 'coolAndCollected':
+					dialogContent = `<h3>${game.i18n.localize("gs.dialog.coolAndColl.header")}</h3>`;
+					promptTitle = game.i18n.localize("gs.dialog.coolAndColl.title");
+					button1 = {
+						label: game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.intRes"),
+						callback: () => {
+							resolve("int");
+						}
+					};
+					button2 = {
+						label: game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.psyRes"),
+						callback: () => {
+							resolve("psy");
+						}
+					};
+					break;
 				case 'rollMod':
 					dialogContent = `
 						<h3>${game.i18n.localize("gs.dialog.mods.addMod")}</h3>
@@ -1606,16 +1650,22 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Highest class level associated with the roll, if any
 	 */
 	_specialRollsClassBonus(rollType, dialogMessage){
+		let classBonus = 0, selectedClass = "";
 		switch(rollType){
-			case 'luck': case 'swim': case 'strRes': case 'longDistance': case 'tacMove': return;
+			case 'luck': case 'swim': case 'strRes': case 'longDistance': case 'tacMove': return {classBonus, dialogMessage};
 			case 'psyRes': case 'intRes':
 				const advLevel = this.actor.system.levels.adventurer;
 				const dragonLevel = this.actor.system.levels.classes.dragon;
-				if(advLevel >= dragonLevel) return parseInt(advLevel, 10);
-				else return parseInt(dragonLevel, 10);					;
+				console.log('>>> AdvLevel & Dragon Level', advLevel, dragonLevel);
+				if(advLevel >= dragonLevel){
+					classBonus = parseInt(advLevel, 10);
+					dialogMessage +=  `<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.lvl')}: ${classBonus}</div>`;
+				}else{
+					classBonus = parseInt(dragonLevel, 10);
+					dialogMessage +=  `<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.dPri')}: ${classBonus}</div>`;
+				}
+				return {classBonus, dialogMessage};
 		}
-
-		let classBonus = 0, selectedClass = "";
 		const actorClasses = this.actor.system.levels.classes;
 
 		// Defining class mappings for each roll type
@@ -1726,6 +1776,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 		dialogMessage += `<div class="abilScore specialRollChatMessage">${game.i18n.localize('gs.actor.character.abil')}: ${abilityScore}</div>`;
 
+		console.log(">> from genskill to specail roll", event, rollType, skillName);
 		// Getting class bonus or adventurer level in certain cases.
 		const {classBonus: cBonus, dialogMessage: dMessage} = this._specialRollsClassBonus(rollType, dialogMessage);
 		classBonus += cBonus;
@@ -1855,8 +1906,14 @@ export default class GSActorSheet extends ActorSheet{
 						else
 							console.error("Race item not found for deletion.");
 
-						if(type === 'armor' || type === 'shield')
+						if(type === 'armor' || type === 'shield'){
+							const originalScore = this.actor.getFlag('gs', type);
+							let equipment = this.actor.items.filter(item => item.type.toLowerCase() === type);
+							equipment[0].update({
+								'system.score': originalScore
+							})
 							this.actor.unsetFlag('gs', type);
+						}
 						break;
 				}
 			}

@@ -66,6 +66,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Add button for resting and apply properl healing to all areas
 - [ ] Regulate items with an "equipped" button to determine misc. modifiers
 - [x] Create new actor for Fate Points usage and table
+- [ ] Add equip checkbox to gear and update code accordingly
 
 ### Skill Implementation Tracking
 

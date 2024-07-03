@@ -10,7 +10,7 @@
                 {{!-- Checks to see if skill is Adventurer --}}
                 {{#if item.system.type}}
                 <div class="grid-span-10">
-                    <div class="grid grid-10col skillContainer advSkillContainer">
+                    <div class="grid grid-10col skillContainer advSkillContainer" data-id="{{item._id}}">
                         <div class="skillImageCont advSkills"><img src="{{item.img}}" alt="{{item.name}}"></div>
                         <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contextType="skill" >{{item.name}}</div>
                         <div class="bonus grid-span-4">
@@ -36,7 +36,7 @@
                 {{!-- Checks to see if skill is General --}}
                 {{#if (or (eq item.system.type "") (eq item.system.type false))}}
                 <div class="grid-span-10">
-                    <div class="grid grid-10col skillContainer genSkillContainer">
+                    <div class="grid grid-10col skillContainer genSkillContainer" data-id="{{item._id}}">
                         <div class="skillImageCont genSkills"><img src="{{item.img}}" alt="{{item.name}}"></div>
                         <div class="name grid-span-4 contextMenu" data-id="{{item._id}}" data-contexttype="skill" >{{item.name}}</div>
                         <div class="bonus grid-span-4">

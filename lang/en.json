@@ -449,6 +449,10 @@
       "spellMaint": {
         "title": "Spell Maintenance",
         "header": "Which spell are you maintaining?"
+      },
+      "coolAndColl": {
+        "title": "Mental Resistance Choice",
+        "header": "Intelligence or Psyche Resistance?"
       }
     }
   }
