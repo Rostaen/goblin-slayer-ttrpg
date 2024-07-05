@@ -75,15 +75,58 @@ export class GSActor extends Actor {
         }
     }
 
-    _updateWeapon(weaponType){
-        let tempType = weaponType;
-        if(weaponType === 'lizardman')
-            tempType = 'close-combat';
-        let weapons = this.items.filter(item => item.type.toLowerCase() === tempType);
-
+    async _updateLizardClaws(){
+        let weapons = this.items.filter(item => item.system.type === 'Close-Combat / Light');
         if(weapons.length === 0) return;
 
-        // Finish setting up Draconic Hertiage on barehand attacks
+        let skillBonus = this._getSkillBonus('Draconic Heritage');
+        skillBonus = parseInt(skillBonus, 10);
+        if(skillBonus === 0) return;
+
+        let bh1, bh2;
+        weapons.forEach(weapon => {
+            switch(weapon.name){
+                case 'Barehanded Attack (1H)':
+                    bh1 = weapon; break;
+                case 'Barehanded Attack (2H)':
+                    bh2 = weapon; break;
+            }
+        });
+        const oneHandSlashFlag = this.getFlag('gs', 'oneHandSlash');
+        const twoHandSlashFlag = this.getFlag('gs', 'twoHandSlash');
+
+        const powerBreakDown = (power) => {
+            if(!power){
+                console.error("power is undefined or null");
+                return {dice: null, bonus: null};
+            }
+            let [dice, bonus] = power.includes('+') ? power.split('+') : [power, 0];
+            bonus = parseInt(bonus, 10);
+            return {dice, bonus};
+        };
+
+        // if(!oneHandSlashFlag){
+        //     await this.setFlag('gs', 'oneHandSlash', bh1.system.power);
+        //     bh1.update({ 'system.power': `${bh1.system.power}+${skillBonus}` });
+        // }else{
+        //     let {dice, bonus} = powerBreakDown(oneHandSlashFlag);
+        //     if(dice || bonus)
+        //         if(bh1.system.power !== dice + `+${bonus + skillBonus}`)
+        //             bh1.update({ 'system.power': `${dice}+${bonus + skillBonus}` });
+        // }
+
+        // if(!twoHandSlashFlag){
+        //     let {dice, bonus} = powerBreakDown(bh2.system.power);
+        //     if(dice || bonus){
+        //         bonus = bonus + skillBonus;
+        //         bh2.update({ 'system.power': `${dice}+${bonus}` });
+        //     }
+        // }else{
+        //     let {dice, bonus} = powerBreakDown(twoHandSlashFlag);
+        //     if(dice || bonus)
+        //         if(bh2.system.power !== `${dice}+${bonus + skillBonus}`)
+        //             bh2.update({ 'system.power': twoHandSlashFlag + `+${skillBonus}`});
+        // }
     }
 
     // Adding bonus spells known based on skill level
@@ -319,7 +362,7 @@ export class GSActor extends Actor {
                     this._armorSkillCall("shield"); break;
                 case "Draconic Heritage":
                     this._armorSkillCall("lizardman");
-                    this._updateWeapon("lizardman"); break;
+                    this._updateLizardClaws(); break;
                 case "Bonus Spells: Words of True Power":
                 case "Bonus Spells: Miracles":
                 case "Bonus Spells: Ancestral Dragon Arts":

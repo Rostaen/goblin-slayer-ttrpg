@@ -1891,6 +1891,20 @@ export default class GSActorSheet extends ActorSheet{
 							console.error("Skill not found for deletion.");
 							return;
 						}
+						if(skill.name === 'Draconic Heritage'){
+							const armorScore = this.actor.getFlag('gs', 'lizardman');
+							const oneHandScore = this.actor.getFlag('gs', 'oneHandSlash');
+							const twoHandScore = this.actor.getFlag('gs', 'twoHandSlash');
+							const armorWorn = this.actor.items.filter(item => item.type === 'armor');
+							const weapons = this.actor.items.filter(item => item.system.type === 'Close-Combat / Light');
+							console.log(">>> Removing", armorWorn, weapons);
+							armorWorn[0].update({'system.score': armorScore});
+							weapons[0].update({'system.power': oneHandScore});
+							weapons[1].update({'system.power': twoHandScore});
+							this.actor.unsetFlag('gs', 'lizardman');
+							this.actor.unsetFlag('gs', 'oneHandSlash');
+							this.actor.unsetFlag('gs', 'twoHandSlash');
+						}
 						actor.deleteEmbeddedDocuments(
 							'Item', [id]
 						).then(() => {
