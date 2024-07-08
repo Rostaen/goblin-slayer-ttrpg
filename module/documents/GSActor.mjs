@@ -105,28 +105,40 @@ export class GSActor extends Actor {
             return {dice, bonus};
         };
 
-        // if(!oneHandSlashFlag){
-        //     await this.setFlag('gs', 'oneHandSlash', bh1.system.power);
-        //     bh1.update({ 'system.power': `${bh1.system.power}+${skillBonus}` });
-        // }else{
-        //     let {dice, bonus} = powerBreakDown(oneHandSlashFlag);
-        //     if(dice || bonus)
-        //         if(bh1.system.power !== dice + `+${bonus + skillBonus}`)
-        //             bh1.update({ 'system.power': `${dice}+${bonus + skillBonus}` });
-        // }
+        if(!oneHandSlashFlag){
+            await this.setFlag('gs', 'oneHandSlash', bh1.system.power);
+            bh1.update({
+                'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
+                'system': {
+                    'power': `${bh1.system.power}+${skillBonus}`,
+                    'attribute': 'Slash'
+                }
+            });
+        }else{
+            let {dice, bonus} = powerBreakDown(oneHandSlashFlag);
+            if(dice || bonus){}
+                if(bh1.system.power !== `${dice}+${bonus + skillBonus}`)
+                    bh1.update({ 'system.power': `${dice}+${bonus + skillBonus}` });
+        }
 
-        // if(!twoHandSlashFlag){
-        //     let {dice, bonus} = powerBreakDown(bh2.system.power);
-        //     if(dice || bonus){
-        //         bonus = bonus + skillBonus;
-        //         bh2.update({ 'system.power': `${dice}+${bonus}` });
-        //     }
-        // }else{
-        //     let {dice, bonus} = powerBreakDown(twoHandSlashFlag);
-        //     if(dice || bonus)
-        //         if(bh2.system.power !== `${dice}+${bonus + skillBonus}`)
-        //             bh2.update({ 'system.power': twoHandSlashFlag + `+${skillBonus}`});
-        // }
+        if(!twoHandSlashFlag){
+            let {dice, bonus} = powerBreakDown(bh2.system.power);
+            if(dice || bonus){
+                await this.setFlag('gs', 'twoHandSlash', bh2.system.power);
+                bh2.update({
+                    'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
+                    'system': {
+                        'power': `${dice}+${bonus + skillBonus}`,
+                        'attribute': 'Slash'
+                    }
+                });
+            }
+        }else{
+            let {dice, bonus} = powerBreakDown(twoHandSlashFlag);
+            if(dice || bonus)
+                if(bh2.system.power !== `${dice}+${bonus + skillBonus}`)
+                    bh2.update({ 'system.power': `${dice}+${bonus + skillBonus}`});
+        }
     }
 
     // Adding bonus spells known based on skill level
