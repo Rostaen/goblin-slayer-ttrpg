@@ -105,16 +105,20 @@ export default class GSActorSheet extends ActorSheet{
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
+	/**
+	 * Checks over general skills and sends rolls to where they're needed or makes a basic check
+	 * @param {HTML} event The HTML event to trigger a roll or check
+	 * @returns Early break if specific skills need work elsewhere.
+	 */
 	async _rollGenSkills(event){
 		event.preventDefault();
 		const container = event.currentTarget;
 		const skillId = container.dataset.id;
 		const skill = this.actor.items.get(skillId);
-		const standardBonus = ['Draconic Heritage'];
-		const differentBonus = ['Beloved of the Fae', 'Cool and Collected', 'Darkvision', 'Faith: Supreme God', 'Faith: Earth Mother',
+		const skipCheck = ['Draconic Heritage', 'Beloved of the Fae', 'Darkvision', 'Faith: Supreme God', 'Faith: Earth Mother',
 			'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie', 'Faith: Ancestral Dragon'];
 
-		if(standardBonus.includes(skill.name)) return;
+		if(skipCheck.includes(skill.name)) return;
 
 		if(skill.name.toLowerCase() === 'long-distance movement')
 			this._specialRolls(event, 'longDistance', 'Long-Distance Movement');
@@ -122,7 +126,6 @@ export default class GSActorSheet extends ActorSheet{
 			const resistType = await this._promptMiscModChoice('coolAndCollected');
 			this._specialRolls(event, resistType === "int" ? "intRes" : "psyRes", "default");
 		}
-
 
 		// console.log(">>>", container, skillId, skill);
 	}
@@ -837,6 +840,9 @@ export default class GSActorSheet extends ActorSheet{
 					const {skillBonus: bonus, localizedMessage: message} = await this._calculateSpellExpertise(skills, localizedMessage, spellID);
 					skillBonus += bonus;
 					localizedMessage = message;
+					const {skillBonus: bonus1, localizedMessage: message1} = await this._checkFaith(skills, localizedMessage, spellID);
+					skillBonus += bonus1;
+					localizedMessage = message1;
 				}
 			}
 			if(modifier != 0 && modSelector != '.spellDif')
@@ -848,6 +854,38 @@ export default class GSActorSheet extends ActorSheet{
 		}
 
 		this._rollsToMessage(event, diceToRoll, stat, classBonus, modifier, localizedMessage, skillBonus, 0, modSelector);
+	}
+
+	/**
+	 * Checks for the Faith: XX skill to apply a negative modifier for not chanting the spell's verbal components
+	 * @param {JSON} theSkill Skill JSON object to be checked against
+	 * @param {string} localizedMessage A string to be added to the flavor message of the chat window
+	 * @param {string} spellID String of the ID to the spell being cast
+	 * @returns Updated skill bonus and localized message, if any changes
+	 */
+	async _checkFaith(skills, localizedMessage, spellID){
+		console.log(">>> Checking Faith");
+		let skillBonus = 0;
+		const spell = this.actor.items.get(spellID);
+		if(spell.system.schoolChoice === "Miracle" || spell.system.schoolChoice === "Ancestral Dragon"){
+			const faithBonus = [ 'Faith: Supreme God', 'Faith: Earth Mother',
+				'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie', 'Faith: Ancestral Dragon'];
+			let theSkill;
+			skills.forEach(skill => {
+				if(faithBonus.includes(skill.name)){
+					theSkill = skill;
+				}
+			});
+			skillBonus = this._getSkillBonus(theSkill.name);
+			const chantlessMod = await this._promptMiscModChoice('faith');
+			if(chantlessMod){
+				console.log("Check chantlessMod Value", skillBonus);
+				skillBonus = skillBonus === 1 ? -4 : skillBonus === 2 ? -2 : 0;
+				localizedMessage += this._addToFlavorMessage('skillScore', theSkill.name, skillBonus);
+			}else
+				skillBonus = 0;
+		}
+		return {skillBonus, localizedMessage};
 	}
 
 	/**
@@ -1427,6 +1465,22 @@ export default class GSActorSheet extends ActorSheet{
 			let dialogContent, promptTitle, button1, button2, button3, buttons = {};
 
 			switch(promptType){
+				case 'faith':
+					dialogContent = `<h3>${game.i18n.localize("gs.dialog.faith.header")}</h3>`;
+					promptTitle = game.i18n.localize("gs.dialog.faith.title");
+					button1 = {
+						label: game.i18n.localize("gs.dialog.faith.label1"),
+						callback: () => {
+							resolve(false);
+						}
+					};
+					button2 = {
+						label: game.i18n.localize("gs.dialog.faith.label2"),
+						callback: () => {
+							resolve(true);
+						}
+					};
+					break;
 				case 'coolAndCollected':
 					dialogContent = `<h3>${game.i18n.localize("gs.dialog.coolAndColl.header")}</h3>`;
 					promptTitle = game.i18n.localize("gs.dialog.coolAndColl.title");

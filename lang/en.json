@@ -453,6 +453,12 @@
       "coolAndColl": {
         "title": "Mental Resistance Choice",
         "header": "Intelligence or Psyche Resistance?"
+      },
+      "faith": {
+        "title": "Chanting Choice",
+        "header": "Chanting your spell to show your Faith?",
+        "label1": "Chanting",
+        "label2": "Chantless"
       }
     }
   }
