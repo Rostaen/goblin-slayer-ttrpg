@@ -70,17 +70,20 @@ export class GSActor extends Actor {
                 await this.setFlag('gs', armorType, armorWorn[0].system.score);
                 armorWorn[0].system.score += armorValue;
                 await armorWorn[0].update({ 'system.score': armorWorn[0].system.score });
-            }else if(flagAC + armorValue > armorWorn[0].system.score)
+            }else if(flagAC + armorValue !== armorWorn[0].system.score)
                 await armorWorn[0].update({ 'system.score': flagAC + armorValue });
         }
     }
 
+    /**
+     * This method updates the character's weapons and armor to include the bonuses for being a Lizardman, +1-3 to barehanded attacks.
+     * @returns Nothing, used to break method early if items aren't found.
+     */
     async _updateLizardClaws(){
         let weapons = this.items.filter(item => item.system.type === 'Close-Combat / Light');
         if(weapons.length === 0) return;
 
-        let skillBonus = this._getSkillBonus('Draconic Heritage');
-        skillBonus = parseInt(skillBonus, 10);
+        let skillBonus = parseInt(this._getSkillBonus('Draconic Heritage'), 10);
         if(skillBonus === 0) return;
 
         let bh1, bh2;
@@ -105,40 +108,29 @@ export class GSActor extends Actor {
             return {dice, bonus};
         };
 
-        if(!oneHandSlashFlag){
-            await this.setFlag('gs', 'oneHandSlash', bh1.system.power);
-            bh1.update({
-                'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
-                'system': {
-                    'power': `${bh1.system.power}+${skillBonus}`,
-                    'attribute': 'Slash'
-                }
-            });
-        }else{
-            let {dice, bonus} = powerBreakDown(oneHandSlashFlag);
-            if(dice || bonus){}
-                if(bh1.system.power !== `${dice}+${bonus + skillBonus}`)
-                    bh1.update({ 'system.power': `${dice}+${bonus + skillBonus}` });
-        }
-
-        if(!twoHandSlashFlag){
-            let {dice, bonus} = powerBreakDown(bh2.system.power);
-            if(dice || bonus){
-                await this.setFlag('gs', 'twoHandSlash', bh2.system.power);
-                bh2.update({
+        const updateWeapon = async (weapon, flag, flagKey) => {
+            if(!flag){
+                await this.setFlag('gs', flagKey, weapon.system.power);
+                weapon.update({
                     'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
-                    'system': {
-                        'power': `${dice}+${bonus + skillBonus}`,
-                        'attribute': 'Slash'
-                    }
+                    'system.power': `${weapon.system.power}+${skillBonus}`,
+                    'system.attribute': 'Slash'
                 });
+            }else{
+                let { dice, bonus } = powerBreakDown(flag);
+                if (dice || bonus) {
+                    if (weapon.system.power !== `${dice}+${bonus + skillBonus}`) {
+                        weapon.update({ 'system.power': `${dice}+${bonus + skillBonus}` });
+                    }
+                }
             }
-        }else{
-            let {dice, bonus} = powerBreakDown(twoHandSlashFlag);
-            if(dice || bonus)
-                if(bh2.system.power !== `${dice}+${bonus + skillBonus}`)
-                    bh2.update({ 'system.power': `${dice}+${bonus + skillBonus}`});
-        }
+        };
+
+        if(bh1)
+            await updateWeapon(bh1, oneHandSlashFlag, 'oneHandSlash');
+
+        if(bh2)
+            await updateWeapon(bh2, twoHandSlashFlag, 'twoHandSlash');
     }
 
     // Adding bonus spells known based on skill level
