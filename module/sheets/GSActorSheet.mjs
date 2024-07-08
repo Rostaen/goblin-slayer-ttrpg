@@ -122,12 +122,14 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(skill.name.toLowerCase() === 'long-distance movement')
 			this._specialRolls(event, 'longDistance', 'Long-Distance Movement');
+		else if(skill.name.toLowerCase() === 'general knowledge')
+			this._specialRolls(event, 'generalKnow', 'General Knowledge');
 		else if(skill.name.toLowerCase() === 'cool and collected'){
 			const resistType = await this._promptMiscModChoice('coolAndCollected');
 			this._specialRolls(event, resistType === "int" ? "intRes" : "psyRes", "default");
+		}else{
+			const promptChoices = await this._promptMiscModChoice('skill.name');
 		}
-
-		// console.log(">>>", container, skillId, skill);
 	}
 
 	/**
@@ -864,26 +866,26 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Updated skill bonus and localized message, if any changes
 	 */
 	async _checkFaith(skills, localizedMessage, spellID){
-		console.log(">>> Checking Faith");
 		let skillBonus = 0;
 		const spell = this.actor.items.get(spellID);
 		if(spell.system.schoolChoice === "Miracle" || spell.system.schoolChoice === "Ancestral Dragon"){
 			const faithBonus = [ 'Faith: Supreme God', 'Faith: Earth Mother',
 				'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie', 'Faith: Ancestral Dragon'];
-			let theSkill;
+			let theSkill = null;
 			skills.forEach(skill => {
 				if(faithBonus.includes(skill.name)){
 					theSkill = skill;
 				}
 			});
-			skillBonus = this._getSkillBonus(theSkill.name);
-			const chantlessMod = await this._promptMiscModChoice('faith');
-			if(chantlessMod){
-				console.log("Check chantlessMod Value", skillBonus);
-				skillBonus = skillBonus === 1 ? -4 : skillBonus === 2 ? -2 : 0;
-				localizedMessage += this._addToFlavorMessage('skillScore', theSkill.name, skillBonus);
-			}else
-				skillBonus = 0;
+			if(theSkill){
+				skillBonus = this._getSkillBonus(theSkill.name);
+				const chantlessMod = await this._promptMiscModChoice('faith');
+				if(chantlessMod){
+					skillBonus = skillBonus === 1 ? -4 : skillBonus === 2 ? -2 : 0;
+					localizedMessage += this._addToFlavorMessage('skillScore', theSkill.name, skillBonus);
+				}else
+					skillBonus = 0;
+			}
 		}
 		return {skillBonus, localizedMessage};
 	}
@@ -1464,6 +1466,13 @@ export default class GSActorSheet extends ActorSheet{
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, button1, button2, button3, buttons = {};
 
+			const genSkills = ['Appraisal', 'Artisan: Smithing', 'Artisan: Needlework', 'Artisan: Carpentry', 'Artisan: Leatherworking', 'Artisan: Metal-Carving',
+				'Cooking', 'Craftsmanship', 'Criminal Knowledge', 'Etiquette', 'Labor', 'Leadership', 'Meditate', 'Negotiate: Persuade', 'Negotiate: Tempt',
+				'Negotiate: Intimidate', 'No Preconceptions', 'Perform: Sing', 'Perform: Play', 'Perform: Dance', 'Perform: Street Perform', 'Perform: Act',
+				'Production: Farming', 'Production: Fishing', 'Production: Logging', 'Production: Mining', 'Research', 'Riding', 'Survivalism ', 'Theology',
+				'Worship'];
+			const specialRolls = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'acrobatics', 'monsterKnow'];
+
 			switch(promptType){
 				case 'faith':
 					dialogContent = `<h3>${game.i18n.localize("gs.dialog.faith.header")}</h3>`;
@@ -1515,46 +1524,6 @@ export default class GSActorSheet extends ActorSheet{
 							resolve(0);
 						}
 					};
-					break;
-				case 'moveRes':
-				case 'strRes':
-				case 'psyRes':
-				case 'intRes':
-				case 'strength':
-				case 'stealth':
-				case 'acrobatics':
-				case 'monsterKnow':
-					const header = game.i18n.localize(`gs.dialog.${promptType}.header`);
-					const paragraph = game.i18n.localize(`gs.dialog.${promptType}.label`);
-					const promptMapping = {
-						'moveRes': {word1: 'str', word2: 'foc', word3: 'tec', word4: 'foc', ability1: 'sf', ability2: 'tf'},
-						'strRes': {word1: 'str', word2: 'ref', word3: 'str', word4: 'end', ability1: 'sr', ability2: 'se'},
-						'psyRes': {word1: 'psy', word2: 'ref', word3: 'psy', word4: 'end', ability1: 'pr', ability2: 'pe'},
-						'intRes': {word1: 'int', word2: 'ref', word3: 'int', word4: 'end', ability1: 'ir', ability2: 'ie'},
-						'strength': {word1: 'str', word2: 'foc', word3: 'str', word4: 'end', ability1: 'sf', ability2: 'se'},
-						'monsterKnow': {word1: 'int', word2: 'foc', word3: 'int', word4: 'ref', ability1: 'if', ability2: 'ir'},
-						'stealth': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref', ability1: 'tf', ability2: 'te', ability3: 'tr'},
-						'acrobatics': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref', ability1: 'tf', ability2: 'te', ability3: 'tr'},
-					};
-
-					const { word1, word2, word3, word4, word5, word6, ability1, ability2, ability3 } = promptMapping[promptType] || {};
-
-					dialogContent = `
-						<h3>${header}</h3>
-						<p>${paragraph}</p>`;
-					promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
-
-					const createButton = (labelWords, ability) => ({
-						label: game.i18n.localize(`gs.actor.character.${labelWords[0]}`) + " " + game.i18n.localize(`gs.actor.character.${labelWords[1]}`),
-						callback: () => resolve(this.actor.system.abilities.calc[ability])
-					});
-
-					button1 = createButton([word1, word2], ability1);
-					button2 = createButton([word3, word4], ability2);
-
-					if(promptType === 'stealth' || promptType === 'acrobatics'){
-						button3 = createButton([word5, word6], ability3);
-					}
 					break;
 				case 'mowDown':
 					const skillValue = parseInt(promptName, 10);
@@ -1617,6 +1586,41 @@ export default class GSActorSheet extends ActorSheet{
 					break;
 				default:
 					break;
+			}
+			if(specialRolls.includes(promptType)){
+				const header = game.i18n.localize(`gs.dialog.${promptType}.header`);
+				const paragraph = game.i18n.localize(`gs.dialog.${promptType}.label`);
+				const promptMapping = {
+					'moveRes': {word1: 'str', word2: 'foc', word3: 'tec', word4: 'foc', ability1: 'sf', ability2: 'tf'},
+					'strRes': {word1: 'str', word2: 'ref', word3: 'str', word4: 'end', ability1: 'sr', ability2: 'se'},
+					'psyRes': {word1: 'psy', word2: 'ref', word3: 'psy', word4: 'end', ability1: 'pr', ability2: 'pe'},
+					'intRes': {word1: 'int', word2: 'ref', word3: 'int', word4: 'end', ability1: 'ir', ability2: 'ie'},
+					'strength': {word1: 'str', word2: 'foc', word3: 'str', word4: 'end', ability1: 'sf', ability2: 'se'},
+					'monsterKnow': {word1: 'int', word2: 'foc', word3: 'int', word4: 'ref', ability1: 'if', ability2: 'ir'},
+					'stealth': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref', ability1: 'tf', ability2: 'te', ability3: 'tr'},
+					'acrobatics': {word1: 'tec', word2: 'foc', word3: 'tec', word4: 'end', word5: 'tec', word6: 'ref', ability1: 'tf', ability2: 'te', ability3: 'tr'},
+				};
+
+				const { word1, word2, word3, word4, word5, word6, ability1, ability2, ability3 } = promptMapping[promptType] || {};
+
+				dialogContent = `
+					<h3>${header}</h3>
+					<p>${paragraph}</p>`;
+				promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
+
+				const createButton = (labelWords, ability) => ({
+					label: game.i18n.localize(`gs.actor.character.${labelWords[0]}`) + " " + game.i18n.localize(`gs.actor.character.${labelWords[1]}`),
+					callback: () => resolve(this.actor.system.abilities.calc[ability])
+				});
+
+				button1 = createButton([word1, word2], ability1);
+				button2 = createButton([word3, word4], ability2);
+
+				if(promptType === 'stealth' || promptType === 'acrobatics'){
+					button3 = createButton([word5, word6], ability3);
+				}
+			}else if(specialRolls.includes(genSkills)){
+				// TODO: Update here and else where to add misc modifiers into main prompt if there are more than 1 prompts to appear
 			}
 
 			if(promptType != 'returnSpell')
