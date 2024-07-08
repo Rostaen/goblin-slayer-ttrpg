@@ -1891,6 +1891,13 @@ export default class GSActorSheet extends ActorSheet{
 							console.error("Skill not found for deletion.");
 							return;
 						}
+						actor.deleteEmbeddedDocuments(
+							'Item', [id]
+						).then(() => {
+							// console.log(`GS || ${skill.name} deleted successfully.`);
+						}).catch(error => {
+							console.error("Error deleting skill:", error);
+						});
 						if(skill.name === 'Draconic Heritage'){
 							const armorScore = this.actor.getFlag('gs', 'lizardman');
 							const oneHandScore = this.actor.getFlag('gs', 'oneHandSlash');
@@ -1899,19 +1906,20 @@ export default class GSActorSheet extends ActorSheet{
 							const weapons = this.actor.items.filter(item => item.system.type === 'Close-Combat / Light');
 							console.log(">>> Removing", armorWorn, weapons);
 							armorWorn[0].update({'system.score': armorScore});
-							weapons[0].update({'system.power': oneHandScore});
-							weapons[1].update({'system.power': twoHandScore});
+							weapons[0].update({
+								'img': 'icons/skills/melee/unarmed-punch-fist.webp',
+								'system.power': oneHandScore,
+								'system.attribute': 'Bludgeoning'
+							});
+							weapons[1].update({
+								'img': 'icons/skills/melee/unarmed-punch-fist.webp',
+								'system.power': twoHandScore,
+								'system.attribute': 'Bludgeoning'
+							});
 							this.actor.unsetFlag('gs', 'lizardman');
 							this.actor.unsetFlag('gs', 'oneHandSlash');
 							this.actor.unsetFlag('gs', 'twoHandSlash');
 						}
-						actor.deleteEmbeddedDocuments(
-							'Item', [id]
-						).then(() => {
-							// console.log(`GS || ${skill.name} deleted successfully.`);
-						}).catch(error => {
-							console.error("Error deleting skill:", error);
-						});
 						break;
 					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':
 						const pcTarget = actor.items.get(id);
