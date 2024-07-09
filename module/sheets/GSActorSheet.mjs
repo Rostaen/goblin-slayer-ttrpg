@@ -131,9 +131,9 @@ export default class GSActorSheet extends ActorSheet{
 			let promptChoices = await this._promptMiscModChoice(skill.name);
 			if(promptChoices){
 				let skillBonus = this._getSkillBonus(skill.name);
-				skillbonus = skillBonus = 3 ? 4 : skillBonus;
+				skillBonus = skillBonus = 3 ? 4 : skillBonus;
 				promptChoices[0] += this._addStringToChatMessage("skillScore", skill, skillBonus);
-				this._rollsToMessage(null, '2d6', promptChoices[1], 0, 0, promptChoices[0], skillBonus, promptChoices[2], 'generalSkills');
+				this._rollsToMessage(null, '2d6', promptChoices[1], promptChoices[3], 0, promptChoices[0], skillBonus, promptChoices[2], 'generalSkills');
 			}else{
 				ui.notifications.warn(`${game.i18n.localize('gs.dialog.genSkills.cancelled')}`);
 			}
@@ -1677,9 +1677,11 @@ export default class GSActorSheet extends ActorSheet{
 				let header = game.i18n.localize(`gs.dialog.genSkills.header`) + promptType;
 				dialogContent = `<h3>${header}</h3>`;
 				promptTitle = game.i18n.localize(`gs.dialog.genSkills.title`);
+				let classNames, classLevelBonus = 0;
 
 				for(const [id, item] of Object.entries(genSkillsList)){
 					if(id === promptType){
+						classNames = item.class;
 						console.log(">>> Checking id and item", id, item);
 						dialogContent += `<p style="font-weight: bold;">${game.i18n.localize('gs.dialog.genSkills.primary')}</p>`;
 						const primaryAbilityMap = {
@@ -1761,7 +1763,22 @@ export default class GSActorSheet extends ActorSheet{
 						}
 
 						labelText += this._addToFlavorMessage("abilScore", game.i18n.localize('gs.actor.character.abil'), bonusScore);
-						const foundValues = [labelText, bonusScore, modifiers];
+						classNames = classNames.includes("/") ? classNames.split("/") : classNames;
+						let tempName = "";
+						for(let x = 0; x < classNames.length; x++){}
+						if(typeof(classNames) === 'string'){
+							classLevelBonus = this.actor.system.levels.classes[classNames];
+							tempName = classNames;
+						}else{
+							classNames.forEach(name => {
+								if(this.actor.system.levels.classes[name] > classLevelBonus){
+									classLevelBonus = this.actor.system.levels.classes[name];
+									tempName = name;
+								}
+							});
+						}
+						if(classLevelBonus > 0) labelText += this._addToFlavorMessage("levelScore", tempName.charAt(0).toUpperCase() + tempName.slice(1), classLevelBonus);
+						const foundValues = [labelText, bonusScore, modifiers, classLevelBonus];
 						resolve(foundValues);
 					}
 				};
