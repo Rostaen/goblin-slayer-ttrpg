@@ -128,7 +128,15 @@ export default class GSActorSheet extends ActorSheet{
 			const resistType = await this._promptMiscModChoice('coolAndCollected');
 			this._specialRolls(event, resistType === "int" ? "intRes" : "psyRes", "default");
 		}else{
-			const promptChoices = await this._promptMiscModChoice('skill.name');
+			let promptChoices = await this._promptMiscModChoice(skill.name);
+			if(promptChoices){
+				let skillBonus = this._getSkillBonus(skill.name);
+				skillbonus = skillBonus = 3 ? 4 : skillBonus;
+				promptChoices[0] += this._addStringToChatMessage("skillScore", skill, skillBonus);
+				this._rollsToMessage(null, '2d6', promptChoices[1], 0, 0, promptChoices[0], skillBonus, promptChoices[2], 'generalSkills');
+			}else{
+				ui.notifications.warn(`${game.i18n.localize('gs.dialog.genSkills.cancelled')}`);
+			}
 		}
 	}
 
@@ -455,7 +463,7 @@ export default class GSActorSheet extends ActorSheet{
 					'master of earth', 'master of life'];
 
 				// Setting up info for Slice Attack skill
-				if(event != ""){
+				if(event){
 					const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
 					const eventItem = this.actor.items.get(eventID);
 					let sliceAttr;
@@ -516,12 +524,16 @@ export default class GSActorSheet extends ActorSheet{
 	async _rollsToMessage(event, dice, stat, classBonus, modifier, localizedMessage, skillBonus = 0, rollMod = 0, modSelector = ""){
 		let rollExpression = `${dice}`;
 		const casting = 'spellCast';
-		const cssClassType = event.currentTarget?.classList || ["", ""];
+		const cssClassType = event?.currentTarget?.classList || ["", ""];
 		const spellCastCSSCheck = cssClassType[1];
 
 		// Getting roll modifiers from user
-		rollMod = await this._promptMiscModChoice("rollMod", localizedMessage);
-		if(rollMod != 0) localizedMessage += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
+		// TODO: Update to remove this prompt from all but basic ability score rolls
+		if(modSelector !== 'generalSkills')
+			rollMod = await this._promptMiscModChoice("rollMod", localizedMessage);
+
+		if(rollMod != 0)
+			localizedMessage += this._addToFlavorMessage("miscScore", game.i18n.localize('gs.dialog.mods.misc'), rollMod);
 		// Setting up roll message
 		rollExpression = this._setRollMessage(dice, stat, classBonus, spellCastCSSCheck === casting ? 0 : modifier, rollMod, skillBonus);
 
@@ -552,7 +564,9 @@ export default class GSActorSheet extends ActorSheet{
 			// Checking skills for Piercing Attack skill and weapon
 			const skills = this.actor.items.filter(item => item.type === 'skill');
 			// Getting Weapon ID to check for Piercing trait
-			const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
+			let eventID;
+			if(event)
+				eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
 			const currentWeapon = this.actor.items.get(eventID);
 			skills.forEach(skill => {
 				if(skill.name.toLowerCase() === "piercing attack"){
@@ -580,10 +594,12 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			});
 
+			// console.log("Checking Rolls to Message for misc mod addon", event, dice, stat, classBonus, modifier, localizedMessage, skillBonus, rollMod, modSelector);
 
 			// Checking if a power/damage roll is coming through to remove Effectiveness message
-			if(modSelector != ".power")
-				localizedMessage += `<div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal}</div>`;
+			if(modSelector != ".power"){
+				localizedMessage += `<div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal + rollMod}</div>`;
+			}
 			let chatFlavor = `<div class="customFlavor">${localizedMessage}`;
 			if(status != undefined || status != null)
 				chatFlavor += `${status[1]}`;
@@ -639,9 +655,9 @@ export default class GSActorSheet extends ActorSheet{
 			const label = container.querySelector('label');
 			if(input){
 				const bonusScore = input.value;
-				const labelText = label.innerHTML;
+				let labelText = label.innerHTML + this._addToFlavorMessage("abilScore", game.i18n.localize('gs.actor.character.abil'), bonusScore);
 				// TODO: Update with chat box to add modifiers
-				this._rollsToMessage(event, baseDice, bonusScore, 0, 0, labelText);
+				this._rollsToMessage(null, baseDice, bonusScore, 0, 0, labelText);
 			}else{
 				console.error("Input field not found.");
 			}
@@ -1473,6 +1489,11 @@ export default class GSActorSheet extends ActorSheet{
 				'Worship'];
 			const specialRolls = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'acrobatics', 'monsterKnow'];
 
+			const addModifiersSection = () => {
+				return `<p>${game.i18n.localize("gs.dialog.mods.addInfo")}</p>
+						<input type="text" class="rollMod" style="margin-bottom: 10px;" />`;
+			};
+
 			switch(promptType){
 				case 'faith':
 					dialogContent = `<h3>${game.i18n.localize("gs.dialog.faith.header")}</h3>`;
@@ -1587,13 +1608,14 @@ export default class GSActorSheet extends ActorSheet{
 				default:
 					break;
 			}
+
 			if(specialRolls.includes(promptType)){
 				const header = game.i18n.localize(`gs.dialog.${promptType}.header`);
 				const paragraph = game.i18n.localize(`gs.dialog.${promptType}.label`);
 				const promptMapping = {
 					'moveRes': {word1: 'str', word2: 'foc', word3: 'tec', word4: 'foc', ability1: 'sf', ability2: 'tf'},
 					'strRes': {word1: 'str', word2: 'ref', word3: 'str', word4: 'end', ability1: 'sr', ability2: 'se'},
-					'psyRes': {word1: 'psy', word2: 'ref', word3: 'psy', word4: 'end', ability1: 'pr', ability2: 'pe'},
+					'psyRes': {word1: 'p', word2: 'ref', word3: 'p', word4: 'end', ability1: 'pr', ability2: 'pe'},
 					'intRes': {word1: 'int', word2: 'ref', word3: 'int', word4: 'end', ability1: 'ir', ability2: 'ie'},
 					'strength': {word1: 'str', word2: 'foc', word3: 'str', word4: 'end', ability1: 'sf', ability2: 'se'},
 					'monsterKnow': {word1: 'int', word2: 'foc', word3: 'int', word4: 'ref', ability1: 'if', ability2: 'ir'},
@@ -1619,16 +1641,140 @@ export default class GSActorSheet extends ActorSheet{
 				if(promptType === 'stealth' || promptType === 'acrobatics'){
 					button3 = createButton([word5, word6], ability3);
 				}
-			}else if(specialRolls.includes(genSkills)){
-				// TODO: Update here and else where to add misc modifiers into main prompt if there are more than 1 prompts to appear
+			}else if(genSkills.includes(promptType)){
+				const genSkillsList = {
+					"Appraisal": { first: 'i', second: 'none', class: 'none' },
+					"Artisan: Smithing": { first: 'i', second: 't', class: 'none' },
+					"Artisan: Carpentry": { first: 'i', second: 't', class: 'none' },
+					"Artisan: Leatherworking": { first: 'i', second: 't', class: 'none' },
+					"Artisan: Metal-Carving": { first: 'i', second: 't', class: 'none' },
+					"Cooking": { first: 'i', second: 't', class: 'none' },
+					"Craftsmanship": { first: 't', second: 'none', class: 'none' },
+					"Criminal Knowledge": { first: 'i', second: 'none', class: 'scout' },
+					"Etiquette": { first: 'p', second: 'none', class: 'sorcerer' },
+					"Labor": { first: 'i', second: 'none', class: 'none' },
+					"Leadership": { first: 'p', second: 'none', class: 'none' },
+					"Meditate": { first: 'i', second: 'none', class: 'sorcerer/shaman' },
+					"Negotiate: Persuade": { first: 'i', second: 'none', class: 'none' },
+					"Negotiate: Tempt": { first: 'p', second: 'none', class: 'none' },
+					"Negotiate: Intimidate": { first: 'str', second: 'none', class: 'none' },
+					"No Preconceptions": { first: 'p', second: 'none', class: 'none' },
+					"Perform: Sing": { first: 'i', second: 'p', class: 'none' },
+					"Perform: Act": { first: 'i', second: 'p', class: 'none' },
+					"Perform: Play": { first: 'i', second: 't', class: 'none' },
+					"Perform: Dance": { first: 'i', second: 't', class: 'none' },
+					"Perform: Street Perform": { first: 'i', second: 't', class: 'none' },
+					"Production: Farming": { first: 'i', second: 't', class: 'none' },
+					"Production: Fishing": { first: 'i', second: 't', class: 'none' },
+					"Production: Logging": { first: 'i', second: 't', class: 'none' },
+					"Production: Mining": { first: 'i', second: 't', class: 'none' },
+					"Research": { first: 'i', second: 'none', class: 'sorcerer' },
+					"Riding": { first: 't', second: 'none', class: 'none' },
+					"Survivalism ": { first: 'i', second: 't', class: 'ranger' },
+					"Theology": { first: 'i', second: 'none', class: 'priest/dragon' },
+					"Worship": { first: 'p', second: 'none', class: 'priest/dragon' }
+				};
+				let header = game.i18n.localize(`gs.dialog.genSkills.header`) + promptType;
+				dialogContent = `<h3>${header}</h3>`;
+				promptTitle = game.i18n.localize(`gs.dialog.genSkills.title`);
+
+				for(const [id, item] of Object.entries(genSkillsList)){
+					if(id === promptType){
+						console.log(">>> Checking id and item", id, item);
+						dialogContent += `<p style="font-weight: bold;">${game.i18n.localize('gs.dialog.genSkills.primary')}</p>`;
+						const primaryAbilityMap = {
+							i: 'int',
+							t: 'tec',
+							p: 'psy'
+						}
+						const firstWord = game.i18n.localize(`gs.actor.character.${primaryAbilityMap[item.first]}`);
+						const secondWord = game.i18n.localize(`gs.actor.character.${primaryAbilityMap[item.second]}`);
+						if(item.second === 'none'){
+							dialogContent += `
+								<p><input class='recall' type='radio' name="primary" checked disabled value="${item.first}"> ${game.i18n.localize('gs.dialog.genSkills.recall')} (${firstWord})</p>
+								<p><input class='use' type='radio' name="primary" disabled value="${item.second}"> ${game.i18n.localize('gs.dialog.genSkills.use')}</p>
+							`;
+						}else{
+							dialogContent += `
+								<p><input class='recall' type='radio' name="primary" value="${item.first}"> ${game.i18n.localize('gs.dialog.genSkills.recall')} (${firstWord})</p>
+								<p><input class='use' type='radio' name="primary" value="${item.second}"> ${game.i18n.localize('gs.dialog.genSkills.use')} (${secondWord})</p>
+							`;
+						}
+						dialogContent += `
+							<p style="font-weight: bold;">${game.i18n.localize('gs.dialog.genSkills.secondary')}</p>
+							<div class="grid grid-3col">
+								<div style="">
+									<input class="focus" type="radio" name="secondary" value="f"> ${game.i18n.localize('gs.actor.character.foc')}
+								</div>
+								<div style="">
+									<input class="endurance" type="radio" name="secondary" value="e"> ${game.i18n.localize('gs.actor.character.end')}
+								</div>
+								<div style="">
+									<input class="reflex" type="radio" name="secondary" value="r"> ${game.i18n.localize('gs.actor.character.ref')}
+								</div>
+							</div>
+						`;
+						dialogContent += addModifiersSection();
+						break;
+					}
+				}
+
+				button1 = {
+					label: game.i18n.localize(`gs.dialog.rolling`),
+					callback: (html) => {
+						const inputs = html.find('input');
+						const primaryAbility = inputs[0].checked ? inputs[0].value : inputs[1].checked ? inputs[1].value : null;
+						const secondaryAbility = inputs[2].checked ? inputs[2].value : inputs[3].checked ? inputs[3].value : inputs[4].checked ? inputs[4].value : null;
+						const modifiers = parseInt(inputs[5].value, 10) || 0;
+
+						const getSecondaryScore = (letter, secondaryAbility) => {
+							const calcScore = this.actor.system.abilities.calc;
+							const localizedText = 'gs.actor.character.';
+							const abilityMap = {
+								f: 'foc',
+								e: 'end',
+								r: 'ref'
+							};
+							const abilityKey = abilityMap[secondaryAbility];
+							const text = game.i18n.localize(localizedText + abilityKey) + " ";
+							const score = calcScore[letter+secondaryAbility];
+							return {text, score};
+						};
+
+						let bonusScore = 0, labelText = "";
+						const localizedText = 'gs.actor.character.';
+						if(primaryAbility === 'i'){
+							labelText += game.i18n.localize(localizedText + 'int') + " ";
+							const {text, score} = getSecondaryScore(primaryAbility, secondaryAbility);
+							labelText += text;
+							bonusScore = score;
+						}else if(primaryAbility === 't'){
+							labelText += game.i18n.localize(localizedText + 'tec') + " ";
+							const {text, score} = getSecondaryScore(primaryAbility, secondaryAbility);
+							labelText += text;
+							bonusScore = score;
+						}else if(primaryAbility === 'p'){
+							labelText += game.i18n.localize(localizedText + 'psy') + " ";
+							const {text, score} = getSecondaryScore(primaryAbility, secondaryAbility);
+							labelText += text;
+							bonusScore = score;
+						}
+
+						labelText += this._addToFlavorMessage("abilScore", game.i18n.localize('gs.actor.character.abil'), bonusScore);
+						const foundValues = [labelText, bonusScore, modifiers];
+						resolve(foundValues);
+					}
+				};
+				button2 = {
+					label: game.i18n.localize('gs.dialog.cancel'),
+					callback: () => resolve(0)
+				};
 			}
 
 			if(promptType != 'returnSpell')
 				buttons = { button1: button1, buttonTwo: button2 };
-
-			if(promptType === 'stealth' || promptType === 'acrobatics'){
+			if(promptType === 'stealth' || promptType === 'acrobatics')
 				buttons.button3 = button3;
-			}
 
 			new Dialog({
 				title: promptTitle,

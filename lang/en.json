@@ -459,6 +459,15 @@
         "header": "Chanting your spell to show your Faith?",
         "label1": "Chanting",
         "label2": "Chantless"
+      },
+      "genSkills": {
+        "title": "General Skill Choices",
+        "header": "Mark all selections for ",
+        "recall": "Recalling knowledge?",
+        "use": "Using skills?",
+        "primary": "Which primary skill are you using?",
+        "secondary": "Which secondary skill do you need? (Select 1)",
+        "cancelled": "General skill roll cancelled"
       }
     }
   }
