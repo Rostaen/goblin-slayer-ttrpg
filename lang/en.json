@@ -468,6 +468,10 @@
         "primary": "Which primary skill are you using?",
         "secondary": "Which secondary skill do you need? (Select 1)",
         "cancelled": "General skill roll cancelled"
+      },
+      "spellCasting": {
+        "shamanAlert": "You need either Beloved of the Fae or a Shaman Bag to cast Shaman spells.",
+        "dragonPriestAlert": "You need a Dragon Priest's Catalyst Pouch to cast Dragon Priest spells."
       }
     }
   }

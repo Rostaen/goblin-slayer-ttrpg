@@ -855,6 +855,26 @@ export default class GSActorSheet extends ActorSheet{
 					});
 				}else if(modSelector === '.spellDif'){
 					const spellID = container.dataset.id;
+					const spell = this.actor.items.get(spellID);
+					// Checking if a Shaman spell and has Shaman's Bag or Beloved of the Fae skill
+					const skills = this.actor.items.filter(item => item.type === 'skill');
+					const items = this.actor.items.filter(item => item.type === 'item');
+					if(spell.system.schoolChoice === "Spirit Arts"){
+						let belovedSkill, shamanBag;
+						skills.forEach(skill => skill.name === "Beloved of the Fae" ? belovedSkill = skill : belovedSkill = null);
+						items.forEach(item => item.name === "Shaman's Bag" ? shamanBag = item : shamanBag = null);
+						if((!belovedSkill || belovedSkill.system.value === 0)  && !shamanBag){
+							ui.notifications.warn(game.i18n.localize('gs.dialog.spellCasting.shamanAlert'));
+							return;
+						}
+					}else if(spell.system.schoolChoice === 'Ancestral Dragon'){
+						let dPCPouch;
+						items.forEach(item => item.name === "Dragon Priest's Catalyst Pouch" ? shamanBag = item : shamanBag = null);
+						if(!dPCPouch)){
+							ui.notifications.warn(game.i18n.localize('gs.dialog.spellCasting.dragonPriestAlert'));
+							return;
+						}
+					}
 					const {skillBonus: bonus, localizedMessage: message} = await this._calculateSpellExpertise(skills, localizedMessage, spellID);
 					skillBonus += bonus;
 					localizedMessage = message;

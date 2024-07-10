@@ -125,7 +125,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Cool and Collected (Will require 2nd bonus to be added manually for now)
 - [x] Craftsmanship
 - [x] Criminal Knowledge
-- [ ] Darkvision (Need to research where to update token vision properly)
+- [x] Darkvision
 - [x] Draconic Heritage
 - [x] Etiquette
 - [x] Faith: XX
