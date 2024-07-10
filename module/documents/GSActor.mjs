@@ -307,32 +307,41 @@ export class GSActor extends Actor {
         }
     }
 
-    // async _updateDarkVision(skill){
-    //     const skillValue = skill.system.value;
+    _updateDarkVision(skill){
+        const darkvisionFlag = this.getFlag('gs', 'darkvision');
+        const skillValue = skill.system.value;
+        const token = this.getActiveTokens()[0];
+        // const token = canvas.tokens.placeables.find(t => t.name === this.name);
+        if (!token) return;
 
-    //     const token = canvas.tokens.placeables.find(t => t.name === this.name);
-    //     if (!token) return;
+        const updateVisionRange = (token, skillValue) => {
+            let visionDistance;
+            switch(skillValue){
+                case 1: visionDistance = 60; break;
+                case 2: visionDistance = 120; break;
+                case 3: visionDistance = 600; break;
+                default: visionDistance = 0;
+            }
+            token.document.update({
+                'sight': {
+                    'enabled': true,
+                    'visionMode': 'darkvision',
+                    'range': visionDistance
+                }
+            });
+        };
 
-    //     let visionDistance;
-    //     switch(skillValue){
-    //         case 1: visionDistance = 60; break;
-    //         case 2: visionDistance = 120; break;
-    //         case 3: visionDistance = 600; break;
-    //         default: visionDistance = 0;
-    //     }
-
-    //     await token.document.update({
-    //         'detectionModes': {
-    //             'enabled': true,
-    //             'id': 'basicSight',
-    //             'range': visionDistance
-    //         }
-    //     });
-
-    //     token.refresh();
-
-    //     console.log("Checking token info", token);
-    // }
+        if(!darkvisionFlag){
+            updateVisionRange(token, skillValue);
+            token.refresh();
+            this.setFlag('gs', 'darkvision', skillValue);
+        }else if(darkvisionFlag !== skillValue){
+            this.unsetFlag('gs', 'darkvision');
+            updateVisionRange(token, skillValue);
+            token.refresh();
+            this.setFlag('gs', 'darkvision', skillValue);
+        }
+    }
 
     _prepareCharacterData(actorData){
         const systemData = actorData.system;
@@ -394,8 +403,8 @@ export class GSActor extends Actor {
                 case "Draconic Heritage":
                     this._armorSkillCall("lizardman");
                     this._updateLizardClaws(); break;
-                // case "Darkvision":
-                //     this._updateDarkVision(skill); break;
+                case "Darkvision":
+                    this._updateDarkVision(skill); break;
                 case "Bonus Spells: Words of True Power":
                 case "Bonus Spells: Miracles":
                 case "Bonus Spells: Ancestral Dragon Arts":

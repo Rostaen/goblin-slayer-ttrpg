@@ -277,7 +277,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 
 		if(skillType === 'racial'){
-			const raceItem = items.find(item => item.type === 'race');
+			const raceItem = this.actor.items.find(item => item.type === 'race');
 			if(!raceItem){
 				console.error("Race item not found.");
             	return;
@@ -293,7 +293,7 @@ export default class GSActorSheet extends ActorSheet{
 				'system.skills': skills
 			});
 		}else if(skillType === 'earned'){
-			const skill = items.get(skillId);
+			const skill = this.actor.items.get(skillId);
 			if(!skill){
 				console.error("Skill not found.");
             	return;
@@ -2140,6 +2140,21 @@ export default class GSActorSheet extends ActorSheet{
 							this.actor.unsetFlag('gs', 'lizardman');
 							this.actor.unsetFlag('gs', 'oneHandSlash');
 							this.actor.unsetFlag('gs', 'twoHandSlash');
+						}
+						else if(skill.name === 'Darkvision'){
+							this.actor.unsetFlag('gs', 'darkvision');
+							const token = this.actor.getActiveTokens()[0];
+							// const token = canvas.tokens.placeables.find(t => t.name === this.name);
+							if(token){
+								token.document.update({
+									'sight': {
+										'enabled': true,
+										'visionMode': 'basic',
+										'range': 0
+									}
+								});
+								token.refresh();
+							}
 						}
 						break;
 					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':

@@ -118,31 +118,31 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 
 #### General Skills
 
-- [ ] Appraisal
-- [ ] Artisan: XX
+- [x] Appraisal
+- [x] Artisan: XX
 - [ ] Beloved of the Fae
-- [ ] Cooking
+- [x] Cooking
 - [x] Cool and Collected (Will require 2nd bonus to be added manually for now)
-- [ ] Craftsmanship
-- [ ] Criminal Knowledge
-- [ ] Darkvision
-- [ ] Draconic Heritage
-- [ ] Etiquette
-- [ ] Faith: XX
+- [x] Craftsmanship
+- [x] Criminal Knowledge
+- [ ] Darkvision (Need to research where to update token vision properly)
+- [x] Draconic Heritage
+- [x] Etiquette
+- [x] Faith: XX
 - [x] General Knowledge
-- [ ] Labor
-- [ ] Leadership
+- [x] Labor
+- [x] Leadership
 - [x] Long-Distance Movement
-- [ ] Meditate
-- [ ] Negotiate: XX
-- [ ] No Preconceptions
-- [ ] Perform: XX
-- [ ] Production: XX
-- [ ] Research
-- [ ] Riding
-- [ ] Survivalism
-- [ ] Theology
-- [ ] Worship
+- [x] Meditate
+- [x] Negotiate: XX
+- [x] No Preconceptions
+- [x] Perform: XX
+- [x] Production: XX
+- [x] Research
+- [x] Riding
+- [x] Survivalism
+- [x] Theology
+- [x] Worship
 
 # How to use the Game System
 
