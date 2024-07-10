@@ -596,6 +596,15 @@ export default class GSActorSheet extends ActorSheet{
 
 			// console.log("Checking Rolls to Message for misc mod addon", event, dice, stat, classBonus, modifier, localizedMessage, skillBonus, rollMod, modSelector);
 
+			// Checking flags
+			const belovedFlag = this.actor.getFlag('gs', 'belovedSkill');
+			if(belovedFlag){
+				const skillValue = belovedFlag.system.value - 1;
+				diceTotal += skillValue;
+				localizedMessage += this._addToFlavorMessage("skillScore", belovedFlag.name, skillValue);
+				this.actor.unsetFlag('gs', 'belovedSkill');
+			}
+
 			// Checking if a power/damage roll is coming through to remove Effectiveness message
 			if(modSelector != ".power"){
 				localizedMessage += `<div class="spellEffectivenessScore">${game.i18n.localize('gs.gear.spells.efs')}: ${diceTotal + rollMod}</div>`;
@@ -866,11 +875,16 @@ export default class GSActorSheet extends ActorSheet{
 						if((!belovedSkill || belovedSkill.system.value === 0)  && !shamanBag){
 							ui.notifications.warn(game.i18n.localize('gs.dialog.spellCasting.shamanAlert'));
 							return;
+						}else if(belovedSkill.system.value >= 2){
+							const usingCatalyst = await this._promptMiscModChoice('catalyst');
+							if(usingCatalyst){
+								this.actor.setFlag('gs', 'belovedSkill', belovedSkill);
+							}
 						}
 					}else if(spell.system.schoolChoice === 'Ancestral Dragon'){
 						let dPCPouch;
-						items.forEach(item => item.name === "Dragon Priest's Catalyst Pouch" ? shamanBag = item : shamanBag = null);
-						if(!dPCPouch)){
+						items.forEach(item => item.name === "Dragon Priest's Catalyst Pouch" ? dPCPouch = item : dPCPouch = null);
+						if(!dPCPouch){
 							ui.notifications.warn(game.i18n.localize('gs.dialog.spellCasting.dragonPriestAlert'));
 							return;
 						}
@@ -952,7 +966,7 @@ export default class GSActorSheet extends ActorSheet{
 
 	/**
 	 * Sets up a simple return statement to add the correct items and values to the localized message for debugging and player knowledge
-	 * @param {string} cssClass Class string to color the message
+	 * @param {string} cssClass Class string to color the message, abilScore, levelScore, skillScore, rollScore, miscScore, armorDodgeScore
 	 * @param {*} labelName What is modifying the the dice roll
 	 * @param {*} labelMessage How much is being modified
 	 * @returns A string to be added to the localized message
@@ -1515,21 +1529,23 @@ export default class GSActorSheet extends ActorSheet{
 			};
 
 			switch(promptType){
-				case 'faith':
-					dialogContent = `<h3>${game.i18n.localize("gs.dialog.faith.header")}</h3>`;
-					promptTitle = game.i18n.localize("gs.dialog.faith.title");
+				case 'faith': case 'catalyst':
+					const header = game.i18n.localize(`gs.dialog.${promptType}.header`);
+					const title = game.i18n.localize(`gs.dialog.${promptType}.title`);
+					const label1 = game.i18n.localize(`gs.dialog.${promptType}.label1`);
+					const label2 = game.i18n.localize(`gs.dialog.${promptType}.label2`);
+					dialogContent = `<h3>${header}</h3>`;
+					promptTitle = title;
 					button1 = {
-						label: game.i18n.localize("gs.dialog.faith.label1"),
-						callback: () => {
-							resolve(false);
-						}
+						label: label1,
+						callback: () => resolve(false)
 					};
 					button2 = {
-						label: game.i18n.localize("gs.dialog.faith.label2"),
-						callback: () => {
-							resolve(true);
-						}
+						label: label2,
+						callback: () => resolve(true)
 					};
+					break;
+
 					break;
 				case 'coolAndCollected':
 					dialogContent = `<h3>${game.i18n.localize("gs.dialog.coolAndColl.header")}</h3>`;

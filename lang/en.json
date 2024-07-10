@@ -460,6 +460,12 @@
         "label1": "Chanting",
         "label2": "Chantless"
       },
+      "catalyst": {
+        "title": "Spell Catalyst Choice",
+        "header": "Using your catalyst bag to cast?",
+        "label1": "No",
+        "label2": "Yes"
+      },
       "genSkills": {
         "title": "General Skill Choices",
         "header": "Mark all selections for ",
