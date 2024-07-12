@@ -11,10 +11,9 @@ Hooks.once("init", () => {
 	console.log("GS | Initializing Gobline Slayer TTRPG");
 
 	CONFIG.gs = gs;
-	CONFIG.Item.entityClass = GSItem;
-	CONFIG.time.roundTime = 30;
+	CONFIG.Item.entityClass = GSItem
 	CONFIG.Combat.initiative = {
-		formula: "@initiativeFormula",
+		formula: "@init",
 		decimals: 2
 	};
 
@@ -28,21 +27,6 @@ Hooks.once("init", () => {
 
 	// Preload Handlebars templates
 	return preloadHandlebarsTemplates();
-});
-
-Hooks.on('prepareActorData', (actor) => {
-	console.log(">>> Inside prepareActorData Hook");
-	if(actor.type === 'monster')
-		actor.initiativeFormula = "@system.init";
-	else if(actor.type === 'character'){
-		const skills = actor.items.filter(item => item.type === 'skill');
-		let skillValue = 0;
-		skills.forEach(skill => {
-			if(skill.name === 'Anticipate')
-				skillValue = skill.system.value;
-		});
-		actor.initiativeFormula = skillValue > 0 ? `2d6+${skillValue}` : `2d6`;
-	}
 });
 
 // Define Handlebars Helpers here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

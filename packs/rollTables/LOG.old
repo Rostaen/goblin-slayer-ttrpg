@@ -1,3 +1,8 @@
-2024/07/10-08:29:21.806 4ff0 Recovering log #72
-2024/07/10-08:29:21.808 4ff0 Delete type=0 #72
-2024/07/10-08:29:21.808 4ff0 Delete type=3 #71
+2024/07/12-13:12:43.806 3b64 Log #74: 0 ops saved to Table #87 OK
+2024/07/12-13:12:43.807 3b64 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rollTables/000074.log: OK
+2024/07/12-13:12:43.807 3b64 Log #86: 0 ops saved to Table #88 OK
+2024/07/12-13:12:43.808 3b64 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rollTables/000086.log: OK
+2024/07/12-13:12:43.808 3b64 Table #58: 7 entries OK
+2024/07/12-13:12:43.809 3b64 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rollTables/MANIFEST-000073: OK
+2024/07/12-13:12:43.809 3b64 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rollTables/MANIFEST-000085: OK
+2024/07/12-13:12:43.811 3b64 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rollTables; recovered 1 files; 2385 bytes. Some data may have been lost. ****
