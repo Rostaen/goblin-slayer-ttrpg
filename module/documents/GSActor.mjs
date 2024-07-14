@@ -307,40 +307,50 @@ export class GSActor extends Actor {
         }
     }
 
-    _updateDarkVision(skill){
-        const darkvisionFlag = this.getFlag('gs', 'darkvision');
-        const skillValue = skill.system.value;
-        const token = this.getActiveTokens()[0];
-        // const token = canvas.tokens.placeables.find(t => t.name === this.name);
-        if (!token) return;
+    _updateDarkVision(skill, actorData){
+        let skillValue = skill.system.value;
 
-        const updateVisionRange = (token, skillValue) => {
-            let visionDistance;
-            switch(skillValue){
-                case 1: visionDistance = 60; break;
-                case 2: visionDistance = 120; break;
-                case 3: visionDistance = 600; break;
-                default: visionDistance = 0;
-            }
-            token.document.update({
-                'sight': {
-                    'enabled': true,
-                    'visionMode': 'darkvision',
-                    'range': visionDistance
-                }
-            });
-        };
-
-        if(!darkvisionFlag){
-            updateVisionRange(token, skillValue);
-            token.refresh();
-            this.setFlag('gs', 'darkvision', skillValue);
-        }else if(darkvisionFlag !== skillValue){
-            this.unsetFlag('gs', 'darkvision');
-            updateVisionRange(token, skillValue);
-            token.refresh();
-            this.setFlag('gs', 'darkvision', skillValue);
+        switch(skillValue){
+            case 1: skillValue = 60; break;
+            case 2: skillValue = 120; break;
+            case 3: skillValue = 600; break;
+            default: skillValue = 0;
         }
+
+        actorData.system.darkVision = skillValue;
+        
+        // const darkvisionFlag = this.getFlag('gs', 'darkvision');
+        // const token = this.getActiveTokens()[0];
+        // const token = canvas.tokens.placeables.find(t => t.name === this.name);
+        // if (!token) return;
+
+        // const updateVisionRange = (token, skillValue) => {
+        //     let visionDistance;
+        //     switch(skillValue){
+        //         case 1: visionDistance = 60; break;
+        //         case 2: visionDistance = 120; break;
+        //         case 3: visionDistance = 600; break;
+        //         default: visionDistance = 0;
+        //     }
+        //     token.document.update({
+        //         'sight': {
+        //             'enabled': true,
+        //             'visionMode': 'darkvision',
+        //             'range': visionDistance
+        //         }
+        //     });
+        // };
+
+        // if(!darkvisionFlag){
+        //     updateVisionRange(token, skillValue);
+        //     token.refresh();
+        //     this.setFlag('gs', 'darkvision', skillValue);
+        // }else if(darkvisionFlag !== skillValue){
+        //     this.unsetFlag('gs', 'darkvision');
+        //     updateVisionRange(token, skillValue);
+        //     token.refresh();
+        //     this.setFlag('gs', 'darkvision', skillValue);
+        // }
     }
 
     _prepareCharacterData(actorData){
@@ -360,16 +370,6 @@ export class GSActor extends Actor {
                 systemData.abilities.calc[calcString] = calcScore;
             }
         }
-
-        // Adding favorites into the JSON object
-        if (!systemData.favorites) systemData.favorites = {};
-        if (!systemData.favorites.checked){
-            systemData.favorites.checked = [];
-            // Initialize the 'checked' array with default values
-            for (let x = 0; x < 25; x++)
-                systemData.favorites.checked[x] = false;
-        }
-        if (!systemData.favorites.values) systemData.favorites.values = {};
 
         // TODO: Set a value for a non-existing field for max spells for each spell system
         systemData.spellUse.totalSpellsKnown = {
@@ -404,7 +404,7 @@ export class GSActor extends Actor {
                     this._armorSkillCall("lizardman");
                     this._updateLizardClaws(); break;
                 case "Darkvision":
-                    this._updateDarkVision(skill); break;
+                    this._updateDarkVision(skill, actorData); break;
                 case "Bonus Spells: Words of True Power":
                 case "Bonus Spells: Miracles":
                 case "Bonus Spells: Ancestral Dragon Arts":
