@@ -2171,43 +2171,23 @@ export default class GSActorSheet extends ActorSheet{
 			}
 
 			// Checking Perseverance Skill
-			let fatigueRanks = systemData.fatigue;
-			const pFlag = data.actor.getFlag('gs', 'perserverance');
-			if(systemData.skills.adventurer?.perseverance){
-				const perseveranceRank = systemData.skills.adventurer.perseverance;
-				console.log(">>> rank", perseveranceRank);
-				let pRankCheck = 0;
-				for(let x = 1; x <= perseveranceRank; x++)
-					pRankCheck += fatigueRanks[`rank${x}`].ex;
+			const perseveranceRank = systemData.skills.adventurer?.perseverance || 0;
+			const currentFlag = data.actor.getFlag('gs', 'perseverance') || 0;
 
-				console.log(">>> check", pRankCheck);
-
-				if(!pFlag){
-					data.actor.setFlag('gs', 'perserverance', perseveranceRank);
-					fatigueRanks[`rank${perseveranceRank}`].ex = 1; // allowing an extra fatigue point
-					fatigueRanks[`rank${perseveranceRank}`].max += 1; // updating max fatigue +1
-				}else if(perseveranceRank > pFlag){
-					data.actor.unsetFlag('gs', 'perserverance');
-					fatigueRanks[`rank${perseveranceRank}`].ex = 1; // allowing an extra fatigue point
-					fatigueRanks[`rank${perseveranceRank}`].max += 1; // updating max fatigue +1
-					data.actor.setFlag('gs', 'perserverance', perseveranceRank);
-				}else if(perseveranceRank < pFlag){
-					data.actor.unsetFlag('gs', 'perserverance')
-					fatigueRanks[`rank${pFlag}`].ex = 0;
-					fatigueRanks[`rank${pFlag}`].max -= 1;
+			if (perseveranceRank !== currentFlag) {
+				await data.actor.setFlag('gs', 'perseverance', perseveranceRank);
+				for (let rank = 1; rank <= 5; rank++) {
+					let ex = rank <= perseveranceRank ? 1 : 0;
+					let maxAdjust = rank <= perseveranceRank ? 1 : 0;
+					await data.actor.update({
+						[`system.fatigue.rank${rank}.ex`]: ex,
+						[`system.fatigue.rank${rank}.max`]: systemData.fatigue[`rank${rank}`].max + maxAdjust
+					});
 				}
-			}else{
-				for(let x = 1; x <= 5; x++){
-					fatigueRanks[`rank${x}`].ex = 0; // allowing an extra fatigue point
-					fatigueRanks[`rank${x}`].max = 6 - x; // updating max fatigue +1
-				}
-				if(pFlag)
-					data.actor.unsetFlag('gs', 'perserverance');
 			}
 
 			// Batch update all items here at one go.
 			await data.actor.update({
-				'system.fatigue': fatigueRanks,
 				'prototypeToken.sight.vision': updateVision.vision,
 				'prototypeToken.sight.visionMode': updateVision.visionMode,
 				'prototypeToken.sight.range': updateVision.range
@@ -2312,6 +2292,8 @@ export default class GSActorSheet extends ActorSheet{
 								token.refresh();
 							}
 						}
+						else if(skill.name === 'Perseverance')
+							this.actor.unsetFlag('gs', 'perseverance');
 						break;
 					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':
 						const pcTarget = actor.items.get(id);
