@@ -11,10 +11,8 @@
                     <div class="grid-span-2">{{localize config.charSheet.items.powe decimals=0 sign=true}}</div>
                 </div>
                 <div class="item-list">
-                    {{#each data.items as |item id|}}
-                        {{#if (eq item.type "weapon")}}
-                            {{> "systems/gs/templates/items/partials/weapon-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
-                        {{/if}}
+                    {{#each data.weapons as |weapon id|}}
+                        {{> "systems/gs/templates/items/partials/weapon-card.hbs" weapon idVal=id data1=../data index=@index inSheet=true}}
                     {{/each}}
                 </div>
             </div>
@@ -32,10 +30,8 @@
                     <div>{{localize gearConfig.common.ste}}</div>
                 </div>
                 <div class="item-list">
-                    {{#each data.items as |item id|}}
-                        {{#if (eq item.type "armor")}}
-                            {{> "systems/gs/templates/items/partials/armor-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
-                        {{/if}}
+                    {{#each data.armor as |armor id|}}
+                        {{> "systems/gs/templates/items/partials/armor-card.hbs" armor idVal=id data1=../data index=@index inSheet=true}}
                     {{/each}}
                 </div>
             </div>
@@ -52,10 +48,8 @@
                     <div>{{localize gearConfig.common.ste}}</div>
                 </div>
                 <div class="item-list">
-                    {{#each data.items as |item id|}}
-                        {{#if (eq item.type "shield")}}
-                            {{> "systems/gs/templates/items/partials/shield-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
-                        {{/if}}
+                    {{#each data.shields as |shield id|}}
+                        {{> "systems/gs/templates/items/partials/shield-card.hbs" shield idVal=id data1=../data index=@index inSheet=true}}
                     {{/each}}
                 </div>
             </div>
@@ -74,9 +68,7 @@
                 </div>
                 <div class="item-list grid grid-2col">
                     {{#each data.items as |item id|}}
-                        {{#if (eq item.type "item")}}
-                            {{> "systems/gs/templates/items/partials/item-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
-                        {{/if}}
+                        {{> "systems/gs/templates/items/partials/item-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
                     {{/each}}
                 </div>
             </div>

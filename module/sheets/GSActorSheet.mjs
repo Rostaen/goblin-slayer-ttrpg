@@ -60,12 +60,12 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	async getData(){
-		console.log(">>> getData");
 		const data = super.getData();
-		data.config = CONFIG.gs;
 		const actorData = data.actor;
+		data.config = CONFIG.gs;
 		data.rollData = this.actor.getRollData();
 		data.flags = actorData.flags;
+		data.system = actorData.system;
 
 		console.log("GSActorSheet >>> Checking Actor Super Data:", data);
 
@@ -80,6 +80,10 @@ export default class GSActorSheet extends ActorSheet{
 		if(this.actor.type === 'fate'){
 			data.isGM = game.users.current.isGM;
 		}
+		if(this.actor.type === 'character'){
+			this._prepareItems(data);
+			this._prepareCharacterData(data);
+		}
 
 		return {
 			data,
@@ -91,7 +95,6 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	activateListeners(html){
-		console.log(">>> activateListeners");
 		super.activateListeners(html);
 		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
@@ -2144,6 +2147,64 @@ export default class GSActorSheet extends ActorSheet{
 		const rollMessage = this._setRollMessage(dice, abilityScore, classBonus, skillBonus, rollMod);
 
 		this._sendRollMessage(rollMessage, dialogMessage, maintainedSpell ? maintainedSpell : "");
+	}
+
+	_prepareItems(data){
+		const weapons = [];
+		const armor = [];
+		const shields = [];
+		const items = [];
+		const spells = {
+			miracles: [],
+			dragon: [],
+			spirit: [],
+			words: []
+		};
+
+		// Iterating through all items
+		for(let i of data.items){
+			if(i.type === 'weapon')
+				weapons.push(i);
+			else if(i.type === 'armor')
+				armor.push(i);
+			else if(i.type === 'shield')
+				shield.push(i);
+			else if(i.type === 'item')
+				items.push(i);
+			else if(i.type === 'spell'){
+				if(i.system.schoolChoice === 'Miracles')
+					spells.miracles.push(i);
+				else if(i.system.schoolChoice === 'Ancestral Dragon')
+					spells.dragon.push(i);
+				else if(i.system.schoolChoice === 'Spirit Arts')
+					spells.spirit.push(i);
+				else
+					spells.words.push(i);
+			}
+		}
+
+		// Assigning to data and return
+		data.weapons = weapons;
+		data.armor = armor;
+		data.shields = shields;
+		data.spells = spells;
+		data.items = items;
+	}
+
+	_prepareCharacterData(data){
+		const systemData = data.actor.system;
+
+		// Setting up vision for standard or darkvision
+		const updateVision = {
+			vision: true,
+			visionMode: systemData.darkVision > 0 ? 'darkvision' : 'basic',
+			range: systemData.darkVision > 0 ? systemData.darkVision : 0
+		}
+		data.actor.update({
+			'prototypeToken.sight.vision': updateVision.vision,
+			'prototypeToken.sight.visionMode': updateVision.visionMode,
+			'prototypeToken.sight.range': updateVision.range
+		});
 	}
 
 	/**

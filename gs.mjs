@@ -11,7 +11,7 @@ Hooks.once("init", () => {
 	console.log("GS | Initializing Gobline Slayer TTRPG");
 
 	CONFIG.gs = gs;
-	CONFIG.Item.entityClass = GSItem
+	CONFIG.Item.entityClass = GSItem;
 	CONFIG.Combat.initiative = {
 		formula: "@init",
 		decimals: 2

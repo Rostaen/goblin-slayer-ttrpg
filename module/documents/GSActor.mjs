@@ -318,39 +318,6 @@ export class GSActor extends Actor {
         }
 
         actorData.system.darkVision = skillValue;
-        
-        // const darkvisionFlag = this.getFlag('gs', 'darkvision');
-        // const token = this.getActiveTokens()[0];
-        // const token = canvas.tokens.placeables.find(t => t.name === this.name);
-        // if (!token) return;
-
-        // const updateVisionRange = (token, skillValue) => {
-        //     let visionDistance;
-        //     switch(skillValue){
-        //         case 1: visionDistance = 60; break;
-        //         case 2: visionDistance = 120; break;
-        //         case 3: visionDistance = 600; break;
-        //         default: visionDistance = 0;
-        //     }
-        //     token.document.update({
-        //         'sight': {
-        //             'enabled': true,
-        //             'visionMode': 'darkvision',
-        //             'range': visionDistance
-        //         }
-        //     });
-        // };
-
-        // if(!darkvisionFlag){
-        //     updateVisionRange(token, skillValue);
-        //     token.refresh();
-        //     this.setFlag('gs', 'darkvision', skillValue);
-        // }else if(darkvisionFlag !== skillValue){
-        //     this.unsetFlag('gs', 'darkvision');
-        //     updateVisionRange(token, skillValue);
-        //     token.refresh();
-        //     this.setFlag('gs', 'darkvision', skillValue);
-        // }
     }
 
     _prepareCharacterData(actorData){

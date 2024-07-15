@@ -1,8 +1,3 @@
-2024/07/12-13:12:43.820 3500 Log #310: 0 ops saved to Table #323 OK
-2024/07/12-13:12:43.820 3500 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\items/000310.log: OK
-2024/07/12-13:12:43.820 3500 Log #322: 0 ops saved to Table #324 OK
-2024/07/12-13:12:43.821 3500 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\items/000322.log: OK
-2024/07/12-13:12:43.821 3500 Table #294: 97 entries OK
-2024/07/12-13:12:43.823 3500 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\items/MANIFEST-000309: OK
-2024/07/12-13:12:43.823 3500 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\items/MANIFEST-000321: OK
-2024/07/12-13:12:43.825 3500 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\items; recovered 1 files; 39985 bytes. Some data may have been lost. ****
+2024/07/15-09:56:09.346 43fc Recovering log #326
+2024/07/15-09:56:09.349 43fc Delete type=0 #326
+2024/07/15-09:56:09.349 43fc Delete type=3 #325

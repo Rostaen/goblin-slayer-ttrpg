@@ -1,8 +1,3 @@
-2024/07/12-13:12:43.851 3b64 Log #320: 0 ops saved to Table #333 OK
-2024/07/12-13:12:43.851 3b64 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters/000320.log: OK
-2024/07/12-13:12:43.851 3b64 Log #332: 0 ops saved to Table #334 OK
-2024/07/12-13:12:43.852 3b64 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters/000332.log: OK
-2024/07/12-13:12:43.853 3b64 Table #304: 122 entries OK
-2024/07/12-13:12:43.854 3b64 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters/MANIFEST-000319: OK
-2024/07/12-13:12:43.855 3b64 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters/MANIFEST-000331: OK
-2024/07/12-13:12:43.858 3b64 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters; recovered 1 files; 181634 bytes. Some data may have been lost. ****
+2024/07/15-09:56:09.362 890 Recovering log #336
+2024/07/15-09:56:09.365 890 Delete type=0 #336
+2024/07/15-09:56:09.365 890 Delete type=3 #335
