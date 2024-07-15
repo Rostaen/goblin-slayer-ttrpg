@@ -35,13 +35,15 @@ export class GSActor extends Actor {
         return skillBonus;
     }
 
+    /**
+     * The method updates the skill value of the Perseverance skill and gives the character more fatigue to work with before exiting the game world.
+     * @param {JSON} systemData JSON object of the current actor set to this.actor.system
+     */
     // Update character fatigue with EX checkboxes
     _perserveranceSkillCall(systemData){
-        let perseverance = this._getSkillBonus("Perseverance");
-        for(let rank = 1; rank <= perseverance; rank++){
-            systemData.fatigue[`rank${rank}`].ex = 1; // allowing an extra fatigue point
-            systemData.fatigue[`rank${rank}`].max += 1; // updating max fatigue +1
-        }
+        let skillValue = this._getSkillBonus("Perseverance");
+        systemData.skills.adventurer = { perseverance: skillValue };
+        console.log("--- Perserverance Updated", skillValue);
     }
 
     // Updating Armor Score with Armor:XX skill bonus level
@@ -307,6 +309,12 @@ export class GSActor extends Actor {
         }
     }
 
+    /**
+     * A simple method to update the darkvision range of the character from the skill rank to the actor's general skill location.
+     * Other calulations for this are done in the GSActorSheet prepareCharacterData(...) function.
+     * @param {JSON} skill JSON object of the skill with all associated data
+     * @param {JSON} actorData The object data of the currect actor to update information too
+     */
     _updateDarkVision(skill, actorData){
         let skillValue = skill.system.value;
 
@@ -317,7 +325,7 @@ export class GSActor extends Actor {
             default: skillValue = 0;
         }
 
-        actorData.system.darkVision = skillValue;
+        actorData.system.skills.general = {darkVision: skillValue};
     }
 
     _prepareCharacterData(actorData){
@@ -345,9 +353,6 @@ export class GSActor extends Actor {
             "dPri": systemData.levels.classes.dragon,
             "sham": systemData.levels.classes.shaman
         };
-
-        // Checking Flags for character sheet changes
-        //this._checkFlags();
 
         // Setting Character Spell Resistance
         systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");

@@ -21,7 +21,6 @@ export default class GSActorSheet extends ActorSheet{
 
 	// Use this section to manage item drops without overwritting core functionality
 	async _onDropItem(event, data){
-		console.log(">>> onDrop");
 		const itemData = await super._onDropItem(event, data);
 
 		// Check if item dropped is a race item
@@ -32,7 +31,6 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	async _inheritRaceSkills(raceItem){
-		console.log(">>> inhertiRaceSkills");
 		const raceSkills = raceItem[0].system.skills || [];
 		if (raceSkills.length === 0) {
 			console.error("No skills found in the race item.");
@@ -116,7 +114,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Early break if specific skills need work elsewhere.
 	 */
 	async _rollGenSkills(event){
-		console.log(">>> rollGenSkills");
 		event.preventDefault();
 		const container = event.currentTarget;
 		const skillId = container.dataset.id;
@@ -152,7 +149,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {*} event HTML container event
 	 */
 	_changeSkillImage(isHover, event){
-		console.log(">>> changeSkillImage");
 		const skillImage = $(event.currentTarget).find('.genSkills img');
 		// console.log(">>> Check image html", skillImage[0], isHover);
 		if(isHover){
@@ -171,7 +167,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {HTML} event The click event
 	 */
 	_addRollToFavorites(event){
-		console.log(">>> addRollToFavorites");
 		//event.preventDefault();
 		const container = event.currentTarget.closest(".checksCont");
 		const $target = $(event.currentTarget).closest(".checksCont");
@@ -198,7 +193,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The value (level) of the given skill
 	 */
 	_getSkillBonus(skillName){
-		console.log(">>> getSkillBonus");
 		const skills = this.actor.items.filter(item => item.type === 'skill');
 		if(skills.length){
 			const skillBonusValue = skills.filter(skill => skill.name.toLowerCase() === skillName.toLowerCase());
@@ -216,7 +210,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The value associated with the target
 	 */
 	_getRollMod(html, target){
-		console.log(">>> getRollMod");
 		let rollMod = html.find(`${target}`)[0].value;
 		if(!rollMod) rollMod = 0;
 		rollMod = parseInt(rollMod, 10);
@@ -234,7 +227,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Roll message to be evaluated by Foundry.
 	 */
 	_setRollMessage(dice = "2d6", abilityScore = 0, classBonus = 0, skillItemMod = 0, promptMod = 0, fourthMod = 0){
-		console.log(">>> setRollMessage");
 		let rollMessage = dice, fatigueMod;
 
 		if(this.actor.type === 'character')
@@ -269,7 +261,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Nothing, used to break method early
 	 */
 	_onUpdateSkillRank(event){
-		console.log(">>> onUpdateSkillRank");
 		event.preventDefault();
 		const element = event.currentTarget;
 		const rank = parseInt(element.value, 10);
@@ -325,7 +316,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {*} event The click event
 	 */
 	_onUpdateCharQuantity(event){
-		console.log(">>> onUpdatecharQuantity");
 		event.preventDefault();
 		const element = event.currentTarget;
 		const quantity = parseInt(element.value, 10);
@@ -350,7 +340,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} rank Current fatigue rank being checked, eg 'rank1', 'rank2', etc.
 	 */
 	async _updateFatigue(rank){
-		console.log(">>> updateFatigue");
 		const fatigueMin = `system.fatigue.${rank}.min`;
 		const fatigueMarked = `system.fatigue.${rank}.marked`;
 		const currentMin = this.actor.system.fatigue[rank].min;
@@ -365,7 +354,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * Checks through fatigue ranks to find rank is maxed out yet then shifts to the next rank if so.
 	 */
 	async _checkFatigueRanks(){
-		console.log(">>> checkFatigueRanks");
 		const ranks = ['rank1', 'rank2', 'rank3', 'rank4', 'rank5'];
 		for(const rank of ranks){
 			const currentMin = this.actor.system.fatigue[rank].min;
@@ -446,7 +434,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Fail/Success/Normal
 	 */
 	_checkForCritRolls(diceResults, label="", event=""){
-		console.log(">>> checkForCritRolls");
 		if(diceResults.length === 2){
 			let skills, skillValue, critSuccess = 12, critFail = 2, results = [], maintainedSpell;
 			const actorType = this.actor.type;
@@ -539,7 +526,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} rollMod Misc. integer value to be added from the window prompt
 	 */
 	async _rollsToMessage(event, dice, stat, classBonus, modifier, localizedMessage, skillBonus = 0, rollMod = 0, modSelector = ""){
-		console.log(">>> rollsToMessage");
 		let rollExpression = `${dice}`;
 		const casting = 'spellCast';
 		const cssClassType = event?.currentTarget?.classList || ["", ""];
@@ -648,7 +634,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} type Flavor text of the average dice roll being sent
 	 */
 	_sendBasicMessage(value, type){
-		console.log(">>> sendBasicMessage");
 		const speaker = ChatMessage.getSpeaker({ actor: this.actor });
 		const messageContent = `
 			<h1 style="text-align: center; background-color: rgba(124, 250, 124, 0.75); border: 1px solid green; border-radius: 5px; padding: 5px 10px; width: 100%; height: auto;">
@@ -672,7 +657,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {*} event The click event
 	 */
 	async _rollStatDice(event){
-		console.log(">>> rollStatDice");
 		event.preventDefault();
 		let baseDice = "2d6";
 
@@ -701,7 +685,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Hidden input item type
 	 */
 	_getItemType(container){
-		console.log(">>> getItemType");
 		return container.querySelector('input[type="hidden"].type');
 	}
 
@@ -712,7 +695,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The bonus for the class level of the item/spell being used
 	 */
 	_getClassLevelBonus(typeHolder, itemType){
-		console.log(">>> getClassLevelBonus");
 		let [type, weight] = "", className = "";
 		if(itemType != 'cast') {
 			[type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
@@ -806,7 +788,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A string to be added to the chat message
 	 */
 	_addStringToChatMessage(cssClass, skill, amount){
-		console.log(">>> addStringToChatMessage");
 		return `<div class="${cssClass} specialRollChatMessage">${skill.name}: ${amount}</div>`;
 	}
 
@@ -820,7 +801,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Nothing, used to break the method early in certain cases
 	 */
 	async _rollWithModifiers(event, modSelector, baseDice, localizedMessage, itemType){
-		console.log(">>> rollWithModifiers");
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const actorType = this.actor.type;
@@ -940,7 +920,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Updated skill bonus and localized message, if any changes
 	 */
 	async _checkFaith(skills, localizedMessage, spellID){
-		console.log(">>> checkFaith");
 		let skillBonus = 0;
 		const spell = this.actor.items.get(spellID);
 		if(spell.system.schoolChoice === "Miracle" || spell.system.schoolChoice === "Ancestral Dragon"){
@@ -975,7 +954,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Updated modifier and loclizedMessage with any possible changes
 	 */
 	_addSpecificWeaponBonus(container, skill, modifier, localizedMessage, weaponsXX){
-		console.log(">>> addSpecificWeaponBonus");
 		const weaponAttr = container.querySelector('.type').value;
 		const typeContainer = weaponAttr.split('/');
 		const weaponType = typeContainer[0].trim();
@@ -998,7 +976,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A string to be added to the localized message
 	 */
 	_addToFlavorMessage(cssClass, labelName, labelMessage){
-		console.log(">>> addToFlavorMessage");
 		return `<div class="${cssClass} specialRollChatMessage">${labelName}: ${labelMessage}</div>`;
 	}
 
@@ -1010,7 +987,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The dice being used in the roll or a value to modifier the dice roll
 	 */
 	_getDiceNotation(modElement, actorType, modSelector){
-		console.log(">>> getDiceNotation");
 		if(actorType === 'monster' && ['.hitMod', '.boss.dodge', '.boss.block', '.boss.spellRes', '.power', '.moraleCheck'].includes(modSelector)){
 			const diceNotation = modElement.value;
 			if(diceNotation != 0)
@@ -1030,7 +1006,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The dice to roll and any modifers
 	 */
 	_parseDiceNotation(diceNotation){
-		console.log(">>> parseDiceNotation");
 		let [dice, mod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
 		if(dice != "1d6" || dice != "2d6" || dice != "1d3"){
 			// Checks for moral bonus being a solo number
@@ -1050,7 +1025,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The name of the weapon and it's type (excluding weight)
 	 */
 	_parseWeaponType(container, typeHolder){
-		console.log(">>> parseWeaponType");
 		const [type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
 		const weaponName = container.querySelector('div.name').innerHTML.split(" ")[0].trim();
 		return { weaponName, type};
@@ -1064,7 +1038,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Updated skill bonus value and localized message with skill information.
 	 */
 	_calculateSpellExpertise(skills, localizedMessage, spellID){
-		console.log(">>> calculateSpellExpertise");
 		const spellTypes = ['Spell Expertise: Attack Spells', 'Spell Expertise: Imbuement Spells', 'Spell Expertise: Creation Spells', 'Spell Expertise: Control Spells', 'Spell Expertise: Healing Spells', 'Spell Expertise: General Spells'];
 		const spell = this.actor.items.get(spellID);
 		let skillBonus = 0;
@@ -1087,7 +1060,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Skill bonus for the associated skill
 	 */
 	_calculateIronFistBonus(skills, skillName){
-		console.log(">>> calculateIronFistBonus");
 		let skillBonus = 0;
 		for(const skill of skills){
 			if(skill.name.toLowerCase === skillName){
@@ -1150,7 +1122,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Updated modifier and localized message
 	 */
 	_calculateDodgeModifier(modifier, skills, localizedMessage){
-		console.log(">>> calcDodgeModifier");
 		const armor = this.actor.items.filter(item => item.type === 'armor');
 		const strEnd = this.actor.system.abilities.calc.se;
 		const {monk, scout, fighter} = this.actor.system.levels.classes;
@@ -1221,7 +1192,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Updated modifier and localized message
 	 */
 	_calculateBlockModifier(modifier, skills, localizedMessage){
-		console.log(">>> calcBlockModifier");
 		skills.forEach(skill => {
 			if(skill.name.toLowerCase() === 'shields'){
 				modifier += skill.system.value;
@@ -1240,7 +1210,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Updated modifier and localized message
 	 */
 	async _calculateMowDownModifier(container, skill, modifier, localizedMessage){
-		console.log(">>> calcMowDownMod");
 		const weaponUse = container.querySelector('.weaponUse').value;
 		const weaponAttr = container.querySelector('.weaponAttr').value;
 		const weaponAttrSplit = weaponAttr.split('/');
@@ -1260,7 +1229,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A value from the characters calculated abilities
 	 */
 	_getStatForItemType(itemType, modSelector, container){
-		console.log(">>> getStatforItemType");
 		const actorCalcStats = this.actor.system.abilities.calc;
 		switch(itemType){
 			case 'weapon': return modSelector === '.power' || modSelector === '.spellRes' ? 0 : actorCalcStats.tf;
@@ -1278,7 +1246,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Nothing and break out of the method early if nothing is found
 	 */
 	_rollMinionStatic(event){
-		console.log(">>> rollMinionStatic");
 		event.preventDefault();
 		const container = event.currentTarget.closest('.reveal-rollable');
 		const type = event.currentTarget.classList;
@@ -1330,7 +1297,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A value to be used to heal the selected track
 	 */
 	_promptHealingAmount(healType){
-		console.log(">>> promptHealingAmount");
 		let healingTitle = game.i18n.localize('gs.actor.character.heal') + " ";
 		if(healType === 'healAttrition')
 			healingTitle += game.i18n.localize('gs.actor.character.attr');
@@ -1377,7 +1343,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} healType The word to heal either attrition or fatigue
 	 */
 	async _healAttrFatigue(healType){
-		console.log(">>> healAttrFatigue");
 		let amountToHeal = await this._promptHealingAmount(healType);
 
 		if(amountToHeal > 0){
@@ -1451,7 +1416,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {*} event The click event
 	 */
 	_actorRolls(event){
-		console.log(">>> actorRolls");
 		const cssClassType = event.currentTarget.classList;
 		const classType = cssClassType[1];
 
@@ -1498,7 +1462,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} byAmount Either 'byOne' or 'byThree'
 	 */
 	_fateAdjustment(event, byAmount){
-		console.log(">>> fateAdjustment");
 		event.preventDefault();
 		let fateUpdate = 0;
 		if(byAmount === 'byOne')
@@ -1515,7 +1478,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A promised value depending on select amount and skill
 	 */
 	_promptFatigueForPower(){
-		console.log(">>> promptFatigueForPower");
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, buttonOne, buttonTwo;
 
@@ -1556,7 +1518,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A promised value to be added to the roll message
 	 */
 	async _promptMiscModChoice(promptType, promptName = ''){
-		console.log(">>> promptMiscModChoice");
 		return new Promise ((resolve) => {
 			let dialogContent, promptTitle, button1, button2, button3, buttons = {};
 
@@ -1889,7 +1850,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Nothing to break out of method early
 	 */
 	async _rollInitiative(event){
-		console.log(">>> rollInitiative");
 		event.preventDefault();
 
 		const actorType = this.actor.type;
@@ -1930,7 +1890,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} flavorMessage A message to go along with the roll to understand what the roll is for
 	 */
 	async _sendRollMessage(rollMessage, flavorMessage, maintainedSpell = ""){
-		console.log(">>> sendRollMessage");
 		try{
 			const roll = new Roll(rollMessage);
 			await roll.evaluate();
@@ -1953,7 +1912,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Highest class level associated with the roll, if any
 	 */
 	_specialRollsClassBonus(rollType, dialogMessage){
-		console.log(">>> specialRollsClassBonus");
 		let classBonus = 0, selectedClass = "";
 		switch(rollType){
 			case 'luck': case 'swim': case 'strRes': case 'longDistance': case 'tacMove': return {classBonus, dialogMessage};
@@ -2020,7 +1978,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A number associated with the given string
 	 */
 	_findTheCalcAbilityScore(calcAbilityScore){
-		console.log(">>> findTheCalcAbilityScore");
 		const abilityCalcScores = this.actor.system.abilities.calc;
 		return abilityCalcScores[calcAbilityScore];
 	}
@@ -2030,7 +1987,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns Adventurer level
 	 */
 	_getAdventurerLevel(){
-		console.log(">>> getAdventureLevel");
 		return this.actor.system.levels.adventurer;
 	}
 
@@ -2041,7 +1997,6 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} skillName The skill associated with the roll for any applicable bonus
 	 */
 	async _specialRolls(event, rollType, skillName){
-		console.log(">>> specialRolls");
 		event.preventDefault();
 		let abilityScore = 0, dice = '2d6', classBonus = 0, maintainedSpell, spellTypeMaintained;
 		let dialogMessage = game.i18n.localize(`gs.dialog.actorSheet.sidebar.buttons.${rollType}`);
@@ -2149,11 +2104,16 @@ export default class GSActorSheet extends ActorSheet{
 		this._sendRollMessage(rollMessage, dialogMessage, maintainedSpell ? maintainedSpell : "");
 	}
 
+	// Pushing all items from embedded documents into top level objects for ease of use
 	_prepareItems(data){
 		const weapons = [];
 		const armor = [];
 		const shields = [];
 		const items = [];
+		const skills = {
+			adventurer: [],
+			general: []
+		};
 		const spells = {
 			miracles: [],
 			dragon: [],
@@ -2171,6 +2131,12 @@ export default class GSActorSheet extends ActorSheet{
 				shield.push(i);
 			else if(i.type === 'item')
 				items.push(i);
+			else if(i.type === 'skill'){
+				if(i.system.type)
+					skills.adventurer.push(i);
+				else
+					skills.general.push(i);
+			}
 			else if(i.type === 'spell'){
 				if(i.system.schoolChoice === 'Miracles')
 					spells.miracles.push(i);
@@ -2187,24 +2153,67 @@ export default class GSActorSheet extends ActorSheet{
 		data.weapons = weapons;
 		data.armor = armor;
 		data.shields = shields;
-		data.spells = spells;
 		data.items = items;
+		data.skills = skills;
+		data.spells = spells;
 	}
 
-	_prepareCharacterData(data){
+	async _prepareCharacterData(data){
 		const systemData = data.actor.system;
 
-		// Setting up vision for standard or darkvision
-		const updateVision = {
-			vision: true,
-			visionMode: systemData.darkVision > 0 ? 'darkvision' : 'basic',
-			range: systemData.darkVision > 0 ? systemData.darkVision : 0
+		try{
+			// Setting up vision for standard or darkvision
+			const darkVision = systemData.skills.general.darkVision;
+			const updateVision = {
+				vision: true,
+				visionMode: darkVision > 0 ? 'darkvision' : 'basic',
+				range: darkVision > 0 ? darkVision : 0
+			}
+
+			// Checking Perseverance Skill
+			let fatigueRanks = systemData.fatigue;
+			if(systemData.skills.adventurer?.perseverance){
+				const pFlag = data.actor.getFlag('gs', 'perserverance');
+				const perseveranceRank = systemData.skills.adventurer.perseverance;
+				console.log(">>> rank", perseveranceRank);
+				let pRankCheck = 0;
+				for(let x = 1; x <= perseveranceRank; x++)
+					pRankCheck += fatigueRanks[`rank${x}`].ex;
+
+				console.log(">>> check", pRankCheck);
+
+				if(!pFlag){
+					await data.actor.setFlag('gs', 'perserverance', perseveranceRank);
+					fatigueRanks[`rank${perseveranceRank}`].ex = 1; // allowing an extra fatigue point
+					fatigueRanks[`rank${perseveranceRank}`].max += 1; // updating max fatigue +1
+				}else if(perseveranceRank > pFlag){
+					await data.actor.unsetFlag('gs', 'perserverance');
+					fatigueRanks[`rank${perseveranceRank}`].ex = 1; // allowing an extra fatigue point
+					fatigueRanks[`rank${perseveranceRank}`].max += 1; // updating max fatigue +1
+					await data.actor.setFlag('gs', 'perserverance', perseveranceRank);
+				}else if(perseveranceRank < pFlag){
+					await data.actor.unsetFlag('gs', 'perserverance');
+					fatigueRanks[`rank${pFlag}`].ex = 0;
+					fatigueRanks[`rank${pFlag}`].max -= 1;
+					await data.actor.setFlag('gs', 'perserverance', perseveranceRank);
+				}
+			}else{
+				for(let x = 1; x <= 5; x++){
+					fatigueRanks[`rank${x}`].ex = 0; // allowing an extra fatigue point
+					fatigueRanks[`rank${x}`].max = 6 - x; // updating max fatigue +1
+				}
+			}
+
+			// Batch update all items here at one go.
+			await data.actor.update({
+				'system.fatigue': fatigueRanks,
+				'prototypeToken.sight.vision': updateVision.vision,
+				'prototypeToken.sight.visionMode': updateVision.visionMode,
+				'prototypeToken.sight.range': updateVision.range
+			});
+		}catch(err){
+			console.error("Error Perparing character data:", err);
 		}
-		data.actor.update({
-			'prototypeToken.sight.vision': updateVision.vision,
-			'prototypeToken.sight.visionMode': updateVision.visionMode,
-			'prototypeToken.sight.range': updateVision.range
-		});
 	}
 
 	/**
