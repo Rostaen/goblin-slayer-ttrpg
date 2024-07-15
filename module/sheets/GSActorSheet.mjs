@@ -2163,7 +2163,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		try{
 			// Setting up vision for standard or darkvision
-			const darkVision = systemData.skills.general.darkVision;
+			const darkVision = systemData.skills.general?.darkVision || 0;
 			const updateVision = {
 				vision: true,
 				visionMode: darkVision > 0 ? 'darkvision' : 'basic',
@@ -2172,8 +2172,8 @@ export default class GSActorSheet extends ActorSheet{
 
 			// Checking Perseverance Skill
 			let fatigueRanks = systemData.fatigue;
+			const pFlag = data.actor.getFlag('gs', 'perserverance');
 			if(systemData.skills.adventurer?.perseverance){
-				const pFlag = data.actor.getFlag('gs', 'perserverance');
 				const perseveranceRank = systemData.skills.adventurer.perseverance;
 				console.log(">>> rank", perseveranceRank);
 				let pRankCheck = 0;
@@ -2183,25 +2183,26 @@ export default class GSActorSheet extends ActorSheet{
 				console.log(">>> check", pRankCheck);
 
 				if(!pFlag){
-					await data.actor.setFlag('gs', 'perserverance', perseveranceRank);
+					data.actor.setFlag('gs', 'perserverance', perseveranceRank);
 					fatigueRanks[`rank${perseveranceRank}`].ex = 1; // allowing an extra fatigue point
 					fatigueRanks[`rank${perseveranceRank}`].max += 1; // updating max fatigue +1
 				}else if(perseveranceRank > pFlag){
-					await data.actor.unsetFlag('gs', 'perserverance');
+					data.actor.unsetFlag('gs', 'perserverance');
 					fatigueRanks[`rank${perseveranceRank}`].ex = 1; // allowing an extra fatigue point
 					fatigueRanks[`rank${perseveranceRank}`].max += 1; // updating max fatigue +1
-					await data.actor.setFlag('gs', 'perserverance', perseveranceRank);
+					data.actor.setFlag('gs', 'perserverance', perseveranceRank);
 				}else if(perseveranceRank < pFlag){
-					await data.actor.unsetFlag('gs', 'perserverance');
+					data.actor.unsetFlag('gs', 'perserverance')
 					fatigueRanks[`rank${pFlag}`].ex = 0;
 					fatigueRanks[`rank${pFlag}`].max -= 1;
-					await data.actor.setFlag('gs', 'perserverance', perseveranceRank);
 				}
 			}else{
 				for(let x = 1; x <= 5; x++){
 					fatigueRanks[`rank${x}`].ex = 0; // allowing an extra fatigue point
 					fatigueRanks[`rank${x}`].max = 6 - x; // updating max fatigue +1
 				}
+				if(pFlag)
+					data.actor.unsetFlag('gs', 'perserverance');
 			}
 
 			// Batch update all items here at one go.

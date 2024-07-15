@@ -43,7 +43,6 @@ export class GSActor extends Actor {
     _perserveranceSkillCall(systemData){
         let skillValue = this._getSkillBonus("Perseverance");
         systemData.skills.adventurer = { perseverance: skillValue };
-        console.log("--- Perserverance Updated", skillValue);
     }
 
     // Updating Armor Score with Armor:XX skill bonus level
