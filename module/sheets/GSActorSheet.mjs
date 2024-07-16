@@ -2128,7 +2128,7 @@ export default class GSActorSheet extends ActorSheet{
 			else if(i.type === 'armor')
 				armor.push(i);
 			else if(i.type === 'shield')
-				shield.push(i);
+				shields.push(i);
 			else if(i.type === 'item')
 				items.push(i);
 			else if(i.type === 'skill'){
@@ -2172,17 +2172,51 @@ export default class GSActorSheet extends ActorSheet{
 
 			// Checking Perseverance Skill
 			const perseveranceRank = systemData.skills.adventurer?.perseverance || 0;
-			const currentFlag = data.actor.getFlag('gs', 'perseverance') || 0;
-
-			if (perseveranceRank !== currentFlag) {
+			const perseveranceFlag = data.actor.getFlag('gs', 'perseverance') || 0;
+			if(perseveranceRank !== perseveranceFlag){
 				await data.actor.setFlag('gs', 'perseverance', perseveranceRank);
-				for (let rank = 1; rank <= 5; rank++) {
+				for(let rank = 1; rank <= 5; rank++){
 					let ex = rank <= perseveranceRank ? 1 : 0;
 					let maxAdjust = rank <= perseveranceRank ? 1 : 0;
 					await data.actor.update({
 						[`system.fatigue.rank${rank}.ex`]: ex,
 						[`system.fatigue.rank${rank}.max`]: systemData.fatigue[`rank${rank}`].max + maxAdjust
 					});
+				}
+			}
+
+			const _updateItemScore = async (itemType, skillKey, flagKey) => {
+				const skillRank = systemData.skills.adventurer?.[skillKey] || 0;
+				if(skillRank){
+					const itemFlag = data.actor.getFlag('gs', flagKey) || 0;
+					const item = data.actor.items.find(item => item.type === itemType);
+					if(item){
+						if(!itemFlag)
+							await data.actor.setFlag('gs', flagKey, item.system.score);
+						const newScore = itemFlag + skillRank;
+						if(item.system.score !== newScore)
+							await item.update({
+								'system.score': newScore
+							});
+					}
+				}
+			}
+			// Updating Armor, Shields if skilled
+			await _updateItemScore('armor', 'armorAC', 'armor');
+			await _updateItemScore('shield', 'shieldAC', 'shield');
+
+			const lizardRank = systemData.skills.general?.lizardmanAC || 0;
+			if(lizardRank){
+				const lizardFlag = data.actor.getFlag('gs', 'lizard') || 0;
+				const armor = data.actor.items.filter(item => item.type === 'armor');
+				if(armor.length > 0){
+					if(!lizardFlag)
+						await data.actor.setFlag('gs', 'lizard', this.actor.getFlag('gs', 'armor') || armor[0].system.score);
+					if(armor[0].system.score !== lizardFlag + lizardRank){
+						await armor[0].update({
+							'system.score': lizardFlag + lizardRank
+						});
+					}
 				}
 			}
 
@@ -2294,6 +2328,22 @@ export default class GSActorSheet extends ActorSheet{
 						}
 						else if(skill.name === 'Perseverance')
 							this.actor.unsetFlag('gs', 'perseverance');
+						else if(skill.name === 'Armor: Cloth' || skill.name === 'Armor: Light' || skill.name === 'Armor: Heavy'){
+							const originalScore = this.actor.getFlag('gs', 'armor');
+							const armor = this.actor.items.filter(item => item.type === 'armor');
+							armor[0].update({
+								'system.score': originalScore
+							});
+							this.actor.unsetFlag('gs', 'armor');
+						}else if(skill.name === 'Shields'){
+							const originalScore = this.actor.getFlag('gs', 'shield');
+							const shield = this.actor.items.filter(item => item.type === 'shield');
+							shield[0].update({
+								'system.score': originalScore
+							});
+							this.actor.unsetFlag('gs', 'shield');
+						}else if(skill.name === 'Draconic Heritage')
+							this.actor.unsetFlag('gs', 'lizard');
 						break;
 					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':
 						const pcTarget = actor.items.get(id);

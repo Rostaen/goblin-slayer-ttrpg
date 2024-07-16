@@ -20,16 +20,14 @@ export class GSActor extends Actor {
     // Used to add player skills to respective locations in their sheet and rolls
     _getSkillBonus(skillName){
         const skill = this.items.filter(item => item.name.toLowerCase() === skillName.toLowerCase());
-        //console.log("What skill am I looking at?", skill);
-        if(skill.length){
+        if(skill.length)
             return parseInt(skill[0].system.value, 10);
-        } else return 0;
+        else return 0;
     }
 
     // Update character with Hardiness Skill
-    _hardinessSkillCall(){
-        // TODO: Update charater sheet for entered HP and a new life force disabled to reflect skill bonus;
-        let skillBonus = this._getSkillBonus("Hardiness");
+    _hardinessSkillCall(skillName){
+        let skillBonus = this._getSkillBonus(skillName);
         if(skillBonus <= 4) skillBonus *= 5;
         else if(skillBonus = 5) skillBonus = 30;
         return skillBonus;
@@ -45,93 +43,28 @@ export class GSActor extends Actor {
         systemData.skills.adventurer = { perseverance: skillValue };
     }
 
-    // Updating Armor Score with Armor:XX skill bonus level
-    // Currently, only the top level armor will have this score applied to it if skill is present
-    async _armorSkillCall(armorType){
-        // TODO: Update for future "equipped" status.
-        let tempType = armorType;
-        if (armorType === 'lizardman')
-             tempType = 'armor';
-        let armorWorn = this.items.filter(item => item.type.toLowerCase() === tempType);
-
-        // If no armor, exit
-        if (armorWorn.length === 0) return;
-
-        //const armorID = armorWorn[0]._id;
-        const type = armorWorn[0].system.type.split(" ");
-        const armorValue = this._getSkillBonus(armorType === 'armor' ? `Armor: ${type[0]}` : armorType === 'shield' ? 'Shields' : 'Draconic Heritage');
-
-        // Retrieve flag and value
-        const flagAC = this.getFlag('gs', armorType);
-
-        //console.log(">>> Checking armor values", flagAC, armorValue, armorWorn[0].system.score);
-
-        if(armorValue){
-            if(!flagAC){
-                await this.setFlag('gs', armorType, armorWorn[0].system.score);
-                armorWorn[0].system.score += armorValue;
-                await armorWorn[0].update({ 'system.score': armorWorn[0].system.score });
-            }else if(flagAC + armorValue !== armorWorn[0].system.score)
-                await armorWorn[0].update({ 'system.score': flagAC + armorValue });
-        }
+    /**
+     * Simple method to save the armor bonus applied to armor, shields, or from Lizardman ancestry.
+     * @param {string} type Either armor, shield, lizardman
+     * @param {JSON} systemData The character JSON object to manipulate data
+     * @param {*} type Either "Armor: Cloth/Light/Heavy" and only used with armor skill search
+     */
+    _armorSkillCall(type, systemData, armorType = ""){
+        if(type === 'armor')
+            systemData.skills.adventurer = { ...systemData.skills.adventurer, armorAC: this._getSkillBonus(armorType) };
+        else if(type === 'shield')
+            systemData.skills.adventurer = { ...systemData.skills.adventurer, shieldAC: this._getSkillBonus('Shields') };
+        else if(type === 'lizardman')
+            systemData.skills.general = { ...systemData.skills.general, lizardmanAC: this._getSkillBonus('Draconic Heritage') };
     }
 
     /**
      * This method updates the character's weapons and armor to include the bonuses for being a Lizardman, +1-3 to barehanded attacks.
      * @returns Nothing, used to break method early if items aren't found.
      */
-    async _updateLizardClaws(){
-        let weapons = this.items.filter(item => item.system.type === 'Close-Combat / Light');
-        if(weapons.length === 0) return;
-
-        let skillBonus = parseInt(this._getSkillBonus('Draconic Heritage'), 10);
-        if(skillBonus === 0) return;
-
-        let bh1, bh2;
-        weapons.forEach(weapon => {
-            switch(weapon.name){
-                case 'Barehanded Attack (1H)':
-                    bh1 = weapon; break;
-                case 'Barehanded Attack (2H)':
-                    bh2 = weapon; break;
-            }
-        });
-        const oneHandSlashFlag = this.getFlag('gs', 'oneHandSlash');
-        const twoHandSlashFlag = this.getFlag('gs', 'twoHandSlash');
-
-        const powerBreakDown = (power) => {
-            if(!power){
-                console.error("power is undefined or null");
-                return {dice: null, bonus: null};
-            }
-            let [dice, bonus] = power.includes('+') ? power.split('+') : [power, 0];
-            bonus = parseInt(bonus, 10);
-            return {dice, bonus};
-        };
-
-        const updateWeapon = async (weapon, flag, flagKey) => {
-            if(!flag){
-                await this.setFlag('gs', flagKey, weapon.system.power);
-                weapon.update({
-                    'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
-                    'system.power': `${weapon.system.power}+${skillBonus}`,
-                    'system.attribute': 'Slash'
-                });
-            }else{
-                let { dice, bonus } = powerBreakDown(flag);
-                if (dice || bonus) {
-                    if (weapon.system.power !== `${dice}+${bonus + skillBonus}`) {
-                        weapon.update({ 'system.power': `${dice}+${bonus + skillBonus}` });
-                    }
-                }
-            }
-        };
-
-        if(bh1)
-            await updateWeapon(bh1, oneHandSlashFlag, 'oneHandSlash');
-
-        if(bh2)
-            await updateWeapon(bh2, twoHandSlashFlag, 'twoHandSlash');
+    async _updateLizardClaws(systemData){
+        const skillBonus = parseInt(this._getSkillBonus('Draconic Heritage'), 10);
+        systemData.skills.general = { ...systemData.skills.general, dragonClaws: skillBonus };
     }
 
     // Adding bonus spells known based on skill level
@@ -314,17 +247,15 @@ export class GSActor extends Actor {
      * @param {JSON} skill JSON object of the skill with all associated data
      * @param {JSON} actorData The object data of the currect actor to update information too
      */
-    _updateDarkVision(skill, actorData){
+    _updateDarkVision(skill, systemData){
         let skillValue = skill.system.value;
-
         switch(skillValue){
             case 1: skillValue = 60; break;
             case 2: skillValue = 120; break;
             case 3: skillValue = 600; break;
             default: skillValue = 0;
         }
-
-        actorData.system.skills.general = {darkVision: skillValue};
+        systemData.skills.general = { ...systemData.skills.general, darkVision: skillValue };
     }
 
     _prepareCharacterData(actorData){
@@ -362,20 +293,20 @@ export class GSActor extends Actor {
             //console.log("===> For Loop Skill Check", skill.name);
             switch(skill.name){
                 case "Hardiness": // Setting 2x LifeForce + any Skills
-                    hardinessBonus = this._hardinessSkillCall(); break;
+                    hardinessBonus = this._hardinessSkillCall(skill.name); break;
                 case "Perseverance": // Setting EX Fatigue
                     this._perserveranceSkillCall(systemData); break;
                 case "Armor: Cloth":
                 case "Armor: Light":
                 case "Armor: Heavy":
-                    this._armorSkillCall("armor"); break;
+                    this._armorSkillCall("armor", systemData, skill.name); break;
                 case "Shields":
-                    this._armorSkillCall("shield"); break;
+                    this._armorSkillCall("shield", systemData); break;
                 case "Draconic Heritage":
-                    this._armorSkillCall("lizardman");
-                    this._updateLizardClaws(); break;
+                    this._armorSkillCall("lizardman", systemData);
+                    this._updateLizardClaws(systemData); break;
                 case "Darkvision":
-                    this._updateDarkVision(skill, actorData); break;
+                    this._updateDarkVision(skill, systemData); break;
                 case "Bonus Spells: Words of True Power":
                 case "Bonus Spells: Miracles":
                 case "Bonus Spells: Ancestral Dragon Arts":
