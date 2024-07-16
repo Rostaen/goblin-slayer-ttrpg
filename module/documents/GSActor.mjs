@@ -55,16 +55,7 @@ export class GSActor extends Actor {
         else if(type === 'shield')
             systemData.skills.adventurer = { ...systemData.skills.adventurer, shieldAC: this._getSkillBonus('Shields') };
         else if(type === 'lizardman')
-            systemData.skills.general = { ...systemData.skills.general, lizardmanAC: this._getSkillBonus('Draconic Heritage') };
-    }
-
-    /**
-     * This method updates the character's weapons and armor to include the bonuses for being a Lizardman, +1-3 to barehanded attacks.
-     * @returns Nothing, used to break method early if items aren't found.
-     */
-    async _updateLizardClaws(systemData){
-        const skillBonus = parseInt(this._getSkillBonus('Draconic Heritage'), 10);
-        systemData.skills.general = { ...systemData.skills.general, dragonClaws: skillBonus };
+            systemData.skills.general = { ...systemData.skills.general, lizardman: this._getSkillBonus('Draconic Heritage') };
     }
 
     // Adding bonus spells known based on skill level
@@ -303,8 +294,7 @@ export class GSActor extends Actor {
                 case "Shields":
                     this._armorSkillCall("shield", systemData); break;
                 case "Draconic Heritage":
-                    this._armorSkillCall("lizardman", systemData);
-                    this._updateLizardClaws(systemData); break;
+                    this._armorSkillCall("lizardman", systemData); break;
                 case "Darkvision":
                     this._updateDarkVision(skill, systemData); break;
                 case "Bonus Spells: Words of True Power":

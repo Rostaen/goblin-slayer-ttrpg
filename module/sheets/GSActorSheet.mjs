@@ -2185,11 +2185,12 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}
 
-			const _updateItemScore = async (itemType, skillKey, flagKey) => {
-				const skillRank = systemData.skills.adventurer?.[skillKey] || 0;
+			const _updateItemScore = async (itemType, skillKey, flagKey, skillType) => {
+				const skillRank = systemData.skills[skillType]?.[skillKey] || 0;
 				if(skillRank){
 					const itemFlag = data.actor.getFlag('gs', flagKey) || 0;
-					const item = data.actor.items.find(item => item.type === itemType);
+					const item = data.actor.items.find(i => i.type === itemType);
+					console.log(">>> SR", skillRank, "IFlag", itemFlag, "Type", skillType);
 					if(item){
 						if(!itemFlag)
 							await data.actor.setFlag('gs', flagKey, item.system.score);
@@ -2202,23 +2203,33 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}
 			// Updating Armor, Shields if skilled
-			await _updateItemScore('armor', 'armorAC', 'armor');
-			await _updateItemScore('shield', 'shieldAC', 'shield');
+			await _updateItemScore('armor', 'armorAC', 'armor', 'adventurer');
+			await _updateItemScore('shield', 'shieldAC', 'shield', 'adventurer');
 
-			const lizardRank = systemData.skills.general?.lizardmanAC || 0;
-			if(lizardRank){
-				const lizardFlag = data.actor.getFlag('gs', 'lizard') || 0;
-				const armor = data.actor.items.filter(item => item.type === 'armor');
-				if(armor.length > 0){
-					if(!lizardFlag)
-						await data.actor.setFlag('gs', 'lizard', this.actor.getFlag('gs', 'armor') || armor[0].system.score);
-					if(armor[0].system.score !== lizardFlag + lizardRank){
-						await armor[0].update({
-							'system.score': lizardFlag + lizardRank
-						});
-					}
-				}
-			}
+			// const lizardRank = systemData.skills.general?.lizardman || 0;
+			// if(lizardRank){
+			// 	const lizardFlag = data.actor.getFlag('gs', 'lizardman') || 0;
+			// 	const armorFlag = data.actor.getFlag('gs', 'armor') || 0;
+			// 	const armorRank = systemData.skills.adventurer?.armorAC || 0;
+			// 	const armor = data.actor.items.find(i => i.type === 'armor');
+
+			// 	if(!armorRank)
+			// 		await _updateItemScore('armor', 'lizardman', 'armor', 'general');
+			// 	else if(armor){
+			// 		const withArmorBonus = lizardFlag + lizardRank + armorRank;
+			// 		console.log(">>> Lizard Check ArmorScore", armor.system.score, withArmorBonus, lizardFlag, lizardRank, armorRank );
+			// 		if(armor.system.score !== withArmorBonus){
+			// 			await armor.update({
+			// 				'system.score': withArmorBonus
+			// 			});
+			// 		}
+			// 	}
+
+			// 	const barehands1H = data.actor.items.get(i => i.name === 'Barehanded Attack (1H)');
+			// 	const barehands2H = data.actor.items.get(i => i.name === 'Barehanded Attack (2H)')
+			// 	const barehandsFlag = data.actor.getFlag('gs', 'oneHandFlag') || 0;
+			// 	//if()
+			// }
 
 			// Batch update all items here at one go.
 			await data.actor.update({
