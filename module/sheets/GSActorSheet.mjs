@@ -2202,6 +2202,43 @@ export default class GSActorSheet extends ActorSheet{
 					}
 				}
 			}
+
+			const _updateLizardClaws = async () => {
+				const lizardRank = systemData.skills.general?.lizardman || 0;
+				if(lizardRank){
+					const barehands1H = data.actor.items.find(i => i.name === 'Barehanded Attack (1H)') || 0;
+					const barehands2H = data.actor.items.find(i => i.name === 'Barehanded Attack (2H)') || 0;
+
+					const updatePowerValues = (barehandsPower, skillRank) => {
+						const values = barehandsPower.includes("+") ? barehandsPower.split("+") : [barehandsPower, 0];
+						if(values[1] === 0)
+							return values[0] + "+" + skillRank;
+						else
+							return values[0] + "+" + (parseInt(values[1], 10) + skillRank);
+					};
+
+					const updateHand = async (weapon, flagText) => {
+						let weaponFlag = data.actor.getFlag('gs', flagText );
+						if(!weaponFlag){
+							weaponFlag = weapon.system.power;
+							await data.actor.setFlag('gs', flagText, weaponFlag);
+						}
+						const newPower = updatePowerValues(weaponFlag, lizardRank);
+						if(weapon && weapon.system.power !== newPower)
+							await weapon.update({
+								'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
+								'system.power': newPower,
+								'system.attribute': 'Slash'
+							});
+					}
+
+					if(barehands1H)
+						updateHand(barehands1H, 'lizardClaws1');
+					if(barehands2H)
+						updateHand(barehands2H, 'lizardClaws2');
+				}
+			};
+
 			// Updating Armor, Shields if skilled
 			const armor = data.actor.items.find(i => i.type === 'armor') || null;
 			const armorWeight = armor.system.type.split(" ") || [];
@@ -2229,38 +2266,14 @@ export default class GSActorSheet extends ActorSheet{
 						});
 					}
 				}
+				await _updateLizardClaws();
 			}else if(systemData.skills.adventurer?.armorAC)
 				await _updateItemScore('armor', 'armorAC', 'armor', 'adventurer');
-			else if(systemData.skills.general?.lizardman)
+			else if(systemData.skills.general?.lizardman){
 				await _updateItemScore('armor', 'lizardman', 'lizardman', 'general');
-			await _updateItemScore('shield', 'shieldAC', 'shield', 'adventurer');
+				await _updateLizardClaws();
+			}await _updateItemScore('shield', 'shieldAC', 'shield', 'adventurer');
 
-			// const lizardRank = systemData.skills.general?.lizardman || 0;
-			// if(lizardRank){
-			// 	const lizardFlag = data.actor.getFlag('gs', 'lizardman') || 0;
-			// 	const armorFlag = data.actor.getFlag('gs', 'armor') || 0;
-			// 	const armorRank = systemData.skills.adventurer?.armorAC || 0;
-			// 	const armor = data.actor.items.find(i => i.type === 'armor');
-
-			// 	if(!armorRank)
-			// 		await _updateItemScore('armor', 'lizardman', 'armor', 'general');
-			// 	else if(armor){
-			// 		const withArmorBonus = lizardFlag + lizardRank + armorRank;
-			// 		console.log(">>> Lizard Check ArmorScore", armor.system.score, withArmorBonus, lizardFlag, lizardRank, armorRank );
-			// 		if(armor.system.score !== withArmorBonus){
-			// 			await armor.update({
-			// 				'system.score': withArmorBonus
-			// 			});
-			// 		}
-			// 	}
-
-			// 	const barehands1H = data.actor.items.get(i => i.name === 'Barehanded Attack (1H)');
-			// 	const barehands2H = data.actor.items.get(i => i.name === 'Barehanded Attack (2H)')
-			// 	const barehandsFlag = data.actor.getFlag('gs', 'oneHandFlag') || 0;
-			// 	//if()
-			// }
-
-			// Batch update all items here at one go.
 			await data.actor.update({
 				'prototypeToken.sight.vision': updateVision.vision,
 				'prototypeToken.sight.visionMode': updateVision.visionMode,
@@ -2330,28 +2343,28 @@ export default class GSActorSheet extends ActorSheet{
 						});
 						if(itemToDelete.name === 'Draconic Heritage'){
 							const armorScore = this.actor.getFlag('gs', 'lizardman');
-							const oneHandScore = this.actor.getFlag('gs', 'oneHandSlash');
-							const twoHandScore = this.actor.getFlag('gs', 'twoHandSlash');
-							const armorWorn = this.actor.items.find(item => item.type === 'armor');
-							const weapons = this.actor.items.filter(item => item.system.type === 'Close-Combat / Light');
-							console.log(">>> Removing", armorWorn, weapons, armorScore, oneHandScore, twoHandScore);
+							const barehands1 = this.actor.getFlag('gs', 'lizardClaws1');
+							const barehands2 = this.actor.getFlag('gs', 'lizardClaws2');
+							await this.actor.unsetFlag('gs', 'lizardman');
+							await this.actor.unsetFlag('gs', 'lizardClaws1');
+							await this.actor.unsetFlag('gs', 'lizardClaws2');
+							const armorWorn = this.actor.items.find(i => i.type === 'armor');
+							const bh1 = this.actor.items.find(i => i.name === 'Barehanded Attack (1H)');
+							const bh2 = this.actor.items.find(i => i.name === 'Barehanded Attack (2H)');
+							// console.log(">>> Removing", armorWorn, bh1, bh2, armorScore, barehandScores.oneHandPower, barehandScores.twoHandPower);
 							if(armorWorn)
-								armorWorn.update({'system.score': armorScore});
-							if(weapons.length > 0){
-								weapons[0].update({
+								await armorWorn.update({'system.score': armorScore});
+							const revertWeapons = async (weapon, value) => {
+								await weapon.update({
 									'img': 'icons/skills/melee/unarmed-punch-fist.webp',
-									'system.power': oneHandScore,
-									'system.attribute': 'Bludgeoning'
-								});
-								weapons[1].update({
-									'img': 'icons/skills/melee/unarmed-punch-fist.webp',
-									'system.power': twoHandScore,
+									'system.power': value,
 									'system.attribute': 'Bludgeoning'
 								});
 							}
-							await this.actor.unsetFlag('gs', 'lizardman');
-							await this.actor.unsetFlag('gs', 'oneHandSlash');
-							await this.actor.unsetFlag('gs', 'twoHandSlash');
+							if(bh1)
+								revertWeapons(bh1, barehands1);
+							if(bh2)
+								revertWeapons(bh2, barehands2);
 						}
 						else if(itemToDelete.name === 'Darkvision'){
 							this.actor.unsetFlag('gs', 'darkvision');
