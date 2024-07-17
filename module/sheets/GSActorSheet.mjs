@@ -2163,127 +2163,276 @@ export default class GSActorSheet extends ActorSheet{
 
 		try{
 			// Checking Perseverance Skill
-			const perseveranceRank = systemData.skills.adventurer?.perseverance || 0;
-			const perseveranceFlag = data.actor.getFlag('gs', 'perseverance') || 0;
-			if(perseveranceRank !== perseveranceFlag){
-				await data.actor.setFlag('gs', 'perseverance', perseveranceRank);
-				for(let rank = 1; rank <= 5; rank++){
-					let ex = rank <= perseveranceRank ? 1 : 0;
-					let maxAdjust = rank <= perseveranceRank ? 1 : 0;
-					await data.actor.update({
-						[`system.fatigue.rank${rank}.ex`]: ex,
-						[`system.fatigue.rank${rank}.max`]: systemData.fatigue[`rank${rank}`].max + maxAdjust
-					});
-				}
-			}
+			this._updatePerseverance(data.actor, systemData);
 
-			// Updates Armor/Shields/Lizardman AC as needed, used in "Updating Armor, Shields, & Lizardman if skilled"
-			const _updateItemScore = async (itemType, skillKey, flagKey, skillType) => {
-				const skillRank = systemData.skills[skillType]?.[skillKey] || 0;
-				if(skillRank > 0){
-					const itemFlag = data.actor.getFlag('gs', flagKey) || 0;
-					const item = data.actor.items.find(i => i.type === itemType);
-					if(item){
-						if(!itemFlag)
-							await data.actor.setFlag('gs', flagKey, item.system.score);
-						const newScore = itemFlag + skillRank;
-						if(item.system.score !== newScore)
-							await item.update({
-								'system.score': newScore
-							});
-					}
-				}
-			}
+			// Updates Armor, Shields, and Barehand attack values based on skill values and
+			this._updateArmorShieldsLizard(data.actor, systemData);
 
-			// Updates Lizardman barehand attacks, used in "Updating Armor, Shields, & Lizardman if skilled"
-			const _updateLizardClaws = async () => {
-				const lizardRank = systemData.skills.general?.lizardman || 0;
-				if(lizardRank){
-					const barehands1H = data.actor.items.find(i => i.name === 'Barehanded Attack (1H)') || 0;
-					const barehands2H = data.actor.items.find(i => i.name === 'Barehanded Attack (2H)') || 0;
-
-					const updatePowerValues = (barehandsPower, skillRank) => {
-						const values = barehandsPower.includes("+") ? barehandsPower.split("+") : [barehandsPower, 0];
-						if(values[1] === 0)
-							return values[0] + "+" + skillRank;
-						else
-							return values[0] + "+" + (parseInt(values[1], 10) + skillRank);
-					};
-
-					const updateHand = async (weapon, flagText) => {
-						let weaponFlag = data.actor.getFlag('gs', flagText );
-						if(!weaponFlag){
-							weaponFlag = weapon.system.power;
-							await data.actor.setFlag('gs', flagText, weaponFlag);
-						}
-						const newPower = updatePowerValues(weaponFlag, lizardRank);
-						if(weapon && weapon.system.power !== newPower)
-							await weapon.update({
-								'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
-								'system.power': newPower,
-								'system.attribute': 'Slash'
-							});
-					}
-
-					if(barehands1H)
-						updateHand(barehands1H, 'lizardClaws1');
-					if(barehands2H)
-						updateHand(barehands2H, 'lizardClaws2');
-				}
-			};
-
-			// Updating Armor, Shields, & Lizardman if skilled
-			const armor = data.actor.items.find(i => i.type === 'armor') || null;
-			const armorWeight = armor.system.type.split(" ") || [];
-			// Checking if actor has Dragon Heritage && Armor Skill
-			if(systemData.skills.general?.lizardman && systemData.skills.adventurer?.[`armor${armorWeight[0]}`]){
-				const lizardmanSkill = systemData.skills.general.lizardman;
-				const armorSkill = systemData.skills.adventurer[`armor${armorWeight[0]}`];
-				const lizardFlag = data.actor.getFlag('gs', 'lizardman') || 0;
-				const armorFlag = data.actor.getFlag('gs', 'armor') || 0;
-				if(armor){
-					if(!lizardFlag)
-						await data.actor.setFlag('gs', 'lizardman', armor.system.score);
-					if(!armorFlag)
-						await data.actor.setFlag('gs', 'armor', data.actor.getFlag('gs', 'armor'));
-					if(lizardFlag > armorFlag)
-						await data.actor.setFlag('gs', 'armor', lizardFlag);
-					else if(lizardFlag < armorFlag)
-						await data.actor.setFlag('gs', 'lizardman', armorFlag);
-
-					const withArmorBonus = lizardFlag + lizardmanSkill + armorSkill;
-					if(armor.system.score !== withArmorBonus){
-						console.log(">>> Lizard Check ArmorScore", armor.system.score, "w/AB", withArmorBonus, "lFlag", lizardFlag, "lSkill", lizardmanSkill, "aSkill", armorSkill );
-						await armor.update({
-							'system.score': withArmorBonus
-						});
-					}
-				}
-				await _updateLizardClaws();
-			}else if(systemData.skills.adventurer?.armorAC)
-				await _updateItemScore('armor', 'armorAC', 'armor', 'adventurer');
-			else if(systemData.skills.general?.lizardman){
-				await _updateItemScore('armor', 'lizardman', 'lizardman', 'general');
-				await _updateLizardClaws();
-			}await _updateItemScore('shield', 'shieldAC', 'shield', 'adventurer');
+			// Updates fatigue based on attrition and other factors
+			// this._checkFatigue(data.actor, systemData);
 
 			// Setting up vision for standard or darkvision
-			const darkVision = systemData.skills.general?.darkVision || 0;
-			const updateVision = {
-				vision: true,
-				visionMode: darkVision > 0 ? 'darkvision' : 'basic',
-				range: darkVision > 0 ? darkVision : 0
-			}
-
-			await data.actor.update({
-				'prototypeToken.sight.vision': updateVision.vision,
-				'prototypeToken.sight.visionMode': updateVision.visionMode,
-				'prototypeToken.sight.range': updateVision.range
-			});
+			this._updateDarkVision(data.actor, systemData);
 		}catch(err){
 			console.error("Error Perparing character data:", err);
 		}
 	}
+
+	async _updatePerseverance(actor, systemData){
+		const perseveranceRank = systemData.skills.adventurer?.perseverance || 0;
+		const perseveranceFlag = actor.getFlag('gs', 'perseverance') || 0;
+		if(perseveranceRank !== perseveranceFlag){
+			await actor.setFlag('gs', 'perseverance', perseveranceRank);
+			for(let rank = 1; rank <= 5; rank++){
+				let ex = rank <= perseveranceRank ? 1 : 0;
+				let maxAdjust = rank <= perseveranceRank ? 1 : 0;
+				await actor.update({
+					[`system.fatigue.rank${rank}.ex`]: ex,
+					[`system.fatigue.rank${rank}.max`]: systemData.fatigue[`rank${rank}`].max + maxAdjust
+				});
+			}
+		}
+	}
+
+	async _updateArmorShieldsLizard(actor, systemData){
+		// Updates Armor/Shields/Lizardman AC as needed, used in "Updating Armor, Shields, & Lizardman if skilled"
+		const _updateItemScore = async (itemType, skillKey, flagKey, skillType) => {
+			const skillRank = systemData.skills[skillType]?.[skillKey] || 0;
+			if(skillRank > 0){
+				const itemFlag = actor.getFlag('gs', flagKey) || 0;
+				const item = actor.items.find(i => i.type === itemType);
+				if(item){
+					if(!itemFlag)
+						await actor.setFlag('gs', flagKey, item.system.score);
+					const newScore = itemFlag + skillRank;
+					if(item.system.score !== newScore)
+						await item.update({
+							'system.score': newScore
+						});
+				}
+			}
+		}
+
+		// Updates Lizardman barehand attacks, used in "Updating Armor, Shields, & Lizardman if skilled"
+		const _updateLizardClaws = async () => {
+			const lizardRank = systemData.skills.general?.lizardman || 0;
+			if(lizardRank){
+				const barehands1H = actor.items.find(i => i.name === 'Barehanded Attack (1H)') || 0;
+				const barehands2H = actor.items.find(i => i.name === 'Barehanded Attack (2H)') || 0;
+
+				const updatePowerValues = (barehandsPower, skillRank) => {
+					const values = barehandsPower.includes("+") ? barehandsPower.split("+") : [barehandsPower, 0];
+					if(values[1] === 0)
+						return values[0] + "+" + skillRank;
+					else
+						return values[0] + "+" + (parseInt(values[1], 10) + skillRank);
+				};
+
+				const updateHand = async (weapon, flagText) => {
+					let weaponFlag = actor.getFlag('gs', flagText );
+					if(!weaponFlag){
+						weaponFlag = weapon.system.power;
+						await actor.setFlag('gs', flagText, weaponFlag);
+					}
+					const newPower = updatePowerValues(weaponFlag, lizardRank);
+					if(weapon && weapon.system.power !== newPower)
+						await weapon.update({
+							'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
+							'system.power': newPower,
+							'system.attribute': 'Slash'
+						});
+				}
+
+				if(barehands1H)
+					updateHand(barehands1H, 'lizardClaws1');
+				if(barehands2H)
+					updateHand(barehands2H, 'lizardClaws2');
+			}
+		};
+
+		// Updating Armor, Shields, & Lizardman if skilled
+		const armor = actor.items.find(i => i.type === 'armor') || null;
+		const armorWeight = armor.system.type.split(" ") || [];
+		// Checking if actor has Dragon Heritage && Armor Skill
+		if(systemData.skills.general?.lizardman && systemData.skills.adventurer?.[`armor${armorWeight[0]}`]){
+			const lizardmanSkill = systemData.skills.general.lizardman;
+			const armorSkill = systemData.skills.adventurer[`armor${armorWeight[0]}`];
+			const lizardFlag = actor.getFlag('gs', 'lizardman') || 0;
+			const armorFlag = actor.getFlag('gs', 'armor') || 0;
+			if(armor){
+				if(!lizardFlag)
+					await actor.setFlag('gs', 'lizardman', armor.system.score);
+				if(!armorFlag)
+					await actor.setFlag('gs', 'armor', actor.getFlag('gs', 'armor'));
+				if(lizardFlag > armorFlag)
+					await actor.setFlag('gs', 'armor', lizardFlag);
+				else if(lizardFlag < armorFlag)
+					await actor.setFlag('gs', 'lizardman', armorFlag);
+
+				const withArmorBonus = lizardFlag + lizardmanSkill + armorSkill;
+				if(armor.system.score !== withArmorBonus){
+					console.log(">>> Lizard Check ArmorScore", armor.system.score, "w/AB", withArmorBonus, "lFlag", lizardFlag, "lSkill", lizardmanSkill, "aSkill", armorSkill );
+					await armor.update({
+						'system.score': withArmorBonus
+					});
+				}
+			}
+			await _updateLizardClaws();
+		}else if(systemData.skills.adventurer?.armorAC)
+			await _updateItemScore('armor', 'armorAC', 'armor', 'adventurer');
+		else if(systemData.skills.general?.lizardman){
+			await _updateItemScore('armor', 'lizardman', 'lizardman', 'general');
+			await _updateLizardClaws();
+		}
+		await _updateItemScore('shield', 'shieldAC', 'shield', 'adventurer');
+	}
+
+	async _updateDarkVision(actor, systemData){
+		const darkVision = systemData.skills.general?.darkVision || 0;
+		const updateVision = {
+			vision: true,
+			visionMode: darkVision > 0 ? 'darkvision' : 'basic',
+			range: darkVision > 0 ? darkVision : 0
+		}
+
+		await actor.update({
+			'prototypeToken.sight.vision': updateVision.vision,
+			'prototypeToken.sight.visionMode': updateVision.visionMode,
+			'prototypeToken.sight.range': updateVision.range
+		});
+	}
+
+	_checkFatigue(actor, system){
+		const fatigue = system.fatigue;
+        const ranks = [
+            { rank: fatigue.rank1, flag: 'fatigueRank1', minMaxCount: 6, label: 'rank1' },
+            { rank: fatigue.rank2, flag: 'fatigueRank2', minMaxCount: 5, label: 'rank2' },
+            { rank: fatigue.rank3, flag: 'fatigueRank3', minMaxCount: 4, label: 'rank3' },
+            { rank: fatigue.rank4, flag: 'fatigueRank4', minMaxCount: 3, label: 'rank4' },
+            { rank: fatigue.rank5, flag: 'fatigueRank5', minMaxCount: 2, label: 'rank5' }
+        ];
+
+        const flags = {
+            fatigueRank1: actor.getFlag('gs', 'fatigueRank1'),
+            fatigueRank2: actor.getFlag('gs', 'fatigueRank2'),
+            fatigueRank3: actor.getFlag('gs', 'fatigueRank3'),
+            fatigueRank4: actor.getFlag('gs', 'fatigueRank4'),
+            fatigueRank5: actor.getFlag('gs', 'fatigueRank5'),
+            rank4Unconscious: actor.getFlag('gs', 'rank4Unconscious')
+        };
+
+        // Iterrate over fatigue to update min to/from max
+        const updateFatigueMin = (rank, count) => {
+            rank.min = 0;
+            for (let i = 1; i <= count; i++){
+                if (rank.marked[i]) rank.min += 1;
+            }
+        };
+
+        // Checking over fatigue and applying negative modifiers as needed
+        for(const { rank, flag, minMaxCount, label } of ranks ){
+            updateFatigueMin(rank, minMaxCount);
+            if(rank.min == rank.max && !flags[flag]){
+                actor.setFlag('gs', flag, -1);
+                this._applyAbilityScoreFatigueMods(data.actor, systemData, true, label);
+            }else if(rank.min < rank.max && flags[flag]){
+                actor.unsetFlag('gs', flag);
+                this._applyAbilityScoreFatigueMods(data.actor, systemData, false, label);
+            }
+        }
+
+        // Special case to remove unconscious when rank 4 fully cleared
+        if(fatigue.rank4.min === 0 && flags.rank4Unconscious){
+            actor.unsetFlag('gs', 'rank4Unconscious');
+            ui.notifications.info(`You are no longer unconscious and may act normally again.`);
+        }
+	}
+
+	// Apply or revert fatigue modifiers
+    _applyAbilityScoreFatigueMods(actor, systemData, apply, rank) {
+        let moveMod = 0, rollMod = 0, lifeForceDeduction = 0;
+
+        const updateAbilities = (primaryModifier, secondaryModifier) => {
+            for (const id in systemData.abilities.primary)
+                systemData.abilities.primary[id] += primaryModifier;
+            for (const id in systemData.abilities.secondary)
+                systemData.abilities.secondary[id] += secondaryModifier;
+            this.update({
+                'system.abilities.primary': systemData.abilities.primary,
+                'system.abilities.secondary': systemData.abilities.secondary
+            });
+        };
+
+        const updateMove = (apply, factor) => {
+            moveMod = apply ? Math.floor(systemData.move / factor) : systemData.move * factor;
+            if(apply && systemData.move % factor !== 0)
+                actor.setFlag('gs', 'rank2Decimal', 0.5);
+            else if(!apply){
+                const decimalFlag = actor.getFlag('gs', 'rank2Decimal');
+                if(decimalFlag){
+                    moveMod += 1;
+                    actor.unsetFlag('gs', 'rank2Decimal');
+                }
+            }
+            this.update({
+                'system.fatigue.fatigueMod': rollMod,
+                'system.move': moveMod
+            });
+        };
+
+        const updateLifeForce = (apply, factor) => {
+            lifeForceDeduction = apply ? Math.floor(systemData.lifeForce.current / factor) : systemData.lifeForce.current * factor;
+            if(apply && systemData.lifeForce.current % factor !== 0){
+                actor.setFlag('gs', 'rank3LifeForce', -1);
+            } else if(!apply){
+                const lifeForceFlag = actor.getFlag('gs', 'rank3LifeForce');
+                if(lifeForceFlag){
+                    lifeForceDeduction += 1;
+                    actor.unsetFlag('gs', 'rank3LifeForce');
+                }
+            }
+            this.update({
+                'system.fatigue.fatigueMod': rollMod,
+                'system.lifeForce.current': lifeForceDeduction
+            })
+        };
+
+        switch (rank) {
+            case "rank1":
+                updateAbilities(apply ? -1 : 1, apply ? -1 : 1);
+                break;
+            case "rank2":
+                rollMod = apply ? -2 : 0;
+                updateMove(apply, 2);
+                break;
+            case "rank3":
+                rollMod = apply ? -3 : -2;
+                updateLifeForce(apply, 2);
+                break;
+            case "rank4":
+                rollMod = apply ? -4 : -3;
+                if(apply){
+                    ui.notifications.warn(`Warning: You are now unconscious until your fatigue drops to rank 3 or less!`);
+                    if(!actor.getFlag('gs', 'rank4RollMod')){
+                        actor.setFlag('gs', 'rank4Unconscious', -1);
+                        actor.setFlag('gs', 'rank4RollMod', -1);
+                    }
+                }else
+                    actor.unsetFlag('gs', 'rank4RollMod');
+                this.update({
+                    'system.fatigue.fatigueMod': rollMod
+                });
+                break;
+            case "rank5":
+                if (apply) {
+                    actor.setFlag('gs', 'rank5Death', -1);
+                    ui.notifications.error(`Sadly, you have succumbed to your wounds and can no longer fight. Rest in peace ${actor.name}...`);
+                    // TODO: add in disable JS here and well as changing skills and other areas to 0.
+                } else
+                    actor.unsetFlag('gs', 'rank5Death');
+                break;
+        }
+    }
 
 	/**
 	 * A special right-click menu that shows up for the particular item in question. Will show either a "view" to see the item's sheet or "delete" to remove the item

@@ -24,7 +24,7 @@ export class GSActor extends Actor {
      */
     _getSkillBonus(skillName){
         const skill = this.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
-        if(skill.length)
+        if(skill)
             return parseInt(skill.system.value, 10);
         else return 0;
     }
@@ -58,7 +58,6 @@ export class GSActor extends Actor {
      * @param {*} type Either "Armor: Cloth/Light/Heavy" and only used with armor skill search
      */
     _armorSkillCall(type, systemData, armorType = ""){
-        console.log("GSA _armorSkillCall ||", type);
         if(type === 'armor'){
             const armorStyle = armorType.split(": ");
             systemData.skills.adventurer = { ...systemData.skills.adventurer, [`armor${armorStyle[1]}`]: this._getSkillBonus(armorType) };
@@ -97,139 +96,6 @@ export class GSActor extends Actor {
             case "spirit arts":
                 this.system.spellUse.totalSpellsKnown.sham += skillValue;
                 break;
-        }
-    }
-
-    // Apply or revert fatigue modifiers
-    _applyAbilityScoreFatigueMods(apply, rank) {
-        const systemData = this.system;
-        let moveMod = 0, rollMod = 0, lifeForceDeduction = 0;
-
-        const updateAbilities = (primaryModifier, secondaryModifier) => {
-            for (const id in systemData.abilities.primary)
-                systemData.abilities.primary[id] += primaryModifier;
-            for (const id in systemData.abilities.secondary)
-                systemData.abilities.secondary[id] += secondaryModifier;
-            this.update({
-                'system.abilities.primary': systemData.abilities.primary,
-                'system.abilities.secondary': systemData.abilities.secondary
-            });
-        };
-
-        const updateMove = (apply, factor) => {
-            moveMod = apply ? Math.floor(systemData.move / factor) : systemData.move * factor;
-            if(apply && systemData.move % factor !== 0)
-                this.setFlag('gs', 'rank2Decimal', 0.5);
-            else if(!apply){
-                const decimalFlag = this.getFlag('gs', 'rank2Decimal');
-                if(decimalFlag){
-                    moveMod += 1;
-                    this.unsetFlag('gs', 'rank2Decimal');
-                }
-            }
-            this.update({
-                'system.fatigue.fatigueMod': rollMod,
-                'system.move': moveMod
-            });
-        };
-
-        const updateLifeForce = (apply, factor) => {
-            lifeForceDeduction = apply ? Math.floor(systemData.lifeForce.current / factor) : systemData.lifeForce.current * factor;
-            if(apply && systemData.lifeForce.current % factor !== 0){
-                this.setFlag('gs', 'rank3LifeForce', -1);
-            } else if(!apply){
-                const lifeForceFlag = this.getFlag('gs', 'rank3LifeForce');
-                if(lifeForceFlag){
-                    lifeForceDeduction += 1;
-                    this.unsetFlag('gs', 'rank3LifeForce');
-                }
-            }
-            this.update({
-                'system.fatigue.fatigueMod': rollMod,
-                'system.lifeForce.current': lifeForceDeduction
-            })
-        };
-
-        switch (rank) {
-            case "rank1":
-                updateAbilities(apply ? -1 : 1, apply ? -1 : 1);
-                break;
-            case "rank2":
-                rollMod = apply ? -2 : 0;
-                updateMove(apply, 2);
-                break;
-            case "rank3":
-                rollMod = apply ? -3 : -2;
-                updateLifeForce(apply, 2);
-                break;
-            case "rank4":
-                rollMod = apply ? -4 : -3;
-                if(apply){
-                    ui.notifications.warn(`Warning: You are now unconscious until your fatigue drops to rank 3 or less!`);
-                    if(!this.getFlag('gs', 'rank4RollMod')){
-                        this.setFlag('gs', 'rank4Unconscious', -1);
-                        this.setFlag('gs', 'rank4RollMod', -1);
-                    }
-                }else
-                    this.unsetFlag('gs', 'rank4RollMod');
-                this.update({
-                    'system.fatigue.fatigueMod': rollMod
-                });
-                break;
-            case "rank5":
-                if (apply) {
-                    this.setFlag('gs', 'rank5Death', -1);
-                    ui.notifications.error(`Sadly, you have succumbed to your wounds and can no longer fight. Rest in peace ${this.name}...`);
-                    // TODO: add in disable JS here and well as changing skills and other areas to 0.
-                } else
-                    this.unsetFlag('gs', 'rank5Death');
-                break;
-        }
-    }
-
-    _checkFatigue(){
-        const fatigue = this.system.fatigue;
-        const ranks = [
-            { rank: fatigue.rank1, flag: 'fatigueRank1', minMaxCount: 6, label: 'rank1' },
-            { rank: fatigue.rank2, flag: 'fatigueRank2', minMaxCount: 5, label: 'rank2' },
-            { rank: fatigue.rank3, flag: 'fatigueRank3', minMaxCount: 4, label: 'rank3' },
-            { rank: fatigue.rank4, flag: 'fatigueRank4', minMaxCount: 3, label: 'rank4' },
-            { rank: fatigue.rank5, flag: 'fatigueRank5', minMaxCount: 2, label: 'rank5' }
-        ];
-
-        const flags = {
-            fatigueRank1: this.getFlag('gs', 'fatigueRank1'),
-            fatigueRank2: this.getFlag('gs', 'fatigueRank2'),
-            fatigueRank3: this.getFlag('gs', 'fatigueRank3'),
-            fatigueRank4: this.getFlag('gs', 'fatigueRank4'),
-            fatigueRank5: this.getFlag('gs', 'fatigueRank5'),
-            rank4Unconscious: this.getFlag('gs', 'rank4Unconscious')
-        };
-
-        // Iterrate over fatigue to update min to/from max
-        const updateFatigueMin = (rank, count) => {
-            rank.min = 0;
-            for (let i = 1; i <= count; i++){
-                if (rank.marked[i]) rank.min += 1;
-            }
-        };
-
-        // Checking over fatigue and applying negative modifiers as needed
-        for(const { rank, flag, minMaxCount, label } of ranks ){
-            updateFatigueMin(rank, minMaxCount);
-            if(rank.min == rank.max && !flags[flag]){
-                this.setFlag('gs', flag, -1);
-                this._applyAbilityScoreFatigueMods(true, label);
-            }else if(rank.min < rank.max && flags[flag]){
-                this.unsetFlag('gs', flag);
-                this._applyAbilityScoreFatigueMods(false, label);
-            }
-        }
-
-        // Special case to remove unconscious when rank 4 fully cleared
-        if(fatigue.rank4.min === 0 && flags.rank4Unconscious){
-            this.unsetFlag('gs', 'rank4Unconscious');
-            ui.notifications.info(`You are no longer unconscious and may act normally again.`);
         }
     }
 
@@ -316,9 +182,6 @@ export class GSActor extends Actor {
             }
         }
 
-        // Check Fatigue Levels
-        this._checkFatigue();
-
         // Setting Life Force
         systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
         systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
@@ -390,12 +253,12 @@ export class GSActor extends Actor {
         // Setting Modified Movement
         // Skill Long-Distance movement is affecting modfiers above
         let movePen = systemData.move;
-        const armor = actorData.items.filter(item => item.type === 'armor');
-        if(armor.length){
-            if(armor[0].system.heavy.value && (this.system.abilities.calc.se + this._getSkillBonus('Encumbered Action')) >= armor[0].system.heavy.y){
-                movePen += Math.floor(parseInt(armor[0].system.move, 10) / 2);
+        const armor = actorData.items.find(item => item.type === 'armor');
+        if(armor){
+            if(armor.system.heavy.value && (this.system.abilities.calc.se + this._getSkillBonus('Encumbered Action')) >= armor.system.heavy.y){
+                movePen += Math.floor(parseInt(armor.system.move, 10) / 2);
             }else
-                movePen += parseInt(armor[0].system.move, 10);
+                movePen += parseInt(armor.system.move, 10);
         }
         systemData.modMove += movePen;
 
