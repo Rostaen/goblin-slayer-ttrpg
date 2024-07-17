@@ -2162,14 +2162,6 @@ export default class GSActorSheet extends ActorSheet{
 		const systemData = data.actor.system;
 
 		try{
-			// Setting up vision for standard or darkvision
-			const darkVision = systemData.skills.general?.darkVision || 0;
-			const updateVision = {
-				vision: true,
-				visionMode: darkVision > 0 ? 'darkvision' : 'basic',
-				range: darkVision > 0 ? darkVision : 0
-			}
-
 			// Checking Perseverance Skill
 			const perseveranceRank = systemData.skills.adventurer?.perseverance || 0;
 			const perseveranceFlag = data.actor.getFlag('gs', 'perseverance') || 0;
@@ -2185,12 +2177,12 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}
 
+			// Updates Armor/Shields/Lizardman AC as needed, used in "Updating Armor, Shields, & Lizardman if skilled"
 			const _updateItemScore = async (itemType, skillKey, flagKey, skillType) => {
 				const skillRank = systemData.skills[skillType]?.[skillKey] || 0;
 				if(skillRank > 0){
 					const itemFlag = data.actor.getFlag('gs', flagKey) || 0;
 					const item = data.actor.items.find(i => i.type === itemType);
-					// console.log(">>> SR", skillRank, "IFlag", itemFlag, "Type", skillType);
 					if(item){
 						if(!itemFlag)
 							await data.actor.setFlag('gs', flagKey, item.system.score);
@@ -2203,6 +2195,7 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}
 
+			// Updates Lizardman barehand attacks, used in "Updating Armor, Shields, & Lizardman if skilled"
 			const _updateLizardClaws = async () => {
 				const lizardRank = systemData.skills.general?.lizardman || 0;
 				if(lizardRank){
@@ -2239,7 +2232,7 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			};
 
-			// Updating Armor, Shields if skilled
+			// Updating Armor, Shields, & Lizardman if skilled
 			const armor = data.actor.items.find(i => i.type === 'armor') || null;
 			const armorWeight = armor.system.type.split(" ") || [];
 			// Checking if actor has Dragon Heritage && Armor Skill
@@ -2273,6 +2266,14 @@ export default class GSActorSheet extends ActorSheet{
 				await _updateItemScore('armor', 'lizardman', 'lizardman', 'general');
 				await _updateLizardClaws();
 			}await _updateItemScore('shield', 'shieldAC', 'shield', 'adventurer');
+
+			// Setting up vision for standard or darkvision
+			const darkVision = systemData.skills.general?.darkVision || 0;
+			const updateVision = {
+				vision: true,
+				visionMode: darkVision > 0 ? 'darkvision' : 'basic',
+				range: darkVision > 0 ? darkVision : 0
+			}
 
 			await data.actor.update({
 				'prototypeToken.sight.vision': updateVision.vision,

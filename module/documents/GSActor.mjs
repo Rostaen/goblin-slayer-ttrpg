@@ -17,15 +17,23 @@ export class GSActor extends Actor {
         this._prepareMonsterData(actorData);
     }
 
-    // Used to add player skills to respective locations in their sheet and rolls
+    /**
+     * Used to add player skills to respective locations in their sheet and rolls
+     * @param {string} skillName Name of the skill to search for
+     * @returns Int value of skill level
+     */
     _getSkillBonus(skillName){
-        const skill = this.items.filter(item => item.name.toLowerCase() === skillName.toLowerCase());
+        const skill = this.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
         if(skill.length)
-            return parseInt(skill[0].system.value, 10);
+            return parseInt(skill.system.value, 10);
         else return 0;
     }
 
-    // Update character with Hardiness Skill
+    /**
+     * Update character with Hardiness Skill
+     * @param {string} skillName Name of the skill to find
+     * @returns Int value returned based on skill value and amount from book, 5 being a special case
+     */
     _hardinessSkillCall(skillName){
         let skillBonus = this._getSkillBonus(skillName);
         if(skillBonus <= 4) skillBonus *= 5;
@@ -34,10 +42,10 @@ export class GSActor extends Actor {
     }
 
     /**
+     * Update character fatigue with EX checkboxes
      * The method updates the skill value of the Perseverance skill and gives the character more fatigue to work with before exiting the game world.
      * @param {JSON} systemData JSON object of the current actor set to this.actor.system
      */
-    // Update character fatigue with EX checkboxes
     _perserveranceSkillCall(systemData){
         let skillValue = this._getSkillBonus("Perseverance");
         systemData.skills.adventurer = { perseverance: skillValue };
@@ -60,40 +68,35 @@ export class GSActor extends Actor {
             systemData.skills.general = { ...systemData.skills.general, lizardman: this._getSkillBonus('Draconic Heritage') };
     }
 
-    // Adding bonus spells known based on skill level
+    /**
+     * Updates the amount of spells know for a given school of spell casting.
+     * @param {string} skill Determines which casting school to update for: "Words of True Power", "Ancestral Dragon", "Miracles", "Spirit Arts"
+     */
     _bonusSpellsKnownSkillCall(skill){
         const skillValue = skill.system.value;
         const spellDomain = skill.name.split(": ")[1];
         switch(spellDomain.toLowerCase()){
+            case "sorcerer":
             case "words of true power":
             case "words":
             case "true power":
                 this.system.spellUse.totalSpellsKnown.sorc += skillValue;
                 break;
+            case "priest":
             case "miracles":
             case "miracle":
                 this.system.spellUse.totalSpellsKnown.prie += skillValue;
                 break;
+            case "dragon priest":
             case "ancestral dragon arts":
             case "dragon arts":
                 this.system.spellUse.totalSpellsKnown.dPri += skillValue;
                 break;
+            case "shaman":
+            case "spirit":
             case "spirit arts":
                 this.system.spellUse.totalSpellsKnown.sham += skillValue;
                 break;
-        }
-    }
-
-    _checkFlags() {
-        const flags = this.flags.gs;
-        if (!flags) return;
-        console.log("Check Flags", flags);
-
-        if (flags.reduceAbilityScores) {
-
-        }
-        if (flags.revertAbilityScores) {
-
         }
     }
 
@@ -103,12 +106,10 @@ export class GSActor extends Actor {
         let moveMod = 0, rollMod = 0, lifeForceDeduction = 0;
 
         const updateAbilities = (primaryModifier, secondaryModifier) => {
-            for (const id in systemData.abilities.primary){
+            for (const id in systemData.abilities.primary)
                 systemData.abilities.primary[id] += primaryModifier;
-            }
-            for (const id in systemData.abilities.secondary){
+            for (const id in systemData.abilities.secondary)
                 systemData.abilities.secondary[id] += secondaryModifier;
-            }
             this.update({
                 'system.abilities.primary': systemData.abilities.primary,
                 'system.abilities.secondary': systemData.abilities.secondary
@@ -117,9 +118,9 @@ export class GSActor extends Actor {
 
         const updateMove = (apply, factor) => {
             moveMod = apply ? Math.floor(systemData.move / factor) : systemData.move * factor;
-            if(apply && systemData.move % factor !== 0){
+            if(apply && systemData.move % factor !== 0)
                 this.setFlag('gs', 'rank2Decimal', 0.5);
-            }else if(!apply){
+            else if(!apply){
                 const decimalFlag = this.getFlag('gs', 'rank2Decimal');
                 if(decimalFlag){
                     moveMod += 1;
@@ -169,9 +170,8 @@ export class GSActor extends Actor {
                         this.setFlag('gs', 'rank4Unconscious', -1);
                         this.setFlag('gs', 'rank4RollMod', -1);
                     }
-                }else{
+                }else
                     this.unsetFlag('gs', 'rank4RollMod');
-                }
                 this.update({
                     'system.fatigue.fatigueMod': rollMod
                 });
@@ -181,9 +181,8 @@ export class GSActor extends Actor {
                     this.setFlag('gs', 'rank5Death', -1);
                     ui.notifications.error(`Sadly, you have succumbed to your wounds and can no longer fight. Rest in peace ${this.name}...`);
                     // TODO: add in disable JS here and well as changing skills and other areas to 0.
-                } else {
+                } else
                     this.unsetFlag('gs', 'rank5Death');
-                }
                 break;
         }
     }
