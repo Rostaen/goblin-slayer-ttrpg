@@ -50,9 +50,11 @@ export class GSActor extends Actor {
      * @param {*} type Either "Armor: Cloth/Light/Heavy" and only used with armor skill search
      */
     _armorSkillCall(type, systemData, armorType = ""){
-        if(type === 'armor')
-            systemData.skills.adventurer = { ...systemData.skills.adventurer, armorAC: this._getSkillBonus(armorType) };
-        else if(type === 'shield')
+        console.log("GSA _armorSkillCall ||", type);
+        if(type === 'armor'){
+            const armorStyle = armorType.split(": ");
+            systemData.skills.adventurer = { ...systemData.skills.adventurer, [`armor${armorStyle[1]}`]: this._getSkillBonus(armorType) };
+        }else if(type === 'shield')
             systemData.skills.adventurer = { ...systemData.skills.adventurer, shieldAC: this._getSkillBonus('Shields') };
         else if(type === 'lizardman')
             systemData.skills.general = { ...systemData.skills.general, lizardman: this._getSkillBonus('Draconic Heritage') };
