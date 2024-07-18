@@ -99,7 +99,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
-		html.find(".attritionCBox").off('click').click(this._updateAttritionFlag.bind(this));
+		// html.find(".attritionCBox").off('click').click(this._updateAttritionFlag.bind(this));
 		html.find(".starred").change(this._addRollToFavorites.bind(this));
 		html.find(".genSkillContainer").on('mouseenter', this._changeSkillImage.bind(this, true));
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
@@ -380,8 +380,8 @@ export default class GSActorSheet extends ActorSheet{
 		const lifeForceHalf = systemData.lifeForce.double;
 		const attrition = systemData.attrition;
 		const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
-		const armor = this.actor.items.filter(item => item.type.toLowerCase() === 'armor');
-		const armorWorn = armor[0].system.heavy;
+		const armor = this.actor.items.find(item => item.type.toLowerCase() === 'armor');
+		const armorWorn = armor.system.heavy;
 		let attritionLevel = 0;
 
 		// Getting attrition level from JSON array
@@ -2168,6 +2168,8 @@ export default class GSActorSheet extends ActorSheet{
 			// Updates Armor, Shields, and Barehand attack values based on skill values and
 			this._updateArmorShieldsLizard(data.actor, systemData);
 
+			this._checkAttrition(data.actor, systemData);
+
 			// Updates fatigue based on attrition and other factors
 			// this._checkFatigue(data.actor, systemData);
 
@@ -2300,6 +2302,55 @@ export default class GSActorSheet extends ActorSheet{
 			'prototypeToken.sight.visionMode': updateVision.visionMode,
 			'prototypeToken.sight.range': updateVision.range
 		});
+	}
+
+	async _checkAttrition(actor, systemData){
+		let attritionLevel = 0;
+		const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+		const attrition = systemData.attrition;
+		const currentWounds = systemData.lifeForce.min;
+		const lifeForceHalf = systemData.lifeForce.double;
+		const armor = this.actor.items.find(item => item.type.toLowerCase() === 'armor');
+		const armorWorn = armor.system.heavy;
+		const attritionFlag = actor.getFlag('gs', 'attrition') || 0;
+
+		for(let [id, a] of Object.entries(attrition)) {
+			if(a) attritionLevel += 1;
+			else continue;
+		}
+
+		// Checking if character is wearing heavy armor and if Str End is less than value, true? +1 fatigue
+		const checkIfHeavy = async (armorWorn, systemData) => {
+			let encActionSkillValue = this._getSkillBonus('Encumbered Action');
+
+			if(armorWorn.value && (systemData.abilities.calc.se + encActionSkillValue) < armorWorn.x){
+				setTimeout(async () => {
+					await this._checkFatigueRanks(systemData);
+				}, 200);
+			}
+		}
+
+		if(currentWounds < lifeForceHalf){
+			if(attritionThresholds.includes(attritionLevel) && !attritionFlag){
+				await actor.setFlag('gs', 'attrition', true);
+				await this._checkFatigueRanks(systemData);
+				await checkIfHeavy(armorWorn, systemData);
+			}else if(attritionFlag)
+				await actor.unsetFlag('gs', 'attrition');
+		}else if(currentWounds >= lifeForceHalf){
+			await this._checkFatigueRanks(systemData);
+			if(attritionThresholds.includes(attritionLevel)&& !attritionFlag){
+				await actor.setFlag('gs', 'attrition', true);
+				await this._checkFatigueRanks(systemData);
+				// setTimeout(async () => {
+				// }, 100);
+				await checkIfHeavy(armorWorn, systemData);
+			}else if(attritionFlag)
+				await actor.unsetFlag('gs', 'attrition');
+		}
+
+		console.log("GSAS _checkAttrition || att Level:", attritionLevel, "wounds:", currentWounds, "1/2:", lifeForceHalf, "attFlag", attritionFlag);
+
 	}
 
 	_checkFatigue(actor, system){
