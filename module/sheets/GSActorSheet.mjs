@@ -367,69 +367,6 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	// TODO: REMOVE BELOW _updateAttritionFlag code when done with new in perpareCharacterData
-	/**
-	 * Checks the currently clicked attrition check box for the type of checkbox, wounds vs life force, heavy armor and associated skills
-	 * @param {*} event The click event
-	 */
-	_updateAttritionFlag = async (event) => {
-		console.log(">>> updateAttritionFlag");
-		event.preventDefault();
-		const element = event.currentTarget;
-		const checkBoxNum = element.dataset.cbox;
-		const boxHasAttrition = element.checked;
-		const systemData = this.actor.system;
-		const currentWounds = systemData.lifeForce.min;
-		const lifeForceHalf = systemData.lifeForce.double;
-		const attrition = systemData.attrition;
-		const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
-		const armor = this.actor.items.find(item => item.type.toLowerCase() === 'armor');
-		const armorWorn = armor.system.heavy;
-		let attritionLevel = 0;
-
-		// Getting attrition level from JSON array
-		for (let x = 0; x < Object.keys(attrition).length; x++){
-            if(!attrition[x]){
-                attritionLevel = x + 1;
-                break;
-            }
-        }
-
-		// Updating checkbox
-		this.actor.update({
-			[`system.attrition.${checkBoxNum - 1}`]: !systemData.attrition[checkBoxNum - 1]
-		});
-
-		// Checking if character is wearing heavy armor and if Str End is less than value, true? +1 fatigue
-		const checkIfHeavy = async (armorWorn) => {
-			const skills = this.actor.items.filter(item => item.type === 'skill');
-			let encActionSkillValue = this._getSkillBonus('Encumbered Action');
-
-			if(armorWorn.value && (this.actor.system.abilities.calc.se + encActionSkillValue) < armorWorn.x){
-				setTimeout(async () => {
-					await this._checkFatigueRanks();
-				}, 200);
-			}
-		}
-
-		// Checking if checkbox is checked or not, if checked, skip check to indicate attrition healing.
-		if(boxHasAttrition){
-			// Checking the state of actor and checkbox for fatigue
-			if(currentWounds < lifeForceHalf && attritionThresholds.includes(attritionLevel)){
-				await this._checkFatigueRanks();
-				checkIfHeavy(armorWorn);
-			}else if(currentWounds >= lifeForceHalf){
-				await this._checkFatigueRanks();
-				if(attritionThresholds.includes(attritionLevel)){
-					setTimeout(async () => {
-						await this._checkFatigueRanks();
-					}, 100);
-					checkIfHeavy(armorWorn);
-				}
-			}
-		}
-	}
-
 	/**
 	 * Method to help determin if the dice rolled a critical success/failure or a regular result. The critical rates are modified by any skills that are present in the character's items array.
 	 * @param {array} diceResults An integer array of dice values
@@ -2257,7 +2194,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Updating Armor, Shields, & Lizardman if skilled
 		const armor = actor.items.find(i => i.type === 'armor') || null;
-		const armorWeight = armor.system.type.split(" ") || [];
+		const armorWeight = armor ? armor.system.type.split(" ") : [];
 		// Checking if actor has Dragon Heritage && Armor Skill
 		if(systemData.skills.general?.lizardman && systemData.skills.adventurer?.[`armor${armorWeight[0]}`]){
 			const lizardmanSkill = systemData.skills.general.lizardman;
@@ -2314,7 +2251,7 @@ export default class GSActorSheet extends ActorSheet{
 		const currentWounds = systemData.lifeForce.min;
 		const lifeForceHalf = systemData.lifeForce.double;
 		const armor = this.actor.items.find(item => item.type.toLowerCase() === 'armor');
-		const armorWorn = armor.system.heavy;
+		const armorWorn = armor ? armor.system.heavy : null;
 		const attritionFlag = actor.getFlag('gs', 'attrition') || 0;
 
 		for(let [id, a] of Object.entries(attrition)) {
