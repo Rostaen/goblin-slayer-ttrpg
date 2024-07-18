@@ -340,6 +340,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} rank Current fatigue rank being checked, eg 'rank1', 'rank2', etc.
 	 */
 	async _updateFatigue(rank){
+		console.log("GSAS _updateFatigue", rank);
 		const fatigueMin = `system.fatigue.${rank}.min`;
 		const fatigueMarked = `system.fatigue.${rank}.marked`;
 		const currentMin = this.actor.system.fatigue[rank].min;
@@ -358,6 +359,7 @@ export default class GSActorSheet extends ActorSheet{
 		for(const rank of ranks){
 			const currentMin = this.actor.system.fatigue[rank].min;
 			const max = this.actor.system.fatigue[rank].max;
+			console.log("GSAS _checkFatigueRanks", currentMin, max);
 			if(currentMin < max){
 				await this._updateFatigue(rank);
 				break;
@@ -365,6 +367,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
+	// TODO: REMOVE BELOW _updateAttritionFlag code when done with new in perpareCharacterData
 	/**
 	 * Checks the currently clicked attrition check box for the type of checkbox, wounds vs life force, heavy armor and associated skills
 	 * @param {*} event The click event
@@ -2325,7 +2328,7 @@ export default class GSActorSheet extends ActorSheet{
 
 			if(armorWorn.value && (systemData.abilities.calc.se + encActionSkillValue) < armorWorn.x){
 				setTimeout(async () => {
-					await this._checkFatigueRanks(systemData);
+					await this._checkFatigueRanks();
 				}, 200);
 			}
 		}
@@ -2333,19 +2336,19 @@ export default class GSActorSheet extends ActorSheet{
 		if(currentWounds < lifeForceHalf){
 			if(attritionThresholds.includes(attritionLevel) && !attritionFlag){
 				await actor.setFlag('gs', 'attrition', true);
-				await this._checkFatigueRanks(systemData);
+				await this._checkFatigueRanks();
 				await checkIfHeavy(armorWorn, systemData);
-			}else if(attritionFlag)
+			}else if(!attritionThresholds.includes(attritionLevel) && attritionFlag)
 				await actor.unsetFlag('gs', 'attrition');
 		}else if(currentWounds >= lifeForceHalf){
-			await this._checkFatigueRanks(systemData);
+			await this._checkFatigueRanks();
 			if(attritionThresholds.includes(attritionLevel)&& !attritionFlag){
 				await actor.setFlag('gs', 'attrition', true);
-				await this._checkFatigueRanks(systemData);
+				await this._checkFatigueRanks();
 				// setTimeout(async () => {
 				// }, 100);
 				await checkIfHeavy(armorWorn, systemData);
-			}else if(attritionFlag)
+			}else if(!attritionThresholds.includes(attritionLevel) && attritionFlag)
 				await actor.unsetFlag('gs', 'attrition');
 		}
 
