@@ -43,8 +43,8 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [x] Skill Modifiers
   - [x] Update chat window for crit success/fail
 - [ ] Combat Tracking
-  - [ ] Add initiative rolls to combat tracker
-  - [ ] Update tracker to reroll initiative at start of next round
+  - [x] Add initiative rolls to combat tracker
+  - [ ] Update players from NPCs
 - [x] Movement Updates
   - [x] Change movement field for PC creation to maximum
   - [x] Create disabled field for modified movement from armor/skills

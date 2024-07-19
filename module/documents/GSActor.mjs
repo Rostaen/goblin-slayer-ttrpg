@@ -85,6 +85,10 @@ export class GSActor extends Actor {
             }
         }
 
+        // Adding HP Value if one doesn't exist
+        if(!systemData.lifeForce.value)
+            systemData.lifeForce.value = 0;
+
         // Adding initiative to character with possible bonus
         systemData.init = systemData.skills.adventurer?.anticipate ? `2d6+${systemData.skills.adventurer.anticipate}` : `2d6`;
 
@@ -272,5 +276,11 @@ export class GSActor extends Actor {
     _prepareMonsterData(actorData){
         if(actorData.type !== 'monster') return;
 
+        try{
+            if(!actorData.system.lifeForce.value)
+                actorData.system.lifeForce.value = actorData.system.lifeForce.min;
+        }catch(err){
+            console.error("GS _prepareMonsterData |", err);
+        }
     }
 }

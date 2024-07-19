@@ -2137,6 +2137,13 @@ export default class GSActorSheet extends ActorSheet{
 		const systemData = data.actor.system;
 
 		try{
+			// Updating wounds and health
+			console.log("GSA _prepareCharacterData |", systemData.lifeForce.value, systemData.lifeForce.max, systemData.lifeForce.wounds)
+        	const lFValue = systemData.lifeForce.max - systemData.lifeForce.wounds;
+			data.actor.update({
+				'system.lifeForce.value': lFValue
+			});
+
 			// Checking Perseverance Skill
 			this._updatePerseverance(data.actor, systemData);
 
@@ -2323,9 +2330,6 @@ export default class GSActorSheet extends ActorSheet{
 			}else if(!attritionThresholds.includes(attritionLevel) && attritionFlag)
 				await actor.unsetFlag('gs', 'attrition');
 		}
-
-		console.log("GSAS _checkAttrition || att Level:", attritionLevel, "wounds:", currentWounds, "1/2:", lifeForceHalf, "attFlag", attritionFlag);
-
 	}
 
 	_checkFatigue(actor, system){
