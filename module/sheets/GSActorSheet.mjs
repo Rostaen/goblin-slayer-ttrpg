@@ -1386,7 +1386,8 @@ export default class GSActorSheet extends ActorSheet{
 		} else if (healActions.includes(classType)) {
 			this._healAttrFatigue(classType);
 		} else if (classType === 'initiative') {
-			this._rollInitiative(event);
+			this._toggleCombatState(event, this.actor);
+			// this._rollInitiative(event);
 		} else if (specialRolls.includes(classType)) {
 			this._specialRolls(event, classType, classType.charAt(0).toUpperCase() + classType.slice(1).replace(/([A-Z])/g, ' $1').trim());
 		} else if (fateButtons.includes(classType)){
@@ -1782,6 +1783,40 @@ export default class GSActorSheet extends ActorSheet{
 				close: () => "",
 			}).render(true);
 		});
+	}
+
+	async _toggleCombatState(event, actor){
+		event.preventDefault();
+		try{
+			// Ensure there is an active combat or start a new one if necessary
+			let combat = game.combat;
+			if(!combat)
+				combat = await Combat.create({}, {renderSheet: false});
+
+			// Check if the actor is already in the current combat
+			let combatant = combat.combatants.find(c => c.actor.id === actor.id);
+
+			// If not, add them
+			if(!combatant){
+				combatant = await combat.createEmbeddedDocuments('Combatant', [{
+					actorId: actor.id,
+					tokenId: actor.getActiveTokens()[0]?.id,  // Ensures a tokenId if there's an active token
+				}]);
+				combatant = combatant[0]; // Create returns an array
+			}
+
+			// If the actor is already in combat but not active, activate them
+			if(!combatant.isActive)
+				await combat.updateEmbeddedDocuments('Combatant', [{_id: combatant.id, active: true}]);
+
+			// Roll initiative if it hasn't been rolled yet
+			if(combatant.initiative === null)
+				await combat.rollInitiative(combatant.id);
+
+			console.log(`GSAS _toggleCombatState || ${actor.name} is now active in combat.`);
+		}catch(err){
+			console.error('GSAS _toggleCombatState || Error:', err);
+		}
 	}
 
 	/**

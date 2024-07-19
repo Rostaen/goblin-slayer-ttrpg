@@ -17,6 +17,159 @@ export class GSActor extends Actor {
         this._prepareMonsterData(actorData);
     }
 
+    _prepareCharacterData(actorData){
+        const systemData = actorData.system;
+        const type = actorData.type;
+        let hardinessBonus = 0;
+
+        if(type !== 'character') return;
+
+        const actorSkills = this.items.filter(item => item.type === 'skill');
+
+        // Setting up character calculated ability scores
+        for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
+            for(const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)){
+                const calcString = keyP.substring(0,1) + keyS.substring(0,1);
+                const calcScore = scoreP + scoreS;
+                systemData.abilities.calc[calcString] = calcScore;
+            }
+        }
+
+        // TODO: Set a value for a non-existing field for max spells for each spell system
+        systemData.spellUse.totalSpellsKnown = {
+            "sorc": systemData.levels.classes.sorcerer,
+            "prie": systemData.levels.classes.priest,
+            "dPri": systemData.levels.classes.dragon,
+            "sham": systemData.levels.classes.shaman
+        };
+
+        // Setting Character Spell Resistance
+        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
+
+        // Getting character skills
+        for(const [id, skill] of Object.entries(actorSkills)){
+            // Switching on skills to save processing time
+            //console.log("===> For Loop Skill Check", skill.name);
+            switch(skill.name){
+                case "Anticipate":
+                    systemData.skills.adventurer = { ...systemData.skills.adventurer, anticipate: skill.system.value }; break;
+                case "Hardiness": // Setting 2x LifeForce + any Skills
+                    hardinessBonus = this._hardinessSkillCall(skill.name); break;
+                case "Perseverance": // Setting EX Fatigue
+                    this._perserveranceSkillCall(systemData); break;
+                case "Armor: Cloth":
+                case "Armor: Light":
+                case "Armor: Heavy":
+                    this._armorSkillCall("armor", systemData, skill.name); break;
+                case "Shields":
+                    this._armorSkillCall("shield", systemData); break;
+                case "Draconic Heritage":
+                    this._armorSkillCall("lizardman", systemData); break;
+                case "Darkvision":
+                    this._updateDarkVision(skill, systemData); break;
+                case "Bonus Spells: Words of True Power":
+                case "Bonus Spells: Miracles":
+                case "Bonus Spells: Ancestral Dragon Arts":
+                case "Bonus Spells: Spirit Arts":
+                    this._bonusSpellsKnownSkillCall(skill); break;
+                case "Magical Talent":
+                    this.system.spellUse.max += skill.system.value; break;
+                case "Long-Distance Movement":
+                    let moveBonus = 0;
+                    if(skill.system.value === 2)
+                        moveBonus += 2;
+                    else if(skill.system.value === 3)
+                        moveBonus += 4;
+                    systemData.modMove += moveBonus;
+                    break;
+            }
+        }
+
+        // Adding initiative to character with possible bonus
+        systemData.init = systemData.skills.adventurer?.anticipate ? `2d6+${systemData.skills.adventurer.anticipate}` : `2d6`;
+
+        // Setting Life Force
+        systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
+        systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
+
+        // Setting Spell Use Scores
+        // TODO: Add in any spell skills that alter this amount per caster class
+        for(let [id, score] of Object.entries(systemData.spellUse.scores)){
+            let calcScore = 0;
+            if(id === "sorc"){
+                calcScore = systemData.levels.classes.sorcerer + systemData.abilities.calc.if;
+            }else{
+                calcScore = systemData.abilities.calc.pf;
+                switch(id){
+                    case "prie": calcScore += systemData.levels.classes.priest; break;
+                    case "dPri": calcScore += systemData.levels.classes.dragon; break;
+                    case "sham": calcScore += systemData.levels.classes.shaman; break;
+                    default: console.error("Error in Score Spell Use switch statement", score, id); break;
+                }
+            }
+            systemData.spellUse.scores[id] = calcScore;
+        }
+
+        // Setting Base Hit Scores
+        for(let [typeId, hitScore] of Object.entries(systemData.attacks.totals)){
+            // Ensure systemData.attacks.totals[typeId] is an object
+            if(typeof systemData.attacks.totals[typeId] !== 'object'){
+                systemData.attacks.totals[typeId] = {}; // Initialized as an empty object
+            }
+            // Getting Technique Focus score for all martial classes to hit with weapons
+            let techFocus = systemData.abilities.calc.tf;
+
+            // Cycling through classes to get levels and modify scores with skills
+            for(let [classId, level] of Object.entries(systemData.levels.classes)){
+                let calcScore = 0;
+
+                if(typeId === 'melee' && (classId === 'fighter' || classId === 'monk' || classId === 'scout')){
+                    calcScore = techFocus + level; // Add skill bonuses here
+                }else if(typeId === 'throw' && (classId === 'monk' || classId === 'ranger' || classId === 'scout')){
+                    calcScore = techFocus + level; // Add skill bonuses here
+                }else if(typeId === 'projectile' && classId === 'ranger'){
+                    calcScore = techFocus + level; // Add skill bonuses here
+                }else{
+                    continue; // Skipping unneeded classes
+                }
+
+                // Assigning the calculated score to the object
+                systemData.attacks.totals[typeId][classId] = calcScore;
+            }
+        }
+
+        // Setting Dodge Scores
+        if(typeof systemData.defense.dodge.mods !== 'object'){
+            systemData.defense.dodge.mods = {};
+        }
+        let techReflex = systemData.abilities.calc.tr;
+        for(let [classId, level] of Object.entries(systemData.levels.classes)){
+            let calcScore = 0;
+
+            if(classId === 'fighter' || classId === 'monk' || classId === 'scout'){
+                calcScore = techReflex + level;
+            }else{
+                continue; // Skipping unneeded classes
+            }
+
+            systemData.defense.dodge.mods[classId] = calcScore;
+            systemData.defense.block.mods[classId] = calcScore;
+        }
+
+        // Setting Modified Movement
+        // Skill Long-Distance movement is affecting modfiers above
+        let movePen = systemData.move;
+        const armor = actorData.items.find(item => item.type === 'armor');
+        if(armor){
+            if(armor.system.heavy.value && (this.system.abilities.calc.se + this._getSkillBonus('Encumbered Action')) >= armor.system.heavy.y){
+                movePen += Math.floor(parseInt(armor.system.move, 10) / 2);
+            }else
+                movePen += parseInt(armor.system.move, 10);
+        }
+        systemData.modMove += movePen;
+
+    }
+
     /**
      * Used to add player skills to respective locations in their sheet and rolls
      * @param {string} skillName Name of the skill to search for
@@ -114,154 +267,6 @@ export class GSActor extends Actor {
             default: skillValue = 0;
         }
         systemData.skills.general = { ...systemData.skills.general, darkVision: skillValue };
-    }
-
-    _prepareCharacterData(actorData){
-        const systemData = actorData.system;
-        const type = actorData.type;
-        let hardinessBonus = 0;
-
-        if(type !== 'character') return;
-
-        const actorSkills = this.items.filter(item => item.type === 'skill');
-
-        // Setting up character calculated ability scores
-        for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
-            for(const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)){
-                const calcString = keyP.substring(0,1) + keyS.substring(0,1);
-                const calcScore = scoreP + scoreS;
-                systemData.abilities.calc[calcString] = calcScore;
-            }
-        }
-
-        // TODO: Set a value for a non-existing field for max spells for each spell system
-        systemData.spellUse.totalSpellsKnown = {
-            "sorc": systemData.levels.classes.sorcerer,
-            "prie": systemData.levels.classes.priest,
-            "dPri": systemData.levels.classes.dragon,
-            "sham": systemData.levels.classes.shaman
-        };
-
-        // Setting Character Spell Resistance
-        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
-
-        // Getting character skills
-        for(const [id, skill] of Object.entries(actorSkills)){
-            // Switching on skills to save processing time
-            //console.log("===> For Loop Skill Check", skill.name);
-            switch(skill.name){
-                case "Hardiness": // Setting 2x LifeForce + any Skills
-                    hardinessBonus = this._hardinessSkillCall(skill.name); break;
-                case "Perseverance": // Setting EX Fatigue
-                    this._perserveranceSkillCall(systemData); break;
-                case "Armor: Cloth":
-                case "Armor: Light":
-                case "Armor: Heavy":
-                    this._armorSkillCall("armor", systemData, skill.name); break;
-                case "Shields":
-                    this._armorSkillCall("shield", systemData); break;
-                case "Draconic Heritage":
-                    this._armorSkillCall("lizardman", systemData); break;
-                case "Darkvision":
-                    this._updateDarkVision(skill, systemData); break;
-                case "Bonus Spells: Words of True Power":
-                case "Bonus Spells: Miracles":
-                case "Bonus Spells: Ancestral Dragon Arts":
-                case "Bonus Spells: Spirit Arts":
-                    this._bonusSpellsKnownSkillCall(skill); break;
-                case "Magical Talent":
-                    this.system.spellUse.max += skill.system.value; break;
-                case "Long-Distance Movement":
-                    let moveBonus = 0;
-                    if(skill.system.value === 2)
-                        moveBonus += 2;
-                    else if(skill.system.value === 3)
-                        moveBonus += 4;
-                    systemData.modMove += moveBonus;
-                    break;
-            }
-        }
-
-        // Setting Life Force
-        systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;
-        systemData.lifeForce.max = (systemData.lifeForce.current + hardinessBonus) * 2;
-
-        // Setting Spell Use Scores
-        // TODO: Add in any spell skills that alter this amount per caster class
-        for(let [id, score] of Object.entries(systemData.spellUse.scores)){
-            let calcScore = 0;
-            if(id === "sorc"){
-                calcScore = systemData.levels.classes.sorcerer + systemData.abilities.calc.if;
-            }else{
-                calcScore = systemData.abilities.calc.pf;
-                switch(id){
-                    case "prie": calcScore += systemData.levels.classes.priest; break;
-                    case "dPri": calcScore += systemData.levels.classes.dragon; break;
-                    case "sham": calcScore += systemData.levels.classes.shaman; break;
-                    default: console.error("Error in Score Spell Use switch statement", score, id); break;
-                }
-            }
-            systemData.spellUse.scores[id] = calcScore;
-        }
-
-        // Setting Base Hit Scores
-        for(let [typeId, hitScore] of Object.entries(systemData.attacks.totals)){
-            // Ensure systemData.attacks.totals[typeId] is an object
-            if(typeof systemData.attacks.totals[typeId] !== 'object'){
-                systemData.attacks.totals[typeId] = {}; // Initialized as an empty object
-            }
-            // Getting Technique Focus score for all martial classes to hit with weapons
-            let techFocus = systemData.abilities.calc.tf;
-
-            // Cycling through classes to get levels and modify scores with skills
-            for(let [classId, level] of Object.entries(systemData.levels.classes)){
-                let calcScore = 0;
-
-                if(typeId === 'melee' && (classId === 'fighter' || classId === 'monk' || classId === 'scout')){
-                    calcScore = techFocus + level; // Add skill bonuses here
-                }else if(typeId === 'throw' && (classId === 'monk' || classId === 'ranger' || classId === 'scout')){
-                    calcScore = techFocus + level; // Add skill bonuses here
-                }else if(typeId === 'projectile' && classId === 'ranger'){
-                    calcScore = techFocus + level; // Add skill bonuses here
-                }else{
-                    continue; // Skipping unneeded classes
-                }
-
-                // Assigning the calculated score to the object
-                systemData.attacks.totals[typeId][classId] = calcScore;
-            }
-        }
-
-        // Setting Dodge Scores
-        if(typeof systemData.defense.dodge.mods !== 'object'){
-            systemData.defense.dodge.mods = {};
-        }
-        let techReflex = systemData.abilities.calc.tr;
-        for(let [classId, level] of Object.entries(systemData.levels.classes)){
-            let calcScore = 0;
-
-            if(classId === 'fighter' || classId === 'monk' || classId === 'scout'){
-                calcScore = techReflex + level;
-            }else{
-                continue; // Skipping unneeded classes
-            }
-
-            systemData.defense.dodge.mods[classId] = calcScore;
-            systemData.defense.block.mods[classId] = calcScore;
-        }
-
-        // Setting Modified Movement
-        // Skill Long-Distance movement is affecting modfiers above
-        let movePen = systemData.move;
-        const armor = actorData.items.find(item => item.type === 'armor');
-        if(armor){
-            if(armor.system.heavy.value && (this.system.abilities.calc.se + this._getSkillBonus('Encumbered Action')) >= armor.system.heavy.y){
-                movePen += Math.floor(parseInt(armor.system.move, 10) / 2);
-            }else
-                movePen += parseInt(armor.system.move, 10);
-        }
-        systemData.modMove += movePen;
-
     }
 
     _prepareMonsterData(actorData){
