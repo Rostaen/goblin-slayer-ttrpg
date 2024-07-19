@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0.8.0
+## Current State v0.9.0
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
@@ -19,7 +19,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - Melee/Power/Dodge/Block checks rolling to chat bar
     - Rolls broken down into 'Dice + Stat + Class + Item Mod'
     - Spell DC casting check
-  - Stealth rolls to chat bar with class level and item modifiers
+  - All skills roll to chat window
   - Misc. modifier pop-up window for all player rolls
   - Attrition & Fatigue
     - Attrition tracking works properly for both under half and over half health, triggering fatigue as required
@@ -31,24 +31,11 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 ### TODO:
 
 - [x] Melee/Thrown/Projectile
-  - [x] To Hit checks
-  - [x] Power rolls
-  - [x] Dodge Checks
-  - [x] Block Checks
-  - [x] Check non class related items for reduced modifiers eg: Priest attacking with sword, etc.
 - [x] PC Stealth
-  - [x] Stealth button rolling
-  - [x] Armor/shield modifiers added in
-  - [x] Classes that stealth added in
-  - [x] Skill Modifiers
-  - [x] Update chat window for crit success/fail
 - [ ] Combat Tracking
   - [x] Add initiative rolls to combat tracker
   - [ ] Update players from NPCs
 - [x] Movement Updates
-  - [x] Change movement field for PC creation to maximum
-  - [x] Create disabled field for modified movement from armor/skills
-  - [x] Armor Modifiers added
 - [x] Move Race skills from Race to Item level
 - [x] Add in a Parry check
 - [x] Context menu for Race skills
@@ -67,6 +54,12 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Regulate items with an "equipped" button to determine misc. modifiers
 - [x] Create new actor for Fate Points usage and table
 - [ ] Add equip checkbox to gear and update code accordingly
+- [x] Fix health bars so they show up on character tokens
+- [ ] Combat Updates
+  - [ ] Add damage button to "to hit" rolls
+  - [ ] Update target tracking
+  - [ ] Add effectiness score bonus damage to player rolls
+  - [ ] Add button to apply damage to target
 
 ### Skill Implementation Tracking
 
