@@ -32,9 +32,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 
 - [x] Melee/Thrown/Projectile
 - [x] PC Stealth
-- [ ] Combat Tracking
-  - [x] Add initiative rolls to combat tracker
-  - [ ] Update players from NPCs
+- [x] Combat Tracking
 - [x] Movement Updates
 - [x] Move Race skills from Race to Item level
 - [x] Add in a Parry check
@@ -50,7 +48,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [x] Monster sheet '!' information hovers
 - [ ] Block skills from having a higher value when levels and rank are in conflict
 - [ ] Supplement book items added to game
-- [ ] Add button for resting and apply proper healing to all areas
+- [ ] Resting
+  - [x] Short Rest (30 mins to heal 3 attrition)
+  - [ ] Lost Rest (6 hrs to heal wounds, attrition, fatigue, spell uses)
 - [ ] Regulate items with an "equipped" button to determine misc. modifiers
 - [x] Create new actor for Fate Points usage and table
 - [ ] Add equip checkbox to gear and update code accordingly

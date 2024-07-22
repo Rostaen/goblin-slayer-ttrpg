@@ -1113,6 +1113,13 @@ table tr:nth-child(even) {
   grid-row-gap: 6px;
   margin: 5px 0px;
 }
+.sidebar .resting {
+  grid-column-gap: 2px;
+  margin: 0px;
+}
+.sidebar .resting .restButton {
+  width: 97%;
+}
 .sidebar div.status,
 .sidebar div.experience,
 .sidebar div.buttons {
@@ -1141,6 +1148,7 @@ table tr:nth-child(even) {
 }
 .sidebar .lifeForceCalc .grid {
   gap: 2px;
+  margin-top: 0px;
 }
 .sidebar .charSR:hover {
   cursor: pointer;

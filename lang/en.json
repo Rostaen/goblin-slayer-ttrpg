@@ -143,7 +143,7 @@
         "adv": "Advance Pts",
         "ads": "Adventures",
         "com": "Completed",
-        "lvl": "Adventurer Level",
+        "lvl": "Adv. Level",
         "status": "Status",
         "wounds": "Wounds",
         "spUse": "Spell Uses",
@@ -386,7 +386,9 @@
             "longDistance": "Long Distance Movement",
             "tacMove": "Tactical Movement",
             "spellMaint": "Spell Maintenance"
-          }
+          },
+          "sRest": "Short Rest",
+          "lRest": "Long Rest"
         }
       },
       "healingPrompt": {
@@ -478,6 +480,10 @@
       "spellCasting": {
         "shamanAlert": "You need either Beloved of the Fae or a Shaman Bag to cast Shaman spells.",
         "dragonPriestAlert": "You need a Dragon Priest's Catalyst Pouch to cast Dragon Priest spells."
+      },
+      "resting":{
+        "sRestMessage": "has healed 3 attrition from a short rest.",
+        "lRestMessage": "xxxxx"
       }
     }
   }

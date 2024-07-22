@@ -583,7 +583,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		ChatMessage.create({
 			speaker,
-			flavor: `Basic ${type}`,
+			flavor: `${type}`,
 			content: messageContent
 		}).then(() => {
 			//console.log("GS || Basic message sent to chat.");
@@ -1282,8 +1282,8 @@ export default class GSActorSheet extends ActorSheet{
 	 * The method will either heal Attrition or Fatigue based on the parameter sent in.
 	 * @param {string} healType The word to heal either attrition or fatigue
 	 */
-	async _healAttrFatigue(healType){
-		let amountToHeal = await this._promptHealingAmount(healType);
+	async _healAttrFatigue(healType, healAmount = 0){
+		let amountToHeal = healAmount === 0 ? await this._promptHealingAmount(healType) : healAmount;
 
 		if(amountToHeal > 0){
 			if(healType === 'healAttrition'){
@@ -1378,6 +1378,7 @@ export default class GSActorSheet extends ActorSheet{
 			'acrobatics', 'jump', 'provoke', 'moveObs', 'moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'escape',
 			'climbM', 'monsterKnow', 'generalKnow', 'magicalKnow', 'observe', 'longDistance', 'tacMove', 'spellMaint'];
     	const healActions = ['healAttrition', 'healFatigue', 'healing'];
+		const resting = ['sRest', 'lRest'];
 		const fateButtons = ['byOne', 'byThree'];
 
 		if (rollMappings[classType]) {
@@ -1392,7 +1393,12 @@ export default class GSActorSheet extends ActorSheet{
 			this._specialRolls(event, classType, classType.charAt(0).toUpperCase() + classType.slice(1).replace(/([A-Z])/g, ' $1').trim());
 		} else if (fateButtons.includes(classType)){
 			this._fateAdjustment(event, classType);
-		} else {
+		} else if (resting.includes(classType)) {
+			if(classType === 'sRest'){
+				this._healAttrFatigue('healAttrition', 3);
+				this._sendBasicMessage(3, this.actor.name + " " + game.i18n.localize('gs.dialog.resting.sRestMessage'));
+			}
+		}else {
 			console.error(`GS _actorRolls || ${classType} was not found in the method.`);
 		}
 	}
@@ -1785,6 +1791,11 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	/**
+	 * Simple method to allow players and monsters to be added to the combat tracker & roll initiative
+	 * @param {HTML} event Click event
+	 * @param {JSON} actor JSON directory for the actor that made the click event
+	 */
 	async _toggleCombatState(event, actor){
 		event.preventDefault();
 		try{

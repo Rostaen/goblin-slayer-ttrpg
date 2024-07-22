@@ -1,5 +1,3 @@
-2024/07/19-13:58:16.004 c58 Log #352: 0 ops saved to Table #353 OK
-2024/07/19-13:58:16.005 c58 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters/000352.log: OK
-2024/07/19-13:58:16.006 c58 Table #304: 122 entries OK
-2024/07/19-13:58:16.007 c58 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters/MANIFEST-000351: OK
-2024/07/19-13:58:16.009 c58 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters; recovered 1 files; 181634 bytes. Some data may have been lost. ****
+2024/07/22-13:21:39.737 a04 Recovering log #362
+2024/07/22-13:21:39.740 a04 Delete type=0 #362
+2024/07/22-13:21:39.740 a04 Delete type=3 #361
