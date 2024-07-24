@@ -1414,12 +1414,18 @@ export default class GSActorSheet extends ActorSheet{
 				await this._healAttrFatigue('healAttrition', 3);
 				await this._sendBasicMessage(3, this.actor.name + " " + game.i18n.localize('gs.dialog.resting.sRestMessage'));
 			}else{
-				await this._healAttrFatigue('healAttrition', 10);
-				await this._healAttrFatigue('healFatigue', '2d3+1');
-				await this._healAttrFatigue('sleep', 1);
-				// TODO update spell use
-				if(this.actor.system.spellUse.max > 0)
-					await this._restorSpellUse(this.actor.system);
+				const restAmount = await this._promptMiscModChoice('resting');
+				if(restAmount === 3){
+					await this._healAttrFatigue('healAttrition', 3);
+					await this._healAttrFatigue('healFatigue', '1d3');
+				}else{
+					await this._healAttrFatigue('healAttrition', 10);
+					await this._healAttrFatigue('healFatigue', '2d3+1');
+					await this._healAttrFatigue('sleep', 1);
+					// TODO update spell use
+					if(this.actor.system.spellUse.max > 0)
+						await this._restorSpellUse(this.actor);
+				}
 			}
 		}else {
 			console.error(`GS _actorRolls || ${classType} was not found in the method.`);
@@ -1428,13 +1434,13 @@ export default class GSActorSheet extends ActorSheet{
 
 	/**
 	 * Refreshes all spell use after a long rest
-	 * @param {JSON} systemData Actor JSON data
+	 * @param {JSON} actor Actor JSON data
 	 */
-	_restorSpellUse(systemData){
-		const checks = systemData.spellUse.checks;
+	_restorSpellUse(actor){
+		const checks = actor.system.spellUse.checks;
 		for(let [id] in checks)
 			checks[id] = false;
-		systemData.update({
+		actor.update({
 			'system.spellUse.checks': checks
 		});
 	}
@@ -1628,6 +1634,22 @@ export default class GSActorSheet extends ActorSheet{
 					for(const [index, spell] of spells.entries()){
 						buttons[index] = createSpellButton(spell);
 					}
+					break;
+				case 'resting':
+					dialogContent = `<h3>${game.i18n.localize("gs.dialog.longResting.header")}</h3>`;
+					promptTitle = game.i18n.localize("gs.dialog.longResting.title");
+					button1 = {
+						label: game.i18n.localize("gs.dialog.longResting.label1"),
+						callback: () => {
+							resolve(3);
+						}
+					};
+					button2 = {
+						label: game.i18n.localize("gs.dialog.longResting.label2"),
+						callback: () => {
+							resolve(6);
+						}
+					};
 					break;
 				default:
 					break;

@@ -481,9 +481,15 @@
         "shamanAlert": "You need either Beloved of the Fae or a Shaman Bag to cast Shaman spells.",
         "dragonPriestAlert": "You need a Dragon Priest's Catalyst Pouch to cast Dragon Priest spells."
       },
-      "resting":{
+      "resting": {
         "sRestMessage": "has healed 3 attrition from a short rest.",
         "lRestMessage": "xxxxx"
+      },
+      "longResting": {
+        "title": "Long Rest Decision",
+        "header": "Decide how many hours you are resting",
+        "label1": "3+",
+        "label2": "6+"
       }
     }
   }
