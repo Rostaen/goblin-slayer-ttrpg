@@ -1371,7 +1371,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * A sorting function for actor sheet rolls
 	 * @param {*} event The click event
 	 */
-	_actorRolls(event){
+	async _actorRolls(event){
 		const cssClassType = event.currentTarget.classList;
 		const classType = cssClassType[1];
 
@@ -1411,17 +1411,32 @@ export default class GSActorSheet extends ActorSheet{
 			this._fateAdjustment(event, classType);
 		} else if (resting.includes(classType)) {
 			if(classType === 'sRest'){
-				this._healAttrFatigue('healAttrition', 3);
-				this._sendBasicMessage(3, this.actor.name + " " + game.i18n.localize('gs.dialog.resting.sRestMessage'));
+				await this._healAttrFatigue('healAttrition', 3);
+				await this._sendBasicMessage(3, this.actor.name + " " + game.i18n.localize('gs.dialog.resting.sRestMessage'));
 			}else{
-				this._healAttrFatigue('healAttrition', 10);
-				this._healAttrFatigue('healFatigue', '2d3+1');
-				this._healAttrFatigue('sleep', 1);
+				await this._healAttrFatigue('healAttrition', 10);
+				await this._healAttrFatigue('healFatigue', '2d3+1');
+				await this._healAttrFatigue('sleep', 1);
 				// TODO update spell use
+				if(this.actor.system.spellUse.max > 0)
+					await this._restorSpellUse(this.actor.system);
 			}
 		}else {
 			console.error(`GS _actorRolls || ${classType} was not found in the method.`);
 		}
+	}
+
+	/**
+	 * Refreshes all spell use after a long rest
+	 * @param {JSON} systemData Actor JSON data
+	 */
+	_restorSpellUse(systemData){
+		const checks = systemData.spellUse.checks;
+		for(let [id] in checks)
+			checks[id] = false;
+		systemData.update({
+			'system.spellUse.checks': checks
+		});
 	}
 
 	/**
@@ -2182,8 +2197,6 @@ export default class GSActorSheet extends ActorSheet{
 			// Updates Armor, Shields, and Barehand attack values based on skill values and
 			this._updateArmorShieldsLizard(data.actor, systemData);
 
-			// this._checkAttrition(data.actor, systemData);
-
 			// Updates fatigue based on attrition and other factors
 			// this._checkFatigue(data.actor, systemData);
 
@@ -2318,7 +2331,10 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	async _checkAttrition(event){
+	/**
+	 * Checks over attrition clicks and decides to add fatigue based on current wounds and heavy armor
+	 */
+	async _checkAttrition(){
 		const actor = this.actor;
 		const systemData = actor.system;
 		let attritionLevel = 1;
@@ -2338,7 +2354,6 @@ export default class GSActorSheet extends ActorSheet{
 		// Checking if character is wearing heavy armor and if Str End is less than value, true? +1 fatigue
 		const checkIfHeavy = async (armorWorn, systemData) => {
 			let encActionSkillValue = this._getSkillBonus('Encumbered Action');
-
 			if(armorWorn.value && (systemData.abilities.calc.se + encActionSkillValue) < armorWorn.x){
 				setTimeout(async () => {
 					await this._checkFatigueRanks();
@@ -2346,6 +2361,7 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		}
 
+		// Built-in arrow function to (re)set attrition flag level, update fatigue, and modify fatigue based on armor.
 		const updatingFatigue = async (attritionLevel, armorWorn, systemData) => {
 			await actor.setFlag('gs', 'attrition', attritionLevel);
 			await this._checkFatigueRanks();
@@ -2367,8 +2383,6 @@ export default class GSActorSheet extends ActorSheet{
 			}else if(attritionFlag)
 				await actor.unsetFlag('gs', 'attrition');
 		}
-		console.log("_checkAttrition |", attritionFlag, attritionLevel);
-
 	}
 
 	_checkFatigue(actor, system){
