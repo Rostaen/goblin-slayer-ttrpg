@@ -99,7 +99,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
-		// html.find(".attritionCBox").off('click').click(this._updateAttritionFlag.bind(this));
+		html.find(".attritionCBox").click(this._checkAttrition.bind(this));
 		html.find(".starred").change(this._addRollToFavorites.bind(this));
 		html.find(".genSkillContainer").on('mouseenter', this._changeSkillImage.bind(this, true));
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
@@ -340,7 +340,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} rank Current fatigue rank being checked, eg 'rank1', 'rank2', etc.
 	 */
 	async _updateFatigue(rank){
-		console.log("GSAS _updateFatigue", rank);
+		// console.log("GSAS _updateFatigue", rank);
 		const fatigueMin = `system.fatigue.${rank}.min`;
 		const fatigueMarked = `system.fatigue.${rank}.marked`;
 		const currentMin = this.actor.system.fatigue[rank].min;
@@ -359,7 +359,7 @@ export default class GSActorSheet extends ActorSheet{
 		for(const rank of ranks){
 			const currentMin = this.actor.system.fatigue[rank].min;
 			const max = this.actor.system.fatigue[rank].max;
-			console.log("GSAS _checkFatigueRanks", currentMin, max);
+			// console.log("GSAS _checkFatigueRanks", currentMin, max);
 			if(currentMin < max){
 				await this._updateFatigue(rank);
 				break;
@@ -488,6 +488,8 @@ export default class GSActorSheet extends ActorSheet{
 			const diceResults = roll.terms[0].results.map(r => r.result);
 			const status = this._checkForCritRolls(diceResults, modSelector, event);
 			let dcCheck = '';
+
+			console.log("GS _rollsToMessage |", diceResults, rollExpression);
 
 			// Getting dice total plus bonuses to compare to DC stored in Modifier
 			let diceTotal = diceResults[0] + diceResults[1] + parseInt(stat, 10) + parseInt(classBonus, 10) + parseInt(skillBonus, 10);
@@ -947,7 +949,8 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_parseDiceNotation(diceNotation){
 		let [dice, mod] = diceNotation.includes('+') ? diceNotation.split('+') : [diceNotation, 0];
-		if(dice != "1d6" || dice != "2d6" || dice != "1d3"){
+		console.log("GS _parseDiceNotation |", diceNotation, dice, mod);
+		if(dice != "1d6" && dice != "2d6" && dice != "1d3"){
 			// Checks for moral bonus being a solo number
 			mod = dice;
 			dice = "2d6";
@@ -1283,7 +1286,23 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {string} healType The word to heal either attrition or fatigue
 	 */
 	async _healAttrFatigue(healType, healAmount = 0){
+		const systemData = this.actor.system;
 		let amountToHeal = healAmount === 0 ? await this._promptHealingAmount(healType) : healAmount;
+		if(typeof(amountToHeal) === 'string'){
+			const roll = new Roll('2d3');
+			await roll.evaluate();
+			const diceResults = roll.terms[0].results.map(r => r.result);
+			amountToHeal = diceResults[0] + diceResults[1] + 1;
+			this.actor.setFlag('gs', 'fatigueHealed', amountToHeal);
+		}
+
+		const healThisAmount = healAmount => {
+			if(healAmount < 0)
+				healAmount = 0;
+			this.actor.update({
+				'system.lifeForce.wounds': healAmount
+			});
+		}
 
 		if(amountToHeal > 0){
 			if(healType === 'healAttrition'){
@@ -1329,6 +1348,9 @@ export default class GSActorSheet extends ActorSheet{
 					}
 
 				}
+			}else if(healType === 'sleep'){
+				const halfLifeForce = Math.round(systemData.lifeForce.double / 2);
+				healThisAmount(systemData.lifeForce.wounds - halfLifeForce);
 			}else if(healType === 'healing'){
 				const skills = this.actor.items.filter(item => item.type === 'skill');
 				let skillMod = 0;
@@ -1340,13 +1362,7 @@ export default class GSActorSheet extends ActorSheet{
 						skillMod += skill.system.value * 2;
 				}
 
-				let healAmount = this.actor.system.lifeForce.min - amountToHeal - skillMod;
-				if(healAmount < 0)
-					healAmount = 0;
-
-				this.actor.update({
-					'system.lifeForce.min': healAmount
-				});
+				healThisAmount(systemData.lifeForce.wounds - amountToHeal - skillMod);
 			}
 		}
 	}
@@ -1397,6 +1413,11 @@ export default class GSActorSheet extends ActorSheet{
 			if(classType === 'sRest'){
 				this._healAttrFatigue('healAttrition', 3);
 				this._sendBasicMessage(3, this.actor.name + " " + game.i18n.localize('gs.dialog.resting.sRestMessage'));
+			}else{
+				this._healAttrFatigue('healAttrition', 10);
+				this._healAttrFatigue('healFatigue', '2d3+1');
+				this._healAttrFatigue('sleep', 1);
+				// TODO update spell use
 			}
 		}else {
 			console.error(`GS _actorRolls || ${classType} was not found in the method.`);
@@ -2149,7 +2170,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		try{
 			// Updating wounds and health
-			console.log("GSA _prepareCharacterData |", systemData.lifeForce.value, systemData.lifeForce.max, systemData.lifeForce.wounds)
+			// console.log("GSA _prepareCharacterData |", systemData.lifeForce.value, systemData.lifeForce.max, systemData.lifeForce.wounds)
         	const lFValue = systemData.lifeForce.max - systemData.lifeForce.wounds;
 			data.actor.update({
 				'system.lifeForce.value': lFValue
@@ -2161,7 +2182,7 @@ export default class GSActorSheet extends ActorSheet{
 			// Updates Armor, Shields, and Barehand attack values based on skill values and
 			this._updateArmorShieldsLizard(data.actor, systemData);
 
-			this._checkAttrition(data.actor, systemData);
+			// this._checkAttrition(data.actor, systemData);
 
 			// Updates fatigue based on attrition and other factors
 			// this._checkFatigue(data.actor, systemData);
@@ -2297,15 +2318,17 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	async _checkAttrition(actor, systemData){
-		let attritionLevel = 0;
+	async _checkAttrition(event){
+		const actor = this.actor;
+		const systemData = actor.system;
+		let attritionLevel = 1;
 		const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
 		const attrition = systemData.attrition;
-		const currentWounds = systemData.lifeForce.min;
+		const currentWounds = systemData.lifeForce.wounds;
 		const lifeForceHalf = systemData.lifeForce.double;
 		const armor = this.actor.items.find(item => item.type.toLowerCase() === 'armor');
 		const armorWorn = armor ? armor.system.heavy : null;
-		const attritionFlag = actor.getFlag('gs', 'attrition') || 0;
+		const attritionFlag = actor.getFlag('gs', 'attrition');
 
 		for(let [id, a] of Object.entries(attrition)) {
 			if(a) attritionLevel += 1;
@@ -2323,24 +2346,29 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		}
 
+		const updatingFatigue = async (attritionLevel, armorWorn, systemData) => {
+			await actor.setFlag('gs', 'attrition', attritionLevel);
+			await this._checkFatigueRanks();
+			await checkIfHeavy(armorWorn, systemData);
+		}
+
 		if(currentWounds < lifeForceHalf){
-			if(attritionThresholds.includes(attritionLevel) && !attritionFlag){
-				await actor.setFlag('gs', 'attrition', true);
-				await this._checkFatigueRanks();
-				await checkIfHeavy(armorWorn, systemData);
-			}else if(!attritionThresholds.includes(attritionLevel) && attritionFlag)
+			if(attritionThresholds.includes(attritionLevel)){
+				console.log("_checkAttrition |", attritionFlag, attritionLevel);
+				if(!attritionFlag || (attritionFlag && (attritionFlag + 1) === attritionLevel))
+					updatingFatigue(attritionLevel, armorWorn, systemData);
+			}else if(attritionFlag)
 				await actor.unsetFlag('gs', 'attrition');
 		}else if(currentWounds >= lifeForceHalf){
 			await this._checkFatigueRanks();
-			if(attritionThresholds.includes(attritionLevel)&& !attritionFlag){
-				await actor.setFlag('gs', 'attrition', true);
-				await this._checkFatigueRanks();
-				// setTimeout(async () => {
-				// }, 100);
-				await checkIfHeavy(armorWorn, systemData);
-			}else if(!attritionThresholds.includes(attritionLevel) && attritionFlag)
+			if(attritionThresholds.includes(attritionLevel)){
+				if(!attritionFlag || (attritionFlag && (attritionFlag + 1) === attritionLevel))
+					updatingFatigue(attritionLevel, armorWorn, systemData);
+			}else if(attritionFlag)
 				await actor.unsetFlag('gs', 'attrition');
 		}
+		console.log("_checkAttrition |", attritionFlag, attritionLevel);
+
 	}
 
 	_checkFatigue(actor, system){
