@@ -1306,15 +1306,25 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(amountToHeal > 0){
 			if(healType === 'healAttrition'){
+				const attritionThresholds = [5,8,11,14,16,18,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40];
 				const attritionTrack = this.actor.system.attrition;
 				amountToHeal -= 1;
 				let attritionAmount = 0;
+				// Finding attrition amount
 				for(attritionAmount; attritionAmount < Object.entries(attritionTrack).length; attritionAmount++){
 					if(attritionTrack[attritionAmount] === false){
 						attritionAmount -= 1;
 						break;
 					}
 				}
+
+				// Updating attrition flag as needed
+				const newAttrition = (attritionAmount + 1) - (amountToHeal + 1);
+				if(attritionThresholds.includes(newAttrition))
+					this.actor.setFlag('gs', 'attrition', newAttrition);
+
+
+				// Moving backwards and "healing" attrition based on the amount to heal
 				for(let x = attritionAmount; x >= attritionAmount - amountToHeal; x--){
 					if(x < 0) {// Check to ensure x doesn't break below array position 0
 						break;
@@ -1322,6 +1332,7 @@ export default class GSActorSheet extends ActorSheet{
 					attritionTrack[x] = false;
 				}
 				this.actor.update({ 'system.attrition': attritionTrack });
+
 			}else if(healType === 'healFatigue'){
 				const fatigueTracks = this.actor.system.fatigue;
 				const ranks = ['rank5', 'rank4', 'rank3', 'rank2', 'rank1'];
@@ -1341,7 +1352,7 @@ export default class GSActorSheet extends ActorSheet{
 							fatigueTracks[rank].marked[x] = false;
 						}
 
-						this.actor.update({
+						await this.actor.update({
 							[`system.fatigue.${rank}.min`]: healedMin,
 							[`system.fatigue.${rank}.marked`]: fatigueTracks[rank].marked
 						});
