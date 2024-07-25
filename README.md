@@ -48,12 +48,10 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [x] Monster sheet '!' information hovers
 - [ ] Block skills from having a higher value when levels and rank are in conflict
 - [ ] Supplement book items added to game
-- [ ] Resting
-  - [x] Short Rest (30 mins to heal 3 attrition)
-  - [ ] Lost Rest (6 hrs to heal wounds, attrition, fatigue, spell uses)
+- [x] Resting: Short Rest & Lost Rest
+- [ ] Add equip checkbox to gear and update code accordingly
 - [ ] Regulate items with an "equipped" button to determine misc. modifiers
 - [x] Create new actor for Fate Points usage and table
-- [ ] Add equip checkbox to gear and update code accordingly
 - [x] Fix health bars so they show up on character tokens
 - [ ] Combat Updates
   - [ ] Add damage button to "to hit" rolls

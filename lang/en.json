@@ -302,6 +302,18 @@
       },
       "statsPage": {
         "checks": "Checks"
+      },
+      "effects": {
+        "bound": "Bound",
+        "blind": "Blind",
+        "partBlind": "Partially Blind",
+        "cursed": "Cursed",
+        "drowsy": "Drowsy",
+        "fracture": "Fracture",
+        "illness": "Illness",
+        "hungry": "Hungry",
+        "paralyzed": "Paralyzed",
+        "poisoned": "Poisoned"
       }
     },
     "raceSheet": {

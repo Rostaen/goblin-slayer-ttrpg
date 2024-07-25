@@ -1680,3 +1680,30 @@ table tr:nth-child(even) {
 .spellsContainer .spellsHolder .spellBlock1 .singleSpell .buttonsToRoll button i {
   margin-right: -1px;
 }
+.effects {
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 5px;
+  box-shadow: 3px 3px 10px;
+}
+.effects .effect-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.effects .effect-container input[type="checkbox"] {
+  margin: 0px;
+}
+.effects .effect-container i {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
+}
+.effects .effect-container .effect-name {
+  display: inline;
+}
