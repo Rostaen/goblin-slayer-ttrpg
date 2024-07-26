@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0.9.1
+## Current State v0.9.2
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
@@ -26,6 +26,10 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - Fatigue tracking adds modifiers to character sheets
     - Hover over fatigue numbers to see how they affect the character
     - Attrition & Fatigue healing buttons have been added to recover each item from resting/potions/spells
+  - Resting
+    - Short Rest button (fork & knife) heals 3 attrition
+    - Long Rest button (person in bed) on 3+ hours heals a small amount of attrition and fatigue, 6+ hours heals 10 attrition, all spell uses (if any), half life force in woulds (rounded up), and 2d3+1 fatigue
+  - Effects page has been updated with checkboxes, an icon, and name of effect. Automation has not been implemented yet until a full understanding of how each effect interacts with the character/monster
 - Full compendium added from core book
 
 ### TODO:

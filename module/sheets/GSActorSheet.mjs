@@ -100,6 +100,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
 		html.find(".actorRolls").click(this._actorRolls.bind(this));
 		html.find(".attritionCBox").click(this._checkAttrition.bind(this));
+		html.find(".fatigueCBox").click(this._checkFatigue.bind(this));
 		html.find(".starred").change(this._addRollToFavorites.bind(this));
 		html.find(".genSkillContainer").on('mouseenter', this._changeSkillImage.bind(this, true));
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
@@ -1340,6 +1341,7 @@ export default class GSActorSheet extends ActorSheet{
 
 				for(const rank of ranks){
 					const currentMin = this.actor.system.fatigue[rank].min;
+					console.log("healing fatigue", amountToHeal, currentMin);
 
 					if(amountToHeal == 0) break;
 					else if(currentMin == 0) continue;
@@ -2421,8 +2423,20 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_checkFatigue(actor, system){
-		const fatigue = system.fatigue;
+	async _checkFatigue(event){
+		event.preventDefault();
+		let boxNumber = event.currentTarget.dataset.fcbox;
+		const cBoxValue = event.currentTarget.checked;
+
+		// Update character checkbox
+		boxNumber = boxNumber.split("");
+		await this.actor.update({
+			[`system.fatigue.rank${boxNumber[0]}.marked.${boxNumber[1]}`]: cBoxValue
+		});
+
+		const actor = this.actor;
+		const systemData = actor.system;
+		const fatigue = systemData.fatigue;
         const ranks = [
             { rank: fatigue.rank1, flag: 'fatigueRank1', minMaxCount: 6, label: 'rank1' },
             { rank: fatigue.rank2, flag: 'fatigueRank2', minMaxCount: 5, label: 'rank2' },
@@ -2432,57 +2446,62 @@ export default class GSActorSheet extends ActorSheet{
         ];
 
         const flags = {
-            fatigueRank1: actor.getFlag('gs', 'fatigueRank1'),
-            fatigueRank2: actor.getFlag('gs', 'fatigueRank2'),
-            fatigueRank3: actor.getFlag('gs', 'fatigueRank3'),
-            fatigueRank4: actor.getFlag('gs', 'fatigueRank4'),
-            fatigueRank5: actor.getFlag('gs', 'fatigueRank5'),
-            rank4Unconscious: actor.getFlag('gs', 'rank4Unconscious')
+            fatigueRank1: await actor.getFlag('gs', 'fatigueRank1'),
+            fatigueRank2: await actor.getFlag('gs', 'fatigueRank2'),
+            fatigueRank3: await actor.getFlag('gs', 'fatigueRank3'),
+            fatigueRank4: await actor.getFlag('gs', 'fatigueRank4'),
+            fatigueRank5: await actor.getFlag('gs', 'fatigueRank5'),
+            rank4Unconscious: await actor.getFlag('gs', 'rank4Unconscious')
         };
 
         // Iterrate over fatigue to update min to/from max
-        const updateFatigueMin = (rank, count) => {
+        const updateFatigueMin = async (rank, count, label) => {
             rank.min = 0;
             for (let i = 1; i <= count; i++){
                 if (rank.marked[i]) rank.min += 1;
             }
+			await this.actor.update({
+				[`system.fatigue.${label}.min`]: rank.min > 0 ? rank.min + 1 : 0
+			});
         };
 
         // Checking over fatigue and applying negative modifiers as needed
         for(const { rank, flag, minMaxCount, label } of ranks ){
-            updateFatigueMin(rank, minMaxCount);
+            updateFatigueMin(rank, minMaxCount, label);
+			// console.log(".>>", rank, flag, minMaxCount, label);
+			console.log("min/max", rank.min, rank.max);
             if(rank.min == rank.max && !flags[flag]){
-                actor.setFlag('gs', flag, -1);
-                this._applyAbilityScoreFatigueMods(data.actor, systemData, true, label);
+                await actor.setFlag('gs', flag, -1);
+                this._applyAbilityScoreFatigueMods(actor, systemData, true, label);
             }else if(rank.min < rank.max && flags[flag]){
-                actor.unsetFlag('gs', flag);
-                this._applyAbilityScoreFatigueMods(data.actor, systemData, false, label);
+                await actor.unsetFlag('gs', flag);
+                this._applyAbilityScoreFatigueMods(actor, systemData, false, label);
             }
         }
 
         // Special case to remove unconscious when rank 4 fully cleared
         if(fatigue.rank4.min === 0 && flags.rank4Unconscious){
-            actor.unsetFlag('gs', 'rank4Unconscious');
+            await actor.unsetFlag('gs', 'rank4Unconscious');
             ui.notifications.info(`You are no longer unconscious and may act normally again.`);
         }
 	}
 
 	// Apply or revert fatigue modifiers
-    _applyAbilityScoreFatigueMods(actor, systemData, apply, rank) {
+    async _applyAbilityScoreFatigueMods(actor, systemData, apply, rank) {
         let moveMod = 0, rollMod = 0, lifeForceDeduction = 0;
 
-        const updateAbilities = (primaryModifier, secondaryModifier) => {
+        const updateAbilities = async (modifier, actor) => {
             for (const id in systemData.abilities.primary)
-                systemData.abilities.primary[id] += primaryModifier;
+                systemData.abilities.primary[id] += modifier;
             for (const id in systemData.abilities.secondary)
-                systemData.abilities.secondary[id] += secondaryModifier;
-            this.update({
+                systemData.abilities.secondary[id] += modifier;
+            await actor.update({
                 'system.abilities.primary': systemData.abilities.primary,
                 'system.abilities.secondary': systemData.abilities.secondary
             });
         };
 
-        const updateMove = (apply, factor) => {
+        const updateMove = async (apply, factor, actor) => {
             moveMod = apply ? Math.floor(systemData.move / factor) : systemData.move * factor;
             if(apply && systemData.move % factor !== 0)
                 actor.setFlag('gs', 'rank2Decimal', 0.5);
@@ -2493,13 +2512,13 @@ export default class GSActorSheet extends ActorSheet{
                     actor.unsetFlag('gs', 'rank2Decimal');
                 }
             }
-            this.update({
+            await actor.update({
                 'system.fatigue.fatigueMod': rollMod,
                 'system.move': moveMod
             });
         };
 
-        const updateLifeForce = (apply, factor) => {
+        const updateLifeForce = async (apply, factor, actor) => {
             lifeForceDeduction = apply ? Math.floor(systemData.lifeForce.current / factor) : systemData.lifeForce.current * factor;
             if(apply && systemData.lifeForce.current % factor !== 0){
                 actor.setFlag('gs', 'rank3LifeForce', -1);
@@ -2510,7 +2529,7 @@ export default class GSActorSheet extends ActorSheet{
                     actor.unsetFlag('gs', 'rank3LifeForce');
                 }
             }
-            this.update({
+            await actor.update({
                 'system.fatigue.fatigueMod': rollMod,
                 'system.lifeForce.current': lifeForceDeduction
             })
@@ -2518,37 +2537,37 @@ export default class GSActorSheet extends ActorSheet{
 
         switch (rank) {
             case "rank1":
-                updateAbilities(apply ? -1 : 1, apply ? -1 : 1);
+                updateAbilities(apply ? -1 : 1, actor);
                 break;
             case "rank2":
                 rollMod = apply ? -2 : 0;
-                updateMove(apply, 2);
+                updateMove(apply, 2, actor);
                 break;
             case "rank3":
                 rollMod = apply ? -3 : -2;
-                updateLifeForce(apply, 2);
+                updateLifeForce(apply, 2, actor);
                 break;
             case "rank4":
                 rollMod = apply ? -4 : -3;
                 if(apply){
                     ui.notifications.warn(`Warning: You are now unconscious until your fatigue drops to rank 3 or less!`);
-                    if(!actor.getFlag('gs', 'rank4RollMod')){
-                        actor.setFlag('gs', 'rank4Unconscious', -1);
-                        actor.setFlag('gs', 'rank4RollMod', -1);
+                    if(!await actor.getFlag('gs', 'rank4RollMod')){
+                        await actor.setFlag('gs', 'rank4Unconscious', -1);
+                        await actor.setFlag('gs', 'rank4RollMod', -1);
                     }
                 }else
-                    actor.unsetFlag('gs', 'rank4RollMod');
-                this.update({
+                    await actor.unsetFlag('gs', 'rank4RollMod');
+                await actor.update({
                     'system.fatigue.fatigueMod': rollMod
                 });
                 break;
             case "rank5":
                 if (apply) {
-                    actor.setFlag('gs', 'rank5Death', -1);
+                    await actor.setFlag('gs', 'rank5Death', -1);
                     ui.notifications.error(`Sadly, you have succumbed to your wounds and can no longer fight. Rest in peace ${actor.name}...`);
                     // TODO: add in disable JS here and well as changing skills and other areas to 0.
                 } else
-                    actor.unsetFlag('gs', 'rank5Death');
+                    await actor.unsetFlag('gs', 'rank5Death');
                 break;
         }
     }
