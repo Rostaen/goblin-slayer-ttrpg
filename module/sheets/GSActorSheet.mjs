@@ -1289,11 +1289,12 @@ export default class GSActorSheet extends ActorSheet{
 		const systemData = this.actor.system;
 		let amountToHeal = healAmount === 0 ? await this._promptHealingAmount(healType) : healAmount;
 		if(typeof(amountToHeal) === 'string'){
-			const roll = new Roll('2d3');
+			const dice = healAmount.includes("+") ? healAmount.split("+") : [healAmount, 0];
+			const roll = new Roll(dice[0]);
 			await roll.evaluate();
 			const diceResults = roll.terms[0].results.map(r => r.result);
-			amountToHeal = diceResults[0] + diceResults[1] + 1;
-			this.actor.setFlag('gs', 'fatigueHealed', amountToHeal);
+			let amountToHeal = parseInt(diceResults[0],10) + (diceResults[1] ? parseInt(diceResults[1], 10) : 0) + (dice[1] > 0 ? parseInt(dice[1],10) : 0);
+			await this.actor.setFlag('gs', 'fatigueHealed', amountToHeal);
 		}
 
 		const healThisAmount = healAmount => {
@@ -1429,14 +1430,16 @@ export default class GSActorSheet extends ActorSheet{
 				if(restAmount === 3){
 					await this._healAttrFatigue('healAttrition', 3);
 					await this._healAttrFatigue('healFatigue', '1d3');
+					await this._sendBasicMessage(this.actor.getFlag('gs', 'fatigueHealed'), this.actor.name + " " + game.i18n.localize('gs.dialog.resting.briefLongRest'));
 				}else{
 					await this._healAttrFatigue('healAttrition', 10);
 					await this._healAttrFatigue('healFatigue', '2d3+1');
 					await this._healAttrFatigue('sleep', 1);
-					// TODO update spell use
 					if(this.actor.system.spellUse.max > 0)
 						await this._restorSpellUse(this.actor);
+					await this._sendBasicMessage(this.actor.getFlag('gs', 'fatigueHealed'), this.actor.name + " " + game.i18n.localize('gs.dialog.resting.lRestMessage'));
 				}
+				await this.actor.unsetFlag('gs', 'fatigueHealed');
 			}
 		}else {
 			console.error(`GS _actorRolls || ${classType} was not found in the method.`);

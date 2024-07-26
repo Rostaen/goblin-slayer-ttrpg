@@ -495,7 +495,8 @@
       },
       "resting": {
         "sRestMessage": "has healed 3 attrition from a short rest.",
-        "lRestMessage": "xxxxx"
+        "lRestMessage": "has healed 10 attrition, half their life force in wounds, all spell uses (if any), and an amount of fatigue (see below).",
+        "briefLongRest": "has healed 3 attrition, and an amount of fatigue (see below)."
       },
       "longResting": {
         "title": "Long Rest Decision",
