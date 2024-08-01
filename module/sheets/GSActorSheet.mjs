@@ -2361,11 +2361,13 @@ export default class GSActorSheet extends ActorSheet{
 			visionMode: darkVision > 0 ? 'darkvision' : 'basic',
 			range: darkVision > 0 ? darkVision : 0
 		}
+		
 
 		await actor.update({
 			'prototypeToken.sight.vision': updateVision.vision,
 			'prototypeToken.sight.visionMode': updateVision.visionMode,
-			'prototypeToken.sight.range': updateVision.range
+			'prototypeToken.sight.range': updateVision.range,
+			'prototypeToken.actorLink': true,
 		});
 	}
 
