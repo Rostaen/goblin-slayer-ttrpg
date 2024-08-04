@@ -26,9 +26,9 @@
       "flags": {}
     },
     {
-      "lang": "polish",
-      "name": "Polish",
-      "path": "lang/polish.json",
+      "lang": "pl",
+      "name": "Polski",
+      "path": "lang/pl.json",
       "flags": {}
     }
   ],
