@@ -123,7 +123,7 @@ Completed! Cool and Collected may need additional support in the future for the 
 
 ### Top & Left Sidebar
 
-The top and left sidebar are static to the PC sheet. These will alway be in view no matter which tab you shift too for information about your character. The left sidebar being the more imporant section showing wounds, health, spell resistance, xp, and favorite rolls. The top bar simply contains the PC name and current rank.
+The top and left sidebar are static to the PC sheet. These will alway be in view no matter which tab you shift too for information about your character. The left sidebar being the more imporant section showing short and long rest buttons, wounds, health, spell resistance, xp, and favorite rolls. The top bar simply contains the PC name and current rank.
 
 ### Stats Tab
 
