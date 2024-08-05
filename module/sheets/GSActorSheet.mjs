@@ -1289,13 +1289,15 @@ export default class GSActorSheet extends ActorSheet{
 	async _healAttrFatigue(healType, healAmount = 0){
 		const systemData = this.actor.system;
 		let amountToHeal = healAmount === 0 ? await this._promptHealingAmount(healType) : healAmount;
+		console.log("Check before conversion", amountToHeal);
 		if(typeof(amountToHeal) === 'string'){
 			const dice = healAmount.includes("+") ? healAmount.split("+") : [healAmount, 0];
 			const roll = new Roll(dice[0]);
 			await roll.evaluate();
 			const diceResults = roll.terms[0].results.map(r => r.result);
-			let amountToHeal = parseInt(diceResults[0],10) + (diceResults[1] ? parseInt(diceResults[1], 10) : 0) + (dice[1] > 0 ? parseInt(dice[1],10) : 0);
+			amountToHeal = parseInt(diceResults[0],10) + (diceResults[1] ? parseInt(diceResults[1], 10) : 0) + (dice[1] > 0 ? parseInt(dice[1],10) : 0);
 			await this.actor.setFlag('gs', 'fatigueHealed', amountToHeal);
+			console.log("Check after conversion", amountToHeal);
 		}
 
 		const healThisAmount = healAmount => {
