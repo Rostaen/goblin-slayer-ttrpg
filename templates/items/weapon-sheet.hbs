@@ -75,8 +75,9 @@
 					<input class="effectCheckbox" type="checkbox" name="system.effect.checked.13" {{checked gear.effect.checked.[13]}}><div class="effectName grid-span-5">{{localize 'gs.gear.weapons.effects.throwSpc'}}</div>
 				</div>
 			</div>
+			{{!-- <a class="journalLink" href="@UUID[Compendium.gs.rules.JournalEntry.QKzabwVIEIxLgy0S.JournalEntryPage.m4Xnf2FUXWzmgujK#not-throwable]">Not Throwable</a> --}}
 		</div>
-		{{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
+		{{{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}}
 	</span>
 	{{!-- <span class="comments grid-span-5">
 		{{editor gear.comment target="system.comment" button=true engine="prosemirror"}}

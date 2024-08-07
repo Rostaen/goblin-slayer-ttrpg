@@ -105,8 +105,21 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".genSkillContainer").on('mouseenter', this._changeSkillImage.bind(this, true));
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
 		html.find(".genSkillContainer").click(this._rollGenSkills.bind(this));
+		html.find("a.journalLink").click(this._openJournalPage.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
+	}
+
+	_openJournalPage(event) {
+		event.preventDefault();
+		const uuidLink = event.currentTarget.getAttribute("href");
+		if (uuidLink && uuidLink.startsWith("@UUID[")) {
+			// Correctly extract the UUID by removing "@UUID[" prefix and "]" suffix
+			const uuid = uuidLink.slice(6, -1);  // Removes the "@UUID[" at the start and the "]" at the end
+			fromUuid(uuid).then(entity => {
+				if (entity) entity.sheet.render(true);
+			}).catch(console.error);
+		}
 	}
 
 	/**
@@ -2363,7 +2376,7 @@ export default class GSActorSheet extends ActorSheet{
 			visionMode: darkVision > 0 ? 'darkvision' : 'basic',
 			range: darkVision > 0 ? darkVision : 0
 		}
-		
+
 
 		await actor.update({
 			'prototypeToken.sight.vision': updateVision.vision,
