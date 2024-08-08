@@ -539,7 +539,7 @@ export default class GSActorSheet extends ActorSheet{
 				}else if(skill.name.toLowerCase() === 'strong blow: bludgeon' || skill.name.toLowerCase() === 'strong blow: slash'){
 					console.log(">>> In SB: Slash check");
 					const skillName = skill.name.toLowerCase();
-					let strongBlow = skillName === 'strong blow: bludgeon' ? currentWeapon.system.effect?.checked[10] : currentWeapon.system.effect?.checked[11];
+					let strongBlow = skillName === 'strong blow: bludgeon' ? currentWeapon.system.effect?.checked[11] : currentWeapon.system.effect?.checked[12];
 					if(strongBlow){
 						const weaponSBValue = skillName === 'strong blow: bludgeon' ? currentWeapon.system.effect?.sbBludg : currentWeapon.system.effect?.sbSlash;
 						let strBonus = this.actor.system.abilities.primary.str;
