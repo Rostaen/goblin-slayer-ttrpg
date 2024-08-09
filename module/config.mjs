@@ -64,7 +64,8 @@ gs.gear = {
 			wor: "gs.gear.spells.wor",
 			mir: "gs.gear.spells.mir",
 			anc: "gs.gear.spells.anc",
-			spi: "gs.gear.spells.spi"
+			spi: "gs.gear.spells.spi",
+			nec: "gs.gear.spells.nec"
 		},
 		styles: {
 			att: "gs.gear.spells.att",

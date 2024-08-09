@@ -31,7 +31,12 @@
           "sbBludg": "SB: Bludgeon",
           "sbSlash": "SB: Slash",
           "throw": "Throwable",
-          "throwSpc": "Throwing Specialization"
+          "throwSpc": "Throwing Specialization",
+          "miracles": "Miracles",
+          "ancDragon": "Anc. Dragon",
+          "spirit": "Spirit Arts",
+          "wotp": "True Power",
+          "necro": "Necromancy"
         }
       },
       "armor": {
@@ -46,7 +51,8 @@
       },
       "items": {
         "nam": "Name",
-        "des": "Description"
+        "des": "Description",
+        "movePen": "Movement Penalty"
       },
       "spells": {
         "sys": "System",
@@ -69,6 +75,7 @@
         "mir": "Miracle",
         "anc": "Ancestral Dragon",
         "spi": "Spirit Arts",
+        "nec": "Necromancy",
         "att": "Attack",
         "imb": "Imbuement",
         "cre": "Creation",

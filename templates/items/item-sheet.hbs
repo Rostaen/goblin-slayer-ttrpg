@@ -11,7 +11,15 @@
             </span>
         </span>
     </div>
-	<img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
+    <div>
+	    <img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
+        <div class="grid-grid-4col">
+            <p class="grid-span-3">
+                {{localize 'gs.gear.items.movePen'}}
+            </p>
+            <input type="text" name="system.movePen" type="text" value="{{gear.movePen}}" data-dtype="Number">
+        </div>
+    </div>
 	<span class="comments grid-span-4">
 		<label for="itemDescription">{{localize config.common.des}}:</label>
 		{{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
