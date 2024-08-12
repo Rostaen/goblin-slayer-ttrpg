@@ -1,10 +1,6 @@
 {
   "Actor": {
     "types": ["character", "monster", "fate"],
-    "displayNames": {
-      "character": "Player Character",
-      "monster": "Monsters"
-    },
     "templates": {
       "common": {
         "move": 0,
@@ -268,16 +264,7 @@
     }
   },
   "Item": {
-    "types": ["weapon", "armor", "shield", "item", "spell", "skill", "race"],
-    "displayNames": {
-      "weapon": "Weapons",
-      "armor": "Armor",
-      "shield": "Shields",
-      "item": "Items",
-      "spell": "Spells",
-      "skill": "Skills",
-      "race": "Race"
-    },
+    "types": ["weapon", "armor", "shield", "item", "spell", "skill", "race", "martialTechniques"],
     "templates": {
       "common": {
         "type": "",
@@ -385,6 +372,15 @@
         }
       },
       "moveMod": 0
+    },
+    "martialTechniques": {
+      "overview": "",
+      "description": "",
+      "usable": "",
+      "related": "None",
+      "cost": "None",
+      "condition": "None",
+      "deatails": ""
     }
   }
 }

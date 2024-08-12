@@ -1,4 +1,15 @@
 {
+  "ITEM.TypeWeapon": "Weapons",
+  "ITEM.TypeArmor": "Armor",
+  "ITEM.TypeShield": "Shields",
+  "ITEM.TypeItem": "Items",
+  "ITEM.TypeSpell": "Spells",
+  "ITEM.TypeSkill": "Skills",
+  "ITEM.TypeRace": "Race",
+  "ITEM.TypeMartialTechniques": "Martial Techniques",
+  "ACTOR.TypeCharacter": "Player Character",
+  "ACTOR.TypeFate": "Fate",
+  "ACTOR.TypeMonster": "Monsters",
   "gs": {
     "gear": {
       "common": {
