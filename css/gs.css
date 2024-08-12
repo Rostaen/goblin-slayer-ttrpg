@@ -600,6 +600,74 @@ table tr:nth-child(even) {
 .item .comments textarea {
   height: 80% !important;
 }
+.race .innateSkills .racialSkill .textContainer h4 {
+  font-weight: bold;
+  font-size: 16px;
+}
+.race .editor {
+  border: 1px solid #999;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 5px;
+}
+.race .editor .tox.tox-tinymce {
+  height: 125px !important;
+}
+.race .scores {
+  text-align: center;
+}
+.race .scores h3.header,
+.race .scores .move {
+  font-size: 14px;
+  margin-bottom: 0px;
+  padding-bottom: 4px;
+  font-weight: bold;
+}
+.race .scores .stat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.martialtechniques h1,
+.martialtechniques .info,
+.martialtechniques img,
+.martialtechniques .description.editor {
+  box-shadow: 3px 3px 10px #333333;
+}
+.martialtechniques .description.editor {
+  padding: 0px;
+  border: 1px solid darkred !important;
+}
+.martialtechniques .description.editor .editor {
+  border: 0px !important;
+  padding: 0px 5px;
+}
+.martialtechniques h1,
+.martialtechniques h2,
+.martialtechniques .info {
+  background-color: #ffffff;
+  border-bottom: 0px;
+  padding: 2px 4px 0px;
+  border: 1px solid darkred;
+  border-radius: 5px;
+}
+.martialtechniques .info {
+  position: relative;
+  margin-top: 20px;
+  padding: 20px 5px 5px;
+}
+.martialtechniques .info .descriptions input {
+  border: 0px;
+}
+.martialtechniques .info .editor {
+  border: 0px !important;
+}
+.martialtechniques .info h2 {
+  position: absolute;
+  top: -15px;
+}
 .skill {
   font-size: 14px;
   margin-top: 0px;
@@ -762,36 +830,6 @@ table tr:nth-child(even) {
   margin-bottom: 5px;
   height: 100%;
   min-height: 40px;
-}
-.race .innateSkills .racialSkill .textContainer h4 {
-  font-weight: bold;
-  font-size: 16px;
-}
-.race .editor {
-  border: 1px solid #999;
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 3px;
-  width: 100%;
-  min-height: 40px;
-  padding: 0 5px;
-}
-.race .editor .tox.tox-tinymce {
-  height: 125px !important;
-}
-.race .scores {
-  text-align: center;
-}
-.race .scores h3.header,
-.race .scores .move {
-  font-size: 14px;
-  margin-bottom: 0px;
-  padding-bottom: 4px;
-  font-weight: bold;
-}
-.race .scores .stat {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .fate .headerInfo,
 .fate .buttonText,

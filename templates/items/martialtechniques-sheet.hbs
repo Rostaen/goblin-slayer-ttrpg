@@ -1,0 +1,59 @@
+<form class="{{#each data.options.classes as |class id|}}{{class}} {{/each}} {{data.item.type}}" autocomplete="off">
+    <h1 class="grid-span-2">{{item.name}}</h1>
+    <div class="grid grid-6col">
+        <div class="image">
+            <img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}">
+        </div>
+        <div class="grid-span-5 description editor">
+            {{editor item.system.description target="system.description" button=true engine="prosemirror"}}
+        </div>
+    </div>
+    <div class="info">
+        <h2 class="overview">
+            {{localize 'gs.gear.mTech.overview'}}
+        </h2>
+        <div class="overviewDescrip descriptions grid-span-5">
+            <input type="text" name="system.overview" value="{{data.system.overview}}" class="grid-span-3">
+        </div>
+    </div>
+    <div class="info">
+        <h2 class="usable">
+            {{localize 'gs.gear.mTech.usable'}}
+        </h2>
+        <div class="usableDescrip descriptions grid-span-5">
+            {{editor item.system.usable target="system.usable" button=true engine="prosemirror"}}
+        </div>
+    </div>
+    <div class="info">
+        <h2 class="related">
+            {{localize 'gs.gear.mTech.related'}}
+        </h2>
+        <div class="relatedDescrip descriptions grid-span-5">
+            <input type="text" name="system.related" value="{{item.system.related}}">
+        </div>
+    </div>
+    <div class="info">
+        <h2 class="cost">
+            {{localize 'gs.gear.mTech.cost'}}
+        </h2>
+        <div class="costDescrip descriptions grid-span-5">
+            <input type="text" name="system.cost" value="{{item.system.cost}}">
+        </div>
+    </div>
+    <div class="info">
+        <h2 class="condition">
+            {{localize 'gs.gear.mTech.condition'}}
+        </h2>
+        <div class="conditionDescrip descriptions grid-span-5">
+            <input type="text" name="system.condition" value="{{item.system.condition}}">
+        </div>
+    </div>
+    <div class="info">
+        <h2 class="details">
+            {{localize 'gs.gear.mTech.details'}}
+        </h2>
+        <div class="detailsDescrip descriptions grid-span-5">
+            {{editor item.system.details target="system.details" button=true engine="prosemirror"}}
+        </div>
+    </div>
+</form>

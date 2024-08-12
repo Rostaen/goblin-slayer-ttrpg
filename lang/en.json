@@ -6,7 +6,7 @@
   "ITEM.TypeSpell": "Spells",
   "ITEM.TypeSkill": "Skills",
   "ITEM.TypeRace": "Race",
-  "ITEM.TypeMartialTechniques": "Martial Techniques",
+  "ITEM.TypeMartialtechniques": "Martial Techniques",
   "ACTOR.TypeCharacter": "Player Character",
   "ACTOR.TypeFate": "Fate",
   "ACTOR.TypeMonster": "Monsters",
@@ -116,6 +116,15 @@
         "leg": "Legend",
         "adv": "Adventurer",
         "gen": "General"
+      },
+      "mTech":{
+        "overview": "Overview",
+        "descrip": "Description",
+        "usable": "Usable Weapons",
+        "related": "Related Skills",
+        "cost": "Cost",
+        "condition": "Condition",
+        "details": "Details"
       },
       "equipment": "Equipment"
     },

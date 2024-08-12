@@ -264,7 +264,7 @@
     }
   },
   "Item": {
-    "types": ["weapon", "armor", "shield", "item", "spell", "skill", "race", "martialTechniques"],
+    "types": ["weapon", "armor", "shield", "item", "spell", "skill", "race", "martialtechniques"],
     "templates": {
       "common": {
         "type": "",
@@ -373,14 +373,14 @@
       },
       "moveMod": 0
     },
-    "martialTechniques": {
+    "martialtechniques": {
       "overview": "",
       "description": "",
       "usable": "",
       "related": "None",
       "cost": "None",
       "condition": "None",
-      "deatails": ""
+      "details": ""
     }
   }
 }

@@ -146,6 +146,15 @@
       "type": "JournalEntry",
       "private": false,
       "flags": {}
+    },
+    {
+      "name": "martialtechniques",
+      "label": "Martial Techniques",
+      "system": "gs",
+      "path": "packs/martialtechniques",
+      "type": "Item",
+      "private": false,
+      "flags": {}
     }
   ],
   "packFolders": [
@@ -163,7 +172,8 @@
         "shields",
         "races",
         "rules",
-        "rollTable"
+        "rollTable",
+        "martialtechniques"
       ]
     }
   ],
