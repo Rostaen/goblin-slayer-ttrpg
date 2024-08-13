@@ -20,10 +20,16 @@ Hooks.once("init", () => {
 	CONFIG.Actor.documentClass = GSActor;
 
 	Actors.unregisterSheet("core", ActorSheet);
-	Actors.registerSheet("gs", GSActorSheet, {makeDefault: true});
+	Actors.registerSheet("gs", GSActorSheet, {
+		makeDefault: true,
+		label: game.i18n.localize('gs.sheets.actor')
+	});
 
 	Items.unregisterSheet("core", ItemSheet);
-	Items.registerSheet("gs", GSItemSheet, {makeDefault: true});
+	Items.registerSheet("gs", GSItemSheet, {
+		makeDefault: true,
+		label: game.i18n.localize('gs.sheets.item')
+	});
 
 	// Preload Handlebars templates
 	return preloadHandlebarsTemplates();

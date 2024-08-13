@@ -11,6 +11,10 @@
   "ACTOR.TypeFate": "Fate",
   "ACTOR.TypeMonster": "Monsters",
   "gs": {
+    "sheets": {
+      "actor": "Goblin Slayer Actor Sheet",
+      "item": "Goblin Slayer Item Sheet"
+    },
     "gear": {
       "common": {
         "nam": "Name",
