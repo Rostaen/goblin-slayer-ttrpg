@@ -52,6 +52,20 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [x] Monster sheet '!' information hovers
 - [ ] Block skills from having a higher value when levels and rank are in conflict
 - [ ] Supplement book items added to game
+  - [x] Necromancy Spells
+  - [x] High End Spells
+  - [x] New weapons, items, armor, gear, etc.
+  - [x] Races: Dark Elf, Padfoot x4
+  - [ ] Martial Techniques
+    - [x] (Basic & Master) Item sheet
+    - [ ] Location in Actor sheet
+  - [ ] Monsters
+  - [ ] Conditions
+    - [x] Update conditions tab with checkboxes
+    - [ ] Implement automation
+    - [ ] Add hover info pages
+  - [ ] Diseases(?)
+  - [ ] Mounts Actor
 - [x] Resting: Short Rest & Lost Rest
 - [ ] Add equip checkbox to gear and update code accordingly
 - [ ] Regulate items with an "equipped" button to determine misc. modifiers
