@@ -13,7 +13,7 @@
             {{localize 'gs.gear.mTech.overview'}}
         </h2>
         <div class="overviewDescrip descriptions grid-span-5">
-            <input type="text" name="system.overview" value="{{data.system.overview}}" class="grid-span-3">
+            {{editor item.system.overview target="system.overview" button=true engine="prosemirror"}}
         </div>
     </div>
     <div class="info">
