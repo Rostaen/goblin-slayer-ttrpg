@@ -884,7 +884,7 @@ table tr:nth-child(even) {
   background-color: #8b00000a;
 }
 .monster img {
-  border: 2px solid darkred;
+  border: 1px solid darkred;
   border-radius: 5px;
 }
 .monster .coreItems,
@@ -892,8 +892,9 @@ table tr:nth-child(even) {
 .monster .defense,
 .monster .support .editor,
 .monster .abilities .editor,
-.monster .comment .editor {
-  border: 2px solid darkred;
+.monster .comment .editor,
+.monster .supportContainer {
+  border: 1px solid darkred;
   padding: 5px;
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 5px;
@@ -964,7 +965,8 @@ table tr:nth-child(even) {
 .monster .defense,
 .monster .support,
 .monster .abilities,
-.monster .comment {
+.monster .comment,
+.monster .supportContainer {
   position: relative;
 }
 .monster .coreItems h2,
@@ -973,18 +975,20 @@ table tr:nth-child(even) {
 .monster .support h2,
 .monster .abilities h2,
 .monster .comment h2,
+.monster .supportContainer h2,
 .monster .coreItems .numOfAttacks,
 .monster .melee .numOfAttacks,
 .monster .defense .numOfAttacks,
 .monster .support .numOfAttacks,
 .monster .abilities .numOfAttacks,
-.monster .comment .numOfAttacks {
+.monster .comment .numOfAttacks,
+.monster .supportContainer .numOfAttacks {
   position: absolute;
   top: -15px;
   background-color: #ffffff;
   border-bottom: 0px;
   padding: 2px 4px 0px;
-  border: 2px solid darkred;
+  border: 1px solid darkred;
   border-radius: 5px;
 }
 .monster .coreItems h2,
@@ -992,7 +996,8 @@ table tr:nth-child(even) {
 .monster .defense h2,
 .monster .support h2,
 .monster .abilities h2,
-.monster .comment h2 {
+.monster .comment h2,
+.monster .supportContainer h2 {
   left: 10px;
   z-index: 100;
 }
@@ -1001,7 +1006,8 @@ table tr:nth-child(even) {
 .monster .defense .numOfAttacks,
 .monster .support .numOfAttacks,
 .monster .abilities .numOfAttacks,
-.monster .comment .numOfAttacks {
+.monster .comment .numOfAttacks,
+.monster .supportContainer .numOfAttacks {
   right: 10px;
   width: 50px;
   display: flex;
@@ -1016,7 +1022,8 @@ table tr:nth-child(even) {
 .monster .defense input,
 .monster .support input,
 .monster .abilities input,
-.monster .comment input {
+.monster .comment input,
+.monster .supportContainer input {
   margin: auto;
 }
 .monster .coreItems label,
@@ -1024,7 +1031,8 @@ table tr:nth-child(even) {
 .monster .defense label,
 .monster .support label,
 .monster .abilities label,
-.monster .comment label {
+.monster .comment label,
+.monster .supportContainer label {
   font-size: 13px;
 }
 .monster .melee {
@@ -1077,6 +1085,17 @@ table tr:nth-child(even) {
 .monster .defense .reveal-rollable .bossBlock:hover {
   text-shadow: 0 0 5px darkred;
   cursor: pointer;
+}
+.monster .supportContainer input[type="text"] {
+  width: 22px;
+  height: 18px;
+  font-size: 10px;
+  text-align: center;
+}
+.monster .supportContainer span {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
 }
 .monster .editor {
   border: 1px solid #666;

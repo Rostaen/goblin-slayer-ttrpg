@@ -12,7 +12,7 @@
                 <input type="text" name="system.lifeForce.max" value="{{actor.system.lifeForce.max}}" data-dtype="Number" />
 
                 <label>{{localize config.monster.type}}</label>
-                <input name="system.typ" type="text" value="{{actor.system.typ}}" />
+                <input name="system.type" type="text" value="{{actor.system.type}}" />
 
                 <label>{{localize config.common.leve}} </label>
                 <input name="system.lifeForce.double" type="text" value="{{actor.system.lifeForce.double}}" data-dtype="Number" />
@@ -354,7 +354,47 @@
         {{!-- Support and Abilities --}}
         <div class="support">
             <h2>{{localize config.monster.supp}}</h2>
-            {{editor actor.system.support target="system.support" button=true engine="prosemirror"}}
+            {{!-- {{editor actor.system.support target="system.support" button=true engine="prosemirror"}} --}}
+            <div class="supportContainer">
+                <div class="grid grid-3col">
+                    <div>
+                        <div class="grid grid-4col">
+                            <input type="text" name="system.supportEffect.range" value="{{actor.system.supportEffect.range}}">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.range'}}</span>
+                            <input type="text" name="system.supportEffect.action" value="{{actor.system.supportEffect.action}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.action'}}</span>
+                            <input type="text" name="system.supportEffect.armor" value="{{actor.system.supportEffect.armor}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.armor'}}</span>
+                            <input type="text" name="system.supportEffect.dodge" value="{{actor.system.supportEffect.dodge}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.dodge'}}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="grid grid-4col">
+                            <input type="text" name="system.supportEffect.hit" value="{{actor.system.supportEffect.hit}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.hit'}}</span>
+                            <input type="text" name="system.supportEffect.initiative" value="{{actor.system.supportEffect.initiative}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.initiative'}}</span>
+                            <input type="text" name="system.supportEffect.movement" value="{{actor.system.supportEffect.movement}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.movement'}}</span>
+                            <input type="text" name="system.supportEffect.power" value="{{actor.system.supportEffect.power}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.power'}}</span>
+                        </div>
+                    </div>
+                     <div>
+                        <div class="grid grid-4col">
+                            <input type="text" name="system.supportEffect.special" value="{{actor.system.supportEffect.special}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.special'}}</span>
+                            <input type="text" name="system.supportEffect.spellEffective" value="{{actor.system.supportEffect.spellEffective}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.spellEffective'}}</span>
+                            <input type="text" name="system.supportEffect.spellUse" value="{{actor.system.supportEffect.spellUse}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.spellUse'}}</span>
+                            <input type="text" name="system.supportEffect.spellResist" value="{{actor.system.supportEffect.spellResist}}" data-dtype="Number">
+                            <span class="grid-span-3">{{localize 'gs.actor.monster.supportEffect.spellResist'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         {{!-- Monster Comment --}}
         <div class="comment">

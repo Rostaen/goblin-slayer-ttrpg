@@ -8,11 +8,11 @@
         background-color: #8b00000a;
     }
     img{
-        border: 2px solid darkred;
+        border: 1px solid darkred;
         border-radius: 5px;
     }
-    .coreItems, .melee, .defense, .support .editor, .abilities .editor, .comment .editor{
-        border: 2px solid darkred;
+    .coreItems, .melee, .defense, .support .editor, .abilities .editor, .comment .editor, .supportContainer{
+        border: 1px solid darkred;
         padding: 5px;
         background-color: rgba(255,255,255,0.75);
         border-radius: 5px;
@@ -72,7 +72,7 @@
             margin-right: 5px;
         }
     }
-    .coreItems, .melee, .defense, .support, .abilities, .comment{
+    .coreItems, .melee, .defense, .support, .abilities, .comment, .supportContainer{
         position: relative;
         h2, .numOfAttacks{
             position: absolute;
@@ -80,7 +80,7 @@
             background-color: rgba(255,255,255,1);
             border-bottom: 0px;
             padding: 2px 4px 0px;
-            border: 2px solid darkred;
+            border: 1px solid darkred;
             border-radius: 5px;
         }
         h2{
@@ -156,6 +156,19 @@
                 text-shadow: 0 0 5px darkred;
                 cursor: pointer;
             }
+        }
+    }
+    .supportContainer{
+        input[type="text"]{
+            width: 22px;
+            height: 18px;
+            font-size: 10px;
+            text-align: center;
+        }
+        span{
+            font-size: 12px;
+            display: flex;
+            align-items: center;
         }
     }
     .editor{

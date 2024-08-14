@@ -277,7 +277,21 @@
         "min": "Minion",
         "bSR": "BSR",
         "boss": "Boss",
-        "description": "Description"
+        "description": "Description",
+        "supportEffect": {
+          "range": "Range",
+          "hit": "Hit Check",
+          "special": "Special Abil.",
+          "power": "Power",
+          "armor": "Armor",
+          "spellUse": "Spell Use",
+          "movement": "Movement",
+          "initiative": "Initiative",
+          "dodge": "Dodge",
+          "spellResist": "Spell Resist.",
+          "action": "Action",
+          "spellEffective": "Spell Effect."
+        }
       },
       "fate": {
         "gmInstructions": "GM, enter adventure Fate here (only you can see this message), 3: Easy, 5: Moderate, 7: Hard",
