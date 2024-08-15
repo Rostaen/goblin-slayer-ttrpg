@@ -7,9 +7,10 @@
   "ITEM.TypeSkill": "Skills",
   "ITEM.TypeRace": "Race",
   "ITEM.TypeMartialtechniques": "Martial Techniques",
-  "ACTOR.TypeCharacter": "Player Character",
+  "ACTOR.TypeCharacter": "Prayer Character",
   "ACTOR.TypeFate": "Fate",
-  "ACTOR.TypeMonster": "Monsters",
+  "ACTOR.TypeMonster": "Non-Prayer Character",
+  "ACTOR.TypeMount": "Mounts",
   "gs": {
     "sheets": {
       "actor": "Goblin Slayer Actor Sheet",
@@ -290,7 +291,8 @@
           "dodge": "Dodge",
           "spellResist": "Spell Resist.",
           "action": "Action",
-          "spellEffective": "Spell Effect."
+          "spellEffective": "Spell Effect.",
+          "spellPower": "Spell Power"
         }
       },
       "fate": {

@@ -71,9 +71,21 @@
     },
     {
       "name": "monsters",
-      "label": "Monsters",
+      "label": "Non-Prayer Characters",
       "system": "gs",
       "path": "packs/monsters",
+      "type": "Actor",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "mounts",
+      "label": "Mounts",
+      "system": "gs",
+      "path": "packs/mounts",
       "type": "Actor",
       "flags": {},
       "ownership": {
@@ -166,6 +178,7 @@
         "items",
         "spells",
         "monsters",
+        "mounts",
         "skills",
         "armor",
         "weapons",

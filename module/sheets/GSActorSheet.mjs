@@ -67,7 +67,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		console.log("GSActorSheet >>> Checking Actor Super Data:", data);
 
-		if(this.actor.type === 'monster'){
+		if(this.actor.type === 'monster' || this.actor.type === 'mount'){
 			data.eAbilities = await TextEditor.enrichHTML(
 				actorData.system.abilities, {async: true, rollData: actorData.getRollData(), }
 			);

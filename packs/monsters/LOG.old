@@ -1,3 +1,5 @@
-2024/08/14-08:35:00.698 2b6c Recovering log #400
-2024/08/14-08:35:00.698 2b6c Delete type=0 #400
-2024/08/14-08:35:00.698 2b6c Delete type=3 #399
+2024/08/15-15:18:23.293 a0c Recovering log #409
+2024/08/15-15:18:23.297 a0c Level-0 table #412: started
+2024/08/15-15:18:23.308 a0c Level-0 table #412: 732351 bytes OK
+2024/08/15-15:18:23.310 a0c Delete type=0 #409
+2024/08/15-15:18:23.312 a0c Delete type=3 #407

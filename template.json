@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["character", "monster", "fate"],
+    "types": ["character", "monster", "fate", "mount"],
     "templates": {
       "common": {
         "move": 0,
@@ -261,6 +261,32 @@
     },
     "fate": {
       "value": 3
+    },
+    "mount": {
+      "templates": ["common"],
+      "cost": 0,
+      "type": "",
+      "inte": "",
+      "bossSR": 0,
+      "attacks": {
+        "name": "",
+        "type": "",
+        "range": 0,
+        "check": 0,
+        "mCheck": 0,
+        "power": "",
+        "pType": ""
+      },
+      "defenses": {
+        "dodge": 0,
+        "block": 0,
+        "bScore": 0,
+        "armor": 0,
+        "aType": ""
+      },
+      "abilities": "",
+      "comment": "",
+      "hasBlock": false
     }
   },
   "Item": {
