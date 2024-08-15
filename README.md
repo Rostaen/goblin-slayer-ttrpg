@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0.9.2
+## Current State v0.10.0
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
@@ -56,16 +56,17 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [x] High End Spells
   - [x] New weapons, items, armor, gear, etc.
   - [x] Races: Dark Elf, Padfoot x4
+  - [x] Mount actor sheet
   - [ ] Martial Techniques
     - [x] (Basic & Master) Item sheet
     - [ ] Location in Actor sheet
-  - [ ] Monsters
+  - [x] Monsters
   - [ ] Conditions
     - [x] Update conditions tab with checkboxes
     - [ ] Implement automation
     - [ ] Add hover info pages
   - [ ] Diseases(?)
-  - [ ] Mounts Actor
+  - [x] Mounts Actor
 - [x] Resting: Short Rest & Lost Rest
 - [ ] Add equip checkbox to gear and update code accordingly
 - [ ] Regulate items with an "equipped" button to determine misc. modifiers
@@ -131,7 +132,7 @@ Completed! Cool and Collected may need additional support in the future for the 
 
 # How to use the Game System
 
-## v0.8.0 (2024/07/10)
+## v0.10.0 (2024/08/15)
 
 ## Player Character (PC) Sheets
 
