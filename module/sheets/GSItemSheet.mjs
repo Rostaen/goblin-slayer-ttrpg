@@ -50,6 +50,13 @@ export default class GSItemSheet extends ItemSheet {
 			data.eComment = await TextEditor.enrichHTML(
 				system.comment, {async: true, rollData: item.getRollData(), }
 			);
+		}else if(item.type === 'item'){
+			const systemData = item.system;
+			console.log("... Checking systemData for item", systemData);
+			if(!systemData.quantity || systemData.quantity === null)
+				item.update({
+					"system.quantity": 1
+				});
 		}
 
 		data.config = CONFIG.gs;

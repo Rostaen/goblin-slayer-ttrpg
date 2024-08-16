@@ -68,7 +68,13 @@
                 </div>
                 <div class="item-list grid grid-2col">
                     {{#each data.items as |item id|}}
-                        {{> "systems/gs/templates/items/partials/item-card.hbs" item idVal=id data1=../data index=@index inSheet=true}}
+                    <div class="item-card item item-list" data-id="{{_id}}">
+                        <div class="grid grid-6col contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                            <img src="{{img}}" title="{{name}}" />
+                            <div class="name grid-span-4">{{name}}</div>
+                            <div class="quantity">{{item.system.quantity}}</div>
+                        </div>
+                    </div>
                     {{/each}}
                 </div>
             </div>

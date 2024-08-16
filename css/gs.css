@@ -1560,6 +1560,20 @@ table tr:nth-child(even) {
 .itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll button i {
   margin-right: 1px;
 }
+.itemsPageContainer .itemsPage .itemsContainer .item-list {
+  margin-top: 0px;
+}
+.itemsPageContainer .itemsPage .itemsContainer .item-list .item-card .contextMenu {
+  margin-top: 0px;
+}
+.itemsPageContainer .itemsPage .itemsContainer .item-list .item-card .contextMenu .name,
+.itemsPageContainer .itemsPage .itemsContainer .item-list .item-card .contextMenu .quantity {
+  display: flex;
+  align-items: center;
+}
+.itemsPageContainer .itemsPage .itemsContainer .item-list .item-card .contextMenu .quantity {
+  justify-content: center;
+}
 .itemsPageContainer .itemsPage .editor {
   height: 100%;
   min-height: 40px;

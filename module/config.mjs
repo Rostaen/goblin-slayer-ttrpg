@@ -161,7 +161,8 @@ gs.actor = {
 			sorc: "gs.actor.character.sorc",
 			prie: "gs.actor.character.prie",
 			dPri: "gs.actor.character.dPri",
-			sham: "gs.actor.character.sham"
+			sham: "gs.actor.character.sham",
+			necro: "gs.actor.character.necro",
 		},
 		fatW: "gs.actor.character.fatW",
 		heal: "gs.actor.character.heal",

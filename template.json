@@ -74,7 +74,8 @@
           "sorc": 0,
           "prie": 0,
           "dPri": 0,
-          "sham": 0
+          "sham": 0,
+          "necro": 0
         }
       },
       "levels": {
@@ -87,7 +88,8 @@
           "sorcerer": 0,
           "priest": 0,
           "dragon": 0,
-          "shaman": 0
+          "shaman": 0,
+          "necro": 0
         }
       },
       "fatigue": {
@@ -297,7 +299,8 @@
         "value": 1,
         "effects": "",
         "stealth": "",
-        "comment": ""
+        "comment": "",
+        "quantity": 1
       }
     },
     "weapon": {

@@ -44,3 +44,26 @@
         {{/each}}
     </div>
 </div>
+{{#if (gt data.martialTechniques.length 0)}}
+<div class="skillsContainer">
+    <h2 class="martialTechniques skillHeader">{{localize 'TYPES.Item.martialtechniques'}}</h2>
+    <div class="skillBox grid grid-10col">
+        <div class="blank"></div>
+        <div class="nameHeader header grid-span-4">{{localize config.monster.name}}</div>
+        <div class="bonusHeader header grid-span-4">{{localize config.character.bonus}}</div>
+        {{#each data.martialTechniques as |tech id|}}
+            <div class="grid-span-10">
+                <div class="grid grid-10col firstSkillBox">
+                    <div class="grid-span-9">
+                        <div class="grid grid-9col skillContainer techniqueContainer" data-id="{{tech._id}}">
+                            <div class="skillImageCont techniqueImg"><img src="{{tech.img}}" alt="{{tech.name}}"></div>
+                            <div class="name grid-span-4 contextMenu" data-id="{{tech._id}}" data-contexttype="martialtechnique" >{{tech.name}}</div>
+                            <div class="bonus grid-span-4">{{stripFormating tech.system.overview}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>
+{{/if}}

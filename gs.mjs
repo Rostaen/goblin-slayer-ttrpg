@@ -81,6 +81,14 @@ Handlebars.registerHelper('getSkillRangeText', (object, value, skillType) => {
 	return skillLevel;
 });
 
+// Returns a string of text stripped of any HTML formating
+Handlebars.registerHelper('stripFormating', (object) => {
+	object = object.replace(/^<p>/, '').replace(/<\/p>$/, '');
+	object = object.replace(/<span[^>]*>/g, '').replace(/<\/span>/g, '');
+
+	return object;
+});
+
 // Logical OR check
 Handlebars.registerHelper('or', (value1, value2) => {
 	return (value1 || value2) ? true : false;

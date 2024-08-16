@@ -1,16 +1,22 @@
 {
-  "ITEM.TypeWeapon": "Weapons",
-  "ITEM.TypeArmor": "Armor",
-  "ITEM.TypeShield": "Shields",
-  "ITEM.TypeItem": "Items",
-  "ITEM.TypeSpell": "Spells",
-  "ITEM.TypeSkill": "Skills",
-  "ITEM.TypeRace": "Race",
-  "ITEM.TypeMartialtechniques": "Martial Techniques",
-  "ACTOR.TypeCharacter": "Prayer Character",
-  "ACTOR.TypeFate": "Fate",
-  "ACTOR.TypeMonster": "Non-Prayer Character",
-  "ACTOR.TypeMount": "Mounts",
+  "TYPES": {
+    "Item": {
+      "weapon": "Weapons",
+      "armor": "Armor",
+      "shield": "Shields",
+      "item": "Items",
+      "spell": "Spells",
+      "skill": "Skills",
+      "race": "Race",
+      "martialtechniques": "Martial Techniques"
+    },
+    "Actor": {
+      "character": "Prayer Character",
+      "fate": "Fate",
+      "monster": "Non-Prayer Character",
+      "mount": "Mounts"
+    }
+  },
   "gs": {
     "sheets": {
       "actor": "Goblin Slayer Actor Sheet",
@@ -190,6 +196,7 @@
         "prie": "Priest",
         "dPri": "Dragon Priest",
         "sham": "Shaman",
+        "necro": "Necromancer",
         "fatW": "Fatigue",
         "pena": "Penalty",
         "ran1": "-1 to all score",

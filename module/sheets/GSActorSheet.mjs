@@ -94,7 +94,6 @@ export default class GSActorSheet extends ActorSheet{
 
 	activateListeners(html){
 		super.activateListeners(html);
-		html.find("input[data-inventory='quantity']").change(this._onUpdateCharQuantity.bind(this));
 		html.find("input.skillRankInput").change(this._onUpdateSkillRank.bind(this));
 		html.find("label.scoreRoll").click(this._rollStatDice.bind(this));
 		html.find(".minStatic").click(this._rollMinionStatic.bind(this));
@@ -323,30 +322,6 @@ export default class GSActorSheet extends ActorSheet{
 			console.error("Unknown skill type:", skillType);
 		}
 		// console.log("Check if change took:", this.actor);
-	}
-
-	/**
-	 * Updates the current item quanity by the value supplied.
-	 * @param {*} event The click event
-	 */
-	_onUpdateCharQuantity(event){
-		event.preventDefault();
-		const element = event.currentTarget;
-		const quantity = parseInt(element.value, 10);
-		const id = element.closest(".item").dataset.id;
-		const item = this.actor.items.get(id);
-
-		if(item){
-			item.update({
-				system: {
-					quantity: quantity
-				}
-			}).then(updatedItem => {
-				//console.log("Item Updated:", updatedItem);
-			}).catch(error => {
-				console.error("Error updating item:", error);
-			})
-		}
 	}
 
 	/**
@@ -2193,8 +2168,10 @@ export default class GSActorSheet extends ActorSheet{
 			miracles: [],
 			dragon: [],
 			spirit: [],
-			words: []
+			words: [],
+			necro: []
 		};
+		const martial = [];
 
 		// Iterating through all items
 		for(let i of data.items){
@@ -2219,9 +2196,13 @@ export default class GSActorSheet extends ActorSheet{
 					spells.dragon.push(i);
 				else if(i.system.schoolChoice === 'Spirit Arts')
 					spells.spirit.push(i);
+				else if(i.system.schoolChoice === 'Necromancy')
+					spells.necro.push(i);
 				else
 					spells.words.push(i);
 			}
+			else if(i.type === 'martialtechniques')
+				martial.push(i);
 		}
 
 		// Assigning to data and return
@@ -2231,6 +2212,7 @@ export default class GSActorSheet extends ActorSheet{
 		data.items = items;
 		data.skills = skills;
 		data.spells = spells;
+		data.martialTechniques = martial;
 	}
 
 	async _prepareCharacterData(data){
@@ -2704,10 +2686,9 @@ export default class GSActorSheet extends ActorSheet{
 						}else if(itemToDelete.name === 'Draconic Heritage')
 							await this.actor.unsetFlag('gs', 'lizard');
 						break;
-					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':
-						const pcTarget = actor.items.get(id);
-						if (pcTarget)
-							pcTarget.delete();
+					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':case 'martialtechnique':
+						if (itemToDelete)
+							itemToDelete.delete();
 						else
 							console.error("Race item not found for deletion.");
 

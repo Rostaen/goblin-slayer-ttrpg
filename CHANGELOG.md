@@ -1,5 +1,12 @@
 # Goblin Slayer TTRPG Change Log
 
+## 2024-08-16
+
+- Added Necromancer class into character sheet.
+- Updated character sheet to take into account item movement pentalties.
+- Added quantity field to items (specifically for movePen items).
+- Updated items quantity field with new quantity JSON object, removed custom code for updating "floating" quantity variable.
+
 ## 2024-08-15
 
 - Removed boss monster block/armor score(type) as they're repeated for both minion and boss monsters.

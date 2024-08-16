@@ -48,6 +48,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Allow fatigue to modify character sheet
 - [x] Create CompediumFolders for all monsters & items
 - [x] Better sheet styling
+- [ ] Combat
+  - [ ] Rework coding to streamline checks
+  - [ ] Have ranged attacks check for +ammo before rolling to Hit
 - [ ] Add mouse hover context for game related information
   - [x] Monster sheet '!' information hovers
 - [ ] Block skills from having a higher value when levels and rank are in conflict

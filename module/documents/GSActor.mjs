@@ -40,7 +40,8 @@ export class GSActor extends Actor {
             "sorc": systemData.levels.classes.sorcerer,
             "prie": systemData.levels.classes.priest,
             "dPri": systemData.levels.classes.dragon,
-            "sham": systemData.levels.classes.shaman
+            "sham": systemData.levels.classes.shaman,
+            "necro": systemData.levels.classes.necro
         };
 
         // Setting Character Spell Resistance
@@ -98,10 +99,14 @@ export class GSActor extends Actor {
 
         // Setting Spell Use Scores
         // TODO: Add in any spell skills that alter this amount per caster class
+        if(!systemData.spellUse.scores.necro)
+            systemData.spellUse.scores.necro = 0;
         for(let [id, score] of Object.entries(systemData.spellUse.scores)){
             let calcScore = 0;
             if(id === "sorc"){
                 calcScore = systemData.levels.classes.sorcerer + systemData.abilities.calc.if;
+            }else if(id === "necro"){
+                calcScore = systemData.levels.classes.necro + systemData.abilities.calc.if;
             }else{
                 calcScore = systemData.abilities.calc.pf;
                 switch(id){
@@ -163,13 +168,17 @@ export class GSActor extends Actor {
         // Setting Modified Movement
         // Skill Long-Distance movement is affecting modfiers above
         let movePen = systemData.move;
-        const armor = actorData.items.find(item => item.type === 'armor');
+        const armor = actorData.items.find(i => i.type === 'armor');
         if(armor){
             if(armor.system.heavy.value && (this.system.abilities.calc.se + this._getSkillBonus('Encumbered Action')) >= armor.system.heavy.y){
                 movePen += Math.floor(parseInt(armor.system.move, 10) / 2);
             }else
                 movePen += parseInt(armor.system.move, 10);
         }
+        const items = actorData.items.filter(i => i.type === 'item');
+        if(items)
+            for(let i of items)
+                movePen += i.system.movePen;
         systemData.modMove += movePen;
 
     }
