@@ -62,7 +62,8 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [x] Mount actor sheet
   - [ ] Martial Techniques
     - [x] (Basic & Master) Item sheet
-    - [ ] Location in Actor sheet
+    - [x] Location in Actor sheet
+    - [ ] Automate in game(?)
   - [x] Monsters
   - [ ] Conditions
     - [x] Update conditions tab with checkboxes
@@ -128,6 +129,25 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Strong Blow: Slash
 - [x] Tactical Movement
 - [x] Weapons: XX
+- [ ] Gorilla Tactics
+- [ ] Biological Knowledge
+- [ ] Dungeon Knowledge
+- [ ] Moving Chant
+- [ ] Multiple Chants
+- [ ] Penetrating Spells
+- [ ] Poisoner
+- [ ] Shieldsman
+- [ ] Spell Ritual
+- [ ] Pass Through
+- [ ] Cartography
+- [ ] Herbalist
+- [ ] Magical Perception
+- [ ] Miner
+- [ ] Taming
+- [ ] Nurse
+- [ ] Sacrament of Forgiveness
+- [ ] Veil of Darkness
+- [ ] Torture
 
 #### General Skills
 
@@ -172,6 +192,14 @@ Spells have a wand button next to the image to roll spell effectiveness checks. 
 If you're using a battle map, when moving characters around in the game, the grid is set to 1 meter (or 1m). PCs (player characters) are at close range to another monster at 5m and should be aware of this at all times. So all PCs are within melee range at 5m or less and do not need to be adjacent to their target in order to attack. This gives characters a little bit of room to move without penalties and also block movement checks and so forth.
 
 More How Tos to come...
+
+## Fate
+
+The fate actor is setup so that all players may interact with the same sheet and use Fate Points accordingly. The GM is the only one who can correct misused/misclicked fate points and rest Fate Points before or after the adventure. The GM should use this actor to set the initial Fate value for each adventure so players get an idea of how difficult it will be.
+
+## Mounts
+
+The mount actor looks similar to the Non-Prayer Character sheet with some minor differences. Use this sheet whenever a (Non-)Prayer Character is using a mount in the game and/or combat.
 
 # Recommended Modules
 

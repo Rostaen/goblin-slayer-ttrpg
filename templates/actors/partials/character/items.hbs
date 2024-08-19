@@ -1,5 +1,7 @@
 <div class="itemsPageContainer grid grid-6col">
     <div class="itemsPage grid-span-5">
+
+        {{!-- Weapons --}}
         <div class="weaponContainer blockContainer">
             <h2>{{localize config.charSheet.items.weapons}}</h2>
             <div class="gearContainer">
@@ -18,6 +20,7 @@
             </div>
         </div>
 
+        {{!-- Armor --}}
         <div class="armorContainer blockContainer">
             <h2>{{localize config.character.combat.armor}}</h2>
             <div class="gearContainer">
@@ -37,6 +40,7 @@
             </div>
         </div>
 
+        {{!-- Shields --}}
         <div class="shieldContainer blockContainer">
             <h2>{{localize config.character.combat.shield}}</h2>
             <div class="gearContainer">
@@ -55,6 +59,7 @@
             </div>
         </div>
 
+        {{!-- Items --}}
         <div class="itemsContainer blockContainer">
             <h2>{{localize config.charSheet.tabs.items}}</h2>
             <div class="gearContainer">
@@ -80,10 +85,12 @@
             </div>
         </div>
 
+        {{!-- Loot Editor --}}
         <div class="lootEditor blockContainer">
             <h2>Loot</h2>
             {{editor actor.system.loot target="system.loot" button=true engine="prosemirror"}}
         </div>
+
     </div>
     <div>
         <div class="hitScoresContainer">

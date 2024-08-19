@@ -368,7 +368,8 @@
         "illness": "Illness",
         "hungry": "Hungry",
         "paralyzed": "Paralyzed",
-        "poisoned": "Poisoned"
+        "poisoned": "Poisoned",
+        "prone": "Prone"
       }
     },
     "raceSheet": {
