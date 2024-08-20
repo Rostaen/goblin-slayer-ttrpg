@@ -49,7 +49,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Create CompediumFolders for all monsters & items
 - [x] Better sheet styling
 - [ ] Combat
-  - [ ] Rework coding to streamline checks
+  - [ ] Rework code to streamline checks
   - [ ] Have ranged attacks check for +ammo before rolling to Hit
 - [ ] Add mouse hover context for game related information
   - [x] Monster sheet '!' information hovers
@@ -71,6 +71,16 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - [ ] Add hover info pages
   - [ ] Diseases(?)
   - [x] Mounts Actor
+  - [ ] Skills
+    - [ ] Adventurer
+      - [x] Calculations added
+      - [ ] Automated
+    - [ ] General
+      - [x] Calculations added
+      - [ ] Automated
+    - [ ] Padfoot Only
+      - [x] Calculations added
+      - [ ] Automated
 - [x] Resting: Short Rest & Lost Rest
 - [ ] Add equip checkbox to gear and update code accordingly
 - [ ] Regulate items with an "equipped" button to determine misc. modifiers

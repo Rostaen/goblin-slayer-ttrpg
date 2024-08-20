@@ -48,50 +48,65 @@ export class GSActor extends Actor {
         systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
 
         // Getting character skills
-        for(const [_, skill] of Object.entries(actorSkills)){
-            //console.log("===> For Loop Skill Check", skill.name);
+        for(const skill of Object.entries(actorSkills)){
+            //console.log("===> For Loop Skill Check", skillName);
             const skillValue = skill.system.value;
-            switch(skill.name){
+            const skillName = skill.name;
+            switch(skillName){
                 case "Anticipate": case "First Aid": case "Handiwork": case "Lucky": case "Observe": case "Sixth Sense": case 'Strengthened Immunity':
                 case "Armor: Cloth": case "Armor: Light": case "Armor: Heavy": case "Shields": case "Encumbered Action": case 'Guard': case 'Martial Arts':
                 case "Piercing Attack": case "Weapons: One-Handed Swords": case "Weapons: Two-Handed Swords": case "Weapons: Axes": case "Weapons: Spears":
                 case "Weapons: Maces": case "Weapons: Staves": case "Weapons: Close-Combat": case "Weapons: Throwing Weapons": case "Weapons: Bows":
                 case "Enchance Spells: Power": case 'Spell Expertise: Attack Spells': case 'Spell Expertise: Imbuement Spells':
                 case 'Spell Expertise: Creation Spells': case 'Spell Expertise: Control Spells': case 'Spell Expertise: Healing Spells':
-                case 'Spell Expertise: General Spells':
-                    this._setSkill('adventurer', skill.name, skillValue); break;
+                case 'Spell Expertise: General Spells': case 'Dungeon Knowledge': case 'Spell Ritual':
+                    this._setSkill('adventurer', skillName, skillValue); break;
                 case 'Alert': case 'Slice Attack':
-                    this._setCritRanges(skill, skillValue); break;
+                    this._setCritRanges(skillName, skillValue); break;
                 case 'Tactical Movement': case 'Parry': case 'Provoke':
-                    this._setSkill('adventurer', skill.name, skillValue - 1); break;
+                    this._setSkill('adventurer', skillName, skillValue - 1); break;
                 case 'Rampart':
-                    this._setSkill('adventurer', skill.name, skillValue + 1); break;
-                case "Healing Affinity": case 'Slip Behind': case 'Monster Knowledge':
-                    this._setSkill('adventurer', skill.name, skillValue * 2); break;
+                    this._setSkill('adventurer', skillName, skillValue + 1); break;
+                case "Healing Affinity": case 'Slip Behind': case 'Monster Knowledge': case 'Penetrating Spells':
+                    this._setSkill('adventurer', skillName, skillValue * 2); break;
                 case "Defensive":
-                    systemData.skills.adventurer = { ...systemData.skills.adventurer, defensive: this._getDefSkillValue(skill.name) }; break;
+                    systemData.skills.adventurer[skillName] = this._getDefSkillValue(skillName); break;
                 case "Hardiness":
-                    hardinessBonus = this._hardinessSkillCall(skill.name); break;
+                    hardinessBonus = this._hardinessSkillCall(skillName); break;
                 case "Binding Attack":
-                    this._setSkill('adventurer', skill.name, (skillValue + 1) * -1); break;
+                    this._setSkill('adventurer', skillName, (skillValue + 1) * -1); break;
                 case "Burst of Strength":
-                    this._setBoS(skill, skillValue); break;
+                    this._setBoS(skillName, skillValue); break;
                 case "Curved Shot":
-                    this._setSkill('adventurer', skill.name, skillValue <= 4 ? (skillValue + 1) * -1 : -5); break;
+                    this._setSkill('adventurer', skillName, skillValue <= 4 ? (skillValue + 1) * -1 : -5); break;
                 case "Dual Wielding":
-                    this._setDualWield(skill, skillValue); break;
+                    this._setDualWield(skillName, skillValue); break;
                 case "Iron Fist":
-                    this._setIronFirst(skill, skillValue); break;
+                    this._setIronFirst(skillName, skillValue); break;
                 case "Mow Down":
-                    this._setMowDown(skill, skillValue); break;
+                    this._setMowDown(skillName, skillValue); break;
                 case "Rapid Fire":
-                    this._setRapidFire(skill, skillValue); break;
+                    this._setRapidFire(skillName, skillValue); break;
                 case "Snipe":
-                    this._setSnipe(skill, skillValue); break;
+                    this._setSnipe(skillName, skillValue); break;
                 case "Strong Blow: Bludgeon": case "Strong Blow: Slash":
-                    this._setStrongBlow(skill, skillValue); break;
+                    this._setStrongBlow(skillName, skillValue); break;
                 case "Master of Fire": case "Master of Water": case "Master of Wind": case "Master of Earth": case "Master of Life":
-                    this._setCriticals(skill, skillValue); break;
+                    this._setCriticals(skillName, skillValue); break;
+                case 'Gorilla Tactics':
+                    this._setGorillaTactics(skillName, skillValue); break;
+                case 'Biological Knowledge':
+                    this._setBiologicalKnowledge(skillName, skillValue); break;
+                case 'Moving Chant':
+                    this._setMovingChant(skillName, skillValue); break;
+                case 'Multiple Chants':
+                    this._setMultipleChants(skillName, skillValue); break;
+                case 'Poisoner':
+                    this._setPoisoner(skillName, skillValue); break;
+                case 'Shieldsman':
+                    this._setShieldsman(skillName, skillValue); break;
+                case 'Passing Through':
+                    this._setPassingThrough(skillName, skillValue); break;
                 case "Perseverance":
                     this._perserveranceSkillCall(systemData); break;
                 case "Darkvision":
@@ -102,16 +117,49 @@ export class GSActor extends Actor {
                     this.system.spellUse.max += skillValue; break;
                 case "Stealth":
                     if(skillValue >= 3)
-                        this._setSkill('adventurer', skill.name + 'ToHit', skillValue - 2);
-                    this._setSkill('adventurer', skill.name, skillValue); break;
+                        this._setSkill('adventurer', skillName + 'ToHit', skillValue - 2);
+                    this._setSkill('adventurer', skillName, skillValue); break;
                 case "Draconic Heritage": case "Long-Distance Movement": case 'Appraisal': case 'Artisan: Smithing': case 'Artisan: Needlework':
                 case 'Artisan: Carpentry': case 'Artisan: Leatherworking': case 'Artisan: Metal-Carving': case 'Cooking': case 'Craftsmanship':
-                case 'Criminal Knowledge': case 'Etiquette':
-                    this._setSkill('general', skill.name, skillValue); break;
+                case 'Criminal Knowledge': case 'Etiquette': case 'General Knowledge': case 'Labor': case 'Leadership': case 'Meditate':
+                case 'Negotiate: Persuade': case 'Negotiate: Tempt': case 'Negotiate: Intimidate': case 'No Preconceptions': case 'Perform: Sing':
+                case 'Perform: Play': case 'Perform: Dance': case 'Perform: Street Perform': case 'Perform: Act': case 'Production: Farming': case 'Production: Fishing':
+                case 'Production: Logging': case 'Production: Mining': case 'Research': case 'Riding': case 'Survivalism': case 'Theology': case 'Worship':
+                case 'Cartography': case 'Herbalist': case 'Miner': case 'Taming': case 'Nurse': case 'Torture':
+                    this._setSkill('general', skillName, skillValue); break;
                 case 'Beloved of the Fae':
-                    this._setBeloved(skill, skillValue);
+                    this._setBeloved(skillName, skillValue); break;
                 case 'Cool and Collected':
-                    this._setCoolAndCollected(skill, skillValue);
+                    this._setCoolAndCollected(skillName, skillValue); break;
+                case 'Fait: Supreme God': case 'Fait: Earth Mother': case 'Fait: Trade God': case 'Fait: God of Knowledge': case 'Fait: Valkyrie':
+                case 'Fait: Ancestral Dragon':
+                    this._setFaith(skillName, skillValue); break;
+                case 'Magical Perception':
+                    this._setMagicalPerception(skillName, skillValue); break;
+                case 'Sacrament of Forgiveness':
+                    this._setSacrament(skillName, skillValue); break;
+                case 'Veil of Darkness':
+                    this._setVeil(skillName, skillValue); break;
+                case 'Shell and Claws': case 'Wild Beastman':
+                    this._setShellAndClaws(skillName, skillValue); break;
+                case 'Wall Walker':
+                    this._setWallWalker(skillName, skillValue); break;
+                case 'Environmental Adaptation':
+                    this._setEnvironmentalAdaptation(skillName, skillValue); break;
+                case 'Beast Worship':
+                    this._setBeastWorship(skillName, skillValue); break;
+                case "Beast's Eyes":
+                    this._setBeastEyes(skillName, skillValue); break;
+                case 'Underwater Aptitude':
+                    this.system.skills.general[skillName] = skillValue--;
+                case 'Inject Poison':
+                    this._setInjectPoison(skillName, skillValue); break;
+                case 'Horns': case 'Flight':
+                    this._setHorns(skillName, skillValue); break;
+                case "Bird's Eyes":
+                    this._setBirdsEyes(skillName, skillValue); break;
+                case 'Mucus':
+                    this._setMucus(skillName, skillValue); break;
             }
         }
 
@@ -212,11 +260,11 @@ export class GSActor extends Actor {
 
     }
 
-    _setSkill(skillType, skillName, value){
+    _setSkill(skillType, skillName, skillValue){
         if(skillType === 'general')
-            if (value === 3)
-                skillName === 'Draconic Heritage' ? value + 0 : value++;
-        this.system.skills[skillType][skillName] = value;
+            if (skillValue === 3)
+                skillName === 'Draconic Heritage' ? skillValue + 0 : skillValue++;
+        this.system.skills[skillType][skillName] = skillValue;
     }
 
     /**
@@ -231,7 +279,7 @@ export class GSActor extends Actor {
         else return 0;
     }
 
-    _setCritRanges(skill, skillValue){
+    _setCritRanges(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         let successScore = 9;
         let failureScore = 3;
@@ -242,10 +290,10 @@ export class GSActor extends Actor {
             successScore = 10;
             failureScore = skillValue === 3 ? 4 : 3;
         }
-        adventurerSkills[skill.name] = { success: successScore, failure: failureScore };
+        adventurerSkills[skillName] = { success: successScore, failure: failureScore };
     }
 
-    _setBoS(skill, skillValue){
+    _setBoS(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         let bonus = skillValue;
         let fatigueBonus = 1;
@@ -254,31 +302,31 @@ export class GSActor extends Actor {
             if (skillValue <= 4)
                 fatigueBonus = 2;
         }
-        adventurerSkills[skill.name] = { bonus, fatigueBonus };
+        adventurerSkills[skillName] = { bonus, fatigueBonus };
     }
 
-    _setDualWield(skill, skillValue){
+    _setDualWield(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { single: -2, double: -4 };
-        if (skillValue === 1) {
-            skillConfig = { single: -4, double: 0 };
-        } else if (skillValue === 2) {
-            skillConfig = { single: -4, double: -6 };
-        } else if (skillValue === 3) {
-            skillConfig = { single: -3, double: -6 };
-        } else if (skillValue === 4) {
-            skillConfig = { single: -3, double: -5 };
+        const skillMapping = {
+            1: { single: -4, double: 0 },
+            2: { single: -4, double: -6 },
+            3: { single: -3, double: -6 },
+            4: { single: -3, double: -5 }
+        };
+        if (skillMapping[skillValue]) {
+            skillConfig = skillMapping[skillValue];
         }
-        adventurerSkills[skill.name] = skillConfig;
+        adventurerSkills[skillName] = skillConfig;
     }
 
-    _setIronFirst(skill, skillValue){
+    _setIronFirst(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         const adjustedValue = skillValue <= 2 ? skillValue : skillValue + (skillValue - 2);
-        adventurerSkills[skill.name] = adjustedValue;
+        adventurerSkills[skillName] = adjustedValue;
     }
 
-    _setMowDown(skill, skillValue){
+    _setMowDown(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { penalty: -4, addPenalty: -1, targets: 5};
         const skillMapping = {
@@ -290,10 +338,10 @@ export class GSActor extends Actor {
         if (skillMapping[skillValue]) {
             skillConfig = skillMapping[skillValue];
         }
-        adventurerSkills[skill.name] = skillConfig;
+        adventurerSkills[skillName] = skillConfig;
     }
 
-    _setRapidFire(skill, skillValue){
+    _setRapidFire(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { numOfAttacks: 3, numOfTargets: 3, mainTargets: -0.5, altTargets: -0.5 }
         const skillMapping = {
@@ -304,10 +352,10 @@ export class GSActor extends Actor {
         }
         if(skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
-        adventurerSkills[skill.name] = skillConfig;
+        adventurerSkills[skillName] = skillConfig;
     }
 
-    _setSnipe(skill, skillValue){
+    _setSnipe(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { hitPower: 12, range: 2, crit: 10 };
         const skillMapping = {
@@ -318,10 +366,10 @@ export class GSActor extends Actor {
         }
         if(skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
-        adventurerSkills[skill.name] = skillConfig;
+        adventurerSkills[skillName] = skillConfig;
     }
 
-    _setStrongBlow(skill, skillValue){
+    _setStrongBlow(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         let str = this.system.abilities.primary.str;
         if(skillValue === 1)
@@ -334,26 +382,26 @@ export class GSActor extends Actor {
             str = Math.round(str * 1.5);
         else if(skillValue === 5)
             str = Math.round(str * 2);
-        adventurerSkills[skill.name] = str;
+        adventurerSkills[skillName] = str;
     }
 
-    _setCriticals(skill, skillValue){
+    _setCriticals(skillName, skillValue){
         const adventurerSkills = this.system.skills.adventurer;
         const bonuses = { critical: 9, dmgRecover: 4 };
         if(skillValue <=2)
             bonuses = { critical: 11, dmgRecover: skillValue === 1 ? 0 : 1 };
         else if(skillValue <= 4)
             bonuses = { critical: 10, dmgRecover: skillValue === 3 ? 2 : 3 };
-        adventurerSkills[skill.name] = bonuses;
+        adventurerSkills[skillName] = bonuses;
     }
 
-    _setBeloved(skill, skillValue){
-        const adventurerSkills = this.system.skills.adventurer;
-        adventurerSkills[skill.name] = skillValue - 1;
+    _setBeloved(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        adventurerSkills[skillName] = skillValue - 1;
     }
 
-    _setCoolAndCollected(skill, skillValue){
-        const adventurerSkills = this.system.skills.adventurer;
+    _setCoolAndCollected(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
         let skillConfig = { bonus: 4, mentalResist: 2 };
         const skillMapping = {
             1: { bonus: 1, mentalResist: 0 },
@@ -361,7 +409,229 @@ export class GSActor extends Actor {
         }
         if(skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
-        adventurerSkills[skill.name] = skillConfig;
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setFaith(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        if(skillValue === 1)
+            adventurerSkills[skillName] = -4;
+        else if(skillValue === 2)
+            adventurerSkills[skillName] = -2;
+        else
+            adventurerSkills[skillName] = 0;
+    }
+
+    _setMagicalPerception(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        if(skillValue === 1)
+            skillValue = 30;
+        else if(skillValue === 2)
+            skillValue = 60;
+        else
+            skillValue = 120;
+        adventurerSkills[skillName] = skillValue;
+    }
+
+    _setSacrament(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        let skillConfig = { bonus: 2, general: 3 };
+        const skillMapping = {
+            1: { bonus: 0, general: 1 },
+            2: { bonus: 1, general: 2 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setVeil(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        let skillConfig = { bonus: 3, spellResist: 2 };
+        const skillMapping = {
+            1: { bonus: 1, spellResist: 0 },
+            2: { bonus: 2, spellResist: 1 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setShellAndClaws(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        adventurerSkills[skillName] = { armor: skillValue, unarmed: skillValue };
+    }
+
+    _setWallWalker(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        const movement = this.system.modMove;
+        if(skillValue === 1)
+            skillValue = Math.round(movement * 0.25);
+        else if(skillValue === 2)
+            skillValue = Math.round(movement * 0.5);
+        else
+            skillValue = movement;
+        adventurerSkills[skillName] = skillValue;
+    }
+
+    _setEnvironmentalAdaptation(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        let skillConfig = { main: 4, other: -1 };
+        const skillMapping = {
+            1: { main: 2, other: -2 },
+            2: { main: 3, other: -2 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setBeastWorship(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        if(skillValue === 3)
+            skillValue++;
+        adventurerSkills[skillName] = skillValue * -1;
+    }
+
+    _setBeastEyes(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        if(skillValue === 1)
+            skillValue = 10;
+        else if(skillValue === 2)
+            skillValue = 30;
+        else
+            skillValue = 60;
+        adventurerSkills[skillName] = skillValue;
+    }
+
+    _setInjectPoison(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        let skillConfig = { deadly: '1d6+3', paralysis: { dmg: '1d6', penalty: -2 } };
+        const skillMapping = {
+            1: { deadly: '1d3', paralysis: '1d3' },
+            2: { deadly: '1d3+3', paralysis: { dmg: '1d3', penalty: -1 } }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setHorns(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        adventurerSkills[skillName] = (skillValue * 2) - 2;
+    }
+
+    _setBirdsEyes(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        let skillConfig = { bonus: 4, visiblity: -4 };
+        const skillMapping = {
+            1: { bonus: 1, visiblity: 0 },
+            2: { bonus: 2, visiblity: -2 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setMucus(skillName, skillValue){
+        const adventurerSkills = this.system.skills.general;
+        let skillConfig = { bonus: -3, rounds: 6 };
+        const skillMapping = {
+            1: { bonus: 0, rounds: 3 },
+            2: { bonus: -2, rounds: 3 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setGorillaTactics(skillName, skillValue){
+        const adventurerSkills = this.system.skills.adventurer;
+        const str = this.system.abilities.primary.str;
+        let skillConfig = { str: str * 1, bonus: 4 };
+        const skillMapping = {
+            1: { str: Math.round(str * 0.25), bonus: 0 },
+            2: { str: Math.round(str * 0.5), bonus: 0 },
+            3: { str: Math.round(str * 0.5), bonus: 1 },
+            4: { str: str * 1, bonus: 3 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setBiologicalKnowledge(skillName, skillValue){
+        const adventurerSkills = this.system.skills.adventurer;
+        let skillConfig = { checks: 5, bonus: 5 };
+        const skillMapping = {
+            1: { checks: 1, bonus: 0 },
+            2: { checks: 2, bonus: 1 },
+            3: { checks: 3, bonus: 2 },
+            4: { checks: 4, bonus: 3 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setMovingChant(skillName, skillValue){
+        const adventurerSkills = this.system.skills.adventurer;
+        if(skillValue <= 3)
+            skillValue++;
+        else if(skillValue === 4)
+            skillValue + 2;
+        else
+            skillValue = 10;
+        adventurerSkills[skillName] = skillValue;
+    }
+
+    _setMultipleChants(skillName, skillValue){
+        const adventurerSkills = this.system.skills.adventurer;
+        let skillConfig = { numOfSpells: 2, threeSpells: -4, twoSpells: 0 };
+        const skillMapping = {
+            1: { numOfSpells: 2, threeSpells: 0, twoSpells: -8 },
+            2: { numOfSpells: 2, threeSpells: 0, twoSpells: -4 },
+            3: { numOfSpells: 3, threeSpells: -4, twoSpells: -4 },
+            4: { numOfSpells: 3, threeSpells: -4, twoSpells: -2 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setPoisoner(skillName, skillValue){
+        const adventurerSkills = this.system.skills.adventurer;
+        if(skillValue > 2)
+            skillValue = (skillValue - 1) * 2;
+        adventurerSkills[skillName] = skillValue;
+    }
+
+    _setShieldsman(skillName, skillValue){
+        const adventurerSkills = this.system.skills.adventurer;
+        let skillConfig = { critBlock: 9, bonusRange: 6, bonusBlock: 3 };
+        const skillMapping = {
+            1: { critBlock: 11, bonusRange: 13, bonusBlock: 2 },
+            2: { critBlock: 11, bonusRange: 9, bonusBlock: 2 },
+            3: { critBlock: 10, bonusRange: 8, bonusBlock: 2 },
+            4: { critBlock: 10, bonusRange: 7, bonusBlock: 2 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
+    }
+
+    _setPassingThrough(skillName, skillValue){
+        const adventurerSkills = this.system.skills.adventurer;
+        let skillConfig = { bonus: 6, bonusToOthers: 4 };
+        const skillMapping = {
+            1: { bonus: 2, bonusToOthers: 0 },
+            2: { bonus: 3, bonusToOthers: 0 },
+            3: { bonus: 4, bonusToOthers: 0 },
+            4: { bonus: 5, bonusToOthers: 3 }
+        }
+        if(skillMapping[skillValue])
+            skillConfig = skillMapping[skillValue];
+        adventurerSkills[skillName] = skillConfig;
     }
 
     /**
@@ -425,7 +695,7 @@ export class GSActor extends Actor {
      */
     _bonusSpellsKnownSkillCall(skill){
         const skillValue = skill.system.value;
-        const spellDomain = skill.name.split(": ")[1];
+        const spellDomain = skillName.split(": ")[1];
         switch(spellDomain.toLowerCase()){
             case "sorcerer":
             case "words of true power":

@@ -16,9 +16,9 @@
             {{/if}}
             {{#if (eq skill.system.type true)}}
                 <div class="racialSkill grid grid-7col">
-                    <img src="{{skill.img}}" alt="{{skill.name}}">
+                    <img src="{{skill.img}}" alt="{{skillName}}">
                     <div class="textContainer grid-span-6">
-                        <h4>{{skill.name}}</h4>
+                        <h4>{{skillName}}</h4>
                         <div class="beginnerSkill">{{stripTags skill.system.beginner}}</div>
                     </div>
                 </div>
@@ -30,9 +30,9 @@
             {{/if}}
             {{#if (eq skill.system.type "")}}
                 <div class="racialSkill grid grid-7col">
-                    <img src="{{skill.img}}" alt="{{skill.name}}">
+                    <img src="{{skill.img}}" alt="{{skillName}}">
                     <div class="textContainer grid-span-6">
-                        <h4>{{skill.name}}</h4>
+                        <h4>{{skillName}}</h4>
                         <div class="beginnerSkill">{{stripTags skill.system.beginner}}</div>
                     </div>
                 </div>

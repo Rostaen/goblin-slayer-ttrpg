@@ -1,5 +1,11 @@
 # Goblin Slayer TTRPG Change Log
 
+## Recent updates
+
+### 2024-08-20
+
+- Added all skills (adventurer, general, padfoot) to the GSActor.mjs sheet for calculations. This will only populate skills that the character actively has. Testing required to ensure all skills are calculating properly.
+
 ## v0.10.0 Released 2024-08-16
 
 ### 2024-08-16
