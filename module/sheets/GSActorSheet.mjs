@@ -2230,13 +2230,22 @@ export default class GSActorSheet extends ActorSheet{
 			this._updatePerseverance(data.actor, systemData);
 
 			// Updates Armor, Shields, and Barehand attack values based on skill values and
-			this._updateArmorShieldsLizard(data.actor, systemData);
+			// this._updateArmorShieldsLizard(data.actor, systemData);
+
+			// Updating Armor if armor is worn and Armor: XX skill is present with a value > 0
+			if(data.armor && data.skills.adventurer.some(skill => (skill.name === 'Armor: Cloth' || skill.name === 'Armor: Light' || skill.name === 'Armor: Heavy') && skill.system.value > 0))
+				this._updateArmor(data, systemData);
+
+			// Updating Bonus Spells: XX if skill is present
+			for(let [id, skill] of Object.entries(data.skills.adventurer))
+				if((skill.name === 'Bonus Spells: Words of True Power' || skill.name === 'Bonus Spells: Miracles' || skill.name === 'Bonus Spells: Ancestral Dragon' || skill.name === 'Bonus Spells: Spirit Arts' || skill.name === 'Bonus Spells: Necromancy') && skill.system.value > 0)
+					this._updateSpellBonus(data, systemData, skill);
 
 			// Updates fatigue based on attrition and other factors
 			// this._checkFatigue(data.actor, systemData);
 
 			// Setting up vision for standard or darkvision
-			this._updateDarkVision(data.actor, systemData);
+			//this._updateDarkVision(data.actor, systemData);
 		}catch(err){
 			console.error("Error Perparing character data:", err);
 		}
@@ -2256,6 +2265,26 @@ export default class GSActorSheet extends ActorSheet{
 				});
 			}
 		}
+	}
+
+	async _updateArmor(data, systemData){
+		const armor = data.armor[0];
+		const armorScore = armor.system.score;
+		const armorType = armor.system.type.split(" ")[0];
+		const armorName = `Armor: ${armorType}`;
+		let skillValue = systemData.skills.adventurer[armorName];
+		const armorFlag = this.actor.getFlag('gs', armorName) || armorScore;
+		if(!armorFlag)
+			await this.actor.setFlag('gs', armorName, armorScore);
+		const newScore = armorFlag + skillValue;
+		if(armorScore !== newScore){
+			const deepArmor = this.actor.items.find(i => i._id === armor._id);
+			await deepArmor.update({ 'system.score': newScore });
+		}
+	}
+
+	async _updateSpellBonus(data, systemData, skill){
+		console.log("---Bonus Spell skill found", data, systemData, skill);
 	}
 
 	async _updateArmorShieldsLizard(actor, systemData){
@@ -2670,8 +2699,8 @@ export default class GSActorSheet extends ActorSheet{
 						else if(itemToDelete.name === 'Perseverance')
 							this.actor.unsetFlag('gs', 'perseverance');
 						else if(itemToDelete.name === 'Armor: Cloth' || itemToDelete.name === 'Armor: Light' || itemToDelete.name === 'Armor: Heavy'){
-							const originalScore = this.actor.getFlag('gs', 'armor');
-							await this.actor.unsetFlag('gs', 'armor');
+							const originalScore = this.actor.getFlag('gs', itemToDelete.name);
+							await this.actor.unsetFlag('gs', itemToDelete.name);
 							const armor = this.actor.items.find(i => i.type === 'armor');
 							await armor.update({
 								'system.score': originalScore

@@ -48,118 +48,120 @@ export class GSActor extends Actor {
         systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
 
         // Getting character skills
-        for(const skill of Object.entries(actorSkills)){
-            //console.log("===> For Loop Skill Check", skillName);
+        for(const skill of actorSkills){
+            //console.log("===> For Loop Skill Check", skill);
             const skillValue = skill.system.value;
             const skillName = skill.name;
-            switch(skillName){
-                case "Anticipate": case "First Aid": case "Handiwork": case "Lucky": case "Observe": case "Sixth Sense": case 'Strengthened Immunity':
-                case "Armor: Cloth": case "Armor: Light": case "Armor: Heavy": case "Shields": case "Encumbered Action": case 'Guard': case 'Martial Arts':
-                case "Piercing Attack": case "Weapons: One-Handed Swords": case "Weapons: Two-Handed Swords": case "Weapons: Axes": case "Weapons: Spears":
-                case "Weapons: Maces": case "Weapons: Staves": case "Weapons: Close-Combat": case "Weapons: Throwing Weapons": case "Weapons: Bows":
-                case "Enchance Spells: Power": case 'Spell Expertise: Attack Spells': case 'Spell Expertise: Imbuement Spells':
-                case 'Spell Expertise: Creation Spells': case 'Spell Expertise: Control Spells': case 'Spell Expertise: Healing Spells':
-                case 'Spell Expertise: General Spells': case 'Dungeon Knowledge': case 'Spell Ritual':
-                    this._setSkill('adventurer', skillName, skillValue); break;
-                case 'Alert': case 'Slice Attack':
-                    this._setCritRanges(skillName, skillValue); break;
-                case 'Tactical Movement': case 'Parry': case 'Provoke':
-                    this._setSkill('adventurer', skillName, skillValue - 1); break;
-                case 'Rampart':
-                    this._setSkill('adventurer', skillName, skillValue + 1); break;
-                case "Healing Affinity": case 'Slip Behind': case 'Monster Knowledge': case 'Penetrating Spells':
-                    this._setSkill('adventurer', skillName, skillValue * 2); break;
-                case "Defensive":
-                    systemData.skills.adventurer[skillName] = this._getDefSkillValue(skillName); break;
-                case "Hardiness":
-                    hardinessBonus = this._hardinessSkillCall(skillName); break;
-                case "Binding Attack":
-                    this._setSkill('adventurer', skillName, (skillValue + 1) * -1); break;
-                case "Burst of Strength":
-                    this._setBoS(skillName, skillValue); break;
-                case "Curved Shot":
-                    this._setSkill('adventurer', skillName, skillValue <= 4 ? (skillValue + 1) * -1 : -5); break;
-                case "Dual Wielding":
-                    this._setDualWield(skillName, skillValue); break;
-                case "Iron Fist":
-                    this._setIronFirst(skillName, skillValue); break;
-                case "Mow Down":
-                    this._setMowDown(skillName, skillValue); break;
-                case "Rapid Fire":
-                    this._setRapidFire(skillName, skillValue); break;
-                case "Snipe":
-                    this._setSnipe(skillName, skillValue); break;
-                case "Strong Blow: Bludgeon": case "Strong Blow: Slash":
-                    this._setStrongBlow(skillName, skillValue); break;
-                case "Master of Fire": case "Master of Water": case "Master of Wind": case "Master of Earth": case "Master of Life":
-                    this._setCriticals(skillName, skillValue); break;
-                case 'Gorilla Tactics':
-                    this._setGorillaTactics(skillName, skillValue); break;
-                case 'Biological Knowledge':
-                    this._setBiologicalKnowledge(skillName, skillValue); break;
-                case 'Moving Chant':
-                    this._setMovingChant(skillName, skillValue); break;
-                case 'Multiple Chants':
-                    this._setMultipleChants(skillName, skillValue); break;
-                case 'Poisoner':
-                    this._setPoisoner(skillName, skillValue); break;
-                case 'Shieldsman':
-                    this._setShieldsman(skillName, skillValue); break;
-                case 'Passing Through':
-                    this._setPassingThrough(skillName, skillValue); break;
-                case "Perseverance":
-                    this._perserveranceSkillCall(systemData); break;
-                case "Darkvision":
-                    this._updateDarkVision(skill, systemData); break;
-                case "Bonus Spells: Words of True Power": case "Bonus Spells: Miracles":case "Bonus Spells: Ancestral Dragon Arts": case "Bonus Spells: Spirit Arts": case "Bonus Spells: Necromancy":
-                    this._bonusSpellsKnownSkillCall(skill); break;
-                case "Magical Talent":
-                    this.system.spellUse.max += skillValue; break;
-                case "Stealth":
-                    if(skillValue >= 3)
-                        this._setSkill('adventurer', skillName + 'ToHit', skillValue - 2);
-                    this._setSkill('adventurer', skillName, skillValue); break;
-                case "Draconic Heritage": case "Long-Distance Movement": case 'Appraisal': case 'Artisan: Smithing': case 'Artisan: Needlework':
-                case 'Artisan: Carpentry': case 'Artisan: Leatherworking': case 'Artisan: Metal-Carving': case 'Cooking': case 'Craftsmanship':
-                case 'Criminal Knowledge': case 'Etiquette': case 'General Knowledge': case 'Labor': case 'Leadership': case 'Meditate':
-                case 'Negotiate: Persuade': case 'Negotiate: Tempt': case 'Negotiate: Intimidate': case 'No Preconceptions': case 'Perform: Sing':
-                case 'Perform: Play': case 'Perform: Dance': case 'Perform: Street Perform': case 'Perform: Act': case 'Production: Farming': case 'Production: Fishing':
-                case 'Production: Logging': case 'Production: Mining': case 'Research': case 'Riding': case 'Survivalism': case 'Theology': case 'Worship':
-                case 'Cartography': case 'Herbalist': case 'Miner': case 'Taming': case 'Nurse': case 'Torture':
-                    this._setSkill('general', skillName, skillValue); break;
-                case 'Beloved of the Fae':
-                    this._setBeloved(skillName, skillValue); break;
-                case 'Cool and Collected':
-                    this._setCoolAndCollected(skillName, skillValue); break;
-                case 'Fait: Supreme God': case 'Fait: Earth Mother': case 'Fait: Trade God': case 'Fait: God of Knowledge': case 'Fait: Valkyrie':
-                case 'Fait: Ancestral Dragon':
-                    this._setFaith(skillName, skillValue); break;
-                case 'Magical Perception':
-                    this._setMagicalPerception(skillName, skillValue); break;
-                case 'Sacrament of Forgiveness':
-                    this._setSacrament(skillName, skillValue); break;
-                case 'Veil of Darkness':
-                    this._setVeil(skillName, skillValue); break;
-                case 'Shell and Claws': case 'Wild Beastman':
-                    this._setShellAndClaws(skillName, skillValue); break;
-                case 'Wall Walker':
-                    this._setWallWalker(skillName, skillValue); break;
-                case 'Environmental Adaptation':
-                    this._setEnvironmentalAdaptation(skillName, skillValue); break;
-                case 'Beast Worship':
-                    this._setBeastWorship(skillName, skillValue); break;
-                case "Beast's Eyes":
-                    this._setBeastEyes(skillName, skillValue); break;
-                case 'Underwater Aptitude':
-                    this.system.skills.general[skillName] = skillValue--;
-                case 'Inject Poison':
-                    this._setInjectPoison(skillName, skillValue); break;
-                case 'Horns': case 'Flight':
-                    this._setHorns(skillName, skillValue); break;
-                case "Bird's Eyes":
-                    this._setBirdsEyes(skillName, skillValue); break;
-                case 'Mucus':
-                    this._setMucus(skillName, skillValue); break;
+            if(skillValue){
+                switch(skillName){
+                    case "Anticipate": case "First Aid": case "Handiwork": case "Lucky": case "Observe": case "Sixth Sense": case 'Strengthened Immunity':
+                    case "Armor: Cloth": case "Armor: Light": case "Armor: Heavy": case "Shields": case "Encumbered Action": case 'Guard': case 'Martial Arts':
+                    case "Piercing Attack": case "Weapons: One-Handed Swords": case "Weapons: Two-Handed Swords": case "Weapons: Axes": case "Weapons: Spears":
+                    case "Weapons: Maces": case "Weapons: Staves": case "Weapons: Close-Combat": case "Weapons: Throwing Weapons": case "Weapons: Bows":
+                    case "Enchance Spells: Power": case 'Spell Expertise: Attack Spells': case 'Spell Expertise: Imbuement Spells':
+                    case 'Spell Expertise: Creation Spells': case 'Spell Expertise: Control Spells': case 'Spell Expertise: Healing Spells':
+                    case 'Spell Expertise: General Spells': case 'Dungeon Knowledge': case 'Spell Ritual':
+                        this._setSkill('adventurer', skillName, skillValue); break;
+                    case 'Alert': case 'Slice Attack':
+                        this._setCritRanges(skillName, skillValue); break;
+                    case 'Tactical Movement': case 'Parry': case 'Provoke':
+                        this._setSkill('adventurer', skillName, skillValue - 1); break;
+                    case 'Rampart':
+                        this._setSkill('adventurer', skillName, skillValue + 1); break;
+                    case "Healing Affinity": case 'Slip Behind': case 'Monster Knowledge': case 'Penetrating Spells':
+                        this._setSkill('adventurer', skillName, skillValue * 2); break;
+                    case "Defensive":
+                        systemData.skills.adventurer[skillName] = this._getDefSkillValue(skillName); break;
+                    case "Hardiness":
+                        hardinessBonus = this._hardinessSkillCall(skillName); break;
+                    case "Binding Attack":
+                        this._setSkill('adventurer', skillName, (skillValue + 1) * -1); break;
+                    case "Burst of Strength":
+                        this._setBoS(skillName, skillValue); break;
+                    case "Curved Shot":
+                        this._setSkill('adventurer', skillName, skillValue <= 4 ? (skillValue + 1) * -1 : -5); break;
+                    case "Dual Wielding":
+                        this._setDualWield(skillName, skillValue); break;
+                    case "Iron Fist":
+                        this._setIronFirst(skillName, skillValue); break;
+                    case "Mow Down":
+                        this._setMowDown(skillName, skillValue); break;
+                    case "Rapid Fire":
+                        this._setRapidFire(skillName, skillValue); break;
+                    case "Snipe":
+                        this._setSnipe(skillName, skillValue); break;
+                    case "Strong Blow: Bludgeon": case "Strong Blow: Slash":
+                        this._setStrongBlow(skillName, skillValue); break;
+                    case "Master of Fire": case "Master of Water": case "Master of Wind": case "Master of Earth": case "Master of Life":
+                        this._setCriticals(skillName, skillValue); break;
+                    case 'Gorilla Tactics':
+                        this._setGorillaTactics(skillName, skillValue); break;
+                    case 'Biological Knowledge':
+                        this._setBiologicalKnowledge(skillName, skillValue); break;
+                    case 'Moving Chant':
+                        this._setMovingChant(skillName, skillValue); break;
+                    case 'Multiple Chants':
+                        this._setMultipleChants(skillName, skillValue); break;
+                    case 'Poisoner':
+                        this._setPoisoner(skillName, skillValue); break;
+                    case 'Shieldsman':
+                        this._setShieldsman(skillName, skillValue); break;
+                    case 'Passing Through':
+                        this._setPassingThrough(skillName, skillValue); break;
+                    case "Perseverance":
+                        this._perserveranceSkillCall(systemData); break;
+                    case "Darkvision":
+                        this._updateDarkVision(skill, systemData); break;
+                    case "Bonus Spells: Words of True Power": case "Bonus Spells: Miracles":case "Bonus Spells: Ancestral Dragon Arts": case "Bonus Spells: Spirit Arts": case "Bonus Spells: Necromancy":
+                        this._bonusSpellsKnownSkillCall(skill); break;
+                    case "Magical Talent":
+                        this.system.spellUse.max += skillValue; break;
+                    case "Stealth":
+                        if(skillValue >= 3)
+                            this._setSkill('adventurer', skillName + 'ToHit', skillValue - 2);
+                        this._setSkill('adventurer', skillName, skillValue); break;
+                    case "Draconic Heritage": case "Long-Distance Movement": case 'Appraisal': case 'Artisan: Smithing': case 'Artisan: Needlework':
+                    case 'Artisan: Carpentry': case 'Artisan: Leatherworking': case 'Artisan: Metal-Carving': case 'Cooking': case 'Craftsmanship':
+                    case 'Criminal Knowledge': case 'Etiquette': case 'General Knowledge': case 'Labor': case 'Leadership': case 'Meditate':
+                    case 'Negotiate: Persuade': case 'Negotiate: Tempt': case 'Negotiate: Intimidate': case 'No Preconceptions': case 'Perform: Sing':
+                    case 'Perform: Play': case 'Perform: Dance': case 'Perform: Street Perform': case 'Perform: Act': case 'Production: Farming': case 'Production: Fishing':
+                    case 'Production: Logging': case 'Production: Mining': case 'Research': case 'Riding': case 'Survivalism': case 'Theology': case 'Worship':
+                    case 'Cartography': case 'Herbalist': case 'Miner': case 'Taming': case 'Nurse': case 'Torture':
+                        this._setSkill('general', skillName, skillValue); break;
+                    case 'Beloved of the Fae':
+                        this._setBeloved(skillName, skillValue); break;
+                    case 'Cool and Collected':
+                        this._setCoolAndCollected(skillName, skillValue); break;
+                    case 'Fait: Supreme God': case 'Fait: Earth Mother': case 'Fait: Trade God': case 'Fait: God of Knowledge': case 'Fait: Valkyrie':
+                    case 'Fait: Ancestral Dragon':
+                        this._setFaith(skillName, skillValue); break;
+                    case 'Magical Perception':
+                        this._setMagicalPerception(skillName, skillValue); break;
+                    case 'Sacrament of Forgiveness':
+                        this._setSacrament(skillName, skillValue); break;
+                    case 'Veil of Darkness':
+                        this._setVeil(skillName, skillValue); break;
+                    case 'Shell and Claws': case 'Wild Beastman':
+                        this._setShellAndClaws(skillName, skillValue); break;
+                    case 'Wall Walker':
+                        this._setWallWalker(skillName, skillValue); break;
+                    case 'Environmental Adaptation':
+                        this._setEnvironmentalAdaptation(skillName, skillValue); break;
+                    case 'Beast Worship':
+                        this._setBeastWorship(skillName, skillValue); break;
+                    case "Beast's Eyes":
+                        this._setBeastEyes(skillName, skillValue); break;
+                    case 'Underwater Aptitude':
+                        this.system.skills.general[skillName] = skillValue--;
+                    case 'Inject Poison':
+                        this._setInjectPoison(skillName, skillValue); break;
+                    case 'Horns': case 'Flight':
+                        this._setHorns(skillName, skillValue); break;
+                    case "Bird's Eyes":
+                        this._setBirdsEyes(skillName, skillValue); break;
+                    case 'Mucus':
+                        this._setMucus(skillName, skillValue); break;
+                }
             }
         }
 
@@ -695,7 +697,7 @@ export class GSActor extends Actor {
      */
     _bonusSpellsKnownSkillCall(skill){
         const skillValue = skill.system.value;
-        const spellDomain = skillName.split(": ")[1];
+        const spellDomain = skill.name.split(": ")[1];
         switch(spellDomain.toLowerCase()){
             case "sorcerer":
             case "words of true power":

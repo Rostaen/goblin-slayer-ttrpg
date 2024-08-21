@@ -42,15 +42,11 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Add in a Parry check
 - [x] Context menu for Race skills
 - [x] Prompt for Roll modifiers
-- [ ] Add conditions and effects to PC effects tab
 - [x] Add skill bonuses where needed
 - [x] Allow attrition to update fatigue
 - [x] Allow fatigue to modify character sheet
 - [x] Create CompediumFolders for all monsters & items
 - [x] Better sheet styling
-- [ ] Combat
-  - [ ] Rework code to streamline checks
-  - [ ] Have ranged attacks check for +ammo before rolling to Hit
 - [ ] Add mouse hover context for game related information
   - [x] Monster sheet '!' information hovers
 - [ ] Block skills from having a higher value when levels and rank are in conflict
@@ -87,6 +83,8 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Create new actor for Fate Points usage and table
 - [x] Fix health bars so they show up on character tokens
 - [ ] Combat Updates
+  - [ ] Rework code to streamline checks
+  - [ ] Have ranged attacks check for +ammo before rolling to Hit
   - [ ] Add damage button to "to hit" rolls
   - [ ] Update target tracking
   - [ ] Add effectiness score bonus damage to player rolls
@@ -188,6 +186,10 @@ All items are drag 'n drop ready and will show up in their respective tabs when 
 These are (mostly) automatically implemented into the game. Please see the details above about specific adventurer skills and their status. These skills are added into either attacks, dodges, shields, spell uses, or other checks to have their effects added in.
 
 Approximately 77% of adventurer skills have been fully automated and work directly from the character sheet and will be added to the chat box for confirmation. Ability scores, class levels, skills, modifiers, successes, and crits are highlighted in the chat window for ease of reference. If you notice any errors/bugs, please submit them to the issues tab of the GitHub page: https://github.com/Rostaen/goblin-slayer-ttrpg/issues.
+
+##### Skill: XX
+
+When updating a skill that has ": XX" in the name. Right-click on the skill and 'view' it. Copy one of the names exactly as you see in the description for the skill you intend to use this with and update the paste it in the name slot. This will help skill automation work correctly. Ex: Armor: XX being used for "Armor: Heavy." Automation is currently case sensetive and will not work with these examples "armor: heavy", "Armor: heavy", "armor: Heavy", "Armor:Heavy", "ARMOR: HEAVY", etc.
 
 #### General
 

@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+### 2024-08-21
+
+- Updated how Armor: XX works using the calculated skill if the skill is present.
+- Updated instructions to the readme about using 'Skill: XX' skills.
+
 ### 2024-08-20
 
 - Added all skills (adventurer, general, padfoot) to the GSActor.mjs sheet for calculations. This will only populate skills that the character actively has. Testing required to ensure all skills are calculating properly.
