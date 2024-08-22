@@ -79,6 +79,7 @@ export default class GSActorSheet extends ActorSheet{
 			data.isGM = game.users.current.isGM;
 		}
 		if(this.actor.type === 'character'){
+			data.skillValues = actorData.system.skills;
 			this._prepareItems(data);
 			this._prepareCharacterData(data);
 		}
@@ -2227,41 +2228,42 @@ export default class GSActorSheet extends ActorSheet{
 			});
 
 			// Checking Perseverance Skill
-			this._updatePerseverance(data.actor, systemData);
-
-			// Updates Armor, Shields, and Barehand attack values based on skill values and
-			// this._updateArmorShieldsLizard(data.actor, systemData);
+			if(data.skillValues.adventurer.Perseverance)
+				this._updatePerseverance(data);
 
 			// Updating Armor if armor is worn and Armor: XX skill is present with a value > 0
 			if(data.armor && data.skills.adventurer.some(skill => (skill.name === 'Armor: Cloth' || skill.name === 'Armor: Light' || skill.name === 'Armor: Heavy') && skill.system.value > 0))
 				this._updateArmor(data, systemData);
 
-			// Updating Bonus Spells: XX if skill is present
-			for(let [id, skill] of Object.entries(data.skills.adventurer))
-				if((skill.name === 'Bonus Spells: Words of True Power' || skill.name === 'Bonus Spells: Miracles' || skill.name === 'Bonus Spells: Ancestral Dragon' || skill.name === 'Bonus Spells: Spirit Arts' || skill.name === 'Bonus Spells: Necromancy') && skill.system.value > 0)
-					this._updateSpellBonus(data, systemData, skill);
-
 			// Updates fatigue based on attrition and other factors
 			// this._checkFatigue(data.actor, systemData);
 
 			// Setting up vision for standard or darkvision
-			//this._updateDarkVision(data.actor, systemData);
+			if(data.skillValues.general.Darkvision)
+				this._updateDarkVision(data);
+
+			// Updating Draconic armor and weapons
+			if(data.skillValues.general['Draconic Heritage'])
+				this._updateDraconicHeritage(data);
+
 		}catch(err){
 			console.error("Error Perparing character data:", err);
 		}
 	}
 
-	async _updatePerseverance(actor, systemData){
-		const perseveranceRank = systemData.skills.adventurer?.perseverance || 0;
-		const perseveranceFlag = actor.getFlag('gs', 'perseverance') || 0;
+	async _updatePerseverance(data){
+		const perseveranceRank = data.skillValues.adventurer.Perseverance;
+		const skill = data.actor.items.find(i => i.name === 'Perseverance');
+		const perseveranceFlag = this.actor.getFlag('gs', skill.name) || 0;
+
 		if(perseveranceRank !== perseveranceFlag){
-			await actor.setFlag('gs', 'perseverance', perseveranceRank);
+			await this.actor.setFlag('gs', skill.name, perseveranceRank);
 			for(let rank = 1; rank <= 5; rank++){
 				let ex = rank <= perseveranceRank ? 1 : 0;
 				let maxAdjust = rank <= perseveranceRank ? 1 : 0;
-				await actor.update({
+				await this.actor.update({
 					[`system.fatigue.rank${rank}.ex`]: ex,
-					[`system.fatigue.rank${rank}.max`]: systemData.fatigue[`rank${rank}`].max + maxAdjust
+					[`system.fatigue.rank${rank}.max`]: data.actor.system.fatigue[`rank${rank}`].max + maxAdjust
 				});
 			}
 		}
@@ -2273,7 +2275,7 @@ export default class GSActorSheet extends ActorSheet{
 		const armorType = armor.system.type.split(" ")[0];
 		const armorName = `Armor: ${armorType}`;
 		let skillValue = systemData.skills.adventurer[armorName];
-		const armorFlag = this.actor.getFlag('gs', armorName) || armorScore;
+		const armorFlag = this.actor.getFlag('gs', armorName) || 0;
 		if(!armorFlag)
 			await this.actor.setFlag('gs', armorName, armorScore);
 		const newScore = armorFlag + skillValue;
@@ -2283,118 +2285,96 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	async _updateSpellBonus(data, systemData, skill){
-		console.log("---Bonus Spell skill found", data, systemData, skill);
-	}
-
-	async _updateArmorShieldsLizard(actor, systemData){
-		// Updates Armor/Shields/Lizardman AC as needed, used in "Updating Armor, Shields, & Lizardman if skilled"
-		const _updateItemScore = async (itemType, skillKey, flagKey, skillType) => {
-			const skillRank = systemData.skills[skillType]?.[skillKey] || 0;
-			if(skillRank > 0){
-				const itemFlag = actor.getFlag('gs', flagKey) || 0;
-				const item = actor.items.find(i => i.type === itemType);
-				if(item){
-					if(!itemFlag)
-						await actor.setFlag('gs', flagKey, item.system.score);
-					const newScore = itemFlag + skillRank;
-					if(item.system.score !== newScore)
-						await item.update({
-							'system.score': newScore
-						});
-				}
-			}
-		}
-
+	async _updateDraconicHeritage(data){
 		// Updates Lizardman barehand attacks, used in "Updating Armor, Shields, & Lizardman if skilled"
 		const _updateLizardClaws = async () => {
-			const lizardRank = systemData.skills.general?.lizardman || 0;
-			if(lizardRank){
-				const barehands1H = actor.items.find(i => i.name === 'Barehanded Attack (1H)') || 0;
-				const barehands2H = actor.items.find(i => i.name === 'Barehanded Attack (2H)') || 0;
+			const barehands1H = this.actor.items.find(i => i.name === 'Barehanded Attack (1H)') || 0;
+			const barehands2H = this.actor.items.find(i => i.name === 'Barehanded Attack (2H)') || 0;
 
-				const updatePowerValues = (barehandsPower, skillRank) => {
-					const values = barehandsPower.includes("+") ? barehandsPower.split("+") : [barehandsPower, 0];
-					if(values[1] === 0)
-						return values[0] + "+" + skillRank;
-					else
-						return values[0] + "+" + (parseInt(values[1], 10) + skillRank);
-				};
+			const updatePowerValues = (barehandsPower, skillRank) => {
+				const values = barehandsPower.includes("+") ? barehandsPower.split("+") : [barehandsPower, 0];
+				if(values[1] === 0)
+					return values[0] + "+" + skillRank;
+				else
+					return values[0] + "+" + (parseInt(values[1], 10) + skillRank);
+			};
 
-				const updateHand = async (weapon, flagText) => {
-					let weaponFlag = actor.getFlag('gs', flagText );
-					if(!weaponFlag){
-						weaponFlag = weapon.system.power;
-						await actor.setFlag('gs', flagText, weaponFlag);
-					}
-					const newPower = updatePowerValues(weaponFlag, lizardRank);
-					if(weapon && weapon.system.power !== newPower)
-						await weapon.update({
-							'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
-							'system.power': newPower,
-							'system.attribute': 'Slash'
-						});
+			const updateHand = async (weapon, flagText, lizardRank) => {
+				let weaponFlag = this.actor.getFlag('gs', flagText );
+				if(!weaponFlag){
+					weaponFlag = weapon.system.power;
+					await this.actor.setFlag('gs', flagText, weaponFlag);
 				}
-
-				if(barehands1H)
-					updateHand(barehands1H, 'lizardClaws1');
-				if(barehands2H)
-					updateHand(barehands2H, 'lizardClaws2');
+				const newPower = updatePowerValues(weaponFlag, lizardRank);
+				if(weapon && weapon.system.power !== newPower)
+					await weapon.update({
+						'img': 'icons/creatures/claws/claw-talons-glowing-orange.webp',
+						'system.power': newPower,
+						'system.attribute': 'Slash'
+					});
 			}
+
+			if(barehands1H)
+				updateHand(barehands1H, 'lizardClaws1', draconicValue);
+			if(barehands2H)
+				updateHand(barehands2H, 'lizardClaws2', draconicValue);
 		};
 
-		// Updating Armor, Shields, & Lizardman if skilled
-		const armor = actor.items.find(i => i.type === 'armor') || null;
-		const armorWeight = armor ? armor.system.type.split(" ") : [];
-		// Checking if actor has Dragon Heritage && Armor Skill
-		if(systemData.skills.general?.lizardman && systemData.skills.adventurer?.[`armor${armorWeight[0]}`]){
-			const lizardmanSkill = systemData.skills.general.lizardman;
-			const armorSkill = systemData.skills.adventurer[`armor${armorWeight[0]}`];
-			const lizardFlag = actor.getFlag('gs', 'lizardman') || 0;
-			const armorFlag = actor.getFlag('gs', 'armor') || 0;
-			if(armor){
-				if(!lizardFlag)
-					await actor.setFlag('gs', 'lizardman', armor.system.score);
-				if(!armorFlag)
-					await actor.setFlag('gs', 'armor', actor.getFlag('gs', 'armor'));
-				if(lizardFlag > armorFlag)
-					await actor.setFlag('gs', 'armor', lizardFlag);
-				else if(lizardFlag < armorFlag)
-					await actor.setFlag('gs', 'lizardman', armorFlag);
+		// Grabbing skill values
+		const draconicValue = data.skillValues.general['Draconic Heritage'];
+		let armorXXValue = 0, armor = null, armorWeight = null, armorScore = 0, armorFlag = 0, armorSkill = null, newScore = 0;
+		for(let s of data.skills.adventurer)
+			if(s.name.split(": ")[1] === 'Cloth' || s.name.split(": ")[1] === 'Light' || s.name.split(": ")[1] === 'Heavy')
+				armorXXValue = data.skillValues.adventurer[s.name];
 
-				const withArmorBonus = lizardFlag + lizardmanSkill + armorSkill;
-				if(armor.system.score !== withArmorBonus){
-					console.log(">>> Lizard Check ArmorScore", armor.system.score, "w/AB", withArmorBonus, "lFlag", lizardFlag, "lSkill", lizardmanSkill, "aSkill", armorSkill );
-					await armor.update({
-						'system.score': withArmorBonus
-					});
-				}
-			}
-			await _updateLizardClaws();
-		}else if(systemData.skills.adventurer?.armorAC)
-			await _updateItemScore('armor', 'armorAC', 'armor', 'adventurer');
-		else if(systemData.skills.general?.lizardman){
-			await _updateItemScore('armor', 'lizardman', 'lizardman', 'general');
-			await _updateLizardClaws();
+		// Setting armor info in armor is present
+		armor = this.actor.items.find(i => i.type === 'armor') || 0;
+		if(armor){
+			armorScore = armor.system.score;
+			armorWeight = armor.system.type.split(" ")[0];
+			armorSkill = data.skills.adventurer.find(i => i.name === `Armor: ${armorWeight}`);
+			armorFlag = this.actor.getFlag('gs', armorSkill.name) || 0;
 		}
-		await _updateItemScore('shield', 'shieldAC', 'shield', 'adventurer');
+
+		if(!armorFlag)
+			await this.actor.setFlag('gs', armorSkill.name, (armorFlag || armorScore));
+
+		newScore = armorFlag + draconicValue + ( draconicValue && armorXXValue ? armorXXValue : 0 );
+		if(armorScore !== newScore && armor)
+			await armor.update({ 'system.score': newScore });
+		// console.log(">>> Lizard Check ArmorScore", armor.system.score, "w/AB", withArmorBonus, "lFlag", lizardFlag, "lSkill", lizardmanSkill, "aSkill", armorSkill );
+		// console.log("--- Checking AC", await armor.system.score, await this.actor);
+		await _updateLizardClaws();
 	}
 
-	async _updateDarkVision(actor, systemData){
-		const darkVision = systemData.skills.general?.darkVision || 0;
+	async _updateDarkVision(data){
+		const dVValue = data.skillValues.general.Darkvision;
+		const dVSkill = data.actor.items.find(i => i.name === "Darkvision");
 		const updateVision = {
-			vision: true,
-			visionMode: darkVision > 0 ? 'darkvision' : 'basic',
-			range: darkVision > 0 ? darkVision : 0
+			visionMode: dVValue > 0 ? 'darkvision' : 'basic',
+			range: dVValue > 0 ? dVValue : 0,
+			enabled: true
 		}
 
+		if(data.actor.token.sight.range !== dVValue){
+			// Updating actor Prototype Token Info, this will effect the Token settings on PC sheet
+			await this.actor.update({
+				'prototypeToken.sight.visionMode': updateVision.visionMode,
+				'prototypeToken.sight.range': updateVision.range,
+				'prototypeToken.actorLink': true,
+				'prototypeToken.sight.enabled': updateVision.enabled
+			});
 
-		await actor.update({
-			'prototypeToken.sight.vision': updateVision.vision,
-			'prototypeToken.sight.visionMode': updateVision.visionMode,
-			'prototypeToken.sight.range': updateVision.range,
-			'prototypeToken.actorLink': true,
-		});
+			// Checking and updating any active tokens
+			const token = this.actor.getActiveTokens()[0];
+			if(token && token.document){
+				await token.document.update({
+					'sight.visionMode': updateVision.visionMode,
+					'sight.range': updateVision.range,
+					'sight.enabled': updateVision.enabled
+				});
+			}
+		}
 	}
 
 	/**
@@ -2638,35 +2618,35 @@ export default class GSActorSheet extends ActorSheet{
 			name: "Delete",
 			icon: '<i class="fas fa-trash"></i>',
 			callback: async element => {
-				const actor = game.actors.get(this.actor._id);
+				const actor = this.actor;
 				const id = element[0].dataset.id;
-				const type = element[0].dataset.contexttype;
-				const itemToDelete = this.actor.items.get(id);
-				console.log("GS || ", itemToDelete);
+				const itemToDelete = actor.items.get(id);
+				if(!itemToDelete){
+					console.error("Skill not found for deletion.");
+					return;
+				}
+				const type = itemToDelete.type;
+				console.log("GS || ", itemToDelete, id, type);
 
 				switch(type){
 					case 'skill':
-						if(!itemToDelete){
-							console.error("Skill not found for deletion.");
-							return;
-						}
 						actor.deleteEmbeddedDocuments(
 							'Item', [id]
 						).then(() => {
-							// console.log(`GS || ${skillName} deleted successfully.`);
+							console.log(`GS || ${itemToDelete.name} deleted successfully.`);
 						}).catch(error => {
 							console.error("Error deleting skill:", error);
 						});
 						if(itemToDelete.name === 'Draconic Heritage'){
-							const armorScore = this.actor.getFlag('gs', 'lizardman');
-							const barehands1 = this.actor.getFlag('gs', 'lizardClaws1');
-							const barehands2 = this.actor.getFlag('gs', 'lizardClaws2');
-							await this.actor.unsetFlag('gs', 'lizardman');
-							await this.actor.unsetFlag('gs', 'lizardClaws1');
-							await this.actor.unsetFlag('gs', 'lizardClaws2');
-							const armorWorn = this.actor.items.find(i => i.type === 'armor');
-							const bh1 = this.actor.items.find(i => i.name === 'Barehanded Attack (1H)');
-							const bh2 = this.actor.items.find(i => i.name === 'Barehanded Attack (2H)');
+							const armorScore = actor.getFlag('gs', 'lizardman');
+							const barehands1 = actor.getFlag('gs', 'lizardClaws1');
+							const barehands2 = actor.getFlag('gs', 'lizardClaws2');
+							await actor.unsetFlag('gs', 'lizardman');
+							await actor.unsetFlag('gs', 'lizardClaws1');
+							await actor.unsetFlag('gs', 'lizardClaws2');
+							const armorWorn = actor.items.find(i => i.type === 'armor');
+							const bh1 = actor.items.find(i => i.name === 'Barehanded Attack (1H)');
+							const bh2 = actor.items.find(i => i.name === 'Barehanded Attack (2H)');
 							// console.log(">>> Removing", armorWorn, bh1, bh2, armorScore, barehandScores.oneHandPower, barehandScores.twoHandPower);
 							if(armorWorn)
 								await armorWorn.update({'system.score': armorScore});
@@ -2683,8 +2663,8 @@ export default class GSActorSheet extends ActorSheet{
 								revertWeapons(bh2, barehands2);
 						}
 						else if(itemToDelete.name === 'Darkvision'){
-							this.actor.unsetFlag('gs', 'darkvision');
-							const token = this.actor.getActiveTokens()[0];
+							actor.unsetFlag('gs', 'darkvision');
+							const token = actor.getActiveTokens()[0];
 							// const token = canvas.tokens.placeables.find(t => t.name === this.name);
 							if(token){
 								token.document.update({
@@ -2697,23 +2677,23 @@ export default class GSActorSheet extends ActorSheet{
 							}
 						}
 						else if(itemToDelete.name === 'Perseverance')
-							this.actor.unsetFlag('gs', 'perseverance');
+							actor.unsetFlag('gs', itemToDelete.name);
 						else if(itemToDelete.name === 'Armor: Cloth' || itemToDelete.name === 'Armor: Light' || itemToDelete.name === 'Armor: Heavy'){
-							const originalScore = this.actor.getFlag('gs', itemToDelete.name);
-							await this.actor.unsetFlag('gs', itemToDelete.name);
-							const armor = this.actor.items.find(i => i.type === 'armor');
+							const originalScore = actor.getFlag('gs', itemToDelete.name);
+							await actor.unsetFlag('gs', itemToDelete.name);
+							const armor = actor.items.find(i => i.type === 'armor');
 							await armor.update({
 								'system.score': originalScore
 							});
 						}else if(itemToDelete.name === 'Shields'){
-							const originalScore = this.actor.getFlag('gs', 'shield');
-							await this.actor.unsetFlag('gs', 'shield');
-							const shield = this.actor.items.find(i => i.type === 'shield');
+							const originalScore = actor.getFlag('gs', 'shield');
+							await actor.unsetFlag('gs', 'shield');
+							const shield = actor.items.find(i => i.type === 'shield');
 							await shield.update({
 								'system.score': originalScore
 							});
 						}else if(itemToDelete.name === 'Draconic Heritage')
-							await this.actor.unsetFlag('gs', 'lizard');
+							await actor.unsetFlag('gs', 'lizard');
 						break;
 					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':case 'martialtechnique':
 						if (itemToDelete)
@@ -2721,14 +2701,14 @@ export default class GSActorSheet extends ActorSheet{
 						else
 							console.error("Race item not found for deletion.");
 
-						if(type === 'armor' || type === 'shield'){
-							const originalScore = this.actor.getFlag('gs', type);
-							let equipment = this.actor.items.filter(item => item.type.toLowerCase() === type);
-							equipment[0].update({
-								'system.score': originalScore
-							})
-							this.actor.unsetFlag('gs', type);
-						}
+						// if(type === 'armor' || type === 'shield'){
+						// 	const originalScore = this.actor.getFlag('gs', type);
+						// 	let equipment = this.actor.items.filter(item => item.type.toLowerCase() === type);
+						// 	equipment[0].update({
+						// 		'system.score': originalScore
+						// 	})
+						// 	this.actor.unsetFlag('gs', type);
+						// }
 						break;
 				}
 			}

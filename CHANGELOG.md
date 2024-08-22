@@ -2,6 +2,14 @@
 
 ## Recent updates
 
+### 2024-08-22
+
+- Added Skills Values to data level for ease of reference.
+- Bonus Spell: XX tested and updated to include necromancy. This skill is one of few that isn't pushed to the skills values tracker.
+- Darkvision has been updated and now only applies changes when the skill has been updated. This also corrected a long standing bug from the first implementation.
+- Updated Perseverance skill, tested, and working properly.
+- Reworking Draconic Heritage skill.
+
 ### 2024-08-21
 
 - Updated how Armor: XX works using the calculated skill if the skill is present.

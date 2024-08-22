@@ -109,7 +109,7 @@ export class GSActor extends Actor {
                     case 'Passing Through':
                         this._setPassingThrough(skillName, skillValue); break;
                     case "Perseverance":
-                        this._perserveranceSkillCall(systemData); break;
+                        systemData.skills.adventurer[skillName] = skillValue; break;
                     case "Darkvision":
                         this._updateDarkVision(skill, systemData); break;
                     case "Bonus Spells: Words of True Power": case "Bonus Spells: Miracles":case "Bonus Spells: Ancestral Dragon Arts": case "Bonus Spells: Spirit Arts": case "Bonus Spells: Necromancy":
@@ -666,16 +666,6 @@ export class GSActor extends Actor {
     }
 
     /**
-     * Update character fatigue with EX checkboxes
-     * The method updates the skill value of the Perseverance skill and gives the character more fatigue to work with before exiting the game world.
-     * @param {JSON} systemData JSON object of the current actor set to this.actor.system
-     */
-    _perserveranceSkillCall(systemData){
-        let skillValue = this._getSkillBonus("Perseverance");
-        systemData.skills.adventurer = { perseverance: skillValue };
-    }
-
-    /**
      * Simple method to save the armor bonus applied to armor, shields, or from Lizardman ancestry.
      * @param {string} type Either armor, shield, lizardman
      * @param {JSON} systemData The character JSON object to manipulate data
@@ -720,6 +710,10 @@ export class GSActor extends Actor {
             case "spirit arts":
                 this.system.spellUse.totalSpellsKnown.sham += skillValue;
                 break;
+            case "necro":
+            case "necromancy":
+            case "necromancer":
+                this.system.spellUse.totalSpellsKnown.necro += skillValue;
         }
     }
 
@@ -737,7 +731,7 @@ export class GSActor extends Actor {
             case 3: skillValue = 600; break;
             default: skillValue = 0;
         }
-        systemData.skills.general = { ...systemData.skills.general, darkVision: skillValue };
+        systemData.skills.general[skill.name] = skillValue;
     }
 
     _prepareMonsterData(actorData){
