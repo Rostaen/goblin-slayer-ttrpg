@@ -2,6 +2,12 @@
 
 ## Recent updates
 
+### 2024-08-23
+
+- Finished reworking Draconic Heritage and updating it with Armor: XX skill. Uses less code and has an easier implementation.
+- Magical Perception (S) added to automation.
+- Reviewing Magical Talent skill. Needs better implementation and flags in case someone needs to remove a skillup.
+
 ### 2024-08-22
 
 - Added Skills Values to data level for ease of reference.

@@ -149,7 +149,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Pass Through
 - [ ] Cartography
 - [ ] Herbalist
-- [ ] Magical Perception
+- [x] Magical Perception
 - [ ] Miner
 - [ ] Taming
 - [ ] Nurse
