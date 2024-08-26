@@ -193,7 +193,7 @@
   "socket": false,
   "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
-  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/releases/download/v0.10.0/gs-game-system.zip",
+  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/releases/download/v0.10.2/gs-game-system.zip",
   "background": "systems/gs/assets/gslogo.jpg",
   "grid": {
     "distance": 1,
