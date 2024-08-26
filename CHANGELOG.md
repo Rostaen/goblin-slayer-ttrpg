@@ -2,6 +2,12 @@
 
 ## Recent updates
 
+## v0.10.1 Released 2024-08-26
+
+- Emergency patch for player sheets and dice rolls not going through.
+- Updated items to have a default 0 for movement modification penalties if none are present.
+- Added Necromancer class to rolls as appropriate.
+
 ### 2024-08-23
 
 - Finished reworking Draconic Heritage and updating it with Armor: XX skill. Uses less code and has an easier implementation.

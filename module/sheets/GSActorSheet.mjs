@@ -512,17 +512,17 @@ export default class GSActorSheet extends ActorSheet{
 				eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
 			const currentWeapon = this.actor.items.get(eventID);
 			skills.forEach(skill => {
-				if(skillName.toLowerCase() === "piercing attack"){
+				if(skill.name.toLowerCase() === "piercing attack"){
 					let pierceAmount = currentWeapon.system.effect?.pierce;
 					if(pierceAmount){
 						pierceAmount *= skill.system.value;
 						diceTotal += pierceAmount;
 						localizedMessage += this._addToFlavorMessage("skillScore", game.i18n.localize('gs.actor.common.pierc') + " " + game.i18n.localize('gs.actor.monster.atta'), pierceAmount );
 					}
-				}else if(skillName.toLowerCase() === 'strong blow: bludgeon' || skillName.toLowerCase() === 'strong blow: slash'){
+				}else if(skill.name.toLowerCase() === 'strong blow: bludgeon' || skill.name.toLowerCase() === 'strong blow: slash'){
 					console.log(">>> In SB: Slash check");
-					const skillName = skillName.toLowerCase();
-					let strongBlow = skillName === 'strong blow: bludgeon' ? currentWeapon.system.effect?.checked[11] : currentWeapon.system.effect?.checked[12];
+					const skillName = skill.name.toLowerCase();
+					let strongBlow = skill.name === 'strong blow: bludgeon' ? currentWeapon.system.effect?.checked[11] : currentWeapon.system.effect?.checked[12];
 					if(strongBlow){
 						const weaponSBValue = skillName === 'strong blow: bludgeon' ? currentWeapon.system.effect?.sbBludg : currentWeapon.system.effect?.sbSlash;
 						let strBonus = this.actor.system.abilities.primary.str;
@@ -638,7 +638,7 @@ export default class GSActorSheet extends ActorSheet{
 		if(itemType != 'cast') {
 			[type, weight] = typeHolder.value.toLowerCase().split('/').map(item => item.trim());
 		}
-		const {fighter = 0, monk = 0, ranger = 0, scout = 0, sorcerer = 0, priest = 0, dragon = 0, shaman = 0 } = this.actor.system.levels.classes;
+		const {fighter = 0, monk = 0, ranger = 0, scout = 0, sorcerer = 0, priest = 0, dragon = 0, shaman = 0, necro = 0 } = this.actor.system.levels.classes;
 		const includesAny = (words, text) => words.some(word => text.includes(word));
 		let bonus = 0;
 
@@ -714,6 +714,9 @@ export default class GSActorSheet extends ActorSheet{
 			}else if(typeHolder.toLowerCase() === "spirit arts"){
 				bonus += shaman;
 				className = game.i18n.localize('gs.actor.character.sham');
+			}else if(typeHolder.toLowerCase() === "necromancy"){
+				bonus += necro;
+				className = game.i18n.localize('gs.actor.character.necro');
 			}
 		}
 		return {bonus, className};
@@ -763,6 +766,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(actorType === 'character'){
 			stat = this._getStatForItemType(itemType, modSelector, container);
+			console.log("... check stat", stat);
 			if(stat > 0) localizedMessage += this._addToFlavorMessage("abilScore", game.i18n.localize('gs.actor.character.abil'), stat);
 
 			const { bonus, className} = this._getClassLevelBonus(this._getItemType(container), itemType);
@@ -794,12 +798,12 @@ export default class GSActorSheet extends ActorSheet{
 				}else if(modSelector === '.hitMod'){
 					const weaponsXX = ['Weapons: Axes', 'Weapons: Close-Combat', 'Weapons: Maces', 'Weapons: Bows', 'Weapons: Throwing Weapons', 'Weapons: Spears', 'Weapons: Staves', 'Weapons: One-Handed Swords', 'Weapons: Two-Handed Swords'];
 					skills.forEach(skill => {
-						if(skillName.toLowerCase === 'mow down'){
+						if(skill.name.toLowerCase === 'mow down'){
 							const {modifier: mod, localizedMessage: message} = this._calculateMowDownModifier(container, skill, modifier, localizedMessage);
 							modifier = mod;
 							localizedMessage = message;
 						}
-						if(weaponsXX.includes(skillName)){
+						if(weaponsXX.includes(skill.name)){
 							const {modifier: mod, localizedMessage: message} = this._addSpecificWeaponBonus(container, skill, modifier, localizedMessage, weaponsXX);
 							modifier = mod;
 							localizedMessage = message;
@@ -808,9 +812,9 @@ export default class GSActorSheet extends ActorSheet{
 				}else if(modSelector === '.spellDif'){
 					const spellID = container.dataset.id;
 					const spell = this.actor.items.get(spellID);
-					// Checking if a Shaman spell and has Shaman's Bag or Beloved of the Fae skill
 					const skills = this.actor.items.filter(item => item.type === 'skill');
 					const items = this.actor.items.filter(item => item.type === 'item');
+					// Checking if a Shaman spell and has Shaman's Bag or Beloved of the Fae skill
 					if(spell.system.schoolChoice === "Spirit Arts"){
 						let belovedSkill, shamanBag;
 						skills.forEach(skill => skillName === "Beloved of the Fae" ? belovedSkill = skill : belovedSkill = null);
@@ -898,7 +902,7 @@ export default class GSActorSheet extends ActorSheet{
 		const weaponType = typeContainer[0].trim();
 		const weaponTypes = ['Ax', 'Close-Combat', 'Mace', 'Bow', 'Throwing', 'Spear', 'Staff', 'One-Handed Sword', 'Two-Handed Sword'];
 		for(let x = 0; x < weaponTypes.length; x++){
-			if(skillName === weaponsXX[x] && weaponType === weaponTypes[x]){
+			if(skill.name === weaponsXX[x] && weaponType === weaponTypes[x]){
 				modifier += skill.system.value;
 				localizedMessage += this._addStringToChatMessage("skillScore", skill, skill.system.value);
 				break;
@@ -1100,6 +1104,7 @@ export default class GSActorSheet extends ActorSheet{
 		// Helper function to add skill bonus and message
 		const addSkillBonus = (skill, minLevel, requiredClassLevel, bonusModifier = (val) => val) => {
 			const skillValue = skill.system.value;
+			const skillName = skill.name;
 			let gearBonus = 0;
 			if(skillValue <= minLevel - 1 || (skillValue >= minLevel && requiredClassLevel >= 7)){
 				if(skillName.toLowerCase() === 'parry'){
@@ -1115,7 +1120,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Process skills
 		skills.forEach(skill => {
-			switch(skillName.toLowerCase()){
+			switch(skill.name.toLowerCase()){
 				case 'martial arts': addSkillBonus(skill, 4, Math.max(monk, scout)); break;
 				case 'parry': addSkillBonus(skill, 4, fighter, (val) => val - 1); break;
 			}
@@ -1133,7 +1138,7 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_calculateBlockModifier(modifier, skills, localizedMessage){
 		skills.forEach(skill => {
-			if(skillName.toLowerCase() === 'shields'){
+			if(skill.name.toLowerCase() === 'shields'){
 				modifier += skill.system.value;
 				localizedMessage += this._addStringToChatMessage("skillScore", skill, skill.system.value);
 			}
@@ -1175,7 +1180,7 @@ export default class GSActorSheet extends ActorSheet{
 			case 'armor': case 'shield': return actorCalcStats.tr;
 			case 'cast':
 				const school = container.querySelector("input[type='hidden']").value;
-				return school.toLowerCase() === "words of true power" ? actorCalcStats.if : actorCalcStats.pf;
+				return (school.toLowerCase() === "words of true power" || school.toLowerCase() === "necromancy") ? actorCalcStats.if : actorCalcStats.pf;
 			default: return 0;
 		}
 	}

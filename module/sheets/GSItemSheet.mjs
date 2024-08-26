@@ -52,10 +52,13 @@ export default class GSItemSheet extends ItemSheet {
 			);
 		}else if(item.type === 'item'){
 			const systemData = item.system;
-			console.log("... Checking systemData for item", systemData);
 			if(!systemData.quantity || systemData.quantity === null)
 				item.update({
 					"system.quantity": 1
+				});
+			if(!systemData.movePen || systemData.movePen === null)
+				item.update({
+					"system.movePen": 0
 				});
 		}
 
