@@ -2,7 +2,14 @@
 
 ## Recent updates
 
-## v0.10.1 Released 2024-08-26
+## v0.10.2 Released 2024-08-26
+
+### v0.10.2
+
+- Fixed copy/replace bug in Dragon Priest spell casting.
+- Fixed similar bugs for Shaman spellcasting with/without Beloved skill or a shaman bag.
+
+### v0.10.1
 
 - Emergency patch for player sheets and dice rolls not going through.
 - Updated items to have a default 0 for movement modification penalties if none are present.

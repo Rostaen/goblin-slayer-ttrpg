@@ -816,21 +816,20 @@ export default class GSActorSheet extends ActorSheet{
 					const items = this.actor.items.filter(item => item.type === 'item');
 					// Checking if a Shaman spell and has Shaman's Bag or Beloved of the Fae skill
 					if(spell.system.schoolChoice === "Spirit Arts"){
-						let belovedSkill, shamanBag;
-						skills.forEach(skill => skillName === "Beloved of the Fae" ? belovedSkill = skill : belovedSkill = null);
-						items.forEach(item => item.name === "Shaman's Bag" ? shamanBag = item : shamanBag = null);
-						if((!belovedSkill || belovedSkill.system.value === 0)  && !shamanBag){
+						let belovedSkill = this.actor.items.find(i => i.name === "Beloved of the Fae");
+						let shamanBag = this.actor.items.find(i => i.name === 'Shaman\'s Bag');
+						if((!belovedSkill || belovedSkill.system.value === 0) && !shamanBag){
 							ui.notifications.warn(game.i18n.localize('gs.dialog.spellCasting.shamanAlert'));
 							return;
-						}else if(belovedSkill.system.value >= 2){
+						}
+						if(belovedSkill && belovedSkill.system.value >= 2){
 							const usingCatalyst = await this._promptMiscModChoice('catalyst');
 							if(usingCatalyst){
 								this.actor.setFlag('gs', 'belovedSkill', belovedSkill);
 							}
 						}
 					}else if(spell.system.schoolChoice === 'Ancestral Dragon'){
-						let dPCPouch;
-						items.forEach(item => item.name === "Dragon Priest's Catalyst Pouch" ? dPCPouch = item : dPCPouch = null);
+						let dPCPouch = this.actor.items.find(i => i.name === "Dragon Priest's Catalyst Pouch") || 0;
 						if(!dPCPouch){
 							ui.notifications.warn(game.i18n.localize('gs.dialog.spellCasting.dragonPriestAlert'));
 							return;
@@ -870,7 +869,7 @@ export default class GSActorSheet extends ActorSheet{
 				'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie', 'Faith: Ancestral Dragon'];
 			let theSkill = null;
 			skills.forEach(skill => {
-				if(faithBonus.includes(skillName)){
+				if(faithBonus.includes(skill.name)){
 					theSkill = skill;
 				}
 			});
@@ -988,7 +987,7 @@ export default class GSActorSheet extends ActorSheet{
 		skills.forEach(skill => {
 			for(let x = 0; x < spellTypes.length; x++){
 				const spellSplit = spellTypes[x].split(" ");
-				if(skillName.toLowerCase() === spellTypes[x].toLowerCase() && spell.system.styleChoice === spellSplit[2]){
+				if(skill.name.toLowerCase() === spellTypes[x].toLowerCase() && spell.system.styleChoice === spellSplit[2]){
 					skillBonus = skill.system.value;
 					localizedMessage += this._addStringToChatMessage("skillScore", skill, skillBonus);
 				}
