@@ -120,21 +120,13 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".genSkillContainer").on('mouseenter', this._changeSkillImage.bind(this, true));
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
 		html.find(".genSkillContainer").click(this._rollGenSkills.bind(this));
-		html.find("a.journalLink").click(this._openJournalPage.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
-	_openJournalPage(event) {
+	async _newPlayerAttack(event){
 		event.preventDefault();
-		const uuidLink = event.currentTarget.getAttribute("href");
-		if (uuidLink && uuidLink.startsWith("@UUID[")) {
-			// Correctly extract the UUID by removing "@UUID[" prefix and "]" suffix
-			const uuid = uuidLink.slice(6, -1);  // Removes the "@UUID[" at the start and the "]" at the end
-			fromUuid(uuid).then(entity => {
-				if (entity) entity.sheet.render(true);
-			}).catch(console.error);
-		}
+
 	}
 
 	/**
@@ -427,7 +419,7 @@ export default class GSActorSheet extends ActorSheet{
 					skillValue = skill.system.value;
 					// console.log(">>> Check skill name", skillName.toLowerCase(), label, critSuccessFailSkills, `${skillName.toLowerCase()}-${label.toLowerCase()}`);
 					// console.log("Truthy?", critSuccessFailSkills.includes(`${skillName.toLowerCase()}-${label.toLowerCase()}`));
-					if(critSuccessOnlySkills.includes(`${skillName.toLowerCase()}`)){
+					if(critSuccessOnlySkills.includes(`${skill.name.toLowerCase()}`)){
 						let element, splitSkillName;
 						if(typeof(maintainedSpell) === "object"){
 							element = maintainedSpell.system.elementChoice;
@@ -438,7 +430,7 @@ export default class GSActorSheet extends ActorSheet{
 						}
 						if(splitSkillName[2].toLowerCase() === element.toLowerCase())
 							setCritSuccessValues(skillValue);
-					}else if(critSuccessFailSkills.includes(`${skillName.toLowerCase()}-${label.toLowerCase()}`))
+					}else if(critSuccessFailSkills.includes(`${skill.name.toLowerCase()}-${label.toLowerCase()}`))
 						setSuccessFailValues(skillValue);
 				}
 			}
@@ -735,7 +727,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns A string to be added to the chat message
 	 */
 	_addStringToChatMessage(cssClass, skill, amount){
-		return `<div class="${cssClass} specialRollChatMessage">${skillName}: ${amount}</div>`;
+		return `<div class="${cssClass} specialRollChatMessage">${skill.name}: ${amount}</div>`;
 	}
 
 	/**

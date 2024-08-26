@@ -11,7 +11,7 @@
   "license": "",
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "compatibility": {
     "minimum": "11",
     "verified": "12.330"
