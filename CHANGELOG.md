@@ -2,6 +2,14 @@
 
 ## Recent updates
 
+### 2024-08-27
+
+- Revamping code to streamline how they attack, roll damage, and other checks.
+- Added more information to chat window for player attacks.
+- Targeting a monster now shows up in the chat window with the token name and token image.
+- Physical attack effectiveness score now shows bonus damage depending on how deftly the character attacks
+- CSS reworking on chat window output for player attacks.
+
 ## v0.10.2 Released 2024-08-26
 
 ### v0.10.2
