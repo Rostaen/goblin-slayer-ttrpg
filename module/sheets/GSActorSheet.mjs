@@ -121,13 +121,204 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
 		html.find(".genSkillContainer").click(this._rollGenSkills.bind(this));
 
+		html.find(".toHit.player").click(this._newPlayerAttack.bind(this));
+
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
 	async _newPlayerAttack(event){
 		event.preventDefault();
+		const actor = this.actor;
+		const defaultDice = '2d6';
+		const itemInfo = this._pullWeaponInfo(event, actor);
+		let chatMessage = this._setMessageHeader(actor, 'toHit');
 
+		// Pulling Weapon To Hit Info
+		const weaponHitMod = itemInfo.system.hitMod;
+
+		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+		chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.gearMod'), weaponHitMod);
+
+		// Pulling Class Bonus
+		let {classBonus, message, stat} = this._getClassLevelBonus2('weapon', itemInfo, chatMessage);
+		chatMessage = message;
+
+		// Get random modifiers from Prompt
+		let randomMods = await this._promptRandomModifiers();
+		if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
+
+		// Setting Roll Message
+		let rollString = this._setRollMessage(defaultDice, weaponHitMod, this.actor.system.abilities.calc.tf, classBonus, 0, randomMods);
+
+		// Rolling Dice
+		const roll = new Roll(rollString);
+		await roll.evaluate();
+		const diceResults = roll.terms[0].results.map(r => r.result);
+		const rollTotal = roll.total;
+
+		// Setting up Effectivess Score view
+		chatMessage += this._addToFlavorMessage('spellEffectivenessScore', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+		let extraDamage = this._getExtraDamage(rollTotal);
+		if(extraDamage)
+			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
+
+		// Checking for Crit Success/Failure
+		const status = this._checkForCritRolls(diceResults, "", itemInfo);
+
+		if(status != undefined || status != null)
+			chatMessage += `${status[1]}`;
+
+		// Getting target information
+		const targets = Array.from(game.user.targets);
+		chatMessage += this._setTargetInfo(targets, itemInfo);
+
+		// Ending of chat message box before roll evaluation
+		chatMessage += this._setMessageEnder();
+
+		// Sending dice rolls to chat window
+		await roll.toMessage({
+			speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+			flavor: chatMessage
+			// content: Change dice rolls and other items here if needed
+		});
 	}
+
+	_pullWeaponInfo(event, actor){
+		const container = event.currentTarget.closest('.reveal-rollable');
+		if(!container) return;
+		const itemID = container.dataset.id;
+		return actor.items.find(i => i._id === itemID);
+	}
+
+	_setMessageHeader(actor, labelHeading){
+		const tokenImg = actor.prototypeToken.texture.src;
+		const actorName = actor.name;
+		const labelMapping = {
+			'toHit': game.i18n.localize('gs.actor.monster.supportEffect.hit'),
+		}
+		const messageLabel = labelMapping[labelHeading];
+		return `<div class="chat messageHeader grid grid-7col">
+			<img src='${tokenImg}'><div class="grid-span-6"><div class="actorName">${actorName}: </div><div class="rollLabel">${messageLabel}</div>
+		</div></div>`;
+	}
+
+	_setMessageEnder(){
+		return '<div class="chat messageEnder"></div>';
+	}
+
+	// Currently working with: Weapons
+	_getClassLevelBonus2(classifier, itemInfo, chatMessage){
+		// Get's level score from JSON and applies it to the correctly labeled const, ex: monk = ...classes.monk || necro = ...classes.necro
+		const {fighter = 0, monk = 0, ranger = 0, scout = 0, sorcerer = 0, priest = 0, dragon = 0, shaman = 0, necro = 0 } = this.actor.system.levels.classes;
+		const abilityScores = this.actor.system.abilities.calc;
+		let classBonus = 0, statUsed = 0;
+
+		if(classifier === 'weapon'){
+			let [weaponType, weaponWeight] = itemInfo.system.type.split(" / ").map(type => type.toLowerCase());
+
+			// Setting ability score to message
+			chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tec') + " " + game.i18n.localize('gs.actor.character.foc'), abilityScores.tf);
+			statUsed = abilityScores.tf;
+
+			if(weaponType !== "bow" && weaponType !== "throwing"){
+				// Function to search through weapon arrays for specific types of weapons
+				const includesAny = (words, text) => words.some(word => text.includes(word));
+				// check for all melee weapons and class bonuses
+				const fighterWeapons = ["one-handed sword", "two-handed sword", "ax", "spear", "mace"];
+				const monkWeapons = ["close-combat", "staff"];
+				const scoutWeapons = ["one-handed sword", "ax", "spear", "mace", "close-combat", "staff"];
+				if(fighter >= scout && includesAny(fighterWeapons, weaponType)) {
+					classBonus = fighter;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
+				}else if (monk >= scout && includesAny(monkWeapons, weaponType)) {
+					classBonus = monk;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
+				}else if ((scout >= fighter || scout >= monk) && includesAny(scoutWeapons, weaponType) && weaponWeight === 'light') {
+					classBonus = scout;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
+				}
+			}else if(weaponType === "bow" || weaponType === "throwing"){
+				// check for all ranged weaopns and class bonuses
+				if(weaponType === 'bow' && ranger){ // Bows and guns only
+					classBonus = ranger;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.rang'), classBonus);
+				}else{ // All other throwing weapons
+					if(monk > classBonus){
+						classBonus = monk;
+						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
+					}else if(ranger > classBonus){
+						classBonus = ranger;
+						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.rang'), classBonus);
+					}else if(scout > classBonus){
+						classBonus = scout;
+						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
+					}
+				}
+			}
+		}
+
+		return {classBonus, message: chatMessage, stat: statUsed};
+	}
+
+	_promptRandomModifiers(){
+		return new Promise ((resolve) => {
+			const dialogContent = `
+				<h3>${game.i18n.localize("gs.dialog.mods.addMod")}</h3>
+				<p>${game.i18n.localize("gs.dialog.mods.addInfo")}</p>
+				<input type="text" class="rollMod" style="margin-bottom: 10px;" />`;
+			const promptTitle = game.i18n.localize("gs.dialog.mods.mod");
+			const button1 = {
+				label: game.i18n.localize("gs.dialog.mods.addMod"),
+				callback: (html) => {
+					resolve(this._getRollMod(html, ".rollMod"));
+				}
+			};
+			const button2 = {
+				label: game.i18n.localize("gs.dialog.cancel"),
+				callback: () => {
+					resolve(0);
+				}
+			};
+
+			new Dialog({
+				title: promptTitle,
+				content: dialogContent,
+				buttons: { button1: button1, buttonTwo: button2 },
+				default: "button1",
+				close: () => "",
+			}).render(true);
+		});
+	}
+
+	_getExtraDamage(rollTotal){
+		let extraDamage;
+		if(rollTotal > 14){
+			if(rollTotal > 14 && rollTotal < 20)
+				extraDamage = '1d6';
+			else if(rollTotal > 19 && rollTotal < 25)
+				extraDamage = '2d6';
+			else if(rollTotal > 24 && rollTotal < 30)
+				extraDamage = '3d6';
+			else if(rollTotal > 29 && rollTotal < 40)
+				extraDamage = '4d6';
+			else
+				extraDamage = '5d6';
+		}
+		return extraDamage;
+	}
+
+	_setTargetInfo(targets, itemInfo){
+		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
+		return `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
+		<div class="target grid grid-7col">
+			<img class="targetImg" src="${activeTarget.document.texture.src}">
+			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
+			<button type="button" class="actorRolls damage" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
+		</div>`;
+	}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~ OLD CODE BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	/**
 	 * Checks over general skills and sends rolls to where they're needed or makes a basic check
@@ -247,7 +438,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} fourthMod TBD
 	 * @returns Roll message to be evaluated by Foundry.
 	 */
-	_setRollMessage(dice = "2d6", abilityScore = 0, classBonus = 0, skillItemMod = 0, promptMod = 0, fourthMod = 0){
+	_setRollMessage(dice = "2d6", weaponMod = 0, abilityScore = 0, classBonus = 0, skillItemMod = 0, promptMod = 0, fourthMod = 0){
 		let rollMessage = dice, fatigueMod;
 
 		if(this.actor.type === 'character')
@@ -257,8 +448,10 @@ export default class GSActorSheet extends ActorSheet{
 
 		//console.log(">>> AbilScore", abilityScore, "CB", classBonus, "ItemMod", skillItemMod, "promptMod", promptMod, "fourthMod", fourthMod);
 
+		if(weaponMod > 0 || weaponMod < 0)
+			rollMessage += ` + ${weaponMod}`;
 		if(abilityScore > 0)
-			rollMessage += `  + ${abilityScore}`;
+			rollMessage += ` + ${abilityScore}`;
 		if(classBonus > 0) // Class Bonus
 			rollMessage += ` + ${classBonus}`;
 		if(skillItemMod < 0) // Item/gear +/-
@@ -367,10 +560,10 @@ export default class GSActorSheet extends ActorSheet{
 	/**
 	 * Method to help determin if the dice rolled a critical success/failure or a regular result. The critical rates are modified by any skills that are present in the character's items array.
 	 * @param {array} diceResults An integer array of dice values
-	 * @param {string} label The type of action being checked for skills
+	 * @param {string} label The type of action being checked for skills, used with Maintenance spells
 	 * @returns Fail/Success/Normal
 	 */
-	_checkForCritRolls(diceResults, label="", event=""){
+	_checkForCritRolls(diceResults, label="", itemInfo = null){
 		if(diceResults.length === 2){
 			let skills, skillValue, critSuccess = 12, critFail = 2, results = [], maintainedSpell;
 			const actorType = this.actor.type;
@@ -400,16 +593,13 @@ export default class GSActorSheet extends ActorSheet{
 				}
 				// Checking over each character skill to modify success rates
 				let critSuccessFailSkills = ['alert-.dodge'];
-				const critSuccessOnlySkills = ['master of fire', 'master of water', 'master of wind',
-					'master of earth', 'master of life'];
+				const critSuccessOnlySkills = ['master of fire', 'master of water', 'master of wind', 'master of earth', 'master of life'];
 
 				// Setting up info for Slice Attack skill
-				if(event){
-					const eventID = event.currentTarget.closest('.reveal-rollable').dataset.id;
-					const eventItem = this.actor.items.get(eventID);
-					let sliceAttr;
-					if(eventItem.type === 'weapon'){
-						sliceAttr = eventItem.system.effect?.checked[9];
+				let sliceAttr;
+				if(itemInfo){
+					if(itemInfo.type === 'weapon'){
+						sliceAttr = itemInfo.system.effect.checked[9];
 					}
 					if(sliceAttr)
 						critSuccessFailSkills.push('slice attack-.hitmod');
@@ -417,15 +607,13 @@ export default class GSActorSheet extends ActorSheet{
 
 				for(const skill of skills){
 					skillValue = skill.system.value;
-					// console.log(">>> Check skill name", skillName.toLowerCase(), label, critSuccessFailSkills, `${skillName.toLowerCase()}-${label.toLowerCase()}`);
-					// console.log("Truthy?", critSuccessFailSkills.includes(`${skillName.toLowerCase()}-${label.toLowerCase()}`));
 					if(critSuccessOnlySkills.includes(`${skill.name.toLowerCase()}`)){
 						let element, splitSkillName;
 						if(typeof(maintainedSpell) === "object"){
 							element = maintainedSpell.system.elementChoice;
 							splitSkillName = [0, 0, maintainedSpell.system.elementChoice];
 						}else{
-							element = event.currentTarget.closest('.reveal-rollable').querySelector("#element").value;
+							element = itemInfo.system.value;
 							splitSkillName = skillName.split(" ");
 						}
 						if(splitSkillName[2].toLowerCase() === element.toLowerCase())
@@ -486,8 +674,6 @@ export default class GSActorSheet extends ActorSheet{
 			const status = this._checkForCritRolls(diceResults, modSelector, event);
 			let dcCheck = '';
 
-			console.log("GS _rollsToMessage |", diceResults, rollExpression);
-
 			// Getting dice total plus bonuses to compare to DC stored in Modifier
 			let diceTotal = diceResults[0] + diceResults[1] + parseInt(stat, 10) + parseInt(classBonus, 10) + parseInt(skillBonus, 10);
 
@@ -536,8 +722,6 @@ export default class GSActorSheet extends ActorSheet{
 					}
 				}
 			});
-
-			// console.log("Checking Rolls to Message for misc mod addon", event, dice, stat, classBonus, modifier, localizedMessage, skillBonus, rollMod, modSelector);
 
 			// Checking flags
 			const belovedFlag = this.actor.getFlag('gs', 'belovedSkill');
@@ -642,8 +826,6 @@ export default class GSActorSheet extends ActorSheet{
 		const includesAny = (words, text) => words.some(word => text.includes(word));
 		let bonus = 0;
 
-		//console.log(">>> Checking types", typeHolder, itemType);
-
 		// TODO: Find any skills that influence class type hit checks to add here.
 		if(itemType === 'weapon'){
 			if(type === 'projectile' && ranger > 0){
@@ -724,7 +906,7 @@ export default class GSActorSheet extends ActorSheet{
 
 	/**
 	 * Adds a string to the chat message to show what is modifying the final dice results and how
-	 * @param {string} cssClass class name to color message
+	 * @param {string} cssClass class name to color message, diceInfo, gearModifier, abilScore, levelScore, skillScore, rollScore, miscScore, armorDodgeScore
 	 * @param {JSON} skill the skill for associated information
 	 * @param {int} amount a value modifying final dice results
 	 * @returns A string to be added to the chat message
@@ -766,7 +948,6 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(actorType === 'character'){
 			stat = this._getStatForItemType(itemType, modSelector, container);
-			console.log("... check stat", stat);
 			if(stat > 0) localizedMessage += this._addToFlavorMessage("abilScore", game.i18n.localize('gs.actor.character.abil'), stat);
 
 			const { bonus, className} = this._getClassLevelBonus(this._getItemType(container), itemType);
@@ -912,9 +1093,9 @@ export default class GSActorSheet extends ActorSheet{
 
 	/**
 	 * Sets up a simple return statement to add the correct items and values to the localized message for debugging and player knowledge
-	 * @param {string} cssClass Class string to color the message, abilScore, levelScore, skillScore, rollScore, miscScore, armorDodgeScore
-	 * @param {*} labelName What is modifying the the dice roll
-	 * @param {*} labelMessage How much is being modified
+	 * @param {string} cssClass Class string to color the message, diceInfo, gearModifier, abilScore, levelScore, skillScore, rollScore, miscScore, armorDodgeScore
+	 * @param {string} labelName What is modifying the the dice roll
+	 * @param {*} labelMessage How much is being modified, usually an int value, can also be a string if needed.
 	 * @returns A string to be added to the localized message
 	 */
 	_addToFlavorMessage(cssClass, labelName, labelMessage){

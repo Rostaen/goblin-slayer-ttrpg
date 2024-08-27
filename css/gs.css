@@ -211,12 +211,25 @@
 .full-width {
   width: 100%;
 }
+.chat.messageHeader,
+.chat.messageEnder {
+  margin: 0px 0px 4px;
+  border-bottom: 1px solid darkred;
+}
 .specialRollChatMessage {
   display: inline-flex;
-  margin-left: 5px;
+  margin-right: 3px;
   border-radius: 3px;
   padding: 0px 3px;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
+}
+.diceInfo {
+  background-color: #c0c0c0;
+  border: 1px solid #8a8a8a;
+}
+.gearModifier {
+  background-color: #ffd7aa;
+  border: 1px solid #c5a383;
 }
 .abilScore {
   background-color: #bebeff;

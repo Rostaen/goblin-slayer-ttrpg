@@ -398,6 +398,10 @@
     "dialog": {
       "rolling": "Rolling",
       "cancel": "Cancel",
+      "dice": "Dice",
+      "gearMod": "Gear Modifier",
+      "miscMod": "Miscellaneous",
+      "bonusDmg": "Bonus Damage",
       "mods": {
         "mod": "Modifier",
         "addMod": "Add Modifiers",
