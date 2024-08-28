@@ -41,19 +41,38 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const button = event.currentTarget;
 		const weaponId = button.dataset.id;
 		const playerId = button.dataset.playerid;
+		const extraDamage = button.dataset.extradmg;
 		const player = game.actors.get(playerId);
 		const weapon = player.items.find(i => i._id === weaponId);
+		const targets = Array.from(game.user.targets);
+		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
+		console.log("... checking targets", targets, data);
+
+		// Setting up chat window details
+		let chatMessage = `<div class="chat messageHeader grid grid-7col">
+			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${weapon.name}: ${game.i18n.localize('gs.actor.character.damage')}</h2>
+		</div>
+		<h2 class="chat targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
+		<div class="chat target grid grid-7col">
+			<img class="targetImg" src="${activeTarget.document.texture.src}">
+			<h3 class="targetName grid-span-6">${activeTarget.document.name}</h3>
+		</div>
+		<div class="chat gmDmgButtons grid grid-4col">
+			<div class="fs10">${game.i18n.localize('gs.dialog.dmgMod')}</div><input class="dmgModInput type="text">
+			<div class="fs10">${game.i18n.localize('gs.dialog.applyDmg')}</div><button class="applyDmgButton" type="button"><i class="fa-solid fa-arrows-to-circle"></i></button>
+		</div>`;
 
 		// Setting up roll with weapon damage
-		const roll = new Roll(weapon.system.power);
-		await roll.roll({async: true});
+		let damageString = weapon.system.power;
+		if(extraDamage)
+			damageString += `+ ${extraDamage}`;
+		const roll = new Roll(damageString);
+		await roll.evaluate();
 
 		roll.toMessage({
-			speaker: ChatMessage.getSpeaker({actor: player}),
-			flavor: "Damage Roll",
+			speaker: ChatMessage.getSpeaker({ actor: player }),
+			flavor: chatMessage,
 		});
-
-		// console.log("... checkign player from Hook", player);
 	});
 });
 

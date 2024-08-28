@@ -402,6 +402,8 @@
       "gearMod": "Gear Modifier",
       "miscMod": "Miscellaneous",
       "bonusDmg": "Bonus Damage",
+      "dmgMod": "Damage Mods",
+      "applyDmg": "Apply Damage",
       "mods": {
         "mod": "Modifier",
         "addMod": "Add Modifiers",

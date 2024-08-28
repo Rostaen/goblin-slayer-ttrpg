@@ -211,18 +211,6 @@
 .full-width {
   width: 100%;
 }
-.chat.messageHeader,
-.chat.messageEnder {
-  margin: 0px 0px 4px;
-  border-bottom: 1px solid darkred;
-}
-.specialRollChatMessage {
-  display: inline-flex;
-  margin-right: 3px;
-  border-radius: 3px;
-  padding: 0px 3px;
-  margin-bottom: 3px;
-}
 .diceInfo {
   background-color: #c0c0c0;
   border: 1px solid #8a8a8a;
@@ -254,6 +242,39 @@
 .armorDodgeScore {
   background-color: #ffe1be;
   border: 1px solid #af8c64;
+}
+.fs8 {
+  font-size: 8px;
+}
+.fs9 {
+  font-size: 9px;
+}
+.fs10 {
+  font-size: 10px;
+}
+.fs11 {
+  font-size: 11px;
+}
+.fs12 {
+  font-size: 12px;
+}
+.fs13 {
+  font-size: 13px;
+}
+.fs14 {
+  font-size: 14px;
+}
+.fs15 {
+  font-size: 15px;
+}
+.fs16 {
+  font-size: 16px;
+}
+.fs17 {
+  font-size: 17px;
+}
+.fs18 {
+  font-size: 18px;
 }
 .spellCastSuccess,
 .spellEffectivenessScore,
@@ -413,6 +434,63 @@ table tr:nth-child(even) {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
+}
+.flavor-text .chat.messageHeader,
+.flavor-text .chat.messageEnder {
+  margin: 0px 0px 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid darkred;
+}
+.flavor-text .specialRollChatMessage {
+  display: inline-flex;
+  margin-right: 3px;
+  border-radius: 3px;
+  padding: 0px 3px;
+  margin-bottom: 3px;
+}
+.flavor-text .chat.messageHeader img {
+  border: 0px;
+}
+.flavor-text .chat.messageHeader h2.actorName {
+  border-bottom: 0px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}
+.flavor-text .targetsLabel {
+  margin-bottom: 4px;
+}
+.flavor-text .target {
+  margin-top: 0px;
+  margin-bottom: 4px;
+}
+.flavor-text .target img.targetImg {
+  border: 0px;
+}
+.flavor-text .target h3.targetName {
+  border-bottom: 0px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}
+.flavor-text .gmDmgButtons {
+  margin: 4px 0px;
+  grid-column-gap: 5px;
+}
+.flavor-text .gmDmgButtons div {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.flavor-text .gmDmgButtons .dmgModInput {
+  height: 20px;
+}
+.flavor-text .gmDmgButtons .applyDmgButton {
+  height: 20px;
+}
+.flavor-text .gmDmgButtons .applyDmgButton i {
+  display: block;
+  margin: 0px;
 }
 .weapon,
 .armor,

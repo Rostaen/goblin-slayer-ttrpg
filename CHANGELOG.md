@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+### 2024-08-28
+
+- Damage roll button working in chat window.
+- Styled windows to be more appealing.
+
 ### 2024-08-27
 
 - Revamping code to streamline how they attack, roll damage, and other checks.

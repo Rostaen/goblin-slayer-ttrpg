@@ -1,0 +1,61 @@
+.flavor-text{
+    .chat.messageHeader, .chat.messageEnder{
+        margin: 0px 0px 4px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid darkred;
+    }
+    .specialRollChatMessage{
+        display: inline-flex;
+        margin-right: 3px;
+        border-radius: 3px;
+        padding: 0px 3px;
+        margin-bottom: 3px;
+    }
+    .chat.messageHeader{
+        img{
+            border: 0px;
+        }
+        h2.actorName{
+            border-bottom: 0px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0px;
+        }
+    }
+
+    .targetsLabel{
+        margin-bottom: 4px;
+    }
+    .target{
+        margin-top: 0px;
+        margin-bottom: 4px;
+        img.targetImg{
+            border: 0px;
+        }
+        h3.targetName{
+            border-bottom: 0px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0px;
+        }
+    }
+    .gmDmgButtons{
+        margin: 4px 0px;
+        grid-column-gap: 5px;
+        div{
+            display: flex;
+            justify-content: end;
+            align-items: center;
+        }
+        .dmgModInput{
+            height: 20px;
+        }
+        .applyDmgButton{
+            height: 20px;
+            i{
+                display: block;
+                margin: 0px;
+            }
+        }
+    }
+}

@@ -131,7 +131,7 @@ export default class GSActorSheet extends ActorSheet{
 		const actor = this.actor;
 		const defaultDice = '2d6';
 		const itemInfo = this._pullWeaponInfo(event, actor);
-		let chatMessage = this._setMessageHeader(actor, 'toHit');
+		let chatMessage = this._setMessageHeader(actor, itemInfo, 'toHit');
 
 		// Pulling Weapon To Hit Info
 		const weaponHitMod = itemInfo.system.hitMod;
@@ -157,8 +157,8 @@ export default class GSActorSheet extends ActorSheet{
 		const rollTotal = roll.total;
 
 		// Setting up Effectivess Score view
-		chatMessage += this._addToFlavorMessage('spellEffectivenessScore', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
-		let extraDamage = this._getExtraDamage(rollTotal);
+		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+		let extraDamage = this._getExtraDamage(rollTotal) || 0;
 		if(extraDamage)
 			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
 
@@ -170,7 +170,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Getting target information
 		const targets = Array.from(game.user.targets);
-		chatMessage += this._setTargetInfo(targets, itemInfo);
+		chatMessage += this._setTargetInfo(targets, itemInfo, extraDamage);
 
 		// Ending of chat message box before roll evaluation
 		chatMessage += this._setMessageEnder();
@@ -190,7 +190,7 @@ export default class GSActorSheet extends ActorSheet{
 		return actor.items.find(i => i._id === itemID);
 	}
 
-	_setMessageHeader(actor, labelHeading){
+	_setMessageHeader(actor, attackResource, labelHeading){
 		const tokenImg = actor.prototypeToken.texture.src;
 		const actorName = actor.name;
 		const labelMapping = {
@@ -198,7 +198,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 		const messageLabel = labelMapping[labelHeading];
 		return `<div class="chat messageHeader grid grid-7col">
-			<img src='${tokenImg}'><h2 class="actorName grid-span-6">${actorName}: ${messageLabel}</h2>
+			<img src='${tokenImg}'><h2 class="actorName grid-span-6">${attackResource.name}: ${messageLabel}</h2>
 		</div>`;
 	}
 
@@ -307,13 +307,13 @@ export default class GSActorSheet extends ActorSheet{
 		return extraDamage;
 	}
 
-	_setTargetInfo(targets, itemInfo){
+	_setTargetInfo(targets, itemInfo, extraDmg){
 		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
 		return `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
 		<div class="target grid grid-7col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			<button type="button" class="actorDamageRoll" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
+			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 	}
 
