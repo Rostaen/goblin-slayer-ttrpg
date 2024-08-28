@@ -35,6 +35,28 @@ Hooks.once("init", () => {
 	return preloadHandlebarsTemplates();
 });
 
+Hooks.on('renderChatMessage', (app, html, data) => {
+	html.find(".actorDamageRoll").click( async event => {
+		event.preventDefault();
+		const button = event.currentTarget;
+		const weaponId = button.dataset.id;
+		const playerId = button.dataset.playerid;
+		const player = game.actors.get(playerId);
+		const weapon = player.items.find(i => i._id === weaponId);
+
+		// Setting up roll with weapon damage
+		const roll = new Roll(weapon.system.power);
+		await roll.roll({async: true});
+
+		roll.toMessage({
+			speaker: ChatMessage.getSpeaker({actor: player}),
+			flavor: "Damage Roll",
+		});
+
+		// console.log("... checkign player from Hook", player);
+	});
+});
+
 // Define Handlebars Helpers here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Logs an item from the HTML/HBS pages to see specific information

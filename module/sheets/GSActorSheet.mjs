@@ -198,8 +198,8 @@ export default class GSActorSheet extends ActorSheet{
 		}
 		const messageLabel = labelMapping[labelHeading];
 		return `<div class="chat messageHeader grid grid-7col">
-			<img src='${tokenImg}'><div class="grid-span-6"><div class="actorName">${actorName}: </div><div class="rollLabel">${messageLabel}</div>
-		</div></div>`;
+			<img src='${tokenImg}'><h2 class="actorName grid-span-6">${actorName}: ${messageLabel}</h2>
+		</div>`;
 	}
 
 	_setMessageEnder(){
@@ -313,7 +313,7 @@ export default class GSActorSheet extends ActorSheet{
 		<div class="target grid grid-7col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			<button type="button" class="actorRolls damage" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
+			<button type="button" class="actorDamageRoll" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 	}
 
