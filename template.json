@@ -10,7 +10,6 @@
           "current": 0,
           "double": 0,
           "wounds": 0,
-          "min": 0,
           "max": 0,
           "value": 0
         }
@@ -262,6 +261,7 @@
       "hasBlock": false
     },
     "fate": {
+      "templates": ["common"],
       "value": 3
     },
     "mount": {

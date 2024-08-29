@@ -2,6 +2,12 @@
 
 ## Recent updates
 
+### 2024-08-29
+
+- Fixed HP bar bug for players and monsters. All tokens now fall to 0 HP when defeated rather than reverting to max.
+- Damage window applying damage to target.
+- Added Effectiveness Score Skill modifiers for Piercing & SB: B/S skills.
+
 ### 2024-08-28
 
 - Damage roll button working in chat window.

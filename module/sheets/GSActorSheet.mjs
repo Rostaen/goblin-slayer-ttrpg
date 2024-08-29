@@ -130,6 +130,7 @@ export default class GSActorSheet extends ActorSheet{
 		event.preventDefault();
 		const actor = this.actor;
 		const defaultDice = '2d6';
+		const skills = actor.items.filter(i => i.type === 'skill');
 		const itemInfo = this._pullWeaponInfo(event, actor);
 		let chatMessage = this._setMessageHeader(actor, itemInfo, 'toHit');
 
@@ -154,7 +155,12 @@ export default class GSActorSheet extends ActorSheet{
 		const roll = new Roll(rollString);
 		await roll.evaluate();
 		const diceResults = roll.terms[0].results.map(r => r.result);
-		const rollTotal = roll.total;
+		let rollTotal = roll.total;
+
+		// Checking for Effectiveness Score buffs
+		let {tempAmount, eSMessage} = this._checkEffectivenessSkills(skills, itemInfo);
+		rollTotal += tempAmount;
+		chatMessage += eSMessage;
 
 		// Setting up Effectivess Score view
 		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
@@ -177,7 +183,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Sending dice rolls to chat window
 		await roll.toMessage({
-			speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+			speaker: ChatMessage.getSpeaker({ actor: actor }),
 			flavor: chatMessage
 			// content: Change dice rolls and other items here if needed
 		});
@@ -288,6 +294,26 @@ export default class GSActorSheet extends ActorSheet{
 				close: () => "",
 			}).render(true);
 		});
+	}
+
+	_checkEffectivenessSkills(skills, itemInfo){
+		let tempAmount = 0;
+		let eSMessage = '';
+		const str = this.actor.system.abilities.primary.str;
+		skills.forEach(skill => {
+			if(skill.name === "Piercing Attack" && itemInfo.system.effect.checked[6]){
+				tempAmount = skill.system.value * itemInfo.system.effect.pierce;
+				eSMessage = this._addToFlavorMessage('skillScore', skill.name, tempAmount);
+			}else if(skill.name === "Strong Blow: Bludgeon" && itemInfo.system.effect.checked[11]){
+				tempAmount = Math.round((0.25 * (skill.system.value - 1) + 0.25) * str) + itemInfo.system.effect.sbBludg;itemInfo.system.effect.sbBludg;
+				eSMessage = this._addToFlavorMessage('skillScore', skill.name, tempAmount);
+			}else if(skill.name === "Strong Blow: Slash" && itemInfo.system.effect.checked[12]){
+				tempAmount = Math.round((0.25 * (skill.system.value - 1) + 0.25) * str) + itemInfo.system.effect.sbBludg;itemInfo.system.effect.sbSlash;
+				eSMessage = this._addToFlavorMessage('skillScore', skill.name, tempAmount);
+			}
+		});
+		console.log("... Effectiness Score boost", tempAmount);
+		return {tempAmount, eSMessage};
 	}
 
 	_getExtraDamage(rollTotal){

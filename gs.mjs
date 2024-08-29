@@ -46,21 +46,9 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const weapon = player.items.find(i => i._id === weaponId);
 		const targets = Array.from(game.user.targets);
 		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
+		const armorScore = targets[0].document.actor.system.defenses.minion.armor;
 		console.log("... checking targets", targets, data);
 
-		// Setting up chat window details
-		let chatMessage = `<div class="chat messageHeader grid grid-7col">
-			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${weapon.name}: ${game.i18n.localize('gs.actor.character.damage')}</h2>
-		</div>
-		<h2 class="chat targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
-		<div class="chat target grid grid-7col">
-			<img class="targetImg" src="${activeTarget.document.texture.src}">
-			<h3 class="targetName grid-span-6">${activeTarget.document.name}</h3>
-		</div>
-		<div class="chat gmDmgButtons grid grid-4col">
-			<div class="fs10">${game.i18n.localize('gs.dialog.dmgMod')}</div><input class="dmgModInput type="text">
-			<div class="fs10">${game.i18n.localize('gs.dialog.applyDmg')}</div><button class="applyDmgButton" type="button"><i class="fa-solid fa-arrows-to-circle"></i></button>
-		</div>`;
 
 		// Setting up roll with weapon damage
 		let damageString = weapon.system.power;
@@ -69,10 +57,52 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const roll = new Roll(damageString);
 		await roll.evaluate();
 
+		// Setting up chat window details
+		let chatMessage = `<div class="chat messageHeader grid grid-7col">
+			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${weapon.name}: ${game.i18n.localize('gs.actor.character.damage')}</h2>
+		</div>
+		<h2 class="chat targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
+		<div class="chat target grid grid-8col">
+			<img class="targetImg" src="${activeTarget.document.texture.src}">
+			<h3 class="targetName grid-span-4">${activeTarget.document.name}</h3>
+			<div class="diceInfo specialRollChatMessage grid-span-3">${game.i18n.localize('gs.gear.armor.sco')}: ${armorScore}</div>
+		</div>
+		<div class="chat gmDmgButtons grid grid-4col">
+			<div class="fs10">${game.i18n.localize('gs.dialog.dmgMod')}</div><input class="dmgModInput type="text">
+			<div class="fs10">${game.i18n.localize('gs.dialog.applyDmg')}</div><button class="applyDmgButton" data-armor="${armorScore}" data-target="${activeTarget.document.actor._id}" data-dmg="${roll._total}" type="button"><i class="fa-solid fa-arrows-to-circle"></i></button>
+		</div>`;
+
 		roll.toMessage({
 			speaker: ChatMessage.getSpeaker({ actor: player }),
 			flavor: chatMessage,
 		});
+	});
+
+	html.find(".applyDmgButton").click( async event => {
+		event.preventDefault();
+		const container = event.currentTarget.closest('.gmDmgButtons');
+		const modifier = parseInt(container.querySelector('.dmgModInput').value, 10) || 0;
+		const target = game.actors.get(event.currentTarget.dataset.target);
+		const token = target.getActiveTokens()[0];
+		const armorScore = parseInt(event.currentTarget.dataset.armor, 10);
+		let dmg = parseInt(event.currentTarget.dataset.dmg, 10);
+		dmg += modifier;
+		let currentHP = token.document.actor.system.lifeForce.value;
+		const totalDmg = Math.max(currentHP - (dmg - armorScore), 0);
+
+		console.log("... dmg:", dmg, totalDmg);
+		console.log("... target:", target);
+		if(target.type === 'character')
+			await target.update({
+				'system.lifeForce.value': totalDmg
+			});
+		else if(target.type === 'monster'){
+			const token = target.getActiveTokens()[0];
+			console.log(token);
+			await token.document.actor.update({
+				'system.lifeForce.value': totalDmg
+			});
+		}
 	});
 });
 

@@ -22,6 +22,18 @@ export class GSActor extends Actor {
         const type = actorData.type;
         let hardinessBonus = 0;
 
+        // Removing existing object if present
+        // if(systemData.lifeForce.min)
+        //     delete systemData.lifeForce.min;
+
+        // Updating lifeforce value if wounds applied
+        if(systemData.lifeForce.wounds){
+            systemData.lifeForce.value = systemData.lifeForce.value - lifeForce.wounds;
+            if(systemData.lifeForce.value <= 0)
+                systemData.lifeForce.value = 0;
+
+        }
+
         if(type !== 'character') return;
 
         const actorSkills = this.items.filter(item => item.type === 'skill');
@@ -737,11 +749,11 @@ export class GSActor extends Actor {
     _prepareMonsterData(actorData){
         if(actorData.type !== 'monster') return;
 
-        try{
-            if(!actorData.system.lifeForce.value)
-                actorData.system.lifeForce.value = actorData.system.lifeForce.min;
-        }catch(err){
-            console.error("GS _prepareMonsterData |", err);
-        }
+        // try{
+        //     if(!actorData.system.lifeForce.value)
+        //         actorData.system.lifeForce.value = actorData.system.lifeForce.min;
+        // }catch(err){
+        //     console.error("GS _prepareMonsterData |", err);
+        // }
     }
 }

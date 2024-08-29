@@ -85,10 +85,14 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Combat Updates
   - [ ] Rework code to streamline checks
   - [ ] Have ranged attacks check for +ammo before rolling to Hit
-  - [ ] Add damage button to "to hit" rolls
+  - [x] Add damage button to "to hit" rolls
   - [ ] Update target tracking
-  - [ ] Add effectiness score bonus damage to player rolls
-  - [ ] Add button to apply damage to target
+  - [x] Add effectiness score bonus damage to player rolls
+  - [x] Add button to apply damage to target
+  - [ ] Learn how to show info to GM only
+    - [ ] Show static defense value of minions
+    - [ ] Show armor roll button for boss
+- [ ] Set weapons and armor to macro toolbar for ease of player use
 
 ### Skill Implementation Tracking
 
