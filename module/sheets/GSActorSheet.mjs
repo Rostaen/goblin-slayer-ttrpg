@@ -176,15 +176,21 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Getting target information
 		const targets = Array.from(game.user.targets);
-		chatMessage += this._setTargetInfo(targets, itemInfo, extraDamage);
+		try{
+			chatMessage += this._setMonsterTargetInfo(targets, itemInfo, extraDamage);
+		}catch(err){
+			ui.notifications.warn("You must select a target first before attacking.");
+			return false;
+		}
 
 		// Ending of chat message box before roll evaluation
 		chatMessage += this._setMessageEnder();
 
 		// Sending dice rolls to chat window
 		await roll.toMessage({
-			speaker: ChatMessage.getSpeaker({ actor: actor }),
-			flavor: chatMessage
+			speaker: { actor: actor },
+			flavor: chatMessage,
+			user: game.user.id
 			// content: Change dice rolls and other items here if needed
 		});
 	}
@@ -333,14 +339,25 @@ export default class GSActorSheet extends ActorSheet{
 		return extraDamage;
 	}
 
-	_setTargetInfo(targets, itemInfo, extraDmg){
+	_setMonsterTargetInfo(targets, itemInfo, extraDmg){
 		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
-		return `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
-		<div class="target grid grid-7col">
+		const monster = targets[0].document.actor;
+		const hasBoss = monster.system.isBoss;
+		const hasBlock = monster.system.hasBlock;
+		const isBoss = monster.system.theBoss;
+
+		const dodgeValue = hasBoss ? isBoss ? monster.system.defenses.boss.dodge : monster.system.defenses.minion.dodge : monster.system.defenses.minion.dodge;
+		const blockValue = hasBlock ? isBoss ? monster.system.defenses.boss.block : monster.system.defenses.minion.block : monster.system.defenses.minion.block;
+
+		let targetMessage = `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
+		<div class="target grid grid-9col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
+			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
+			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
 			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
+		return targetMessage;
 	}
 
 

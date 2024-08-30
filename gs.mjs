@@ -73,11 +73,47 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		</div>`;
 
 		roll.toMessage({
-			speaker: ChatMessage.getSpeaker({ actor: player }),
+			speaker: { actor: player },
 			flavor: chatMessage,
 		});
 	});
 
+	// This will check between the dodge or block buttons, minion or boss, and send or roll to chat appropriately
+	html.find(".monsterDefRoll").click( async event => {
+		event.preventDefault();
+		const monster = game.actors.get(event.currentTarget.dataset.monsterid);
+		const defType = event.currentTarget.dataset.type;
+		const activeToken = monster.getActiveTokens()[0];
+		let rollLabel = '', rollResult = '';
+		if(defType === 'dodge'){
+			rollLabel = game.i18n.localize('gs.dialog.dodge.dodgeRoll');
+			rollResult = game.i18n.localize('gs.dialog.dodge.dodgeTotal');
+		}else{
+			rollLabel = game.i18n.localize('gs.dialog.block.blockRoll');
+			rollResult = game.i18n.localize('gs.dialog.block.blockTotal');
+		}
+		let value = event.currentTarget.dataset.value;
+		let chatMessage = `<div class="chat messageHeader grid grid-7col">
+			<img src='${activeToken.document.texture.src}'><h2 class="actorName grid-span-6">${activeToken.document.name}: ${rollLabel}</h2>
+		</div>`;
+		if(value.includes('d')){
+			const roll = new Roll(value);
+			await roll.evaluate();
+			chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${roll._total}</div>`;
+			roll.toMessage({
+				speaker: { actor: monster },
+				flavor: chatMessage
+			});
+		}else{
+			chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${value}</div>`;
+			ChatMessage.create({
+				speaker: { actor: monster },
+				flavor: chatMessage
+			});
+		}
+	});
+
+	// Applies damage to the target and sends message to chat window
 	html.find(".applyDmgButton").click( async event => {
 		event.preventDefault();
 		const container = event.currentTarget.closest('.gmDmgButtons');
@@ -90,20 +126,90 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		let currentHP = token.document.actor.system.lifeForce.value;
 		const totalDmg = Math.max(currentHP - (dmg - armorScore), 0);
 
-		console.log("... dmg:", dmg, totalDmg);
-		console.log("... target:", target);
+		console.log("... dmg:", dmg, totalDmg, armorScore);
 		if(target.type === 'character')
 			await target.update({
 				'system.lifeForce.value': totalDmg
 			});
 		else if(target.type === 'monster'){
 			const token = target.getActiveTokens()[0];
-			console.log(token);
 			await token.document.actor.update({
 				'system.lifeForce.value': totalDmg
 			});
 		}
+
+		ChatMessage.create({
+			speaker: ChatMessage.getSpeaker({ actor: target }),
+			flavor: `<div class="chat messageHeader grid grid-7col">
+				<img src='${token.document.texture.src}'><h2 class="actorName grid-span-6">${token.document.name}</h2>
+			</div>
+			<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.dialog.suffered')}: ${Math.max(dmg - armorScore, 0)}</div>`
+		});
 	});
+});
+
+// Defining Hotbar Drops here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hooks.on('hotbarDrop', (bar, data, slot) => {
+    weaponMacroHotbarDrop(data, slot);
+	return false;
+});
+
+async function weaponMacroHotbarDrop(data, slot){
+	if (data.type === "Item") {
+        const item = await fromUuid(data.uuid);
+        const actor = item.parent;
+
+        if (actor && item) {
+            const command = `const actor = game.actors.get("${actor.id}");
+				if (actor.sheet) actor.sheet._newPlayerAttack("${item.id}");
+				else ui.notifications.warn("No active sheet for actor.");`;
+
+			let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+
+			if(!macro){
+				macro = await Macro.create({
+					name: `Attack with ${item.name}`,
+					type: "script",
+					img: item.img,
+					command: command,
+					flags: { 'gs.itemMacro': true }
+				});
+			}
+
+            game.user.assignHotbarMacro(macro, slot);
+			return false
+        }
+    }
+}
+
+document.addEventListener('dragstart', function(event) {
+	// Assuming the item is being dragged from a valid source like a character sheet
+    const draggedElement = event.target.closest('.item-list'); // Adjust the selector as needed
+    if (!draggedElement) return;
+
+    // Get the item's UUID or ID
+    const itemId = draggedElement.dataset.itemid; // Ensure the item element has the correct data attribute
+    const actorId = game.user.character.id; // Assuming dragging from the active character
+
+    // Find the item and actor (you may need to adjust this based on your specific setup)
+    const actor = game.actors.get(actorId);
+    const item = actor ? actor.items.get(itemId) : null;
+
+	//console.log("... check items", event, itemId, actorId, actor, item);
+
+    if (item) {
+        // Set the drag data
+        event.dataTransfer.setData("text/plain", JSON.stringify({
+            type: "Item",
+            uuid: item.uuid,
+			img: item.img
+        }));
+
+        //console.log("Drag Start Data:", event.dataTransfer);
+    } else {
+        console.error("Item not found or invalid drag source.");
+    }
 });
 
 // Define Handlebars Helpers here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

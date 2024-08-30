@@ -2,6 +2,14 @@
 
 ## Recent updates
 
+### 2024-08-30
+
+- Added dodge/block buttons for bosses and minions.
+- Restyled chat windows button area for target.
+- Added damage suffered window to show total damage to target (if any).
+- Weapon Macro Drag & Drop showing in hotbar proper.
+- Working on triggering attack roll properly.
+
 ### 2024-08-29
 
 - Fixed HP bar bug for players and monsters. All tokens now fall to 0 HP when defeated rather than reverting to max.

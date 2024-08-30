@@ -447,6 +447,8 @@ table tr:nth-child(even) {
   border-radius: 3px;
   padding: 0px 3px;
   margin-bottom: 3px;
+  justify-content: center;
+  align-items: center;
 }
 .flavor-text .chat.messageHeader img {
   border: 0px;
@@ -459,10 +461,12 @@ table tr:nth-child(even) {
 }
 .flavor-text .targetsLabel {
   margin-bottom: 4px;
+  border-bottom: 0px;
 }
 .flavor-text .target {
   margin-top: 0px;
   margin-bottom: 4px;
+  grid-column-gap: 5px;
 }
 .flavor-text .target img.targetImg {
   border: 0px;
@@ -472,6 +476,14 @@ table tr:nth-child(even) {
   display: flex;
   align-items: center;
   margin-bottom: 0px;
+}
+.flavor-text .target button {
+  height: 20px;
+  padding: 0px;
+}
+.flavor-text .target button i {
+  display: block;
+  margin: 0px;
 }
 .flavor-text .gmDmgButtons {
   margin: 4px 0px;
@@ -977,6 +989,7 @@ table tr:nth-child(even) {
 .monster img {
   border: 1px solid darkred;
   border-radius: 5px;
+  box-shadow: 3px 3px 10px;
 }
 .monster .coreItems,
 .monster .melee,
@@ -989,6 +1002,7 @@ table tr:nth-child(even) {
   padding: 5px;
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 5px;
+  box-shadow: 3px 3px 10px;
 }
 .monster .minionSR,
 .monster .minionHit,

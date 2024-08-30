@@ -404,6 +404,15 @@
       "bonusDmg": "Bonus Damage",
       "dmgMod": "Damage Mods",
       "applyDmg": "Apply Damage",
+      "suffered": "Damage Suffered",
+      "dodge": {
+        "dodgeRoll": "Dodge Roll",
+        "dodgeTotal": "Dodge Total"
+      },
+      "block": {
+        "blockRoll": "Block Roll",
+        "blockTotal": "Block Total"
+      },
       "mods": {
         "mod": "Modifier",
         "addMod": "Add Modifiers",
@@ -422,7 +431,9 @@
       "monsterSheet": {
         "boss": "Can this monster be a boss?",
         "block": "Can this monster block?",
-        "numOfAttacks": "Change this number to add/remove monster attacks. Min 1, Max 4"
+        "numOfAttacks": "Change this number to add/remove monster attacks. Min 1, Max 4",
+        "isBoss": "Is this monster the boss of the encounter?",
+        "theBoss": "Combat Boss"
       },
       "actorSheet": {
         "itemsTab": {

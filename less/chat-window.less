@@ -10,6 +10,8 @@
         border-radius: 3px;
         padding: 0px 3px;
         margin-bottom: 3px;
+        justify-content: center;
+        align-items: center;
     }
     .chat.messageHeader{
         img{
@@ -25,10 +27,12 @@
 
     .targetsLabel{
         margin-bottom: 4px;
+        border-bottom: 0px;
     }
     .target{
         margin-top: 0px;
         margin-bottom: 4px;
+        grid-column-gap: 5px;
         img.targetImg{
             border: 0px;
         }
@@ -37,6 +41,14 @@
             display: flex;
             align-items: center;
             margin-bottom: 0px;
+        }
+        button{
+            height: 20px;
+            padding: 0px;
+            i{
+                display: block;
+                margin: 0px;
+            }
         }
     }
     .gmDmgButtons{

@@ -332,14 +332,12 @@
                 <label class="actorRolls bossBlock">{{localize config.monster.bloc}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.defenses.boss.block" value="{{actor.system.defenses.boss.block}}" class="boss block" />
                 {{/if}}
-                {{!--<label class="bossScore bssBScore">{{localize gearConfig.shield.sco}}</label>
-                <input type="text" name="system.defenses.boss.bScore" value="{{actor.system.defenses.boss.bScore}}" class="bossScore bossBScore">
 
-                <label>{{localize config.monster.aSco}}</label>
-                <input type="text" name="system.defenses.boss.armor" value="{{actor.system.defenses.boss.armor}}" data-dtype="Number" />
-
-                <label>{{localize config.monster.type}}</label>
-                <input type="text" name="system.defenses.boss.aType" value="{{actor.system.defenses.boss.aType}}"> --}}
+                <span class="switch-container grid-span-2">
+                    <input type="checkbox" name="system.theBoss" value="{{actor.system.theBoss}}" data-dtype="Boolean">
+                    <label class="bossScore bssBScore">{{localize "gs.dialog.monsterSheet.theBoss"}}</label>
+                    <div class="alert" title="{{localize "gs.dialog.monsterSheet.isBoss"}}"><i class="fa-solid fa-circle-exclamation"></i></div>
+                </span>
             </div>
         </div>
         {{/if}}
