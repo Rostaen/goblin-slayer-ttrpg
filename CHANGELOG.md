@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-09-02
+
+- Fixed Magical Talent skill bug.
+
 ### 2024-08-30
 
 - Added dodge/block buttons for bosses and minions.

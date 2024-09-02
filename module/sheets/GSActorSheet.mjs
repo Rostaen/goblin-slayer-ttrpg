@@ -2476,6 +2476,10 @@ export default class GSActorSheet extends ActorSheet{
 		// Updating Draconic armor and weapons
 		if(data.skillValues.general['Draconic Heritage'])
 			this._updateDraconicHeritage(data);
+
+		// Updating Spell Uses based on Magical Talent Skill
+		if(data.skillValues.adventurer['Magical Talent'])
+			this._updateSpellUses(data);
 	}
 
 	async _updatePerseverance(data){
@@ -2579,6 +2583,20 @@ export default class GSActorSheet extends ActorSheet{
 					'sight.enabled': updateVision.enabled
 				});
 			}
+		}
+	}
+
+	async _updateSpellUses(data){
+		const magicalTalentFlag = data.actor.getFlag('gs', 'Magical Talent') || 0;
+		const magicalTalentValue = data.skillValues.adventurer['Magical Talent'];
+		const playerSpellUses = data.actor.system.spellUse.max;
+		if(!magicalTalentFlag)
+			data.actor.setFlag('gs', 'Magical Talent', playerSpellUses);
+		const newScore = (magicalTalentFlag === 0 ? playerSpellUses : magicalTalentFlag) + magicalTalentValue;
+		if(playerSpellUses !== newScore){
+			data.actor.update({
+				'system.spellUse.max': newScore
+			});
 		}
 	}
 
@@ -2915,6 +2933,12 @@ export default class GSActorSheet extends ActorSheet{
 							const shield = actor.items.find(i => i.type === 'shield');
 							await shield.update({
 								'system.score': originalScore
+							});
+						}else if(itemToDelete.name === 'Magical Talent'){
+							const originalSpellUses = actor.getFlag('gs', itemToDelete.name);
+							await actor.unsetFlag('gs', itemToDelete.name);
+							await actor.update({
+								'system.spellUse.max': originalSpellUses
 							});
 						}
 						break;

@@ -72,7 +72,7 @@ export class GSActor extends Actor {
                     case "Weapons: Maces": case "Weapons: Staves": case "Weapons: Close-Combat": case "Weapons: Throwing Weapons": case "Weapons: Bows":
                     case "Enchance Spells: Power": case 'Spell Expertise: Attack Spells': case 'Spell Expertise: Imbuement Spells':
                     case 'Spell Expertise: Creation Spells': case 'Spell Expertise: Control Spells': case 'Spell Expertise: Healing Spells':
-                    case 'Spell Expertise: General Spells': case 'Dungeon Knowledge': case 'Spell Ritual':
+                    case 'Spell Expertise: General Spells': case 'Dungeon Knowledge': case 'Spell Ritual': case 'Magical Talent':
                         this._setSkill('adventurer', skillName, skillValue); break;
                     case 'Alert': case 'Slice Attack':
                         this._setCritRanges(skillName, skillValue); break;
@@ -126,8 +126,6 @@ export class GSActor extends Actor {
                         this._updateDarkVision(skill, systemData); break;
                     case "Bonus Spells: Words of True Power": case "Bonus Spells: Miracles":case "Bonus Spells: Ancestral Dragon Arts": case "Bonus Spells: Spirit Arts": case "Bonus Spells: Necromancy":
                         this._bonusSpellsKnownSkillCall(skill); break;
-                    case "Magical Talent":
-                        this.system.spellUse.max += skillValue; break;
                     case "Stealth":
                         if(skillValue >= 3)
                             this._setSkill('adventurer', skillName + 'ToHit', skillValue - 2);
