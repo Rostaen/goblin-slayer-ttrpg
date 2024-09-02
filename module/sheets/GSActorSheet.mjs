@@ -144,18 +144,20 @@ export default class GSActorSheet extends ActorSheet{
 		let {classBonus, message, stat} = this._getClassLevelBonus2('weapon', itemInfo, chatMessage);
 		chatMessage = message;
 
+		// Checking for skill hit check bonus
+		let {skillBonus, skillMessage} = this._getHitSkillModifier(skills, itemInfo);
+		chatMessage += skillMessage;
+
 		// Get random modifiers from Prompt
 		let randomMods = await this._promptRandomModifiers();
 		if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
 
 		// Setting Roll Message
-		let rollString = this._setRollMessage(defaultDice, weaponHitMod, this.actor.system.abilities.calc.tf, classBonus, 0, randomMods);
+		let rollString = this._setRollMessage(defaultDice, weaponHitMod, stat, classBonus, skillBonus, randomMods);
+		//this._setRollMessage('2d6', +3, 'tf', 2, hitmodhere, prompt, fourthmod???)
 
 		// Rolling Dice
-		const roll = new Roll(rollString);
-		await roll.evaluate();
-		const diceResults = roll.terms[0].results.map(r => r.result);
-		let rollTotal = roll.total;
+		let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
 
 		// Checking for Effectiveness Score buffs
 		let {tempAmount, eSMessage} = this._checkEffectivenessSkills(skills, itemInfo);
@@ -179,7 +181,8 @@ export default class GSActorSheet extends ActorSheet{
 		try{
 			chatMessage += this._setMonsterTargetInfo(targets, itemInfo, extraDamage);
 		}catch(err){
-			ui.notifications.warn("You must select a target first before attacking.");
+			ui.notifications.warn("You must select a target first before attacking.", err);
+			console.error('... setting monster target', err);
 			return false;
 		}
 
@@ -195,10 +198,13 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	_newPlayerDodge(event){
+		event.preventDefault();
+
+	}
+
 	_pullWeaponInfo(event, actor){
-		const container = event.currentTarget.closest('.reveal-rollable');
-		if(!container) return;
-		const itemID = container.dataset.id;
+		const itemID = event.currentTarget.dataset.itemid;
 		return actor.items.find(i => i._id === itemID);
 	}
 
@@ -272,6 +278,36 @@ export default class GSActorSheet extends ActorSheet{
 		return {classBonus, message: chatMessage, stat: statUsed};
 	}
 
+	_getHitSkillModifier(skills, itemInfo){
+		let skillBonus, skillMessage;
+		const weaponType = itemInfo.system.type.split(" / ")[0];
+
+		const skillWeaponMapping = {
+			'Bow': ['Weapons: Bow', 'Snipe'],
+			'Throwing': ['Weapons: Throwing', 'Snipe'],
+			'One-Handed Sword': ['Weapons: One-Handed Sword'],
+			'Two-Handed Sword': ['Weapons: Two-Handed Sword'],
+			'Ax': ['Weapons: Ax'],
+			'Close-Combat': ['Weapons: Close-Combat'],
+			'Mace': ['Weapons: Mace'],
+			'Spear': ['Weapons: Spear'],
+			'Staff': ['Weapons: Staff']
+		};
+
+		const relevantSkills = skillWeaponMapping[weaponType];
+
+		skills.forEach(s => {
+			if(relevantSkills.includes(s.name)){
+				if(s.name === 'Snipe')
+					skillBonus = (s.system.value + 1) * 2;
+				else
+					skillBonus = s.system.value;
+				skillMessage = this._addToFlavorMessage('skillScore', s.name, skillBonus);
+			}
+		});
+		return {skillBonus, skillMessage};
+	}
+
 	_promptRandomModifiers(){
 		return new Promise ((resolve) => {
 			const dialogContent = `
@@ -302,6 +338,14 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	async _rollDice(rollString){
+		const roll = new Roll(rollString);
+		await roll.evaluate();
+		let diceResults = roll.terms[0].results.map(r => r.result);
+		let rollTotal = roll.total;
+		return {roll, diceResults, rollTotal};
+	}
+
 	_checkEffectivenessSkills(skills, itemInfo){
 		let tempAmount = 0;
 		let eSMessage = '';
@@ -318,7 +362,6 @@ export default class GSActorSheet extends ActorSheet{
 				eSMessage = this._addToFlavorMessage('skillScore', skill.name, tempAmount);
 			}
 		});
-		console.log("... Effectiness Score boost", tempAmount);
 		return {tempAmount, eSMessage};
 	}
 
@@ -346,6 +389,14 @@ export default class GSActorSheet extends ActorSheet{
 		const hasBlock = monster.system.hasBlock;
 		const isBoss = monster.system.theBoss;
 
+		const returnSnipe = value => {
+			console.log('... check pre snipe value', value);
+			return value === 0 ? 0 : value < 5 ? (value + 1) * -1 : -5
+		};
+
+		let snipeSkill = returnSnipe(this._getSkillBonus('Snipe'));
+		console.log('... check pre snipe setup', snipeSkill);
+
 		const dodgeValue = hasBoss ? isBoss ? monster.system.defenses.boss.dodge : monster.system.defenses.minion.dodge : monster.system.defenses.minion.dodge;
 		const blockValue = hasBlock ? isBoss ? monster.system.defenses.boss.block : monster.system.defenses.minion.block : monster.system.defenses.minion.block;
 
@@ -353,8 +404,8 @@ export default class GSActorSheet extends ActorSheet{
 		<div class="target grid grid-9col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
-			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
+			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-snipeskill="${snipeSkill}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
+			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-snipeskill="${snipeSkill}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
 			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 		return targetMessage;
@@ -448,14 +499,13 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns The value (level) of the given skill
 	 */
 	_getSkillBonus(skillName){
-		const skills = this.actor.items.filter(item => item.type === 'skill');
-		if(skills.length){
-			const skillBonusValue = skills.filter(skill => skillName.toLowerCase() === skillName.toLowerCase());
-			if(skillBonusValue.length){
-				return parseInt(skillBonusValue[0].system.value, 10);
-			}else
-				return 0;
-		}
+		const skills = this.actor.items.filter(i => i.type === 'skill');
+		console.log("... check skills", skills);
+		skills.forEach(s => {
+			if(s.name.toLowerCase() === skillName.toLowerCase())
+				return s.system.value;
+		});
+		return 0;
 	}
 
 	/**

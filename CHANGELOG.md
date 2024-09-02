@@ -5,6 +5,9 @@
 ### 2024-09-02
 
 - Fixed Magical Talent skill bug.
+- Player weapon hit check hotbar support working.
+- Weapons: XX adding to new hit check.
+- Snipe adding to hit check, working on monster dodge/def.
 
 ### 2024-08-30
 
