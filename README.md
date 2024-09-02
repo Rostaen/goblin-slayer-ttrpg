@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0.10.1 (2024-08-26)
+## Current State v0.10.3 (2024-09-02)
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
