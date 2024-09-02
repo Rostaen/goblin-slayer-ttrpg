@@ -135,6 +135,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			});
 		else if(target.type === 'monster'){
 			const token = target.getActiveTokens()[0];
+			console.log("... checking monster token", token);
 			await token.document.actor.update({
 				'system.lifeForce.value': totalDmg
 			});
@@ -201,7 +202,7 @@ document.addEventListener('dragstart', function(event) {
 
     // Get the item's UUID or ID
     const itemId = draggedElement.dataset.itemid; // Ensure the item element has the correct data attribute
-    const actorId = game.user.character.id; // Assuming dragging from the active character
+	const actorId = draggedElement.dataset.actorid;
 
     // Find the item and actor (you may need to adjust this based on your specific setup)
     const actor = game.actors.get(actorId);

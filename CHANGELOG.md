@@ -8,6 +8,10 @@
 - Player weapon hit check hotbar support working.
 - Weapons: XX adding to new hit check.
 - Snipe adding to hit check, working on monster dodge/def.
+- Fixed draggables so any item from any character sheet can be dragged to a hotbar (eg GM dragging player attack to their bar).
+- Some monster compendium updates for prototype tokens
+  - Giant Rats
+  - All Skeletons
 
 ### 2024-08-30
 

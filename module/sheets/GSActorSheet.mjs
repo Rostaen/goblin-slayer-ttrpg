@@ -279,7 +279,7 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	_getHitSkillModifier(skills, itemInfo){
-		let skillBonus, skillMessage;
+		let skillBonus = 0, skillMessage = '';
 		const weaponType = itemInfo.system.type.split(" / ")[0];
 
 		const skillWeaponMapping = {
