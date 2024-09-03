@@ -231,6 +231,10 @@
   background-color: #beffbe;
   border: 1px solid #64af64;
 }
+.skillEffectiveScore {
+  background-color: #96cf96;
+  border: 1px solid #3c7d3c;
+}
 .rollScore {
   background-color: #ffffbe;
   border: 1px solid #afaf64;

@@ -145,7 +145,7 @@ export default class GSActorSheet extends ActorSheet{
 		chatMessage = message;
 
 		// Checking for skill hit check bonus
-		let {skillBonus, skillMessage} = this._getHitSkillModifier(skills, itemInfo);
+		let {skillBonus, skillMessage} = await this._getHitSkillModifier(skills, itemInfo);
 		chatMessage += skillMessage;
 
 		// Get random modifiers from Prompt
@@ -278,33 +278,113 @@ export default class GSActorSheet extends ActorSheet{
 		return {classBonus, message: chatMessage, stat: statUsed};
 	}
 
-	_getHitSkillModifier(skills, itemInfo){
+	async _getHitSkillModifier(skills, itemInfo){
 		let skillBonus = 0, skillMessage = '';
 		const weaponType = itemInfo.system.type.split(" / ")[0];
 
 		const skillWeaponMapping = {
-			'Bow': ['Weapons: Bow', 'Snipe'],
-			'Throwing': ['Weapons: Throwing', 'Snipe'],
-			'One-Handed Sword': ['Weapons: One-Handed Sword'],
-			'Two-Handed Sword': ['Weapons: Two-Handed Sword'],
-			'Ax': ['Weapons: Ax'],
-			'Close-Combat': ['Weapons: Close-Combat'],
-			'Mace': ['Weapons: Mace'],
-			'Spear': ['Weapons: Spear'],
-			'Staff': ['Weapons: Staff']
+			'Bow': ['Weapons: Bow', 'Snipe', 'Rapid Fire'],
+			'Throwing': ['Weapons: Throwing', 'Snipe', 'Rapid Fire'],
+			'One-Handed Sword': ['Weapons: One-Handed Sword', 'Dual Wielding'],
+			'Two-Handed Sword': ['Weapons: Two-Handed Sword', 'Mow Down'],
+			'Ax': ['Weapons: Ax', 'Dual Wielding', 'Mow Down'],
+			'Close-Combat': ['Weapons: Close-Combat', 'Dual Wielding', 'Mow Down'],
+			'Mace': ['Weapons: Mace', 'Dual Wielding', 'Mow Down'],
+			'Spear': ['Weapons: Spear', 'Dual Wielding', 'Mow Down'],
+			'Staff': ['Weapons: Staff', 'Mow Down']
 		};
 
 		const relevantSkills = skillWeaponMapping[weaponType];
 
-		skills.forEach(s => {
+		for(const s of skills){
+			let tempBonus = 0;
 			if(relevantSkills.includes(s.name)){
-				if(s.name === 'Snipe')
-					skillBonus = (s.system.value + 1) * 2;
-				else
-					skillBonus = s.system.value;
-				skillMessage = this._addToFlavorMessage('skillScore', s.name, skillBonus);
+				if(s.name === 'Snipe') tempBonus = (s.system.value + 1) * 2;
+				if(s.name === 'Rapid Fire'){
+					const rFPenalty = itemInfo.system.effect.rFire;
+					const skillValue = s.system.value;
+					let targetSequence = 0;
+					let rFFlag = this.actor.getFlag('gs', s.name);
+					if(skillValue === 1){
+						if(!rFFlag)
+							this.actor.setFlag('gs', s.name, 1);
+						else{
+							this.actor.unsetFlag('gs', s.name);
+							tempBonus = rFPenalty;
+						}
+					}else{
+						targetSequence = await this._promptMiscModChoice('rapidFire');
+						if(skillValue > 1 && skillValue < 5){
+							if(targetSequence === 1){
+								if(!rFFlag)
+									this.actor.setFlag('gs', s.name, 1);
+								else{
+									this.actor.unsetFlag('gs', s.name);
+									tempBonus = skillValue > 2 ? rFPenalty / 2 : rFPenalty;
+								}
+							}else{
+								if(!rFFlag){
+									this.actor.setFlag('gs', s.name, 1);
+									tempBonus = skillValue > 3 ? rFPenalty / 2 : rFPenalty;
+								}else{
+									this.actor.unsetFlag('gs', s.name);
+									tempBonus = skillValue > 3 ? rFPenalty / 2 : rFPenalty;
+								}
+							}
+						}else{
+							if(targetSequence === 1){
+								if(!rFFlag)
+									this.actor.setFlag('gs', s.name, 1);
+								else{
+									await this.actor.setFlag('gs', s.name, rFFlag + 1);
+									tempBonus = skillValue > 2 ? rFPenalty / 2 : rFPenalty;
+									console.log("... checking rFFlag", rFFlag);
+									if(rFFlag === 3)
+										this.actor.unsetFlag('gs', s.name);
+								}
+							}else{
+								if(!rFFlag){
+									this.actor.setFlag('gs', s.name, 1);
+									tempBonus = skillValue > 3 ? rFPenalty / 2 : rFPenalty;
+								}else{
+									await this.actor.setFlag('gs', s.name, rFFlag + 1);
+									tempBonus = skillValue > 2 ? rFPenalty / 2 : rFPenalty;
+									rFFlag = this.actor.getFlag('gs', s.name);
+									console.log("... checking rFFlag", rFFlag);
+									if(rFFlag === 3)
+										this.actor.unsetFlag('gs', s.name);
+								}
+							}
+						}
+					}
+				}
+				else if(s.name === 'Dual Wielding'){
+					let numbTargets = 1;
+					if(s.system.value > 1)
+						numbTargets = await this._promptMiscModChoice('dualWielding');
+					if(numbTargets === 1){
+						if(s.system.value <= 2) tempBonus = -4;
+						else if(s.system.value <= 4) tempBonus = -3;
+						else tempBonus = -2;
+					}else{
+						if(s.system.value <= 3) tempBonus = -6;
+						else if(s.system.value <= 4) tempBonus = -5;
+						else tempBonus = -3;
+					}
+				}else if(s.name === 'Mow Down'){
+					const weaponUse = itemInfo.system.use;
+					const weaponAttr = itemInfo.system.attribute;
+					const weaponAttrSplit = weaponAttr.split('/');
+					const attributes = ['Slash', 'Bludgeoning'];
+					if (weaponUse.toLowerCase() === 'two-handed' && weaponAttrSplit.some(attr => attributes.includes(attr))) {
+						const modHitPen = await this._promptMiscModChoice("mowDown", s.system.value);
+						tempBonus = modHitPen;
+					}
+				}else if(s.name === `Weapons: ${itemInfo.system.type.split(" / ")[0]}`) tempBonus = s.system.value;
+				skillMessage += this._addToFlavorMessage('skillScore', s.name, tempBonus);
+				skillBonus += tempBonus;
 			}
-		});
+		}
 		return {skillBonus, skillMessage};
 	}
 
@@ -353,13 +433,13 @@ export default class GSActorSheet extends ActorSheet{
 		skills.forEach(skill => {
 			if(skill.name === "Piercing Attack" && itemInfo.system.effect.checked[6]){
 				tempAmount = skill.system.value * itemInfo.system.effect.pierce;
-				eSMessage = this._addToFlavorMessage('skillScore', skill.name, tempAmount);
+				eSMessage = this._addToFlavorMessage('skillEffectiveScore', skill.name, tempAmount);
 			}else if(skill.name === "Strong Blow: Bludgeon" && itemInfo.system.effect.checked[11]){
 				tempAmount = Math.round((0.25 * (skill.system.value - 1) + 0.25) * str) + itemInfo.system.effect.sbBludg;itemInfo.system.effect.sbBludg;
-				eSMessage = this._addToFlavorMessage('skillScore', skill.name, tempAmount);
+				eSMessage = this._addToFlavorMessage('skillEffectiveScore', skill.name, tempAmount);
 			}else if(skill.name === "Strong Blow: Slash" && itemInfo.system.effect.checked[12]){
 				tempAmount = Math.round((0.25 * (skill.system.value - 1) + 0.25) * str) + itemInfo.system.effect.sbBludg;itemInfo.system.effect.sbSlash;
-				eSMessage = this._addToFlavorMessage('skillScore', skill.name, tempAmount);
+				eSMessage = this._addToFlavorMessage('skillEffectiveScore', skill.name, tempAmount);
 			}
 		});
 		return {tempAmount, eSMessage};
@@ -389,13 +469,11 @@ export default class GSActorSheet extends ActorSheet{
 		const hasBlock = monster.system.hasBlock;
 		const isBoss = monster.system.theBoss;
 
-		const returnSnipe = value => {
-			console.log('... check pre snipe value', value);
-			return value === 0 ? 0 : value < 5 ? (value + 1) * -1 : -5
-		};
+		const returnCurvedShot = value => value = value === 0 ? 0 : value < 5 ? (value + 1) * -1 : -5;
 
-		let snipeSkill = returnSnipe(this._getSkillBonus('Snipe'));
-		console.log('... check pre snipe setup', snipeSkill);
+		let curvedShotSkill = 0;
+		if(itemInfo.system.type.split(" / ")[0] === 'Bow')
+			curvedShotSkill = (returnCurvedShot(this._getSkillBonus('Curved Shot')));
 
 		const dodgeValue = hasBoss ? isBoss ? monster.system.defenses.boss.dodge : monster.system.defenses.minion.dodge : monster.system.defenses.minion.dodge;
 		const blockValue = hasBlock ? isBoss ? monster.system.defenses.boss.block : monster.system.defenses.minion.block : monster.system.defenses.minion.block;
@@ -404,8 +482,8 @@ export default class GSActorSheet extends ActorSheet{
 		<div class="target grid grid-9col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-snipeskill="${snipeSkill}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
-			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-snipeskill="${snipeSkill}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
+			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-curvedskill="${curvedShotSkill}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
+			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-curvedskill="${curvedShotSkill}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
 			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 		return targetMessage;
@@ -500,12 +578,13 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_getSkillBonus(skillName){
 		const skills = this.actor.items.filter(i => i.type === 'skill');
-		console.log("... check skills", skills);
+		let skillValue = 0;
 		skills.forEach(s => {
-			if(s.name.toLowerCase() === skillName.toLowerCase())
-				return s.system.value;
+			if(s.name.toLowerCase() === skillName.toLowerCase()){
+				skillValue = s.system.value;
+			}
 		});
-		return 0;
+		return skillValue;
 	}
 
 	/**
@@ -1846,6 +1925,22 @@ export default class GSActorSheet extends ActorSheet{
 						label: game.i18n.localize("gs.dialog.actorSheet.sidebar.buttons.psyRes"),
 						callback: () => {
 							resolve("psy");
+						}
+					};
+					break;
+				case 'dualWielding': case 'rapidFire':
+					dialogContent = `<h3>${game.i18n.localize(`gs.dialog.${promptType}.header`)}</h3>`;
+					promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
+					button1 = {
+						label: game.i18n.localize(`gs.dialog.${promptType}.primary`),
+						callback: () => {
+							resolve(1);
+						}
+					};
+					button2 = {
+						label: game.i18n.localize(`gs.dialog.${promptType}.secondary`),
+						callback: () => {
+							resolve(2);
 						}
 					};
 					break;

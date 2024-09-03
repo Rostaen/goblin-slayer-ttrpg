@@ -93,6 +93,10 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - [ ] Show static defense value of minions
     - [ ] Show armor roll button for boss
 - [ ] Set weapons and armor to macro toolbar for ease of player use
+  - [x] Weapons
+  - [ ] Armor
+  - [ ] Shields
+- [ ] Add cover condition -2, -4, -6 to hit checks
 
 ### Skill Implementation Tracking
 
@@ -127,7 +131,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Piercing Attack
 - [x] Provoke
 - [x] Rampart
-- [ ] Rapid Fire (May not need auto integration and use Misc. Modifier prompt instead)
+- [x] Rapid Fire
 - [x] Shields
 - [x] Sixth Sense
 - [x] Slice Attack

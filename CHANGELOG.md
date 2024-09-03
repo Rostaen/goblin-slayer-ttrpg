@@ -2,6 +2,15 @@
 
 ## Recent updates
 
+### 2024-09-03
+
+- Dual Wielding skill updated to new code and automated. Uses a prompt to choose between one or two targets. This attack must be made twice for both weapon attacks.
+- Skill notifications in the chat window that effect hit check and effectiveness scores have been modified in color to show their difference. Bright green effects hit, dark gree effects effectiveness scores.
+- Corrected Weapon: XX skill internals with Weapon: Staves to Weapon: Staff so the skill triggers correctly with Staff type weapons.
+- Mow Down skill updated to new code and automated.
+- Confirmed multiple hit check skills working in tandum and correctly applying to dice.
+- Rapid Fire skill working up until 3 attacks at skill 5. Further testing needed.
+
 ### 2024-09-02
 
 - Fixed Magical Talent skill bug.

@@ -81,7 +81,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		event.preventDefault();
 		const monster = game.actors.get(event.currentTarget.dataset.monsterid);
 		const defType = event.currentTarget.dataset.type;
-		const snipeSkill = event.currentTarget.dataset.snipeskill;
+		const curvedSkill = event.currentTarget.dataset.curvedskill;
 		const activeToken = monster.getActiveTokens()[0];
 		let rollLabel = '', rollResult = '';
 		if(defType === 'dodge'){
@@ -91,24 +91,25 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			rollLabel = game.i18n.localize('gs.dialog.block.blockRoll');
 			rollResult = game.i18n.localize('gs.dialog.block.blockTotal');
 		}
+		// The monster's dodge or block
 		let value = event.currentTarget.dataset.value;
-		console.log('... checking Snipe skill', value, snipeSkill);
+		console.log('... checking Curved Shot skill', value, curvedSkill);
 		let chatMessage = `<div class="chat messageHeader grid grid-7col">
 		<img src='${activeToken.document.texture.src}'><h2 class="actorName grid-span-6">${activeToken.document.name}: ${rollLabel}</h2>
 		</div>`;
 		if(value.includes('d')){
-			if(snipeSkill < 0) value += ` + ${snipeSkill}`;
+			if(curvedSkill < 0) value += ` + ${curvedSkill}`;
 			const roll = new Roll(value);
 			await roll.evaluate();
 			chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${roll._total}</div>`;
-			if(snipeSkill < 0) chatMessage += `<div class="skillScore specialRollChatMessage">Snipe: ${snipeSkill}</div>`;
+			if(curvedSkill < 0) chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: ${curvedSkill}</div>`;
 			roll.toMessage({
 				speaker: { actor: monster },
 				flavor: chatMessage
 			});
 		}else{
-			chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${parseInt(value, 10) + parseInt(snipeSkill,10)}</div>`;
-			if(snipeSkill < 0) chatMessage += `<div class="skillScore specialRollChatMessage">Snipe: ${snipeSkill}</div>`;
+			chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${parseInt(value, 10) + parseInt(curvedSkill,10)}</div>`;
+			if(curvedSkill < 0) chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: ${curvedSkill}</div>`;
 			ChatMessage.create({
 				speaker: { actor: monster },
 				flavor: chatMessage

@@ -576,6 +576,18 @@
         "header": "Decide how many hours you are resting",
         "label1": "3+",
         "label2": "6+"
+      },
+      "dualWielding": {
+        "title": "Dual Wielding Choice",
+        "header": "Attacking one enemy or two different enemies?",
+        "primary": "One Enemy",
+        "secondary": "Two Enemies"
+      },
+      "rapidFire": {
+        "title": "Rapid Fire Choices",
+        "header": "Attacking one enemy or multiple enemies?",
+        "primary": "One Enemy",
+        "secondary": "Multiple Enemies"
       }
     }
   }
