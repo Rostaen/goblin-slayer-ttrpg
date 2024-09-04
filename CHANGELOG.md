@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-09-04
+
+- Finished checking and testing the Rapid Fire skill and works properly at rank 5.
+
 ### 2024-09-03
 
 - Dual Wielding skill updated to new code and automated. Uses a prompt to choose between one or two targets. This attack must be made twice for both weapon attacks.

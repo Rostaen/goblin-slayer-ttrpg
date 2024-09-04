@@ -1,5 +1,1 @@
-2024/09/03-08:14:28.537 44cc Log #448: 0 ops saved to Table #449 OK
-2024/09/03-08:14:28.538 44cc Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields/000448.log: OK
-2024/09/03-08:14:28.538 44cc Table #404: 13 entries OK
-2024/09/03-08:14:28.540 44cc Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields/MANIFEST-000447: OK
-2024/09/03-08:14:28.542 44cc **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\shields; recovered 1 files; 6014 bytes. Some data may have been lost. ****
+2024/09/03-08:14:28.546 44cc Delete type=3 #1

@@ -1,5 +1,1 @@
-2024/09/03-08:14:28.423 3ae8 Log #216: 0 ops saved to Table #217 OK
-2024/09/03-08:14:28.423 3ae8 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rollTables/000216.log: OK
-2024/09/03-08:14:28.423 3ae8 Table #134: 7 entries OK
-2024/09/03-08:14:28.424 3ae8 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rollTables/MANIFEST-000215: OK
-2024/09/03-08:14:28.426 3ae8 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\rollTables; recovered 1 files; 2385 bytes. Some data may have been lost. ****
+2024/09/03-08:14:28.429 3ae8 Delete type=3 #1

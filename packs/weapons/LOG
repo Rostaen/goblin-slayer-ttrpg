@@ -1,1 +1,5 @@
-2024/09/03-08:14:28.531 51e8 Delete type=3 #1
+2024/09/04-09:23:48.490 4ffc Recovering log #470
+2024/09/04-09:23:48.491 4ffc Level-0 table #472: started
+2024/09/04-09:23:48.492 4ffc Level-0 table #472: 12910 bytes OK
+2024/09/04-09:23:48.494 4ffc Delete type=0 #470
+2024/09/04-09:23:48.494 4ffc Delete type=3 #469

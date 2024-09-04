@@ -1,6 +1,1 @@
-2024/09/03-08:14:28.466 3ae8 Log #468: 11 ops saved to Table #469 OK
-2024/09/03-08:14:28.467 3ae8 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters/000468.log: OK
-2024/09/03-08:14:28.468 3ae8 Table #420: 163 entries OK
-2024/09/03-08:14:28.468 3ae8 Table #469: 11 entries OK
-2024/09/03-08:14:28.469 3ae8 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters/MANIFEST-000467: OK
-2024/09/03-08:14:28.470 3ae8 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\monsters; recovered 2 files; 296007 bytes. Some data may have been lost. ****
+2024/09/03-08:14:28.475 3ae8 Delete type=3 #1

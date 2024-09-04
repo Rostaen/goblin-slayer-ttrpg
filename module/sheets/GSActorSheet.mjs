@@ -312,7 +312,7 @@ export default class GSActorSheet extends ActorSheet{
 							this.actor.unsetFlag('gs', s.name);
 							tempBonus = rFPenalty;
 						}
-					}else{
+					}else{ // SkillValues 2 - 5
 						targetSequence = await this._promptMiscModChoice('rapidFire');
 						if(skillValue > 1 && skillValue < 5){
 							if(targetSequence === 1){
@@ -331,31 +331,27 @@ export default class GSActorSheet extends ActorSheet{
 									tempBonus = skillValue > 3 ? rFPenalty / 2 : rFPenalty;
 								}
 							}
-						}else{
+						}else{ // SkillValue == 5
 							if(targetSequence === 1){
 								if(!rFFlag)
 									this.actor.setFlag('gs', s.name, 1);
 								else{
-									await this.actor.setFlag('gs', s.name, rFFlag + 1);
+									this.actor.setFlag('gs', s.name, rFFlag + 1);
 									tempBonus = skillValue > 2 ? rFPenalty / 2 : rFPenalty;
-									console.log("... checking rFFlag", rFFlag);
-									if(rFFlag === 3)
-										this.actor.unsetFlag('gs', s.name);
 								}
 							}else{
 								if(!rFFlag){
 									this.actor.setFlag('gs', s.name, 1);
 									tempBonus = skillValue > 3 ? rFPenalty / 2 : rFPenalty;
 								}else{
-									await this.actor.setFlag('gs', s.name, rFFlag + 1);
+									this.actor.setFlag('gs', s.name, rFFlag + 1);
 									tempBonus = skillValue > 2 ? rFPenalty / 2 : rFPenalty;
-									rFFlag = this.actor.getFlag('gs', s.name);
-									console.log("... checking rFFlag", rFFlag);
-									if(rFFlag === 3)
-										this.actor.unsetFlag('gs', s.name);
 								}
 							}
 						}
+						rFFlag = this.actor.getFlag('gs', s.name);
+						if(rFFlag === 2)
+							this.actor.unsetFlag('gs', s.name);
 					}
 				}
 				else if(s.name === 'Dual Wielding'){

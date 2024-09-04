@@ -1,5 +1,1 @@
-2024/09/03-08:14:28.524 51e8 Log #467: 0 ops saved to Table #468 OK
-2024/09/03-08:14:28.524 51e8 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/000467.log: OK
-2024/09/03-08:14:28.525 51e8 Table #447: 138 entries OK
-2024/09/03-08:14:28.526 51e8 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons/MANIFEST-000466: OK
-2024/09/03-08:14:28.528 51e8 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\weapons; recovered 1 files; 68423 bytes. Some data may have been lost. ****
+2024/09/03-08:14:28.531 51e8 Delete type=3 #1
