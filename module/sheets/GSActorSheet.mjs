@@ -379,6 +379,12 @@ export default class GSActorSheet extends ActorSheet{
 				}else if(s.name === `Weapons: ${itemInfo.system.type.split(" / ")[0]}`) tempBonus = s.system.value;
 				skillMessage += this._addToFlavorMessage('skillScore', s.name, tempBonus);
 				skillBonus += tempBonus;
+			}else if(s.name === 'Slip Behind'){
+				const skillPromptChoice = await this._promptMiscModChoice('slipBehind');
+				if(skillPromptChoice === 1){
+					skillBonus = s.system.value * 2;
+					skillMessage += this._addToFlavorMessage('skillScore', s.name, skillBonus);
+				}
 			}
 		}
 		return {skillBonus, skillMessage};
@@ -1924,7 +1930,7 @@ export default class GSActorSheet extends ActorSheet{
 						}
 					};
 					break;
-				case 'dualWielding': case 'rapidFire':
+				case 'dualWielding': case 'rapidFire': case 'slipBehind':
 					dialogContent = `<h3>${game.i18n.localize(`gs.dialog.${promptType}.header`)}</h3>`;
 					promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
 					button1 = {

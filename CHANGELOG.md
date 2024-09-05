@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-09-05
+
+- Slip Behind skill partially implemented with skill use prompt and hit check addition.
+
 ### 2024-09-04
 
 - Finished checking and testing the Rapid Fire skill and works properly at rank 5.

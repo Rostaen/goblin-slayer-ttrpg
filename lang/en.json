@@ -588,6 +588,12 @@
         "header": "Attacking one enemy or multiple enemies?",
         "primary": "One Enemy",
         "secondary": "Multiple Enemies"
+      },
+      "slipBehind": {
+        "title": "Slip Behind Choices",
+        "header": "Are you slipping behind the target? You cannot move before using this skill.",
+        "primary": "Yes",
+        "secondary": "No"
       }
     }
   }
