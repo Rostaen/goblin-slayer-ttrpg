@@ -405,13 +405,17 @@
       "dmgMod": "Damage Mods",
       "applyDmg": "Apply Damage",
       "suffered": "Damage Suffered",
+      "outOfRange": "You are out of range for the attack.",
+      "curvedShotLabel": "Curved Short",
       "dodge": {
-        "dodgeRoll": "Dodge Roll",
-        "dodgeTotal": "Dodge Total"
+        "value": "Dodge Value",
+        "roll": "Dodge Roll",
+        "total": "Dodge Total"
       },
       "block": {
-        "blockRoll": "Block Roll",
-        "blockTotal": "Block Total"
+        "value": "Block Value",
+        "roll": "Block Roll",
+        "total": "Block Total"
       },
       "mods": {
         "mod": "Modifier",
@@ -592,6 +596,12 @@
       "slipBehind": {
         "title": "Slip Behind Choices",
         "header": "Are you slipping behind the target? You cannot move before using this skill.",
+        "primary": "Yes",
+        "secondary": "No"
+      },
+      "curvedShot": {
+        "title": "Curved Shot Choices",
+        "header": "Are you using Curved Shot on this attack?",
         "primary": "Yes",
         "secondary": "No"
       }

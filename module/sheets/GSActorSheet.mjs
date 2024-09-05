@@ -129,78 +129,116 @@ export default class GSActorSheet extends ActorSheet{
 	async _newPlayerAttack(event){
 		event.preventDefault();
 		const actor = this.actor;
+		const actorToken = game.actors.get(actor._id).getActiveTokens()[0];
 		const defaultDice = '2d6';
 		const skills = actor.items.filter(i => i.type === 'skill');
 		const itemInfo = this._pullWeaponInfo(event, actor);
+		const targets = Array.from(game.user.targets);
+		const targetToken = targets[0].document.actor.getActiveTokens()[0];
 		let chatMessage = this._setMessageHeader(actor, itemInfo, 'toHit');
 
-		// Pulling Weapon To Hit Info
-		const weaponHitMod = itemInfo.system.hitMod;
-
-		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
-		chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.gearMod'), weaponHitMod);
-
-		// Pulling Class Bonus
-		let {classBonus, message, stat} = this._getClassLevelBonus2('weapon', itemInfo, chatMessage);
-		chatMessage = message;
-
-		// Checking for skill hit check bonus
-		let {skillBonus, skillMessage} = await this._getHitSkillModifier(skills, itemInfo);
-		chatMessage += skillMessage;
-
-		// Get random modifiers from Prompt
-		let randomMods = await this._promptRandomModifiers();
-		if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
-
-		// Setting Roll Message
-		let rollString = this._setRollMessage(defaultDice, weaponHitMod, stat, classBonus, skillBonus, randomMods);
-		//this._setRollMessage('2d6', +3, 'tf', 2, hitmodhere, prompt, fourthmod???)
-
-		// Rolling Dice
-		let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
-
-		// Checking for Effectiveness Score buffs
-		let {tempAmount, eSMessage} = this._checkEffectivenessSkills(skills, itemInfo);
-		rollTotal += tempAmount;
-		chatMessage += eSMessage;
-
-		// Setting up Effectivess Score view
-		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
-		let extraDamage = this._getExtraDamage(rollTotal) || 0;
-		if(extraDamage)
-			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
-
-		// Checking for Crit Success/Failure
-		const status = this._checkForCritRolls(diceResults, "", itemInfo);
-
-		if(status != undefined || status != null)
-			chatMessage += `${status[1]}`;
-
-		// Getting target information
-		const targets = Array.from(game.user.targets);
-		try{
-			chatMessage += this._setMonsterTargetInfo(targets, itemInfo, extraDamage);
-		}catch(err){
-			ui.notifications.warn("You must select a target first before attacking.", err);
-			console.error('... setting monster target', err);
-			return false;
+		// Checking for Curved Shot skill if weapon is a bow and skill present to update various factors
+		if(itemInfo.system.type.split(" / ")[0] === 'Bow' && skills.some(s => s.name === 'Curved Shot')){
+			const cSPromptResponse = await this._promptMiscModChoice('curvedShot');
+			if(cSPromptResponse === 1)
+				this._curvedShotCheck(itemInfo, skills);
 		}
 
-		// Ending of chat message box before roll evaluation
-		chatMessage += this._setMessageEnder();
+		// Checking if range is vallid before rolling attacks
+		const rangeValid = this._checkWeaponRange(actorToken, targetToken, itemInfo);
 
-		// Sending dice rolls to chat window
-		await roll.toMessage({
-			speaker: { actor: actor },
-			flavor: chatMessage,
-			user: game.user.id
-			// content: Change dice rolls and other items here if needed
-		});
+		if(rangeValid){
+			// Pulling Weapon To Hit Info
+			const weaponHitMod = itemInfo.system.hitMod;
+
+			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+			chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.gearMod'), weaponHitMod);
+
+			// Pulling Class Bonus
+			let {classBonus, message, stat} = this._getClassLevelBonus2('weapon', itemInfo, chatMessage);
+			chatMessage = message;
+
+			// Checking for skill hit check bonus
+			let {skillBonus, skillMessage} = await this._getHitSkillModifier(skills, itemInfo);
+			chatMessage += skillMessage;
+
+			// Get random modifiers from Prompt
+			let randomMods = await this._promptRandomModifiers();
+			if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
+
+			// Setting Roll Message
+			let rollString = this._setRollMessage(defaultDice, weaponHitMod, stat, classBonus, skillBonus, randomMods);
+			//this._setRollMessage('2d6', +3, 'tf', 2, hitmodhere, prompt, fourthmod???)
+
+			// Rolling Dice
+			let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
+
+			// Checking for Effectiveness Score buffs
+			let {tempAmount, eSMessage} = this._checkEffectivenessSkills(skills, itemInfo);
+			rollTotal += tempAmount;
+			chatMessage += eSMessage;
+
+			// Setting up Effectivess Score view
+			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+			let extraDamage = this._getExtraDamage(rollTotal) || 0;
+			if(extraDamage)
+				chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
+
+			// Checking for Crit Success/Failure
+			const status = this._checkForCritRolls(diceResults, "", itemInfo);
+
+			if(status != undefined || status != null)
+				chatMessage += `${status[1]}`;
+
+			// Getting target information
+			try{
+				chatMessage += this._setMonsterTargetInfo(targets, itemInfo, extraDamage);
+			}catch(err){
+				ui.notifications.warn("You must select a target first before attacking.", err);
+				console.error('... setting monster target', err);
+				return false;
+			}
+
+			// Ending of chat message box before roll evaluation
+			chatMessage += this._setMessageEnder();
+
+			// Sending dice rolls to chat window
+			await roll.toMessage({
+				speaker: { actor: actor },
+				flavor: chatMessage,
+				user: game.user.id
+				// content: Change dice rolls and other items here if needed
+			});
+		}else{
+			ui.notifications.warn(game.i18n.localize('gs.dialog.outOfRange'));
+		}
 	}
 
 	_newPlayerDodge(event){
 		event.preventDefault();
 
+	}
+
+	_curvedShotCheck(itemInfo, skills){
+		const curvedShot = skills.find(s => s.name === 'Curved Shot');
+		this.actor.setFlag('gs', 'Curved Shot', {
+			bowRange: itemInfo.system.range / 2,
+			reducedPower: 2, // Negated in attack roll in gs.mjs file
+			targetReduction: curvedShot.system.value < 5 ? curvedShot.system.value + 1 : curvedShot.system.value
+		});
+	}
+
+	_checkWeaponRange(actorToken, targetToken, weaponInfo){
+		const curvedShotFlag = this.actor.getFlag('gs', 'Curved Shot') || 0;
+		let weaponRange = 0;
+		if(curvedShotFlag)
+			weaponRange = curvedShotFlag.bowRange;
+		else
+			weaponRange = parseInt(weaponInfo.system.range, 10);
+		const path = [actorToken.center, targetToken.center];
+		const distanceInfo = canvas.grid.measurePath(path);
+		if(distanceInfo.distance <= weaponRange) return true;
+		else return false;
 	}
 
 	_pullWeaponInfo(event, actor){
@@ -471,12 +509,6 @@ export default class GSActorSheet extends ActorSheet{
 		const hasBlock = monster.system.hasBlock;
 		const isBoss = monster.system.theBoss;
 
-		const returnCurvedShot = value => value = value === 0 ? 0 : value < 5 ? (value + 1) * -1 : -5;
-
-		let curvedShotSkill = 0;
-		if(itemInfo.system.type.split(" / ")[0] === 'Bow')
-			curvedShotSkill = (returnCurvedShot(this._getSkillBonus('Curved Shot')));
-
 		const dodgeValue = hasBoss ? isBoss ? monster.system.defenses.boss.dodge : monster.system.defenses.minion.dodge : monster.system.defenses.minion.dodge;
 		const blockValue = hasBlock ? isBoss ? monster.system.defenses.boss.block : monster.system.defenses.minion.block : monster.system.defenses.minion.block;
 
@@ -484,8 +516,8 @@ export default class GSActorSheet extends ActorSheet{
 		<div class="target grid grid-9col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-curvedskill="${curvedShotSkill}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
-			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-curvedskill="${curvedShotSkill}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
+			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
+			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
 			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 		return targetMessage;
@@ -1930,7 +1962,7 @@ export default class GSActorSheet extends ActorSheet{
 						}
 					};
 					break;
-				case 'dualWielding': case 'rapidFire': case 'slipBehind':
+				case 'dualWielding': case 'rapidFire': case 'slipBehind': case 'curvedShot':
 					dialogContent = `<h3>${game.i18n.localize(`gs.dialog.${promptType}.header`)}</h3>`;
 					promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
 					button1 = {

@@ -5,6 +5,7 @@
 ### 2024-09-05
 
 - Slip Behind skill partially implemented with skill use prompt and hit check addition.
+- Curved Shot skill 90% implemented, just needs cover reduction for rank 5 when this condition has been implemented.
 
 ### 2024-09-04
 

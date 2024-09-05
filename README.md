@@ -84,9 +84,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Fix health bars so they show up on character tokens
 - [ ] Combat Updates
   - [ ] Rework code to streamline checks
+  - [x] Checks range of weapon and tokens before attacking
   - [ ] Have ranged attacks check for +ammo before rolling to Hit
   - [x] Add damage button to "to hit" rolls
-  - [ ] Update target tracking
   - [x] Add effectiness score bonus damage to player rolls
   - [x] Add button to apply damage to target
   - [ ] Learn how to show info to GM only
@@ -108,7 +108,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Binding Attack (Future update to affect targets and add conditions)
 - [x] Bonus Spells: XX
 - [x] Burst of Strength
-- [ ] Curved Shot (Future update to affect targets dodge/block checks)
+- [x] Curved Shot (Requires cover reduction for rank 5 when cover implemented)
 - [ ] Defensive (May not need auto intergration for this skill)
 - [x] Dual Wielding (Use misc modifiers for this skill)
 - [x] Encumbered Action
