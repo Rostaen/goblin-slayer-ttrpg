@@ -148,10 +148,17 @@ export default class GSActorSheet extends ActorSheet{
 		const rangeValid = this._checkWeaponRange(actorToken, targetToken, itemInfo);
 
 		if(rangeValid){
-			// Pulling Weapon To Hit Info
-			const weaponHitMod = itemInfo.system.hitMod;
-
+			// Setting base hit check dice to chat window
 			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+
+			// Pulling Weapon To Hit Info
+			let weaponHitMod = itemInfo.system.hitMod;
+			if(skills.some(s => s.name === 'Gorilla Tactics')){
+				const gorTact = skills.find(s => s.name === 'Gorilla Tactics');
+				const gTactVal = this._updateWeaponHitMod(gorTact);
+				weaponHitMod = weaponHitMod - gTactVal;
+				chatMessage += this._addToFlavorMessage('armorDodgeScore', gorTact.name, gTactVal);
+			}
 			chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.gearMod'), weaponHitMod);
 
 			// Pulling Class Bonus
@@ -185,7 +192,8 @@ export default class GSActorSheet extends ActorSheet{
 				chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
 
 			// Checking for Crit Success/Failure
-			const status = this._checkForCritRolls(diceResults, "", itemInfo);
+			const sliceSkill = skills.find(s => s.name === 'Slice Attack') || 0;
+			const status = this._checkForCriticals(diceResults, sliceSkill);
 
 			if(status != undefined || status != null)
 				chatMessage += `${status[1]}`;
@@ -239,6 +247,30 @@ export default class GSActorSheet extends ActorSheet{
 		const distanceInfo = canvas.grid.measurePath(path);
 		if(distanceInfo.distance <= weaponRange) return true;
 		else return false;
+	}
+
+	_updateWeaponHitMod(skill){
+		const str = this.actor.system.abilities.primary.str;
+		let skillValue = skill.system.value;
+
+		// Helper function
+		const setEffectiveBonus = value => this.actor.setFlag('gs', skill.name, value);
+
+		//Calculating str bonus adjustments
+		if(skillValue === 1)
+			skillValue = Math.round(str * 0.25);
+		else if(skillValue === 2)
+			skillValue = Math.round(str * 0.5);
+		else if(skillValue === 3){
+			skillValue = Math.round(str * 0.5);
+			setEffectiveBonus(1);
+		}else{
+			if(skillValue === 4) setEffectiveBonus(3);
+			else setEffectiveBonus(4);
+			skillValue = str;
+		}
+
+		return -1 * skillValue;
 	}
 
 	_pullWeaponInfo(event, actor){
@@ -469,19 +501,25 @@ export default class GSActorSheet extends ActorSheet{
 	_checkEffectivenessSkills(skills, itemInfo){
 		let tempAmount = 0;
 		let eSMessage = '';
+		const itemEffects = itemInfo.system.effect;
 		const str = this.actor.system.abilities.primary.str;
+		const gorTactFlag = this.actor.getFlag('gs', 'Gorilla Tactics') || 0;
 		skills.forEach(skill => {
-			if(skill.name === "Piercing Attack" && itemInfo.system.effect.checked[6]){
-				tempAmount = skill.system.value * itemInfo.system.effect.pierce;
+			if(skill.name === "Piercing Attack" && itemEffects.checked[6]){
+				tempAmount = (skill.system.value * itemEffects.pierce);
 				eSMessage = this._addToFlavorMessage('skillEffectiveScore', skill.name, tempAmount);
-			}else if(skill.name === "Strong Blow: Bludgeon" && itemInfo.system.effect.checked[11]){
-				tempAmount = Math.round((0.25 * (skill.system.value - 1) + 0.25) * str) + itemInfo.system.effect.sbBludg;itemInfo.system.effect.sbBludg;
+			}else if(skill.name === "Strong Blow: Bludgeon" && itemEffects.checked[11]){
+				tempAmount = Math.round((0.25 * (skill.system.value - 1) + 0.25) * str) + itemEffects.sbBludg;
 				eSMessage = this._addToFlavorMessage('skillEffectiveScore', skill.name, tempAmount);
-			}else if(skill.name === "Strong Blow: Slash" && itemInfo.system.effect.checked[12]){
-				tempAmount = Math.round((0.25 * (skill.system.value - 1) + 0.25) * str) + itemInfo.system.effect.sbBludg;itemInfo.system.effect.sbSlash;
+			}else if(skill.name === "Strong Blow: Slash" && itemEffects.checked[12]){
+				tempAmount = Math.round((0.25 * (skill.system.value - 1) + 0.25) * str) + itemEffects.sbSlash;
 				eSMessage = this._addToFlavorMessage('skillEffectiveScore', skill.name, tempAmount);
 			}
 		});
+		if(gorTactFlag){
+			tempAmount +=  + gorTactFlag;
+			eSMessage += this._addToFlavorMessage('skillEffectiveScore', 'Gorilla Tactics', gorTactFlag);
+		}
 		return {tempAmount, eSMessage};
 	}
 
@@ -500,6 +538,44 @@ export default class GSActorSheet extends ActorSheet{
 				extraDamage = '5d6';
 		}
 		return extraDamage;
+	}
+
+	_checkForCriticals(diceResults, skill){
+		let critSuccess = 12, critFail = 2, results = [];
+		let skillValue = 0;
+
+		// Setting Up Skill Names
+		const successFailRangeSkills = ['alert', 'slice attack'];
+		const successRangeSkills = ['fire', 'water', 'wind', 'earth', 'life'];
+
+		// Updating crit rates if skill found
+		if(skill){
+			skillValue = skill.system.value;
+			if(successFailRangeSkills.includes(skill.name.toLowerCase())){
+				if(skillValue === 1){ critSuccess = 11; critFail = 5; }
+				else if(skillValue === 2){ critSuccess = 11; critFail = 4; }
+				else if(skillValue === 3){ critSuccess = 10; critFail = 4; }
+				else if(skillValue === 4){ critSuccess = 10; critFail = 3; }
+				else if(skillValue === 5){ critSuccess = 9; critFail = 3; }
+			}else if(successRangeSkills.includes(skill.name.split(" ")[2].toLowerCase())){
+				if(skillValue < 3) critSuccess = 11;
+				else if(skillValue < 5) critSuccess = 10;
+				else if(skillValue == 5) critSuccess = 9;
+			}
+		}
+
+		// Comparing results to [un]modified crit ranges
+		if(diceResults[0] + diceResults[1] <= critFail){
+			results[0] = 'fail';
+			results[1] = `<div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
+		}else if(diceResults[0] + diceResults[1] >= critSuccess){
+			results[0] = 'success';
+			results[1] = `<div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
+		}else {
+			results[0] = 'normal';
+			results[1] = '';
+		}
+		return results;
 	}
 
 	_setMonsterTargetInfo(targets, itemInfo, extraDmg){
@@ -539,19 +615,19 @@ export default class GSActorSheet extends ActorSheet{
 		const skipCheck = ['Draconic Heritage', 'Beloved of the Fae', 'Darkvision', 'Faith: Supreme God', 'Faith: Earth Mother',
 			'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie', 'Faith: Ancestral Dragon'];
 
-		if(skipCheck.includes(skillName)) return;
+		if(skipCheck.includes(skill.name)) return;
 
-		if(skillName.toLowerCase() === 'long-distance movement')
+		if(skill.name.toLowerCase() === 'long-distance movement')
 			this._specialRolls(event, 'longDistance', 'Long-Distance Movement');
-		else if(skillName.toLowerCase() === 'general knowledge')
+		else if(skill.name.toLowerCase() === 'general knowledge')
 			this._specialRolls(event, 'generalKnow', 'General Knowledge');
-		else if(skillName.toLowerCase() === 'cool and collected'){
+		else if(skill.name.toLowerCase() === 'cool and collected'){
 			const resistType = await this._promptMiscModChoice('coolAndCollected');
 			this._specialRolls(event, resistType === "int" ? "intRes" : "psyRes", "default");
 		}else{
-			let promptChoices = await this._promptMiscModChoice(skillName);
+			let promptChoices = await this._promptMiscModChoice(skill.name);
 			if(promptChoices){
-				let skillBonus = this._getSkillBonus(skillName);
+				let skillBonus = this._getSkillBonus(skill.name);
 				skillBonus = skillBonus = 3 ? 4 : skillBonus;
 				promptChoices[0] += this._addStringToChatMessage("skillScore", skill, skillBonus);
 				this._rollsToMessage(null, '2d6', promptChoices[1], promptChoices[3], 0, promptChoices[0], skillBonus, promptChoices[2], 'generalSkills');
@@ -785,7 +861,6 @@ export default class GSActorSheet extends ActorSheet{
 
 				// Updating the Critical Success/Failure rate based on the given skill
 				const setSuccessFailValues = (skillValue) => {
-					console.log("=== Checking skillValue sent", skillValue);
 					if(skillValue === 1){ critSuccess = 11; critFail = 5; }
 					else if(skillValue === 2){ critSuccess = 11; critFail = 4; }
 					else if(skillValue === 3){ critSuccess = 10; critFail = 4; }
@@ -803,10 +878,9 @@ export default class GSActorSheet extends ActorSheet{
 
 				// Setting up info for Slice Attack skill
 				let sliceAttr;
-				if(itemInfo){
-					if(itemInfo.type === 'weapon'){
-						sliceAttr = itemInfo.system.effect.checked[9];
-					}
+				if(itemInfo.type === 'weapon'){
+					sliceAttr = itemInfo.system.effect.checked[9];
+
 					if(sliceAttr)
 						critSuccessFailSkills.push('slice attack-.hitmod');
 				}
@@ -833,16 +907,14 @@ export default class GSActorSheet extends ActorSheet{
 			if(diceResults[0] + diceResults[1] <= critFail){
 				results[0] = 'fail';
 				results[1] = `<div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
-				return results;
 			}else if(diceResults[0] + diceResults[1] >= critSuccess){
 				results[0] = 'success';
 				results[1] = `<div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
-				return results;
 			}else {
 				results[0] = 'normal';
 				results[1] = '';
-				return results;
 			}
+			return results;
 		}
 	}
 
@@ -1919,7 +1991,7 @@ export default class GSActorSheet extends ActorSheet{
 				'Cooking', 'Craftsmanship', 'Criminal Knowledge', 'Etiquette', 'Labor', 'Leadership', 'Meditate', 'Negotiate: Persuade', 'Negotiate: Tempt',
 				'Negotiate: Intimidate', 'No Preconceptions', 'Perform: Sing', 'Perform: Play', 'Perform: Dance', 'Perform: Street Perform', 'Perform: Act',
 				'Production: Farming', 'Production: Fishing', 'Production: Logging', 'Production: Mining', 'Research', 'Riding', 'Survivalism ', 'Theology',
-				'Worship'];
+				'Worship', 'Cartography'];
 			const specialRolls = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'acrobatics', 'monsterKnow'];
 
 			const addModifiersSection = () => {
@@ -2139,7 +2211,8 @@ export default class GSActorSheet extends ActorSheet{
 					"Riding": { first: 't', second: 'none', class: 'none' },
 					"Survivalism ": { first: 'i', second: 't', class: 'ranger' },
 					"Theology": { first: 'i', second: 'none', class: 'priest/dragon' },
-					"Worship": { first: 'p', second: 'none', class: 'priest/dragon' }
+					"Worship": { first: 'p', second: 'none', class: 'priest/dragon' },
+					"Cartography": { first: 'i', second: 'none', class: 'scout' }
 				};
 				let header = game.i18n.localize(`gs.dialog.genSkills.header`) + promptType;
 				dialogContent = `<h3>${header}</h3>`;
@@ -3119,7 +3192,7 @@ export default class GSActorSheet extends ActorSheet{
 							await actor.update({
 								'system.spellUse.max': originalSpellUses
 							});
-						}
+						}else if(itemToDelete.name === 'Gorilla Tactics') actor.unsetFlag('gs', itemToDelete.name);
 						break;
 					case 'raceSheet':case 'weapon':case 'armor':case 'shield':case 'item':case 'spell':case 'martialtechnique':
 						if (itemToDelete)

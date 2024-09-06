@@ -180,7 +180,7 @@ export class GSActor extends Actor {
             systemData.lifeForce.value = 0;
 
         // Adding initiative to character with possible bonus
-        systemData.init = systemData.skills.adventurer?.anticipate ? `2d6+${systemData.skills.adventurer.anticipate}` : `2d6`;
+        systemData.init = systemData.skills.adventurer?.Anticipate ? `2d6+${systemData.skills.adventurer.Anticipate}` : `2d6`;
 
         // Setting Life Force
         systemData.lifeForce.double = systemData.lifeForce.current + hardinessBonus;

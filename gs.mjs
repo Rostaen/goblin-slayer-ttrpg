@@ -111,15 +111,19 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			if(curvedShotFlag) value += ` - ${curvedShotFlag.targetReduction}`;
 			const roll = new Roll(value);
 			await roll.evaluate();
-			if(curvedShotFlag) chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
-			chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${roll._total}</div>`;
+			if(curvedShotFlag){
+				chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
+				chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${roll._total}</div>`;
+			}
 			roll.toMessage({
 				speaker: { actor: monster },
 				flavor: chatMessage
 			});
 		}else{
-			if(curvedShotFlag) chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
-			chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${parseInt(value, 10) - curvedShotFlag.targetReduction}</div>`;
+			if(curvedShotFlag){
+				chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
+				chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${parseInt(value, 10) - curvedShotFlag.targetReduction}</div>`;
+			}
 			ChatMessage.create({
 				speaker: { actor: monster },
 				flavor: chatMessage

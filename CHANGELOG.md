@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+### 2024-09-06
+
+- Gorilla Tactics updated and working with weapon hit mod and effectiveness score modifiers.
+- Adding Supplemental general skills to automation. Reworking code is required here.
+
 ### 2024-09-05
 
 - Slip Behind skill partially implemented with skill use prompt and hit check addition.
