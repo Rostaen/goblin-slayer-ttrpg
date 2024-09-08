@@ -878,11 +878,13 @@ export default class GSActorSheet extends ActorSheet{
 
 				// Setting up info for Slice Attack skill
 				let sliceAttr;
-				if(itemInfo.type === 'weapon'){
-					sliceAttr = itemInfo.system.effect.checked[9];
+				if(itemInfo !== null && itemInfo !== undefined && itemInfo !== 0){
+					if(itemInfo.type === 'weapon'){
+						sliceAttr = itemInfo.system.effect.checked[9];
 
-					if(sliceAttr)
-						critSuccessFailSkills.push('slice attack-.hitmod');
+						if(sliceAttr)
+							critSuccessFailSkills.push('slice attack-.hitmod');
+					}
 				}
 
 				for(const skill of skills){

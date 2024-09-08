@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-09-08
+
+- Fixed old Critical Check bug.
+
 ### 2024-09-06
 
 - Gorilla Tactics updated and working with weapon hit mod and effectiveness score modifiers.
