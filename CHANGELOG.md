@@ -5,6 +5,9 @@
 ### 2024-09-09
 
 - Fixed Wounds calculations bug for player tokens.
+- Added new player dodge and block rolls to item tab armor click.
+- Added hot bar support for armor and shield drops and usage.
+- Updated CSS styling on certain boxes that had no radius border.
 
 ### 2024-09-08
 

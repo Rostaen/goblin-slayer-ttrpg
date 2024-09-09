@@ -604,6 +604,12 @@
         "header": "Are you using Curved Shot on this attack?",
         "primary": "Yes",
         "secondary": "No"
+      },
+      "useSkill": {
+        "title": " Skill Usage",
+        "header": "Will you use the following skill: ",
+        "primary": "Yes",
+        "secondary": "No"
       }
     }
   }

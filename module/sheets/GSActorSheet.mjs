@@ -121,7 +121,10 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
 		html.find(".genSkillContainer").click(this._rollGenSkills.bind(this));
 
+		// New player rolls
 		html.find(".toHit.player").click(this._newPlayerAttack.bind(this));
+		html.find(".dodge.player").click(this._newPlayerDodge.bind(this));
+		html.find(".block.player").click(this._newPlayerBlock.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -132,7 +135,7 @@ export default class GSActorSheet extends ActorSheet{
 		const actorToken = game.actors.get(actor._id).getActiveTokens()[0];
 		const defaultDice = '2d6';
 		const skills = actor.items.filter(i => i.type === 'skill');
-		const itemInfo = this._pullWeaponInfo(event, actor);
+		const itemInfo = this._pullItemInfo(event, actor);
 		const targets = Array.from(game.user.targets);
 		const targetToken = targets[0].document.actor.getActiveTokens()[0];
 		let chatMessage = this._setMessageHeader(actor, itemInfo, 'toHit');
@@ -175,7 +178,6 @@ export default class GSActorSheet extends ActorSheet{
 
 			// Setting Roll Message
 			let rollString = this._setRollMessage(defaultDice, weaponHitMod, stat, classBonus, skillBonus, randomMods);
-			//this._setRollMessage('2d6', +3, 'tf', 2, hitmodhere, prompt, fourthmod???)
 
 			// Rolling Dice
 			let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
@@ -193,10 +195,9 @@ export default class GSActorSheet extends ActorSheet{
 
 			// Checking for Crit Success/Failure
 			const sliceSkill = skills.find(s => s.name === 'Slice Attack') || 0;
-			const status = this._checkForCriticals(diceResults, sliceSkill);
-
-			if(status != undefined || status != null)
-				chatMessage += `${status[1]}`;
+			const critStatus = this._checkForCriticals(diceResults, sliceSkill);
+			if(critStatus != undefined || critStatus != null)
+				chatMessage += `${critStatus[1]}`;
 
 			// Getting target information
 			try{
@@ -222,9 +223,112 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	_newPlayerDodge(event){
+	async _newPlayerDodge(event){
 		event.preventDefault();
+		const actor = this.actor;
+		const defaultDice = '2d6';
+		const skills = actor.items.filter(i => i.type === 'skill');
+		const itemInfo = this._pullItemInfo(event, actor);
 
+		// Setting Message Header for dodge roll
+		let chatMessage = this._setMessageHeader(actor, itemInfo, 'dodge');
+
+		// Adding Dice to chat window
+		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+
+		// Adding Armor bonus/negative to chat window
+		let armorMod = itemInfo.system.dodge;
+		chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.gearMod'), armorMod);
+
+		// Getting Class Level bonus, if any
+		let {classBonus, message, stat} = this._getClassLevelBonus2('dodge', itemInfo, chatMessage);
+		chatMessage = message;
+
+		// Get random modifiers from Prompt
+		let randomMods = await this._promptRandomModifiers();
+		if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
+
+		// Setting Roll Message
+		let rollString = this._setRollMessage(defaultDice, armorMod, stat, classBonus, 0, randomMods);
+
+		// Rolling Dice
+		let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
+
+		// Checking for Alert skill usage and crit change
+		let alertSkill = skills.find(s => s.name === 'Alert') || 0;
+		let useSkill = 0;
+		if(alertSkill) {
+			useSkill = await this._promptMiscModChoice('useSkill', alertSkill.name);
+			if(useSkill) chatMessage += this._addToFlavorMessage('skillEffectiveScore', alertSkill.name, alertSkill.system.value);
+		}
+		const critStatus = this._checkForCriticals(diceResults, alertSkill);
+		if(critStatus != undefined || critStatus != null)
+			chatMessage += `${critStatus[1]}`;
+
+		await roll.toMessage({
+			speaker: { actor: actor },
+			flavor: chatMessage,
+			user: game.user.id
+			// content: Change dice rolls and other items here if needed
+		});
+	}
+
+	async _newPlayerBlock(event){
+		event.preventDefault();
+		const actor = this.actor;
+		const defaultDice = '2d6';
+		const skills = actor.items.filter(i => i.type === 'skill');
+		const itemInfo = this._pullItemInfo(event, actor);
+
+		// Setting Message Header for dodge roll
+		let chatMessage = this._setMessageHeader(actor, itemInfo, 'block');
+
+		// Adding Dice to chat window
+		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+
+		// Adding Armor bonus/negative to chat window
+		let shieldMod = itemInfo.system.mod;
+		chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.gearMod'), shieldMod);
+
+		// Getting Class Level bonus, if any
+		let {classBonus, message, stat} = this._getClassLevelBonus2('block', itemInfo, chatMessage);
+		chatMessage = message;
+
+		// Checking for Shields skill bonus
+		const shieldsSkill = skills.find(s => s.name === 'Shields') || 0;
+		let shieldsBonus = 0;
+		if(shieldsSkill){
+			shieldsBonus = this._getSkillBonus(shieldsSkill.name);
+			chatMessage += this._addToFlavorMessage('skillScore', shieldsSkill.name, shieldsBonus);
+		}
+
+		// Get random modifiers from Prompt
+		let randomMods = await this._promptRandomModifiers();
+		if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
+
+		// Setting Roll Message
+		let rollString = this._setRollMessage(defaultDice, shieldMod, stat, classBonus, shieldsBonus, randomMods);
+
+		// Rolling Dice
+		let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
+
+		// Checking for Alert skill usage and crit change
+		// let alertSkill = skills.find(s => s.name === 'Alert') || 0;
+		// let useSkill = 0;
+		// if(alertSkill) {
+		// 	useSkill = await this._promptMiscModChoice('useSkill', alertSkill.name);
+		// 	if(useSkill) chatMessage += this._addToFlavorMessage('skillEffectiveScore', alertSkill.name, alertSkill.system.value);
+		// }
+		const critStatus = this._checkForCriticals(diceResults, 0);
+		if(critStatus != undefined || critStatus != null)
+			chatMessage += `${critStatus[1]}`;
+
+		await roll.toMessage({
+			speaker: { actor: actor },
+			flavor: chatMessage,
+			user: game.user.id
+			// content: Change dice rolls and other items here if needed
+		});
 	}
 
 	_curvedShotCheck(itemInfo, skills){
@@ -273,17 +377,18 @@ export default class GSActorSheet extends ActorSheet{
 		return -1 * skillValue;
 	}
 
-	_pullWeaponInfo(event, actor){
+	_pullItemInfo(event, actor){
 		const itemID = event.currentTarget.dataset.itemid;
 		return actor.items.find(i => i._id === itemID);
 	}
 
 	_setMessageHeader(actor, attackResource, labelHeading){
 		const tokenImg = actor.prototypeToken.texture.src;
-		const actorName = actor.name;
 		const labelMapping = {
 			'toHit': game.i18n.localize('gs.actor.monster.supportEffect.hit'),
-		}
+			'dodge': game.i18n.localize('gs.dialog.dodge.roll'),
+			'block': game.i18n.localize('gs.dialog.block.roll'),
+		};
 		const messageLabel = labelMapping[labelHeading];
 		return `<div class="chat messageHeader grid grid-7col">
 			<img src='${tokenImg}'><h2 class="actorName grid-span-6">${attackResource.name}: ${messageLabel}</h2>
@@ -294,7 +399,7 @@ export default class GSActorSheet extends ActorSheet{
 		return '<div class="chat messageEnder"></div>';
 	}
 
-	// Currently working with: Weapons
+	// Currently working with: Weapons, Shields, Armor
 	_getClassLevelBonus2(classifier, itemInfo, chatMessage){
 		// Get's level score from JSON and applies it to the correctly labeled const, ex: monk = ...classes.monk || necro = ...classes.necro
 		const {fighter = 0, monk = 0, ranger = 0, scout = 0, sorcerer = 0, priest = 0, dragon = 0, shaman = 0, necro = 0 } = this.actor.system.levels.classes;
@@ -305,8 +410,8 @@ export default class GSActorSheet extends ActorSheet{
 			let [weaponType, weaponWeight] = itemInfo.system.type.split(" / ").map(type => type.toLowerCase());
 
 			// Setting ability score to message
-			chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tec') + " " + game.i18n.localize('gs.actor.character.foc'), abilityScores.tf);
 			statUsed = abilityScores.tf;
+			chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tec') + " " + game.i18n.localize('gs.actor.character.foc'), statUsed);
 
 			if(weaponType !== "bow" && weaponType !== "throwing"){
 				// Function to search through weapon arrays for specific types of weapons
@@ -331,17 +436,41 @@ export default class GSActorSheet extends ActorSheet{
 					classBonus = ranger;
 					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.rang'), classBonus);
 				}else{ // All other throwing weapons
-					if(monk > classBonus){
+					if(monk >= ranger || monk >= scout){
 						classBonus = monk;
 						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
-					}else if(ranger > classBonus){
+					}else if(ranger >= scount || ranger >= monk){
 						classBonus = ranger;
 						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.rang'), classBonus);
-					}else if(scout > classBonus){
+					}else if(scout >= monk || scout >= ranger){
 						classBonus = scout;
 						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
 					}
 				}
+			}
+		}else if(classifier === 'dodge'){
+			statUsed = abilityScores.tr;
+			chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tec') + " " + game.i18n.localize('gs.actor.character.ref'), statUsed);
+			if((fighter >= monk && fighter >= scout) && fighter > 0){
+				classBonus = fighter;
+				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
+			}else if((monk >= fighter && monk >= scout) && monk > 0){
+				classBonus = monk;
+				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
+			}else if((scout >= fighter && scout >= monk) && scout > 0){
+				classBonus = scout;
+				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
+			}
+		}else if(classifier === 'block'){
+			let [shieldType, shieldWeight] = itemInfo.system.type.split(" / ").map(type => type.toLowerCase());
+			statUsed = abilityScores.tr;
+			chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tec') + " " + game.i18n.localize('gs.actor.character.ref'), statUsed);
+			if((fighter >= scout) && fighter > 0){
+				classBonus = fighter;
+				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
+			}else if(scout >= fighter && scout > 0 && shieldWeight === 'light'){
+				classBonus = scout;
+				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
 			}
 		}
 
@@ -1373,7 +1502,7 @@ export default class GSActorSheet extends ActorSheet{
 
 	/**
 	 * Sets up a simple return statement to add the correct items and values to the localized message for debugging and player knowledge
-	 * @param {string} cssClass Class string to color the message, diceInfo, gearModifier, abilScore, levelScore, skillScore, rollScore, miscScore, armorDodgeScore
+	 * @param {string} cssClass Class string to color the message, diceInfo, gearModifier, abilScore, levelScore, skillScore, skillEffectiveScore, rollScore, miscScore, armorDodgeScore
 	 * @param {string} labelName What is modifying the the dice roll
 	 * @param {*} labelMessage How much is being modified, usually an int value, can also be a string if needed.
 	 * @returns A string to be added to the localized message
@@ -2146,6 +2275,21 @@ export default class GSActorSheet extends ActorSheet{
 						}
 					};
 					break;
+				case 'useSkill':
+					promptTitle = promptName + game.i18n.localize("gs.dialog.useSkill.title");
+					dialogContent = `<h3>${game.i18n.localize("gs.dialog.useSkill.header") + promptName}</h3>`;
+					button1 = {
+						label: game.i18n.localize("gs.dialog.useSkill.primary"),
+						callback: () => {
+							resolve(1);
+						}
+					};
+					button2 = {
+						label: game.i18n.localize("gs.dialog.useSkill.secondary"),
+						callback: () => {
+							resolve(0);
+						}
+					};
 				default:
 					break;
 			}

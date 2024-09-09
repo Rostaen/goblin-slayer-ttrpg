@@ -1383,6 +1383,7 @@ table tr:nth-child(even) {
   gap: 0px;
   margin-top: 0px;
   box-shadow: 3px 3px 10px;
+  border-radius: 5px;
 }
 .stats .statsContainer h4 {
   margin-bottom: 0px;
@@ -1617,6 +1618,7 @@ table tr:nth-child(even) {
   position: relative;
   margin-top: 15px;
   box-shadow: 3px 3px 10px;
+  border-radius: 5px;
 }
 .itemsPageContainer .itemsPage .blockContainer h2 {
   position: absolute;
@@ -1739,6 +1741,7 @@ table tr:nth-child(even) {
   position: relative;
   margin-top: 15px;
   box-shadow: 3px 3px 10px;
+  border-radius: 5px;
 }
 .skillsContainer h2 {
   position: absolute;
@@ -1800,6 +1803,7 @@ table tr:nth-child(even) {
 }
 .spellsContainer .spellUsesContainer {
   box-shadow: 3px 3px 10px;
+  border-radius: 5px;
 }
 .spellsContainer .spellUsesContainer label {
   font-weight: bold;
@@ -1813,6 +1817,7 @@ table tr:nth-child(even) {
   position: relative;
   margin-top: 15px;
   box-shadow: 3px 3px 10px;
+  border-radius: 5px;
 }
 .spellsContainer .spellsHolder h2 {
   position: absolute;
