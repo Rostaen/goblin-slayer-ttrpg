@@ -11,7 +11,7 @@
   "license": "",
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "compatibility": {
     "minimum": "11",
     "verified": "12.330"
@@ -193,7 +193,7 @@
   "socket": false,
   "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
-  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/releases/download/v0.10.3/gs-game-system.zip",
+  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/releases/download/v0.10.4/gs-game-system.zip",
   "background": "systems/gs/assets/gslogo.jpg",
   "grid": {
     "distance": 1,

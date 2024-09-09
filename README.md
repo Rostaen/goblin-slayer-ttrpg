@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0.10.3 (2024-09-06)
+## Current State v0.10.4 (2024-09-09)
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
@@ -135,8 +135,8 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Shields
 - [x] Sixth Sense
 - [x] Slice Attack
-- [ ] Slip Behind (Requires advanced features not yet implemented)
-- [ ] Snipe (Requires advanced features not yet implemented)
+- [x] Slip Behind
+- [x] Snipe
 - [x] Spell Expertise: XX (Partial setup, spell maintenance button required to finish)
 - [x] Spell Resistance
 - [x] Stealth
@@ -184,6 +184,12 @@ Players will be able to roll for checks the GM gives them by clicking on the lab
 ### Items & Gear
 
 All items are drag 'n drop ready and will show up in their respective tabs when dropped from a compendium. When a player needs to roll a "To Hit" check or roll "Power" for damage, they can click the 'target' or 'explosion' icon to the left of the weapon. To roll a dodge check, click on the person icon to the left of the armor. Finally, block checks, click on the shield icon to the left of the shield equipped. Right-click on any item to get a context menu to view or delete the given item. _*Please note*_ that there is currently no code to stop a person from adding more armor or shields to their character sheet. For the time being, only drag and drop what your character has equipped and write down any extra gear/loot into the loot section of the character sheet (a future update will fix this).
+
+### Player Attacks (NEW INFO)
+
+Players can roll a hit check from their weapon in the item sheet tab. Othewise, Player weapons can be dragged and droped into the hot/macro bar at the bottom of the screen. Clicking on the target button or from the hot/macro bar will roll a Hit Check for the player's equipped weapon. This attack triggers a new chat window that shows all information regarding the attack including the target of the attack.
+
+The buttons in the attack winow are dodge and block for the monster and a damage/power attack if the attack succeeds to hit. When the damage is rolled, a new window shows up with how much damage and any modifiers that are being applied. The player or GM can then add any modifiers to the damage/power and apply the damage to the target. Applied damage will update the target of the attack.
 
 ### Skills
 
