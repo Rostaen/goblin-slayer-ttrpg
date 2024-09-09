@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-09-09
+
+- Fixed Wounds calculations bug for player tokens.
+
 ### 2024-09-08
 
 - Fixed old Critical Check bug.

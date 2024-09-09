@@ -28,10 +28,10 @@ export class GSActor extends Actor {
 
         // Updating lifeforce value if wounds applied
         if(systemData.lifeForce.wounds){
-            systemData.lifeForce.value = systemData.lifeForce.value - lifeForce.wounds;
-            if(systemData.lifeForce.value <= 0)
+            systemData.lifeForce.value = systemData.lifeForce.value - systemData.lifeForce.wounds;
+            if(systemData.lifeForce.value <= 0){
                 systemData.lifeForce.value = 0;
-
+            }
         }
 
         if(type !== 'character') return;
