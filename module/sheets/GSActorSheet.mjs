@@ -122,14 +122,14 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".genSkillContainer").click(this._rollGenSkills.bind(this));
 
 		// New player rolls
-		html.find(".toHit.player").click(this._newPlayerAttack.bind(this));
-		html.find(".dodge.player").click(this._newPlayerDodge.bind(this));
-		html.find(".block.player").click(this._newPlayerBlock.bind(this));
+		html.find(".toHit.player").click(this._playerAttack.bind(this));
+		html.find(".dodge.player").click(this._playerDodge.bind(this));
+		html.find(".block.player").click(this._playerBlock.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
-	async _newPlayerAttack(event){
+	async _playerAttack(event){
 		event.preventDefault();
 		const actor = this.actor;
 		const actorToken = game.actors.get(actor._id).getActiveTokens()[0];
@@ -223,7 +223,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 	}
 
-	async _newPlayerDodge(event){
+	async _playerDodge(event){
 		event.preventDefault();
 		const actor = this.actor;
 		const defaultDice = '2d6';
@@ -273,7 +273,7 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	async _newPlayerBlock(event){
+	async _playerBlock(event){
 		event.preventDefault();
 		const actor = this.actor;
 		const defaultDice = '2d6';
@@ -312,14 +312,20 @@ export default class GSActorSheet extends ActorSheet{
 		// Rolling Dice
 		let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
 
-		// Checking for Alert skill usage and crit change
-		// let alertSkill = skills.find(s => s.name === 'Alert') || 0;
-		// let useSkill = 0;
-		// if(alertSkill) {
-		// 	useSkill = await this._promptMiscModChoice('useSkill', alertSkill.name);
-		// 	if(useSkill) chatMessage += this._addToFlavorMessage('skillEffectiveScore', alertSkill.name, alertSkill.system.value);
-		// }
-		const critStatus = this._checkForCriticals(diceResults, 0);
+		// Checking for Critical and Shieldsman skill
+		const shieldsmanSkill = skills.find(s => s.name === 'Shieldsman') || 0;
+		const critStatus = this._checkForCriticals(diceResults, shieldsmanSkill);
+
+		// If Shieldsman bonus returned
+		if(critStatus[2]){
+			shieldsBonus += critStatus[2];
+			chatMessage += this._addToFlavorMessage('skillEffectiveScore', 'Shieldsman', critStatus[2]);
+		}
+
+		// Adding Armor Score to chat window
+		chatMessage += this._addToFlavorMessage('armorDodgeScore', game.i18n.localize('gs.dialog.block.shieldScore'), itemInfo.system.score + shieldsBonus);
+
+		// Adding critical information to chat window
 		if(critStatus != undefined || critStatus != null)
 			chatMessage += `${critStatus[1]}`;
 
@@ -389,7 +395,7 @@ export default class GSActorSheet extends ActorSheet{
 			'dodge': game.i18n.localize('gs.dialog.dodge.roll'),
 			'block': game.i18n.localize('gs.dialog.block.roll'),
 		};
-		const messageLabel = labelMapping[labelHeading];
+		const messageLabel = labelMapping[labelHeading] || labelHeading; //labelHeading here is used for GenSkill Roll Type eg Int Focus, etc.
 		return `<div class="chat messageHeader grid grid-7col">
 			<img src='${tokenImg}'><h2 class="actorName grid-span-6">${attackResource.name}: ${messageLabel}</h2>
 		</div>`;
@@ -670,34 +676,46 @@ export default class GSActorSheet extends ActorSheet{
 	}
 
 	_checkForCriticals(diceResults, skill){
-		let critSuccess = 12, critFail = 2, results = [];
-		let skillValue = 0;
+		let critSuccess = 12, critFail = 2, results = [], skillValue = 0, blockScoreBonus = 0, diceResultTotal = diceResults[0] + diceResults[1];
 
 		// Setting Up Skill Names
 		const successFailRangeSkills = ['alert', 'slice attack'];
-		const successRangeSkills = ['fire', 'water', 'wind', 'earth', 'life'];
+		const masterOfElements = ['Fire', 'Water', 'Wind', 'Earth', 'Life'];
 
 		// Updating crit rates if skill found
 		if(skill){
 			skillValue = skill.system.value;
+
+			const setCritRange = skillValue => {
+				if(skillValue < 3) critSuccess = 11;
+				else if(skillValue < 5) critSuccess = 10;
+				else if(skillValue == 5) critSuccess = 9;
+			};
+
 			if(successFailRangeSkills.includes(skill.name.toLowerCase())){
 				if(skillValue === 1){ critSuccess = 11; critFail = 5; }
 				else if(skillValue === 2){ critSuccess = 11; critFail = 4; }
 				else if(skillValue === 3){ critSuccess = 10; critFail = 4; }
 				else if(skillValue === 4){ critSuccess = 10; critFail = 3; }
 				else if(skillValue === 5){ critSuccess = 9; critFail = 3; }
-			}else if(successRangeSkills.includes(skill.name.split(" ")[2].toLowerCase())){
-				if(skillValue < 3) critSuccess = 11;
-				else if(skillValue < 5) critSuccess = 10;
-				else if(skillValue == 5) critSuccess = 9;
+			}else if(masterOfElements.includes(skill?.name.split(" ")[2])){
+				setCritRange(skillValue);
+			}else if(skill.name === 'Shieldsman'){
+				setCritRange(skillValue);
+				if(skillValue > 1){
+					if(diceResultTotal >= 6 && skillValue > 4) blockScoreBonus = 3;
+					else if((diceResultTotal >= 7 && skillValue > 3) || (diceResultTotal >= 8 && skillValue > 2)) blockScoreBonus = 2;
+					else if(diceResultTotal >= 9 && skillValue > 1) blockScoreBonus = 1;
+					if(blockScoreBonus > 0) results[2] = blockScoreBonus;
+				}
 			}
 		}
 
 		// Comparing results to [un]modified crit ranges
-		if(diceResults[0] + diceResults[1] <= critFail){
+		if(diceResultTotal <= critFail){
 			results[0] = 'fail';
 			results[1] = `<div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
-		}else if(diceResults[0] + diceResults[1] >= critSuccess){
+		}else if(diceResultTotal >= critSuccess){
 			results[0] = 'success';
 			results[1] = `<div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
 		}else {
@@ -726,6 +744,51 @@ export default class GSActorSheet extends ActorSheet{
 			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 		return targetMessage;
+	}
+
+	async _genRollsToWindow(promptChoices){
+		// promptChoices = [labelText 0, abilityScore 1, classLevelBonus 2, modifiers 3, className 4, skillBonus 5, skillInfo 6];
+		const defaultDice = '2d6';
+
+		// Adding header information
+		let chatMessage = this._setMessageHeader(this.actor, promptChoices[6], promptChoices[0]);
+
+		// Adding defualt dice
+		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+
+		// Adding Ability Score
+		chatMessage += this._addToFlavorMessage('abilScore', promptChoices[0], promptChoices[1]);
+
+		// Adding Class Level bonus, if any
+		const className = promptChoices[4];
+		if(promptChoices[2])
+			chatMessage += this._addToFlavorMessage('levelScore', className.charAt(0).toUpperCase() + className.slice(1), promptChoices[2]);
+
+		// Adding skill score bonus
+		chatMessage += this._addToFlavorMessage('skillScore', promptChoices[6].name, promptChoices[5]);
+
+		// Adding misc modifiers
+		if(promptChoices[3])
+			chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), promptChoices[3]);
+
+		// Setting Roll Message
+		let rollString = this._setRollMessage(defaultDice, 0, promptChoices[1], promptChoices[2], promptChoices[5], promptChoices[3]);
+
+		// Rolling Dice
+		let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
+
+		// Checking for Crit Success/Failure
+		const critStatus = this._checkForCriticals(diceResults, 0);
+		if(critStatus != undefined || critStatus != null)
+			chatMessage += `${critStatus[1]}`;
+
+		// Sending dice rolls to chat window
+		await roll.toMessage({
+			speaker: { actor: this.actor },
+			flavor: chatMessage,
+			user: game.user.id
+			// content: Change dice rolls and other items here if needed
+		});
 	}
 
 
@@ -757,9 +820,11 @@ export default class GSActorSheet extends ActorSheet{
 			let promptChoices = await this._promptMiscModChoice(skill.name);
 			if(promptChoices){
 				let skillBonus = this._getSkillBonus(skill.name);
-				skillBonus = skillBonus = 3 ? 4 : skillBonus;
-				promptChoices[0] += this._addStringToChatMessage("skillScore", skill, skillBonus);
-				this._rollsToMessage(null, '2d6', promptChoices[1], promptChoices[3], 0, promptChoices[0], skillBonus, promptChoices[2], 'generalSkills');
+				skillBonus = skillBonus === 3 ? 4 : skillBonus;
+				promptChoices[5] = skillBonus;
+				promptChoices[6] = skill;
+				console.log('... checking promptChoices', promptChoices);
+				this._genRollsToWindow(promptChoices);
 			}else{
 				ui.notifications.warn(`${game.i18n.localize('gs.dialog.genSkills.cancelled')}`);
 			}
@@ -2358,7 +2423,7 @@ export default class GSActorSheet extends ActorSheet{
 					"Survivalism ": { first: 'i', second: 't', class: 'ranger' },
 					"Theology": { first: 'i', second: 'none', class: 'priest/dragon' },
 					"Worship": { first: 'p', second: 'none', class: 'priest/dragon' },
-					"Cartography": { first: 'i', second: 'none', class: 'scout' }
+					"Cartography": { first: 'i', second: 'none', class: 'scout' },
 				};
 				let header = game.i18n.localize(`gs.dialog.genSkills.header`) + promptType;
 				dialogContent = `<h3>${header}</h3>`;
@@ -2368,7 +2433,6 @@ export default class GSActorSheet extends ActorSheet{
 				for(const [id, item] of Object.entries(genSkillsList)){
 					if(id === promptType){
 						classNames = item.class;
-						console.log(">>> Checking id and item", id, item);
 						dialogContent += `<p style="font-weight: bold;">${game.i18n.localize('gs.dialog.genSkills.primary')}</p>`;
 						const primaryAbilityMap = {
 							i: 'int',
@@ -2417,54 +2481,51 @@ export default class GSActorSheet extends ActorSheet{
 
 						const getSecondaryScore = (letter, secondaryAbility) => {
 							const calcScore = this.actor.system.abilities.calc;
-							const localizedText = 'gs.actor.character.';
 							const abilityMap = {
 								f: 'foc',
 								e: 'end',
 								r: 'ref'
 							};
 							const abilityKey = abilityMap[secondaryAbility];
-							const text = game.i18n.localize(localizedText + abilityKey) + " ";
+							const text = game.i18n.localize(`gs.actor.character.${abilityKey}`) + " ";
 							const score = calcScore[letter+secondaryAbility];
 							return {text, score};
 						};
 
 						let bonusScore = 0, labelText = "";
-						const localizedText = 'gs.actor.character.';
-						if(primaryAbility === 'i'){
-							labelText += game.i18n.localize(localizedText + 'int') + " ";
-							const {text, score} = getSecondaryScore(primaryAbility, secondaryAbility);
+						// Helper function
+						const settingItems = (labelCode, primary, secondary) => {
+							labelText += game.i18n.localize(`gs.actor.character.${labelCode}`) + " ";
+							const {text, score} = getSecondaryScore(primary, secondary);
 							labelText += text;
 							bonusScore = score;
-						}else if(primaryAbility === 't'){
-							labelText += game.i18n.localize(localizedText + 'tec') + " ";
-							const {text, score} = getSecondaryScore(primaryAbility, secondaryAbility);
-							labelText += text;
-							bonusScore = score;
-						}else if(primaryAbility === 'p'){
-							labelText += game.i18n.localize(localizedText + 'psy') + " ";
-							const {text, score} = getSecondaryScore(primaryAbility, secondaryAbility);
-							labelText += text;
-							bonusScore = score;
+						};
+
+						if(primaryAbility === 'i')
+							settingItems('int', primaryAbility, secondaryAbility);
+						else if(primaryAbility === 't')
+							settingItems('tec', primaryAbility, secondaryAbility);
+						else if(primaryAbility === 'p')
+							settingItems('psy', primaryAbility, secondaryAbility);
+
+						console.log('... checking classNames', classNames);
+						classNames = classNames.includes("/") ? classNames.split("/") : classNames;
+						let tempName = '';
+						for(let x = 0; x < classNames.length; x++){
+							if(typeof(classNames) === 'string'){
+								classLevelBonus = this.actor.system.levels.classes[classNames];
+								tempName = classNames;
+							}else{
+								classNames.forEach(name => {
+									if(this.actor.system.levels.classes[name] > classLevelBonus){
+										classLevelBonus = this.actor.system.levels.classes[name];
+										tempName = name;
+									}
+								});
+							}
 						}
 
-						labelText += this._addToFlavorMessage("abilScore", game.i18n.localize('gs.actor.character.abil'), bonusScore);
-						classNames = classNames.includes("/") ? classNames.split("/") : classNames;
-						let tempName = "";
-						for(let x = 0; x < classNames.length; x++){}
-						if(typeof(classNames) === 'string'){
-							classLevelBonus = this.actor.system.levels.classes[classNames];
-							tempName = classNames;
-						}else{
-							classNames.forEach(name => {
-								if(this.actor.system.levels.classes[name] > classLevelBonus){
-									classLevelBonus = this.actor.system.levels.classes[name];
-									tempName = name;
-								}
-							});
-						}
-						if(classLevelBonus > 0) labelText += this._addToFlavorMessage("levelScore", tempName.charAt(0).toUpperCase() + tempName.slice(1), classLevelBonus);
-						const foundValues = [labelText, bonusScore, modifiers, classLevelBonus];
+						const foundValues = [labelText, bonusScore, classLevelBonus, modifiers, tempName];
 						resolve(foundValues);
 					}
 				};

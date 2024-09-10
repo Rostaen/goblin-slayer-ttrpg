@@ -1,5 +1,1 @@
-2024/09/09-08:51:25.248 1c88 Log #84: 0 ops saved to Table #87 OK
-2024/09/09-08:51:25.248 1c88 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\martialtechniques/000084.log: OK
-2024/09/09-08:51:25.249 1c88 Table #86: 62 entries OK
-2024/09/09-08:51:25.250 1c88 Archiving C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\martialtechniques/MANIFEST-000082: OK
-2024/09/09-08:51:25.250 1c88 **** Repaired leveldb C:\Users\Andrew\AppData\Local\FoundryVTT\Data\systems\gs\packs\martialtechniques; recovered 1 files; 54690 bytes. Some data may have been lost. ****
+2024/09/09-08:51:25.257 1c88 Delete type=3 #1

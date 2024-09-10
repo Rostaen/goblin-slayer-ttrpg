@@ -152,7 +152,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [ ] Multiple Chants
 - [ ] Penetrating Spells
 - [ ] Poisoner
-- [ ] Shieldsman
+- [x] Shieldsman
 - [ ] Spell Ritual
 - [ ] Pass Through
 - [ ] Cartography
@@ -189,7 +189,10 @@ All items are drag 'n drop ready and will show up in their respective tabs when 
 
 Players can roll a hit check from their weapon in the item sheet tab. Othewise, Player weapons can be dragged and droped into the hot/macro bar at the bottom of the screen. Clicking on the target button or from the hot/macro bar will roll a Hit Check for the player's equipped weapon. This attack triggers a new chat window that shows all information regarding the attack including the target of the attack.
 
-The buttons in the attack winow are dodge and block for the monster and a damage/power attack if the attack succeeds to hit. When the damage is rolled, a new window shows up with how much damage and any modifiers that are being applied. The player or GM can then add any modifiers to the damage/power and apply the damage to the target. Applied damage will update the target of the attack.
+- Setting up a hit check macro: https://youtu.be/63JiSeC6z2s
+- Setting up a dodge check macro (do the same for a block check with the shield): https://youtu.be/suS3J8hcaFg
+
+The buttons in the attack winow are dodge and block for the monster, and a damage/power attack if the attack succeeds to hit. When the damage is rolled, a new window shows up with how much damage and any modifiers that are being applied. The player or GM can then add any modifiers to the damage/power and apply the damage to the target. Applied damage will update the target of the attack.
 
 ### Skills
 

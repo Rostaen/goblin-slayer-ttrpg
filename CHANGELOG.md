@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+- Finished updating new Player Shield Block code.
+- Shields and Shieldsman skills automated into new Player Shield Block code.
+- Updated general skill rolls to use new output format. Further updates may be needed to streamline the code more.
+- Minor README changes.
+
 ### 2024-09-09
 
 - Fixed Wounds calculations bug for player tokens.
