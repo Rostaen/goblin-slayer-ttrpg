@@ -246,7 +246,19 @@
         "piec": "Pieces",
         "heal": "Heal",
         "aTrack": "Attrition Track",
-        "dc": "DC"
+        "dc": "DC",
+        "strFoc": "Strength Focus",
+        "strRef": "Strength Reflex",
+        "strEnd": "Strength Endurance",
+        "psyFoc": "Pysche Focus",
+        "psyRef": "Pysche Reflex",
+        "psyEnd": "Pysche Endurance",
+        "tecFoc": "Technique Focus",
+        "tecRef": "Technique Reflex",
+        "tecEnd": "Technique Endurance",
+        "intFoc": "Intelligence Focus",
+        "intRef": "Intelligence Reflex",
+        "intEnd": "Intelligence Endurance"
       },
       "monster": {
         "type": "Type",
@@ -396,6 +408,7 @@
       }
     },
     "dialog": {
+      "random": "Random",
       "rolling": "Rolling",
       "cancel": "Cancel",
       "dice": "Dice",
@@ -407,6 +420,8 @@
       "suffered": "Damage Suffered",
       "outOfRange": "You are out of range for the attack.",
       "curvedShotLabel": "Curved Short",
+      "skillCheck": "Skill Check",
+      "firstTargetMonster": "You must target a monster before rolling a Hit Check. Right-click and toggle target state or hover mouse over token and click 'T'.",
       "dodge": {
         "value": "Dodge Value",
         "roll": "Dodge Roll",
@@ -611,6 +626,14 @@
         "header": "Will you use the following skill: ",
         "primary": "Yes",
         "secondary": "No"
+      },
+      "herbalist":{
+        "title": " Skill Choices",
+        "header": "Choose a Main Roll",
+        "body": "Choose to roll either an Observe, Sixth Sense, or General Knowledge check which will include this skill level bonus: ",
+        "button1": "Observe",
+        "button2": "Sixth Sense",
+        "button3": "General Knowledge"
       }
     }
   }

@@ -2,6 +2,14 @@
 
 ## Recent updates
 
+### 2024-09-11
+
+- Added: Herbalist, Miner, Nurse general skill implementation.
+- Updating special rolls form the main character sheet to be in line with new look.
+- Added warning to players not targeting monsters before rolling an attack.
+
+### 2024-09-10
+
 - Finished updating new Player Shield Block code.
 - Shields and Shieldsman skills automated into new Player Shield Block code.
 - Updated general skill rolls to use new output format. Further updates may be needed to streamline the code more.

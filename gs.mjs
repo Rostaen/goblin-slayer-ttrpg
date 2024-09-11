@@ -191,11 +191,11 @@ async function weaponMacroHotbarDrop(data, slot){
 					}
 				};`;
 			if(item.type === 'weapon'){
-				command += `actor.sheet._newPlayerAttack(mockEvent);`;
+				command += `actor.sheet._playerAttack(mockEvent);`;
 			}else if(item.type === 'armor')
-				command += `actor.sheet._newPlayerDodge(mockEvent);`;
+				command += `actor.sheet._playerDodge(mockEvent);`;
 			else if(item.type === 'shield')
-				command += `actor.sheet._newPlayerBlock(mockEvent);`;
+				command += `actor.sheet._playerBlock(mockEvent);`;
 			else
 				console.log(`GS Hotbar Drop Error | The current item you have dropped into the hot bar is not configured yet.`);
 
