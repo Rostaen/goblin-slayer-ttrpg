@@ -57,7 +57,7 @@ export class GSActor extends Actor {
         };
 
         // Setting Character Spell Resistance
-        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance");
+        systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance") + (this._getSkillBonus('Veil of Darkness') - 1);
 
         // Getting character skills
         for(const skill of actorSkills){

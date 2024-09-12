@@ -71,9 +71,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
     - [ ] Adventurer
       - [x] Calculations added
       - [ ] Automated
-    - [ ] General
-      - [x] Calculations added
-      - [ ] Automated
+    - [x] General
     - [ ] Padfoot Only
       - [x] Calculations added
       - [ ] Automated
@@ -83,7 +81,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Create new actor for Fate Points usage and table
 - [x] Fix health bars so they show up on character tokens
 - [ ] Combat Updates
-  - [ ] Rework code to streamline checks
+  - [x] Rework code to streamline checks
   - [x] Checks range of weapon and tokens before attacking
   - [ ] Have ranged attacks check for +ammo before rolling to Hit
   - [x] Add damage button to "to hit" rolls
@@ -92,10 +90,8 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [ ] Learn how to show info to GM only
     - [ ] Show static defense value of minions
     - [ ] Show armor roll button for boss
-- [ ] Set weapons and armor to macro toolbar for ease of player use
-  - [x] Weapons
-  - [ ] Armor
-  - [ ] Shields
+- [x] Set weapons and armor to macro toolbar for ease of player use
+- [ ] Set General skills to macro toolbar for ease of player use
 - [ ] Add cover condition -2, -4, -6 to hit checks
 
 ### Skill Implementation Tracking

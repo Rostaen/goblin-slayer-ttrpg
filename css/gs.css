@@ -1316,7 +1316,7 @@ table tr:nth-child(even) {
   gap: 2px;
   margin-top: 0px;
 }
-.sidebar .charSR:hover {
+.sidebar .spellResist.player:hover {
   cursor: pointer;
   text-shadow: 0 0 5px darkred;
 }
@@ -1644,32 +1644,10 @@ table tr:nth-child(even) {
   text-align: center;
   justify-content: center;
 }
-.itemsPageContainer .itemsPage .gearContainer .weapon-card .buttonsToRoll button,
-.itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll button,
-.itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll button {
-  border: 1px solid darkred;
-  background-color: #ede3c7;
-  border-radius: 4px;
-  height: 22px;
-  width: 22px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.itemsPageContainer .itemsPage .gearContainer .weapon-card .buttonsToRoll button i,
-.itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll button i,
-.itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll button i {
-  margin-right: -1px;
-}
-.itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll,
-.itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.itemsPageContainer .itemsPage .gearContainer .armor-card .buttonsToRoll button i,
-.itemsPageContainer .itemsPage .gearContainer .shield-card .buttonsToRoll button i {
-  margin-right: 1px;
+.itemsPageContainer .itemsPage .gearContainer .weapon-card img:hover,
+.itemsPageContainer .itemsPage .gearContainer .armor-card img:hover,
+.itemsPageContainer .itemsPage .gearContainer .shield-card img:hover {
+  cursor: pointer;
 }
 .itemsPageContainer .itemsPage .itemsContainer .item-list {
   margin-top: 0px;
@@ -1847,23 +1825,8 @@ table tr:nth-child(even) {
   justify-content: center;
   align-items: center;
 }
-.spellsContainer .spellsHolder .spellBlock1 .singleSpell .buttonsToRoll {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.spellsContainer .spellsHolder .spellBlock1 .singleSpell .buttonsToRoll button {
-  border: 1px solid darkred;
-  background-color: #ede3c7;
-  border-radius: 4px;
-  height: 22px;
-  width: 22px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.spellsContainer .spellsHolder .spellBlock1 .singleSpell .buttonsToRoll button i {
-  margin-right: -1px;
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell img:hover {
+  cursor: pointer;
 }
 .effects {
   border: 1px solid darkred;

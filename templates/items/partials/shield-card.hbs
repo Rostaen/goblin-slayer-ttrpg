@@ -1,10 +1,7 @@
-<div class="shield-card item item-list" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
-    <div class="reveal-rollable grid grid-10col contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-        <div class="buttonsToRoll" title="{{localize 'gs.dialog.actorSheet.itemsTab.block'}}">
-            <button type="button" data-itemid="{{_id}}"  class="block player"><i class="fa-solid fa-shield"></i></i></button>
-        </div>
-        <img src="{{img}}" title="{{name}}" />
-        <div class="name grid-span-3">{{name}}</div>
+<div class="shield-card item item-list genSkillContainer" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
+    <div class="reveal-rollable grid grid-10col contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+        <img data-itemid="{{_id}}"  class="block player" src="{{img}}" title="{{name}}" />
+        <div class="name grid-span-4">{{name}}</div>
         <div class="actorRolls blockMod grid-span-2">{{numberFormat system.mod decimals=0 sign=true}}</div>
         <div class="blockScore grid-span-2">{{numberFormat system.score decimals=0 sign=false}}</div>
         <div class="stealth">{{system.stealth}}</div>

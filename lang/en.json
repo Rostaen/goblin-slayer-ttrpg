@@ -250,9 +250,9 @@
         "strFoc": "Strength Focus",
         "strRef": "Strength Reflex",
         "strEnd": "Strength Endurance",
-        "psyFoc": "Pysche Focus",
-        "psyRef": "Pysche Reflex",
-        "psyEnd": "Pysche Endurance",
+        "psyFoc": "Psyche Focus",
+        "psyRef": "Psyche Reflex",
+        "psyEnd": "Psyche Endurance",
         "tecFoc": "Technique Focus",
         "tecRef": "Technique Reflex",
         "tecEnd": "Technique Endurance",
@@ -516,9 +516,9 @@
         "label": "Use Strength Reflex when you are the target of a spell. Use Strength Endurance when recovering from an effect."
       },
       "psyRes": {
-        "title": "Pysche Resistance Choice",
-        "header": "Pysche Reflex or Pysche Endurance",
-        "label": "Use Pysche Reflex when you are the target of a spell. Use Pysche Endurance when recovering from an effect."
+        "title": "Psyche Resistance Choice",
+        "header": "Psyche Reflex or Pysche Endurance",
+        "label": "Use Psyche Reflex when you are the target of a spell. Use Pysche Endurance when recovering from an effect."
       },
       "intRes": {
         "title": "Intelligence Resistance Choice",
@@ -634,6 +634,13 @@
         "button1": "Observe",
         "button2": "Sixth Sense",
         "button3": "General Knowledge"
+      },
+      "taming":{
+        "title": " Skill Choices",
+        "header": "Choose a Main Roll",
+        "body": "Choose to roll either an General Knowledge, Monster Knowledge, or a Riding check (see General Skill) which will include this skill level bonus: ",
+        "button1": "General Knowledge",
+        "button2": "Monster Knowledge"
       }
     }
   }

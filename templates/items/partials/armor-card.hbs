@@ -1,10 +1,7 @@
-<div class="armor-card item item-list" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
-    <div class="reveal-rollable grid grid-10col contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-        <div class="buttonsToRoll" title="{{localize 'gs.dialog.actorSheet.itemsTab.dodge'}}">
-            <button type="button" data-itemid="{{_id}}" class="dodge player"><i class="fa-solid fa-person-walking"></i></button>
-        </div>
-        <img src="{{img}}" title="{{name}}" />
-        <div class="name grid-span-2">{{name}}</div>
+<div class="armor-card item item-list genSkillContainer" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
+    <div class="reveal-rollable grid grid-10col contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+        <img data-itemid="{{_id}}" class="dodge player" src="{{img}}" title="{{name}}" />
+        <div class="name grid-span-3">{{name}}</div>
         <div class="armorScore grid-span-2">{{system.score}}</div>
         <div class="dodge grid-span-2">{{numberFormat system.dodge decimals=0 sign=true}}</div>
         <div class="move">{{numberFormat system.move decimals=0 sign=true}}</div>

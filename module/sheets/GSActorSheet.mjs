@@ -80,7 +80,7 @@ export default class GSActorSheet extends ActorSheet{
 		data.flags = actorData.flags;
 		data.system = actorData.system;
 
-		console.log("GSActorSheet >>> Checking Actor Super Data:", data);
+		//console.log("GSActorSheet >>> Checking Actor Super Data:", data);
 
 		if(this.actor.type === 'monster' || this.actor.type === 'mount'){
 			data.eAbilities = await TextEditor.enrichHTML(
@@ -119,12 +119,13 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".starred").change(this._addRollToFavorites.bind(this));
 		html.find(".genSkillContainer").on('mouseenter', this._changeSkillImage.bind(this, true));
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
-		html.find(".genSkillContainer").click(this._rollGenSkills.bind(this));
+		html.find(".genSkillContainer.genSkills").click(this._rollGenSkills.bind(this));
 
 		// New player rolls
 		html.find(".toHit.player").click(this._playerAttack.bind(this));
 		html.find(".dodge.player").click(this._playerDodge.bind(this));
 		html.find(".block.player").click(this._playerBlock.bind(this));
+		html.find(".spellResist.player").click(this._playerSpellResistance.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
@@ -132,11 +133,11 @@ export default class GSActorSheet extends ActorSheet{
 	async _playerAttack(event){
 		event.preventDefault();
 		const targets = Array.from(game.user.targets);
-		const targetToken = targets[0].document.actor.getActiveTokens()[0];
+		const targetToken = targets[0]?.document?.actor?.getActiveTokens()[0] || 0;
 
 		// Return early if target isn't selected and warn player
 		if(!targetToken){
-			ui.notifications.warm(game.i18n.localize('gs.dialog.firstTargetMonster'));
+			ui.notifications.warn(game.i18n.localize('gs.dialog.firstTargetMonster'));
 			return;
 		}
 
@@ -149,6 +150,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Checking if range is vallid before rolling attacks, else return early
 		const rangeValid = this._checkWeaponRange(actorToken, targetToken, itemInfo);
+		console.log('... checking range valid', rangeValid);
 		if(!rangeValid){
 			ui.notifications.warn(game.i18n.localize('gs.dialog.outOfRange'));
 			return;
@@ -203,8 +205,12 @@ export default class GSActorSheet extends ActorSheet{
 		if(extraDamage)
 			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
 
+		// Checking weapon with slice attribute, if true, look for Slice skill and update if found
+		let sliceSkill = 0;
+		if(itemInfo.system.effect.checked[10])
+			sliceSkill = skills.find(s => s.name === 'Slice Attack');
+
 		// Checking for Crit Success/Failure
-		const sliceSkill = skills.find(s => s.name === 'Slice Attack') || 0;
 		const critStatus = this._checkForCriticals(diceResults, sliceSkill);
 		if(critStatus != undefined || critStatus != null)
 			chatMessage += `${critStatus[1]}`;
@@ -344,6 +350,58 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	async _playerSpellResistance(event){
+		event.preventDefault();
+		const actor = this.actor;
+		const skills = this._getFromItemsList('skill');
+		const psyRef = actor.system.abilities.calc.pr;
+		const advLvl = actor.system.levels.adventurer;
+		const resistanceSkill = skills.find(s => s.name === 'Spell Resistance') || 0;
+		const veilOfDarknessSkill = skills.find(s => s.name === 'Veil of Darkness') || 0;
+		const defaultDice = '2d6';
+		const fakeSkill = { name: game.i18n.localize('gs.actor.common.spRe') };
+		let skillBonus = 0;
+
+		// Setting up chatMessage
+		let chatMessage = this._setMessageHeader(actor, fakeSkill, game.i18n.localize('gs.dialog.skillCheck'));
+
+		// Setting dice modifiers to chatMessage
+		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+		chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.psyRef'), psyRef);
+		chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.gear.skills.adv') + " " + game.i18n.localize('gs.actor.common.leve'), advLvl);
+		if(resistanceSkill){
+			chatMessage += this._addToFlavorMessage('skillScore', resistanceSkill.name, resistanceSkill.system.value);
+			skillBonus += resistanceSkill.system.value;
+		}
+		if(veilOfDarknessSkill && veilOfDarknessSkill.system.value > 1){
+			chatMessage += this._addToFlavorMessage('skillScore', veilOfDarknessSkill.name, veilOfDarknessSkill.system.value - 1);
+			skillBonus += veilOfDarknessSkill.system.value - 1;
+		}
+
+		// Prompting for any random modifications
+		const randomMods = await this._promptRandomModifiers();
+		if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
+
+		// Setting Roll Message
+		let rollString = this._setRollMessage(defaultDice, 0, psyRef, advLvl, skillBonus, randomMods);
+
+		// Rolling Dice
+		let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
+
+		// Checking for Crit Success/Failure
+		const critStatus = this._checkForCriticals(diceResults, 0);
+		if(critStatus != undefined || critStatus != null)
+			chatMessage += `${critStatus[1]}`;
+
+		// Sending dice rolls to chat window
+		await roll.toMessage({
+			speaker: { actor: actor },
+			flavor: chatMessage,
+			user: game.user.id
+			// content: Change dice rolls and other items here if needed
+		});
+	}
+
 	_curvedShotCheck(itemInfo, skills){
 		const curvedShot = skills.find(s => s.name === 'Curved Shot');
 		this.actor.setFlag('gs', 'Curved Shot', {
@@ -356,12 +414,14 @@ export default class GSActorSheet extends ActorSheet{
 	_checkWeaponRange(actorToken, targetToken, weaponInfo){
 		const curvedShotFlag = this.actor.getFlag('gs', 'Curved Shot') || 0;
 		let weaponRange = 0;
-		if(curvedShotFlag)
+		console.log('... weaponInfo:', weaponInfo);
+		if(curvedShotFlag && (weaponInfo.system.type.split(" / ")[0] === "Bow"))
 			weaponRange = curvedShotFlag.bowRange;
 		else
 			weaponRange = parseInt(weaponInfo.system.range, 10);
 		const path = [actorToken.center, targetToken.center];
 		const distanceInfo = canvas.grid.measurePath(path);
+		console.log('... checking weapon range check:', weaponRange, path, distanceInfo);
 		if(distanceInfo.distance <= weaponRange) return true;
 		else return false;
 	}
@@ -435,29 +495,29 @@ export default class GSActorSheet extends ActorSheet{
 				const scoutWeapons = ["one-handed sword", "ax", "spear", "mace", "close-combat", "staff"];
 				if(fighter >= scout && includesAny(fighterWeapons, weaponType)) {
 					classBonus = fighter;
-					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
+					if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
 				}else if (monk >= scout && includesAny(monkWeapons, weaponType)) {
 					classBonus = monk;
-					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
+					if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
 				}else if ((scout >= fighter || scout >= monk) && includesAny(scoutWeapons, weaponType) && weaponWeight === 'light') {
 					classBonus = scout;
-					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
+					if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
 				}
 			}else if(weaponType === "bow" || weaponType === "throwing"){
 				// check for all ranged weaopns and class bonuses
 				if(weaponType === 'bow' && ranger){ // Bows and guns only
 					classBonus = ranger;
-					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.rang'), classBonus);
+					if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.rang'), classBonus);
 				}else{ // All other throwing weapons
 					if(monk >= ranger || monk >= scout){
 						classBonus = monk;
-						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
+						if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
 					}else if(ranger >= scount || ranger >= monk){
 						classBonus = ranger;
-						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.rang'), classBonus);
+						if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.rang'), classBonus);
 					}else if(scout >= monk || scout >= ranger){
 						classBonus = scout;
-						chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
+						if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
 					}
 				}
 			}
@@ -466,13 +526,13 @@ export default class GSActorSheet extends ActorSheet{
 			chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tec') + " " + game.i18n.localize('gs.actor.character.ref'), statUsed);
 			if((fighter >= monk && fighter >= scout) && fighter > 0){
 				classBonus = fighter;
-				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
+				if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
 			}else if((monk >= fighter && monk >= scout) && monk > 0){
 				classBonus = monk;
-				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
+				if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.monk'), classBonus);
 			}else if((scout >= fighter && scout >= monk) && scout > 0){
 				classBonus = scout;
-				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
+				if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
 			}
 		}else if(classifier === 'block'){
 			let [shieldType, shieldWeight] = itemInfo.system.type.split(" / ").map(type => type.toLowerCase());
@@ -480,10 +540,10 @@ export default class GSActorSheet extends ActorSheet{
 			chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tec') + " " + game.i18n.localize('gs.actor.character.ref'), statUsed);
 			if((fighter >= scout) && fighter > 0){
 				classBonus = fighter;
-				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
+				if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.figh'), classBonus);
 			}else if(scout >= fighter && scout > 0 && shieldWeight === 'light'){
 				classBonus = scout;
-				chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
+				if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
 			}
 		}
 
@@ -773,6 +833,15 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Adding skill score bonus
 		chatMessage += this._addToFlavorMessage('skillScore', promptChoices[6].name, promptChoices[5]);
+		if(promptChoices[6].name === 'Riding'){
+			const skills = this._getFromItemsList('skill');
+			const tamingSkill = skills.find(s => s.name === 'Taming') || 0;
+			if(tamingSkill){
+				let skillValue = tamingSkill.system.value < 3 ? tamingSkill.system.value : 4;
+				chatMessage += this._addToFlavorMessage('skillScore', tamingSkill.name, skillValue);
+				promptChoices[5] += skillValue;
+			}
+		}
 
 		// Adding misc modifiers
 		if(promptChoices[3])
@@ -841,14 +910,21 @@ export default class GSActorSheet extends ActorSheet{
 				this._specialRolls('sixthSense', 'Sixth Sense', skill);
 			else if(promptChoices === 'General Knowledge')
 				this._specialRolls('generalKnow', 'General Knowledge', skill);
+		}else if(skill.name === 'Taming'){
+			let promptChoices = await this._promptMiscModChoice(skill.name);
+			if(promptChoices === 'General Knowledge')
+				this._specialRolls('generalKnow', 'General Knowledge', skill);
+			else if(promptChoices === 'Monster Knowledge')
+				this._specialRolls('monsterKnow', 'Monster Knowledge', skill);
 		}else{
 			let promptChoices = await this._promptMiscModChoice(skill.name);
 			if(promptChoices){
 				let skillBonus = this._getSkillBonus(skill.name);
-				if(skill.name === 'Sacrament of Forgiveness')
+				if(skill.name === 'Sacrement of Forgiveness')
 					skillBonus -= 1;
 				else
 					skillBonus = skillBonus === 3 ? 4 : skillBonus;
+				console.log('... skill name', skill.name, skillBonus);
 				promptChoices[5] = skillBonus;
 				promptChoices[6] = skill;
 				this._genRollsToWindow(promptChoices);
@@ -2215,9 +2291,9 @@ export default class GSActorSheet extends ActorSheet{
 				'Cooking', 'Craftsmanship', 'Criminal Knowledge', 'Etiquette', 'Labor', 'Leadership', 'Meditate', 'Negotiate: Persuade', 'Negotiate: Tempt',
 				'Negotiate: Intimidate', 'No Preconceptions', 'Perform: Sing', 'Perform: Play', 'Perform: Dance', 'Perform: Street Perform', 'Perform: Act',
 				'Production: Farming', 'Production: Fishing', 'Production: Logging', 'Production: Mining', 'Research', 'Riding', 'Survivalism ', 'Theology',
-				'Worship', 'Cartography', 'Nurse', 'Sacrament of Forgiveness'];
+				'Worship', 'Cartography', 'Nurse', 'Sacrement of Forgiveness', 'Torture'];
 			const specialRolls = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'acrobatics', 'monsterKnow'];
-			const supplementGenSkills = ['Herbalist', 'Miner'];
+			const supplementGenSkills = ['Herbalist', 'Miner', 'Taming'];
 			const thirdButtonNames = ['stealth', 'acrobatics', 'Herbalist', 'Miner'];
 
 			const addModifiersSection = () => {
@@ -2456,7 +2532,8 @@ export default class GSActorSheet extends ActorSheet{
 					"Worship": { first: 'p', second: 'none', class: 'priest/dragon' },
 					"Cartography": { first: 'i', second: 'none', class: 'scout' },
 					"Nurse": { first: 'i', second: 'none', class: 'none' },
-					"Sacrament of Forgiveness": { first: 'i', second: 'none', class: 'priest/dragon' },
+					"Sacrement of Forgiveness": { first: 'i', second: 'none', class: 'priest/dragon' },
+					"Torture": { first: 'p', second: 'none', class: 'scout' },
 				};
 				let header = game.i18n.localize(`gs.dialog.genSkills.header`) + promptType;
 				dialogContent = `<h3>${header}</h3>`;
@@ -2566,25 +2643,27 @@ export default class GSActorSheet extends ActorSheet{
 					callback: () => resolve(0)
 				};
 			}else if(supplementGenSkills.includes(promptType)){
-				promptTitle = promptType + game.i18n.localize('gs.dialog.herbalist.title');
-				dialogContent = `<h2>${game.i18n.localize('gs.dialog.herbalist.header')}</h2>
-					<div>${game.i18n.localize('gs.dialog.herbalist.body')}${promptType}</div>`;
+				let selector = '';
+				promptType === 'Taming' ? selector = 'taming' : selector = 'herbalist';
+				promptTitle = promptType + game.i18n.localize(`gs.dialog.${selector}.title`);
+				dialogContent = `<h2>${game.i18n.localize(`gs.dialog.${selector}.header`)}</h2>
+					<div>${game.i18n.localize(`gs.dialog.${selector}.body`)}${promptType}</div>`;
 				button1 = {
-					label: game.i18n.localize('gs.dialog.herbalist.button1'),
+					label: game.i18n.localize(`gs.dialog.${selector}.button1`),
 					callback: () => {
-						resolve(game.i18n.localize('gs.dialog.herbalist.button1'));
+						resolve(game.i18n.localize(`gs.dialog.${selector}.button1`));
 					}
 				};
 				button2 = {
-					label: game.i18n.localize('gs.dialog.herbalist.button2'),
+					label: game.i18n.localize(`gs.dialog.${selector}.button2`),
 					callback: () => {
-						resolve(game.i18n.localize('gs.dialog.herbalist.button2'));
+						resolve(game.i18n.localize(`gs.dialog.${selector}.button2`));
 					}
 				};
 				button3 = {
-					label: game.i18n.localize('gs.dialog.herbalist.button3'),
+					label: game.i18n.localize(`gs.dialog.${selector}.button3`),
 					callback: () => {
-						resolve(game.i18n.localize('gs.dialog.herbalist.button3'));
+						resolve(game.i18n.localize(`gs.dialog.${selector}.button3`));
 					}
 				};
 			}
@@ -2810,6 +2889,7 @@ export default class GSActorSheet extends ActorSheet{
 		const techniqueFocusChecks = ['firstAid', 'handiwork', 'swim', 'climbF', 'jump'];
 		const adventurerLevel = ['swim', 'strRes', 'longDistance', 'tacMove'];
 		const specialPrompts = ['moveRes', 'strRes', 'psyRes', 'intRes', 'strength', 'stealth', 'monsterKnow', 'acrobatics'];
+		const appliedTooSkills = ['observe', 'sixthSense', 'generalKnow', 'monsterKnow', 'riding'];
 		const abilityMapping = {
 			ir: intelligenceReflexChecks, if: intelligenceFocusChecks, ie: intelligenceEduranceChecks,
 			tf: techniqueFocusChecks, pr: psycheReflexChecks, pe: pyscheEnduranceChecks,
@@ -2916,7 +2996,7 @@ export default class GSActorSheet extends ActorSheet{
 
 		if(skillBonus > 0)
 			chatMessage += this._addToFlavorMessage('skillScore', skillName, skillBonus);
-		if((rollType === 'observe' || rollType === 'sixthSense' || rollType === 'generalKnow') && extraSkill)
+		if(appliedTooSkills.includes(rollType) && extraSkill)
 			addExtraSkillInfo(extraSkill);
 		if(rollType === 'firstAid'){
 			const skills = this._getFromItemsList('skill');

@@ -2,6 +2,14 @@
 
 ## Recent updates
 
+### 2024-09-12
+
+- Added: Sacrament of Forgiveness, Taming, Torture.
+- Veil of Darkness partial setup, added to Spell Resistance.
+- Updating weapons/armor/shields (WAS) and spells to no longer use buttons on leftside.
+- WAS CSS updated to adjust for extra spacing.
+- Added new Stealth effect field to armor for Ranger dodge/stealth checks.
+
 ### 2024-09-11
 
 - Added: Herbalist, Miner, Nurse general skill implementation.

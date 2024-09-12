@@ -176,7 +176,7 @@ async function weaponMacroHotbarDrop(data, slot){
 	if (data.type === "Item") {
 		const item = await fromUuid(data.uuid);
         const actor = item.parent;
-		console.log('... checking data drop', item);
+		// console.log('... checking data drop', item);
 
         if (actor && item) {
             let command = `const actor = game.actors.get("${actor.id}");

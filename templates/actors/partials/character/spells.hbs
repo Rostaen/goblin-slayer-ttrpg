@@ -35,29 +35,26 @@
         <div class="spellBlock1 grid grid-2col">
             <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.spellUse.totalSpellsKnown.sorc}}</h4>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             {{#each actor.items as |item id|}}
                 {{#if (eq item.type 'spell')}}
                     {{#if (eq item.system.schoolChoice 'Words of True Power')}}
-                        <div class="singleSpell">
-                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-                                <div class="buttonsToRoll">
-                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
-                                </div>
-                                <img src="{{item.img}}" alt="{{item.name}}">
-                                <div class="spellName grid-span-3">{{item.name}}</div>
+                        <div class="singleSpell genSkillContainer item item-list">
+                            <div class="grid grid-6col reveal-rollable contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+                                <img class="actorRolls spellCast" src="{{item.img}}" alt="{{item.name}}">
+                                <div class="spellName grid-span-4">{{item.name}}</div>
                                 <div class="spellDif">{{item.system.difficulty}}</div>
                                 <input type="hidden" id="school" value="{{item.system.schoolChoice}}" class="type">
                                 <input type="hidden" id="element" value="{{item.system.elementChoice}}">
@@ -76,29 +73,26 @@
         <div class="spellBlock1 grid grid-2col">
             <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.spellUse.totalSpellsKnown.prie}}</h4>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             {{#each actor.items as |item id|}}
                 {{#if (eq item.type 'spell')}}
                     {{#if (eq item.system.schoolChoice 'Miracle')}}
-                        <div class="singleSpell">
-                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-                                <div class="buttonsToRoll">
-                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
-                                </div>
-                                <img src="{{item.img}}" alt="{{item.name}}">
-                                <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
+                        <div class="singleSpell genSkillContainer item item-list">
+                            <div class="grid grid-6col reveal-rollable contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+                                <img class="actorRolls spellCast" src="{{item.img}}" alt="{{item.name}}">
+                                <div class="actorRolls spellName grid-span-4">{{item.name}}</div>
                                 <div class="spellDif">{{item.system.difficulty}}</div>
                                 <input type="hidden" id="school" value="{{item.system.schoolChoice}}" class="type">
                                 <input type="hidden" id="element" value="{{item.system.elementChoice}}">
@@ -117,29 +111,26 @@
         <div class="spellBlock1 grid grid-2col">
             <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.spellUse.totalSpellsKnown.dPri}}</h4>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             {{#each actor.items as |item id|}}
                 {{#if (eq item.type 'spell')}}
                     {{#if (eq item.system.schoolChoice 'Ancestral Dragon')}}
-                        <div class="singleSpell">
-                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-                                <div class="buttonsToRoll">
-                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
-                                </div>
-                                <img src="{{item.img}}" alt="{{item.name}}">
-                                <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
+                        <div class="singleSpell genSkillContainer item item-list">
+                            <div class="grid grid-6col reveal-rollable contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+                                <img class="actorRolls spellCast" src="{{item.img}}" alt="{{item.name}}">
+                                <div class="actorRolls spellName grid-span-4">{{item.name}}</div>
                                 <div class="spellDif">{{item.system.difficulty}}</div>
                                 <input type="hidden" id="school" value="{{item.system.schoolChoice}}" class="type">
                                 <input type="hidden" id="element" value="{{item.system.elementChoice}}">
@@ -158,29 +149,26 @@
         <div class="spellBlock1 grid grid-2col">
             <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.spellUse.totalSpellsKnown.sham}}</h4>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             {{#each actor.items as |item id|}}
                 {{#if (eq item.type 'spell')}}
                     {{#if (eq item.system.schoolChoice 'Spirit Arts')}}
-                        <div class="singleSpell">
-                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-                                <div class="buttonsToRoll">
-                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
-                                </div>
-                                <img src="{{item.img}}" alt="{{item.name}}">
-                                <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
+                        <div class="singleSpell genSkillContainer item item-list">
+                            <div class="grid grid-6col reveal-rollable contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+                                <img class="actorRolls spellCast" src="{{item.img}}" alt="{{item.name}}">
+                                <div class="actorRolls spellName grid-span-4">{{item.name}}</div>
                                 <div class="spellDif">{{item.system.difficulty}}</div>
                                 <input type="hidden" id="school" value="{{item.system.schoolChoice}}" class="type">
                                 <input type="hidden" id="element" value="{{item.system.elementChoice}}">
@@ -199,29 +187,26 @@
         <div class="spellBlock1 grid grid-2col">
             <h4 class="grid-span-2">{{localize config.common.max}} {{localize config.charSheet.tabs.spell}} {{actor.system.spellUse.totalSpellsKnown.necro}}</h4>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             <div>
-                <div class="grid grid-5col spellLabels">
+                <div class="grid grid-6col spellLabels">
                     <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
                     <div>{{localize config.character.dc}}</div>
                 </div>
             </div>
             {{#each actor.items as |item id|}}
                 {{#if (eq item.type 'spell')}}
                     {{#if (eq item.system.schoolChoice 'Necromancy')}}
-                        <div class="singleSpell">
-                            <div class="grid grid-6col reveal-rollable contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-                                <div class="buttonsToRoll">
-                                    <button type="button" class="actorRolls spellCast"><i class="fa-solid fa-wand-sparkles"></i></button>
-                                </div>
-                                <img src="{{item.img}}" alt="{{item.name}}">
-                                <div class="actorRolls spellName grid-span-3">{{item.name}}</div>
+                        <div class="singleSpell genSkillContainer item item-list">
+                            <div class="grid grid-6col reveal-rollable contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+                                <img class="actorRolls spellCast" src="{{item.img}}" alt="{{item.name}}">
+                                <div class="actorRolls spellName grid-span-4">{{item.name}}</div>
                                 <div class="spellDif">{{item.system.difficulty}}</div>
                                 <input type="hidden" id="school" value="{{item.system.schoolChoice}}" class="type">
                                 <input type="hidden" id="element" value="{{item.system.elementChoice}}">

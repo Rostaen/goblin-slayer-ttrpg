@@ -1,12 +1,7 @@
-<div class="weapon-card item item-list" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
-    <div class="reveal-rollable grid grid-10col contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
-        <div class="buttonsToRoll">
-            {{!-- <button type="button" class="actorRolls toHit" title="{{localize 'gs.dialog.actorSheet.itemsTab.toHit'}}"><i class="fa-solid fa-bullseye"></i></button> --}}
-            <button type="button" class="toHit player" data-itemid="{{_id}}" title="{{localize 'gs.dialog.actorSheet.itemsTab.toHit'}}"><i class="fa-solid fa-bullseye"></i></button>
-            <button type="button" class="actorRolls damage" title="{{localize 'gs.dialog.actorSheet.itemsTab.power'}}"><i class="fa-solid fa-burst"></i></button>
-        </div>
-        <img src="{{img}}" title="{{name}}" />
-        <div class="name grid-span-3" >{{name}}</div>
+<div class="weapon-card item item-list genSkillContainer" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
+    <div class="reveal-rollable grid grid-10col contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+        <img class="toHit player" src="{{img}}" title="{{name}}" data-itemid="{{_id}}" title="{{localize 'gs.dialog.actorSheet.itemsTab.toHit'}}" />
+        <div class="name grid-span-4" >{{name}}</div>
         <div class="hitMod grid-span-2">{{numberFormat system.hitMod decimals=0 sign=true}}</div>
         <div class="range">{{system.range}}</div>
         <div class="power grid-span-2">{{system.power}}</div>
