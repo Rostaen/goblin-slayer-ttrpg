@@ -454,3 +454,622 @@ gs.actor = {
 		}
 	}
 }
+gs.spells = {
+	ancestralDragon: {
+		dragonArmor: {
+			range: 5,
+			area: 'cylinder, 10m height, 5m radius',
+			target: 'all',
+			effectiveScore: [
+				{ range: [20, 24], power: '5d6 + level' },
+				{ range: [25, 29], power: '6d6 + level' },
+				{ range: [30, 39], power: '6d6 + 5 + level' },
+				{ range: [40, 500], power: '6d6 + 10 + level' }
+			]
+		},
+		bezor: {
+			target: 'self'
+		},
+		camouflage: {
+			duration: '1 Hour',
+			target: 'self'
+		},
+		charge: {
+			range: '3 x Caster Movement',
+			target: 'all',
+			area: 'Movement Path',
+			effectiveScore: [
+				{ range: [10, 14], power: '2d6 + level + 1/5 Distance Moved' },
+				{ range: [15, 19], power: '3d6 + level + 1/5 Distance Moved' },
+				{ range: [20, 29], power: '4d6 + level + 1/5 Distance Moved' },
+				{ range: [30, 39], power: '5d6 + level + 1/5 Distance Moved' },
+				{ range: [40, 500], power: '6d6 + level + 1/5 Distance Moved' }
+			]
+		},
+		communicate: {
+			target: 'self',
+			duration: '1 Hour'
+		},
+		confrontation: {
+			duration: '6 Rounds',
+			target: 1,
+			range: 60
+		},
+		dragonBreath: {
+			fire: {
+				target: 'all',
+				area: 'Cone, 30m Length, 10m Base Radius',
+				effectiveScore: [
+					{ range: [10, 19], power: '4d6 + level' },
+					{ range: [20, 29], power: '6d6 + level' },
+					{ range: [30, 39], power: '8d6 + level' },
+					{ range: [40, 500], power: '10d6 + level' },
+				]
+			},
+			lightning: {
+				target: 'all',
+				area: 'Line, 60m',
+				effectiveScore: [
+					{ range: [10, 19], power: '2d6 + 2 + level' },
+					{ range: [20, 29], power: '3d6 + 4 + level' },
+					{ range: [30, 39], power: '5d6 + 4 + level' },
+					{ range: [40, 500], power: '7d6 + 6 + level' },
+				]
+			},
+			ice: {
+				target: 'all',
+				area: 'Cone, 30m Length, 10m Base Radius',
+				duration: '3 Rounds',
+				effectiveScore: [
+					{ range: [10, 19], power: '2d6 + 2 + level' },
+					{ range: [20, 29], power: '3d6 + 4 + level' },
+					{ range: [30, 39], power: '5d6 + 4 + level' },
+					{ range: [40, 500], power: '7d6 + 6 + level' },
+				]
+			},
+			poison: {
+				target: 'all',
+				area: 'Cone, 20m Length, 20m Base Radius',
+				duration: '3 Rounds',
+				effectiveScore: [
+					{ range: [10, 19], power: '2d6 + 2 + level', damage: '1d6'},
+					{ range: [20, 29], power: '4d6 + level', damage: '1d6'},
+					{ range: [30, 39], power: '5d6 + level', damage: '2d6'},
+					{ range: [40, 500], power: '6d6 + level', damage: '3d6'},
+				]
+			}
+		},
+		dragonEyes: {
+			target: 'self',
+			duration: '10 Minutes',
+			effectiveScore: [
+				{ range: [10, 14], effects: 'Strengthens kinetic vision, gaining a +2 bonus to hit checks for melee attacks. Can also ignore negative effects to vision from distractions (p. 160) based on blinding or light.' },
+				{ range: [15, 19], effects: 'Once per round, when Target: 1 within Range: 30m attempts to take some action, the caster can glare at them to apply a −2 penalty to whatever check is needed to execute the action (a hit check for an attack, a dodge check when attacked, a spell use check when using a spell, etc.). The target and caster must be able to see each other to do this. This effect only applies to 1 check.' },
+				{ range: [20, 24], effects: 'The caster gains a +2 bonus to hit checks for ranged attacks, not just melee attacks. Additionally, as long as there are no obstacles, the caster can see well enough to discern a person’s face at a 5 kilometers.' },
+				{ range: [25, 29], effects: 'Gain a +2 bonus to hit checks. Gain a +2 bonus to dodge checks and block checks as well.' },
+				{ range: [30, 500], effects: 'Bonuses to checks granted by this spell are +4 instead of +2. The glaring target also suffers a −4 penalty to their check instead of −2.' }
+			]
+		},
+		dragonScales: {
+			target: 'self',
+			duration: '6 Rounds',
+			effectiveScore: [
+				{ range: [10, 19], modifier: 3 },
+				{ range: [20, 29], modifier: 4 },
+				{ range: [30, 500], modifier: 5 },
+			]
+		},
+		dragonBlood: {
+			target: 1
+		},
+		dragonsProof: {
+			target: 'self',
+			effectiveScore: [
+				{ range: [10, 19], duration: '3 rounds' },
+				{ range: [20, 29], duration: '6 rounds' },
+				{ range: [30, 500], duration: '10 minutes' },
+			]
+		},
+		dragonsRoar: {
+			target: 'all',
+			effectiveScore: [
+				{ range: [15, 19], effects: 'Target takes a −2 penalty on checks made as the active side and a −2 penalty to initiative.', durration: '3 rounds' },
+				{ range: [20, 29], effects: 'The target will try to flee. For this effect’s duration, they will attempt to get as far away from the battlefield as possible.', durration: '6 rounds' },
+				{ range: [30, 39], effects: 'The target’s penalty to checks and initiative becomes −4.', durration: '10 minutes' },
+				{ range: [40, 500], effects: 'This spell is treated as a magic attack dealing 3d6 + Dragon Priest Level points of mind damage. This damage cannot be reduced by armor score. If the target passes a spell resistance check, they don’t receive any damage.', durration: '10 minutes' },
+			]
+		},
+		dragonsWings: {
+			target: 'self',
+			duration: '10 Minutes'
+		},
+		dragontoothWarrior: {
+			target: '1 Dragontooth Warrior',
+			range: 1,
+			duration: {
+				warrior: '1 Hour',
+				spino: '10 Minutes',
+				bao: '6 Rounds'
+			},
+			effectiveScore: [
+				{ range: [15, 19], effects: 'Caster can summon a dragontooth warrior (p. 601)' },
+				{ range: [20, 29], effects: 'Caster can summon either a dragontooth warrior or a spino dragontooth warrior (p. 603)' },
+				{ range: [30, 500], effects: 'Caster can summon either a dragontooth warrior, a spino dragontooth warrior, or a Bao Long dragontooth warrior (p. 605)' },
+			]
+		},
+		huntingGrounds: {
+			area: 100,
+			target: 'all',
+			duration: '12 Hours'
+		},
+		minorHeal: {
+			target: 1,
+			range: {
+				distance: 30,
+				touch: 5
+			},
+			effectiveScore: [
+				{ range: [5, 9], recovery: '2d6 + Level' },
+				{ range: [10, 14], recovery: '3d6 + Level' },
+				{ range: [15, 19], recovery: '3d6 + 5 + Level' },
+				{ range: [10, 19], recovery: '4d6 + 5 + Level' },
+				{ range: [20, 29], recovery: '4d6 + 10 + Level' },
+				{ range: [30, 500], recovery: '5d6 + 15 + Level' },
+			]
+		},
+		partialDragon: {
+			target: 'self',
+			duration: '10 Minutes',
+			effectiveScore: [
+				{ range: [10, 19], modifier: 2 },
+				{ range: [20, 29], modifier: 4 },
+				{ range: [30, 500], modifier: 6 },
+			]
+		},
+		rust: {
+			area: 5,
+			range: 30,
+			target: 'all'
+		},
+		senseEnemy: {
+			target: 'self',
+			area: {
+				general: 30,
+				specific: 10
+			},
+			effectiveScore: [
+				{ range: [10, 19], duration: '10 minutes' },
+				{ range: [20, 29], duration: '1 hour' },
+				{ range: [30, 500], duration: '6 hours' },
+			]
+		},
+		swordClaw: {
+			sword: {
+				target: 1,
+				range: 'self',
+				type: 'Light',
+				attribute: 'Slash'
+			},
+			claw: {
+				target: 'self'
+			},
+			effectiveScore: [
+				{ range: [10, 14], bonus: 0, duration: '6 rounds' },
+				{ range: [15, 19], bonus: 1, duration: '6 rounds' },
+				{ range: [20, 24], bonus: 1, duration: '10 minutes' },
+				{ range: [25, 29], bonus: 2, duration: '10 minutes' },
+				{ range: [30, 500], bonus: 2, duration: '1 hour' },
+			]
+		},
+		vitality: {
+			target: 1,
+			range: 5,
+			effectiveScore: [
+				{ range: [10, 19], modifier: '1d3' },
+				{ range: [20, 29], modifier: '1d3 + 1' },
+				{ range: [30, 500], modifier: '1d3 + 2' },
+			]
+		}
+	},
+	miracles: {
+		eucharist: {
+			food: {
+				range: 5,
+				target: 1,
+				duration: '1 Day'
+			},
+			water: {
+				range: 5
+			}
+		},
+		peace: {
+			target: 'all',
+			area: 100,
+			duration: '10 Minutes'
+		},
+		steadfast: {
+			target: 1,
+			range: 30,
+			duration: '12 Rounds',
+			effectiveScore: [
+				{ range: [10, 14], modifier: 3, recovery: 2 },
+				{ range: [15, 19], modifier: 4, recovery: 2 },
+				{ range: [20, 29], modifier: 4, recovery: 3 },
+				{ range: [30, 39], modifier: 5, recovery: 3 },
+				{ range: [40, 500], modifier: 6, recovery: 4 },
+			]
+		},
+		guidance: {
+			target: 1,
+			range: 5,
+			duration: '6 Rounds',
+			effectiveScore: [
+				{ range: [10, 14], modifier: 2 },
+				{ range: [15, 19], modifier: 3 },
+				{ range: [20, 29], modifier: 4 },
+				{ range: [30, 39], modifier: 5 },
+				{ range: [40, 500], modifier: 6 },
+			]
+		},
+		inspiration: {
+			target: 'self'
+		},
+		reading: {
+			target: 'self',
+			duration: '1 Round',
+			effectiveScore: [
+				{ range: [10, 19], effects: 'No Bonus.' },
+				{ range: [20, 29], effects: 'The caster’s reading abilities increase, and they gain a +2 bonus to research checks (p. 268).' },
+				{ range: [30, 500], effects: 'The caster is able to decipher codes and solve riddles the same way they read the unknown language.' },
+			]
+		},
+		greaterHeal: {
+			target: 1,
+			range: 5,
+			effectiveScore: [
+				{ range: [20, 29], recovery: '2d6 + 20 + Level', duration: '3 days' },
+				{ range: [30, 39], recovery: '2d6 + 30 + Level', duration: '3 days' },
+				{ range: [40, 49], recovery: '4d6 + 40 + Level', duration: '10 days' },
+				{ range: [50, 500], recovery: '6d6 + 50 + Level', duration: '30 days' },
+			]
+		},
+		revive: {
+			target: 1,
+			range: 5
+		},
+		inquisition: {
+			target: 1,
+			range: 30,
+			duration: '3 Rounds'
+		},
+		judge: {
+			target: 1,
+			range: 5
+		},
+		judgement: {
+			target: 'self',
+			effectiveScore: [
+				{ range: [20, 29], modifier: 2 },
+				{ range: [30, 39], modifier: 3 },
+				{ range: [40, 500], modifier: 4 },
+			]
+		},
+		contract: {
+			duration: '1 Year',
+		},
+		reverse: {
+			target: 1,
+			duration: '1 Day'
+		},
+		traveler: {
+			target: 1,
+			range: 8,
+			effectiveScore: [
+				{ range: [15, 19], duration: '6 hours' },
+				{ range: [20, 29], duration: '1 day' },
+				{ range: [30, 500], duration: '3 days' },
+			]
+		},
+		encourage: {
+			target: 'all',
+			area: 'Sphere of ',
+			duration: '10 Minutes',
+			effectiveScore: [
+				{ range: [10, 14], radius: 3 },
+				{ range: [15, 19], radius: 5 },
+				{ range: [20, 24], radius: 10 },
+				{ range: [25, 29], radius: 15 },
+				{ range: [30, 500], radius: 20 },
+			]
+		},
+		saintCloth: {
+			target: 'self',
+			duration: '6 Rounds',
+			effectiveScore: [
+				{ range: [15, 19], effects: 'No Bonus.' },
+				{ range: [20, 29], effects: 'Also, caster gains a +2 bonus to the power of melee and ranged attacks.' },
+				{ range: [30, 39], effects: 'Also, the caster gains a +2 bonus to all checks.' },
+				{ range: [40, 500], effects: 'Also, the caster gains a +3 bonus to armor score and the power of melee attacks.' },
+			]
+		},
+		valkyriesJavelin: {
+			target: 1,
+			range: 100,
+			effectiveScore: [
+				{ range: [15, 19], power: '4d6 + 5 + Level' },
+				{ range: [20, 24], power: '5d6 + 10 + Level' },
+				{ range: [25, 29], power: '6d6 + 15 + Level' },
+				{ range: [30, 34], power: '6d6 + 20 + Level' },
+				{ range: [35, 40], power: '8d6 + 20 + Level' },
+				{ range: [40, 49], power: '9d6 + 25 + Level' },
+				{ range: [50, 500], power: '10d6 + 30 + Level' },
+			]
+		},
+		blessing: {
+			target: 1,
+			range: 30,
+			effectiveScore: [
+				{ range: [10, 14], hit: 2, power: 2 },
+				{ range: [15, 19], hit: 2, power: 4 },
+				{ range: [20, 24], hit: 3, power: 6 },
+				{ range: [25, 29], hit: 3, power: 8 },
+				{ range: [30, 500], hit: 4, power: 10 },
+			]
+		},
+		cure: {
+			target: 1,
+			range: 5
+		},
+		dispel: {
+			target: 1,
+			range: 30,
+		},
+		holyLight: {
+			target: 1,
+			range: 30,
+			area: 30
+		},
+		holySmite: {
+			target: 1,
+			range: 30,
+			effectiveScore: [
+				{ range: [5, 9], power: '2d6 + Level' },
+				{ range: [10, 14], power: '3d6 + Level' },
+				{ range: [15, 19], power: '3d6 + 5 + Level' },
+				{ range: [20, 24], power: '4d6 + 5 + Level' },
+				{ range: [25, 29], power: '4d6 + 10 + Level' },
+				{ range: [30, 500], power: '5d6 + 15 + Level' },
+			]
+		},
+		hymn: {
+			target: 'all'
+		},
+		minorHeal: {
+			target: 1,
+			range: {
+				distance: 30,
+				touch: 5
+			},
+			effectiveScore: [
+				{ range: [5, 9], power: '2d6 + Level' },
+				{ range: [10, 14], power: '3d6 + Level' },
+				{ range: [15, 19], power: '3d6 + 5 + Level' },
+				{ range: [20, 24], power: '4d6 + 5 + Level' },
+				{ range: [25, 29], power: '4d6 + 10 + Level' },
+				{ range: [30, 500], power: '5d6 + 15 + Level' },
+			]
+		},
+		protection: {
+			area: 120
+		},
+		purify: {
+			range: 60,
+			area: 'General Volume',
+			effectiveScore: [
+				{ range: [5, 9], volume: 'About 1 barrel' },
+				{ range: [10, 19], volume: 'About a small garden pond or room' },
+				{ range: [20, 29], volume: 'About a small pond or large room' },
+				{ range: [30, 39], volume: 'About a pond or large town square' },
+				{ range: [40, 500], volume: 'About a small lake or entire small town' },
+			]
+		},
+		sanctuary: {
+			area: 30
+		},
+		senseEnemy: {
+			area: {
+				general: 30,
+				specific: 10
+			}
+		},
+		senseLife: {
+			target: 'self',
+			effectiveScore: [
+				{ range: [10, 19], duration: '6 Rounds' },
+				{ range: [20, 29], duration: '10 Minutes' },
+				{ range: [30, 500], duration: '1 Hour' },
+			]
+		},
+		silence: {
+			range: 30,
+			area: 'Sphere + Radius',
+			effectiveScore: [
+				{ range: [10, 19], radius: 10},
+				{ range: [20, 29], radius: 15},
+				{ range: [30, 500], radius: 20},
+			]
+		},
+		transferMentalPower: {
+			target: 1,
+			range: 5
+		},
+		vitality: {
+			target: 1,
+			range: 5,
+			effectiveScore: [
+				{ range: [10, 19], recovery: '1d3'},
+				{ range: [20, 29], recovery: '1d3 + 1'},
+				{ range: [30, 500], recovery: '1d3 + 2'},
+			]
+		}
+	},
+	necromancy: {
+		wickedCurse: {
+			target: 1,
+			range: 30,
+		},
+		aging: {
+			target: 'all',
+			range: 30,
+			area: 'Sphere, 10m',
+			effectiveScore: [
+				{ range: [15, 19], penalty: -1, modifier: 2, movement: 3 },
+				{ range: [20, 29], penalty: -2, modifier: 4, movement: 6 },
+				{ range: [30, 39], penalty: -3, modifier: 6, movement: 12 },
+				{ range: [40, 500], penalty: -4, modifier: 10, movement: 20 },
+			]
+		},
+		anomaly: {
+			target: 'self',
+			duration: '1 Hour',
+			specialAbilities: [
+				{ dc: 5, ability: 'Soft Body', effect: 'Gain +3 armor against bludgeoning damage.' },
+				{ dc: 10, ability: 'Bypass Attack', effect: 'Your melee attacks are unaffected by the opponent\'s parry. Furthermore, they suffer a -4 penalty to block checks.' },
+				{ dc: 20, ability: 'Magic Vision', effect: 'Your vision suffers from no detrimental effects.' },
+				{ dc: 25, ability: 'High Speed Casting', effect: 'You can cast two spells as a main action, taking a -4 penalty on both for doing so. You are unable to cast a second spell after casting this spell, however.' },
+				{ dc: 30, ability: 'Reproduction', effect: 'Recover a number of wounds equal to your adventurer (or monster) level at the end of the round.' },
+				{ dc: 40, ability: 'Immortal Body', effect: 'Upon taking damage from a weapon, halve the damage of all the dice rolls of said weapon.' },
+			]
+		},
+		boneSpear: {
+			target: 'all',
+			range: 100,
+			effectiveScore: [
+				{ range: [15, 19], power: '3d6 + Level' },
+				{ range: [20, 24], power: '4d6 + Level' },
+				{ range: [25, 29], power: '5d6 + Level' },
+				{ range: [30, 39], power: '7d6 + Level' },
+				{ range: [40, 500], power: '9d6 + Level' },
+			]
+		},
+		boneSpur: {
+			area: 20,
+			range: 30,
+			duration: '10 Minutes'
+		},
+		burial: {
+			area: 1,
+			depth: 2,
+			range: 30,
+			duration: '10 Minutes'
+		},
+		chill: {
+			target: 1,
+			area: 'Sphere, 10m',
+			range: 30,
+			effectiveScore: [
+				{ range: [15, 19], power: '1d6 + 2 + Level' },
+				{ range: [20, 29], power: '2d6 + 2 + Level' },
+				{ range: [30, 39], power: '2d6 + 4 + Level' },
+				{ range: [40, 500], power: '3d6 + 4 + Level' },
+			]
+		},
+		command: {
+			target: 'all',
+			range: 'Sphere, see Radius',
+			effectiveScore: [
+				{ range: [15, 19], radius: 5, conditions: 'Characters with Command-based Intelligence' },
+				{ range: [20, 29], radius: 10, conditions: 'Characters with Command-based and Instinctive Intelligence' },
+				{ range: [30, 500], radius: 30, conditions: 'Characters with Command-based, Instinctive, Low, and 0 Intelligence' },
+			]
+		},
+		corpseExplosion: {
+			target: {
+				corpse: 1,
+				effected: 'all'
+			},
+			area: 5,
+			range: {
+				corpse: 30,
+				effected: 'See Radius'
+			},
+			effectiveScore: [
+				{ range: [15, 19], radius: 3, power: '3d6 + Level' },
+				{ range: [20, 24], radius: 5, power: '4d6 + Level' },
+				{ range: [25, 29], radius: 5, power: '5d6 + Level' },
+				{ range: [30, 34], radius: 10, power: '6d6 + Level' },
+				{ range: [35, 500], radius: 15, power: '7d6 + Level' },
+			]
+		},
+		cremation: {
+			target: 1,
+			range: 60,
+			effectiveScore: [
+				{ range: [15, 19], power: '3d6 + Level' },
+				{ range: [20, 24], power: '4d6 + Level' },
+				{ range: [25, 29], power: '5d6 + Level' },
+				{ range: [30, 34], power: '6d6 + Level' },
+				{ range: [35, 500], power: '8d6 + Level' },
+			]
+		},
+		earthBound: {
+			area: 'Sphere, see Radius',
+			range: 30,
+			effectiveScore: [
+				{ range: [10, 19], radius: 3 },
+				{ range: [20, 29], radius: 5 },
+				{ range: [30, 39], radius: 10 },
+				{ range: [40, 500], radius: 15 },
+			]
+		},
+		epidemic: {
+			target: 'all',
+			area: 'Sphere, 5m',
+			range: 30,
+			effectiveScore: [
+				{ range: [10, 19], duration: '3 Rounds' },
+				{ range: [20, 29], duration: '6 Rounds' },
+				{ range: [30, 39], duration: '12 Rounds' },
+				{ range: [40, 500], duration: '1 Hour' },
+			]
+		},
+		lethalCut: {
+			target: 1,
+			range: 60,
+			effectiveScore: [
+				{ range: [10, 24], duration: '1 Round' },
+				{ range: [25, 39], duration: '2 Rounds' },
+				{ range: [40, 500], duration: '3 Rounds' },
+			]
+		},
+		lifeDrain: {
+			target: 1,
+			range: 30,
+			effectiveScore: [
+				{ range: [10, 14], power: '2d6 + Level' },
+				{ range: [15, 19], power: '3d6 + Level' },
+				{ range: [20, 29], power: '4d6 + Level' },
+				{ range: [30, 500], power: '5d6 + Level' },
+			]
+		},
+		quarentine: {
+			range: 5,
+			area: 'Sphere, see Radius',
+			effectiveScore: [
+				{ range: [5, 9], radius: 30 },
+				{ range: [10, 19], radius: 100 },
+				{ range: [20, 500], radius: 1000 },
+			]
+		},
+		raiseGhost: {
+			target: 1,
+			range: 5,
+			effectiveScore: [
+				{ range: [10, 19], effect: 'Create a Wandering Spirit', duration: '6 rounds' },
+				{ range: [20, 29], effect: 'Create a Wandering Spirit, or Ghost', duration: '10 minutes' },
+				{ range: [30, 39], effect: 'Create a Wandering Spirit, or Ghost', duration: '1 hour' },
+				{ range: [40, 500], effect: 'Create a Wandering Spirit, Ghost, or Wraith', duration: '1 day' },
+			]
+		}
+	}
+}

@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-09-13
+
+- Implementing new Spell Effectiveness JSON objects to allow for ease of automated rolls and other combat related needs.
+
 ### 2024-09-12
 
 - Added: Sacrament of Forgiveness, Taming, Torture.
