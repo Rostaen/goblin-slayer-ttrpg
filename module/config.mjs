@@ -1070,6 +1070,965 @@ gs.spells = {
 				{ range: [30, 39], effect: 'Create a Wandering Spirit, or Ghost', duration: '1 hour' },
 				{ range: [40, 500], effect: 'Create a Wandering Spirit, Ghost, or Wraith', duration: '1 day' },
 			]
+		},
+		raiseGolem: {
+			target: "Corpse",
+			range: 5,
+			materialCost: "level of golem * 10 silver coins",
+			effectivenessScore: [
+			{
+				range: [10, 14],
+				number: 1,
+				golemType: "Oak Golem",
+				material: "Oak, Bone",
+				duration: "10 min"
+			},
+			{
+				range: [15, 19],
+				number: 2,
+				golemType: "Gargoyle",
+				material: "Stone",
+				duration: "10 min"
+			},
+			{
+				range: [20, 29],
+				number: 3,
+				golemType: "Stone Golem",
+				material: "Stone",
+				duration: "1 hour"
+			},
+			{
+				range: [30, 39],
+				number: 4,
+				golemType: "Bronze Golem",
+				material: "Bronze Ingots",
+				duration: "1 hour"
+			},
+			{
+				range: [40, 500],
+				number: 5,
+				golemType: "Iron Golem",
+				material: "Iron Ingots",
+				duration: "1 day"
+			}
+			],
+			chant: "O nameless one, O monster, move by the spirit of thunder, and carry the work of God upon your body.",
+			catalyst: "None"
+		},
+		raiseSkeleton: {
+			target: "Corpse",
+			range: 5,  // 'Close' range as per your mapping (5 meters)
+			effectivenessScore: [
+			{
+				range: [10, 14],
+				number: 1,
+				effect: "Create Skeleton or Dog Skeleton",
+				duration: "10 min"
+			},
+			{
+				range: [15, 19],
+				number: 2,
+				effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, or Skeleton Guard",
+				duration: "10 min"
+			},
+			{
+				range: [20, 29],
+				number: 3,
+				effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, or Giant Skeleton",
+				duration: "1 hour"
+			},
+			{
+				range: [30, 39],
+				number: 4,
+				effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, Giant Skeleton, or Ancient Skeleton",
+				duration: "1 hour"
+			},
+			{
+				range: [40, 500],
+				number: 5,
+				effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, Giant Skeleton, or Ancient Skeleton",
+				duration: "1 day"
+			}
+			],
+			chant: "N/A", // Assuming no specific chant was mentioned
+			catalyst: "None" // Assuming no catalyst is required
+		},
+		raiseSlime: {
+			target: "Corpse",
+			range: 5,  // 'Close' range, which corresponds to 5 meters
+			effectivenessScore: [
+			{
+				range: [10, 14],
+				number: 1,
+				effect: "Create Slime",
+				duration: "10 min"
+			},
+			{
+				range: [15, 19],
+				number: 2,
+				effect: "Create Slime, or Red Slime",
+				duration: "10 min"
+			},
+			{
+				range: [20, 29],
+				number: 3,
+				effect: "Create Slime, Red Slime, Green Slime, or Giant Slime",
+				duration: "1 hour"
+			},
+			{
+				range: [30, 39],
+				number: 4,
+				effect: "Create Slime, Red Slime, Green Slime, Giant Slime, or Black Slime",
+				duration: "1 hour"
+			},
+			{
+				range: [40, 500],
+				number: 5,
+				effect: "Create Slime, Red Slime, Green Slime, Giant Slime, Black Slime, or Gold Slime",
+				duration: "1 day"
+			}
+			],
+			chant: "O ye who live the vesicles of life, O maid of thread-like granules, dance off your lorries!",
+			catalyst: "None"
+		},
+		raiseZombie: {
+			target: "Corpse",
+			range: 5,  // 'Close' range, which corresponds to 5 meters
+			effectivenessScore: [
+			{
+				range: [10, 14],
+				number: 1,
+				effect: "Create a Zombie",
+				duration: "6 rounds"
+			},
+			{
+				range: [15, 19],
+				number: 2,
+				effect: "Create a Zombie, or Ghoul",
+				duration: "10 min"
+			},
+			{
+				range: [20, 29],
+				number: 3,
+				effect: "Create a Zombie, Ghoul, or Barrow-Wight",
+				duration: "10 min"
+			},
+			{
+				range: [30, 39],
+				number: 4,
+				effect: "Create a Zombie, Ghoul, Barrow-Wight, or Living Undead",
+				duration: "1 hour"
+			},
+			{
+				range: [40, 500],
+				number: 5,
+				effect: "Create a Zombie, Ghoul, Barrow-Wight, Living Undead, or Dracolich",
+				duration: "1 hour"
+			}
+			],
+			chant: "Dawn belongs to the dead, and the shadow of night belongs to the departed, so the sun is prey to the spirits of the dead.",
+			catalyst: "Necroption"
+  		},
+		spiritWalk: {
+			target: "self",
+			effect: "Caster becomes a spirit, invisible and not emitting any sound or smell.",
+			restrictions: "Cannot use equipment, items, or spells. Cannot interact with the material world without special conditions.",
+			effectivenessScore: [
+			{
+				range: [15, 19],
+				restrictions: "No relaxation",
+				duration: "10 minutes",
+				penalty: "Poor vision (-4 to perception)",
+				additional: "Can fly and move through objects."
+			},
+			{
+				range: [20, 29],
+				restrictions: "Perceive sound from the physical world, reducing visibility penalty to -2.",
+				duration: "10 minutes",
+				penalty: "Reduced poor visibility",
+				additional: "Can fly and move through objects."
+			},
+			{
+				range: [30, 500],
+				restrictions: "Can speak and read, removing penalty due to poor visibility. However, cannot cast spells.",
+				duration: "1 hour",
+				penalty: "No visibility penalty",
+				additional: "Can fly and move through objects."
+			}
+			],
+			chant: "The shadows are cut off, dancing and dancing. The man in gray, the demon is a demon.",
+			catalyst: "None"
+  		},
+		spiritualAwakening: {
+			target: "Caster",
+			requirements: {
+				rounds: 6
+			},
+			effectivenessScore: [
+			{
+				range: [15, 19],
+				duration: "10 minutes",
+				abilities: "Converse with spirits; sense presence of dangers but not specifics."
+			},
+			{
+				range: [20, 29],
+				duration: "1 hour",
+				abilities: "Converse with spirits; better danger sensing without specifics."
+			},
+			{
+				range: [30, 39],
+				duration: "3 hours",
+				abilities: "Converse with spirits; improved danger sensing with vague understanding of the nature of danger."
+			},
+			{
+				range: [40, 500],
+				duration: "6 hours",
+				abilities: "Converse with spirits; full danger sensing with vague but more detailed understanding of the nature of danger."
+			}
+			],
+			chant: "If you can see, hear, touch, smell and feel, the boundary between life and death is beyond the ethereal.",
+			catalyst: "Crystal"
+		},
+		spookyDance: {
+			target: "All living creatures in area",
+			area: "Sphere, 5m",
+			range: 5,
+			duration: "10 minutes",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					lifeForceModification: "+2",
+					intelligenceModification: "-2",
+				},
+				{
+					range: [20, 29],
+					lifeForceModification: "+3",
+					intelligenceModification: "-4",
+				},
+				{
+					range: [30, 500],
+					lifeForceModification: "+4",
+					intelligenceModification: "-6",
+				}
+			],
+			intelligenceChanges: {
+				innate: ["Command-based or Instinct", "Low", "Average", "High"],
+				afterChange: ["Command-based or Instinct", "Instinct", "Low", "Average"]
+			},
+			immunities: "Poison, Disease, Mental",
+			chant: "Tonight is the night of shivers, and in front of 40 eyes, the way of escape will vanish.",
+			catalyst: "Necroption"
+		}
+	},
+	spiritArts: {
+		calamity: {
+			type: "Spirit Arts",
+			range: 60,
+			target: "all",
+			area: "Sphere, see Radius",
+			element: {
+				Fire: "At the end of the round, the target receives 3d6 points of fire elemental damage. This damage is treated as burning damage and lasts for 3 rounds.",
+				Water: "The target has their movement speed halved for 6 rounds and receives a -4 penalty on initiative checks.",
+				Earth: "The target is knocked prone.",
+				Wind: "Move all targets in one direction up to 10m when the spell is used.",
+				Light: "The target loses sight for 2 rounds. This effect can be prevented by countermeasures against blindness (look at Distraction on pg. 160).",
+				Darkness: "Choose one effect that the target is sustaining and get rid of it. It's not possible to remove an effect that can't be removed by the target's own will."
+			},
+			effectivenessScore: [
+				{
+					range: [25, 29],
+					radius: 10,
+					power: "2d6+10 Level"
+				},
+				{
+					range: [30, 34],
+					radius: 15,
+					power: "3d6+10 Level"
+				},
+				{
+					range: [35, 39],
+					radius: 20,
+					power: "3d6+15 Level"
+				},
+				{
+					range: [40, 49],
+					radius: 25,
+					power: "4d6+15 Level"
+				},
+				{
+					range: [50, 500],
+					radius: 30,
+					power: "4d6+20 Level"
+				}
+			],
+			chant: "Spirit, go wild, do as you please!",
+			catalyst: "Oil, snowballs, mudballs, balloons, glass balls, ink bottles"
+		},
+		aquaVitae: {
+			effect: "Grants healing and stamina-restoration effects from a cup of water.",
+			target: "1 Cup of Water",
+			range: "User must drink the water",
+			duration: "6 Rounds, then normal after 3 hours",
+			usageLimit: "At most, 10 people can receive the healing effects from one usage of this spell.",
+			combatNote: "Outside combat, immediate spell use check allowed.",
+			effectivenessScore: [
+			{
+				range: [10, 14],
+				woundsRecovered: "3d6 + Shaman Level",
+				fatigueRecovered: 1
+			},
+			{
+				range: [15, 19],
+				woundsRecovered: "3d6 + 2 + Shaman Level",
+				fatigueRecovered: 2
+			},
+			{
+				range: [20, 24],
+				woundsRecovered: "4d6 + 2 + Shaman Level",
+				fatigueRecovered: 2
+			},
+			{
+				range: [25, 29],
+				woundsRecovered: "4d6 + 4 + Shaman Level",
+				fatigueRecovered: 2
+			},
+			{
+				range: [30, 500],
+				woundsRecovered: "5d6 + 6 + Shaman Level",
+				fatigueRecovered: 3
+			}
+			]
+		},
+		banish: {
+			target: 1,
+			type: "spirit",
+			range: 60
+		},
+		bind: {
+			target: 1,
+			area: 30
+		},
+		blizzard: {
+			effect: "Perform a magic attack in a cone area, dealing water/wind damage.",
+			target: "All in cone of Max Length 20m and Max Base Radius 10m",
+			area: "Cone, 20m length, 10m radius",
+			damageType: "Water/Wind",
+			duration: "3 rounds",
+			spellResistance: {
+				passEffect: "Damage halved, no penalty applied",
+				failEffect: "Full damage and penalty applied"
+			},
+			effectivenessScore: [
+			{
+				range: [20, 24],
+				power: "3d6 + 2 + Level",
+				penalty: -2
+			},
+			{
+				range: [25, 29],
+				power: "3d6 + 4 + Level",
+				penalty: -2
+			},
+			{
+				range: [30, 34],
+				power: "3d6 + 6 + Level",
+				penalty: -3
+			},
+			{
+				range: [35, 39],
+				power: "4d6 + 6 + Level",
+				penalty: -3
+			},
+			{
+				range: [40, 500],
+				power: "5d6 + 6 + Level",
+				penalty: -4
+			}
+			]
+		},
+		breathe: {
+			effect: "Allows the target to breathe underwater as if they were on land.",
+			target: "1 within range",
+			range: "30m",
+			spellResistance: {
+				passEffect: "No effect",
+				failEffect: "Spell activates"
+			},
+			benefits: {
+			communication: "Can speak underwater, but not audible beyond immediate proximity.",
+			resistance: "+4 bonus to resistance checks against negative effects from water-related elements"
+			},
+			effectivenessScore: [
+			{
+				range: [10, 19],
+				duration: "6 rounds"
+			},
+			{
+				range: [20, 29],
+				duration: "10 minutes"
+			},
+			{
+				range: [30, 500],
+				duration: "1 hour"
+			}
+			]
+		},
+		callRain: {
+			effect: "Manipulates weather to cause rain with varying effects based on effectiveness.",
+			area: "Cylinder centered on a chosen point",
+			range: 30,
+			spellMaintenance: "Effect lasts as long as the caster maintains the spell.",
+			effectivenessScore: [
+			{
+				range: [10, 14],
+				height: "2m, radius 3m",
+				effect: "Drizzle. Extinguishes small flames. Spells with fire attribute suffer -2 penalty."
+			},
+			{
+				range: [15, 19],
+				height: "3m, radius 5m",
+				effect: "Medium rainfall. -1 penalty on all intelligence checks and resistance checks."
+			},
+			{
+				range: [20, 24],
+				height: "20m, radius 10m",
+				effect: "Heavy rainfall. Requires a strength resistance check each round. Failure results in 1 point of fatigue."
+			},
+			{
+				range: [25, 29],
+				height: "50m, radius 15m",
+				effect: "Downpour. Obstructs vision with a -4 penalty for poor vision."
+			},
+			{
+				range: [30, 500],
+				height: "100m, radius 20m",
+				effect: "Intense rainfall. Complete vision blockage. -2 penalty to intelligence checks and resistance checks, with 2 points of fatigue on failed end-of-round resistance check."
+			}
+			]
+		},
+		catsEye: {
+			effect: "Enhances the caster's visual capabilities for 10 minutes.",
+			target: "Caster's eyes (left eye, right eye, or both)",
+			duration: "10 minutes",
+			bonus: "Higher scores stack with lower scores.",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					effect: "Gain Darkvision (Beginner)."
+				},
+				{
+					range: [15, 19],
+					effect: "Gain +1 bonus to hit checks from increased kinetic vision."
+				},
+				{
+					range: [20, 24],
+					effect: "Gain Darkvision (Intermediate). Ability to ignore flashes of light and distractions."
+				},
+				{
+					range: [25, 29],
+					effect: "Gain +2 bonus to hit checks and dodge checks."
+				},
+				{
+					range: [30, 500],
+					effect: "Gain Darkvision (Expert). Gain +4 bonus to perception checks and resistance against disguises, magical illusions, and hallucinations. Can see through magical darkness."
+				}
+			]
+		},
+		controlSpirits: {
+			effect: "Summon 1 Spirit within Range: Reach and put it to use. The type of spirit summoned depends on the effectiveness score.",
+			target: "1 Spirit",
+			range: "Reach",
+			duration: "Varies based on spirit type",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					effects: "Caster can summon a spirit (p. 583). Duration: 1 Hour."
+				},
+				{
+					range: [20, 29],
+					effects: "Caster can summon either a spirit or a free spirit (p. 584). Duration: Free spirit lasts for 10 Minutes; Spirit lasts for 1 Hour."
+				},
+				{
+					range: [30, 500],
+					effects: "Caster can summon either a spirit, a free spirit, or a greater spirit (p. 584). Duration: Greater spirit lasts for 6 Rounds; Free spirit lasts for 10 Minutes; Spirit lasts for 1 Hour."
+				}
+			],
+			additionalNotes: "Summoned spirits act immediately or can receive commands telepathically from the caster. Spirits are able to perform simple tasks and support the caster in various ways such as engaging enemies or defending the caster. A spirit's action can be as simple as 'attack that goblin over there or attack the enemy who attacked ally A.' Spirits return to their own plane after the spell's duration unless commanded to stay longer by the caster under certain conditions."
+		},
+		darkness: {
+			area: "Sphere, see Radius in Score",
+			range: "30m",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					radius: "5m",
+					darkness: "Normal"
+				},
+				{
+					range: [15, 19],
+					radius: "10m",
+					darkness: "Normal"
+				},
+				{
+					range: [20, 24],
+					radius: "10m",
+					darkness: "Magical darkness"
+				},
+				{
+					range: [25, 29],
+					radius: "15m",
+					darkness: "Magical darkness"
+				},
+				{
+					range: [30, 500],
+					radius: "20m",
+					darkness: "Magical darkness"
+				}
+			],
+			notes: "This spell plunges an area into darkness based on the effectiveness score. No light can pass through the darkness, magical or not. Characters inside cannot see outside, and those outside cannot see inside. Characters with Darkvision face penalties unless they are in magical darkness. The spell lasts as long as the caster maintains concentration."
+		},
+		fallingControl: {
+			target: 'all',
+			area: "Sphere, 10m Radius",
+			range: "10m",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					effects: "Decrease falling speed by up to half or accelerate it by up to 1.5x."
+				},
+				{
+					range: [20, 29],
+					effects: "Decrease falling speed by down to 1/10 or accelerate it by up to 2x."
+				},
+				{
+					range: [30, 500],
+					effects: "Completely stop falling speed or accelerate it by 3x. In these states, the target takes a -2 penalty to all checks except knowledge and resistance checks."
+				}
+			],
+			notes: "This spell manipulates gravity on a target within a 10m radius, allowing the caster to slow down or speed up their rate of descent as described. It can be used as a free action to save someone from falling, applying intelligence reflex as the basic score of the spell use check with a -2 penalty on the final score. The spell lasts as long as the caster maintains concentration."
+		},
+		fear: {
+			target: 'all',
+			area: "Sphere, 10m Radius",
+			range: "60m",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					effects: "Targets trip over their own feet out of fear and are unable to approach the caster.",
+					duration: "1 round"
+				},
+				{
+					range: [15, 19],
+					effects: "Targets take a -2 penalty to all checks except resistance checks.",
+					duration: "3 rounds"
+				},
+				{
+					range: [20, 29],
+					effects: "Targets will attempt to flee. For the duration of the effect, they will attempt to get as far from the battlefield as possible.",
+					duration: "6 rounds"
+				},
+				{
+					range: [30, 500],
+					effects: "Targets take a -2 penalty to all checks except resistance checks (for a total of a -4 penalty).",
+					duration: "10 minutes"
+				}
+			],
+			notes: "This spell creates an illusion of a swarm of locusts, inducing fear in targets within its area. Even if targets move outside the area, the effects persist for their full duration unless a spell resistance check is passed."
+		},
+		firebolt: {
+			target: "1 target",
+			range: "100m",
+			effectivenessScore: [
+				{
+					range: [5, 9],
+					power: "3d6 + Shaman Level"
+				},
+				{
+					range: [10, 14],
+					power: "4d6 + Shaman Level"
+				},
+				{
+					range: [15, 19],
+					power: "5d6 + Shaman Level"
+				},
+				{
+					range: [20, 24],
+					power: "6d6 + Shaman Level"
+				},
+				{
+					range: [25, 29],
+					power: "8d6 + Shaman Level"
+				},
+				{
+					range: [30, 500],
+					power: "10d6 + Shaman Level"
+				}
+			],
+			notes: "Launches an arrow of flame at a target, dealing fire damage. If the target passes a spell resistance check, the damage is halved before being reduced further by armor."
+		},
+		heatWave: {
+			target: "All within Area",
+			range: "20m, 10m, 5m",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					power: {
+						"20m": "1d6 + Shaman Level",
+						"10m": "2d6 + Shaman Level",
+						"5m": "3d6 + Shaman Level"
+					}
+				},
+				{
+					range: [20, 29],
+					power: {
+						"20m": "2d6 + Shaman Level",
+						"10m": "3d6 + Shaman Level",
+						"5m": "4d6 + Shaman Level"
+					}
+				},
+				{
+					range: [30, 500],
+					power: {
+						"20m": "3d6 + Shaman Level",
+						"10m": "4d6 + Shaman Level",
+						"5m": "5d6 + Shaman Level"
+					}
+				}
+			],
+			notes: "This spell causes areas of increasing proximity to the caster to experience varying levels of heat damage, from mild at 20m to severe at 5m. The spell requires maintenance, and resistance checks may halve the damage before it is modified by armor."
+		},
+		illuminate: {
+			target: 'all',
+			area: "Sphere, see Radius in Score",
+			range: "30m",
+			duration: "6 rounds",
+			effectivenessScore: [
+				{
+					range: [5, 9],
+					radius: "10m",
+					effect: "Light illuminates a 10m area. Transparent characters and objects also glow, making their presence evident."
+				},
+				{
+					range: [10, 19],
+					radius: "20m",
+					effect: "Illuminates a 20m area. All melee and ranged attacks against any affected targets suffer a -2 penalty on their hit checks."
+				},
+				{
+					range: [20, 29],
+					radius: "30m",
+					effect: "Illuminates a 30m area. All melee and ranged attacks against any affected targets now suffer a -4 penalty on their hit checks."
+				},
+				{
+					range: [30, 500],
+					radius: "60m",
+					effect: "Targets shine with a brilliant light, illuminating a 60m area. No one can look at the targets directly, and they cannot be targeted by spells. They also suffer a -8 penalty on hit checks."
+				}
+			],
+			notes: "This spell scatters luminescent powder that illuminates the area with a varying intensity depending on the effectiveness score. It affects visibility and hit chances for targets within the illuminated area."
+		},
+		invisible: {
+			target: 1,
+			range: 1
+		},
+		kindle: {
+			target: 1,
+			range: 1
+		},
+		powerBall: {
+			target: 'all',
+			area: 3,
+			range: 30
+		},
+		snare: {
+			area: "Circle, see Radius in Score",
+			range: "60m",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					radius: "10m",
+					duration: "3 rounds",
+					effect: "Changes the ground to sludge. Characters moving through must pass a resistance check every 5m or fall prone."
+				},
+				{
+					range: [20, 29],
+					radius: "10m",
+					duration: "6 rounds",
+					effect: "Same as above."
+				},
+				{
+					range: [30, 39],
+					radius: "15m",
+					duration: "6 rounds",
+					effect: "Extended area with the same effects as previous scores."
+				},
+				{
+					range: [40, 500],
+					radius: "20m",
+					duration: "10 minutes",
+					effect: "Largest area and longest duration with the same movement penalties."
+				}
+			],
+			notes: "This spell converts ground within the specified radius into sludge, making movement challenging and causing characters to risk falling prone. The effect is temporary and the ground will revert to normal after the spell's duration ends."
+		},
+		spiritWall: {
+			area: 20,
+			lifeForce: 50,
+			armorScore: 10,
+			fire: {
+				damage: "2d6 + Level",
+				duration: "6 Rounds"
+			},
+			water: {
+				duration: "6 Rounds"
+			},
+			earth: {
+				duration: "10 Rounds"
+			},
+			wind: {
+				duration: "6 Rounds"
+			}
+		},
+		stoneBlast: {
+			area: "Sphere, see Radius in Score",
+			range: "30m",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					radius: "3m",
+					power: "2d6 + Level"
+				},
+				{
+					range: [15, 19],
+					radius: "5m",
+					power: "2d6 + 3 + Level"
+				},
+				{
+					range: [20, 24],
+					radius: "5m",
+					power: "3d6 + 3 + Level"
+				},
+				{
+					range: [25, 29],
+					radius: "10m",
+					power: "3d6 + 6 + Level"
+				},
+				{
+					range: [30, 39],
+					radius: "15m",
+					power: "4d6 + 6 + Level"
+				},
+				{
+					range: [40, 500],
+					radius: "20m",
+					power: "5d6 + 9 + Level"
+				}
+			],
+			notes: "This spell causes a burst of stone and earth energy, dealing damage within a defined radius. The damage type is primarily blunt and is determined by the caster's shaman level and the effectiveness score. Targets may halve the damage with successful resistance checks."
+		},
+		stupor: {
+			area: "Sphere, see Radius in Score",
+			range: "60m",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					radius: "5m",
+					penalty: -1
+				},
+				{
+					range: [15, 19],
+					radius: "10m",
+					penalty: -2
+				},
+				{
+					range: [20, 24],
+					radius: "15m",
+					penalty: -2
+				},
+				{
+					range: [25, 29],
+					radius: "15m",
+					penalty: -3
+				},
+				{
+					range: [30, 500],
+					radius: "20m",
+					penalty: -4
+				}
+			],
+			notes: "This spell creates a mystical mist that induces stupor. Characters within or entering the mist must succeed on a strength resistance check or suffer penalties and potentially fall asleep. The spell's effects last as long as the caster maintains concentration."
+		},
+		tailWind: {
+			target: 1,
+			area: "5m Radius",
+			range: 1,
+			effectivenessScore: [
+				{
+					range: [5, 9],
+					duration: "3 hours"
+				},
+				{
+					range: [10, 19],
+					duration: "6 hours"
+				},
+				{
+					range: [20, 29],
+					duration: "1 day"
+				},
+				{
+					range: [30, 500],
+					duration: "3 days"
+				}
+			],
+			notes: "This spell hastens the speed of a vehicle and anyone walking alongside it within a 5m radius, multiplying their movement by 1.5. The effect's duration is determined by the effectiveness score. The spell has no effect if the target passes a spell resistance check."
+		},
+		thunderbolt: {
+			target: 1,
+			range: "30m",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					power: "3d6 + 4 + Shaman Level"
+				},
+				{
+					range: [15, 19],
+					power: "4d6 + 4 + Shaman Level"
+				},
+				{
+					range: [20, 24],
+					power: "4d6 + 6 + Shaman Level"
+				},
+				{
+					range: [25, 29],
+					power: "5d6 + 6 + Shaman Level"
+				},
+				{
+					range: [30, 500],
+					power: "7d6 + 4 + Shaman Level"
+				}
+			],
+			notes: "This spell fires an arrow of lightning that deals wind damage. If the target's spell resistance check score is at least 4 points lower than the spell use check for Thunderbolt, the target is paralyzed until their next turn ends. Damage is halved before reducing it with armor score if the target passes a spell resistance check."
+		},
+		tunnel: {
+			range: 1,
+			duration: "10 Minutes"
+		},
+		waterWalk: {
+			range: "30m",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					duration: "6 rounds"
+				},
+				{
+					range: [20, 29],
+					duration: "10 minutes"
+				},
+				{
+					range: [30, 500],
+					duration: "1 hour"
+				}
+			],
+			notes: "This spell grants the target the ability to walk on the surface of water as if on solid land. The target will not sink, regardless of weight, and can move and act normally on the water's surface. If underwater, the target is immediately ejected from it. The spell has no effect if the target passes a spell resistance check."
+		},
+		weathering: {
+			target: 1,
+			type: "item",
+			range: 5,
+			effectivenessScore: [
+				{
+					range: [5, 9],
+					timeMultiplier: "10x"
+				},
+				{
+					range: [10, 19],
+					timeMultiplier: "60x"
+				},
+				{
+					range: [20, 29],
+					timeMultiplier: "300x"
+				},
+				{
+					range: [30, 500],
+					timeMultiplier: "3,000x"
+				}
+			],
+			notes: "This spell accelerates time for one non-living object within reach, causing it to experience time at an accelerated rate. This acceleration has no effect on living creatures or anything with a mind. The duration and specific effects as time progresses are left to the GM's discretion, based on the context and what the caster is attempting to achieve. The spell lasts as long as the caster maintains it."
+		},
+		whirlwind: {
+			target: 'all',
+			range: "30m",
+			area: "Sphere with a radius of 5m from a center point",
+			effectivenessScore: [
+				{
+					range: [15, 19],
+					power: "2d6 + 2 + level"
+				},
+				{
+					range: [20, 29],
+					power: "2d6 + 4 + level"
+				},
+				{
+					range: [30, 39],
+					power: "3d6 + 4 + level"
+				},
+				{
+					range: [40, 500],
+					power: "4d6 + 4 + level"
+				}
+			],
+			notes: "This spell creates a whirlwind blade that inflicts wind damage on all targets within the specified area. If a target's spell resistance check fails by 8 or more compared to the caster's spell check, they suffer a critical hit according to standard critical hit tables. The damage is halved if the target succeeds their spell resistance check before being further reduced by armor."
+		}
+	},
+	truePower: {
+		disintegrationRay: {
+			target: 'all',
+			roundsRequired: 3,
+			range: "100m",
+			area: "Straight line; conical shape in water",
+			effectivenessScore: [
+				{
+					range: [20, 29],
+					power: "5d6 + 14 + Level"
+				},
+				{
+					range: [30, 39],
+					power: "5d6 + 14 + Level"
+				},
+				{
+					range: [40, 49],
+					power: "5d6 + 20 + Level"
+				},
+				{
+					range: [50, 500],
+					power: "5d6 + 30 + Level"
+				}
+			],
+			notes: "This spell emits a ray that disintegrates matter, dealing light attribute damage. If the target is not a creature, the damage is doubled before any resistances. If the target is a creature and fails their resistance check by 4 or more, it also destroys the target's armor, rendering it unusable unless repaired by a craftsman. In areas with water, the ray takes a conical shape and targets within the water gain a +4 bonus to resist this spell."
+		},
+		nuclearExplosion: {
+			range: "60m",
+			effectivenessScore: [
+				{
+					range: [25, 34],
+					radius: "10m",
+					damage: "5d6 + 10 + Level"
+				},
+				{
+					range: [35, 44],
+					radius: "15m",
+					damage: "7d6 + 10 + Level"
+				},
+				{
+					range: [45, 54],
+					radius: "20m",
+					damage: "10d6 + 10 + Level"
+				},
+				{
+					range: [55, 500],
+					radius: "30m",
+					damage: "10d6 + 20 + Level"
+				}
+			]
 		}
 	}
 }

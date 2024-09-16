@@ -1,3 +1,5 @@
-2024/09/12-16:51:59.334 48ac Recovering log #478
-2024/09/12-16:51:59.337 48ac Delete type=0 #478
-2024/09/12-16:51:59.337 48ac Delete type=3 #477
+2024/09/13-09:18:53.432 2fec Recovering log #480
+2024/09/13-09:18:53.432 2fec Level-0 table #482: started
+2024/09/13-09:18:53.434 2fec Level-0 table #482: 2216 bytes OK
+2024/09/13-09:18:53.439 2fec Delete type=0 #480
+2024/09/13-09:18:53.440 2fec Delete type=3 #479
