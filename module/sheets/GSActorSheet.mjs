@@ -125,6 +125,7 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".toHit.player").click(this._playerAttack.bind(this));
 		html.find(".dodge.player").click(this._playerDodge.bind(this));
 		html.find(".block.player").click(this._playerBlock.bind(this));
+		html.find(".spellCast.player").click(this._playerSpellCast.bind(this));
 		html.find(".spellResist.player").click(this._playerSpellResistance.bind(this));
 
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
@@ -350,6 +351,41 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	async _playerSpellCast(event){
+		event.preventDefault();
+		const actor = this.actor;
+		const actorToken = game.actors.get(actor._id).getActiveTokens()[0];
+		const defaultDice = '2d6';
+		const spellId = event.currentTarget.dataset.id;
+		const spells = this._getFromItemsList('spell');
+		const spellUsed = spells.find(s => s._id === spellId);
+		const tempSpellSchool = spellUsed.system.schoolChoice.split(" ");
+		const tempSpellName = spellUsed.name.split(" ");
+		const configSpells = CONFIG.gs.spells;
+		let lowerCamelSpellName = '', lowerCamelSchoolName = '', castingClass = '';
+		let chatMessage = this._setMessageHeader(actor, spellUsed, 'spellCast');
+
+		// Converting spell name to lowerCamelCase.
+		for(let x = 0; x < tempSpellName.length; x++)
+			x === 0 ? lowerCamelSpellName = tempSpellName[x].toLowerCase() : lowerCamelSpellName += tempSpellName[x];
+
+		// Converting school name to lowerCamelCase
+		for(let x = 0; x < tempSpellSchool.length; x++)
+			x === 0 ? lowerCamelSchoolName = tempSpellSchool[x].toLowerCase() : lowerCamelSchoolName += tempSpellSchool[x];
+
+		// Setting base hit check dice to chat window
+		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+
+		// Get casting class level bonus
+		let {classBonus, message, stat} = this._getClassLevelBonus2('casting', spellUsed, chatMessage);
+		chatMessage = message;
+
+		// Get Skill Modifiers???
+
+
+
+	}
+
 	async _playerSpellResistance(event){
 		event.preventDefault();
 		const actor = this.actor;
@@ -461,6 +497,7 @@ export default class GSActorSheet extends ActorSheet{
 			'toHit': game.i18n.localize('gs.actor.monster.supportEffect.hit'),
 			'dodge': game.i18n.localize('gs.dialog.dodge.roll'),
 			'block': game.i18n.localize('gs.dialog.block.roll'),
+			'spellCast': game.i18n.localize('gs.dialog.spells.spellCast'),
 		};
 		const messageLabel = labelMapping[labelHeading] || labelHeading; //labelHeading here is used for GenSkill Roll Type eg Int Focus, etc.
 		return `<div class="chat messageHeader grid grid-7col">
@@ -545,8 +582,33 @@ export default class GSActorSheet extends ActorSheet{
 				classBonus = scout;
 				if(classBonus) chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.scou'), classBonus);
 			}
+		}else if(classifier === 'casting'){
+			let schoolChoice = itemInfo.system.schoolChoice;
+			const psyBased = ["Miracle", "Spirit Arts", "Ancestral Dragon"];
+			const intBased = ['Words of True Power', 'Necromancy'];
+			if(intBased.includes(schoolChoice)){
+				statUsed = abilityScores.if;
+				if(schoolChoice === 'Words of True Power'){
+					classBonus = sorcerer;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.sorc'), classBonus);
+				}else{
+					classBonus = necro;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.necro'), classBonus);
+				}
+			}else if(psyBased.includes(schoolChoice)){
+				statUsed = abilityScores.pf;
+				if(schoolChoice === 'Miracle'){
+					classBonus = priest;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.prie'), classBonus);
+				}else if(schoolChoice === 'Spirit Arts'){
+					classBonus = shaman;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.sham'), classBonus);
+				}else{
+					classBonus = dragon;
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.dPri'), classBonus);
+				}
+			}
 		}
-
 		return {classBonus, message: chatMessage, stat: statUsed};
 	}
 

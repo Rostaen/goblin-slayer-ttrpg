@@ -1979,7 +1979,7 @@ gs.spells = {
 			notes: "This spell creates a whirlwind blade that inflicts wind damage on all targets within the specified area. If a target's spell resistance check fails by 8 or more compared to the caster's spell check, they suffer a critical hit according to standard critical hit tables. The damage is halved if the target succeeds their spell resistance check before being further reduced by armor."
 		}
 	},
-	truePower: {
+	wordsofTruePower: {
 		disintegrationRay: {
 			target: 'all',
 			roundsRequired: 3,

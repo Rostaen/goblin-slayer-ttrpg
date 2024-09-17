@@ -5,6 +5,7 @@
 ### 2024-09-17
 
 - Finished adding spell Effectivenss Score JSON objects into the game.
+- Began updating spell attacks to include effectiveness bonuses from Config file.
 
 ### 2024-09-16
 

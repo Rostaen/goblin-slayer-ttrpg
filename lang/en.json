@@ -446,7 +446,8 @@
       },
       "spells": {
         "spUse": "Spell Use",
-        "cast": "Cast"
+        "cast": "Cast",
+        "spellCast": "Spell Casting"
       },
       "monsterSheet": {
         "boss": "Can this monster be a boss?",
