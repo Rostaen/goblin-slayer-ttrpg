@@ -2029,6 +2029,1053 @@ gs.spells = {
 					damage: "10d6 + 20 + Level"
 				}
 			]
+		},
+		beastMind: {
+			target: {
+				casting: 'self',
+				telepathy: '1 Creature'
+			},
+			duration: '10 Minutes',
+		},
+		big: {
+			target: "1 Creature",
+			range: 30,
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					physicalModifier: "1.5x",
+					powerArmorScoreModifier: "+2",
+					expandedReach: "No Change",
+					duration: "3 rounds"
+				},
+				{
+					range: [15, 19],
+					physicalModifier: "2x",
+					powerArmorScoreModifier: "+3",
+					expandedReach: "No Change",
+					duration: "3 rounds"
+				},
+				{
+					range: [20, 29],
+					physicalModifier: "3x",
+					powerArmorScoreModifier: "+5",
+					expandedReach: "10m",
+					duration: "6 rounds"
+				},
+				{
+					range: [30, 39],
+					physicalModifier: "5x",
+					powerArmorScoreModifier: "+7",
+					expandedReach: "15m",
+					duration: "6 rounds"
+				},
+				{
+					range: [40, 500],
+					physicalModifier: "10x",
+					powerArmorScoreModifier: "+10",
+					expandedReach: "20m",
+					duration: "10 minutes"
+				}
+			],
+		},
+		big: {
+			target: '1 Creature',
+			range: "30m",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					physicalModifier: "1.5x",
+					powerArmorScoreModifier: "+2",
+					expandedReach: "No Change",
+					duration: "3 rounds"
+				},
+				{
+					range: [15, 19],
+					physicalModifier: "2x",
+					powerArmorScoreModifier: "+3",
+					expandedReach: "No Change",
+					duration: "3 rounds"
+				},
+				{
+					range: [20, 29],
+					physicalModifier: "3x",
+					powerArmorScoreModifier: "+5",
+					expandedReach: "10m",
+					duration: "6 rounds"
+				},
+				{
+					range: [30, 39],
+					physicalModifier: "5x",
+					powerArmorScoreModifier: "+7",
+					expandedReach: "15m",
+					duration: "6 rounds"
+				},
+				{
+					range: [40, 500],
+					physicalModifier: "10x",
+					powerArmorScoreModifier: "+10",
+					expandedReach: "20m",
+					duration: "10 minutes"
+				}
+			],
+			notes: "Target becomes giant, receiving bonuses to physical attributes and penalties to technique. Physical changes affect movement speed and capabilities. Duration depends on effectiveness score."
+		},
+		blastWind: {
+			area: "Line within 60m radius",
+			range: "60m",
+			target: 'All',
+			effectivenessScore: [
+				{
+					range: [5, 14],
+					effects: "Anything light without a mind to resist, not fixed to something, or otherwise susceptible to wind blows to the ending point."
+				},
+				{
+					range: [15, 19],
+					effects: "Perform a magic attack that deals 2d6 + Sorcerer Level points of wind damage. If a target passes a spell resistance check, the damage is halved before reducing it with armor score."
+				},
+				{
+					range: [20, 24],
+					effects: "If a target fails the spell resistance check, they are knocked prone and are moved 5m along the wind’s path."
+				},
+				{
+					range: [25, 29],
+					effects: "The magic attack’s power becomes 4d6 + Sorcerer Level."
+				},
+				{
+					range: [30, 500],
+					effects: "Person-sized objects are blown to the end point. This doesn’t happen if the object passes its spell resistance check."
+				}
+			],
+			notes: "The caster indicates a starting point and an ending point within a 60m radius, creating a gust of wind. The wind blows everything along its path unless obstructed. Effects from higher scores stack with those from lower ones."
+		},
+		blizzard: {
+			area: "Cone up to 20m long, 10m wide at the widest point",
+			range: "20m",
+			target: "All",
+			effectivenessScore: [
+				{
+					range: [20, 24],
+					power: "3d6 + 2 + Sorcerer Level",
+					penalty: -2
+				},
+				{
+					range: [25, 29],
+					power: "3d6 + 4 + Sorcerer Level",
+					penalty: -2
+				},
+				{
+					range: [30, 34],
+					power: "3d6 + 6 + Sorcerer Level",
+					penalty: -3
+				},
+				{
+					range: [35, 39],
+					power: "4d6 + 6 + Sorcerer Level",
+					penalty: -3
+				},
+				{
+					range: [40, 500],
+					power: "5d6 + 6 + Sorcerer Level",
+					penalty: -4
+				}
+			],
+			notes: "Performs a magic attack that combines water and wind damage. The caster is the point of origin. Any targets who fail a spell resistance check take a penalty to all checks except resistance checks for 3 rounds."
+		},
+		breathe: {
+			area: "Target: 1 within Range",
+			range: "30m",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					duration: "6 rounds"
+				},
+				{
+					range: [20, 29],
+					duration: "10 minutes"
+				},
+				{
+					range: [30, 500],
+					duration: "1 hour"
+				}
+			],
+			notes: "Allows the target to breathe underwater. The target can speak, but their voice will not carry outside their immediate area. No water-attribute damage can affect the target, and they gain a +4 bonus against any negative effects from water-related elements like rain or snow."
+		},
+		charisma: {
+			area: "Target: 1 within Range",
+			range: "60m",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					duration: "3 minutes",
+					notes: "The target sees the caster as a friend. They will stop doubting the caster’s actions without reason and will accommodate the caster as long as doing so doesn’t clearly go against their own interests or beliefs."
+				},
+				{
+					range: [20, 29],
+					duration: "10 minutes",
+					notes: "The target sees the caster as a close friend or employer. They will attempt to obey the caster so long as doing so clearly doesn’t endanger their life or put them at some kind of disadvantage."
+				},
+				{
+					range: [30, 500],
+					duration: "1 hour",
+					notes: "The target sees the caster as a lover or family member and will treat them as they would someone precious to them. Depending on their personality, they may prioritize their caster’s life over their own."
+				}
+			],
+			notes: "Instills the target with feelings towards the caster based on the spell's effectiveness score. If the target passes a spell resistance check, the spell has no effect. If the caster and target are currently in combat against each other, the target automatically passes spell resistance checks against this spell."
+		},
+		clumsy: {
+			target: 1,
+			range: 60
+		},
+		confuse: {
+			area: "Sphere within Range",
+			range: "30m",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					radius: "3m",
+				},
+				{
+					range: [15, 19],
+					radius: "5m",
+				},
+				{
+					range: [20, 24],
+					radius: "10m",
+				},
+				{
+					range: [25, 29],
+					radius: "15m",
+				},
+				{
+					range: [30, 500],
+					radius: "20m",
+				}
+			],
+			notes: "This spell confuses the minds of all targets within a specified radius based on the effectiveness score. The effect lasts as long as the caster maintains spell maintenance. Targets within the spell's range can’t distinguish friend from foe and must choose their targets randomly from all available allies and enemies."
+		},
+		controlAnimal: {
+			target: '1 Creature',
+			range: 60
+		},
+		counterSpell: {
+			one: {
+				target: 'all',
+				area: '20m Radius',
+				bonus: 2,
+				duration: '6 Rounds'
+			},
+			two: {
+				target: 1,
+				range: 30,
+				bonus: -2
+			}
+		},
+		createGiant: {
+			area: "Reach of the caster",
+			type: "Giant",
+			effectivenessScore: [
+				{
+					range: [20, 24],
+					maxLevel: 5,
+					duration: "2 rounds"
+				},
+				{
+					range: [25, 29],
+					maxLevel: 6,
+					duration: "3 rounds"
+				},
+				{
+					range: [30, 39],
+					maxLevel: 7,
+					duration: "6 rounds"
+				},
+				{
+					range: [40, 500],
+					maxLevel: 9,
+					duration: "6 rounds"
+				}
+			],
+			notes: "The caster creates a giant with a level not greater than the Max Level based on the effectiveness score. The giant follows the caster's commands, which can be willed silently. The caster may command the giant to attack enemies or defend. The giant disappears after the specified duration or can be dismissed at any time by the caster."
+		},
+		createGoblin: {
+			area: 5,
+			intelligence: "Command-based",
+			effectivenessScore: [
+			  {
+				range: [10, 14],
+				quantity: 1,
+				duration: "3 rounds"
+			  },
+			  {
+				range: [15, 19],
+				quantity: 1,
+				duration: "6 rounds"
+			  },
+			  {
+				range: [20, 24],
+				quantity: 2,
+				duration: "6 rounds"
+			  },
+			  {
+				range: [25, 29],
+				quantity: 3,
+				duration: "10 minutes"
+			  },
+			  {
+				range: [30, 500],
+				quantity: 4,
+				duration: "10 minutes"
+			  }
+			],
+			notes: "Create Quantity goblins within Area: Reach of the caster. The intelligence of these created goblins changes to command-based. The caster, starting on their next turn, can give orders to the goblins they create; thus, the goblins are able to start acting from the next round. However, they can still make dodge checks, resistance checks, and initiative checks before that. The caster, on their turn, can use a free action to give an order to the goblins they created. This command does not have to be spoken; it can simply be willed. However, the command must be simple, such as attack that goblin over there or attack the enemy who attacked ally A. They cannot carry out complex commands (the GM should decide what counts as complex). The goblins will attempt to faithfully carry out their orders to the best of their ability. If the caster has learned Leadership (Intermediate) or higher, they can have the goblins act at the same point in the turn order as them; in addition, the caster can have the goblins grant their support effect to the caster or to one specific character the caster indicates. The created goblins exist for Duration, then vanish. The caster can make their created goblins disappear at any time."
+		},
+		deflectMissile: {
+			area: "Sphere",
+			target: "1",
+			range: "60m",
+			effectivenessScore: [
+			  {
+				range: [10, 14],
+				radius: "5m",
+				duration: "6 rounds"
+			  },
+			  {
+				range: [15, 19],
+				radius: "10m",
+				duration: "6 rounds"
+			  },
+			  {
+				range: [20, 24],
+				radius: "15m",
+				duration: "10 minutes"
+			  },
+			  {
+				range: [25, 29],
+				radius: "20m",
+				duration: "10 minutes"
+			  },
+			  {
+				range: [30, 500],
+				radius: "30m",
+				duration: "1 hour"
+			  }
+			],
+			notes: "Produce a magical force field of Area: Sphere with a radius based on the effectiveness score centered on Target: 1 within Range: 60m. If the target resists this spell, it will not take effect. All arrows and bolts that enter the force field from outside it are blocked and do not enter. Arrows and bolts refer to any physical arrow or bolt fired from a ranged weapon, including stone bullets, arrows, bolts, or darts from a dart gun. This does not include weapons thrown by hand or spells like Firebolt. If it is unclear whether something would be affected by this spell, the GM should make the decision. The force field lasts for Duration."
+		},
+		disgust: {
+			target: "1",
+			range: "30m",
+			effectivenessScore: [
+			  {
+				range: [10, 14],
+				effects: "Take a -4 penalty to initiative. It can't go below 0.",
+				duration: "3 rounds"
+			  },
+			  {
+				range: [15, 19],
+				effects: "Also take a -4 penalty on checks for active actions.",
+				duration: "6 rounds"
+			  },
+			  {
+				range: [20, 29],
+				effects: "The target will also attempt to flee if combat looks unfavorable for them. Until the spell ends, they will try and distance themselves from the battlefield.",
+				duration: "6 rounds"
+			  },
+			  {
+				range: [30, 500],
+				effects: "Also take a -8 penalty on all checks and initiative.",
+				duration: "10 minutes"
+			  }
+			],
+			notes: "Target within Range: 30m loses the will to fight. They suffer Effects for Duration. Effects granted by higher effectiveness scores stack with those of lower scores. The GM should decide finer details of the spell based on the situation. If the target passes a spell resistance check, this spell has no effect."
+		},
+		enchantFire: {
+			target: "1 Object",
+			range: 30,
+			duration: '6 Rounds'
+		},
+		enchantWeapon: {
+			target: "1 Object",
+			range: 1,
+			duration: "1 Hour",
+			effectivenessScore: [
+			  {
+				range: [10, 19],
+				modifierScore: "+1"
+			  },
+			  {
+				range: [20, 29],
+				modifierScore: "+2"
+			  },
+			  {
+				range: [30, 500],
+				modifierScore: "+3"
+			  }
+			],
+			notes: "Imbue Target: 1 Object in Range: Touch with magic power, adding Modifier Score to its hit modifier and power. This lasts for Duration: 1 Hour. Any melee and ranged attacks made with a targeted weapon are treated as magic attacks. However, for ranged weapons, only add the modifier score to the hit modifier, not the power. When targeting an arrow or bolt, you can add the modifier score to both the hit modifier and the power, so long as you use that arrow or bolt in a ranged attack. If the owner of the target object passes a spell resistance check, the spell has no effect."
+		},
+		fireball: {
+			range: "60m",
+			target: "All",
+			area: "Sphere, see Radius",
+			effectivenessScore: [
+			  {
+				range: [10, 14],
+				radius: "2m",
+				power: "2d6 + Level"
+			  },
+			  {
+				range: [15, 19],
+				radius: "3m",
+				power: "3d6 + Level"
+			  },
+			  {
+				range: [20, 24],
+				radius: "5m",
+				power: "4d6 + Level"
+			  },
+			  {
+				range: [25, 29],
+				radius: "10m",
+				power: "5d6 + Level"
+			  },
+			  {
+				range: [30, 500],
+				radius: "10m",
+				power: "7d6 + Level"
+			  }
+			],
+			notes: "Cause a ball of fire to explode within Range: 60m, causing a magic attack that deals Power points of fire damage to Target: All within the Area: Sphere with a Radius determined by the effectiveness score. In addition, a target at the center of the explosion takes +1d6 more damage. If the target passes a spell resistance check, the damage they receive is halved before reducing it with armor score."
+		},
+		firebolt: {
+			target: "1",
+			range: "100m",
+			effectivenessScore: [
+			  {
+				range: [5, 9],
+				power: "3d6 + Level"
+			  },
+			  {
+				range: [10, 14],
+				power: "4d6 + Level"
+			  },
+			  {
+				range: [15, 19],
+				power: "5d6 + Level"
+			  },
+			  {
+				range: [20, 24],
+				power: "6d6 + Level"
+			  },
+			  {
+				range: [25, 29],
+				power: "8d6 + Level"
+			  },
+			  {
+				range: [30, 500],
+				power: "10d6 + Level"
+			  }
+			],
+			notes: "Launch an arrow of flame at Target: 1 within Range: 100m, performing a magic attack that deals Power points of fire damage. If the target passes a spell resistance check, the damage they receive is halved before reducing it with armor score."
+		},
+		float: {
+			target: "Caster",
+			effectivenessScore: [
+			  {
+				range: [10, 19],
+				movementSpeed: "5m"
+			  },
+			  {
+				range: [20, 29],
+				movementSpeed: "10m"
+			  },
+			  {
+				range: [30, 39],
+				movementSpeed: "30m"
+			  },
+			  {
+				range: [40, 500],
+				movementSpeed: "50m"
+			  }
+			],
+			notes: "Caster becomes light enough to float on the wind, and they can freely move through the air at a Movement Speed determined by the effectiveness score. This effect lasts for as long as the caster uses spell maintenance."
+		},
+		forceField: {
+			effect: "Creates a wall made of force that can change shape according to the caster's wishes.",
+			area: "Up to 100 square meters, shape encompassing a 30m radius from the caster",
+			characteristics: "The wall is invisible, can overlap with other objects, obstacles, or characters but not completely seal them unless specified by the GM. Possible to make a small opening.",
+			effectivenessScore: [
+			  {
+				range: [15, 19],
+				durability: 15
+			  },
+			  {
+				range: [20, 24],
+				durability: 20
+			  },
+			  {
+				range: [25, 29],
+				durability: 25
+			  },
+			  {
+				range: [30, 39],
+				durability: 30
+			  },
+			  {
+				range: [40, 49],
+				durability: 40
+			  },
+			  {
+				range: [50, 500],
+				durability: 50
+			  }
+			],
+			behavior: "Separates inside from outside, stops character movement, weapon-based attacks, and magic attacks like Fireball or Magic Missile. Disappears if takes damage equal to durability.",
+			maintenance: "Remains as long as caster uses spell maintenance.",
+			notes: "The force field remains stable for as long as the caster uses spell maintenance. If targeted by attacks or spells that deal damage, it will disappear if the damage equals or exceeds its durability as per effectiveness score."
+		},
+		foresight: {
+			target: {
+				casting: "Self",
+				result: "1 Question"
+			}
+		},
+		gambit: {
+			target: "1 Small Stone",
+			range: "Touch",
+			duration: "10 Minutes",
+			effectivenessScore: [
+			  {
+				range: [5, 9],
+				radius: "1m",
+				damage: "3d6 + Level"
+			  },
+			  {
+				range: [10, 14],
+				radius: "3m",
+				damage: "3d6 + Level"
+			  },
+			  {
+				range: [15, 19],
+				radius: "5m",
+				damage: "3d6 + Level"
+			  },
+			  {
+				range: [20, 29],
+				radius: "10m",
+				damage: "3d6 + Level"
+			  },
+			  {
+				range: [30, 500],
+				radius: "15m",
+				damage: "3d6 + Level"
+			  }
+			],
+			notes: "The caster can perform a ranged attack by throwing the small stone they filled with magical energy. On impact, whether with an enemy or with the ground if it misses, the stone will explode, dealing bludgeoning damage to all within a sphere with radius determined by the effectiveness score. If a target passes a spell resistance check, they reduce the damage by half before applying their armor score. If the target of the ranged attack is a creature, failing a spell resistance check will cause them to be surprised by the noise and bright light. Until the end of the next round, they take a -2 penalty on all checks. This spell can be used as a free action."
+		},
+		haste: {
+			target: "1",
+			range: "30m",
+			effectivenessScore: [
+			  {
+				range: [15, 19],
+				modifierScore: "+1"
+			  },
+			  {
+				range: [20, 24],
+				modifierScore: "+2"
+			  },
+			  {
+				range: [25, 29],
+				modifierScore: "+3"
+			  },
+			  {
+				range: [30, 34],
+				modifierScore: "+4"
+			  },
+			  {
+				range: [35, 39],
+				modifierScore: "+5"
+			  },
+			  {
+				range: [40, 500],
+				modifierScore: "+6"
+			  }
+			],
+			notes: "Doubles the movement speed of Target: 1 within Range: 30m and grants them a Modifier Score bonus to the final score on all checks, including initiative checks. Starting from the following round, if their initiative is 13 or more as a result of this effect, they can take another turn that round, with that additional turn having an initiative of 12 less. This effect lasts as long as the caster uses spell maintenance. If the target passes a spell resistance check, this spell has no effect."
+		},
+		imitation: {
+			effect: "Create illusory treasures worth about 1,000 gold coins",
+			range: 1,
+			effectivenessScore: [
+			  {
+				range: [15, 19],
+				duration: "10 minutes"
+			  },
+			  {
+				range: [20, 29],
+				duration: "1 hour"
+			  },
+			  {
+				range: [30, 500],
+				duration: "6 hours"
+			  }
+			],
+			notes: "Those who find value in the false treasures must compare check scores (p. 128): their psyche resistance check score against the total spell use check score for Imitation. Those who win this check see the illusions for what they are. However, if they fail, they do not realize the dubiousness of the situation and believe the treasures are real and wish to obtain them. If the target fails the psyche resistance check, they are fully convinced by the illusion and may be manipulated accordingly. This can include forcing someone who wants the treasures to accept demands or potentially attacking the caster if the demands are too extreme. The illusion disappears when the Duration expires or when the caster moves at least 100 meters away. If the target passes a spell resistance check, the spell has no effect."
+		},
+		interpreter: {
+			target: 'self',
+			duration: '10 Minutes'
+		},
+		light: {
+			target: "1 Object",
+			range: 1,
+			area: "Radius 30m",
+			effectivenessScore: [
+			  {
+				range: [5, 14],
+				duration: "1 hour"
+			  },
+			  {
+				range: [15, 29],
+				duration: "6 hours"
+			  },
+			  {
+				range: [30, 500],
+				duration: "1 day"
+			  }
+			],
+			notes: "Causes the target object to glow or produces a floating orb of light at touch. The caster can decide the intensity of the light before casting. The orb can move up to 20m per round but has no physical effect on anything and won’t receive any damage even if it touches something harmful. When producing an orb, the caster takes a -5 penalty on their spell use check. The light illuminates up to a 30m radius and lasts for a duration determined by the effectiveness score."
+		},
+		lightning: {
+			effect: "Fires a bolt of lightning in a line from the caster",
+			target: "All in Area",
+			range: "100m",
+			effectivenessScore: [
+			  {
+				range: [15, 19],
+				power: "2d6 + 4 + Level"
+			  },
+			  {
+				range: [20, 24],
+				power: "3d6 + 2 + Level"
+			  },
+			  {
+				range: [25, 29],
+				power: "3d6 + 4 + Level"
+			  },
+			  {
+				range: [30, 34],
+				power: "4d6 + 4 + Level"
+			  },
+			  {
+				range: [35, 39],
+				power: "5d6 + 4 + Level"
+			  },
+			  {
+				range: [40, 500],
+				power: "6d6 + 6 + Level"
+			  }
+			],
+			notes: "This attack deals an amount of wind damage determined by the effectiveness score in a straight line up to 100m that hits all targets in its path. If the target passes a spell resistance check, the damage is halved before reducing it with armor score."
+		},
+		lock: {
+			target: "One Door, Lid, or Any Other Object",
+			range: "30m",
+			effectivenessScore: [
+			  {
+				range: [5, 14],
+				duration: "3 rounds"
+			  },
+			  {
+				range: [15, 19],
+				duration: "6 rounds"
+			  },
+			  {
+				range: [20, 29],
+				duration: "10 minutes"
+			  },
+			  {
+				range: [30, 39],
+				duration: "3 hours"
+			  },
+			  {
+				range: [40, 500],
+				duration: "12 hours"
+			  }
+			],
+			notes: "Makes the target object become unopenable and increases its resistance to destruction by ten times. The GM should make decisions regarding means of destruction. The spell's effects last for the duration determined by the effectiveness score, but if there was already a locking mechanism or something like it, then even after the effect lapses, it remains locked."
+		},
+		mageHand: {
+			target: "Caster",
+			duration: "6 rounds",
+			effects: [
+			  {
+				range: [10, 19],
+				description: "The mage hand may be utilized from close distance up to 10 meters for one-handed actions such as attacking with a dagger, utilizing Range: Touch spells, and passing items. Since the hand is invisible, it gives a -4 penalty to basehanded attack parries and defense."
+			  },
+			  {
+				range: [20, 29],
+				description: "Perform two-handed actions with the mage hand, but with a -2 penalty. You may add your sorcerer level to the power of unarmed attacks and weapon power effect and increasing its power by 4 for barehanded attacks. Its unarmed attack is treated as magical and ignores half armor score."
+			  },
+			  {
+				range: [30, 500],
+				description: "You can apply your sorcerer level to manipulation checks using the mage hand. You can also make the mage hand into gigantic, giving it the Bind weapon effect and increasing its power by 4 for barehanded attacks. In addition, you can perform movement obstruction checks and assist with movement obstruction (and resistance) for allies within range of the mage hand. If the caster interferes with the movement, you can add sorcerer level instead of warrior level to the check. In such cases, the obstructer determines the end position of the move."
+			  }
+			],
+			notes: "Creates a hand of energy that can be manipulated at will. The capabilities of the mage hand depend on the effectiveness score, which determines the range of actions and the power of the hand. All effects obtained with a higher effectiveness score include all lower effectiveness score effects, though the number of parries you gain will not change. The hand is only singular, so the caster should have a third hand."
+		},
+		mageShield: {
+			area: "Target: Plate-Shaped Object",
+			range: "Caster's inventory",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					modifier: "+2"
+				},
+				{
+					range: [20, 29],
+					modifier: "+3"
+				},
+				{
+					range: [30, 500],
+					modifier: "+4"
+				}
+			],
+			notes: "The caster can treat any plate-shaped object as a magical shield for 10 minutes. The target must be something without a will of its own and must be in the caster's inventory or money. If the target is a shield, add a Modifier Score determined by its effectiveness score to the shield’s block modifier and block score. If the target is not a shield, it is treated as having the same data as a buckler. This shield attaches to the back of the caster's hand or to their arm, so they don’t need to hold it and can still do things like dual wield. However, if they have another shield, they can only use 1 of them for block checks. The target gains Effects: Treat this shield as proper equipment for a sorcerer. Additionally, you can add your sorcerer level to block checks using this shield."
+		},
+		magicFog: {
+			area: "100m Radius, 5m height"
+		},
+		magicMissile: {
+			target: 1,
+			range: 60,
+			power: "1d6 + 1 * Quantity",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					quantity: 1
+				},
+				{
+					range: [15, 19],
+					quantity: 2
+				},
+				{
+					range: [20, 29],
+					quantity: 3
+				},
+				{
+					range: [30, 500],
+					quantity: 4
+				}
+			],
+			notes: "Produces a quantity of energy arrows that cannot be dodged or resisted and are not affected by armor score. The caster decides how many arrows to shoot at which targets after producing them, but must decide on all targets before calculating damage. Each arrow deals 1d6+1 points of damage."
+		},
+		mindReading: {
+			target: 1,
+			range: 30,
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					effects: "The caster can read the target’s thoughts and feelings from the instant the spell is cast."
+				},
+				{
+					range: [20, 29],
+					effects: "After reading the target’s thoughts and feelings, the caster can ask 1 question and know the answer the target thinks in response."
+				},
+				{
+					range: [30, 500],
+					effects: "The caster can record the target’s thoughts or memories at the time the spell was cast. If desired, they can read any part of the target’s memories for Duration: 10 minutes and simulate responses to specific situations."
+				}
+			],
+			notes: "If the target passes a spell resistance check, the spell has no effect. If the target is sentient or is a kind of existence completely different from the caster, the target gains a +4 bonus on their spell resistance check against this spell."
+		},
+		otherSelf: {
+			area: 5,
+			duration: "1 Day"
+		},
+		panic: {
+			area: "Sphere, Radius 15m",
+			range: 30,
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					effects: "The fear causes the target to lose their confidence. They take a −2 penalty on all checks except resistance checks.",
+					duration: "1 round"
+				},
+				{
+					range: [15, 19],
+					effects: "The target also takes a −2 penalty on all checks made for active actions. This is a −4 penalty in total.",
+					duration: "3 rounds"
+				},
+				{
+					range: [20, 29],
+					effects: "The target also attempts to flee for the duration of the spell.",
+					duration: "6 rounds"
+				},
+				{
+					range: [30, 500],
+					effects: "For the first round they are afflicted by this spell, the target is unable to move or take action, and all their checks, except for resistance checks, automatically fail.",
+					duration: "6 rounds"
+				}
+			],
+			notes: "This spell creates a sphere of fear. The fear lasts as long as the caster uses spell maintenance. If the target passes a spell resistance check, the spell has no effect on them. Even if a target leaves the spell’s initial area of effect, they will still be under the spell’s effects for as long as spell maintenance is active. GM should decide the finer details of the spell based on the situation."
+		},
+		quicksand: {
+			area: "Sphere, see Radius",
+			range: 30,
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					radius: "3m"
+				},
+				{
+					range: [20, 29],
+					radius: "5m"
+				},
+				{
+					range: [30, 39],
+					radius: "10m"
+				},
+				{
+					range: [40, 500],
+					radius: "15m"
+				}
+			],
+			notes: "Changes the ground into magical quicksand that swallows any small animals or items that fall to the ground. When a character enters the quicksand or begins their turn in it, they must make a spell resistance check. If they fail, their legs are trapped, and they receive a −2 penalty on all checks each round until they escape or the spell ends. Exiting the quicksand reduces the penalty by 2 each time they try. A character can help another within the quicksand to reduce the penalty or exit quicker. Once all penalties are lost, characters regain the ability to move. This effect lasts as long as the caster maintains concentration. After the effects are lost, any creatures or objects that the quicksand swallowed will slowly be pushed back aboveground."
+		},
+		selfVision: {
+			range: 5,
+			target: 1,
+			duration: '6 Rounds'
+		},
+		senseRisk: {
+			target: "Self",
+			effectivenessScore: [
+				{
+					range: [5, 14],
+					duration: "6 rounds"
+				},
+				{
+					range: [15, 29],
+					duration: "10 minutes"
+				},
+				{
+					range: [30, 500],
+					duration: "1 hour"
+				}
+			],
+			notes: "When this spell is active, the caster will immediately know of any imminent dangers such as traps or ambushes and understand what those dangers entail. The spell's effect and duration depend on the effectiveness score achieved when casting."
+		},
+		sleep: {
+			area: "Sphere, see Radius",
+			range: 60,
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					radius: "5m"
+				},
+				{
+					range: [15, 19],
+					radius: "10m"
+				},
+				{
+					range: [20, 24],
+					radius: "15m"
+				},
+				{
+					range: [25, 29],
+					radius: "20m"
+				},
+				{
+					range: [30, 500],
+					radius: "30m"
+				}
+			],
+			notes: "This spell causes all targets within the affected area to fall asleep unless they pass a spell resistance check. Those affected fall prone and cannot move or perform actions, except resistance checks. If awoken by significant stimulation or damage, targets immediately wake up. This effect lasts as long as the caster maintains spell maintenance."
+		},
+		slow: {
+			area: "Sphere",
+			radius: 30,
+			effectivenessScore: [
+				{
+					range: [15, 19],
+					penalty: "-2"
+				},
+				{
+					range: [20, 24],
+					penalty: "-3"
+				},
+				{
+					range: [25, 29],
+					penalty: "-4"
+				},
+				{
+					range: [30, 39],
+					penalty: "-5"
+				},
+				{
+					range: [40, 49],
+					penalty: "-6"
+				},
+				{
+					range: [50, 500],
+					penalty: "-7"
+				}
+			],
+			notes: "Targets within the affected area lose half their movement speed and suffer a penalty to all checks made. If a target’s initiative goes below 0 as a result of this spell, they are completely stopped for that round, unable to make any movement or action. Flying characters lose their flight ability and fall 3 meters. The effect lasts as long as the caster maintains spell maintenance. This spell has no effect if the target passes a resistance check."
+		},
+		slowFall: {
+			target: 'All',
+			area: "Sphere",
+			radius: 10,
+			range: 30
+		},
+		spiderWeb: {
+			area: "Sphere with Radius based on the effectiveness score centered on a point within Range: 60m",
+			effectivenessScore: [
+				{
+					range: [10, 14],
+					radius: "3m",
+					duration: "3 rounds"
+				},
+				{
+					range: [15, 19],
+					radius: "5m",
+					duration: "3 rounds"
+				},
+				{
+					range: [20, 24],
+					radius: "10m",
+					duration: "6 rounds"
+				},
+				{
+					range: [25, 29],
+					radius: "15m",
+					duration: "6 rounds"
+				},
+				{
+					range: [30, 500],
+					radius: "30m",
+					duration: "10 minutes"
+				}
+			],
+			notes: "This spell creates a sticky web that adheres to any surface, trapping any characters who enter. Trapped characters are unable to move or make melee attacks and suffer a −2 penalty to all fitness checks, manipulation checks, movement checks, and other checks involving movement. They can escape by performing an escape check. The web is weak to fire; fire damage or a main action to burn it will destroy the web."
+		},
+		stoneWall: {
+			area: "20m from the caster",
+			effectivenessScore: [
+				{
+					range: [15, 19],
+					durability: "50",
+					duration: "3 rounds"
+				},
+				{
+					range: [20, 24],
+					durability: "50",
+					duration: "6 rounds"
+				},
+				{
+					range: [25, 29],
+					durability: "100",
+					duration: "6 rounds"
+				},
+				{
+					range: [30, 500],
+					durability: "200",
+					duration: "10 minutes"
+				}
+			],
+			notes: "The wall is 5m tall, 10m wide, and 50cm thick. It cannot overlap with other objects and is opaque and solid. It has an armor score of 10. If it takes damage from attacks or magic and the damage isn't a critical failure, it accumulates a wound count. If the wound count reaches the wall's durability, the wall is destroyed. After the duration, the wall crumbles and turns into earth."
+		},
+		strengthBoost: {
+			target: "Self",
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					modifier: "+2",
+					duration: "10 minutes"
+				},
+				{
+					range: [20, 29],
+					modifier: "+4",
+					duration: "10 minutes"
+				},
+				{
+					range: [30, 500],
+					modifier: "+6",
+					duration: "10 minutes"
+				}
+			],
+			notes: "This spell increases the caster's strength and consequently their life force for a duration of 10 minutes."
+		},
+		transparent: {
+			target: "Self",
+			modifier: -6
+		},
+		unlock: {
+			target: "Door, Lid, or Other Similar Object",
+			range: 10,
+			effectivenessScore: [
+				{
+					range: [10, 19],
+					effects: "Open a door. If it's locked, it becomes unlocked."
+				},
+				{
+					range: [20, 29],
+					effects: "If a physical trap or the like was set on the lock, it will not trigger."
+				},
+				{
+					range: [30, 500],
+					effects: "You can undo magically closed locks and traps as well. It may not work with certain spells."
+				}
+			],
+			notes: "Releases the lock or similar mechanism of a target within 10 meters. The caster can choose to open the target at the same time as the spell takes effect. The effects of higher effectiveness scores include those of lower ones. The GM can decide on more specific details for the situation."
+		},
+		vision: {
+			range: 30,
+			effectivenessScore: [
+				{
+					range: [5, 9],
+					size: "Up to the size of a personal item"
+				},
+				{
+					range: [10, 19],
+					size: "Up to the size of a person"
+				},
+				{
+					range: [20, 29],
+					size: "Up to a size you could easily fit 5-6 people inside"
+				},
+				{
+					range: [30, 39],
+					size: "Up to the size of a large room"
+				},
+				{
+					range: [40, 500],
+					size: "Up to the size of a small house"
+				}
+			],
+			notes: "The caster creates and controls an illusion that is both visible and audible. The size of the illusion is determined by the effectiveness score. Observers of the illusion must make a spell resistance check to discern its nature. If they pass, they recognize it as an illusion; if they fail, they believe it is real."
+		},
+		weatherControl: {
+			area: "3km Radius from the caster",
+			duration: "1 hour",
+			effectivenessScore: [
+				{
+					range: [15, 19],
+					effects: "Can do things found in nature, such as turn clear weather to fair, make rain fall from large clouds, and calm storms."
+				},
+				{
+					range: [20, 29],
+					effects: "Can do clearly unnatural things, like turn fair skies to clouds, cool hot days, and stop heavy rains."
+				},
+				{
+					range: [30, 500],
+					effects: "Can do crazy things, such as make snow fall on a hot, humid day; turn storms to fair weather; and call lightning down from clear skies."
+				}
+			],
+			notes: "This spell allows the caster to control the weather within a 3km radius. The degree of control depends on the effectiveness score, with more dramatic changes possible at higher scores. After the spell's duration, the weather returns to its normal pattern."
 		}
 	}
 }

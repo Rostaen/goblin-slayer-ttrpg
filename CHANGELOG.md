@@ -2,13 +2,17 @@
 
 ## Recent updates
 
+### 2024-09-17
+
+- Finished adding spell Effectivenss Score JSON objects into the game.
+
 ### 2024-09-16
 
-- Adding more Effectiveness Scores JSON objects.
+- Adding more spell Effectiveness Score JSON objects.
 
 ### 2024-09-13
 
-- Implementing new Spell Effectiveness JSON objects to allow for ease of automated rolls and other combat related needs.
+- Implementing new spell Effectiveness Score JSON objects to allow for ease of automated rolls and other combat related needs.
 
 ### 2024-09-12
 
