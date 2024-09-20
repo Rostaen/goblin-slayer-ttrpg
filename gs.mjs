@@ -176,26 +176,28 @@ async function weaponMacroHotbarDrop(data, slot){
 	if (data.type === "Item") {
 		const item = await fromUuid(data.uuid);
         const actor = item.parent;
-		// console.log('... checking data drop', item);
+		console.log('... checking data drop', item, actor);
 
         if (actor && item) {
-            let command = `const actor = game.actors.get("${actor.id}");
-				const item = actor.items.get("${item.id}");
+            let command = `const actor = game.actors.get("${actor._id}");
 				// Mock event object
 				const mockEvent = {
 					preventDefault: () => {},
 					currentTarget: {
 						dataset: {
-							itemid: "${item.id}"
+							itemid: "${item._id}"
 						}
 					}
-				};`;
-			if(item.type === 'weapon'){
+				};
+				`;
+			if(item.type === 'weapon')
 				command += `actor.sheet._playerAttack(mockEvent);`;
-			}else if(item.type === 'armor')
+			else if(item.type === 'armor')
 				command += `actor.sheet._playerDodge(mockEvent);`;
 			else if(item.type === 'shield')
 				command += `actor.sheet._playerBlock(mockEvent);`;
+			else if(item.type === 'spell')
+				command += `actor.sheet._playerSpellCast(mockEvent);`;
 			else
 				console.log(`GS Hotbar Drop Error | The current item you have dropped into the hot bar is not configured yet.`);
 
@@ -203,7 +205,7 @@ async function weaponMacroHotbarDrop(data, slot){
 
 			if(!macro){
 				macro = await Macro.create({
-					name: `Attack with ${item.name}`,
+					name: `Roll ${item.name}`,
 					type: "script",
 					img: item.img,
 					command: command,

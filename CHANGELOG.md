@@ -2,6 +2,24 @@
 
 ## Recent updates
 
+### 2024-09-20
+
+- Spells are draggable and usable from the macro bar.
+- Finished new Faith: XX check and modifiers.
+- Finished Multiple Chants skill.
+- Updated Macro bar drops so hover name is clearer.
+- Spell effectiveness bonus showing to chat window.
+
+### 2024-09-19
+
+- Finishing Spell Use check to chat window.
+- Updating elements for cleaner look.
+- Working on Faith: XX check if multiple spell classes and skills conflict.
+
+### 2024-09-18
+
+- Setup of Moving Chants and Faith: XX Use checks.
+
 ### 2024-09-17
 
 - Finished adding spell Effectivenss Score JSON objects into the game.

@@ -447,7 +447,9 @@
       "spells": {
         "spUse": "Spell Use",
         "cast": "Cast",
-        "spellCast": "Spell Casting"
+        "spellCast": "Spell Casting",
+        "useCheck": "Use Check",
+        "diffCheck": "DC"
       },
       "monsterSheet": {
         "boss": "Can this monster be a boss?",
@@ -642,6 +644,19 @@
         "body": "Choose to roll either an General Knowledge, Monster Knowledge, or a Riding check (see General Skill) which will include this skill level bonus: ",
         "button1": "General Knowledge",
         "button2": "Monster Knowledge"
+      },
+      "multipleChants": {
+        "title": "Number of Spells Cast",
+        "header": "Choose an amount of spells to cast this round.",
+        "body0": " <span style='color: darkred'>Important:</span> Use the same button if casting multiple times for each spell Use Check.",
+        "body1": "Cast 2 Spells: -8 Penalty Each<br>Cast 1 Spell: 0 Penatly<br>&nbsp;",
+        "body2": "Cast 2 Spells: -4 Penalty Each<br>Cast 1 Spell: 0 Penatly<br>&nbsp;",
+        "body3": "Cast 3 Spells: -8 Penalty Each<br> Cast 2 Spells: -4 Penalty Each<br>Cast 1 Spell: 0 Penalty<br>&nbsp;",
+        "body4": "Cast 3 Spells: -4 Penalty Each<br> Cast 2 Spells: -2 Penalty Each<br>Cast 1 Spell: 0 Penalty<br>&nbsp;",
+        "body5": "Cast 3 Spells: -4 Penalty Each<br> Cast 1-2 Spells: 0 Penalty Each<br>&nbsp;",
+        "button1": "1 Spell",
+        "button2": "2 Spells",
+        "button3": "3 Spells"
       }
     }
   }

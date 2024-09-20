@@ -671,7 +671,7 @@ gs.spells = {
 			]
 		}
 	},
-	miracles: {
+	miracle: {
 		eucharist: {
 			food: {
 				range: 5,
@@ -1320,7 +1320,7 @@ gs.spells = {
 			catalyst: "Necroption"
 		}
 	},
-	spiritArts: {
+	spiritArt: {
 		calamity: {
 			type: "Spirit Arts",
 			range: 60,

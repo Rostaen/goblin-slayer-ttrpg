@@ -356,34 +356,83 @@ export default class GSActorSheet extends ActorSheet{
 		const actor = this.actor;
 		const actorToken = game.actors.get(actor._id).getActiveTokens()[0];
 		const defaultDice = '2d6';
-		const spellId = event.currentTarget.dataset.id;
+		const spellId = event.currentTarget.dataset.itemid;
 		const spells = this._getFromItemsList('spell');
 		const spellUsed = spells.find(s => s._id === spellId);
-		const tempSpellSchool = spellUsed.system.schoolChoice.split(" ");
-		const tempSpellName = spellUsed.name.split(" ");
-		const configSpells = CONFIG.gs.spells;
-		let lowerCamelSpellName = '', lowerCamelSchoolName = '', castingClass = '';
+		const spellDC = spellUsed.system.difficulty;
 		let chatMessage = this._setMessageHeader(actor, spellUsed, 'spellCast');
 
-		// Converting spell name to lowerCamelCase.
-		for(let x = 0; x < tempSpellName.length; x++)
-			x === 0 ? lowerCamelSpellName = tempSpellName[x].toLowerCase() : lowerCamelSpellName += tempSpellName[x];
-
-		// Converting school name to lowerCamelCase
-		for(let x = 0; x < tempSpellSchool.length; x++)
-			x === 0 ? lowerCamelSchoolName = tempSpellSchool[x].toLowerCase() : lowerCamelSchoolName += tempSpellSchool[x];
+		// Adding Spell DC to chat
+		chatMessage += this._addToFlavorMessage('rollScore', game.i18n.localize('gs.dialog.spells.diffCheck'), spellDC);
 
 		// Setting base hit check dice to chat window
 		chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
 
 		// Get casting class level bonus
-		let {classBonus, message, stat} = this._getClassLevelBonus2('casting', spellUsed, chatMessage);
+		let {classBonus, chatMessage: message, statUsed: stat} = this._getClassLevelBonus2('casting', spellUsed, chatMessage);
 		chatMessage = message;
 
-		// Get Skill Modifiers???
+		// Get Skill Modifiers
+		// Checking for Faith: XX skills
+		let {skillBonus: tempFaithBonus, message: tempFaithMessage} = await this._faithCheck(spellUsed);
+		if(tempFaithMessage) chatMessage += tempFaithMessage;
 
+		// Checking Multiple Chants
+		let {bonus: tempMChantBonus, message: tempMChantMessage} = await this._multiChantCheck();
+		if(tempMChantMessage) chatMessage += tempMChantMessage;
 
+		// Check for move pentalty and reduce as needed.
+		let {message: moveMessage, movePenalty: movePen} = await this._reduceMovementPenalty();
+		if(moveMessage) chatMessage += moveMessage;
 
+		// Get random modifiers from Prompt
+		let randomMods = await this._promptRandomModifiers();
+		if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
+
+		// Setting Roll Message
+		let rollString = this._setRollMessage(defaultDice, 0, stat, classBonus, tempMChantBonus, randomMods, movePen + tempFaithBonus);
+
+		// Rolling Dice
+		let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
+
+		// Getting Master of XX skill (if any) to modify crit range
+		const skills = this._getFromItemsList('skill');
+		let masterOfXX = skills.find(s => s.name === `Master of ${spellUsed.system.elementChoice}`) || null;
+
+		// Comparing EffectScore to DC
+		const effectScoreResult = rollTotal >= spellDC ? true : false;
+		if(effectScoreResult)
+			chatMessage += this._addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.succ'));
+		else
+			chatMessage += this._addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.fail'));
+
+		// Checking for Crit Success/Failure
+		const critStatus = this._checkForCriticals(diceResults, masterOfXX);
+		if(critStatus != undefined || critStatus != null){
+			if(critStatus[0] === 'success')
+				rollTotal += 5;
+			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+			chatMessage += `${critStatus[1]}`;
+		}
+
+		// TODO: Add extra dice for specific spells here
+		let results = null;
+		if(effectScoreResult)
+			results = this._addEffectiveResults(spellUsed, rollTotal);
+
+		// Adding to chatMessage if anything is there
+		if(results)
+			for(let x = 0; x < results.length; x++)
+				if(x > 0)
+					chatMessage += results[x];
+
+		// Sending dice rolls to chat window
+		await roll.toMessage({
+			speaker: { actor: actor },
+			flavor: chatMessage,
+			user: game.user.id
+			// content: Change dice rolls and other items here if needed
+		});
 	}
 
 	async _playerSpellResistance(event){
@@ -497,7 +546,7 @@ export default class GSActorSheet extends ActorSheet{
 			'toHit': game.i18n.localize('gs.actor.monster.supportEffect.hit'),
 			'dodge': game.i18n.localize('gs.dialog.dodge.roll'),
 			'block': game.i18n.localize('gs.dialog.block.roll'),
-			'spellCast': game.i18n.localize('gs.dialog.spells.spellCast'),
+			'spellCast': game.i18n.localize('gs.dialog.spells.useCheck'),
 		};
 		const messageLabel = labelMapping[labelHeading] || labelHeading; //labelHeading here is used for GenSkill Roll Type eg Int Focus, etc.
 		return `<div class="chat messageHeader grid grid-7col">
@@ -509,7 +558,6 @@ export default class GSActorSheet extends ActorSheet{
 		return '<div class="chat messageEnder"></div>';
 	}
 
-	// Currently working with: Weapons, Shields, Armor
 	_getClassLevelBonus2(classifier, itemInfo, chatMessage){
 		// Get's level score from JSON and applies it to the correctly labeled const, ex: monk = ...classes.monk || necro = ...classes.necro
 		const {fighter = 0, monk = 0, ranger = 0, scout = 0, sorcerer = 0, priest = 0, dragon = 0, shaman = 0, necro = 0 } = this.actor.system.levels.classes;
@@ -588,6 +636,7 @@ export default class GSActorSheet extends ActorSheet{
 			const intBased = ['Words of True Power', 'Necromancy'];
 			if(intBased.includes(schoolChoice)){
 				statUsed = abilityScores.if;
+				chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.intFoc'), statUsed);
 				if(schoolChoice === 'Words of True Power'){
 					classBonus = sorcerer;
 					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.sorc'), classBonus);
@@ -597,6 +646,7 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}else if(psyBased.includes(schoolChoice)){
 				statUsed = abilityScores.pf;
+				chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.psyFoc'), statUsed);
 				if(schoolChoice === 'Miracle'){
 					classBonus = priest;
 					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.prie'), classBonus);
@@ -609,7 +659,7 @@ export default class GSActorSheet extends ActorSheet{
 				}
 			}
 		}
-		return {classBonus, message: chatMessage, stat: statUsed};
+		return {classBonus, chatMessage, statUsed};
 	}
 
 	async _getHitSkillModifier(skills, itemInfo){
@@ -781,7 +831,7 @@ export default class GSActorSheet extends ActorSheet{
 			}
 		});
 		if(gorTactFlag){
-			tempAmount +=  + gorTactFlag;
+			tempAmount += gorTactFlag;
 			eSMessage += this._addToFlavorMessage('skillEffectiveScore', 'Gorilla Tactics', gorTactFlag);
 		}
 		return {tempAmount, eSMessage};
@@ -938,6 +988,135 @@ export default class GSActorSheet extends ActorSheet{
 		return this.actor.items.filter(i => i.type === typeName);
 	}
 
+	async _faithCheck(spell){
+		const skills = this._getFromItemsList('skill');
+		let message = '';
+		let skillBonus = 0;
+		const spellFaith = [ 'Miracle', 'Ancestral Dragon'];
+		const faithBonus = [ 'Faith: Supreme God', 'Faith: Earth Mother', 'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie' ];
+
+		// Return early if school choice is not listed below
+		if(!spellFaith.includes(spell.system.schoolChoice))
+			return {skillBonus, message};
+
+		const setSkillInfo = async (skillBonus, theSkill) => {
+			const chantlessMod = await this._promptMiscModChoice('faith');
+			if(chantlessMod){
+				skillBonus = skillBonus === 1 ? -4 : skillBonus === 2 ? -2 : 0;
+				message += this._addToFlavorMessage('skillScore', theSkill.name, skillBonus);
+			}else
+				skillBonus = 0;
+			return skillBonus;
+		}
+
+		const dragonFaith = skills.find(s => s.name === 'Faith: Ancestral Dragon')?.name || '';
+
+		if(spell.system.schoolChoice === 'Ancestral Dragon' && (dragonFaith === 'Faith: Ancestral Dragon')){
+			const dragonSkill = skills.find(s => s.name === 'Faith: Ancestral Dragon');
+			skillBonus = dragonSkill.system.value;
+			skillBonus = await setSkillInfo(skillBonus, dragonSkill);
+		}
+		if(spell.system.schoolChoice === 'Miracle'){
+			let theSkill = null;
+			skills.forEach(s => {
+				if(faithBonus.includes(s.name))
+					theSkill = s;
+			});
+			if(theSkill){
+				skillBonus = this._getSkillBonus(theSkill.name);
+				skillBonus = await setSkillInfo(skillBonus, theSkill);
+			}
+		}
+		return {skillBonus, message};
+	}
+
+	async _multiChantCheck(){
+		const skills = this._getFromItemsList('skill');
+		const multiChantSkill = skills.find(s => s.name === 'Multiple Chants') || 0;
+		let bonus = 0, message = '';
+
+		// Return early if skill is missing
+		if(!multiChantSkill) return {bonus, message};
+
+		// Getting skill Value and prompting for spells being cast
+		const skillValue = this._getSkillBonus(multiChantSkill.name);
+		const numOfSpellsUsed = await this._promptMiscModChoice('multipleChants', skillValue);
+		if(numOfSpellsUsed === 2)
+			bonus = skillValue === 1 ? -8 : skillValue === 2 ? -4 : skillValue === 3 ? -4 : skillValue === 4 ? -2 : 0;
+		else if(numOfSpellsUsed === 3)
+			bonus = skillValue === 3 ? -8 : -4;
+
+		message = this._addToFlavorMessage('skillScore', multiChantSkill.name, bonus);
+		return {bonus, message};
+	}
+
+	_reduceMovementPenalty(){
+		const movementPenalty = this.actor.getFlag('gs', 'Movement Penalty');
+		let message, movePenalty = 0, skillBonus = 0;
+
+		// If move penalty not found, return early
+		if(!movementPenalty) return {message, movePenalty};
+
+		// Looking for Moving Chant Skill
+		const skills = this._getFromItemsList('skill');
+		const movingChantSkill = skills.find(s => skill.name === 'Moving Chant') || 0;
+
+		// Return if not found
+		if(!movingChantSkill){
+			movePenalty = movementPenalty;
+			return {message, movePenalty};
+		}
+
+		// Calculate new neg modifier
+		let movingChantBonus = movingChantSkill.system.value;
+		if(movingChantBonus < 4){
+			movePenalty = movementPenalty - (movingChantBonus + 1);
+			skillBonus = movingChantBonus + 1
+		}else if(movingChantBonus < 5){
+			movePenalty = movementPenalty - (movingChantBonus + 2);
+			skillBonus = movingChantBonus + 2
+		}else
+			skillBonus = movementPenalty;
+
+		message = this._addToFlavorMessage('skillEffectiveScore', movingChantSkill.name, skillBonus);
+
+		return {message, movePenalty};
+	}
+
+	_addEffectiveResults(spellUsed, rollTotal){
+		const tempSpellSchool = spellUsed.system.schoolChoice.split(" ");
+		const tempSpellName = spellUsed.name.split(" ");
+		let lowerCamelSpellName = '', lowerCamelSchoolName = '';
+		let configSpell;
+		let results = [];
+
+		// Converting spell name to lowerCamelCase.
+		for(let x = 0; x < tempSpellName.length; x++)
+			x === 0 ? lowerCamelSpellName = tempSpellName[x].toLowerCase() : lowerCamelSpellName += tempSpellName[x];
+
+		// Converting school name to lowerCamelCase
+		for(let x = 0; x < tempSpellSchool.length; x++)
+			x === 0 ? lowerCamelSchoolName = tempSpellSchool[x].toLowerCase() : lowerCamelSchoolName += tempSpellSchool[x];
+
+		console.log('... checking camel cases', lowerCamelSchoolName, lowerCamelSpellName);
+
+		// Grabbling spell effect score range and modifications
+		configSpell = CONFIG.gs.spells[lowerCamelSchoolName][lowerCamelSpellName].effectiveScore;
+
+		configSpell.forEach(s => {
+			if(rollTotal >= s.range[0] && rollTotal <= s.range[1])
+				results.push(s);
+		});
+
+		for(let [key, item] of Object.entries(results[0])){
+			if(key !== 'range'){
+				results.push(this._addToFlavorMessage('armorDodgeScore', key.charAt(0).toUpperCase() + key.slice(1), item));
+			}
+		}
+
+		return results;
+	}
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~ OLD CODE BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	/**
@@ -1076,10 +1255,10 @@ export default class GSActorSheet extends ActorSheet{
 	 * @param {int} classBonus Class bonus for given roll.
 	 * @param {int} skillItemMod Bonus from weapons/armor/shields/etc.
 	 * @param {int} promptMod Extra modifier from prompt.
-	 * @param {int} fourthMod TBD
+	 * @param {int} negativeMods Use for negative modifiers from skills and other sources
 	 * @returns Roll message to be evaluated by Foundry.
 	 */
-	_setRollMessage(dice = "2d6", weaponMod = 0, abilityScore = 0, classBonus = 0, skillItemMod = 0, promptMod = 0, fourthMod = 0){
+	_setRollMessage(dice = "2d6", weaponMod = 0, abilityScore = 0, classBonus = 0, skillItemMod = 0, promptMod = 0, negativeMods = 0){
 		let rollMessage = dice, fatigueMod;
 
 		if(this.actor.type === 'character')
@@ -1087,7 +1266,7 @@ export default class GSActorSheet extends ActorSheet{
 		else
 			fatigueMod = 0;
 
-		//console.log(">>> AbilScore", abilityScore, "CB", classBonus, "ItemMod", skillItemMod, "promptMod", promptMod, "fourthMod", fourthMod);
+		// console.log(">>> AbilScore", abilityScore, "CB", classBonus, "ItemMod", skillItemMod, "promptMod", promptMod, "negativeMods", negativeMods);
 
 		if(weaponMod > 0 || weaponMod < 0)
 			rollMessage += ` + ${weaponMod}`;
@@ -1103,8 +1282,8 @@ export default class GSActorSheet extends ActorSheet{
 			rollMessage += ` + ${promptMod}`;
 		else if(promptMod < 0)
 			rollMessage += ` - ${Math.abs(promptMod)}`;
-		if(fourthMod > 0 && fourthMod !== "")
-			rollMessage += ` + ${fourthMod}`;
+		if(negativeMods < 0)
+			rollMessage += ` - ${Math.abs(negativeMods)}`;
 		if(fatigueMod < 0)
 			rollMessage += ` - ${Math.abs(fatigueMod)}`;
 		return rollMessage;
@@ -1684,9 +1863,10 @@ export default class GSActorSheet extends ActorSheet{
 	async _checkFaith(skills, localizedMessage, spellID){
 		let skillBonus = 0;
 		const spell = this.actor.items.get(spellID);
-		if(spell.system.schoolChoice === "Miracle" || spell.system.schoolChoice === "Ancestral Dragon"){
+		const faithSystems = [ "Miracle", "Ancestral Dragon" ];
+		if(faithSystems.includes(spell.system.schoolChoice)){
 			const faithBonus = [ 'Faith: Supreme God', 'Faith: Earth Mother',
-				'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie', 'Faith: Ancestral Dragon'];
+				'Faith: Trade God', 'Faith: God of Knowledge', 'Faith: Valkyrie', 'Faith: Ancestral Dragon' ];
 			let theSkill = null;
 			skills.forEach(skill => {
 				if(faithBonus.includes(skill.name)){
@@ -1739,6 +1919,10 @@ export default class GSActorSheet extends ActorSheet{
 	 */
 	_addToFlavorMessage(cssClass, labelName, labelMessage){
 		return `<div class="${cssClass} specialRollChatMessage">${labelName}: ${labelMessage}</div>`;
+	}
+
+	_addEffectiveMessage(cssClass, labelName, labelMessage){
+		return `<div class="${cssClass}">${labelName}: ${labelMessage}</div>`;
 	}
 
 	/**
@@ -2728,10 +2912,41 @@ export default class GSActorSheet extends ActorSheet{
 						resolve(game.i18n.localize(`gs.dialog.${selector}.button3`));
 					}
 				};
+			}else if(promptType === 'multipleChants'){
+				promptTitle = game.i18n.localize(`gs.dialog.${promptType}.title`);
+				// promptName is holding the Skill Value in this case
+				dialogContent = `<h3>` + game.i18n.localize(`gs.dialog.${promptType}.header`) + `</h3>
+					<div>`+ game.i18n.localize(`gs.dialog.${promptType}.body0`) + `</div><div>&nbsp;</div>
+					<div>`+ game.i18n.localize(`gs.dialog.${promptType}.body${promptName}`) +`</div>`;
+
+				// Adding buttons
+				button1 = {
+					label: game.i18n.localize(`gs.dialog.${promptType}.button1`),
+					callback: () => {
+						resolve(1);
+					}
+				};
+				button2 = {
+					label: game.i18n.localize(`gs.dialog.${promptType}.button2`),
+					callback: () => {
+						resolve(2);
+					}
+				};
+				button3 = {
+					label: game.i18n.localize(`gs.dialog.${promptType}.button3`),
+					callback: () => {
+						resolve(3);
+					}
+				};
+
 			}
 
 			if(promptType != 'returnSpell')
 				buttons = { button1: button1, buttonTwo: button2 };
+
+			if(promptType === 'multipleChants' && promptName > 2)
+				buttons.button3 = button3;
+
 			if(thirdButtonNames.includes(promptType))
 				buttons.button3 = button3;
 
