@@ -692,11 +692,11 @@ gs.spells = {
 			range: 30,
 			duration: '12 Rounds',
 			effectiveScore: [
-				{ range: [10, 14], modifier: 3, recovery: 2 },
-				{ range: [15, 19], modifier: 4, recovery: 2 },
-				{ range: [20, 29], modifier: 4, recovery: 3 },
-				{ range: [30, 39], modifier: 5, recovery: 3 },
-				{ range: [40, 500], modifier: 6, recovery: 4 },
+				{ range: [10, 14], modifier: 3, heal: 2 },
+				{ range: [15, 19], modifier: 4, heal: 2 },
+				{ range: [20, 29], modifier: 4, heal: 3 },
+				{ range: [30, 39], modifier: 5, heal: 3 },
+				{ range: [40, 500], modifier: 6, heal: 4 },
 			]
 		},
 		guidance: {
@@ -851,12 +851,12 @@ gs.spells = {
 				touch: 5
 			},
 			effectiveScore: [
-				{ range: [5, 9], power: '2d6 + Level' },
-				{ range: [10, 14], power: '3d6 + Level' },
-				{ range: [15, 19], power: '3d6 + 5 + Level' },
-				{ range: [20, 24], power: '4d6 + 5 + Level' },
-				{ range: [25, 29], power: '4d6 + 10 + Level' },
-				{ range: [30, 500], power: '5d6 + 15 + Level' },
+				{ range: [5, 9], recovery: '2d6 + Level' },
+				{ range: [10, 14], recovery: '3d6 + Level' },
+				{ range: [15, 19], recovery: '3d6 + 5 + Level' },
+				{ range: [20, 24], recovery: '4d6 + 5 + Level' },
+				{ range: [25, 29], recovery: '4d6 + 10 + Level' },
+				{ range: [30, 500], recovery: '5d6 + 15 + Level' },
 			]
 		},
 		protection: {

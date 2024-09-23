@@ -399,21 +399,26 @@ export default class GSActorSheet extends ActorSheet{
 		const skills = this._getFromItemsList('skill');
 		let masterOfXX = skills.find(s => s.name === `Master of ${spellUsed.system.elementChoice}`) || null;
 
-		// Comparing EffectScore to DC
-		const effectScoreResult = rollTotal >= spellDC ? true : false;
-		if(effectScoreResult)
-			chatMessage += this._addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.succ'));
-		else
-			chatMessage += this._addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.fail'));
+		// Setting EffectScore vs DC results
+		let effectScoreResult = rollTotal >= spellDC ? true : false;
 
 		// Checking for Crit Success/Failure
 		const critStatus = this._checkForCriticals(diceResults, masterOfXX);
-		if(critStatus != undefined || critStatus != null){
-			if(critStatus[0] === 'success')
+		if(critStatus[0] === 'success'){
+			if(effectScoreResult)
 				rollTotal += 5;
+			else
+				rollTotal = spellDC;
 			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
 			chatMessage += `${critStatus[1]}`;
+		}else if(critStatus[0] === 'normal'){
+			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+		}else if(critStatus[0] === 'fail'){
+			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+			rollTotal = 0;
+			effectScoreResult = false;
 		}
+		chatMessage += this._checkEffectResulsts(effectScoreResult);
 
 		// TODO: Add extra dice for specific spells here
 		let results = null;
@@ -421,10 +426,22 @@ export default class GSActorSheet extends ActorSheet{
 			results = this._addEffectiveResults(spellUsed, rollTotal);
 
 		// Adding to chatMessage if anything is there
+		let diceHold = null;
 		if(results)
-			for(let x = 0; x < results.length; x++)
+			for(let x = 0; x < results.length; x++){
 				if(x > 0)
 					chatMessage += results[x];
+				else{
+					for(const [key, item] of Object.entries(results[0])){
+						if(key === 'recovery' || key === 'power')
+							diceHold = this._setSpellPowerDice(key, item, spellUsed);
+					}
+				}
+			}
+
+		// Adding dice button to end of message if true
+		if(diceHold)
+			chatMessage += diceHold;
 
 		// Sending dice rolls to chat window
 		await roll.toMessage({
@@ -925,6 +942,13 @@ export default class GSActorSheet extends ActorSheet{
 		return targetMessage;
 	}
 
+	_setSpellPowerDice(key, extractedDice, spell){
+		return `<div class='spellTarget grid grid-2col'>
+			<div style="display:flex; justify-content: center; align-items: center; font-size: 14px;">${game.i18n.localize('gs.dialog.spells.rolldice')}</div>
+			<button type="button" class="actorSpellDmg" data-keyType="${key}" data-rolldice="${extractedDice}" data-playerid="${this.actor._id}" data-spell="${spell}"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+		</div>`;
+	}
+
 	async _genRollsToWindow(promptChoices){
 		// promptChoices = [labelText 0, abilityScore 1, classLevelBonus 2, modifiers 3, className 4, skillBonus 5, skill 6];
 		const defaultDice = '2d6';
@@ -1098,8 +1122,6 @@ export default class GSActorSheet extends ActorSheet{
 		for(let x = 0; x < tempSpellSchool.length; x++)
 			x === 0 ? lowerCamelSchoolName = tempSpellSchool[x].toLowerCase() : lowerCamelSchoolName += tempSpellSchool[x];
 
-		console.log('... checking camel cases', lowerCamelSchoolName, lowerCamelSpellName);
-
 		// Grabbling spell effect score range and modifications
 		configSpell = CONFIG.gs.spells[lowerCamelSchoolName][lowerCamelSpellName].effectiveScore;
 
@@ -1115,6 +1137,13 @@ export default class GSActorSheet extends ActorSheet{
 		}
 
 		return results;
+	}
+
+	_checkEffectResulsts(effectScoreResult){
+		if(effectScoreResult)
+			return this._addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.succ'));
+		else
+			return this._addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.fail'));
 	}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~ OLD CODE BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-09-23
+
+- Adding attack/recover dice to chat window to roll on successful use check.
+
 ### 2024-09-20
 
 - Spells are draggable and usable from the macro bar.

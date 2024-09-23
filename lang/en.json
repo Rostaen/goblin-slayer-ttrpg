@@ -448,8 +448,11 @@
         "spUse": "Spell Use",
         "cast": "Cast",
         "spellCast": "Spell Casting",
-        "useCheck": "Use Check",
-        "diffCheck": "DC"
+        "useCheck": "Spell Use Check",
+        "diffCheck": "DC",
+        "apply": "Apply to Target(s)",
+        "rolldice": "Roll Spell Power Dice",
+        "recoveryAmt": "Recovery Amount"
       },
       "monsterSheet": {
         "boss": "Can this monster be a boss?",
