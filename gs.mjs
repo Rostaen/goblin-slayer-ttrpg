@@ -168,47 +168,78 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	html.find(".actorSpellDmg").click( async event => {
 		event.preventDefault();
 		const button = event.currentTarget;
-		const spellUsed = button.dataset.spell;
-		console.log('... spell used', spellUsed);
-		const spellSchool = spellUsed.system.schoolChoice;
-		const spellKey = button.dataset.keyType;
 		const playerId = button.dataset.playerid;
 		const player = game.actors.get(playerId);
+		const spellId = button.dataset.spell;
+		const spellKey = button.dataset.keytype;
+		const spellUsed = player.items.find(i => i._id === spellId);
+		const spellSchool = spellUsed.system.schoolChoice;
 		const playerClassLvls = player.system.levels.classes;
 		const diceToRoll = button.dataset.rolldice;
-		let levelBonus = 0;
+		const targets = Array.from(game.user.targets);
+		let levelBonus = 0, classNameFlag = '';
+		// console.log('... targets', targets);
+
+		// Setting spellKey localization
+		let dmgRecoverLocalization = game.i18n.localize(`gs.dialog.spells.${spellKey === 'recovery' ? 'recoveryAmt' : 'spellDmg'}`);
+
+		const addChatFlavor = (css, h1, h2) => {
+			return `<div class="${css} specialRollChatMessage">${h1}: ${h2}</div>`;
+		};
 
 		// Setting chat header
 		let chatMessage = `<div class="chat messageHeader grid grid-7col">
-			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${spellUsed.name}: ${game.i18n.localize('gs.dialog.spells.recoveryAmt')}</h2>
+			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${spellUsed.name}: ${dmgRecoverLocalization}</h2>
 		</div>`;
 
-		// Parse dice into an array, " + Level" should be the final position, if present
+		// Parse dice into an array, "Level" should be the final position, if present
 		const diceArray = diceToRoll.split(" + ");
 
 		// Check for "Level" and update bonus if present
-		if(diceArray[diceArray.length - 1] === 'Level'){
-			diceArray.pop();
-			if(spellSchool === 'Miracle')
-				levelBonus = playerClassLvls.priest;
-			else if(spellSchool === 'Ancestral Dragon')
-				levelBonus = playerClassLvls.dragon;
-			else if(spellSchool === 'Spirit Arts')
-				levelBonus = playerClassLvls.shaman;
-			else if(spellSchool === 'Words of True Power')
-				levelBonus = playerClassLvls.sorcerer;
-			else if(spellSchool === 'Necromancy')
-				levelBonus = playerClassLvls.necro;
+		const spellSchools = {
+			"Miracle": "priest",
+			"Ancestral Dragon": "dragon",
+			"Spirit Arts": "shaman",
+			"Words of True Power": 'sorcerer',
+			"Necromancy": "necro"
+		};
+
+		if(diceArray.pop() === 'Level'){
+			if(spellSchools[spellSchool]){
+				levelBonus = playerClassLvls[spellSchools[spellSchool]];
+				classNameFlag = game.i18n.localize(`gs.actor.character.${spellSchools[spellSchool]}`);
+			}
 		}
 
-		// Construct Dice Roll
+		// Reconstruct Dice Roll without '+ Level'
 		let diceString = '';
-		for(let x = 0; x < diceArray.length; x++)
-			diceString += diceArray[x] + ' + ';
+		for(let x = 0; x < diceArray.length; x++){
+			if(x === 0){
+				diceString += diceArray[x];
+				chatMessage += addChatFlavor('diceInfo', game.i18n.localize('gs.dialog.dice'), diceArray[x]);
+			}else{
+				diceString +=  ' + ' + diceArray[x];
+				chatMessage += addChatFlavor('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceArray[x]);
+			}
+		}
 
-		console.log('... check dice string', diceString);
+		// Add final level bonus to string
+		if(levelBonus){
+			diceString += ' + ' + levelBonus;
+			chatMessage += addChatFlavor('levelScore', classNameFlag, levelBonus);
+		}
 
+		// Rolling Dice
+		const roll = new Roll(diceString);
+		await roll.evaluate();
 
+		// Setting End portion with targets
+
+		// Sending results to chatwindow
+		roll.toMessage({
+			speaker: { actor: player },
+			flavor: chatMessage,
+		});
 	});
 });
 

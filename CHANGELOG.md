@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+### 2024-09-24
+
+- Added power/recovery dice rolls to chat window.
+- Updated localization references to class names for ease of use and coding.
+
 ### 2024-09-23
 
 - Adding attack/recover dice to chat window to roll on successful use check.

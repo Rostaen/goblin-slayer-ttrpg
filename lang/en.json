@@ -192,10 +192,10 @@
         "monk": "Monk",
         "rang": "Ranger",
         "scou": "Scout",
-        "sorc": "Sorcerer",
-        "prie": "Priest",
-        "dPri": "Dragon Priest",
-        "sham": "Shaman",
+        "sorcerer": "Sorcerer",
+        "priest": "Priest",
+        "dragon": "Dragon Priest",
+        "shaman": "Shaman",
         "necro": "Necromancer",
         "fatW": "Fatigue",
         "pena": "Penalty",
@@ -415,6 +415,7 @@
       "gearMod": "Gear Modifier",
       "miscMod": "Miscellaneous",
       "bonusDmg": "Bonus Damage",
+      "bonus": "Bonus",
       "dmgMod": "Damage Mods",
       "applyDmg": "Apply Damage",
       "suffered": "Damage Suffered",
@@ -452,7 +453,8 @@
         "diffCheck": "DC",
         "apply": "Apply to Target(s)",
         "rolldice": "Roll Spell Power Dice",
-        "recoveryAmt": "Recovery Amount"
+        "recoveryAmt": "Recovery Amount",
+        "spellDmg": "Spell Damage"
       },
       "monsterSheet": {
         "boss": "Can this monster be a boss?",

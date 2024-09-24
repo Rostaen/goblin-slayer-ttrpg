@@ -656,7 +656,7 @@ export default class GSActorSheet extends ActorSheet{
 				chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.intFoc'), statUsed);
 				if(schoolChoice === 'Words of True Power'){
 					classBonus = sorcerer;
-					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.sorc'), classBonus);
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.sorcerer'), classBonus);
 				}else{
 					classBonus = necro;
 					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.necro'), classBonus);
@@ -666,13 +666,13 @@ export default class GSActorSheet extends ActorSheet{
 				chatMessage += this._addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.psyFoc'), statUsed);
 				if(schoolChoice === 'Miracle'){
 					classBonus = priest;
-					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.prie'), classBonus);
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.priest'), classBonus);
 				}else if(schoolChoice === 'Spirit Arts'){
 					classBonus = shaman;
-					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.sham'), classBonus);
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.shaman'), classBonus);
 				}else{
 					classBonus = dragon;
-					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.dPri'), classBonus);
+					chatMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.dragon'), classBonus);
 				}
 			}
 		}
@@ -945,7 +945,7 @@ export default class GSActorSheet extends ActorSheet{
 	_setSpellPowerDice(key, extractedDice, spell){
 		return `<div class='spellTarget grid grid-2col'>
 			<div style="display:flex; justify-content: center; align-items: center; font-size: 14px;">${game.i18n.localize('gs.dialog.spells.rolldice')}</div>
-			<button type="button" class="actorSpellDmg" data-keyType="${key}" data-rolldice="${extractedDice}" data-playerid="${this.actor._id}" data-spell="${spell}"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+			<button type="button" class="actorSpellDmg" data-keytype="${key}" data-rolldice="${extractedDice}" data-playerid="${this.actor._id}" data-spell="${spell._id}"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
 		</div>`;
 	}
 
@@ -1733,16 +1733,16 @@ export default class GSActorSheet extends ActorSheet{
 			typeHolder = typeHolder.value;
 			if(typeHolder.toLowerCase() === "words of true power"){
 				bonus += sorcerer;
-				className = game.i18n.localize('gs.actor.character.sorc');
+				className = game.i18n.localize('gs.actor.character.sorcerer');
 			}else if(typeHolder.toLowerCase() === "miracle"){
 				bonus += priest;
-				className = game.i18n.localize('gs.actor.character.prie');
+				className = game.i18n.localize('gs.actor.character.priest');
 			}else if(typeHolder.toLowerCase() === "ancestral dragon"){
 				bonus += dragon;
-				className = game.i18n.localize('gs.actor.character.dPri');
+				className = game.i18n.localize('gs.actor.character.dragon');
 			}else if(typeHolder.toLowerCase() === "spirit arts"){
 				bonus += shaman;
-				className = game.i18n.localize('gs.actor.character.sham');
+				className = game.i18n.localize('gs.actor.character.shaman');
 			}else if(typeHolder.toLowerCase() === "necromancy"){
 				bonus += necro;
 				className = game.i18n.localize('gs.actor.character.necro');
@@ -3108,7 +3108,7 @@ export default class GSActorSheet extends ActorSheet{
 					dialogMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.lvl'), classBonus);
 				}else{
 					classBonus = parseInt(dragonLevel, 10);
-					dialogMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.dPri'), classBonus);
+					dialogMessage += this._addToFlavorMessage('levelScore', game.i18n.localize('gs.actor.character.dragon'), classBonus);
 				}
 				return {classBonus, dialogMessage};
 		}
@@ -3137,7 +3137,7 @@ export default class GSActorSheet extends ActorSheet{
 		}
 		const classNameMapping = {
 			'fighter': 'gs.actor.character.figh', 'monk': 'gs.actor.character.monk', 'ranger': 'gs.actor.character.rang', 'scout': 'gs.actor.character.scou',
-			'sorcerer': 'gs.actor.character.sorc', 'priest': 'gs.actor.character.prie', 'dragon': 'gs.actor.character.dPri', 'shaman': 'gs.actor.character.sham',
+			'sorcerer': 'gs.actor.character.sorcerer', 'priest': 'gs.actor.character.priest', 'dragon': 'gs.actor.character.dragon', 'shaman': 'gs.actor.character.shaman',
 		}
 
 		// Getting the relevant classes for the roll type
