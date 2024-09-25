@@ -427,17 +427,21 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Adding to chatMessage if anything is there
 		let diceHold = null;
-		if(results)
+		if(results){
+			let tempTargets;
 			for(let x = 0; x < results.length; x++){
-				if(x > 0)
+				if(x === 2)
 					chatMessage += results[x];
-				else{
-					for(const [key, item] of Object.entries(results[0])){
+				if(x === 1){
+					for(const [key, item] of Object.entries(results[1])){
 						if(key === 'recovery' || key === 'power')
-							diceHold = this._setSpellPowerDice(key, item, spellUsed);
+							diceHold = this._setSpellPowerDice(key, item, spellUsed, tempTargets);
 					}
 				}
+				if(x === 0)
+					tempTargets = results[0];
 			}
+		}
 
 		// Adding dice button to end of message if true
 		if(diceHold)
@@ -935,17 +939,17 @@ export default class GSActorSheet extends ActorSheet{
 		<div class="target grid grid-9col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
-			<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
+			${game.user.isGM ? `<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>`: `<div>&nbsp;</div>`}
+			${game.user.isGM ? `<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>` : `<div>&nbsp;</div>`}
 			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 		return targetMessage;
 	}
 
-	_setSpellPowerDice(key, extractedDice, spell){
+	_setSpellPowerDice(key, extractedDice, spell, targets){
 		return `<div class='spellTarget grid grid-2col'>
 			<div style="display:flex; justify-content: center; align-items: center; font-size: 14px;">${game.i18n.localize('gs.dialog.spells.rolldice')}</div>
-			<button type="button" class="actorSpellDmg" data-keytype="${key}" data-rolldice="${extractedDice}" data-playerid="${this.actor._id}" data-spell="${spell._id}"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+			<button type="button" class="actorSpellDmg" data-targets="${targets}" data-keytype="${key}" data-rolldice="${extractedDice}" data-playerid="${this.actor._id}" data-spell="${spell._id}"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
 		</div>`;
 	}
 
@@ -1125,12 +1129,15 @@ export default class GSActorSheet extends ActorSheet{
 		// Grabbling spell effect score range and modifications
 		configSpell = CONFIG.gs.spells[lowerCamelSchoolName][lowerCamelSpellName].effectiveScore;
 
+		// Adding target info to results
+		results.push(CONFIG.gs.spells[lowerCamelSchoolName][lowerCamelSpellName].target);
+
 		configSpell.forEach(s => {
 			if(rollTotal >= s.range[0] && rollTotal <= s.range[1])
 				results.push(s);
 		});
 
-		for(let [key, item] of Object.entries(results[0])){
+		for(let [key, item] of Object.entries(results[1])){
 			if(key !== 'range'){
 				results.push(this._addToFlavorMessage('armorDodgeScore', key.charAt(0).toUpperCase() + key.slice(1), item));
 			}

@@ -1449,7 +1449,7 @@ gs.spells = {
 		breathe: {
 			effect: "Allows the target to breathe underwater as if they were on land.",
 			target: "1 within range",
-			range: "30m",
+			range: 30,
 			spellResistance: {
 				passEffect: "No effect",
 				failEffect: "Spell activates"
@@ -1537,7 +1537,7 @@ gs.spells = {
 		controlSpirits: {
 			effect: "Summon 1 Spirit within Range: Reach and put it to use. The type of spirit summoned depends on the effectiveness score.",
 			target: "1 Spirit",
-			range: "Reach",
+			range: 5,
 			duration: "Varies based on spirit type",
 			effectivenessScore: [
 				{
@@ -1557,7 +1557,7 @@ gs.spells = {
 		},
 		darkness: {
 			area: "Sphere, see Radius in Score",
-			range: "30m",
+			range: 30,
 			effectivenessScore: [
 				{
 					range: [10, 14],
@@ -1590,7 +1590,7 @@ gs.spells = {
 		fallingControl: {
 			target: 'all',
 			area: "Sphere, 10m Radius",
-			range: "10m",
+			range: 10,
 			effectivenessScore: [
 				{
 					range: [10, 19],
@@ -1610,7 +1610,7 @@ gs.spells = {
 		fear: {
 			target: 'all',
 			area: "Sphere, 10m Radius",
-			range: "60m",
+			range: 60,
 			effectivenessScore: [
 				{
 					range: [10, 14],
@@ -1637,7 +1637,7 @@ gs.spells = {
 		},
 		firebolt: {
 			target: "1 target",
-			range: "100m",
+			range: 100,
 			effectivenessScore: [
 				{
 					range: [5, 9],
@@ -1700,7 +1700,7 @@ gs.spells = {
 		illuminate: {
 			target: 'all',
 			area: "Sphere, see Radius in Score",
-			range: "30m",
+			range: 30,
 			duration: "6 rounds",
 			effectivenessScore: [
 				{
@@ -1741,7 +1741,7 @@ gs.spells = {
 		},
 		snare: {
 			area: "Circle, see Radius in Score",
-			range: "60m",
+			range: 60,
 			effectivenessScore: [
 				{
 					range: [10, 19],
@@ -1790,7 +1790,7 @@ gs.spells = {
 		},
 		stoneBlast: {
 			area: "Sphere, see Radius in Score",
-			range: "30m",
+			range: 30,
 			effectivenessScore: [
 				{
 					range: [10, 14],
@@ -1827,7 +1827,7 @@ gs.spells = {
 		},
 		stupor: {
 			area: "Sphere, see Radius in Score",
-			range: "60m",
+			range: 60,
 			effectivenessScore: [
 				{
 					range: [10, 14],
@@ -1883,7 +1883,7 @@ gs.spells = {
 		},
 		thunderbolt: {
 			target: 1,
-			range: "30m",
+			range: 30,
 			effectivenessScore: [
 				{
 					range: [10, 14],
@@ -1913,7 +1913,7 @@ gs.spells = {
 			duration: "10 Minutes"
 		},
 		waterWalk: {
-			range: "30m",
+			range: 30,
 			effectivenessScore: [
 				{
 					range: [10, 19],
@@ -1956,7 +1956,7 @@ gs.spells = {
 		},
 		whirlwind: {
 			target: 'all',
-			range: "30m",
+			range: 30,
 			area: "Sphere with a radius of 5m from a center point",
 			effectivenessScore: [
 				{
@@ -1983,7 +1983,7 @@ gs.spells = {
 		disintegrationRay: {
 			target: 'all',
 			roundsRequired: 3,
-			range: "100m",
+			range: 100,
 			area: "Straight line; conical shape in water",
 			effectivenessScore: [
 				{
@@ -2006,7 +2006,7 @@ gs.spells = {
 			notes: "This spell emits a ray that disintegrates matter, dealing light attribute damage. If the target is not a creature, the damage is doubled before any resistances. If the target is a creature and fails their resistance check by 4 or more, it also destroys the target's armor, rendering it unusable unless repaired by a craftsman. In areas with water, the ray takes a conical shape and targets within the water gain a +4 bonus to resist this spell."
 		},
 		nuclearExplosion: {
-			range: "60m",
+			range: 60,
 			effectivenessScore: [
 				{
 					range: [25, 34],
@@ -2080,7 +2080,7 @@ gs.spells = {
 		},
 		big: {
 			target: '1 Creature',
-			range: "30m",
+			range: 30,
 			effectivenessScore: [
 				{
 					range: [10, 14],
@@ -2122,7 +2122,7 @@ gs.spells = {
 		},
 		blastWind: {
 			area: "Line within 60m radius",
-			range: "60m",
+			range: 60,
 			target: 'All',
 			effectivenessScore: [
 				{
@@ -2150,7 +2150,7 @@ gs.spells = {
 		},
 		blizzard: {
 			area: "Cone up to 20m long, 10m wide at the widest point",
-			range: "20m",
+			range: 20,
 			target: "All",
 			effectivenessScore: [
 				{
@@ -2183,7 +2183,7 @@ gs.spells = {
 		},
 		breathe: {
 			area: "Target: 1 within Range",
-			range: "30m",
+			range: 30,
 			effectivenessScore: [
 				{
 					range: [10, 19],
@@ -2202,7 +2202,7 @@ gs.spells = {
 		},
 		charisma: {
 			area: "Target: 1 within Range",
-			range: "60m",
+			range: 60,
 			effectivenessScore: [
 				{
 					range: [10, 19],
@@ -2228,7 +2228,7 @@ gs.spells = {
 		},
 		confuse: {
 			area: "Sphere within Range",
-			range: "30m",
+			range: 30,
 			effectivenessScore: [
 				{
 					range: [10, 14],
@@ -2331,8 +2331,8 @@ gs.spells = {
 		},
 		deflectMissile: {
 			area: "Sphere",
-			target: "1",
-			range: "60m",
+			target: 1,
+			range: 60,
 			effectivenessScore: [
 			  {
 				range: [10, 14],
@@ -2363,8 +2363,8 @@ gs.spells = {
 			notes: "Produce a magical force field of Area: Sphere with a radius based on the effectiveness score centered on Target: 1 within Range: 60m. If the target resists this spell, it will not take effect. All arrows and bolts that enter the force field from outside it are blocked and do not enter. Arrows and bolts refer to any physical arrow or bolt fired from a ranged weapon, including stone bullets, arrows, bolts, or darts from a dart gun. This does not include weapons thrown by hand or spells like Firebolt. If it is unclear whether something would be affected by this spell, the GM should make the decision. The force field lasts for Duration."
 		},
 		disgust: {
-			target: "1",
-			range: "30m",
+			target: 1,
+			range: 30,
 			effectivenessScore: [
 			  {
 				range: [10, 14],
@@ -2415,7 +2415,7 @@ gs.spells = {
 			notes: "Imbue Target: 1 Object in Range: Touch with magic power, adding Modifier Score to its hit modifier and power. This lasts for Duration: 1 Hour. Any melee and ranged attacks made with a targeted weapon are treated as magic attacks. However, for ranged weapons, only add the modifier score to the hit modifier, not the power. When targeting an arrow or bolt, you can add the modifier score to both the hit modifier and the power, so long as you use that arrow or bolt in a ranged attack. If the owner of the target object passes a spell resistance check, the spell has no effect."
 		},
 		fireball: {
-			range: "60m",
+			range: 60,
 			target: "All",
 			area: "Sphere, see Radius",
 			effectivenessScore: [
@@ -2448,8 +2448,8 @@ gs.spells = {
 			notes: "Cause a ball of fire to explode within Range: 60m, causing a magic attack that deals Power points of fire damage to Target: All within the Area: Sphere with a Radius determined by the effectiveness score. In addition, a target at the center of the explosion takes +1d6 more damage. If the target passes a spell resistance check, the damage they receive is halved before reducing it with armor score."
 		},
 		firebolt: {
-			target: "1",
-			range: "100m",
+			target: 1,
+			range: 100,
 			effectivenessScore: [
 			  {
 				range: [5, 9],
@@ -2542,7 +2542,7 @@ gs.spells = {
 		},
 		gambit: {
 			target: "1 Small Stone",
-			range: "Touch",
+			range: 1,
 			duration: "10 Minutes",
 			effectivenessScore: [
 			  {
@@ -2574,8 +2574,8 @@ gs.spells = {
 			notes: "The caster can perform a ranged attack by throwing the small stone they filled with magical energy. On impact, whether with an enemy or with the ground if it misses, the stone will explode, dealing bludgeoning damage to all within a sphere with radius determined by the effectiveness score. If a target passes a spell resistance check, they reduce the damage by half before applying their armor score. If the target of the ranged attack is a creature, failing a spell resistance check will cause them to be surprised by the noise and bright light. Until the end of the next round, they take a -2 penalty on all checks. This spell can be used as a free action."
 		},
 		haste: {
-			target: "1",
-			range: "30m",
+			target: 1,
+			range: 30,
 			effectivenessScore: [
 			  {
 				range: [15, 19],
@@ -2650,7 +2650,7 @@ gs.spells = {
 		lightning: {
 			effect: "Fires a bolt of lightning in a line from the caster",
 			target: "All in Area",
-			range: "100m",
+			range: 100,
 			effectivenessScore: [
 			  {
 				range: [15, 19],
@@ -2681,7 +2681,7 @@ gs.spells = {
 		},
 		lock: {
 			target: "One Door, Lid, or Any Other Object",
-			range: "30m",
+			range: 30,
 			effectivenessScore: [
 			  {
 				range: [5, 14],

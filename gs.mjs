@@ -167,6 +167,16 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	// Rolls Spell Power/Recovery Dice
 	html.find(".actorSpellDmg").click( async event => {
 		event.preventDefault();
+		const targets = Array.from(game.user.targets);
+
+		// Check if targets selected, else return early.
+		if(targets.length === 0){
+			ui.notifications.warn("No targets selected; select targets and roll damage again.");
+			return;
+		}
+
+		console.log('... checking user', game.user.isGM);
+
 		const button = event.currentTarget;
 		const playerId = button.dataset.playerid;
 		const player = game.actors.get(playerId);
@@ -176,9 +186,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const spellSchool = spellUsed.system.schoolChoice;
 		const playerClassLvls = player.system.levels.classes;
 		const diceToRoll = button.dataset.rolldice;
-		const targets = Array.from(game.user.targets);
+		const numTargets = button.dataset.targets;
 		let levelBonus = 0, classNameFlag = '';
-		// console.log('... targets', targets);
 
 		// Setting spellKey localization
 		let dmgRecoverLocalization = game.i18n.localize(`gs.dialog.spells.${spellKey === 'recovery' ? 'recoveryAmt' : 'spellDmg'}`);
@@ -203,7 +212,6 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			"Words of True Power": 'sorcerer',
 			"Necromancy": "necro"
 		};
-
 		if(diceArray.pop() === 'Level'){
 			if(spellSchools[spellSchool]){
 				levelBonus = playerClassLvls[spellSchools[spellSchool]];
@@ -234,6 +242,9 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		await roll.evaluate();
 
 		// Setting End portion with targets
+		targets.forEach(t => {
+			console.log('... targets', t);
+		});
 
 		// Sending results to chatwindow
 		roll.toMessage({

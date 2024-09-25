@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+### 2024-09-25
+
+- Updated player spell attacks to transfer target numbers.
+- Attempting to modify view so only GM sees certain pieces of chat window information.
+
 ### 2024-09-24
 
 - Added power/recovery dice rolls to chat window.
