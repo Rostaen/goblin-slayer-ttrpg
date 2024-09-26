@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-09-26
+
+- Successfully updated code for GM view only in chat window for attacks (and other needs).
+
 ### 2024-09-25
 
 - Updated player spell attacks to transfer target numbers.

@@ -939,8 +939,8 @@ export default class GSActorSheet extends ActorSheet{
 		<div class="target grid grid-9col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			${game.user.isGM ? `<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>`: `<div>&nbsp;</div>`}
-			${game.user.isGM ? `<button type="button" class="monsterDefRoll" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>` : `<div>&nbsp;</div>`}
+			<button type="button" class="monsterDefRoll gm-section" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
+			<button type="button" class="monsterDefRoll gm-section" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
 			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 		return targetMessage;

@@ -308,6 +308,15 @@ async function weaponMacroHotbarDrop(data, slot){
     }
 }
 
+// Using a hook to dynamically adjust content in chat window for GM only viewing
+Hooks.on('renderChatMessage', (message, html, data) => {
+	if(game.user.isGM){
+		html.find('.gm-section').show();
+	}else{
+		html.find('.gm-section').hide();
+	}
+});
+
 document.addEventListener('dragstart', function(event) {
 	// Assuming the item is being dragged from a valid source like a character sheet
     const draggedElement = event.target.closest('.item-list'); // Adjust the selector as needed
