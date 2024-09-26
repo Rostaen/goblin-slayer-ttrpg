@@ -151,7 +151,6 @@ export default class GSActorSheet extends ActorSheet{
 
 		// Checking if range is vallid before rolling attacks, else return early
 		const rangeValid = this._checkWeaponRange(actorToken, targetToken, itemInfo);
-		console.log('... checking range valid', rangeValid);
 		if(!rangeValid){
 			ui.notifications.warn(game.i18n.localize('gs.dialog.outOfRange'));
 			return;
@@ -178,7 +177,7 @@ export default class GSActorSheet extends ActorSheet{
 		chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.gearMod'), weaponHitMod);
 
 		// Pulling Class Bonus
-		let {classBonus, message, stat} = this._getClassLevelBonus2('weapon', itemInfo, chatMessage);
+		let {classBonus, chatMessage: message, statUsed: stat} = this._getClassLevelBonus2('weapon', itemInfo, chatMessage);
 		chatMessage = message;
 
 		// Checking for skill hit check bonus
@@ -232,7 +231,7 @@ export default class GSActorSheet extends ActorSheet{
 		await roll.toMessage({
 			speaker: { actor: actor },
 			flavor: chatMessage,
-			user: game.user.id
+			author: game.user
 			// content: Change dice rolls and other items here if needed
 		});
 	}
@@ -282,7 +281,7 @@ export default class GSActorSheet extends ActorSheet{
 		await roll.toMessage({
 			speaker: { actor: actor },
 			flavor: chatMessage,
-			user: game.user.id
+			author: game.user
 			// content: Change dice rolls and other items here if needed
 		});
 	}
@@ -346,7 +345,7 @@ export default class GSActorSheet extends ActorSheet{
 		await roll.toMessage({
 			speaker: { actor: actor },
 			flavor: chatMessage,
-			user: game.user.id
+			author: game.user
 			// content: Change dice rolls and other items here if needed
 		});
 	}
@@ -451,7 +450,7 @@ export default class GSActorSheet extends ActorSheet{
 		await roll.toMessage({
 			speaker: { actor: actor },
 			flavor: chatMessage,
-			user: game.user.id
+			// author: game.user
 			// content: Change dice rolls and other items here if needed
 		});
 	}
@@ -503,7 +502,7 @@ export default class GSActorSheet extends ActorSheet{
 		await roll.toMessage({
 			speaker: { actor: actor },
 			flavor: chatMessage,
-			user: game.user.id
+			author: game.user
 			// content: Change dice rolls and other items here if needed
 		});
 	}
@@ -520,14 +519,13 @@ export default class GSActorSheet extends ActorSheet{
 	_checkWeaponRange(actorToken, targetToken, weaponInfo){
 		const curvedShotFlag = this.actor.getFlag('gs', 'Curved Shot') || 0;
 		let weaponRange = 0;
-		console.log('... weaponInfo:', weaponInfo);
 		if(curvedShotFlag && (weaponInfo.system.type.split(" / ")[0] === "Bow"))
 			weaponRange = curvedShotFlag.bowRange;
 		else
 			weaponRange = parseInt(weaponInfo.system.range, 10);
 		const path = [actorToken.center, targetToken.center];
 		const distanceInfo = canvas.grid.measurePath(path);
-		console.log('... checking weapon range check:', weaponRange, path, distanceInfo);
+		//console.log('... checking weapon range check:', weaponRange, path, distanceInfo);
 		if(distanceInfo.distance <= weaponRange) return true;
 		else return false;
 	}
@@ -939,7 +937,7 @@ export default class GSActorSheet extends ActorSheet{
 		<div class="target grid grid-9col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			<button type="button" class="monsterDefRoll gm-section" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-person-walking"></i></button>
+			<button type="button" class="monsterDefRoll gm-section" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="dodge" data-value="${dodgeValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-angles-right"></i></button>
 			<button type="button" class="monsterDefRoll gm-section" data-monsterid="${monster._id}" data-playerid="${this.actor._id}" data-type="block" data-value="${blockValue}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${hasBlock?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
 			<button type="button" class="actorDamageRoll" data-extradmg="${extraDmg}" data-playerid="${this.actor._id}" data-id="${itemInfo._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;

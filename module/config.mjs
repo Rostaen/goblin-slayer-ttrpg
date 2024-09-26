@@ -459,7 +459,7 @@ gs.spells = {
 		dragonArmor: {
 			range: 5,
 			area: 'cylinder, 10m height, 5m radius',
-			target: 'all',
+			target: 'All',
 			effectiveScore: [
 				{ range: [20, 24], power: '5d6 + level' },
 				{ range: [25, 29], power: '6d6 + level' },
@@ -476,7 +476,7 @@ gs.spells = {
 		},
 		charge: {
 			range: '3 x Caster Movement',
-			target: 'all',
+			target: 'All',
 			area: 'Movement Path',
 			effectiveScore: [
 				{ range: [10, 14], power: '2d6 + level + 1/5 Distance Moved' },
@@ -497,7 +497,7 @@ gs.spells = {
 		},
 		dragonBreath: {
 			fire: {
-				target: 'all',
+				target: 'All',
 				area: 'Cone, 30m Length, 10m Base Radius',
 				effectiveScore: [
 					{ range: [10, 19], power: '4d6 + level' },
@@ -507,7 +507,7 @@ gs.spells = {
 				]
 			},
 			lightning: {
-				target: 'all',
+				target: 'All',
 				area: 'Line, 60m',
 				effectiveScore: [
 					{ range: [10, 19], power: '2d6 + 2 + level' },
@@ -517,7 +517,7 @@ gs.spells = {
 				]
 			},
 			ice: {
-				target: 'all',
+				target: 'All',
 				area: 'Cone, 30m Length, 10m Base Radius',
 				duration: '3 Rounds',
 				effectiveScore: [
@@ -528,7 +528,7 @@ gs.spells = {
 				]
 			},
 			poison: {
-				target: 'all',
+				target: 'All',
 				area: 'Cone, 20m Length, 20m Base Radius',
 				duration: '3 Rounds',
 				effectiveScore: [
@@ -571,7 +571,7 @@ gs.spells = {
 			]
 		},
 		dragonsRoar: {
-			target: 'all',
+			target: 'All',
 			effectiveScore: [
 				{ range: [15, 19], effects: 'Target takes a −2 penalty on checks made as the active side and a −2 penalty to initiative.', durration: '3 rounds' },
 				{ range: [20, 29], effects: 'The target will try to flee. For this effect’s duration, they will attempt to get as far away from the battlefield as possible.', durration: '6 rounds' },
@@ -599,7 +599,7 @@ gs.spells = {
 		},
 		huntingGrounds: {
 			area: 100,
-			target: 'all',
+			target: 'All',
 			duration: '12 Hours'
 		},
 		minorHeal: {
@@ -683,7 +683,7 @@ gs.spells = {
 			}
 		},
 		peace: {
-			target: 'all',
+			target: 'All',
 			area: 100,
 			duration: '10 Minutes'
 		},
@@ -771,7 +771,7 @@ gs.spells = {
 			]
 		},
 		encourage: {
-			target: 'all',
+			target: 'All',
 			area: 'Sphere of ',
 			duration: '10 Minutes',
 			effectiveScore: [
@@ -919,7 +919,7 @@ gs.spells = {
 			range: 30,
 		},
 		aging: {
-			target: 'all',
+			target: 'All',
 			range: 30,
 			area: 'Sphere, 10m',
 			effectiveScore: [
@@ -942,7 +942,7 @@ gs.spells = {
 			]
 		},
 		boneSpear: {
-			target: 'all',
+			target: 'All',
 			range: 100,
 			effectiveScore: [
 				{ range: [15, 19], power: '3d6 + Level' },
@@ -975,7 +975,7 @@ gs.spells = {
 			]
 		},
 		command: {
-			target: 'all',
+			target: 'All',
 			range: 'Sphere, see Radius',
 			effectiveScore: [
 				{ range: [15, 19], radius: 5, conditions: 'Characters with Command-based Intelligence' },
@@ -1023,7 +1023,7 @@ gs.spells = {
 			]
 		},
 		epidemic: {
-			target: 'all',
+			target: 'All',
 			area: 'Sphere, 5m',
 			range: 30,
 			effectiveScore: [
@@ -1230,7 +1230,7 @@ gs.spells = {
 			catalyst: "Necroption"
   		},
 		spiritWalk: {
-			target: "self",
+			target: "Self",
 			effect: "Caster becomes a spirit, invisible and not emitting any sound or smell.",
 			restrictions: "Cannot use equipment, items, or spells. Cannot interact with the material world without special conditions.",
 			effectivenessScore: [
@@ -1260,7 +1260,7 @@ gs.spells = {
 			catalyst: "None"
   		},
 		spiritualAwakening: {
-			target: "Caster",
+			target: "Self",
 			requirements: {
 				rounds: 6
 			},
@@ -1324,7 +1324,7 @@ gs.spells = {
 		calamity: {
 			type: "Spirit Arts",
 			range: 60,
-			target: "all",
+			target: "All",
 			area: "Sphere, see Radius",
 			element: {
 				Fire: "At the end of the round, the target receives 3d6 points of fire elemental damage. This damage is treated as burning damage and lasts for 3 rounds.",
@@ -1588,7 +1588,7 @@ gs.spells = {
 			notes: "This spell plunges an area into darkness based on the effectiveness score. No light can pass through the darkness, magical or not. Characters inside cannot see outside, and those outside cannot see inside. Characters with Darkvision face penalties unless they are in magical darkness. The spell lasts as long as the caster maintains concentration."
 		},
 		fallingControl: {
-			target: 'all',
+			target: 'All',
 			area: "Sphere, 10m Radius",
 			range: 10,
 			effectivenessScore: [
@@ -1608,7 +1608,7 @@ gs.spells = {
 			notes: "This spell manipulates gravity on a target within a 10m radius, allowing the caster to slow down or speed up their rate of descent as described. It can be used as a free action to save someone from falling, applying intelligence reflex as the basic score of the spell use check with a -2 penalty on the final score. The spell lasts as long as the caster maintains concentration."
 		},
 		fear: {
-			target: 'all',
+			target: 'All',
 			area: "Sphere, 10m Radius",
 			range: 60,
 			effectivenessScore: [
@@ -1698,7 +1698,7 @@ gs.spells = {
 			notes: "This spell causes areas of increasing proximity to the caster to experience varying levels of heat damage, from mild at 20m to severe at 5m. The spell requires maintenance, and resistance checks may halve the damage before it is modified by armor."
 		},
 		illuminate: {
-			target: 'all',
+			target: 'All',
 			area: "Sphere, see Radius in Score",
 			range: 30,
 			duration: "6 rounds",
@@ -1735,7 +1735,7 @@ gs.spells = {
 			range: 1
 		},
 		powerBall: {
-			target: 'all',
+			target: 'All',
 			area: 3,
 			range: 30
 		},
@@ -1955,7 +1955,7 @@ gs.spells = {
 			notes: "This spell accelerates time for one non-living object within reach, causing it to experience time at an accelerated rate. This acceleration has no effect on living creatures or anything with a mind. The duration and specific effects as time progresses are left to the GM's discretion, based on the context and what the caster is attempting to achieve. The spell lasts as long as the caster maintains it."
 		},
 		whirlwind: {
-			target: 'all',
+			target: 'All',
 			range: 30,
 			area: "Sphere with a radius of 5m from a center point",
 			effectivenessScore: [
@@ -1981,7 +1981,7 @@ gs.spells = {
 	},
 	wordsofTruePower: {
 		disintegrationRay: {
-			target: 'all',
+			target: 'All',
 			roundsRequired: 3,
 			range: 100,
 			area: "Straight line; conical shape in water",
@@ -2259,7 +2259,7 @@ gs.spells = {
 		},
 		counterSpell: {
 			one: {
-				target: 'all',
+				target: 'All',
 				area: '20m Radius',
 				bonus: 2,
 				duration: '6 Rounds'
@@ -2479,7 +2479,7 @@ gs.spells = {
 			notes: "Launch an arrow of flame at Target: 1 within Range: 100m, performing a magic attack that deals Power points of fire damage. If the target passes a spell resistance check, the damage they receive is halved before reducing it with armor score."
 		},
 		float: {
-			target: "Caster",
+			target: "Self",
 			effectivenessScore: [
 			  {
 				range: [10, 19],
@@ -2541,7 +2541,7 @@ gs.spells = {
 			}
 		},
 		gambit: {
-			target: "1 Small Stone",
+			target: 1,
 			range: 1,
 			duration: "10 Minutes",
 			effectivenessScore: [
@@ -2707,7 +2707,7 @@ gs.spells = {
 			notes: "Makes the target object become unopenable and increases its resistance to destruction by ten times. The GM should make decisions regarding means of destruction. The spell's effects last for the duration determined by the effectiveness score, but if there was already a locking mechanism or something like it, then even after the effect lapses, it remains locked."
 		},
 		mageHand: {
-			target: "Caster",
+			target: "Self",
 			duration: "6 rounds",
 			effects: [
 			  {

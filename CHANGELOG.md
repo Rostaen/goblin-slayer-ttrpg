@@ -5,6 +5,7 @@
 ### 2024-09-26
 
 - Successfully updated code for GM view only in chat window for attacks (and other needs).
+- Setting up Monster spell resistance roll and results.
 
 ### 2024-09-25
 

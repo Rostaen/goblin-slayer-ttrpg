@@ -126,7 +126,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			}
 			ChatMessage.create({
 				speaker: { actor: monster },
-				flavor: chatMessage
+				flavor: chatMessage,
+				author: game.user
 			});
 		}
 	});
@@ -160,7 +161,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			flavor: `<div class="chat messageHeader grid grid-7col">
 				<img src='${token.document.texture.src}'><h2 class="actorName grid-span-6">${token.document.name}</h2>
 			</div>
-			<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.dialog.suffered')}: ${Math.max(dmg - armorScore, 0)}</div>`
+			<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.dialog.suffered')}: ${Math.max(dmg - armorScore, 0)}</div>`,
+			author: game.user
 		});
 	});
 
@@ -174,8 +176,6 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			ui.notifications.warn("No targets selected; select targets and roll damage again.");
 			return;
 		}
-
-		console.log('... checking user', game.user.isGM);
 
 		const button = event.currentTarget;
 		const playerId = button.dataset.playerid;
@@ -242,15 +242,68 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		await roll.evaluate();
 
 		// Setting End portion with targets
-		targets.forEach(t => {
-			console.log('... targets', t);
-		});
+		if(targets.length > 0)
+			chatMessage += `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>`;
+
+		// Target setting helper function
+		const setTarget = (t, playerId, spellType, rollTotal) => {
+			console.log('...check taret', t);
+			let message = `<div class="target grid grid-8col">
+				<img class="targetImg" src="${t.document.texture.src}">
+				<h3 class="targetName grid-span-6">${t.document.name}</h3>`;
+			message += spellType === 'recovery' ?
+				`<button type="button" class="applyHealing" data-targetid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}"title="${game.i18n.localize('gs.dialog.applyHealing')}"><i class="fa-solid fa-heart-pulse"></i></button>`
+				:
+				`<button type="button" class="monsterSpellResist gm-section" data-monsterid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}" title="${game.i18n.localize('gs.actor.monster.supportEffect.spellResist')}"><i class="fa-solid fa-shield-virus"></i></button>`;
+			message += `</div>`;
+			return message;
+		};
+
+		// Getting roll total
+		let rollTotal = roll.total;
+
+		// Checking number of targets to add to chat window correctly
+		if(numTargets.toLowerCase() === 'all')
+			targets.forEach( t => chatMessage += setTarget(t, playerId, spellKey, rollTotal) );
+		else if(numTargets === '1')
+			chatMessage += setTarget(targets[0], playerId, spellKey, rollTotal);
 
 		// Sending results to chatwindow
 		roll.toMessage({
 			speaker: { actor: player },
 			flavor: chatMessage,
+			author: game.user
 		});
+	});
+
+	html.find(".monsterSpellResist").click( async event => {
+		event.preventDefault();
+		const button = event.currentTarget;
+		const monsterId = button.dataset.monsterid;
+		const monster = game.actors.get(monsterId);
+		const playerId = button.dataset.playerid;
+		const rollTotal = button.dataset.rollTotal;
+		const isBoss = monster.system.isBoss;
+		let spellResist = null;
+		let chatMessage = `<div class="chat messageHeader grid grid-7col">
+			<img src='${monster.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${document.name}: ${game.i18n.localize('gs.actor.monster.supportEffect.spellResist')}</h2>
+		</div>`;
+
+		console.log('... check monster stats', monster);
+
+		// Splitting resistance between boss and minion
+		if(isBoss){
+			spellResist = monster.system.bossSR;
+
+			// Setting up roll mechanics
+			const roll = new Roll(spellResist);
+			await roll.evaluate();
+			const rollTotal = roll.total;
+
+
+		}else{
+			spellResist = monster.system.spellRes;
+		}
 	});
 });
 
