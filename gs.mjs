@@ -36,6 +36,50 @@ Hooks.once("init", () => {
 });
 
 Hooks.on('renderChatMessage', (app, html, data) => {
+	/**
+	 * Sets up a simple return statement to add the correct items and values to the localized message for debugging and player knowledge
+	 * @param {string} cssClass Class string to color the message, diceInfo, gearModifier, abilScore, levelScore, skillScore, skillEffectiveScore, rollScore, miscScore, armorDodgeScore
+	 * @param {string} labelName What is modifying the the dice roll
+	 * @param {*} labelMessage How much is being modified, usually an int value, can also be a string if needed.
+	 * @returns A string to be added to the localized message
+	 */
+	function addToChatMessage(cssClass, labelName, labelMessage){
+		return `<div class="${cssClass} specialRollChatMessage">${labelName}: ${labelMessage}</div>`;
+	}
+
+	// Helper function to look for critical rolls
+	function checkCritStatus(roll){
+		let diceResults = roll.terms[0].results.map(r => r.result);
+		let critSuccess = 12, critFail = 2, results = [], diceResultTotal = diceResults[0] + diceResults[1];
+
+		// Comparing results to [un]modified crit ranges
+		if(diceResultTotal <= critFail){
+			results[0] = 'fail';
+			results[1] = `<div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
+		}else if(diceResultTotal >= critSuccess){
+			results[0] = 'success';
+			results[1] = `<div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
+		}else {
+			results[0] = 'normal';
+			results[1] = '';
+		}
+		return results;
+	}
+
+	// Sending roll to chatWindow
+	function sendRollToWindow(roll, chatMessage){
+		roll.toMessage({
+			speaker: { actor: player },
+			flavor: chatMessage,
+			author: game.user
+		});
+	}
+
+	// Sending message to chatWindow
+	function sendMessageToWindow(){
+
+	}
+
 	html.find(".actorDamageRoll").click( async event => {
 		event.preventDefault();
 		const button = event.currentTarget;
@@ -82,10 +126,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			<div class="fs10">${game.i18n.localize('gs.dialog.applyDmg')}</div><button class="applyDmgButton" data-armor="${armorScore}" data-target="${activeTarget.document.actor._id}" data-dmg="${roll._total}" type="button"><i class="fa-solid fa-arrows-to-circle"></i></button>
 		</div>`;
 
-		roll.toMessage({
-			speaker: { actor: player },
-			flavor: chatMessage,
-		});
+		// Sending roll to chat window
+		sendRollToWindow(roll, chatMessage);
 	});
 
 	// This will check between the dodge or block buttons, minion or boss, and send or roll to chat appropriately
@@ -115,10 +157,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 				chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
 				chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${roll._total}</div>`;
 			}
-			roll.toMessage({
-				speaker: { actor: monster },
-				flavor: chatMessage
-			});
+			// Sending roll to chat window
+			sendRollToWindow(roll, chatMessage);
 		}else{
 			if(curvedShotFlag){
 				chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
@@ -184,6 +224,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const spellKey = button.dataset.keytype;
 		const spellUsed = player.items.find(i => i._id === spellId);
 		const spellSchool = spellUsed.system.schoolChoice;
+		const spellEffectiveness = button.dataset.spelldc;
 		const playerClassLvls = player.system.levels.classes;
 		const diceToRoll = button.dataset.rolldice;
 		const numTargets = button.dataset.targets;
@@ -254,7 +295,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			message += spellType === 'recovery' ?
 				`<button type="button" class="applyHealing" data-targetid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}"title="${game.i18n.localize('gs.dialog.applyHealing')}"><i class="fa-solid fa-heart-pulse"></i></button>`
 				:
-				`<button type="button" class="monsterSpellResist gm-section" data-monsterid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}" title="${game.i18n.localize('gs.actor.monster.supportEffect.spellResist')}"><i class="fa-solid fa-shield-virus"></i></button>`;
+				`<button type="button" class="monsterSpellResist gm-view" data-spelldc="${spellEffectiveness}" data-monsterid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}" title="${game.i18n.localize('gs.actor.monster.supportEffect.spellResist')}"><i class="fa-solid fa-shield-virus"></i></button>`;
 			message += `</div>`;
 			return message;
 		};
@@ -269,11 +310,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			chatMessage += setTarget(targets[0], playerId, spellKey, rollTotal);
 
 		// Sending results to chatwindow
-		roll.toMessage({
-			speaker: { actor: player },
-			flavor: chatMessage,
-			author: game.user
-		});
+		sendRollToWindow(roll, chatMessage);
 	});
 
 	html.find(".monsterSpellResist").click( async event => {
@@ -282,7 +319,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const monsterId = button.dataset.monsterid;
 		const monster = game.actors.get(monsterId);
 		const playerId = button.dataset.playerid;
-		const rollTotal = button.dataset.rollTotal;
+		const spellDmgRollTotal = button.dataset.rolltotal;
+		const spellEffectiveness = button.dataset.spelldc;
 		const isBoss = monster.system.isBoss;
 		let spellResist = null;
 		let chatMessage = `<div class="chat messageHeader grid grid-7col">
@@ -291,16 +329,46 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 
 		console.log('... check monster stats', monster);
 
+		// Helper function to add damage button to window
+		function addApplyDmgButton(target, dmgAmount){
+			return `<div class="gm-view"><button type="button" data-targetid="${target}" data-dmgamount="${dmgAmount}" ><i class="fa-solid fa-arrows-to-circle"></i></button></div>`;
+		}
+
 		// Splitting resistance between boss and minion
 		if(isBoss){
 			spellResist = monster.system.bossSR;
+			const diceInfo = spellResist.includes("+") ? spellResist.split("+") : [spellResist, 0];
 
 			// Setting up roll mechanics
 			const roll = new Roll(spellResist);
 			await roll.evaluate();
 			const rollTotal = roll.total;
 
+			// Adding dice to window info
+			chatMessage += addToChatMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), diceInfo[0]);
 
+			// Adding dice modifier if any
+			if(diceInfo[1]) chatMessage += addToChatMessage('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceInfo[1]);
+
+			// Checking for crits
+			const critCheck = checkCritStatus(roll);
+			if(critCheck[0] === 'success'){
+				chatMessage += critCheck[1];
+				sendRollToWindow(roll, chatMessage);
+			}else if(critCheck[0] === 'fail'){
+				chatMessage += critCheck[1];
+				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
+				sendRollToWindow(roll, chatMessage);
+			}else if(critCheck[0] === 'normal'){
+				// TODO: Check if prompt random modifier is needed here
+
+				// Adding applyDamage button
+				let dmgAmount;
+				if(rollTotal >= spellEffectiveness)
+					dmgAmount = Math.round(spellDmgRollTotal / 2);
+				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
+				sendRollToWindow(roll, chatMessage);
+			}
 		}else{
 			spellResist = monster.system.spellRes;
 		}
@@ -364,9 +432,9 @@ async function weaponMacroHotbarDrop(data, slot){
 // Using a hook to dynamically adjust content in chat window for GM only viewing
 Hooks.on('renderChatMessage', (message, html, data) => {
 	if(game.user.isGM){
-		html.find('.gm-section').show();
+		html.find('.gm-view').show();
 	}else{
-		html.find('.gm-section').hide();
+		html.find('.gm-view').hide();
 	}
 });
 

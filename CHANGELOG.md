@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-10-08
+
+- Updating spell casting monster resistance rolls.
+
 ### 2024-09-26
 
 - Successfully updated code for GM view only in chat window for attacks (and other needs).
