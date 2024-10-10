@@ -2,6 +2,12 @@
 
 ## Recent updates
 
+### 2024-10-10
+
+- Added spell resistance check for monsters.
+- Configured resistance check to apply damage to monster.
+- Adding resist pass/fail message to window.
+
 ### 2024-10-08
 
 - Updating spell casting monster resistance rolls.

@@ -67,7 +67,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	}
 
 	// Sending roll to chatWindow
-	function sendRollToWindow(roll, chatMessage){
+	function sendRollToWindow(roll, chatMessage, player){
 		roll.toMessage({
 			speaker: { actor: player },
 			flavor: chatMessage,
@@ -121,7 +121,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			<h3 class="targetName grid-span-4">${activeTarget.document.name}</h3>
 			<div class="diceInfo specialRollChatMessage grid-span-3">${game.i18n.localize('gs.gear.armor.sco')}: ${armorScore}</div>
 		</div>
-		<div class="chat gmDmgButtons grid grid-4col">
+		<div class="chat gmDmgButtons grid grid-4col gm-view">
 			<div class="fs10">${game.i18n.localize('gs.dialog.dmgMod')}</div><input class="dmgModInput type="text">
 			<div class="fs10">${game.i18n.localize('gs.dialog.applyDmg')}</div><button class="applyDmgButton" data-armor="${armorScore}" data-target="${activeTarget.document.actor._id}" data-dmg="${roll._total}" type="button"><i class="fa-solid fa-arrows-to-circle"></i></button>
 		</div>`;
@@ -176,10 +176,11 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	html.find(".applyDmgButton").click( async event => {
 		event.preventDefault();
 		const container = event.currentTarget.closest('.gmDmgButtons');
-		const modifier = parseInt(container.querySelector('.dmgModInput').value, 10) || 0;
+		const modifier = parseInt(container.querySelector('.dmgModInput')?.value, 10) || 0;
 		const target = game.actors.get(event.currentTarget.dataset.target);
+		console.log('... check target', target);
 		const token = target.getActiveTokens()[0];
-		const armorScore = parseInt(event.currentTarget.dataset.armor, 10);
+		const armorScore = parseInt(event.currentTarget.dataset.armor, 10) || 0;
 		let dmg = parseInt(event.currentTarget.dataset.dmg, 10);
 		dmg += modifier;
 		let currentHP = token.document.actor.system.lifeForce.value;
@@ -318,20 +319,33 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const button = event.currentTarget;
 		const monsterId = button.dataset.monsterid;
 		const monster = game.actors.get(monsterId);
+		const token = monster.getActiveTokens()[0];
 		const playerId = button.dataset.playerid;
-		const spellDmgRollTotal = button.dataset.rolltotal;
+		let spellDmgRollTotal = button.dataset.rolltotal;
 		const spellEffectiveness = button.dataset.spelldc;
 		const isBoss = monster.system.isBoss;
 		let spellResist = null;
 		let chatMessage = `<div class="chat messageHeader grid grid-7col">
-			<img src='${monster.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${document.name}: ${game.i18n.localize('gs.actor.monster.supportEffect.spellResist')}</h2>
+			<img src='${token.document.texture.src}'><h2 class="actorName grid-span-6">${token.document.name}: ${game.i18n.localize('gs.actor.monster.supportEffect.spellResist')}</h2>
 		</div>`;
-
-		console.log('... check monster stats', monster);
 
 		// Helper function to add damage button to window
 		function addApplyDmgButton(target, dmgAmount){
-			return `<div class="gm-view"><button type="button" data-targetid="${target}" data-dmgamount="${dmgAmount}" ><i class="fa-solid fa-arrows-to-circle"></i></button></div>`;
+			return `<div class="gm-view grid grid-4col monster-sr-container">
+				<p class="grid-span-3 monster-sr-text">${game.i18n.localize('gs.dialog.applyDmg')}</p>
+				<button class="applyDmgButton gmDmgButtons" type="button" data-target="${monsterId}" data-dmg="${dmgAmount}" title="${game.i18n.localize('gs.dialog.applyDmg')}"><i class="fa-solid fa-arrows-to-circle"></i></button>
+			</div>`;
+		}
+
+		// Reduce spell damage if resist past helper function
+		function reduceSpellDmg(spellDmgRollTotal){
+			spellDmgRollTotal = Math.round(spellDmgRollTotal / 2);
+			spellDmgRollTotal -= monster.system.defenses.minion.armor;
+			return spellDmgRollTotal;
+		}
+
+		function addEffectiveMessage(cssClass, labelName, labelMessage){
+			return `<div class="${cssClass}">${labelName}: ${labelMessage}</div>`;
 		}
 
 		// Splitting resistance between boss and minion
@@ -354,23 +368,33 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			const critCheck = checkCritStatus(roll);
 			if(critCheck[0] === 'success'){
 				chatMessage += critCheck[1];
-				sendRollToWindow(roll, chatMessage);
 			}else if(critCheck[0] === 'fail'){
 				chatMessage += critCheck[1];
 				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
-				sendRollToWindow(roll, chatMessage);
 			}else if(critCheck[0] === 'normal'){
 				// TODO: Check if prompt random modifier is needed here
 
 				// Adding applyDamage button
-				let dmgAmount;
-				if(rollTotal >= spellEffectiveness)
-					dmgAmount = Math.round(spellDmgRollTotal / 2);
+				if(rollTotal >= spellEffectiveness){
+					spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
+					addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
+				}else{
+					addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
+				}
 				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
-				sendRollToWindow(roll, chatMessage);
 			}
+			sendRollToWindow(roll, chatMessage);
 		}else{
 			spellResist = monster.system.spellRes;
+			chatMessage += addToChatMessage('diceInfo', game.i18n.localize('gs.actor.character.total'), spellResist);
+			if(spellResist >= spellEffectiveness)
+				spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
+			chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
+			ChatMessage.create({
+				speaker: { actor: monster },
+				flavor: chatMessage,
+				author: game.user
+			});
 		}
 	});
 });

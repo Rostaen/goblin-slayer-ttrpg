@@ -418,6 +418,7 @@
       "bonus": "Bonus",
       "dmgMod": "Damage Mods",
       "applyDmg": "Apply Damage",
+      "applyHalf": "Apply Half Damage",
       "suffered": "Damage Suffered",
       "outOfRange": "You are out of range for the attack.",
       "curvedShotLabel": "Curved Short",

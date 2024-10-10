@@ -508,6 +508,16 @@ table tr:nth-child(even) {
   display: block;
   margin: 0px;
 }
+.flavor-text .monster-sr-container {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.flavor-text .monster-sr-container .monster-sr-text {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  font-size: 16px;
+}
 .weapon,
 .armor,
 .shield {
