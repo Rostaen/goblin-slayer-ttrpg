@@ -75,11 +75,6 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		});
 	}
 
-	// Sending message to chatWindow
-	function sendMessageToWindow(){
-
-	}
-
 	html.find(".actorDamageRoll").click( async event => {
 		event.preventDefault();
 		const button = event.currentTarget;
@@ -178,7 +173,6 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const container = event.currentTarget.closest('.gmDmgButtons');
 		const modifier = parseInt(container.querySelector('.dmgModInput')?.value, 10) || 0;
 		const target = game.actors.get(event.currentTarget.dataset.target);
-		console.log('... check target', target);
 		const token = target.getActiveTokens()[0];
 		const armorScore = parseInt(event.currentTarget.dataset.armor, 10) || 0;
 		let dmg = parseInt(event.currentTarget.dataset.dmg, 10);
@@ -289,7 +283,6 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 
 		// Target setting helper function
 		const setTarget = (t, playerId, spellType, rollTotal) => {
-			console.log('...check taret', t);
 			let message = `<div class="target grid grid-8col">
 				<img class="targetImg" src="${t.document.texture.src}">
 				<h3 class="targetName grid-span-6">${t.document.name}</h3>`;
@@ -376,10 +369,12 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 
 				// Adding applyDamage button
 				if(rollTotal >= spellEffectiveness){
+					console.log('... spell resisted');
 					spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
-					addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
+					chatMessage += addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
 				}else{
-					addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
+					console.log('... spell not resisted');
+					chatMessage += addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
 				}
 				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
 			}
@@ -387,8 +382,12 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		}else{
 			spellResist = monster.system.spellRes;
 			chatMessage += addToChatMessage('diceInfo', game.i18n.localize('gs.actor.character.total'), spellResist);
-			if(spellResist >= spellEffectiveness)
+			if(spellResist >= spellEffectiveness){
 				spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
+				chatMessage += addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
+			}else{
+				chatMessage += addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
+			}
 			chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
 			ChatMessage.create({
 				speaker: { actor: monster },
@@ -489,6 +488,33 @@ document.addEventListener('dragstart', function(event) {
     } else {
         console.error("Item not found or invalid drag source.");
     }
+});
+
+// Updating token Dead effect if HP <= 0 || HP > 0
+Hooks.on('preUpdateActor', async (actor, updateData) => {
+	const newHP = foundry.utils.getProperty(updateData, "system.lifeForce.value");
+	let token = actor.getActiveTokens()[0];
+	if(!token) return;
+
+	// Setting the "dead" id to a const for use later on.
+	const deadEffect = "dead";
+
+	if(newHP === 0){ // If HP reaches zero
+		// If the token is already marked as "Dead", do nothing
+		if(actor.statuses.has(deadEffect)) return;
+
+		// Remove all active effects on the token
+		for(let effect of actor.effects){
+			await effect.delete();
+		}
+
+		// Apply the "Dead" status effect and set it to display the large icon
+		await actor.toggleStatusEffect(deadEffect, { overlay: true });
+	}else if(newHP > 0){ // If HP goes above 0
+		if(actor.statuses.has(deadEffect)){
+			await actor.toggleStatusEffect(deadEffect, { overlay: true });
+		}
+	}
 });
 
 // Define Handlebars Helpers here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -2,6 +2,13 @@
 
 ## Recent updates
 
+### 2024-10-11
+
+- Finished updating resist pass/fail check and spell damage updates accordingly.
+- Tokens now update HP from player attacks and spells properly.
+- Updated token code to apply the large dead condition icon and remove all other statuses when a character has been defeated.
+- Token's dead condition removed if HP was incorrectly applied and character should still be alive after reapplying corrected HP.
+
 ### 2024-10-10
 
 - Added spell resistance check for monsters.
