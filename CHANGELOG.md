@@ -2,6 +2,12 @@
 
 ## Recent updates
 
+### 2024-10-14
+
+- Added attack checks for minions/bosses to the chat window.
+- Player target showing in same attack check window.
+- Starting player dodge check rolls.
+
 ### 2024-10-11
 
 - Finished updating resist pass/fail check and spell damage updates accordingly.

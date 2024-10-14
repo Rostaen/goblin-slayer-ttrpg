@@ -128,6 +128,9 @@ export default class GSActorSheet extends ActorSheet{
 		html.find(".spellCast.player").click(this._playerSpellCast.bind(this));
 		html.find(".spellResist.player").click(this._playerSpellResistance.bind(this));
 
+		// New monster rolls
+		html.find('.toHit.monster').click(this._monsterAttack.bind(this));
+
 		new ContextMenu(html, ".contextMenu", this.contextMenu);
 	}
 
@@ -137,8 +140,7 @@ export default class GSActorSheet extends ActorSheet{
 		const targetToken = targets[0]?.document?.actor?.getActiveTokens()[0] || 0;
 
 		// Return early if target isn't selected and warn player
-		if(!targetToken){
-			ui.notifications.warn(game.i18n.localize('gs.dialog.firstTargetMonster'));
+		if(!this._checkTargets(targetToken)){
 			return;
 		}
 
@@ -507,6 +509,88 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
+	async _monsterAttack(event){
+		event.preventDefault();
+		const targets = Array.from(game.user.targets);
+		const targetToken = targets[0]?.document?.actor?.getActiveTokens()[0] || 0;
+
+		// Return early if target isn't selected and warn player
+		if(!this._checkTargets(targetToken)){
+			return;
+		}
+
+		const actor = this.actor;
+		const actorToken = game.actors.get(actor._id).getActiveTokens()[0];
+		const attackValue = event.currentTarget.closest('.monsterHit').dataset.attacknum;
+
+		// Checking if range is vallid before rolling attacks, else return early
+		const rangeValid = this._checkWeaponRange(actorToken, targetToken, actor, attackValue);
+		if(!rangeValid){
+			ui.notifications.warn(game.i18n.localize('gs.dialog.outOfRange'));
+			return;
+		}
+
+		const encounterBoss = actor.system.isBoss;
+		const selectedAttack = actor.system.attacks[attackValue];
+		const monsterToken = actor.getActiveTokens()[0];
+		let chatMessage = this._setMessageHeader(actor, selectedAttack, 'toHit');
+
+		// Checking if monster is boss or not.
+		if(encounterBoss){
+			// Adding dice + bonus to chat window
+			const bossDice = actor.system.attacks[attackValue].check.split('+');
+			chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), bossDice[0]);
+			chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.bonus'), bossDice[1]);
+
+			// Get random modifiers from Prompt
+			let randomMods = await this._promptRandomModifiers();
+			if(randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
+
+			// Setting Roll Message
+			let rollString = this._setRollMessage(bossDice[0], bossDice[1], 0, 0, 0, randomMods);
+
+			// Rolling Dice
+			let {roll, diceResults, rollTotal} = await this._rollDice(rollString);
+
+			// Checking for Crit Success/Failure
+			const critStatus = this._checkForCriticals(diceResults, null);
+			if(critStatus != undefined || critStatus != null)
+				chatMessage += `${critStatus[1]}`;
+
+			// Setting boss' target info
+			chatMessage += this._setPlayerTargetInfo(targets, attackValue);
+
+			// Sending dice rolls to chat window
+			await roll.toMessage({
+				speaker: { alias: monsterToken.name },
+				flavor: chatMessage,
+				author: game.user
+				// content: Change dice rolls and other items here if needed
+			});
+		}else{
+			// Adding static attack score to chat window
+			chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.actor.monster.atta'), selectedAttack.mCheck);
+			// Setting minion's target info
+			chatMessage += this._setPlayerTargetInfo(targets, attackValue);
+
+			ChatMessage.create({
+				speaker: { alias: monsterToken.name },
+				flavor: chatMessage,
+				author: game.user
+			});
+		}
+	}
+
+	_checkTargets(targetToken){
+		// Return early if target isn't selected and warn player
+		if(!targetToken){
+			ui.notifications.warn(game.i18n.localize('gs.dialog.firstTargetMonster'));
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 	_curvedShotCheck(itemInfo, skills){
 		const curvedShot = skills.find(s => s.name === 'Curved Shot');
 		this.actor.setFlag('gs', 'Curved Shot', {
@@ -516,16 +600,19 @@ export default class GSActorSheet extends ActorSheet{
 		});
 	}
 
-	_checkWeaponRange(actorToken, targetToken, weaponInfo){
+	_checkWeaponRange(actorToken, targetToken, weaponInfo, monsterValue = false){
 		const curvedShotFlag = this.actor.getFlag('gs', 'Curved Shot') || 0;
 		let weaponRange = 0;
 		if(curvedShotFlag && (weaponInfo.system.type.split(" / ")[0] === "Bow"))
 			weaponRange = curvedShotFlag.bowRange;
 		else
-			weaponRange = parseInt(weaponInfo.system.range, 10);
+			if(monsterValue === false)
+				weaponRange = parseInt(weaponInfo.system.range, 10);
+			else
+				weaponRange = parseInt(weaponInfo.system.attacks[monsterValue].range, 10);
 		const path = [actorToken.center, targetToken.center];
 		const distanceInfo = canvas.grid.measurePath(path);
-		//console.log('... checking weapon range check:', weaponRange, path, distanceInfo);
+		// console.log('... checking weapon range check:', weaponRange, path, distanceInfo);
 		if(distanceInfo.distance <= weaponRange) return true;
 		else return false;
 	}
@@ -944,6 +1031,22 @@ export default class GSActorSheet extends ActorSheet{
 		return targetMessage;
 	}
 
+	_setPlayerTargetInfo(targets, weaponInfo){
+		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
+		const player = targets[0].document.actor;
+		const shield = this._getFromItemsList('shield');
+
+		let targetMessage = `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
+		<div class="target grid grid-9col">
+			<img class="targetImg" src="${activeTarget.document.texture.src}">
+			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
+			<button type="button" class="playerDefRoll" data-monsterid="${player._id}" data-playerid="${this.actor._id}" data-type="dodge" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-angles-right"></i></button>
+			<button type="button" class="playerDefRoll" data-monsterid="${player._id}" data-playerid="${this.actor._id}" data-type="block" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${shield?``:`disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
+			<button type="button" class="monsterDamageRoll gm-view" data-playerid="${this.actor._id}" data-id="${weaponInfo}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
+		</div>`;
+		return targetMessage;
+	}
+
 	_setSpellPowerDice(key, extractedDice, spell, targets, spellDC){
 		return `<div class='spellTarget grid grid-2col'>
 			<div style="display:flex; justify-content: center; align-items: center; font-size: 14px;">${game.i18n.localize('gs.dialog.spells.rolldice')}</div>
@@ -1011,7 +1114,7 @@ export default class GSActorSheet extends ActorSheet{
 	 * @returns JSON object of the given type
 	 */
 	_getFromItemsList(typeName){
-		return this.actor.items.filter(i => i.type === typeName);
+		return this.actor.items.filter(i => i.type === typeName) || 0;
 	}
 
 	async _faithCheck(spell){

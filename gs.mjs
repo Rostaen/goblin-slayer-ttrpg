@@ -160,7 +160,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 				chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${parseInt(value, 10) - curvedShotFlag.targetReduction}</div>`;
 			}
 			ChatMessage.create({
-				speaker: { actor: monster },
+				speaker: { alias: activeToken.name },
 				flavor: chatMessage,
 				author: game.user
 			});
@@ -395,6 +395,33 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 				author: game.user
 			});
 		}
+	});
+
+	html.find(".playerDefRoll").click( async event => {
+		event.preventDefault();
+		const monsterId = event.currentTarget.dataset.monsterid
+		const monster = game.actors.get(monsterId);
+		const playerId = event.currentTarget.dataset.playerid
+		const player = game.actors.get(playerId);
+		const eventType = event.currentTarget.dataset.type;
+		let valueName = game.i18n.localize(`gs.dialog.${defType}.value`),
+			rollLabel = game.i18n.localize(`gs.dialog.${defType}.roll`),
+			rollResult = game.i18n.localize(`gs.dialog.${defType}.total`),
+			defenseItem, defenseBonus, defenseAmount;
+
+		// Getting armor item
+		if(eventType === 'dodge'){
+			defenseItem = player.items.get(i => i.type === 'armor');
+			defenseBonus = defenseItem.system.dodge;
+			defenseAmount = defenseItem.system.score;
+		}else{
+			defenseItem = player.items.get(i => i.type === 'shield');
+			defenseBonus = defenseItem.system.mod;
+			defenseAmount = defenseItem.system.score;
+		}
+
+
+
 	});
 });
 
