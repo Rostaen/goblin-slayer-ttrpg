@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-11-5
+
+- Working on Dodge check for players. Working through grabbing Parry skill information to add to the roll.
+
 ### 2024-10-14
 
 - Added attack checks for minions/bosses to the chat window.

@@ -43,31 +43,36 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	 * @param {*} labelMessage How much is being modified, usually an int value, can also be a string if needed.
 	 * @returns A string to be added to the localized message
 	 */
-	function addToChatMessage(cssClass, labelName, labelMessage){
+	function addToChatMessage(cssClass, labelName, labelMessage) {
 		return `<div class="${cssClass} specialRollChatMessage">${labelName}: ${labelMessage}</div>`;
 	}
 
 	// Helper function to look for critical rolls
-	function checkCritStatus(roll){
+	function checkCritStatus(roll) {
 		let diceResults = roll.terms[0].results.map(r => r.result);
 		let critSuccess = 12, critFail = 2, results = [], diceResultTotal = diceResults[0] + diceResults[1];
 
 		// Comparing results to [un]modified crit ranges
-		if(diceResultTotal <= critFail){
+		if (diceResultTotal <= critFail) {
 			results[0] = 'fail';
 			results[1] = `<div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
-		}else if(diceResultTotal >= critSuccess){
+		} else if (diceResultTotal >= critSuccess) {
 			results[0] = 'success';
 			results[1] = `<div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
-		}else {
+		} else {
 			results[0] = 'normal';
 			results[1] = '';
 		}
 		return results;
 	}
 
+	// Helper to find gear
+	function findItems(player, type) {
+		return player.items.find(i => i.type === type);
+	}
+
 	// Sending roll to chatWindow
-	function sendRollToWindow(roll, chatMessage, player){
+	function sendRollToWindow(roll, chatMessage, player) {
 		roll.toMessage({
 			speaker: { actor: player },
 			flavor: chatMessage,
@@ -75,7 +80,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		});
 	}
 
-	html.find(".actorDamageRoll").click( async event => {
+	html.find(".actorDamageRoll").click(async event => {
 		event.preventDefault();
 		const button = event.currentTarget;
 		const weaponId = button.dataset.id;
@@ -94,13 +99,13 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 
 		// Setting up roll with weapon damage
 		let damageString = weapon.system.power;
-		if(extraDamage !== "0"){
+		if (extraDamage !== "0") {
 			damageString += `+ ${extraDamage}`;
 			chatMessage += `<div class="diceInfo specialRollChatMessage">${game.i18n.localize('gs.dialog.bonusDmg')}: ${extraDamage}</div>`;
 		}
 
 		// Adding reduce dmg from Curved Shot if available
-		if(curvedShotFlag){
+		if (curvedShotFlag) {
 			damageString += `- ${curvedShotFlag.reducedPower}`;
 			chatMessage += `<div class="skillScore specialRollChatMessage">${game.i18n.localize('gs.dialog.curvedShotLabel')}: -${curvedShotFlag.reducedPower}</div>`;
 			player.unsetFlag('gs', 'Curved Shot');
@@ -126,7 +131,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	});
 
 	// This will check between the dodge or block buttons, minion or boss, and send or roll to chat appropriately
-	html.find(".monsterDefRoll").click( async event => {
+	html.find(".monsterDefRoll").click(async event => {
 		event.preventDefault();
 		const monster = game.actors.get(event.currentTarget.dataset.monsterid);
 		const defType = event.currentTarget.dataset.type;
@@ -144,18 +149,18 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 				<img src='${activeToken.document.texture.src}'><h2 class="actorName grid-span-6">${activeToken.document.name}: ${rollLabel}</h2>
 			</div>
 			<div class="armorDodgeScore specialRollChatMessage">${valueName}: ${value}</div>`;
-		if(value.includes('d')){
-			if(curvedShotFlag) value += ` - ${curvedShotFlag.targetReduction}`;
+		if (value.includes('d')) {
+			if (curvedShotFlag) value += ` - ${curvedShotFlag.targetReduction}`;
 			const roll = new Roll(value);
 			await roll.evaluate();
-			if(curvedShotFlag){
+			if (curvedShotFlag) {
 				chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
 				chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${roll._total}</div>`;
 			}
 			// Sending roll to chat window
 			sendRollToWindow(roll, chatMessage);
-		}else{
-			if(curvedShotFlag){
+		} else {
+			if (curvedShotFlag) {
 				chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
 				chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${parseInt(value, 10) - curvedShotFlag.targetReduction}</div>`;
 			}
@@ -168,7 +173,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	});
 
 	// Applies damage to the target and sends message to chat window
-	html.find(".applyDmgButton").click( async event => {
+	html.find(".applyDmgButton").click(async event => {
 		event.preventDefault();
 		const container = event.currentTarget.closest('.gmDmgButtons');
 		const modifier = parseInt(container.querySelector('.dmgModInput')?.value, 10) || 0;
@@ -180,11 +185,11 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		let currentHP = token.document.actor.system.lifeForce.value;
 		const totalDmg = Math.max(currentHP - (dmg - armorScore), 0);
 
-		if(target.type === 'character')
+		if (target.type === 'character')
 			await target.update({
 				'system.lifeForce.value': totalDmg
 			});
-		else if(target.type === 'monster'){
+		else if (target.type === 'monster') {
 			const token = target.getActiveTokens()[0];
 			await token.document.actor.update({
 				'system.lifeForce.value': totalDmg
@@ -202,12 +207,12 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	});
 
 	// Rolls Spell Power/Recovery Dice
-	html.find(".actorSpellDmg").click( async event => {
+	html.find(".actorSpellDmg").click(async event => {
 		event.preventDefault();
 		const targets = Array.from(game.user.targets);
 
 		// Check if targets selected, else return early.
-		if(targets.length === 0){
+		if (targets.length === 0) {
 			ui.notifications.warn("No targets selected; select targets and roll damage again.");
 			return;
 		}
@@ -248,8 +253,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			"Words of True Power": 'sorcerer',
 			"Necromancy": "necro"
 		};
-		if(diceArray.pop() === 'Level'){
-			if(spellSchools[spellSchool]){
+		if (diceArray.pop() === 'Level') {
+			if (spellSchools[spellSchool]) {
 				levelBonus = playerClassLvls[spellSchools[spellSchool]];
 				classNameFlag = game.i18n.localize(`gs.actor.character.${spellSchools[spellSchool]}`);
 			}
@@ -257,18 +262,18 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 
 		// Reconstruct Dice Roll without '+ Level'
 		let diceString = '';
-		for(let x = 0; x < diceArray.length; x++){
-			if(x === 0){
+		for (let x = 0; x < diceArray.length; x++) {
+			if (x === 0) {
 				diceString += diceArray[x];
 				chatMessage += addChatFlavor('diceInfo', game.i18n.localize('gs.dialog.dice'), diceArray[x]);
-			}else{
-				diceString +=  ' + ' + diceArray[x];
+			} else {
+				diceString += ' + ' + diceArray[x];
 				chatMessage += addChatFlavor('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceArray[x]);
 			}
 		}
 
 		// Add final level bonus to string
-		if(levelBonus){
+		if (levelBonus) {
 			diceString += ' + ' + levelBonus;
 			chatMessage += addChatFlavor('levelScore', classNameFlag, levelBonus);
 		}
@@ -278,7 +283,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		await roll.evaluate();
 
 		// Setting End portion with targets
-		if(targets.length > 0)
+		if (targets.length > 0)
 			chatMessage += `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>`;
 
 		// Target setting helper function
@@ -298,16 +303,16 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		let rollTotal = roll.total;
 
 		// Checking number of targets to add to chat window correctly
-		if(numTargets.toLowerCase() === 'all')
-			targets.forEach( t => chatMessage += setTarget(t, playerId, spellKey, rollTotal) );
-		else if(numTargets === '1')
+		if (numTargets.toLowerCase() === 'all')
+			targets.forEach(t => chatMessage += setTarget(t, playerId, spellKey, rollTotal));
+		else if (numTargets === '1')
 			chatMessage += setTarget(targets[0], playerId, spellKey, rollTotal);
 
 		// Sending results to chatwindow
 		sendRollToWindow(roll, chatMessage);
 	});
 
-	html.find(".monsterSpellResist").click( async event => {
+	html.find(".monsterSpellResist").click(async event => {
 		event.preventDefault();
 		const button = event.currentTarget;
 		const monsterId = button.dataset.monsterid;
@@ -323,7 +328,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		</div>`;
 
 		// Helper function to add damage button to window
-		function addApplyDmgButton(target, dmgAmount){
+		function addApplyDmgButton(target, dmgAmount) {
 			return `<div class="gm-view grid grid-4col monster-sr-container">
 				<p class="grid-span-3 monster-sr-text">${game.i18n.localize('gs.dialog.applyDmg')}</p>
 				<button class="applyDmgButton gmDmgButtons" type="button" data-target="${monsterId}" data-dmg="${dmgAmount}" title="${game.i18n.localize('gs.dialog.applyDmg')}"><i class="fa-solid fa-arrows-to-circle"></i></button>
@@ -331,18 +336,18 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		}
 
 		// Reduce spell damage if resist past helper function
-		function reduceSpellDmg(spellDmgRollTotal){
+		function reduceSpellDmg(spellDmgRollTotal) {
 			spellDmgRollTotal = Math.round(spellDmgRollTotal / 2);
 			spellDmgRollTotal -= monster.system.defenses.minion.armor;
 			return spellDmgRollTotal;
 		}
 
-		function addEffectiveMessage(cssClass, labelName, labelMessage){
+		function addEffectiveMessage(cssClass, labelName, labelMessage) {
 			return `<div class="${cssClass}">${labelName}: ${labelMessage}</div>`;
 		}
 
 		// Splitting resistance between boss and minion
-		if(isBoss){
+		if (isBoss) {
 			spellResist = monster.system.bossSR;
 			const diceInfo = spellResist.includes("+") ? spellResist.split("+") : [spellResist, 0];
 
@@ -355,37 +360,37 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			chatMessage += addToChatMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), diceInfo[0]);
 
 			// Adding dice modifier if any
-			if(diceInfo[1]) chatMessage += addToChatMessage('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceInfo[1]);
+			if (diceInfo[1]) chatMessage += addToChatMessage('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceInfo[1]);
 
 			// Checking for crits
 			const critCheck = checkCritStatus(roll);
-			if(critCheck[0] === 'success'){
+			if (critCheck[0] === 'success') {
 				chatMessage += critCheck[1];
-			}else if(critCheck[0] === 'fail'){
+			} else if (critCheck[0] === 'fail') {
 				chatMessage += critCheck[1];
 				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
-			}else if(critCheck[0] === 'normal'){
+			} else if (critCheck[0] === 'normal') {
 				// TODO: Check if prompt random modifier is needed here
 
 				// Adding applyDamage button
-				if(rollTotal >= spellEffectiveness){
+				if (rollTotal >= spellEffectiveness) {
 					console.log('... spell resisted');
 					spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
 					chatMessage += addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
-				}else{
+				} else {
 					console.log('... spell not resisted');
 					chatMessage += addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
 				}
 				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
 			}
 			sendRollToWindow(roll, chatMessage);
-		}else{
+		} else {
 			spellResist = monster.system.spellRes;
 			chatMessage += addToChatMessage('diceInfo', game.i18n.localize('gs.actor.character.total'), spellResist);
-			if(spellResist >= spellEffectiveness){
+			if (spellResist >= spellEffectiveness) {
 				spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
 				chatMessage += addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
-			}else{
+			} else {
 				chatMessage += addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
 			}
 			chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
@@ -397,25 +402,53 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		}
 	});
 
-	html.find(".playerDefRoll").click( async event => {
+	html.find(".playerDefRoll").click(async event => {
 		event.preventDefault();
 		const monsterId = event.currentTarget.dataset.monsterid
 		const monster = game.actors.get(monsterId);
 		const playerId = event.currentTarget.dataset.playerid
 		const player = game.actors.get(playerId);
 		const eventType = event.currentTarget.dataset.type;
-		let valueName = game.i18n.localize(`gs.dialog.${defType}.value`),
-			rollLabel = game.i18n.localize(`gs.dialog.${defType}.roll`),
-			rollResult = game.i18n.localize(`gs.dialog.${defType}.total`),
+		let valueName = game.i18n.localize(`gs.dialog.${eventType}.value`),
+			rollLabel = game.i18n.localize(`gs.dialog.${eventType}.roll`),
+			rollResult = game.i18n.localize(`gs.dialog.${eventType}.total`),
 			defenseItem, defenseBonus, defenseAmount;
 
-		// Getting armor item
-		if(eventType === 'dodge'){
-			defenseItem = player.items.get(i => i.type === 'armor');
+		// Gettins skills to check over
+		const skills = findItems(player, 'skill');
+
+		// Parry Helper function
+		const parryValueChecker = (item) => {
+			return item.system.effect.parry != null ? item.system.effect.parry : 0;
+		};
+
+		// Getting armor types
+		if (eventType === 'dodge') {
+			defenseItem = findItems(player, 'armor');
 			defenseBonus = defenseItem.system.dodge;
 			defenseAmount = defenseItem.system.score;
-		}else{
-			defenseItem = player.items.get(i => i.type === 'shield');
+			const parrySkill = player.items.find(i => i.name === 'Parry') || 0;
+			const alertSkill = player.items.find(i => i.name === 'Alert') || 0;
+			let parrySkillBonus = 0;
+
+			// Checking for highest parry value
+			if (parrySkill) {
+				const weapons = player.items.filter(i => i.type === 'weapon') || 0;
+				let weaponBonus = 0;
+				weapons.forEach(w => {
+					weaponBonus = parryValueChecker(w);
+				});
+				const shield = findItems(player, 'shield');
+				let shieldBonus = parryValueChecker(shield);
+				if (parrySkill.system.value >= 4)
+					parrySkillBonus = weaponBonus + shieldBonus;
+				else
+					parrySkillBonus = shieldBonus >= weaponBonus ? shieldBonus : weaponBonus;
+			}
+
+			console.log("...", parrySkillBonus);
+		} else {
+			defenseItem = findItems(player, 'shield');
 			defenseBonus = defenseItem.system.mod;
 			defenseAmount = defenseItem.system.score;
 		}
@@ -428,18 +461,18 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 // Defining Hotbar Drops here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Hooks.on('hotbarDrop', (bar, data, slot) => {
-    weaponMacroHotbarDrop(data, slot);
+	weaponMacroHotbarDrop(data, slot);
 	return false;
 });
 
-async function weaponMacroHotbarDrop(data, slot){
+async function weaponMacroHotbarDrop(data, slot) {
 	if (data.type === "Item") {
 		const item = await fromUuid(data.uuid);
-        const actor = item.parent;
+		const actor = item.parent;
 		console.log('... checking data drop', item, actor);
 
-        if (actor && item) {
-            let command = `const actor = game.actors.get("${actor._id}");
+		if (actor && item) {
+			let command = `const actor = game.actors.get("${actor._id}");
 				// Mock event object
 				const mockEvent = {
 					preventDefault: () => {},
@@ -450,20 +483,20 @@ async function weaponMacroHotbarDrop(data, slot){
 					}
 				};
 				`;
-			if(item.type === 'weapon')
+			if (item.type === 'weapon')
 				command += `actor.sheet._playerAttack(mockEvent);`;
-			else if(item.type === 'armor')
+			else if (item.type === 'armor')
 				command += `actor.sheet._playerDodge(mockEvent);`;
-			else if(item.type === 'shield')
+			else if (item.type === 'shield')
 				command += `actor.sheet._playerBlock(mockEvent);`;
-			else if(item.type === 'spell')
+			else if (item.type === 'spell')
 				command += `actor.sheet._playerSpellCast(mockEvent);`;
 			else
 				console.log(`GS Hotbar Drop Error | The current item you have dropped into the hot bar is not configured yet.`);
 
 			let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
 
-			if(!macro){
+			if (!macro) {
 				macro = await Macro.create({
 					name: `Roll ${item.name}`,
 					type: "script",
@@ -473,72 +506,72 @@ async function weaponMacroHotbarDrop(data, slot){
 				});
 			}
 
-            game.user.assignHotbarMacro(macro, slot);
+			game.user.assignHotbarMacro(macro, slot);
 			return false
-        }
-    }
+		}
+	}
 }
 
 // Using a hook to dynamically adjust content in chat window for GM only viewing
 Hooks.on('renderChatMessage', (message, html, data) => {
-	if(game.user.isGM){
+	if (game.user.isGM) {
 		html.find('.gm-view').show();
-	}else{
+	} else {
 		html.find('.gm-view').hide();
 	}
 });
 
-document.addEventListener('dragstart', function(event) {
+document.addEventListener('dragstart', function (event) {
 	// Assuming the item is being dragged from a valid source like a character sheet
-    const draggedElement = event.target.closest('.item-list'); // Adjust the selector as needed
-    if (!draggedElement) return;
+	const draggedElement = event.target.closest('.item-list'); // Adjust the selector as needed
+	if (!draggedElement) return;
 
-    // Get the item's UUID or ID
-    const itemId = draggedElement.dataset.itemid; // Ensure the item element has the correct data attribute
+	// Get the item's UUID or ID
+	const itemId = draggedElement.dataset.itemid; // Ensure the item element has the correct data attribute
 	const actorId = draggedElement.dataset.actorid;
 
-    // Find the item and actor (you may need to adjust this based on your specific setup)
-    const actor = game.actors.get(actorId);
-    const item = actor ? actor.items.get(itemId) : null;
+	// Find the item and actor (you may need to adjust this based on your specific setup)
+	const actor = game.actors.get(actorId);
+	const item = actor ? actor.items.get(itemId) : null;
 
 	//console.log("... check items", event, itemId, actorId, actor, item);
 
-    if (item) {
-        // Set the drag data
-        event.dataTransfer.setData("text/plain", JSON.stringify({
-            type: "Item",
-            uuid: item.uuid,
+	if (item) {
+		// Set the drag data
+		event.dataTransfer.setData("text/plain", JSON.stringify({
+			type: "Item",
+			uuid: item.uuid,
 			img: item.img
-        }));
+		}));
 
-        //console.log("Drag Start Data:", event.dataTransfer);
-    } else {
-        console.error("Item not found or invalid drag source.");
-    }
+		//console.log("Drag Start Data:", event.dataTransfer);
+	} else {
+		console.error("Item not found or invalid drag source.");
+	}
 });
 
 // Updating token Dead effect if HP <= 0 || HP > 0
 Hooks.on('preUpdateActor', async (actor, updateData) => {
 	const newHP = foundry.utils.getProperty(updateData, "system.lifeForce.value");
 	let token = actor.getActiveTokens()[0];
-	if(!token) return;
+	if (!token) return;
 
 	// Setting the "dead" id to a const for use later on.
 	const deadEffect = "dead";
 
-	if(newHP === 0){ // If HP reaches zero
+	if (newHP === 0) { // If HP reaches zero
 		// If the token is already marked as "Dead", do nothing
-		if(actor.statuses.has(deadEffect)) return;
+		if (actor.statuses.has(deadEffect)) return;
 
 		// Remove all active effects on the token
-		for(let effect of actor.effects){
+		for (let effect of actor.effects) {
 			await effect.delete();
 		}
 
 		// Apply the "Dead" status effect and set it to display the large icon
 		await actor.toggleStatusEffect(deadEffect, { overlay: true });
-	}else if(newHP > 0){ // If HP goes above 0
-		if(actor.statuses.has(deadEffect)){
+	} else if (newHP > 0) { // If HP goes above 0
+		if (actor.statuses.has(deadEffect)) {
 			await actor.toggleStatusEffect(deadEffect, { overlay: true });
 		}
 	}
@@ -562,7 +595,7 @@ Handlebars.registerHelper('getQuantAtIndex', (array, index, field) => {
 
 // Strips leading and ending tags from editor saved text
 Handlebars.registerHelper('stripTags', (text) => {
-	if(typeof text === 'string'){
+	if (typeof text === 'string') {
 		return text.replace(/^<p>/, '').replace(/<\/p>$/, '');
 	}
 	return text;
