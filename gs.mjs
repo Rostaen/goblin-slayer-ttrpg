@@ -36,16 +36,6 @@ Hooks.once("init", () => {
 });
 
 Hooks.on('renderChatMessage', (app, html, data) => {
-	/**
-	 * Sets up a simple return statement to add the correct items and values to the localized message for debugging and player knowledge
-	 * @param {string} cssClass Class string to color the message, diceInfo, gearModifier, abilScore, levelScore, skillScore, skillEffectiveScore, rollScore, miscScore, armorDodgeScore
-	 * @param {string} labelName What is modifying the the dice roll
-	 * @param {*} labelMessage How much is being modified, usually an int value, can also be a string if needed.
-	 * @returns A string to be added to the localized message
-	 */
-	function addToChatMessage(cssClass, labelName, labelMessage) {
-		return `<div class="${cssClass} specialRollChatMessage">${labelName}: ${labelMessage}</div>`;
-	}
 
 	// Helper function to look for critical rolls
 	function checkCritStatus(roll) {
@@ -101,13 +91,13 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		let damageString = weapon.system.power;
 		if (extraDamage !== "0") {
 			damageString += `+ ${extraDamage}`;
-			chatMessage += `<div class="diceInfo specialRollChatMessage">${game.i18n.localize('gs.dialog.bonusDmg')}: ${extraDamage}</div>`;
+			chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
 		}
 
 		// Adding reduce dmg from Curved Shot if available
 		if (curvedShotFlag) {
 			damageString += `- ${curvedShotFlag.reducedPower}`;
-			chatMessage += `<div class="skillScore specialRollChatMessage">${game.i18n.localize('gs.dialog.curvedShotLabel')}: -${curvedShotFlag.reducedPower}</div>`;
+			chatMessage += addToFlavorMessage('skillScore', game.i18n.localize('gs.dialog.curvedShotLabel'), `-${curvedShotFlag.reducedPower}`);
 			player.unsetFlag('gs', 'Curved Shot');
 		}
 
@@ -127,7 +117,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		</div>`;
 
 		// Sending roll to chat window
-		sendRollToWindow(roll, chatMessage);
+		sendRollToWindow(roll, chatMessage, player);
 	});
 
 	// This will check between the dodge or block buttons, minion or boss, and send or roll to chat appropriately
@@ -154,15 +144,15 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			const roll = new Roll(value);
 			await roll.evaluate();
 			if (curvedShotFlag) {
-				chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
-				chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${roll._total}</div>`;
+				chatMessage += addToFlavorMessage('skillScore', game.i18n.localize('gs.dialog.curvedShotLabel'), `-${curvedShotFlag.targetReduction}`);
+				chatMessage += addToFlavorMessage('armorDodgeScore', rollResult, roll._total);
 			}
 			// Sending roll to chat window
 			sendRollToWindow(roll, chatMessage);
 		} else {
 			if (curvedShotFlag) {
-				chatMessage += `<div class="skillScore specialRollChatMessage">Curved Shot: -${curvedShotFlag.targetReduction}</div>`;
-				chatMessage += `<div class="armorDodgeScore specialRollChatMessage">${rollResult}: ${parseInt(value, 10) - curvedShotFlag.targetReduction}</div>`;
+				chatMessage += addToFlavorMessage('skillScore', game.i18n.localize('gs.dialog.curvedShotLabel'), `-${curvedShotFlag.targetReduction}`);
+				chatMessage += addToFlavorMessage('armorDodgeScore', rollResult, parseInt(value, 10) - curvedShotFlag.targetReduction);
 			}
 			ChatMessage.create({
 				speaker: { alias: activeToken.name },
@@ -201,7 +191,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			flavor: `<div class="chat messageHeader grid grid-7col">
 				<img src='${token.document.texture.src}'><h2 class="actorName grid-span-6">${token.document.name}</h2>
 			</div>
-			<div class="levelScore specialRollChatMessage">${game.i18n.localize('gs.dialog.suffered')}: ${Math.max(dmg - armorScore, 0)}</div>`,
+			${addToFlavorMessage('levelScore', game.i18n.localize('gs.dialog.suffered'), Math.max(dmg - armorScore, 0))}`,
 			author: game.user
 		});
 	});
@@ -233,10 +223,6 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		// Setting spellKey localization
 		let dmgRecoverLocalization = game.i18n.localize(`gs.dialog.spells.${spellKey === 'recovery' ? 'recoveryAmt' : 'spellDmg'}`);
 
-		const addChatFlavor = (css, h1, h2) => {
-			return `<div class="${css} specialRollChatMessage">${h1}: ${h2}</div>`;
-		};
-
 		// Setting chat header
 		let chatMessage = `<div class="chat messageHeader grid grid-7col">
 			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${spellUsed.name}: ${dmgRecoverLocalization}</h2>
@@ -265,17 +251,17 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		for (let x = 0; x < diceArray.length; x++) {
 			if (x === 0) {
 				diceString += diceArray[x];
-				chatMessage += addChatFlavor('diceInfo', game.i18n.localize('gs.dialog.dice'), diceArray[x]);
+				chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), diceArray[x]);
 			} else {
 				diceString += ' + ' + diceArray[x];
-				chatMessage += addChatFlavor('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceArray[x]);
+				chatMessage += addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceArray[x]);
 			}
 		}
 
 		// Add final level bonus to string
 		if (levelBonus) {
 			diceString += ' + ' + levelBonus;
-			chatMessage += addChatFlavor('levelScore', classNameFlag, levelBonus);
+			chatMessage += addToFlavorMessage('levelScore', classNameFlag, levelBonus);
 		}
 
 		// Rolling Dice
@@ -342,10 +328,6 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			return spellDmgRollTotal;
 		}
 
-		function addEffectiveMessage(cssClass, labelName, labelMessage) {
-			return `<div class="${cssClass}">${labelName}: ${labelMessage}</div>`;
-		}
-
 		// Splitting resistance between boss and minion
 		if (isBoss) {
 			spellResist = monster.system.bossSR;
@@ -357,10 +339,10 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			const rollTotal = roll.total;
 
 			// Adding dice to window info
-			chatMessage += addToChatMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), diceInfo[0]);
+			chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), diceInfo[0]);
 
 			// Adding dice modifier if any
-			if (diceInfo[1]) chatMessage += addToChatMessage('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceInfo[1]);
+			if (diceInfo[1]) chatMessage += addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.bonus'), diceInfo[1]);
 
 			// Checking for crits
 			const critCheck = checkCritStatus(roll);
@@ -376,22 +358,22 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 				if (rollTotal >= spellEffectiveness) {
 					console.log('... spell resisted');
 					spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
-					chatMessage += addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
+					chatMessage += addToFlavorMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
 				} else {
 					console.log('... spell not resisted');
-					chatMessage += addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
+					chatMessage += addToFlavorMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
 				}
 				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
 			}
 			sendRollToWindow(roll, chatMessage);
 		} else {
 			spellResist = monster.system.spellRes;
-			chatMessage += addToChatMessage('diceInfo', game.i18n.localize('gs.actor.character.total'), spellResist);
+			chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.actor.character.total'), spellResist);
 			if (spellResist >= spellEffectiveness) {
 				spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
-				chatMessage += addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
+				chatMessage += addToFlavorMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
 			} else {
-				chatMessage += addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
+				chatMessage += addToFlavorMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
 			}
 			chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
 			ChatMessage.create({
@@ -412,7 +394,14 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		let valueName = game.i18n.localize(`gs.dialog.${eventType}.value`),
 			rollLabel = game.i18n.localize(`gs.dialog.${eventType}.roll`),
 			rollResult = game.i18n.localize(`gs.dialog.${eventType}.total`),
-			defenseItem, defenseBonus, defenseAmount;
+			defenseItem, defenseBonus;
+		let chatMessage = `<div class="chat messageHeader grid grid-7col">
+			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${valueName}: ${rollLabel}</h2>
+		</div>`;
+
+		// Adding standard dice to roll
+		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize(`gs.dialog.dice`), `2d6`);
+		let defenseString = '2d6';
 
 		// Gettins skills to check over
 		const skills = findItems(player, 'skill');
@@ -426,10 +415,16 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		if (eventType === 'dodge') {
 			defenseItem = findItems(player, 'armor');
 			defenseBonus = defenseItem.system.dodge;
-			defenseAmount = defenseItem.system.score;
 			const parrySkill = player.items.find(i => i.name === 'Parry') || 0;
 			const alertSkill = player.items.find(i => i.name === 'Alert') || 0;
 			let parrySkillBonus = 0;
+
+			chatMessage += defenseBonus != 0 ? chatMessage += addToFlavorMessage('armorDodgeScore', defenseItem.name, defenseBonus) : '';
+			if (defenseBonus > 0) {
+				defenseString += `+ ${defenseBonus}`;
+			} else if (defenseBonus < 0) {
+				defenseString += `- ${defenseBonus * -1}`;
+			}
 
 			// Checking for highest parry value
 			if (parrySkill) {
@@ -447,14 +442,23 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			}
 
 			console.log("...", parrySkillBonus);
+			chatMessage += addToFlavorMessage('skillScore', game.i18n.localize(`gs.gear.weapons.effects.parry`), parrySkillBonus);
+			ChatMessage.create({
+				speaker: { alias: player.name },
+				flavor: chatMessage,
+				author: game.user
+			});
 		} else {
 			defenseItem = findItems(player, 'shield');
 			defenseBonus = defenseItem.system.mod;
 			defenseAmount = defenseItem.system.score;
 		}
 
+		const roll = new Roll(damageString);
+		await roll.evaluate();
 
-
+		// Sending roll to chat window
+		sendRollToWindow(roll, chatMessage, player);
 	});
 });
 
@@ -510,6 +514,17 @@ async function weaponMacroHotbarDrop(data, slot) {
 			return false
 		}
 	}
+}
+
+/**
+	 * Sets up a simple return statement to add the correct items and values to the localized message for debugging and player knowledge
+	 * @param {string} cssClass Class string to color the message, diceInfo, gearModifier, abilScore, levelScore, skillScore, skillEffectiveScore, rollScore, miscScore, armorDodgeScore
+	 * @param {string} labelName What is modifying the the dice roll
+	 * @param {*} labelMessage How much is being modified, usually an int value, can also be a string if needed.
+	 * @returns A string to be added to the localized message
+	 */
+function addToFlavorMessage(cssClass, labelName, labelMessage) {
+	return `<div class="${cssClass} specialRollChatMessage">${labelName}: ${labelMessage}</div>`;
 }
 
 // Using a hook to dynamically adjust content in chat window for GM only viewing

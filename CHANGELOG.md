@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+### 2024-11-7
+
+- Reworked code a bit in gs.mjs.
+- Added more code to Parry check and also reviewing output for errors.
+
 ### 2024-11-5
 
 - Working on Dodge check for players. Working through grabbing Parry skill information to add to the roll.
