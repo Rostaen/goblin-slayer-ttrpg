@@ -2,6 +2,16 @@
 
 ## Recent updates
 
+### 2024-11-8
+
+- Working on Monster damage roll.
+- Made some various changes to monster sheets.
+- Added player ability scores and level where appropriate.
+- Updated monster sheet with hidden power/damage value for ease of rolling damage.
+- Player block check rolls, checks for Shields & Shieldsman skill, applies as required.
+- Player dodge roll now checks for Parry and Alert, applies as required.
+- Added crit check for Boss monster defense rolls.
+
 ### 2024-11-7
 
 - Reworked code a bit in gs.mjs.

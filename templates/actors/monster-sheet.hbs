@@ -103,14 +103,13 @@
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit" data-attacknum="0">
                 {{#if actor.system.isBoss}}
-                <label class="toHit monster">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input type="text" name="system.attacks.0.mCheck" value="{{actor.system.attacks.0.mCheck}}" class="minionStatic hit" >
-                <label class="toHit monster">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="toHit monster grid-span-2">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.0.check" value="{{actor.system.attacks.0.check}}" class="hitMod" >
                 {{else}}
                 <label class="toHit monster grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.0.mCheck" value="{{actor.system.attacks.0.mCheck}}" class="minionStatic hit grid-span-2" >
                 {{/if}}
+                <input type="hidden" name="system.attacks.0.power" value="{{actor.system.attacks.0.power}}" class="hiddenPower">
             </div>
         </div>
 
@@ -157,14 +156,13 @@
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit" data-attacknum="1">
                 {{#if actor.system.isBoss}}
-                <label class="minStatic minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input type="text" name="system.attacks.1.mCheck" value="{{actor.system.attacks.1.mCheck}}" class="minionStatic hit" >
-                <label class="actorRolls bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="toHit monster grid-span-2">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.1.check" value="{{actor.system.attacks.1.check}}" class="hitMod" >
                 {{else}}
-                <label class="minStatic minionHit grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="toHit monster grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.1.mCheck" value="{{actor.system.attacks.1.mCheck}}" class="minionStatic hit grid-span-2" >
                 {{/if}}
+                <input type="hidden" name="system.attacks.1.power" value="{{actor.system.attacks.1.power}}" class="hiddenPower">
             </div>
         </div>
 
@@ -212,14 +210,13 @@
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit" data-attacknum="2">
                 {{#if actor.system.isBoss}}
-                <label class="minStatic minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input type="text" name="system.attacks.2.mCheck" value="{{actor.system.attacks.2.mCheck}}" class="minionStatic hit" >
-                <label class="actorRolls bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="toHit monster grid-span-2">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.2.check" value="{{actor.system.attacks.2.check}}" class="hitMod" >
                 {{else}}
-                <label class="minStatic minionHit grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="toHit monster grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.2.mCheck" value="{{actor.system.attacks.2.mCheck}}" class="minionStatic hit grid-span-2" >
                 {{/if}}
+                <input type="hidden" name="system.attacks.2.power" value="{{actor.system.attacks.2.power}}" class="hiddenPower">
             </div>
         </div>
 
@@ -267,14 +264,13 @@
         <div class="grid-span-4 reveal-rollable">
             <div class="grid grid-4col monsterHit" data-attacknum="3">
                 {{#if actor.system.isBoss}}
-                <label class="minStatic minionHit">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
-                <input type="text" name="system.attacks.3.mCheck" value="{{actor.system.attacks.3.mCheck}}" class="minionStatic hit" >
-                <label class="actorRolls bossHit">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="toHit monster grid-span-2">{{localize config.monster.chec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.3.check" value="{{actor.system.attacks.3.check}}" class="hitMod" >
                 {{else}}
-                <label class="minStatic minionHit grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
+                <label class="toHit monster grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.3.mCheck" value="{{actor.system.attacks.3.mCheck}}" class="minionStatic hit grid-span-2" >
                 {{/if}}
+                <input type="hidden" name="system.attacks.3.power" value="{{actor.system.attacks.3.power}}" class="hiddenPower">
             </div>
         </div>
 

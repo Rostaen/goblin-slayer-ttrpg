@@ -38,9 +38,36 @@ Hooks.once("init", () => {
 Hooks.on('renderChatMessage', (app, html, data) => {
 
 	// Helper function to look for critical rolls
-	function checkCritStatus(roll) {
-		let diceResults = roll.terms[0].results.map(r => r.result);
-		let critSuccess = 12, critFail = 2, results = [], diceResultTotal = diceResults[0] + diceResults[1];
+	function checkCritStatus(roll, skill = null) {
+		let diceResults = roll.terms[0].results.map(r => r.result),
+			critSuccess = 12, critFail = 2, results = [], diceResultTotal = diceResults[0] + diceResults[1];
+
+		if (skill?.name === 'Alert') {
+			const critValues = {
+				1: { critSuccess: 11, critFail: 5 },
+				2: { critSuccess: 11, critFail: 4 },
+				3: { critSuccess: 10, critFail: 4 },
+				4: { critSuccess: 10, critFail: 3 },
+				5: { critSuccess: 9, critFail: 3 },
+			};
+			const { critSuccess: critSuccessValue, critFail: critFailValue } = critValues[skill.system.value] || {};
+			if (critSuccessValue !== undefined && critFailValue !== undefined) {
+				critSuccess = critSuccessValue;
+				critFail = critFailValue;
+			}
+		} else if (skill?.name === 'Shieldsman') {
+			const critValues = {
+				1: { critSuccess: 11 },
+				2: { critSuccess: 11 },
+				3: { critSuccess: 10 },
+				4: { critSuccess: 10 },
+				5: { critSuccess: 9 },
+			};
+			const { critSuccess: critSuccessValue } = critValues[skill.system.value] || {};
+			if (critSuccessValue !== undefined) {
+				critSuccess = critSuccessValue;
+			}
+		}
 
 		// Comparing results to [un]modified crit ranges
 		if (diceResultTotal <= critFail) {
@@ -55,6 +82,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		}
 		return results;
 	}
+
 
 	// Helper to find gear
 	function findItems(player, type) {
@@ -123,15 +151,17 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	// This will check between the dodge or block buttons, minion or boss, and send or roll to chat appropriately
 	html.find(".monsterDefRoll").click(async event => {
 		event.preventDefault();
-		const monster = game.actors.get(event.currentTarget.dataset.monsterid);
-		const defType = event.currentTarget.dataset.type;
-		const activeToken = monster.getActiveTokens()[0];
-		const playerId = event.currentTarget.dataset.playerid;
-		const player = game.actors.get(playerId);
-		const curvedShotFlag = player.getFlag('gs', 'Curved Shot');
+		const monster = game.actors.get(event.currentTarget.dataset.monsterid),
+			defType = event.currentTarget.dataset.type,
+			activeToken = monster.getActiveTokens()[0],
+			playerId = event.currentTarget.dataset.playerid,
+			player = game.actors.get(playerId),
+			curvedShotFlag = player.getFlag('gs', 'Curved Shot');
+
 		let valueName = game.i18n.localize(`gs.dialog.${defType}.value`),
 			rollLabel = game.i18n.localize(`gs.dialog.${defType}.roll`),
-			rollResult = game.i18n.localize(`gs.dialog.${defType}.total`);
+			rollResult = game.i18n.localize(`gs.dialog.${defType}.total`),
+			critResults;
 
 		// The monster's dodge or block
 		let value = event.currentTarget.dataset.value;
@@ -143,10 +173,17 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			if (curvedShotFlag) value += ` - ${curvedShotFlag.targetReduction}`;
 			const roll = new Roll(value);
 			await roll.evaluate();
+
+			// Checking for curvedShot results
 			if (curvedShotFlag) {
 				chatMessage += addToFlavorMessage('skillScore', game.i18n.localize('gs.dialog.curvedShotLabel'), `-${curvedShotFlag.targetReduction}`);
 				chatMessage += addToFlavorMessage('armorDodgeScore', rollResult, roll._total);
 			}
+
+			// Checking crit results
+			critResults = checkCritStatus(roll);
+			chatMessage += critResults[1];
+
 			// Sending roll to chat window
 			sendRollToWindow(roll, chatMessage);
 		} else {
@@ -384,78 +421,236 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		}
 	});
 
-	html.find(".playerDefRoll").click(async event => {
+	html.find(".playerDodgeRoll").click(async event => {
 		event.preventDefault();
-		const monsterId = event.currentTarget.dataset.monsterid
-		const monster = game.actors.get(monsterId);
-		const playerId = event.currentTarget.dataset.playerid
-		const player = game.actors.get(playerId);
-		const eventType = event.currentTarget.dataset.type;
-		let valueName = game.i18n.localize(`gs.dialog.${eventType}.value`),
-			rollLabel = game.i18n.localize(`gs.dialog.${eventType}.roll`),
-			rollResult = game.i18n.localize(`gs.dialog.${eventType}.total`),
-			defenseItem, defenseBonus;
-		let chatMessage = `<div class="chat messageHeader grid grid-7col">
-			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${valueName}: ${rollLabel}</h2>
-		</div>`;
+		// Setting const variables
+		const playerId = event.currentTarget.dataset.playerid,
+			player = game.actors.get(playerId),
+			rollLabel = game.i18n.localize(`gs.dialog.dodge.roll`),
+			defenseItem = findItems(player, 'armor'),
+			defenseBonus = defenseItem.system.dodge,
+			martialArtsSkill = player.items.find(i => i.name === 'Martial Arts') || 0,
+			parrySkill = player.items.find(i => i.name === 'Parry') || 0,
+			alertSkill = player.items.find(i => i.name === 'Alert') || 0,
+			{ monk, scout, fighter } = player.system.levels.classes;
+
+		// Setting variable variables
+		let dodgeString = '2d6',
+			chatMessage = `<div class="chat messageHeader grid grid-7col">
+				<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${rollLabel}: ${defenseItem.name}</h2>
+			</div>`,
+			parrySkillBonus = 0,
+			critResults;
 
 		// Adding standard dice to roll
 		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize(`gs.dialog.dice`), `2d6`);
-		let defenseString = '2d6';
 
-		// Gettins skills to check over
-		const skills = findItems(player, 'skill');
+		// Adding ability modifier bonus
+		const techRef = player.system.abilities.calc.tr;
+		chatMessage += addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tecRef'), techRef);
+		dodgeString += `+ ${techRef}`;
 
-		// Parry Helper function
-		const parryValueChecker = (item) => {
-			return item.system.effect.parry != null ? item.system.effect.parry : 0;
-		};
+		// Adding dodge score bonus from level if present
+		if (monk || scout || fighter) {
+			let highestClass = '',
+				highestBonus = Math.max(monk, scout, fighter);
+			if (monk >= scout && monk >= fighter)
+				highestClass = game.i18n.localize('gs.actor.character.monk');
+			else if (scout >= fighter)
+				highestClass = game.i18n.localize('gs.actor.character.scou');
+			else
+				highestClass = game.i18n.localize('gs.actor.character.figh');
+			chatMessage += addToFlavorMessage('levelScore', highestClass, highestBonus);
+			dodgeString += `+ ${highestBonus}`;
+		}
+		// Adding armor dodge value
+		chatMessage += addToFlavorMessage('armorDodgeScore', defenseItem.name, defenseBonus);
 
-		// Getting armor types
-		if (eventType === 'dodge') {
-			defenseItem = findItems(player, 'armor');
-			defenseBonus = defenseItem.system.dodge;
-			const parrySkill = player.items.find(i => i.name === 'Parry') || 0;
-			const alertSkill = player.items.find(i => i.name === 'Alert') || 0;
-			let parrySkillBonus = 0;
+		// Adding armor dodge bonus is positive or negative, 0 is removed from roll string
+		if (defenseBonus > 0) {
+			dodgeString += defenseBonus > 0 ? `+ ${defenseBonus}` : `- ${defenseBonus * -1}`;
+		}
 
-			chatMessage += defenseBonus != 0 ? chatMessage += addToFlavorMessage('armorDodgeScore', defenseItem.name, defenseBonus) : '';
-			if (defenseBonus > 0) {
-				defenseString += `+ ${defenseBonus}`;
-			} else if (defenseBonus < 0) {
-				defenseString += `- ${defenseBonus * -1}`;
-			}
+		// Checking for Martial Arts value
+		if (martialArtsSkill) {
+			const skillBonus = martialArtsSkill.system.value;
+			chatMessage += addToFlavorMessage('skillScore', game.i18n.localize(`gs.dialog.martialArts`), skillBonus);
+			dodgeString += `+ ${skillBonus}`;
+		}
 
-			// Checking for highest parry value
-			if (parrySkill) {
-				const weapons = player.items.filter(i => i.type === 'weapon') || 0;
-				let weaponBonus = 0;
-				weapons.forEach(w => {
-					weaponBonus = parryValueChecker(w);
-				});
-				const shield = findItems(player, 'shield');
-				let shieldBonus = parryValueChecker(shield);
-				if (parrySkill.system.value >= 4)
-					parrySkillBonus = weaponBonus + shieldBonus;
-				else
-					parrySkillBonus = shieldBonus >= weaponBonus ? shieldBonus : weaponBonus;
-			}
+		// Checking for highest parry value
+		if (parrySkill) {
+			const weapons = player.items.filter(i => i.type === 'weapon') || 0,
+				shield = findItems(player, 'shield') || 0;
 
-			console.log("...", parrySkillBonus);
+			// Helper function to get the parry value, or 0 if none exists
+			const getParryValue = (item) => item?.system?.effect?.parry || 0;
+
+			// Get the highest parry value from weapons
+			const weaponBonus = Math.max(0, ...weapons.map(getParryValue));
+
+			// Get parry value for the shield
+			const shieldBonus = getParryValue(shield);
+
+			// Calculate total parry bonus based on parry skill level
+			parrySkillBonus = (parrySkill.system.value >= 4) ? weaponBonus + shieldBonus : Math.max(weaponBonus, shieldBonus);
+			parrySkillBonus += (parrySkill.system.value >= 2) ? parrySkillBonus-- : 0;
+
+			// Add message and dodge string based on parry skill bonus
 			chatMessage += addToFlavorMessage('skillScore', game.i18n.localize(`gs.gear.weapons.effects.parry`), parrySkillBonus);
-			ChatMessage.create({
-				speaker: { alias: player.name },
-				flavor: chatMessage,
-				author: game.user
-			});
-		} else {
-			defenseItem = findItems(player, 'shield');
-			defenseBonus = defenseItem.system.mod;
-			defenseAmount = defenseItem.system.score;
+			if (parrySkillBonus !== 0) {
+				dodgeString += parrySkillBonus > 0 ? `+ ${parrySkillBonus}` : `- ${Math.abs(parrySkillBonus)}`;
+			}
+		}
+
+		const roll = new Roll(dodgeString);
+		await roll.evaluate();
+
+		// Adding Alert skill info if present
+		if (alertSkill) {
+			let critSuccess = 12, critFail = 2;
+			const critValues = {
+				1: { critSuccess: 11, critFail: 5 },
+				2: { critSuccess: 11, critFail: 4 },
+				3: { critSuccess: 10, critFail: 4 },
+				4: { critSuccess: 10, critFail: 3 },
+				5: { critSuccess: 9, critFail: 3 },
+			};
+			const { critSuccess: critSuccessValue, critFail: critFailValue } = critValues[alertSkill.system.value] || {};
+			if (critSuccessValue !== undefined && critFailValue !== undefined) {
+				critSuccess = critSuccessValue;
+				critFail = critFailValue;
+			}
+			chatMessage += addToFlavorMessage('skillScore', alertSkill.name, `${game.i18n.localize('gs.dialog.crits.succ').slice(0, 7)}: ${critSuccess}+, ${game.i18n.localize('gs.dialog.crits.fail').slice(0, 4)}: ${critFail}-`);
+		}
+
+		// Checking Crit results and adding to chatMessage
+		critResults = checkCritStatus(roll, alertSkill);
+		chatMessage += critResults[1];
+
+		// Sending roll to chat window
+		sendRollToWindow(roll, chatMessage, player);
+	});
+
+	html.find(".playerShieldBlock").click(async event => {
+		event.preventDefault();
+		// Setting const variables
+		const playerId = event.currentTarget.dataset.playerid,
+			player = game.actors.get(playerId),
+			rollLabel = game.i18n.localize(`gs.dialog.block.roll`),
+			defenseItem = findItems(player, 'shield'),
+			defenseBonus = defenseItem.system.mod,
+			shieldsSkill = player.items.find(i => i.name === 'Shields') || 0,
+			shieldsManSkill = player.items.find(i => i.name === 'Shieldsman') || 0,
+			{ scout, fighter } = player.system.levels.classes;
+
+		// Setting variable variables
+		let blockString = '2d6',
+			chatMessage = `<div class="chat messageHeader grid grid-7col">
+				<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${rollLabel}: ${defenseItem.name}</h2>
+			</div>`,
+			critResults;
+
+		// Adding base dice to chat
+		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize(`gs.dialog.dice`), `2d6`);
+
+		// Adding ability modifier bonus
+		const techRef = player.system.abilities.calc.tr;
+		chatMessage += addToFlavorMessage('abilScore', game.i18n.localize('gs.actor.character.tecRef'), techRef);
+		blockString += `+ ${techRef}`;
+
+		// Adding block class if present
+		if (scout || fighter) {
+			let highestClass = '',
+				highestBonus = Math.max(scout, fighter);
+			if (scout >= fighter)
+				highestClass = game.i18n.localize('gs.actor.character.scou');
+			else
+				highestClass = game.i18n.localize('gs.actor.character.figh');
+			chatMessage += addToFlavorMessage('levelScore', highestClass, highestBonus);
+			blockString += `+ ${highestBonus}`;
+		}
+
+		// Adding shield mod
+		chatMessage += addToFlavorMessage('armorDodgeScore', defenseItem.name, defenseBonus);
+		if (defenseBonus > 0) {
+			blockString += defenseBonus > 0 ? `+ ${defenseBonus}` : `- ${defenseBonus * -1}`;
+		}
+
+		// Adding Shields skill is present
+		if (shieldsSkill) {
+			let skillBonus = shieldsSkill.system.value;
+			chatMessage += addToFlavorMessage('skillScore', shieldsSkill.name, skillBonus);
+			blockString += `+ ${skillBonus}`;
+		}
+
+		const roll = new Roll(blockString);
+		await roll.evaluate();
+
+		// Adding Shieldsman skill is present
+		if (shieldsManSkill) {
+			let critSuccess = 12, blockRating = 0, blockBonus = 0;
+			const critValues = {
+				1: { critSuccess: 11, blockRating: 0, blockBonus: 0 },
+				2: { critSuccess: 11, blockRating: 9, blockBonus: 1 },
+				3: { critSuccess: 10, blockRating: 8, blockBonus: 2 },
+				4: { critSuccess: 10, blockRating: 7, blockBonus: 2 },
+				5: { critSuccess: 9, blockRating: 6, blockBonus: 3 },
+			};
+			const { critSuccess: critSuccessValue, blockRating: blockRatingValue, blockBonus: blockBonusValue } = critValues[shieldsManSkill.system.value] || {};
+			if (critSuccessValue !== undefined && blockBonusValue !== undefined) {
+				critSuccess = critSuccessValue;
+				blockRating = blockRatingValue;
+				blockBonus = blockBonusValue;
+			}
+			chatMessage += addToFlavorMessage('skillScore', shieldsManSkill.name, `${game.i18n.localize('gs.dialog.crits.succ').slice(0, 7)}: ${critSuccess}, ${game.i18n.localize('gs.dialog.dice')} ${blockRating}+: +${blockBonus}`);
+		}
+
+		// Checking Crit results and adding to chatMessage
+		critResults = checkCritStatus(roll, shieldsManSkill);
+		chatMessage += critResults[1];
+
+		// Sending roll to chat window
+		sendRollToWindow(roll, chatMessage, player);
+	});
+
+	html.find(".monsterDamageRoll").click(async event => {
+		event.preventDefault();
+		const button = event.currentTarget;
+		const weaponPower = button.dataset.weaponpower;
+		const playerId = button.dataset.playerid;
+		const player = game.actors.get(playerId);
+		const targets = Array.from(game.user.targets);
+		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
+		const armor = findItems(player, 'armor');
+		console.log('... checking armor', armor);
+		const armorScore = armor.system.score;
+
+		let chatMessage = `<div class="chat messageHeader grid grid-7col">
+			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${weapon.name}: ${game.i18n.localize('gs.actor.character.damage')}</h2>
+		</div>`;
+
+		// Setting up roll with weapon damage
+		let damageString = weapon.system.power;
+		if (extraDamage !== "0") {
+			damageString += `+ ${extraDamage}`;
+			chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
 		}
 
 		const roll = new Roll(damageString);
 		await roll.evaluate();
+
+		// Setting up chat window details
+		chatMessage += `<h2 class="chat targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
+		<div class="chat target grid grid-8col">
+			<img class="targetImg" src="${activeTarget.document.texture.src}">
+			<h3 class="targetName grid-span-4">${activeTarget.document.name}</h3>
+			<div class="diceInfo specialRollChatMessage grid-span-3">${game.i18n.localize('gs.gear.armor.sco')}: ${armorScore}</div>
+		</div>
+		<div class="chat gmDmgButtons grid grid-4col gm-view">
+			<div class="fs10">${game.i18n.localize('gs.dialog.dmgMod')}</div><input class="dmgModInput type="text">
+			<div class="fs10">${game.i18n.localize('gs.dialog.applyDmg')}</div><button class="applyDmgButton" data-armor="${armorScore}" data-target="${activeTarget.document.actor._id}" data-dmg="${roll._total}" type="button"><i class="fa-solid fa-arrows-to-circle"></i></button>
+		</div>`;
 
 		// Sending roll to chat window
 		sendRollToWindow(roll, chatMessage, player);

@@ -521,7 +521,9 @@ export default class GSActorSheet extends ActorSheet {
 
 		const actor = this.actor;
 		const actorToken = game.actors.get(actor._id).getActiveTokens()[0];
-		const attackValue = event.currentTarget.closest('.monsterHit').dataset.attacknum;
+		const monsterHitDiv = event.currentTarget.closest('.monsterHit');
+		const attackValue = monsterHitDiv.dataset.attacknum;
+		const power = monsterHitDiv.querySelector('.hiddenPower').value;
 
 		// Checking if range is vallid before rolling attacks, else return early
 		const rangeValid = this._checkWeaponRange(actorToken, targetToken, actor, attackValue);
@@ -558,7 +560,7 @@ export default class GSActorSheet extends ActorSheet {
 				chatMessage += `${critStatus[1]}`;
 
 			// Setting boss' target info
-			chatMessage += this._setPlayerTargetInfo(targets, attackValue);
+			chatMessage += this._setPlayerTargetInfo(targets, power);
 
 			// Sending dice rolls to chat window
 			await roll.toMessage({
@@ -571,7 +573,7 @@ export default class GSActorSheet extends ActorSheet {
 			// Adding static attack score to chat window
 			chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.actor.monster.atta'), selectedAttack.mCheck);
 			// Setting minion's target info
-			chatMessage += this._setPlayerTargetInfo(targets, attackValue);
+			chatMessage += this._setPlayerTargetInfo(targets, power);
 
 			ChatMessage.create({
 				speaker: { alias: monsterToken.name },
@@ -1036,13 +1038,15 @@ export default class GSActorSheet extends ActorSheet {
 		const player = targets[0].document.actor;
 		const shield = this._getFromItemsList('shield');
 
+		console.log('... checking weaponInfo', weaponInfo);
+
 		let targetMessage = `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
 		<div class="target grid grid-9col">
 			<img class="targetImg" src="${activeTarget.document.texture.src}">
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
-			<button type="button" class="playerDefRoll" data-playerid="${player._id}" data-monsterid="${this.actor._id}" data-type="dodge" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-angles-right"></i></button>
-			<button type="button" class="playerDefRoll" data-playerid="${player._id}" data-monsterid="${this.actor._id}" data-type="block" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${shield ? `` : `disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
-			<button type="button" class="monsterDamageRoll gm-view" data-playerid="${this.actor._id}" data-id="${weaponInfo}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
+			<button type="button" class="playerDodgeRoll" data-playerid="${player._id}" data-monsterid="${this.actor._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-angles-right"></i></button>
+			<button type="button" class="playerShieldBlock" data-playerid="${player._id}" data-monsterid="${this.actor._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${shield ? `` : `disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
+			<button type="button" class="monsterDamageRoll gm-view" data-playerid="${this.actor._id}" data-weaponpower="${weaponInfo}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 		return targetMessage;
 	}

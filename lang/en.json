@@ -425,6 +425,7 @@
       "skillCheck": "Skill Check",
       "firstTargetMonster": "You must target a monster before rolling a Hit Check. Right-click and toggle target state or hover mouse over token and click 'T'.",
       "applyHealing": "Treat target's wounds",
+      "martialArts": "Martial Arts",
       "dodge": {
         "value": "Dodge Value",
         "roll": "Dodge Roll",
