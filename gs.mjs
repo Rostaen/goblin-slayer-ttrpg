@@ -186,7 +186,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			chatMessage += critResults[1];
 
 			// Sending roll to chat window
-			sendRollToWindow(roll, chatMessage);
+			sendRollToWindow(roll, chatMessage, monster);
 		} else {
 			if (curvedShotFlag) {
 				chatMessage += addToFlavorMessage('skillScore', game.i18n.localize('gs.dialog.curvedShotLabel'), `-${curvedShotFlag.targetReduction}`);
@@ -333,7 +333,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			chatMessage += setTarget(targets[0], playerId, spellKey, rollTotal);
 
 		// Sending results to chatwindow
-		sendRollToWindow(roll, chatMessage);
+		sendRollToWindow(roll, chatMessage, player);
 	});
 
 	html.find(".monsterSpellResist").click(async event => {
@@ -403,7 +403,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 				}
 				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);
 			}
-			sendRollToWindow(roll, chatMessage);
+			sendRollToWindow(roll, chatMessage, monster);
 		} else {
 			spellResist = monster.system.spellRes;
 			chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.actor.character.total'), spellResist);

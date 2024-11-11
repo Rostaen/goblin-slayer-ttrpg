@@ -1017,11 +1017,10 @@ export default class GSActorSheet extends ActorSheet {
 	_setMonsterTargetInfo(targets, itemInfo, extraDmg) {
 		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
 		const monster = targets[0].document.actor;
-		const hasBoss = monster.system.isBoss;
+		const isBoss = monster.system.isBoss;
 		const hasBlock = monster.system.hasBlock;
-		const isBoss = monster.system.theBoss;
 
-		const dodgeValue = hasBoss ? isBoss ? monster.system.defenses.boss.dodge : monster.system.defenses.minion.dodge : monster.system.defenses.minion.dodge;
+		const dodgeValue = isBoss ? monster.system.defenses.boss.dodge : monster.system.defenses.minion.dodge;
 		const blockValue = hasBlock ? isBoss ? monster.system.defenses.boss.block : monster.system.defenses.minion.block : monster.system.defenses.minion.block;
 
 		let targetMessage = `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>

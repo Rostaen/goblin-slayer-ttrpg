@@ -4,6 +4,7 @@
 
 ### 2024-11-11
 
+- Fixed missing section to get monster dodge rolls working correctly.
 - Monster damage roll setup to check for targets first and warns if no target.
 - Minon attacks working as well.
 - Monster damage window now displays player armor score with shield if present. Players with shields usually are built to use a shield over dodging.
