@@ -435,7 +435,8 @@
         "value": "Block Value",
         "roll": "Block Roll",
         "total": "Block Total",
-        "shieldScore": "Shield Score"
+        "shieldScore": "Shield Score",
+        "totalBlock": "Total Block Bonus"
       },
       "mods": {
         "mod": "Modifier",

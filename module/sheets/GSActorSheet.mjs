@@ -524,6 +524,8 @@ export default class GSActorSheet extends ActorSheet {
 		const monsterHitDiv = event.currentTarget.closest('.monsterHit');
 		const attackValue = monsterHitDiv.dataset.attacknum;
 		const power = monsterHitDiv.querySelector('.hiddenPower').value;
+		const weaponName = monsterHitDiv.querySelector('.hiddenName').value;
+		console.log('gsas power', power, weaponName);
 
 		// Checking if range is vallid before rolling attacks, else return early
 		const rangeValid = this._checkWeaponRange(actorToken, targetToken, actor, attackValue);
@@ -560,7 +562,7 @@ export default class GSActorSheet extends ActorSheet {
 				chatMessage += `${critStatus[1]}`;
 
 			// Setting boss' target info
-			chatMessage += this._setPlayerTargetInfo(targets, power);
+			chatMessage += this._setPlayerTargetInfo(targets, power, weaponName);
 
 			// Sending dice rolls to chat window
 			await roll.toMessage({
@@ -573,7 +575,7 @@ export default class GSActorSheet extends ActorSheet {
 			// Adding static attack score to chat window
 			chatMessage += this._addToFlavorMessage('gearModifier', game.i18n.localize('gs.actor.monster.atta'), selectedAttack.mCheck);
 			// Setting minion's target info
-			chatMessage += this._setPlayerTargetInfo(targets, power);
+			chatMessage += this._setPlayerTargetInfo(targets, power, weaponName);
 
 			ChatMessage.create({
 				speaker: { alias: monsterToken.name },
@@ -1033,12 +1035,12 @@ export default class GSActorSheet extends ActorSheet {
 		return targetMessage;
 	}
 
-	_setPlayerTargetInfo(targets, weaponInfo) {
+	_setPlayerTargetInfo(targets, weaponPower, weaponName) {
 		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
 		const player = targets[0].document.actor;
 		const shield = this._getFromItemsList('shield');
 
-		console.log('... checking weaponInfo', weaponInfo);
+		//console.log('... checking weaponInfo', this.actor._id, this.actor.name);
 
 		let targetMessage = `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
 		<div class="target grid grid-9col">
@@ -1046,7 +1048,7 @@ export default class GSActorSheet extends ActorSheet {
 			<h3 class="targetName grid-span-5">${activeTarget.document.name}</h3>
 			<button type="button" class="playerDodgeRoll" data-playerid="${player._id}" data-monsterid="${this.actor._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.dodge')}"><i class="fa-solid fa-angles-right"></i></button>
 			<button type="button" class="playerShieldBlock" data-playerid="${player._id}" data-monsterid="${this.actor._id}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.block')}" ${shield ? `` : `disabled`}><i class="fa-solid fa-shield-halved"></i></i></button>
-			<button type="button" class="monsterDamageRoll gm-view" data-playerid="${this.actor._id}" data-weaponpower="${weaponInfo}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
+			<button type="button" class="monsterDamageRoll gm-view" data-playerid="${player._id}" data-monsterid="${this.actor._id}" data-weaponname="${weaponName}" data-weaponpower="${weaponPower}" title="${game.i18n.localize('gs.dialog.actorSheet.itemsTab.power')}"><i class="fa-solid fa-burst"></i></button>
 		</div>`;
 		return targetMessage;
 	}

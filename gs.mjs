@@ -91,8 +91,9 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 
 	// Sending roll to chatWindow
 	function sendRollToWindow(roll, chatMessage, player) {
+		const token = player.getActiveTokens()[0];
 		roll.toMessage({
-			speaker: { actor: player },
+			speaker: { alias: token.name },
 			flavor: chatMessage,
 			author: game.user
 		});
@@ -549,7 +550,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			chatMessage = `<div class="chat messageHeader grid grid-7col">
 				<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${rollLabel}: ${defenseItem.name}</h2>
 			</div>`,
-			critResults;
+			critResults,
+			totalBlockBonus = 0;
 
 		// Adding base dice to chat
 		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize(`gs.dialog.dice`), `2d6`);
@@ -582,6 +584,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			let skillBonus = shieldsSkill.system.value;
 			chatMessage += addToFlavorMessage('skillScore', shieldsSkill.name, skillBonus);
 			blockString += `+ ${skillBonus}`;
+			totalBlockBonus += skillBonus;
 		}
 
 		const roll = new Roll(blockString);
@@ -591,7 +594,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		if (shieldsManSkill) {
 			let critSuccess = 12, blockRating = 0, blockBonus = 0;
 			const critValues = {
-				1: { critSuccess: 11, blockRating: 0, blockBonus: 0 },
+				1: { critSuccess: 11, blockRating: 13, blockBonus: 0 },
 				2: { critSuccess: 11, blockRating: 9, blockBonus: 1 },
 				3: { critSuccess: 10, blockRating: 8, blockBonus: 2 },
 				4: { critSuccess: 10, blockRating: 7, blockBonus: 2 },
@@ -604,10 +607,17 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 				blockBonus = blockBonusValue;
 			}
 			chatMessage += addToFlavorMessage('skillScore', shieldsManSkill.name, `${game.i18n.localize('gs.dialog.crits.succ').slice(0, 7)}: ${critSuccess}, ${game.i18n.localize('gs.dialog.dice')} ${blockRating}+: +${blockBonus}`);
+
+			// Checking roll for bonus block amount
+			console.log('... check roll log', roll, blockRating);
+			if (roll.terms[0].results[0].result + roll.terms[0].results[1].result > blockRating)
+				totalBlockBonus += blockBonus;
 		}
 
 		// Checking Crit results and adding to chatMessage
 		critResults = checkCritStatus(roll, shieldsManSkill);
+		if (totalBlockBonus)
+			chatMessage += addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.block.totalBlock'), totalBlockBonus);
 		chatMessage += critResults[1];
 
 		// Sending roll to chat window
@@ -616,44 +626,57 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 
 	html.find(".monsterDamageRoll").click(async event => {
 		event.preventDefault();
-		const button = event.currentTarget;
-		const weaponPower = button.dataset.weaponpower;
-		const playerId = button.dataset.playerid;
-		const player = game.actors.get(playerId);
-		const targets = Array.from(game.user.targets);
-		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
-		const armor = findItems(player, 'armor');
-		console.log('... checking armor', armor);
-		const armorScore = armor.system.score;
+		const button = event.currentTarget,
+			monster = game.actors.get(button.dataset.monsterid),
+			weaponPower = button.dataset.weaponpower,
+			weaponName = button.dataset.weaponname,
+			playerId = button.dataset.playerid,
+			player = game.actors.get(playerId),
+			targets = Array.from(game.user.targets);
+		if (!targets.length) {
+			ui.notifications.warn(game.i18n.localize('gs.dialog.firstTargetMonster'));
+			return;
+		}
+		const activeTarget = targets[0].document.actor.getActiveTokens()[0],
+			armor = findItems(player, 'armor'),
+			shield = findItems(player, 'shield') || 0;
+
+
+		let armorScore = armor.system.score;
+		if (shield)
+			armorScore += shield.system.score;
+		//console.log('... checking armor', weaponPower);
 
 		let chatMessage = `<div class="chat messageHeader grid grid-7col">
-			<img src='${player.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${weapon.name}: ${game.i18n.localize('gs.actor.character.damage')}</h2>
+			<img src='${monster.prototypeToken.texture.src}'><h2 class="actorName grid-span-6">${weaponName}: ${game.i18n.localize('gs.actor.character.damage')}</h2>
 		</div>`;
 
 		// Setting up roll with weapon damage
-		let damageString = weapon.system.power;
-		if (extraDamage !== "0") {
-			damageString += `+ ${extraDamage}`;
-			chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.bonusDmg'), extraDamage);
-		}
+		let damageString = weaponPower;
+		let powerSplit = weaponPower.includes('+') ? weaponPower.split('+') : [weaponPower, 0];
+		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize(`gs.dialog.dice`), powerSplit[0]);
+		if (powerSplit[1] > 0 || powerSplit[1] < 0)
+			chatMessage += addToFlavorMessage('gearModifier', game.i18n.localize('gs.dialog.bonus'), powerSplit[1]);
+
+		console.log('... check dmgstring', weaponPower);
 
 		const roll = new Roll(damageString);
 		await roll.evaluate();
 
 		// Setting up chat window details
 		chatMessage += `<h2 class="chat targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>
-		<div class="chat target grid grid-8col">
-			<img class="targetImg" src="${activeTarget.document.texture.src}">
-			<h3 class="targetName grid-span-4">${activeTarget.document.name}</h3>
-			<div class="diceInfo specialRollChatMessage grid-span-3">${game.i18n.localize('gs.gear.armor.sco')}: ${armorScore}</div>
-		</div>
-		<div class="chat gmDmgButtons grid grid-4col gm-view">
-			<div class="fs10">${game.i18n.localize('gs.dialog.dmgMod')}</div><input class="dmgModInput type="text">
-			<div class="fs10">${game.i18n.localize('gs.dialog.applyDmg')}</div><button class="applyDmgButton" data-armor="${armorScore}" data-target="${activeTarget.document.actor._id}" data-dmg="${roll._total}" type="button"><i class="fa-solid fa-arrows-to-circle"></i></button>
-		</div>`;
+			<div class="chat target grid grid-8col">
+				<img class="targetImg" src="${activeTarget.document.texture.src}">
+				<h3 class="targetName grid-span-4">${activeTarget.document.name}</h3>
+				<div class="diceInfo specialRollChatMessage grid-span-3">${game.i18n.localize('gs.gear.armor.sco')}: ${armorScore}</div>
+			</div>
+			<div class="chat gmDmgButtons grid grid-4col gm-view">
+				<div class="fs10">${game.i18n.localize('gs.dialog.dmgMod')}</div><input class="dmgModInput type="text">
+				<div class="fs10">${game.i18n.localize('gs.dialog.applyDmg')}</div><button class="applyDmgButton" data-armor="${armorScore}" data-target="${activeTarget.document.actor._id}" data-dmg="${roll._total}" type="button"><i class="fa-solid fa-arrows-to-circle"></i></button>
+			</div>`;
 
 		// Sending roll to chat window
-		sendRollToWindow(roll, chatMessage, player);
+		sendRollToWindow(roll, chatMessage, monster);
 	});
 });
 

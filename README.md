@@ -2,7 +2,7 @@
 
 This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion project putting a moderate amount of FoundryVTT skills together to test out developing game systems as a first run.
 
-## Current State v0.10.5 (2024-09-12)
+## Current State v0.10.6 (2024-09-12)
 
 - Item sheets setup for: armor, shields, weapons, items, spells, skills, races
 - Monster sheets setup
@@ -47,7 +47,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Allow fatigue to modify character sheet
 - [x] Create CompediumFolders for all monsters & items
 - [x] Better sheet styling
-- [ ] Add mouse hover context for game related information
+- [x] Add mouse hover context for game related information
   - [x] Monster sheet '!' information hovers
 - [ ] Block skills from having a higher value when levels and rank are in conflict
 - [ ] Supplement book items added to game
@@ -87,9 +87,9 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
   - [x] Add damage button to "to hit" rolls
   - [x] Add effectiness score bonus damage to player rolls
   - [x] Add button to apply damage to target
-  - [ ] Learn how to show info to GM only
-    - [ ] Show static defense value of minions
-    - [ ] Show armor roll button for boss
+  - [x] Learn how to show info to GM only
+    - [x] Show static defense value of minions
+    - [x] Show armor roll button for boss
 - [x] Set weapons and armor to macro toolbar for ease of player use
 - [ ] Set General skills to macro toolbar for ease of player use
 - [ ] Add cover condition -2, -4, -6 to hit checks

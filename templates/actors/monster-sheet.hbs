@@ -109,7 +109,8 @@
                 <label class="toHit monster grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.0.mCheck" value="{{actor.system.attacks.0.mCheck}}" class="minionStatic hit grid-span-2" >
                 {{/if}}
-                <input type="hidden" name="system.attacks.0.power" value="{{actor.system.attacks.0.power}}" class="hiddenPower">
+                <input type="hidden" value="{{actor.system.attacks.0.name}}" class="hiddenName">
+                <input type="hidden" value="{{actor.system.attacks.0.power}}" class="hiddenPower">
             </div>
         </div>
 
@@ -162,6 +163,7 @@
                 <label class="toHit monster grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.1.mCheck" value="{{actor.system.attacks.1.mCheck}}" class="minionStatic hit grid-span-2" >
                 {{/if}}
+                <input type="hidden" name="system.attacks.1.name" value="{{actor.system.attacks.1.name}}" class="hiddenName">
                 <input type="hidden" name="system.attacks.1.power" value="{{actor.system.attacks.1.power}}" class="hiddenPower">
             </div>
         </div>
@@ -216,6 +218,7 @@
                 <label class="toHit monster grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.2.mCheck" value="{{actor.system.attacks.2.mCheck}}" class="minionStatic hit grid-span-2" >
                 {{/if}}
+                <input type="hidden" name="system.attacks.2.name" value="{{actor.system.attacks.2.name}}" class="hiddenName">
                 <input type="hidden" name="system.attacks.2.power" value="{{actor.system.attacks.2.power}}" class="hiddenPower">
             </div>
         </div>
@@ -270,6 +273,7 @@
                 <label class="toHit monster grid-span-2">{{localize config.monster.mChec}}&nbsp;<i class="fa-solid fa-dice"></i></label>
                 <input type="text" name="system.attacks.3.mCheck" value="{{actor.system.attacks.3.mCheck}}" class="minionStatic hit grid-span-2" >
                 {{/if}}
+                <input type="hidden" name="system.attacks.3.name" value="{{actor.system.attacks.3.name}}" class="hiddenName">
                 <input type="hidden" name="system.attacks.3.power" value="{{actor.system.attacks.3.power}}" class="hiddenPower">
             </div>
         </div>

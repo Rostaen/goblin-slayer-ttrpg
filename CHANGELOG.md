@@ -2,6 +2,13 @@
 
 ## Recent updates
 
+### 2024-11-11
+
+- Monster damage roll setup to check for targets first and warns if no target.
+- Minon attacks working as well.
+- Monster damage window now displays player armor score with shield if present. Players with shields usually are built to use a shield over dodging.
+- Boss attacks and player dodge/block checks working from chat window.
+
 ### 2024-11-8
 
 - Working on Monster damage roll.
