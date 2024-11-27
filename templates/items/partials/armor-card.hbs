@@ -1,11 +1,14 @@
-<div class="armor-card item item-list genSkillContainer" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
-    <div class="reveal-rollable grid grid-10col contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
-        <img data-itemid="{{_id}}" class="dodge player" src="{{img}}" title="{{name}}" />
-        <div class="name grid-span-3">{{name}}</div>
-        <div class="armorScore grid-span-2">{{system.score}}</div>
-        <div class="dodge grid-span-2">{{numberFormat system.dodge decimals=0 sign=true}}</div>
-        <div class="move">{{numberFormat system.move decimals=0 sign=true}}</div>
-        <div class="stealth">{{system.stealth}}</div>
-        <input type="hidden" value="{{system.type}}" class="type">
+<div class="grid grid-10col">
+    <div class="armor-card item item-list genSkillContainer grid-span-9" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
+        <div class="reveal-rollable grid grid-9col contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+            <img data-itemid="{{_id}}" class="dodge player" src="{{img}}" title="{{name}}" />
+            <div class="name grid-span-3">{{name}}</div>
+            <div class="armorScore">{{system.score}}</div>
+            <div class="dodge grid-span-2">{{numberFormat system.dodge decimals=0 sign=true}}</div>
+            <div class="move">{{numberFormat system.move decimals=0 sign=true}}</div>
+            <div class="stealth">{{system.stealth}}</div>
+            <input type="hidden" value="{{system.type}}" class="type">
+        </div>
     </div>
+    <input type="checkbox" name="system.equip" class="equipGear" data-itemid="{{_id}}" {{#if system.equip}}checked{{/if}}>
 </div>

@@ -5,12 +5,15 @@
         <div class="weaponContainer blockContainer">
             <h2>{{localize config.charSheet.items.weapons}}</h2>
             <div class="gearContainer">
-                <div class="rowHeader grid grid-10col">
-                    <div></div>
-                    <div class="grid-span-4">{{localize config.monster.name decimals=0 sign=true}}</div>
-                    <div class="grid-span-2">{{localize config.charSheet.items.hitM decimals=0 sign=true}}</div>
-                    <div>{{localize config.charSheet.items.rang decimals=0 sign=true}}</div>
-                    <div class="grid-span-2">{{localize config.charSheet.items.powe decimals=0 sign=true}}</div>
+                <div class="grid grid-10col">
+                    <div class="rowHeader grid grid-10col">
+                        <div></div>
+                        <div class="grid-span-4">{{localize config.monster.name decimals=0 sign=true}}</div>
+                        <div class="grid-span-2">{{localize config.charSheet.items.hitM decimals=0 sign=true}}</div>
+                        <div>{{localize config.charSheet.items.rang decimals=0 sign=true}}</div>
+                        <div>{{localize config.charSheet.items.powe decimals=0 sign=true}}</div>
+                        <div>{{localize "gs.gear.equip"}}</div>
+                    </div>
                 </div>
                 <div class="item-list">
                     {{#each data.weapons as |weapon id|}}
@@ -24,13 +27,16 @@
         <div class="armorContainer blockContainer">
             <h2>{{localize config.character.combat.armor}}</h2>
             <div class="gearContainer">
-                <div class="rowHeader grid grid-10col">
-                    <div></div>
-                    <div class="grid-span-3">{{localize config.monster.name decimals=0 sign=true}}</div>
-                    <div class="grid-span-2">{{localize gearConfig.armor.sco}}</div>
-                    <div class="grid-span-2">{{localize gearConfig.armor.dod}}</div>
-                    <div>{{localize gearConfig.armor.mov}}</div>
-                    <div>{{localize gearConfig.common.ste}}</div>
+                <div class="grid grid-10col">
+                    <div class="rowHeader grid grid-10col">
+                        <div></div>
+                        <div class="grid-span-3">{{localize config.monster.name decimals=0 sign=true}}</div>
+                        <div>{{localize gearConfig.armor.sco}}</div>
+                        <div class="grid-span-2">{{localize gearConfig.armor.dod}}</div>
+                        <div>{{localize gearConfig.armor.mov}}</div>
+                        <div>{{localize gearConfig.common.ste}}</div>
+                        <div>{{localize "gs.gear.equip"}}</div>
+                    </div>
                 </div>
                 <div class="item-list">
                     {{#each data.armor as |armor id|}}
@@ -46,10 +52,11 @@
             <div class="gearContainer">
                 <div class="rowHeader grid grid-10col">
                     <div></div>
-                    <div class="grid-span-4">{{localize config.monster.name}}</div>
+                    <div class="grid-span-3">{{localize config.monster.name}}</div>
                     <div class="grid-span-2">{{localize gearConfig.shield.mod}}</div>
                     <div class="grid-span-2">{{localize gearConfig.shield.sco}}</div>
                     <div>{{localize gearConfig.common.ste}}</div>
+                    <div>{{localize "gs.gear.equip"}}</div>
                 </div>
                 <div class="item-list">
                     {{#each data.shields as |shield id|}}

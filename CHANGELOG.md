@@ -2,6 +2,12 @@
 
 ## Recent updates
 
+### 2024-11-27
+
+- Added equip option to item headers.
+- Added checkbox to weapons, armor, shields to represent equipped status.
+- Armor movement penalty check updated to look for equipped armor and only apply that value.
+
 ### 2024-11-11
 
 - Fixed missing section to get monster dodge rolls working correctly.

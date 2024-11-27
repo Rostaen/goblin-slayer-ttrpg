@@ -398,7 +398,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 					spellDmgRollTotal = reduceSpellDmg(spellDmgRollTotal);
 					chatMessage += addToFlavorMessage('spellCastSuccess', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.succ'));
 				} else {
-					console.log('... spell not resisted');
+					//console.log('... spell not resisted');
 					chatMessage += addToFlavorMessage('spellCastFailure', game.i18n.localize('gs.actor.monster.supportEffect.spellResist'), game.i18n.localize('gs.dialog.crits.fail'));
 				}
 				chatMessage += addApplyDmgButton(monsterId, spellDmgRollTotal);

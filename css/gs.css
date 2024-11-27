@@ -1659,6 +1659,10 @@ table tr:nth-child(even) {
 .itemsPageContainer .itemsPage .gearContainer .shield-card img:hover {
   cursor: pointer;
 }
+.itemsPageContainer .itemsPage .gearContainer input.equipGear {
+  margin: auto;
+  height: 15px;
+}
 .itemsPageContainer .itemsPage .itemsContainer .item-list {
   margin-top: 0px;
 }

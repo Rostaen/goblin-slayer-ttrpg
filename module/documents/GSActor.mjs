@@ -1,13 +1,13 @@
 export class GSActor extends Actor {
-    prepareData(){
+    prepareData() {
         super.prepareData();
     }
 
-    prepareBaseData(){
+    prepareBaseData() {
 
     }
 
-    prepareDerivedData(){
+    prepareDerivedData() {
         super.prepareDerivedData();
         const actorData = this;
         const systemData = actorData.system;
@@ -17,7 +17,7 @@ export class GSActor extends Actor {
         this._prepareMonsterData(actorData);
     }
 
-    _prepareCharacterData(actorData){
+    _prepareCharacterData(actorData) {
         const systemData = actorData.system;
         const type = actorData.type;
         let hardinessBonus = 0;
@@ -27,21 +27,21 @@ export class GSActor extends Actor {
         //     delete systemData.lifeForce.min;
 
         // Updating lifeforce value if wounds applied
-        if(systemData.lifeForce.wounds){
+        if (systemData.lifeForce.wounds) {
             systemData.lifeForce.value = systemData.lifeForce.value - systemData.lifeForce.wounds;
-            if(systemData.lifeForce.value <= 0){
+            if (systemData.lifeForce.value <= 0) {
                 systemData.lifeForce.value = 0;
             }
         }
 
-        if(type !== 'character') return;
+        if (type !== 'character') return;
 
         const actorSkills = this.items.filter(item => item.type === 'skill');
 
         // Setting up character calculated ability scores
-        for(const [keyP, scoreP] of Object.entries(systemData.abilities.primary)){
-            for(const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)){
-                const calcString = keyP.substring(0,1) + keyS.substring(0,1);
+        for (const [keyP, scoreP] of Object.entries(systemData.abilities.primary)) {
+            for (const [keyS, scoreS] of Object.entries(systemData.abilities.secondary)) {
+                const calcString = keyP.substring(0, 1) + keyS.substring(0, 1);
                 const calcScore = scoreP + scoreS;
                 systemData.abilities.calc[calcString] = calcScore;
             }
@@ -60,12 +60,12 @@ export class GSActor extends Actor {
         systemData.spellRes = systemData.levels.adventurer + systemData.abilities.calc.pr + this._getSkillBonus("Spell Resistance") + (this._getSkillBonus('Veil of Darkness') - 1);
 
         // Getting character skills
-        for(const skill of actorSkills){
+        for (const skill of actorSkills) {
             //console.log("===> For Loop Skill Check", skill);
             const skillValue = skill.system.value;
             const skillName = skill.name;
-            if(skillValue){
-                switch(skillName){
+            if (skillValue) {
+                switch (skillName) {
                     case "Anticipate": case "First Aid": case "Handiwork": case "Lucky": case "Observe": case "Sixth Sense": case 'Strengthened Immunity':
                     case "Armor: Cloth": case "Armor: Light": case "Armor: Heavy": case "Shields": case "Encumbered Action": case 'Guard': case 'Martial Arts':
                     case "Piercing Attack": case "Weapons: One-Handed Swords": case "Weapons: Two-Handed Swords": case "Weapons: Axes": case "Weapons: Spears":
@@ -124,10 +124,10 @@ export class GSActor extends Actor {
                         systemData.skills.adventurer[skillName] = skillValue; break;
                     case "Darkvision":
                         this._updateDarkVision(skill, systemData); break;
-                    case "Bonus Spells: Words of True Power": case "Bonus Spells: Miracles":case "Bonus Spells: Ancestral Dragon Arts": case "Bonus Spells: Spirit Arts": case "Bonus Spells: Necromancy":
+                    case "Bonus Spells: Words of True Power": case "Bonus Spells: Miracles": case "Bonus Spells: Ancestral Dragon Arts": case "Bonus Spells: Spirit Arts": case "Bonus Spells: Necromancy":
                         this._bonusSpellsKnownSkillCall(skill); break;
                     case "Stealth":
-                        if(skillValue >= 3)
+                        if (skillValue >= 3)
                             this._setSkill('adventurer', skillName + 'ToHit', skillValue - 2);
                         this._setSkill('adventurer', skillName, skillValue); break;
                     case "Draconic Heritage": case "Long-Distance Movement": case 'Appraisal': case 'Artisan: Smithing': case 'Artisan: Needlework':
@@ -176,7 +176,7 @@ export class GSActor extends Actor {
         }
 
         // Adding HP Value if one doesn't exist
-        if(!systemData.lifeForce.value)
+        if (!systemData.lifeForce.value)
             systemData.lifeForce.value = 0;
 
         // Adding initiative to character with possible bonus
@@ -188,17 +188,17 @@ export class GSActor extends Actor {
 
         // Setting Spell Use Scores
         // TODO: Add in any spell skills that alter this amount per caster class
-        if(!systemData.spellUse.scores.necro)
+        if (!systemData.spellUse.scores.necro)
             systemData.spellUse.scores.necro = 0;
-        for(let [id, score] of Object.entries(systemData.spellUse.scores)){
+        for (let [id, score] of Object.entries(systemData.spellUse.scores)) {
             let calcScore = 0;
-            if(id === "sorc"){
+            if (id === "sorc") {
                 calcScore = systemData.levels.classes.sorcerer + systemData.abilities.calc.if;
-            }else if(id === "necro"){
+            } else if (id === "necro") {
                 calcScore = systemData.levels.classes.necro + systemData.abilities.calc.if;
-            }else{
+            } else {
                 calcScore = systemData.abilities.calc.pf;
-                switch(id){
+                switch (id) {
                     case "prie": calcScore += systemData.levels.classes.priest; break;
                     case "dPri": calcScore += systemData.levels.classes.dragon; break;
                     case "sham": calcScore += systemData.levels.classes.shaman; break;
@@ -209,25 +209,25 @@ export class GSActor extends Actor {
         }
 
         // Setting Base Hit Scores
-        for(let [typeId, hitScore] of Object.entries(systemData.attacks.totals)){
+        for (let [typeId, hitScore] of Object.entries(systemData.attacks.totals)) {
             // Ensure systemData.attacks.totals[typeId] is an object
-            if(typeof systemData.attacks.totals[typeId] !== 'object'){
+            if (typeof systemData.attacks.totals[typeId] !== 'object') {
                 systemData.attacks.totals[typeId] = {}; // Initialized as an empty object
             }
             // Getting Technique Focus score for all martial classes to hit with weapons
             let techFocus = systemData.abilities.calc.tf;
 
             // Cycling through classes to get levels and modify scores with skills
-            for(let [classId, level] of Object.entries(systemData.levels.classes)){
+            for (let [classId, level] of Object.entries(systemData.levels.classes)) {
                 let calcScore = 0;
 
-                if(typeId === 'melee' && (classId === 'fighter' || classId === 'monk' || classId === 'scout')){
+                if (typeId === 'melee' && (classId === 'fighter' || classId === 'monk' || classId === 'scout')) {
                     calcScore = techFocus + level; // Add skill bonuses here
-                }else if(typeId === 'throw' && (classId === 'monk' || classId === 'ranger' || classId === 'scout')){
+                } else if (typeId === 'throw' && (classId === 'monk' || classId === 'ranger' || classId === 'scout')) {
                     calcScore = techFocus + level; // Add skill bonuses here
-                }else if(typeId === 'projectile' && classId === 'ranger'){
+                } else if (typeId === 'projectile' && classId === 'ranger') {
                     calcScore = techFocus + level; // Add skill bonuses here
-                }else{
+                } else {
                     continue; // Skipping unneeded classes
                 }
 
@@ -237,16 +237,16 @@ export class GSActor extends Actor {
         }
 
         // Setting Dodge Scores
-        if(typeof systemData.defense.dodge.mods !== 'object'){
+        if (typeof systemData.defense.dodge.mods !== 'object') {
             systemData.defense.dodge.mods = {};
         }
         let techReflex = systemData.abilities.calc.tr;
-        for(let [classId, level] of Object.entries(systemData.levels.classes)){
+        for (let [classId, level] of Object.entries(systemData.levels.classes)) {
             let calcScore = 0;
 
-            if(classId === 'fighter' || classId === 'monk' || classId === 'scout'){
+            if (classId === 'fighter' || classId === 'monk' || classId === 'scout') {
                 calcScore = techReflex + level;
-            }else{
+            } else {
                 continue; // Skipping unneeded classes
             }
 
@@ -257,23 +257,23 @@ export class GSActor extends Actor {
         // Setting Modified Movement
         // Skill Long-Distance movement is affecting modfiers above
         let movePen = systemData.move;
-        const armor = actorData.items.find(i => i.type === 'armor');
-        if(armor){
-            if(armor.system.heavy.value && (this.system.abilities.calc.se + this._getSkillBonus('Encumbered Action')) >= armor.system.heavy.y){
+        const armor = actorData.items.find(i => i.type === 'armor' && i.system.equip);
+        if (armor) {
+            if (armor.system.heavy.value && (this.system.abilities.calc.se + this._getSkillBonus('Encumbered Action')) >= armor.system.heavy.y) {
                 movePen += Math.floor(parseInt(armor.system.move, 10) / 2);
-            }else
+            } else
                 movePen += parseInt(armor.system.move, 10);
         }
         const items = actorData.items.filter(i => i.type === 'item');
-        if(items)
-            for(let i of items)
+        if (items)
+            for (let i of items)
                 movePen += i.system.movePen;
         systemData.modMove += movePen;
 
     }
 
-    _setSkill(skillType, skillName, skillValue){
-        if(skillType === 'general')
+    _setSkill(skillType, skillName, skillValue) {
+        if (skillType === 'general')
             if (skillValue === 3)
                 skillName === 'Draconic Heritage' ? skillValue + 0 : skillValue++;
         this.system.skills[skillType][skillName] = skillValue;
@@ -284,14 +284,14 @@ export class GSActor extends Actor {
      * @param {string} skillName Name of the skill to search for
      * @returns Int value of skill level
      */
-    _getSkillBonus(skillName){
+    _getSkillBonus(skillName) {
         const skill = this.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
-        if(skill)
+        if (skill)
             return parseInt(skill.system.value, 10);
         else return 0;
     }
 
-    _setCritRanges(skillName, skillValue){
+    _setCritRanges(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let successScore = 9;
         let failureScore = 3;
@@ -305,7 +305,7 @@ export class GSActor extends Actor {
         adventurerSkills[skillName] = { success: successScore, failure: failureScore };
     }
 
-    _setBoS(skillName, skillValue){
+    _setBoS(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let bonus = skillValue;
         let fatigueBonus = 1;
@@ -317,7 +317,7 @@ export class GSActor extends Actor {
         adventurerSkills[skillName] = { bonus, fatigueBonus };
     }
 
-    _setDualWield(skillName, skillValue){
+    _setDualWield(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { single: -2, double: -4 };
         const skillMapping = {
@@ -332,15 +332,15 @@ export class GSActor extends Actor {
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setIronFirst(skillName, skillValue){
+    _setIronFirst(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         const adjustedValue = skillValue <= 2 ? skillValue : skillValue + (skillValue - 2);
         adventurerSkills[skillName] = adjustedValue;
     }
 
-    _setMowDown(skillName, skillValue){
+    _setMowDown(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
-        let skillConfig = { penalty: -4, addPenalty: -1, targets: 5};
+        let skillConfig = { penalty: -4, addPenalty: -1, targets: 5 };
         const skillMapping = {
             1: { penalty: -4, addPenalty: 0, targets: 2 },
             2: { penalty: -4, addPenalty: -2, targets: 3 },
@@ -353,7 +353,7 @@ export class GSActor extends Actor {
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setRapidFire(skillName, skillValue){
+    _setRapidFire(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { numOfAttacks: 3, numOfTargets: 3, mainTargets: -0.5, altTargets: -0.5 }
         const skillMapping = {
@@ -362,12 +362,12 @@ export class GSActor extends Actor {
             3: { numOfAttacks: 2, numOfTargets: 2, mainTargets: -0.5, altTargets: -1 },
             4: { numOfAttacks: 2, numOfTargets: 2, mainTargets: -0.5, altTargets: -0.5 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setSnipe(skillName, skillValue){
+    _setSnipe(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { hitPower: 12, range: 2, crit: 10 };
         const skillMapping = {
@@ -376,188 +376,188 @@ export class GSActor extends Actor {
             3: { hitPower: 8, range: 1.5, crit: 11 },
             4: { hitPower: 10, range: 2, crit: 11 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setStrongBlow(skillName, skillValue){
+    _setStrongBlow(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let str = this.system.abilities.primary.str;
-        if(skillValue === 1)
+        if (skillValue === 1)
             str = Math.round(str * 0.25);
-        else if(skillValue === 2)
+        else if (skillValue === 2)
             str = Math.round(str * 0.5);
-        else if(skillValue === 3)
+        else if (skillValue === 3)
             str = Math.round(str * 1);
-        else if(skillValue === 4)
+        else if (skillValue === 4)
             str = Math.round(str * 1.5);
-        else if(skillValue === 5)
+        else if (skillValue === 5)
             str = Math.round(str * 2);
         adventurerSkills[skillName] = str;
     }
 
-    _setCriticals(skillName, skillValue){
+    _setCriticals(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         const bonuses = { critical: 9, dmgRecover: 4 };
-        if(skillValue <=2)
+        if (skillValue <= 2)
             bonuses = { critical: 11, dmgRecover: skillValue === 1 ? 0 : 1 };
-        else if(skillValue <= 4)
+        else if (skillValue <= 4)
             bonuses = { critical: 10, dmgRecover: skillValue === 3 ? 2 : 3 };
         adventurerSkills[skillName] = bonuses;
     }
 
-    _setBeloved(skillName, skillValue){
+    _setBeloved(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         adventurerSkills[skillName] = skillValue - 1;
     }
 
-    _setCoolAndCollected(skillName, skillValue){
+    _setCoolAndCollected(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         let skillConfig = { bonus: 4, mentalResist: 2 };
         const skillMapping = {
             1: { bonus: 1, mentalResist: 0 },
             2: { bonus: 2, mentalResist: 1 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setFaith(skillName, skillValue){
+    _setFaith(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
-        if(skillValue === 1)
+        if (skillValue === 1)
             adventurerSkills[skillName] = -4;
-        else if(skillValue === 2)
+        else if (skillValue === 2)
             adventurerSkills[skillName] = -2;
         else
             adventurerSkills[skillName] = 0;
     }
 
-    _setMagicalPerception(skillName, skillValue){
+    _setMagicalPerception(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
-        if(skillValue === 1)
+        if (skillValue === 1)
             skillValue = 30;
-        else if(skillValue === 2)
+        else if (skillValue === 2)
             skillValue = 60;
         else
             skillValue = 120;
         adventurerSkills[skillName] = skillValue;
     }
 
-    _setSacrament(skillName, skillValue){
+    _setSacrament(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         let skillConfig = { bonus: 2, general: 3 };
         const skillMapping = {
             1: { bonus: 0, general: 1 },
             2: { bonus: 1, general: 2 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setVeil(skillName, skillValue){
+    _setVeil(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         let skillConfig = { bonus: 3, spellResist: 2 };
         const skillMapping = {
             1: { bonus: 1, spellResist: 0 },
             2: { bonus: 2, spellResist: 1 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setShellAndClaws(skillName, skillValue){
+    _setShellAndClaws(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         adventurerSkills[skillName] = { armor: skillValue, unarmed: skillValue };
     }
 
-    _setWallWalker(skillName, skillValue){
+    _setWallWalker(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         const movement = this.system.modMove;
-        if(skillValue === 1)
+        if (skillValue === 1)
             skillValue = Math.round(movement * 0.25);
-        else if(skillValue === 2)
+        else if (skillValue === 2)
             skillValue = Math.round(movement * 0.5);
         else
             skillValue = movement;
         adventurerSkills[skillName] = skillValue;
     }
 
-    _setEnvironmentalAdaptation(skillName, skillValue){
+    _setEnvironmentalAdaptation(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         let skillConfig = { main: 4, other: -1 };
         const skillMapping = {
             1: { main: 2, other: -2 },
             2: { main: 3, other: -2 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setBeastWorship(skillName, skillValue){
+    _setBeastWorship(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
-        if(skillValue === 3)
+        if (skillValue === 3)
             skillValue++;
         adventurerSkills[skillName] = skillValue * -1;
     }
 
-    _setBeastEyes(skillName, skillValue){
+    _setBeastEyes(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
-        if(skillValue === 1)
+        if (skillValue === 1)
             skillValue = 10;
-        else if(skillValue === 2)
+        else if (skillValue === 2)
             skillValue = 30;
         else
             skillValue = 60;
         adventurerSkills[skillName] = skillValue;
     }
 
-    _setInjectPoison(skillName, skillValue){
+    _setInjectPoison(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         let skillConfig = { deadly: '1d6+3', paralysis: { dmg: '1d6', penalty: -2 } };
         const skillMapping = {
             1: { deadly: '1d3', paralysis: '1d3' },
             2: { deadly: '1d3+3', paralysis: { dmg: '1d3', penalty: -1 } }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setHorns(skillName, skillValue){
+    _setHorns(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         adventurerSkills[skillName] = (skillValue * 2) - 2;
     }
 
-    _setBirdsEyes(skillName, skillValue){
+    _setBirdsEyes(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         let skillConfig = { bonus: 4, visiblity: -4 };
         const skillMapping = {
             1: { bonus: 1, visiblity: 0 },
             2: { bonus: 2, visiblity: -2 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setMucus(skillName, skillValue){
+    _setMucus(skillName, skillValue) {
         const adventurerSkills = this.system.skills.general;
         let skillConfig = { bonus: -3, rounds: 6 };
         const skillMapping = {
             1: { bonus: 0, rounds: 3 },
             2: { bonus: -2, rounds: 3 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setGorillaTactics(skillName, skillValue){
+    _setGorillaTactics(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         const str = this.system.abilities.primary.str;
         let skillConfig = { str: str * 1, bonus: 4 };
@@ -567,12 +567,12 @@ export class GSActor extends Actor {
             3: { str: Math.round(str * 0.5), bonus: 1 },
             4: { str: str * 1, bonus: 3 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setBiologicalKnowledge(skillName, skillValue){
+    _setBiologicalKnowledge(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { checks: 5, bonus: 5 };
         const skillMapping = {
@@ -581,23 +581,23 @@ export class GSActor extends Actor {
             3: { checks: 3, bonus: 2 },
             4: { checks: 4, bonus: 3 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setMovingChant(skillName, skillValue){
+    _setMovingChant(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
-        if(skillValue <= 3)
+        if (skillValue <= 3)
             skillValue++;
-        else if(skillValue === 4)
+        else if (skillValue === 4)
             skillValue + 2;
         else
             skillValue = 10;
         adventurerSkills[skillName] = skillValue;
     }
 
-    _setMultipleChants(skillName, skillValue){
+    _setMultipleChants(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { numOfSpells: 2, threeSpells: -4, twoSpells: 0 };
         const skillMapping = {
@@ -606,19 +606,19 @@ export class GSActor extends Actor {
             3: { numOfSpells: 3, threeSpells: -4, twoSpells: -4 },
             4: { numOfSpells: 3, threeSpells: -4, twoSpells: -2 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setPoisoner(skillName, skillValue){
+    _setPoisoner(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
-        if(skillValue > 2)
+        if (skillValue > 2)
             skillValue = (skillValue - 1) * 2;
         adventurerSkills[skillName] = skillValue;
     }
 
-    _setShieldsman(skillName, skillValue){
+    _setShieldsman(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { critBlock: 9, bonusRange: 6, bonusBlock: 3 };
         const skillMapping = {
@@ -627,12 +627,12 @@ export class GSActor extends Actor {
             3: { critBlock: 10, bonusRange: 8, bonusBlock: 2 },
             4: { critBlock: 10, bonusRange: 7, bonusBlock: 2 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
 
-    _setPassingThrough(skillName, skillValue){
+    _setPassingThrough(skillName, skillValue) {
         const adventurerSkills = this.system.skills.adventurer;
         let skillConfig = { bonus: 6, bonusToOthers: 4 };
         const skillMapping = {
@@ -641,7 +641,7 @@ export class GSActor extends Actor {
             3: { bonus: 4, bonusToOthers: 0 },
             4: { bonus: 5, bonusToOthers: 3 }
         }
-        if(skillMapping[skillValue])
+        if (skillMapping[skillValue])
             skillConfig = skillMapping[skillValue];
         adventurerSkills[skillName] = skillConfig;
     }
@@ -651,9 +651,9 @@ export class GSActor extends Actor {
      * @param {string} skillName The Defensive skill name string
      * @returns 1d3/6(+1 or 2)
      */
-    _getDefSkillValue(skillName){
+    _getDefSkillValue(skillName) {
         let defSkillValue = this._getSkillBonus(skillName);
-        switch(defSkillValue){
+        switch (defSkillValue) {
             case 1: defSkillValue = '1d3'; break;
             case 2: defSkillValue = '1d3+1'; break;
             case 3: defSkillValue = '1d6'; break;
@@ -668,10 +668,10 @@ export class GSActor extends Actor {
      * @param {string} skillName Name of the skill to find
      * @returns Int value returned based on skill value and amount from book, 5 being a special case
      */
-    _hardinessSkillCall(skillName){
+    _hardinessSkillCall(skillName) {
         let skillBonus = this._getSkillBonus(skillName);
-        if(skillBonus <= 4) skillBonus *= 5;
-        else if(skillBonus = 5) skillBonus = 30;
+        if (skillBonus <= 4) skillBonus *= 5;
+        else if (skillBonus = 5) skillBonus = 30;
         return skillBonus;
     }
 
@@ -681,13 +681,13 @@ export class GSActor extends Actor {
      * @param {JSON} systemData The character JSON object to manipulate data
      * @param {*} type Either "Armor: Cloth/Light/Heavy" and only used with armor skill search
      */
-    _armorSkillCall(type, systemData, armorType = ""){
-        if(type === 'armor'){
+    _armorSkillCall(type, systemData, armorType = "") {
+        if (type === 'armor') {
             const armorStyle = armorType.split(": ");
             systemData.skills.adventurer = { ...systemData.skills.adventurer, [`armor${armorStyle[1]}`]: this._getSkillBonus(armorType) };
-        }else if(type === 'shield')
+        } else if (type === 'shield')
             systemData.skills.adventurer = { ...systemData.skills.adventurer, shieldAC: this._getSkillBonus('Shields') };
-        else if(type === 'lizardman')
+        else if (type === 'lizardman')
             systemData.skills.general = { ...systemData.skills.general, lizardman: this._getSkillBonus('Draconic Heritage') };
     }
 
@@ -695,10 +695,10 @@ export class GSActor extends Actor {
      * Updates the amount of spells know for a given school of spell casting.
      * @param {string} skill Determines which casting school to update for: "Words of True Power", "Ancestral Dragon", "Miracles", "Spirit Arts"
      */
-    _bonusSpellsKnownSkillCall(skill){
+    _bonusSpellsKnownSkillCall(skill) {
         const skillValue = skill.system.value;
         const spellDomain = skill.name.split(": ")[1];
-        switch(spellDomain.toLowerCase()){
+        switch (spellDomain.toLowerCase()) {
             case "sorcerer":
             case "words of true power":
             case "words":
@@ -733,9 +733,9 @@ export class GSActor extends Actor {
      * @param {JSON} skill JSON object of the skill with all associated data
      * @param {JSON} actorData The object data of the currect actor to update information too
      */
-    _updateDarkVision(skill, systemData){
+    _updateDarkVision(skill, systemData) {
         let skillValue = skill.system.value;
-        switch(skillValue){
+        switch (skillValue) {
             case 1: skillValue = 60; break;
             case 2: skillValue = 120; break;
             case 3: skillValue = 600; break;
@@ -744,8 +744,8 @@ export class GSActor extends Actor {
         systemData.skills.general[skill.name] = skillValue;
     }
 
-    _prepareMonsterData(actorData){
-        if(actorData.type !== 'monster') return;
+    _prepareMonsterData(actorData) {
+        if (actorData.type !== 'monster') return;
 
         // try{
         //     if(!actorData.system.lifeForce.value)

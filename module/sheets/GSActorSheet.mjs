@@ -121,6 +121,9 @@ export default class GSActorSheet extends ActorSheet {
 		html.find(".genSkillContainer").on('mouseleave', this._changeSkillImage.bind(this, false));
 		html.find(".genSkillContainer.genSkills").click(this._rollGenSkills.bind(this));
 
+		// Equipment Override
+		html.find(".equipGear").click(this._equipGear.bind(this));
+
 		// New player rolls
 		html.find(".toHit.player").click(this._playerAttack.bind(this));
 		html.find(".dodge.player").click(this._playerDodge.bind(this));
@@ -1257,6 +1260,17 @@ export default class GSActorSheet extends ActorSheet {
 			return this._addEffectiveMessage('spellCastSuccess', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.succ'));
 		else
 			return this._addEffectiveMessage('spellCastFailure', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.fail'));
+	}
+
+	_equipGear(event) {
+		event.preventDefault();
+		const itemId = event.currentTarget.dataset.itemid;
+		const actor = this.actor;
+		const item = actor.items.find(i => i.id === itemId);
+		console.log("... item", item);
+		item.update({
+			"system.equip": !item.system?.equip
+		});
 	}
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~ OLD CODE BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

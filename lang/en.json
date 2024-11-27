@@ -62,7 +62,7 @@
         }
       },
       "armor": {
-        "sco": "Armor Score",
+        "sco": "Score",
         "dod": "Dodge Mod",
         "mov": "Move Mod",
         "hea": "Heavy"
@@ -137,7 +137,8 @@
         "condition": "Condition",
         "details": "Details"
       },
-      "equipment": "Equipment"
+      "equipment": "Equipment",
+      "equip": "Equip"
     },
     "actor": {
       "common": {

@@ -1,12 +1,15 @@
-<div class="weapon-card item item-list genSkillContainer" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
-    <div class="reveal-rollable grid grid-10col contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
-        <img class="toHit player" src="{{img}}" title="{{name}}" data-itemid="{{_id}}" title="{{localize 'gs.dialog.actorSheet.itemsTab.toHit'}}" />
-        <div class="name grid-span-4" >{{name}}</div>
-        <div class="hitMod grid-span-2">{{numberFormat system.hitMod decimals=0 sign=true}}</div>
-        <div class="range">{{system.range}}</div>
-        <div class="power grid-span-2">{{system.power}}</div>
-        <input type="hidden" value="{{system.type}}" class="type">
-        <input type="hidden" value="{{system.use}}" class="weaponUse">
-        <input type="hidden" value="{{system.attribute}}" class="weaponAttr">
+<div class="grid grid-10col">
+    <div class="weapon-card item item-list genSkillContainer grid-span-9" data-itemid="{{_id}}" data-actorid="{{data1.actor._id}}">
+        <div class="reveal-rollable grid grid-9col contextMenu genSkills" data-id="{{_id}}" data-contextType="{{type}}">
+            <img class="toHit player" src="{{img}}" title="{{name}}" data-itemid="{{_id}}" title="{{localize 'gs.dialog.actorSheet.itemsTab.toHit'}}" />
+            <div class="gear name grid-span-4" >{{name}}</div>
+            <div class="hitMod grid-span-2">{{numberFormat system.hitMod decimals=0 sign=true}}</div>
+            <div class="range">{{system.range}}</div>
+            <div class="power">{{system.power}}</div>
+            <input type="hidden" value="{{system.type}}" class="type">
+            <input type="hidden" value="{{system.use}}" class="weaponUse">
+            <input type="hidden" value="{{system.attribute}}" class="weaponAttr">
+        </div>
     </div>
+    <input type="checkbox" name="system.equip" value="{{system.equip}}" data-itemid="{{_id}}"  {{#if system.equip}}checked{{/if}} class="equipGear">
 </div>
