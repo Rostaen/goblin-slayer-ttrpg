@@ -676,6 +676,7 @@ export class GSActor extends Actor {
     }
 
     /**
+     * CHECK: This method may be up for removal. It doesn't appear to be used anymore.
      * Simple method to save the armor bonus applied to armor, shields, or from Lizardman ancestry.
      * @param {string} type Either armor, shield, lizardman
      * @param {JSON} systemData The character JSON object to manipulate data

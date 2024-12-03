@@ -96,6 +96,7 @@ This is the (unofficial) Goblin Slayer game system for FoundryVTT. A passion pro
 - [x] Set weapons and armor to macro toolbar for ease of player use
 - [ ] Set General skills to macro toolbar for ease of player use
 - [ ] Add cover condition -2, -4, -6 to hit checks
+- [ ] Update equiped gear to blank out other gear after certain thresholds (1 armor, 1 shields, 2-1 handers, 1-2 hander)
 
 ### Skill Implementation Tracking
 

@@ -99,6 +99,15 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		});
 	}
 
+	// Helper function to find equipped armor or shields
+	function getEquipedArmor(defenseItems) {
+		// Find the first equipped armor/shield or default to a fake JSON object
+		return (
+			defenseItems.find(i => i.system.equip) ||
+			{ system: { dodge: 0 } }
+		);
+	}
+
 	html.find(".actorDamageRoll").click(async event => {
 		event.preventDefault();
 		const button = event.currentTarget;
@@ -428,8 +437,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const playerId = event.currentTarget.dataset.playerid,
 			player = game.actors.get(playerId),
 			rollLabel = game.i18n.localize(`gs.dialog.dodge.roll`),
-			defenseItem = findItems(player, 'armor'),
-			defenseBonus = defenseItem.system.dodge,
+			equipedArmor = getEquipedArmor(findItems(player, 'armor')),
+			defenseBonus = equipedArmor.system.dodge,
 			martialArtsSkill = player.items.find(i => i.name === 'Martial Arts') || 0,
 			parrySkill = player.items.find(i => i.name === 'Parry') || 0,
 			alertSkill = player.items.find(i => i.name === 'Alert') || 0,
@@ -638,8 +647,8 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			return;
 		}
 		const activeTarget = targets[0].document.actor.getActiveTokens()[0],
-			armor = findItems(player, 'armor'),
-			shield = findItems(player, 'shield') || 0;
+			armor = getEquipedArmor(findItems(player, 'armor')),
+			shield = getEquipedArmor(findItems(player, 'shield')) || 0;
 
 
 		let armorScore = armor.system.score;

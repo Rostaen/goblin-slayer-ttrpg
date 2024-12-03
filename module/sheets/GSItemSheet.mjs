@@ -1,8 +1,8 @@
-const {mergeObject} = foundry.utils;
+const { mergeObject } = foundry.utils;
 
 export default class GSItemSheet extends ItemSheet {
 
-	static get defaultOptions(){
+	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
 			width: 550,
 			height: "fit-content",
@@ -10,33 +10,33 @@ export default class GSItemSheet extends ItemSheet {
 		});
 	}
 
-	get template(){
+	get template() {
 		const path = "systems/gs/templates/items";
 		return `${path}/${this.item.type}-sheet.hbs`;
 	}
 
-	async getData(){
+	async getData() {
 		const data = super.getData();
 		const item = this.item || this.document;
 
-		if(!item){
+		if (!item) {
 			console.error("Item or document is undefined.");
 			return {};
 		}
 		const system = item.system;
-		if(!system){
+		if (!system) {
 			console.error("System is undefined.");
 			return {};
 		}
 		data.enrichedEffects = await TextEditor.enrichHTML(
-			system.effects, {async: true, rollData: item.getRollData(), }
+			system.effects, { async: true, rollData: item.getRollData(), }
 		);
-		if(item.type === 'skill'){
-			data.eBeginner = await TextEditor.enrichHTML(system.beginner, {async: true, rollData: item.getRollData(), });
-			data.eIntermediate = await TextEditor.enrichHTML(system.intermediate, {async: true, rollData: item.getRollData(), });
-			data.eExpert = await TextEditor.enrichHTML(system.expert, {async: true, rollData: item.getRollData(), });
-			data.eMaster = await TextEditor.enrichHTML(system.master, {async: true, rollData: item.getRollData(), });
-			data.eLegend = await TextEditor.enrichHTML(system.legend, {async: true, rollData: item.getRollData(), });
+		if (item.type === 'skill') {
+			data.eBeginner = await TextEditor.enrichHTML(system.beginner, { async: true, rollData: item.getRollData(), });
+			data.eIntermediate = await TextEditor.enrichHTML(system.intermediate, { async: true, rollData: item.getRollData(), });
+			data.eExpert = await TextEditor.enrichHTML(system.expert, { async: true, rollData: item.getRollData(), });
+			data.eMaster = await TextEditor.enrichHTML(system.master, { async: true, rollData: item.getRollData(), });
+			data.eLegend = await TextEditor.enrichHTML(system.legend, { async: true, rollData: item.getRollData(), });
 			this.item.update({
 				'system.enrichedText': {
 					'beginner': data.eBeginner,
@@ -46,17 +46,17 @@ export default class GSItemSheet extends ItemSheet {
 					'legend': data.eLegend
 				}
 			});
-		}else if(item.type === 'race'){
+		} else if (item.type === 'race') {
 			data.eComment = await TextEditor.enrichHTML(
-				system.comment, {async: true, rollData: item.getRollData(), }
+				system.comment, { async: true, rollData: item.getRollData(), }
 			);
-		}else if(item.type === 'item'){
+		} else if (item.type === 'item') {
 			const systemData = item.system;
-			if(!systemData.quantity || systemData.quantity === null)
+			if (!systemData.quantity || systemData.quantity === null)
 				item.update({
 					"system.quantity": 1
 				});
-			if(!systemData.movePen || systemData.movePen === null)
+			if (!systemData.movePen || systemData.movePen === null)
 				item.update({
 					"system.movePen": 0
 				});
@@ -68,7 +68,7 @@ export default class GSItemSheet extends ItemSheet {
 		data.system = itemData.system;
 		data.flags = itemData.flags;
 
-		console.log("Review Data", data);
+		// console.log("Review Data", data);
 
 		return {
 			data,
@@ -80,13 +80,13 @@ export default class GSItemSheet extends ItemSheet {
 		}
 	}
 
-	activateListeners(html){
+	activateListeners(html) {
 		super.activateListeners(html);
 		html.find("input[type='checkbox']").change(this._onChangeCheckbox.bind(this));
 		html.find('.innateSkills').on('drop', this._onDrop.bind(this)); // Drag N Drop skills into race sheets
 	}
 
-	async _onChangeCheckbox(event){
+	async _onChangeCheckbox(event) {
 		event.preventDefault();
 		const element = event.currentTarget;
 		const key = element.dataset.key;
@@ -98,27 +98,27 @@ export default class GSItemSheet extends ItemSheet {
 		// console.log(this.item.system);
 	}
 
-	async _onDrop(event){
+	async _onDrop(event) {
 		event.preventDefault();
 		const data = JSON.parse(event.originalEvent.dataTransfer.getData("text/plain"));
 
-		if(data.type === "Item"){
+		if (data.type === "Item") {
 			const itemID = data.uuid.slice(5); // Removing `Item.` from the id
 			const item = game.items.get(itemID);
-			if(item){
-				if(item.type === "skill"){
+			if (item) {
+				if (item.type === "skill") {
 					const raceItem = this.item;
-					if(raceItem){
+					if (raceItem) {
 						raceItem.system.skills.push(item);
 						await raceItem.update({ "system.skills": raceItem.system.skills });
 					}
-				}else{
+				} else {
 					console.log("Item dropped is not a skill", item);
 				}
-			}else{
+			} else {
 				console.log("Item with ID:", itemID, "not found.");
 			}
-		}else{
+		} else {
 			console.error("Item:", data);
 		}
 		console.log("Did skill transfer?", this.item);

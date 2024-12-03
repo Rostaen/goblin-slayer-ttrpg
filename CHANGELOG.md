@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2024-12-3
+
+- Updated most armor filter calls to search for equipped armor rather than top most armor.
+
 ### 2024-11-27
 
 - Added equip option to item headers.

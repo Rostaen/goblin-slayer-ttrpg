@@ -1273,6 +1273,14 @@ export default class GSActorSheet extends ActorSheet {
 		});
 	}
 
+	_getEquippedArmor(defenseItems) {
+		// Find the first equipped armor or default to a fake JSON object
+		return (
+			defenseItems.find(i => i.system.equip) ||
+			{ system: { dodge: 0 } }
+		);
+	}
+
 	//~~~~~~~~~~~~~~~~~~~~~~~~~ OLD CODE BELOW ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	/**
@@ -2225,7 +2233,7 @@ export default class GSActorSheet extends ActorSheet {
 	 * @returns Updated modifier and localized message
 	 */
 	_calculateDodgeModifier(modifier, skills, localizedMessage) {
-		const armor = this._getFromItemsList('armor');
+		const armor = this._getEquippedArmor(this._getFromItemsList('armor'));
 		const strEnd = this.actor.system.abilities.calc.se;
 		const { monk, scout, fighter } = this.actor.system.levels.classes;
 
@@ -3559,7 +3567,8 @@ export default class GSActorSheet extends ActorSheet {
 
 	async _updateArmor(data) {
 		const draconicValue = data.skillValues.general['Draconic Heritage'] || 0;
-		const armor = data.armor[0] || 0;
+		// Uses helper function to return equiped armor
+		const armor = this._getEquippedArmor(data.armor) || 0;
 		if (!armor) return;
 		const armorScore = armor.system.score;
 		const armorWeight = armor.system.type.split(" ")[0];
@@ -3666,7 +3675,8 @@ export default class GSActorSheet extends ActorSheet {
 		const attrition = systemData.attrition;
 		const currentWounds = systemData.lifeForce.wounds;
 		const lifeForceHalf = systemData.lifeForce.double;
-		const armor = this.armor[0];
+		// Using helper function to pull equipped armor
+		const armor = this._getEquippedArmor(this.armor);
 		const armorWorn = armor ? armor.system.heavy : null;
 		const attritionFlag = actor.getFlag('gs', 'attrition');
 
@@ -3755,7 +3765,7 @@ export default class GSActorSheet extends ActorSheet {
 		for (const { rank, flag, minMaxCount, label } of ranks) {
 			updateFatigueMin(rank, minMaxCount, label);
 			// console.log(".>>", rank, flag, minMaxCount, label);
-			console.log("min/max", rank.min, rank.max);
+			// console.log("min/max", rank.min, rank.max);
 			if (rank.min == rank.max && !flags[flag]) {
 				await actor.setFlag('gs', flag, -1);
 				this._applyAbilityScoreFatigueMods(actor, systemData, true, label);
