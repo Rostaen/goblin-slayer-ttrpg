@@ -2,6 +2,14 @@
 
 ## Recent updates
 
+### 2024-12-23
+
+- Starting to add enrichers to allow monsters spell casting.
+
+### 2024-12-6
+
+- Updated most shield filter calls to search for equipped shield rather than top most shield.
+
 ### 2024-12-3
 
 - Updated most armor filter calls to search for equipped armor rather than top most armor.

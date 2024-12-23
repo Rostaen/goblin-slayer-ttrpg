@@ -1227,6 +1227,17 @@ table tr:nth-child(even) {
 .monster .editor .tox.tox-tinymce {
   height: 125px !important;
 }
+.monster .spell-cast-button {
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.monster .spell-cast-button:hover {
+  background-color: #3700b3;
+}
 .character {
   margin-top: 0px;
 }

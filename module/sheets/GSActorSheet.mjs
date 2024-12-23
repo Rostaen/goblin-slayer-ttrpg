@@ -1040,7 +1040,7 @@ export default class GSActorSheet extends ActorSheet {
 	_setPlayerTargetInfo(targets, weaponPower, weaponName) {
 		const activeTarget = targets[0].document.actor.getActiveTokens()[0];
 		const player = targets[0].document.actor;
-		const shield = this._getFromItemsList('shield');
+		const shield = this._getEquippedArmor(this._getFromItemsList('shield'));
 
 		//console.log('... checking weaponInfo', this.actor._id, this.actor.name);
 
@@ -2245,7 +2245,7 @@ export default class GSActorSheet extends ActorSheet {
 
 		// Helper function to return bonus Parry values on gear
 		const checkGear = (skill) => {
-			const shield = this._getFromItemsList('shield');
+			const shield = this._getEquippedArmor(this._getFromItemsList('shield'));
 			const weapons = this._getFromItemsList('weapon');
 			let highestParry = 0, highestWeapon = 0;
 

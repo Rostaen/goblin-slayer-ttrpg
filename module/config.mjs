@@ -45,17 +45,17 @@ gs.gear = {
 	},
 	spell: {
 		sys: "gs.gear.spells.sys",
-        efs: "gs.gear.spells.efs",
-        pen: "gs.gear.spells.pen",
-        rad: "gs.gear.spells.rad",
-        dur: "gs.gear.spells.dur",
-        siz: "gs.gear.spells.siz",
-        phy: "gs.gear.spells.phy",
-        sco: "gs.gear.spells.sco",
-        exr: "gs.gear.spells.exr",
-        mds: "gs.gear.spells.mds",
-        mvs: "gs.gear.spells.mvs",
-        qua: "gs.gear.spells.qua",
+		efs: "gs.gear.spells.efs",
+		pen: "gs.gear.spells.pen",
+		rad: "gs.gear.spells.rad",
+		dur: "gs.gear.spells.dur",
+		siz: "gs.gear.spells.siz",
+		phy: "gs.gear.spells.phy",
+		sco: "gs.gear.spells.sco",
+		exr: "gs.gear.spells.exr",
+		mds: "gs.gear.spells.mds",
+		mvs: "gs.gear.spells.mvs",
+		qua: "gs.gear.spells.qua",
 		sum: "gs.gear.spells.sum",
 		dif: "gs.gear.spells.dif",
 		cha: "gs.gear.spells.cha",
@@ -92,12 +92,12 @@ gs.gear = {
 	},
 	skill: {
 		gra: "gs.gear.skills.gra",
-        pre: "gs.gear.skills.pre",
-        beg: "gs.gear.skills.beg",
-        int: "gs.gear.skills.int",
-        exp: "gs.gear.skills.exp",
-        mas: "gs.gear.skills.mas",
-        leg: "gs.gear.skills.leg",
+		pre: "gs.gear.skills.pre",
+		beg: "gs.gear.skills.beg",
+		int: "gs.gear.skills.int",
+		exp: "gs.gear.skills.exp",
+		mas: "gs.gear.skills.mas",
+		leg: "gs.gear.skills.leg",
 		adv: "gs.gear.skills.adv",
 		gen: "gs.gear.skills.gen"
 	}
@@ -273,10 +273,10 @@ gs.actor = {
 		bloc: "gs.actor.monster.bloc",
 		aSco: "gs.actor.monster.aSco",
 		name: "gs.actor.monster.name",
-        mSR: "gs.actor.monster.mSR",
-        min: "gs.actor.monster.min",
-        bSR: "gs.actor.monster.bSR",
-        boss: "gs.actor.monster.boss",
+		mSR: "gs.actor.monster.mSR",
+		min: "gs.actor.monster.min",
+		bSR: "gs.actor.monster.bSR",
+		boss: "gs.actor.monster.boss",
 		description: "gs.actor.monster.description",
 	},
 	fate: {
@@ -325,31 +325,31 @@ gs.actor = {
 			other: "gs.charSheet.items.other",
 		},
 		checks: {
-            acrobatics: {
+			acrobatics: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.acrobatics",
 				icon: "fa-solid fa-cat"
 			},
-            climbF: {
+			climbF: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.climbF",
 				icon: "fa-solid fa-arrow-up-long"
 			},
-            climbM: {
+			climbM: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.climbM",
 				icon: "fa-solid fa-up-long"
 			},
-            escape: {
+			escape: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.escape",
 				icon: "fa-solid fa-user-lock"
 			},
-            firstAid: {
+			firstAid: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.firstAid",
 				icon: "fa-solid fa-user-nurse"
 			},
-            generalKnow: {
+			generalKnow: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.generalKnow",
 				icon: "fa-solid fa-map"
 			},
-            handiwork: {
+			handiwork: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.handiwork",
 				icon: "fa-solid fa-lock-open"
 			},
@@ -357,67 +357,67 @@ gs.actor = {
 				name: "gs.dialog.actorSheet.sidebar.buttons.initiative",
 				icon: "fa-solid fa-dice"
 			},
-            intRes: {
+			intRes: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.intRes",
 				icon: "fa-solid fa-book"
 			},
-            jump: {
+			jump: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.jump",
 				icon: "fa-solid fa-person-running"
 			},
-            longDistance: {
+			longDistance: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.longDistance",
 				icon: "fa-solid fa-person-hiking"
 			},
-            luck: {
+			luck: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.luck",
 				icon: "fa-solid fa-clover"
 			},
-            magicalKnow: {
+			magicalKnow: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.magicalKnow",
 				icon: "fa-solid fa-hand-sparkles"
 			},
-            monsterKnow: {
+			monsterKnow: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.monsterKnow",
 				icon: "fa-solid fa-ghost"
 			},
-            moveObs: {
+			moveObs: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.moveObs",
 				icon: "fa-solid fa-hand"
 			},
-            moveRes: {
+			moveRes: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.moveRes",
 				icon: "fa-solid fa-hand-fist"
 			},
-            observe: {
+			observe: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.observation",
 				icon: "fa-regular fa-eye"
 			},
-            provoke: {
+			provoke: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.provoke",
 				icon: "fa-solid fa-fire"
 			},
-            psyRes: {
+			psyRes: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.psyRes",
 				icon: "fa-solid fa-brain"
 			},
-            sixthSense: {
+			sixthSense: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.sixthSense",
 				icon: "fa-solid fa-eye"
 			},
-            stealth: {
+			stealth: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.stealth",
 				icon: "fa-solid fa-user-ninja"
 			},
-            strength: {
+			strength: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.strength",
 				icon: "fa-solid fa-dumbbell"
 			},
-            strRes: {
+			strRes: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.strRes",
 				icon: "fa-solid fa-hill-rockslide"
 			},
-            swim: {
+			swim: {
 				name: "gs.dialog.actorSheet.sidebar.buttons.swim",
 				icon: "fa-solid fa-person-swimming"
 			},
@@ -457,6 +457,7 @@ gs.actor = {
 gs.spells = {
 	ancestralDragon: {
 		dragonArmor: {
+			uuid: 'Compendium.gs.spells.Item.Y9GrvSynY2lDAu5i',
 			range: 5,
 			area: 'cylinder, 10m height, 5m radius',
 			target: 'All',
@@ -468,13 +469,16 @@ gs.spells = {
 			]
 		},
 		bezor: {
+			uuid: 'Compendium.gs.spells.Item.wCWBenc9TjlIUBli',
 			target: 'self'
 		},
 		camouflage: {
+			uuid: 'Compendium.gs.spells.Item.18rQL3sDNlNpinhO',
 			duration: '1 Hour',
 			target: 'self'
 		},
 		charge: {
+			uuid: 'Compendium.gs.spells.Item.7QDvMa3JPfv5nNCJ',
 			range: '3 x Caster Movement',
 			target: 'All',
 			area: 'Movement Path',
@@ -487,6 +491,7 @@ gs.spells = {
 			]
 		},
 		communicate: {
+			uuid: 'Compendium.gs.spells.Item.tWXBLZut7zUcIJ2B',
 			target: 'self',
 			duration: '1 Hour'
 		},
@@ -532,10 +537,10 @@ gs.spells = {
 				area: 'Cone, 20m Length, 20m Base Radius',
 				duration: '3 Rounds',
 				effectiveScore: [
-					{ range: [10, 19], power: '2d6 + 2 + level', damage: '1d6'},
-					{ range: [20, 29], power: '4d6 + level', damage: '1d6'},
-					{ range: [30, 39], power: '5d6 + level', damage: '2d6'},
-					{ range: [40, 500], power: '6d6 + level', damage: '3d6'},
+					{ range: [10, 19], power: '2d6 + 2 + level', damage: '1d6' },
+					{ range: [20, 29], power: '4d6 + level', damage: '1d6' },
+					{ range: [30, 39], power: '5d6 + level', damage: '2d6' },
+					{ range: [40, 500], power: '6d6 + level', damage: '3d6' },
 				]
 			}
 		},
@@ -894,9 +899,9 @@ gs.spells = {
 			range: 30,
 			area: 'Sphere + Radius',
 			effectiveScore: [
-				{ range: [10, 19], radius: 10},
-				{ range: [20, 29], radius: 15},
-				{ range: [30, 500], radius: 20},
+				{ range: [10, 19], radius: 10 },
+				{ range: [20, 29], radius: 15 },
+				{ range: [30, 500], radius: 20 },
 			]
 		},
 		transferMentalPower: {
@@ -907,9 +912,9 @@ gs.spells = {
 			target: 1,
 			range: 5,
 			effectiveScore: [
-				{ range: [10, 19], recovery: '1d3'},
-				{ range: [20, 29], recovery: '1d3 + 1'},
-				{ range: [30, 500], recovery: '1d3 + 2'},
+				{ range: [10, 19], recovery: '1d3' },
+				{ range: [20, 29], recovery: '1d3 + 1' },
+				{ range: [30, 500], recovery: '1d3 + 2' },
 			]
 		}
 	},
@@ -1076,41 +1081,41 @@ gs.spells = {
 			range: 5,
 			materialCost: "level of golem * 10 silver coins",
 			effectivenessScore: [
-			{
-				range: [10, 14],
-				number: 1,
-				golemType: "Oak Golem",
-				material: "Oak, Bone",
-				duration: "10 min"
-			},
-			{
-				range: [15, 19],
-				number: 2,
-				golemType: "Gargoyle",
-				material: "Stone",
-				duration: "10 min"
-			},
-			{
-				range: [20, 29],
-				number: 3,
-				golemType: "Stone Golem",
-				material: "Stone",
-				duration: "1 hour"
-			},
-			{
-				range: [30, 39],
-				number: 4,
-				golemType: "Bronze Golem",
-				material: "Bronze Ingots",
-				duration: "1 hour"
-			},
-			{
-				range: [40, 500],
-				number: 5,
-				golemType: "Iron Golem",
-				material: "Iron Ingots",
-				duration: "1 day"
-			}
+				{
+					range: [10, 14],
+					number: 1,
+					golemType: "Oak Golem",
+					material: "Oak, Bone",
+					duration: "10 min"
+				},
+				{
+					range: [15, 19],
+					number: 2,
+					golemType: "Gargoyle",
+					material: "Stone",
+					duration: "10 min"
+				},
+				{
+					range: [20, 29],
+					number: 3,
+					golemType: "Stone Golem",
+					material: "Stone",
+					duration: "1 hour"
+				},
+				{
+					range: [30, 39],
+					number: 4,
+					golemType: "Bronze Golem",
+					material: "Bronze Ingots",
+					duration: "1 hour"
+				},
+				{
+					range: [40, 500],
+					number: 5,
+					golemType: "Iron Golem",
+					material: "Iron Ingots",
+					duration: "1 day"
+				}
 			],
 			chant: "O nameless one, O monster, move by the spirit of thunder, and carry the work of God upon your body.",
 			catalyst: "None"
@@ -1119,36 +1124,36 @@ gs.spells = {
 			target: "Corpse",
 			range: 5,  // 'Close' range as per your mapping (5 meters)
 			effectivenessScore: [
-			{
-				range: [10, 14],
-				number: 1,
-				effect: "Create Skeleton or Dog Skeleton",
-				duration: "10 min"
-			},
-			{
-				range: [15, 19],
-				number: 2,
-				effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, or Skeleton Guard",
-				duration: "10 min"
-			},
-			{
-				range: [20, 29],
-				number: 3,
-				effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, or Giant Skeleton",
-				duration: "1 hour"
-			},
-			{
-				range: [30, 39],
-				number: 4,
-				effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, Giant Skeleton, or Ancient Skeleton",
-				duration: "1 hour"
-			},
-			{
-				range: [40, 500],
-				number: 5,
-				effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, Giant Skeleton, or Ancient Skeleton",
-				duration: "1 day"
-			}
+				{
+					range: [10, 14],
+					number: 1,
+					effect: "Create Skeleton or Dog Skeleton",
+					duration: "10 min"
+				},
+				{
+					range: [15, 19],
+					number: 2,
+					effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, or Skeleton Guard",
+					duration: "10 min"
+				},
+				{
+					range: [20, 29],
+					number: 3,
+					effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, or Giant Skeleton",
+					duration: "1 hour"
+				},
+				{
+					range: [30, 39],
+					number: 4,
+					effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, Giant Skeleton, or Ancient Skeleton",
+					duration: "1 hour"
+				},
+				{
+					range: [40, 500],
+					number: 5,
+					effect: "Create Skeleton, Dog Skeleton, Skeleton Archer, Skeleton Guard, Giant Skeleton, or Ancient Skeleton",
+					duration: "1 day"
+				}
 			],
 			chant: "N/A", // Assuming no specific chant was mentioned
 			catalyst: "None" // Assuming no catalyst is required
@@ -1157,36 +1162,36 @@ gs.spells = {
 			target: "Corpse",
 			range: 5,  // 'Close' range, which corresponds to 5 meters
 			effectivenessScore: [
-			{
-				range: [10, 14],
-				number: 1,
-				effect: "Create Slime",
-				duration: "10 min"
-			},
-			{
-				range: [15, 19],
-				number: 2,
-				effect: "Create Slime, or Red Slime",
-				duration: "10 min"
-			},
-			{
-				range: [20, 29],
-				number: 3,
-				effect: "Create Slime, Red Slime, Green Slime, or Giant Slime",
-				duration: "1 hour"
-			},
-			{
-				range: [30, 39],
-				number: 4,
-				effect: "Create Slime, Red Slime, Green Slime, Giant Slime, or Black Slime",
-				duration: "1 hour"
-			},
-			{
-				range: [40, 500],
-				number: 5,
-				effect: "Create Slime, Red Slime, Green Slime, Giant Slime, Black Slime, or Gold Slime",
-				duration: "1 day"
-			}
+				{
+					range: [10, 14],
+					number: 1,
+					effect: "Create Slime",
+					duration: "10 min"
+				},
+				{
+					range: [15, 19],
+					number: 2,
+					effect: "Create Slime, or Red Slime",
+					duration: "10 min"
+				},
+				{
+					range: [20, 29],
+					number: 3,
+					effect: "Create Slime, Red Slime, Green Slime, or Giant Slime",
+					duration: "1 hour"
+				},
+				{
+					range: [30, 39],
+					number: 4,
+					effect: "Create Slime, Red Slime, Green Slime, Giant Slime, or Black Slime",
+					duration: "1 hour"
+				},
+				{
+					range: [40, 500],
+					number: 5,
+					effect: "Create Slime, Red Slime, Green Slime, Giant Slime, Black Slime, or Gold Slime",
+					duration: "1 day"
+				}
 			],
 			chant: "O ye who live the vesicles of life, O maid of thread-like granules, dance off your lorries!",
 			catalyst: "None"
@@ -1195,96 +1200,96 @@ gs.spells = {
 			target: "Corpse",
 			range: 5,  // 'Close' range, which corresponds to 5 meters
 			effectivenessScore: [
-			{
-				range: [10, 14],
-				number: 1,
-				effect: "Create a Zombie",
-				duration: "6 rounds"
-			},
-			{
-				range: [15, 19],
-				number: 2,
-				effect: "Create a Zombie, or Ghoul",
-				duration: "10 min"
-			},
-			{
-				range: [20, 29],
-				number: 3,
-				effect: "Create a Zombie, Ghoul, or Barrow-Wight",
-				duration: "10 min"
-			},
-			{
-				range: [30, 39],
-				number: 4,
-				effect: "Create a Zombie, Ghoul, Barrow-Wight, or Living Undead",
-				duration: "1 hour"
-			},
-			{
-				range: [40, 500],
-				number: 5,
-				effect: "Create a Zombie, Ghoul, Barrow-Wight, Living Undead, or Dracolich",
-				duration: "1 hour"
-			}
+				{
+					range: [10, 14],
+					number: 1,
+					effect: "Create a Zombie",
+					duration: "6 rounds"
+				},
+				{
+					range: [15, 19],
+					number: 2,
+					effect: "Create a Zombie, or Ghoul",
+					duration: "10 min"
+				},
+				{
+					range: [20, 29],
+					number: 3,
+					effect: "Create a Zombie, Ghoul, or Barrow-Wight",
+					duration: "10 min"
+				},
+				{
+					range: [30, 39],
+					number: 4,
+					effect: "Create a Zombie, Ghoul, Barrow-Wight, or Living Undead",
+					duration: "1 hour"
+				},
+				{
+					range: [40, 500],
+					number: 5,
+					effect: "Create a Zombie, Ghoul, Barrow-Wight, Living Undead, or Dracolich",
+					duration: "1 hour"
+				}
 			],
 			chant: "Dawn belongs to the dead, and the shadow of night belongs to the departed, so the sun is prey to the spirits of the dead.",
 			catalyst: "Necroption"
-  		},
+		},
 		spiritWalk: {
 			target: "Self",
 			effect: "Caster becomes a spirit, invisible and not emitting any sound or smell.",
 			restrictions: "Cannot use equipment, items, or spells. Cannot interact with the material world without special conditions.",
 			effectivenessScore: [
-			{
-				range: [15, 19],
-				restrictions: "No relaxation",
-				duration: "10 minutes",
-				penalty: "Poor vision (-4 to perception)",
-				additional: "Can fly and move through objects."
-			},
-			{
-				range: [20, 29],
-				restrictions: "Perceive sound from the physical world, reducing visibility penalty to -2.",
-				duration: "10 minutes",
-				penalty: "Reduced poor visibility",
-				additional: "Can fly and move through objects."
-			},
-			{
-				range: [30, 500],
-				restrictions: "Can speak and read, removing penalty due to poor visibility. However, cannot cast spells.",
-				duration: "1 hour",
-				penalty: "No visibility penalty",
-				additional: "Can fly and move through objects."
-			}
+				{
+					range: [15, 19],
+					restrictions: "No relaxation",
+					duration: "10 minutes",
+					penalty: "Poor vision (-4 to perception)",
+					additional: "Can fly and move through objects."
+				},
+				{
+					range: [20, 29],
+					restrictions: "Perceive sound from the physical world, reducing visibility penalty to -2.",
+					duration: "10 minutes",
+					penalty: "Reduced poor visibility",
+					additional: "Can fly and move through objects."
+				},
+				{
+					range: [30, 500],
+					restrictions: "Can speak and read, removing penalty due to poor visibility. However, cannot cast spells.",
+					duration: "1 hour",
+					penalty: "No visibility penalty",
+					additional: "Can fly and move through objects."
+				}
 			],
 			chant: "The shadows are cut off, dancing and dancing. The man in gray, the demon is a demon.",
 			catalyst: "None"
-  		},
+		},
 		spiritualAwakening: {
 			target: "Self",
 			requirements: {
 				rounds: 6
 			},
 			effectivenessScore: [
-			{
-				range: [15, 19],
-				duration: "10 minutes",
-				abilities: "Converse with spirits; sense presence of dangers but not specifics."
-			},
-			{
-				range: [20, 29],
-				duration: "1 hour",
-				abilities: "Converse with spirits; better danger sensing without specifics."
-			},
-			{
-				range: [30, 39],
-				duration: "3 hours",
-				abilities: "Converse with spirits; improved danger sensing with vague understanding of the nature of danger."
-			},
-			{
-				range: [40, 500],
-				duration: "6 hours",
-				abilities: "Converse with spirits; full danger sensing with vague but more detailed understanding of the nature of danger."
-			}
+				{
+					range: [15, 19],
+					duration: "10 minutes",
+					abilities: "Converse with spirits; sense presence of dangers but not specifics."
+				},
+				{
+					range: [20, 29],
+					duration: "1 hour",
+					abilities: "Converse with spirits; better danger sensing without specifics."
+				},
+				{
+					range: [30, 39],
+					duration: "3 hours",
+					abilities: "Converse with spirits; improved danger sensing with vague understanding of the nature of danger."
+				},
+				{
+					range: [40, 500],
+					duration: "6 hours",
+					abilities: "Converse with spirits; full danger sensing with vague but more detailed understanding of the nature of danger."
+				}
 			],
 			chant: "If you can see, hear, touch, smell and feel, the boundary between life and death is beyond the ethereal.",
 			catalyst: "Crystal"
@@ -1372,31 +1377,31 @@ gs.spells = {
 			usageLimit: "At most, 10 people can receive the healing effects from one usage of this spell.",
 			combatNote: "Outside combat, immediate spell use check allowed.",
 			effectivenessScore: [
-			{
-				range: [10, 14],
-				woundsRecovered: "3d6 + Shaman Level",
-				fatigueRecovered: 1
-			},
-			{
-				range: [15, 19],
-				woundsRecovered: "3d6 + 2 + Shaman Level",
-				fatigueRecovered: 2
-			},
-			{
-				range: [20, 24],
-				woundsRecovered: "4d6 + 2 + Shaman Level",
-				fatigueRecovered: 2
-			},
-			{
-				range: [25, 29],
-				woundsRecovered: "4d6 + 4 + Shaman Level",
-				fatigueRecovered: 2
-			},
-			{
-				range: [30, 500],
-				woundsRecovered: "5d6 + 6 + Shaman Level",
-				fatigueRecovered: 3
-			}
+				{
+					range: [10, 14],
+					woundsRecovered: "3d6 + Shaman Level",
+					fatigueRecovered: 1
+				},
+				{
+					range: [15, 19],
+					woundsRecovered: "3d6 + 2 + Shaman Level",
+					fatigueRecovered: 2
+				},
+				{
+					range: [20, 24],
+					woundsRecovered: "4d6 + 2 + Shaman Level",
+					fatigueRecovered: 2
+				},
+				{
+					range: [25, 29],
+					woundsRecovered: "4d6 + 4 + Shaman Level",
+					fatigueRecovered: 2
+				},
+				{
+					range: [30, 500],
+					woundsRecovered: "5d6 + 6 + Shaman Level",
+					fatigueRecovered: 3
+				}
 			]
 		},
 		banish: {
@@ -1419,31 +1424,31 @@ gs.spells = {
 				failEffect: "Full damage and penalty applied"
 			},
 			effectivenessScore: [
-			{
-				range: [20, 24],
-				power: "3d6 + 2 + Level",
-				penalty: -2
-			},
-			{
-				range: [25, 29],
-				power: "3d6 + 4 + Level",
-				penalty: -2
-			},
-			{
-				range: [30, 34],
-				power: "3d6 + 6 + Level",
-				penalty: -3
-			},
-			{
-				range: [35, 39],
-				power: "4d6 + 6 + Level",
-				penalty: -3
-			},
-			{
-				range: [40, 500],
-				power: "5d6 + 6 + Level",
-				penalty: -4
-			}
+				{
+					range: [20, 24],
+					power: "3d6 + 2 + Level",
+					penalty: -2
+				},
+				{
+					range: [25, 29],
+					power: "3d6 + 4 + Level",
+					penalty: -2
+				},
+				{
+					range: [30, 34],
+					power: "3d6 + 6 + Level",
+					penalty: -3
+				},
+				{
+					range: [35, 39],
+					power: "4d6 + 6 + Level",
+					penalty: -3
+				},
+				{
+					range: [40, 500],
+					power: "5d6 + 6 + Level",
+					penalty: -4
+				}
 			]
 		},
 		breathe: {
@@ -1455,22 +1460,22 @@ gs.spells = {
 				failEffect: "Spell activates"
 			},
 			benefits: {
-			communication: "Can speak underwater, but not audible beyond immediate proximity.",
-			resistance: "+4 bonus to resistance checks against negative effects from water-related elements"
+				communication: "Can speak underwater, but not audible beyond immediate proximity.",
+				resistance: "+4 bonus to resistance checks against negative effects from water-related elements"
 			},
 			effectivenessScore: [
-			{
-				range: [10, 19],
-				duration: "6 rounds"
-			},
-			{
-				range: [20, 29],
-				duration: "10 minutes"
-			},
-			{
-				range: [30, 500],
-				duration: "1 hour"
-			}
+				{
+					range: [10, 19],
+					duration: "6 rounds"
+				},
+				{
+					range: [20, 29],
+					duration: "10 minutes"
+				},
+				{
+					range: [30, 500],
+					duration: "1 hour"
+				}
 			]
 		},
 		callRain: {
@@ -1479,31 +1484,31 @@ gs.spells = {
 			range: 30,
 			spellMaintenance: "Effect lasts as long as the caster maintains the spell.",
 			effectivenessScore: [
-			{
-				range: [10, 14],
-				height: "2m, radius 3m",
-				effect: "Drizzle. Extinguishes small flames. Spells with fire attribute suffer -2 penalty."
-			},
-			{
-				range: [15, 19],
-				height: "3m, radius 5m",
-				effect: "Medium rainfall. -1 penalty on all intelligence checks and resistance checks."
-			},
-			{
-				range: [20, 24],
-				height: "20m, radius 10m",
-				effect: "Heavy rainfall. Requires a strength resistance check each round. Failure results in 1 point of fatigue."
-			},
-			{
-				range: [25, 29],
-				height: "50m, radius 15m",
-				effect: "Downpour. Obstructs vision with a -4 penalty for poor vision."
-			},
-			{
-				range: [30, 500],
-				height: "100m, radius 20m",
-				effect: "Intense rainfall. Complete vision blockage. -2 penalty to intelligence checks and resistance checks, with 2 points of fatigue on failed end-of-round resistance check."
-			}
+				{
+					range: [10, 14],
+					height: "2m, radius 3m",
+					effect: "Drizzle. Extinguishes small flames. Spells with fire attribute suffer -2 penalty."
+				},
+				{
+					range: [15, 19],
+					height: "3m, radius 5m",
+					effect: "Medium rainfall. -1 penalty on all intelligence checks and resistance checks."
+				},
+				{
+					range: [20, 24],
+					height: "20m, radius 10m",
+					effect: "Heavy rainfall. Requires a strength resistance check each round. Failure results in 1 point of fatigue."
+				},
+				{
+					range: [25, 29],
+					height: "50m, radius 15m",
+					effect: "Downpour. Obstructs vision with a -4 penalty for poor vision."
+				},
+				{
+					range: [30, 500],
+					height: "100m, radius 20m",
+					effect: "Intense rainfall. Complete vision blockage. -2 penalty to intelligence checks and resistance checks, with 2 points of fatigue on failed end-of-round resistance check."
+				}
 			]
 		},
 		catsEye: {
@@ -2301,31 +2306,31 @@ gs.spells = {
 			area: 5,
 			intelligence: "Command-based",
 			effectivenessScore: [
-			  {
-				range: [10, 14],
-				quantity: 1,
-				duration: "3 rounds"
-			  },
-			  {
-				range: [15, 19],
-				quantity: 1,
-				duration: "6 rounds"
-			  },
-			  {
-				range: [20, 24],
-				quantity: 2,
-				duration: "6 rounds"
-			  },
-			  {
-				range: [25, 29],
-				quantity: 3,
-				duration: "10 minutes"
-			  },
-			  {
-				range: [30, 500],
-				quantity: 4,
-				duration: "10 minutes"
-			  }
+				{
+					range: [10, 14],
+					quantity: 1,
+					duration: "3 rounds"
+				},
+				{
+					range: [15, 19],
+					quantity: 1,
+					duration: "6 rounds"
+				},
+				{
+					range: [20, 24],
+					quantity: 2,
+					duration: "6 rounds"
+				},
+				{
+					range: [25, 29],
+					quantity: 3,
+					duration: "10 minutes"
+				},
+				{
+					range: [30, 500],
+					quantity: 4,
+					duration: "10 minutes"
+				}
 			],
 			notes: "Create Quantity goblins within Area: Reach of the caster. The intelligence of these created goblins changes to command-based. The caster, starting on their next turn, can give orders to the goblins they create; thus, the goblins are able to start acting from the next round. However, they can still make dodge checks, resistance checks, and initiative checks before that. The caster, on their turn, can use a free action to give an order to the goblins they created. This command does not have to be spoken; it can simply be willed. However, the command must be simple, such as attack that goblin over there or attack the enemy who attacked ally A. They cannot carry out complex commands (the GM should decide what counts as complex). The goblins will attempt to faithfully carry out their orders to the best of their ability. If the caster has learned Leadership (Intermediate) or higher, they can have the goblins act at the same point in the turn order as them; in addition, the caster can have the goblins grant their support effect to the caster or to one specific character the caster indicates. The created goblins exist for Duration, then vanish. The caster can make their created goblins disappear at any time."
 		},
@@ -2334,31 +2339,31 @@ gs.spells = {
 			target: 1,
 			range: 60,
 			effectivenessScore: [
-			  {
-				range: [10, 14],
-				radius: "5m",
-				duration: "6 rounds"
-			  },
-			  {
-				range: [15, 19],
-				radius: "10m",
-				duration: "6 rounds"
-			  },
-			  {
-				range: [20, 24],
-				radius: "15m",
-				duration: "10 minutes"
-			  },
-			  {
-				range: [25, 29],
-				radius: "20m",
-				duration: "10 minutes"
-			  },
-			  {
-				range: [30, 500],
-				radius: "30m",
-				duration: "1 hour"
-			  }
+				{
+					range: [10, 14],
+					radius: "5m",
+					duration: "6 rounds"
+				},
+				{
+					range: [15, 19],
+					radius: "10m",
+					duration: "6 rounds"
+				},
+				{
+					range: [20, 24],
+					radius: "15m",
+					duration: "10 minutes"
+				},
+				{
+					range: [25, 29],
+					radius: "20m",
+					duration: "10 minutes"
+				},
+				{
+					range: [30, 500],
+					radius: "30m",
+					duration: "1 hour"
+				}
 			],
 			notes: "Produce a magical force field of Area: Sphere with a radius based on the effectiveness score centered on Target: 1 within Range: 60m. If the target resists this spell, it will not take effect. All arrows and bolts that enter the force field from outside it are blocked and do not enter. Arrows and bolts refer to any physical arrow or bolt fired from a ranged weapon, including stone bullets, arrows, bolts, or darts from a dart gun. This does not include weapons thrown by hand or spells like Firebolt. If it is unclear whether something would be affected by this spell, the GM should make the decision. The force field lasts for Duration."
 		},
@@ -2366,26 +2371,26 @@ gs.spells = {
 			target: 1,
 			range: 30,
 			effectivenessScore: [
-			  {
-				range: [10, 14],
-				effects: "Take a -4 penalty to initiative. It can't go below 0.",
-				duration: "3 rounds"
-			  },
-			  {
-				range: [15, 19],
-				effects: "Also take a -4 penalty on checks for active actions.",
-				duration: "6 rounds"
-			  },
-			  {
-				range: [20, 29],
-				effects: "The target will also attempt to flee if combat looks unfavorable for them. Until the spell ends, they will try and distance themselves from the battlefield.",
-				duration: "6 rounds"
-			  },
-			  {
-				range: [30, 500],
-				effects: "Also take a -8 penalty on all checks and initiative.",
-				duration: "10 minutes"
-			  }
+				{
+					range: [10, 14],
+					effects: "Take a -4 penalty to initiative. It can't go below 0.",
+					duration: "3 rounds"
+				},
+				{
+					range: [15, 19],
+					effects: "Also take a -4 penalty on checks for active actions.",
+					duration: "6 rounds"
+				},
+				{
+					range: [20, 29],
+					effects: "The target will also attempt to flee if combat looks unfavorable for them. Until the spell ends, they will try and distance themselves from the battlefield.",
+					duration: "6 rounds"
+				},
+				{
+					range: [30, 500],
+					effects: "Also take a -8 penalty on all checks and initiative.",
+					duration: "10 minutes"
+				}
 			],
 			notes: "Target within Range: 30m loses the will to fight. They suffer Effects for Duration. Effects granted by higher effectiveness scores stack with those of lower scores. The GM should decide finer details of the spell based on the situation. If the target passes a spell resistance check, this spell has no effect."
 		},
@@ -2399,51 +2404,52 @@ gs.spells = {
 			range: 1,
 			duration: "1 Hour",
 			effectivenessScore: [
-			  {
-				range: [10, 19],
-				modifierScore: "+1"
-			  },
-			  {
-				range: [20, 29],
-				modifierScore: "+2"
-			  },
-			  {
-				range: [30, 500],
-				modifierScore: "+3"
-			  }
+				{
+					range: [10, 19],
+					modifierScore: "+1"
+				},
+				{
+					range: [20, 29],
+					modifierScore: "+2"
+				},
+				{
+					range: [30, 500],
+					modifierScore: "+3"
+				}
 			],
 			notes: "Imbue Target: 1 Object in Range: Touch with magic power, adding Modifier Score to its hit modifier and power. This lasts for Duration: 1 Hour. Any melee and ranged attacks made with a targeted weapon are treated as magic attacks. However, for ranged weapons, only add the modifier score to the hit modifier, not the power. When targeting an arrow or bolt, you can add the modifier score to both the hit modifier and the power, so long as you use that arrow or bolt in a ranged attack. If the owner of the target object passes a spell resistance check, the spell has no effect."
 		},
 		fireball: {
+			uuid: 'Compendium.gs.spells.Item.nncOCc9yzHm0WEcX',
 			range: 60,
 			target: "All",
 			area: "Sphere, see Radius",
 			effectivenessScore: [
-			  {
-				range: [10, 14],
-				radius: "2m",
-				power: "2d6 + Level"
-			  },
-			  {
-				range: [15, 19],
-				radius: "3m",
-				power: "3d6 + Level"
-			  },
-			  {
-				range: [20, 24],
-				radius: "5m",
-				power: "4d6 + Level"
-			  },
-			  {
-				range: [25, 29],
-				radius: "10m",
-				power: "5d6 + Level"
-			  },
-			  {
-				range: [30, 500],
-				radius: "10m",
-				power: "7d6 + Level"
-			  }
+				{
+					range: [10, 14],
+					radius: "2m",
+					power: "2d6 + Level"
+				},
+				{
+					range: [15, 19],
+					radius: "3m",
+					power: "3d6 + Level"
+				},
+				{
+					range: [20, 24],
+					radius: "5m",
+					power: "4d6 + Level"
+				},
+				{
+					range: [25, 29],
+					radius: "10m",
+					power: "5d6 + Level"
+				},
+				{
+					range: [30, 500],
+					radius: "10m",
+					power: "7d6 + Level"
+				}
 			],
 			notes: "Cause a ball of fire to explode within Range: 60m, causing a magic attack that deals Power points of fire damage to Target: All within the Area: Sphere with a Radius determined by the effectiveness score. In addition, a target at the center of the explosion takes +1d6 more damage. If the target passes a spell resistance check, the damage they receive is halved before reducing it with armor score."
 		},
@@ -2451,52 +2457,52 @@ gs.spells = {
 			target: 1,
 			range: 100,
 			effectivenessScore: [
-			  {
-				range: [5, 9],
-				power: "3d6 + Level"
-			  },
-			  {
-				range: [10, 14],
-				power: "4d6 + Level"
-			  },
-			  {
-				range: [15, 19],
-				power: "5d6 + Level"
-			  },
-			  {
-				range: [20, 24],
-				power: "6d6 + Level"
-			  },
-			  {
-				range: [25, 29],
-				power: "8d6 + Level"
-			  },
-			  {
-				range: [30, 500],
-				power: "10d6 + Level"
-			  }
+				{
+					range: [5, 9],
+					power: "3d6 + Level"
+				},
+				{
+					range: [10, 14],
+					power: "4d6 + Level"
+				},
+				{
+					range: [15, 19],
+					power: "5d6 + Level"
+				},
+				{
+					range: [20, 24],
+					power: "6d6 + Level"
+				},
+				{
+					range: [25, 29],
+					power: "8d6 + Level"
+				},
+				{
+					range: [30, 500],
+					power: "10d6 + Level"
+				}
 			],
 			notes: "Launch an arrow of flame at Target: 1 within Range: 100m, performing a magic attack that deals Power points of fire damage. If the target passes a spell resistance check, the damage they receive is halved before reducing it with armor score."
 		},
 		float: {
 			target: "Self",
 			effectivenessScore: [
-			  {
-				range: [10, 19],
-				movementSpeed: "5m"
-			  },
-			  {
-				range: [20, 29],
-				movementSpeed: "10m"
-			  },
-			  {
-				range: [30, 39],
-				movementSpeed: "30m"
-			  },
-			  {
-				range: [40, 500],
-				movementSpeed: "50m"
-			  }
+				{
+					range: [10, 19],
+					movementSpeed: "5m"
+				},
+				{
+					range: [20, 29],
+					movementSpeed: "10m"
+				},
+				{
+					range: [30, 39],
+					movementSpeed: "30m"
+				},
+				{
+					range: [40, 500],
+					movementSpeed: "50m"
+				}
 			],
 			notes: "Caster becomes light enough to float on the wind, and they can freely move through the air at a Movement Speed determined by the effectiveness score. This effect lasts for as long as the caster uses spell maintenance."
 		},
@@ -2505,30 +2511,30 @@ gs.spells = {
 			area: "Up to 100 square meters, shape encompassing a 30m radius from the caster",
 			characteristics: "The wall is invisible, can overlap with other objects, obstacles, or characters but not completely seal them unless specified by the GM. Possible to make a small opening.",
 			effectivenessScore: [
-			  {
-				range: [15, 19],
-				durability: 15
-			  },
-			  {
-				range: [20, 24],
-				durability: 20
-			  },
-			  {
-				range: [25, 29],
-				durability: 25
-			  },
-			  {
-				range: [30, 39],
-				durability: 30
-			  },
-			  {
-				range: [40, 49],
-				durability: 40
-			  },
-			  {
-				range: [50, 500],
-				durability: 50
-			  }
+				{
+					range: [15, 19],
+					durability: 15
+				},
+				{
+					range: [20, 24],
+					durability: 20
+				},
+				{
+					range: [25, 29],
+					durability: 25
+				},
+				{
+					range: [30, 39],
+					durability: 30
+				},
+				{
+					range: [40, 49],
+					durability: 40
+				},
+				{
+					range: [50, 500],
+					durability: 50
+				}
 			],
 			behavior: "Separates inside from outside, stops character movement, weapon-based attacks, and magic attacks like Fireball or Magic Missile. Disappears if takes damage equal to durability.",
 			maintenance: "Remains as long as caster uses spell maintenance.",
@@ -2545,31 +2551,31 @@ gs.spells = {
 			range: 1,
 			duration: "10 Minutes",
 			effectivenessScore: [
-			  {
-				range: [5, 9],
-				radius: "1m",
-				damage: "3d6 + Level"
-			  },
-			  {
-				range: [10, 14],
-				radius: "3m",
-				damage: "3d6 + Level"
-			  },
-			  {
-				range: [15, 19],
-				radius: "5m",
-				damage: "3d6 + Level"
-			  },
-			  {
-				range: [20, 29],
-				radius: "10m",
-				damage: "3d6 + Level"
-			  },
-			  {
-				range: [30, 500],
-				radius: "15m",
-				damage: "3d6 + Level"
-			  }
+				{
+					range: [5, 9],
+					radius: "1m",
+					damage: "3d6 + Level"
+				},
+				{
+					range: [10, 14],
+					radius: "3m",
+					damage: "3d6 + Level"
+				},
+				{
+					range: [15, 19],
+					radius: "5m",
+					damage: "3d6 + Level"
+				},
+				{
+					range: [20, 29],
+					radius: "10m",
+					damage: "3d6 + Level"
+				},
+				{
+					range: [30, 500],
+					radius: "15m",
+					damage: "3d6 + Level"
+				}
 			],
 			notes: "The caster can perform a ranged attack by throwing the small stone they filled with magical energy. On impact, whether with an enemy or with the ground if it misses, the stone will explode, dealing bludgeoning damage to all within a sphere with radius determined by the effectiveness score. If a target passes a spell resistance check, they reduce the damage by half before applying their armor score. If the target of the ranged attack is a creature, failing a spell resistance check will cause them to be surprised by the noise and bright light. Until the end of the next round, they take a -2 penalty on all checks. This spell can be used as a free action."
 		},
@@ -2577,30 +2583,30 @@ gs.spells = {
 			target: 1,
 			range: 30,
 			effectivenessScore: [
-			  {
-				range: [15, 19],
-				modifierScore: "+1"
-			  },
-			  {
-				range: [20, 24],
-				modifierScore: "+2"
-			  },
-			  {
-				range: [25, 29],
-				modifierScore: "+3"
-			  },
-			  {
-				range: [30, 34],
-				modifierScore: "+4"
-			  },
-			  {
-				range: [35, 39],
-				modifierScore: "+5"
-			  },
-			  {
-				range: [40, 500],
-				modifierScore: "+6"
-			  }
+				{
+					range: [15, 19],
+					modifierScore: "+1"
+				},
+				{
+					range: [20, 24],
+					modifierScore: "+2"
+				},
+				{
+					range: [25, 29],
+					modifierScore: "+3"
+				},
+				{
+					range: [30, 34],
+					modifierScore: "+4"
+				},
+				{
+					range: [35, 39],
+					modifierScore: "+5"
+				},
+				{
+					range: [40, 500],
+					modifierScore: "+6"
+				}
 			],
 			notes: "Doubles the movement speed of Target: 1 within Range: 30m and grants them a Modifier Score bonus to the final score on all checks, including initiative checks. Starting from the following round, if their initiative is 13 or more as a result of this effect, they can take another turn that round, with that additional turn having an initiative of 12 less. This effect lasts as long as the caster uses spell maintenance. If the target passes a spell resistance check, this spell has no effect."
 		},
@@ -2608,18 +2614,18 @@ gs.spells = {
 			effect: "Create illusory treasures worth about 1,000 gold coins",
 			range: 1,
 			effectivenessScore: [
-			  {
-				range: [15, 19],
-				duration: "10 minutes"
-			  },
-			  {
-				range: [20, 29],
-				duration: "1 hour"
-			  },
-			  {
-				range: [30, 500],
-				duration: "6 hours"
-			  }
+				{
+					range: [15, 19],
+					duration: "10 minutes"
+				},
+				{
+					range: [20, 29],
+					duration: "1 hour"
+				},
+				{
+					range: [30, 500],
+					duration: "6 hours"
+				}
 			],
 			notes: "Those who find value in the false treasures must compare check scores (p. 128): their psyche resistance check score against the total spell use check score for Imitation. Those who win this check see the illusions for what they are. However, if they fail, they do not realize the dubiousness of the situation and believe the treasures are real and wish to obtain them. If the target fails the psyche resistance check, they are fully convinced by the illusion and may be manipulated accordingly. This can include forcing someone who wants the treasures to accept demands or potentially attacking the caster if the demands are too extreme. The illusion disappears when the Duration expires or when the caster moves at least 100 meters away. If the target passes a spell resistance check, the spell has no effect."
 		},
@@ -2632,18 +2638,18 @@ gs.spells = {
 			range: 1,
 			area: "Radius 30m",
 			effectivenessScore: [
-			  {
-				range: [5, 14],
-				duration: "1 hour"
-			  },
-			  {
-				range: [15, 29],
-				duration: "6 hours"
-			  },
-			  {
-				range: [30, 500],
-				duration: "1 day"
-			  }
+				{
+					range: [5, 14],
+					duration: "1 hour"
+				},
+				{
+					range: [15, 29],
+					duration: "6 hours"
+				},
+				{
+					range: [30, 500],
+					duration: "1 day"
+				}
 			],
 			notes: "Causes the target object to glow or produces a floating orb of light at touch. The caster can decide the intensity of the light before casting. The orb can move up to 20m per round but has no physical effect on anything and won’t receive any damage even if it touches something harmful. When producing an orb, the caster takes a -5 penalty on their spell use check. The light illuminates up to a 30m radius and lasts for a duration determined by the effectiveness score."
 		},
@@ -2652,30 +2658,30 @@ gs.spells = {
 			target: "All in Area",
 			range: 100,
 			effectivenessScore: [
-			  {
-				range: [15, 19],
-				power: "2d6 + 4 + Level"
-			  },
-			  {
-				range: [20, 24],
-				power: "3d6 + 2 + Level"
-			  },
-			  {
-				range: [25, 29],
-				power: "3d6 + 4 + Level"
-			  },
-			  {
-				range: [30, 34],
-				power: "4d6 + 4 + Level"
-			  },
-			  {
-				range: [35, 39],
-				power: "5d6 + 4 + Level"
-			  },
-			  {
-				range: [40, 500],
-				power: "6d6 + 6 + Level"
-			  }
+				{
+					range: [15, 19],
+					power: "2d6 + 4 + Level"
+				},
+				{
+					range: [20, 24],
+					power: "3d6 + 2 + Level"
+				},
+				{
+					range: [25, 29],
+					power: "3d6 + 4 + Level"
+				},
+				{
+					range: [30, 34],
+					power: "4d6 + 4 + Level"
+				},
+				{
+					range: [35, 39],
+					power: "5d6 + 4 + Level"
+				},
+				{
+					range: [40, 500],
+					power: "6d6 + 6 + Level"
+				}
 			],
 			notes: "This attack deals an amount of wind damage determined by the effectiveness score in a straight line up to 100m that hits all targets in its path. If the target passes a spell resistance check, the damage is halved before reducing it with armor score."
 		},
@@ -2683,26 +2689,26 @@ gs.spells = {
 			target: "One Door, Lid, or Any Other Object",
 			range: 30,
 			effectivenessScore: [
-			  {
-				range: [5, 14],
-				duration: "3 rounds"
-			  },
-			  {
-				range: [15, 19],
-				duration: "6 rounds"
-			  },
-			  {
-				range: [20, 29],
-				duration: "10 minutes"
-			  },
-			  {
-				range: [30, 39],
-				duration: "3 hours"
-			  },
-			  {
-				range: [40, 500],
-				duration: "12 hours"
-			  }
+				{
+					range: [5, 14],
+					duration: "3 rounds"
+				},
+				{
+					range: [15, 19],
+					duration: "6 rounds"
+				},
+				{
+					range: [20, 29],
+					duration: "10 minutes"
+				},
+				{
+					range: [30, 39],
+					duration: "3 hours"
+				},
+				{
+					range: [40, 500],
+					duration: "12 hours"
+				}
 			],
 			notes: "Makes the target object become unopenable and increases its resistance to destruction by ten times. The GM should make decisions regarding means of destruction. The spell's effects last for the duration determined by the effectiveness score, but if there was already a locking mechanism or something like it, then even after the effect lapses, it remains locked."
 		},
@@ -2710,18 +2716,18 @@ gs.spells = {
 			target: "Self",
 			duration: "6 rounds",
 			effects: [
-			  {
-				range: [10, 19],
-				description: "The mage hand may be utilized from close distance up to 10 meters for one-handed actions such as attacking with a dagger, utilizing Range: Touch spells, and passing items. Since the hand is invisible, it gives a -4 penalty to basehanded attack parries and defense."
-			  },
-			  {
-				range: [20, 29],
-				description: "Perform two-handed actions with the mage hand, but with a -2 penalty. You may add your sorcerer level to the power of unarmed attacks and weapon power effect and increasing its power by 4 for barehanded attacks. Its unarmed attack is treated as magical and ignores half armor score."
-			  },
-			  {
-				range: [30, 500],
-				description: "You can apply your sorcerer level to manipulation checks using the mage hand. You can also make the mage hand into gigantic, giving it the Bind weapon effect and increasing its power by 4 for barehanded attacks. In addition, you can perform movement obstruction checks and assist with movement obstruction (and resistance) for allies within range of the mage hand. If the caster interferes with the movement, you can add sorcerer level instead of warrior level to the check. In such cases, the obstructer determines the end position of the move."
-			  }
+				{
+					range: [10, 19],
+					description: "The mage hand may be utilized from close distance up to 10 meters for one-handed actions such as attacking with a dagger, utilizing Range: Touch spells, and passing items. Since the hand is invisible, it gives a -4 penalty to basehanded attack parries and defense."
+				},
+				{
+					range: [20, 29],
+					description: "Perform two-handed actions with the mage hand, but with a -2 penalty. You may add your sorcerer level to the power of unarmed attacks and weapon power effect and increasing its power by 4 for barehanded attacks. Its unarmed attack is treated as magical and ignores half armor score."
+				},
+				{
+					range: [30, 500],
+					description: "You can apply your sorcerer level to manipulation checks using the mage hand. You can also make the mage hand into gigantic, giving it the Bind weapon effect and increasing its power by 4 for barehanded attacks. In addition, you can perform movement obstruction checks and assist with movement obstruction (and resistance) for allies within range of the mage hand. If the caster interferes with the movement, you can add sorcerer level instead of warrior level to the check. In such cases, the obstructer determines the end position of the move."
+				}
 			],
 			notes: "Creates a hand of energy that can be manipulated at will. The capabilities of the mage hand depend on the effectiveness score, which determines the range of actions and the power of the hand. All effects obtained with a higher effectiveness score include all lower effectiveness score effects, though the number of parries you gain will not change. The hand is only singular, so the caster should have a third hand."
 		},

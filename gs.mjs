@@ -35,6 +35,59 @@ Hooks.once("init", () => {
 	return preloadHandlebarsTemplates();
 });
 
+// Defining Enrishers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hooks.on("init", () => {
+	CONFIG.TextEditor.enrichers.push({
+		pattern: /\[\[\/cast (?<spellName>[^\]]+)]\]/gi, // Match [[/cast spellName]]
+		enricher: enrichSpellCast
+	});
+});
+
+async function enrichSpellCast(match, options) {
+	const spellName = match.groups.spellName;
+	const spell = await findSpellByName(spellName);
+
+	if (!spell)
+		return `<span class="spell-cast-error">Spell "${spellName}" not found!</span>`;
+
+	const spellLink = document.createElement("a");
+	spellLink.href = "#";
+	spellLink.dataset.uuid = spell.uuid;
+	spellLink.classList.add("spell-link");
+	spellLink.innerText = spell.name;
+
+	const rollButton = document.createElement("button");
+	rollButton.classList.add("spell-cast-button");
+	rollButton.dataset.spellName = spell.name;
+	rollButton.innerHTML = `<i class="fa-solid fa-dice-d20"></i>`;
+
+	const wrapper = document.createElement("span");
+	wrapper.classList.add("spell-cast-wrapper");
+	wrapper.appendChild(spellLink);
+	wrapper.appendChild(document.createTextNode(" > "));
+	wrapper.appendChild(rollButton);
+
+	return wrapper.outerHtml;
+}
+
+Hooks.on("renderChatMessage", (message, html) => {
+	html.find(".spell-cast-button").click(async (event) => {
+		const spellName = event.currentTarget.dataset.spellName;
+
+		const actor = game.user.character || game.actors.getName("Monster Name"); // Adjust user logic here if needed
+		const spell = actor.items.find(i => i.name === spellName && i.type === "spell");
+
+		if (spell) {
+			await spell.roll();
+		} else {
+			ui.notifications.warn(`Spell "${spellName}" not found!`);
+		}
+	});
+});
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Hooks.on('renderChatMessage', (app, html, data) => {
 
 	// Helper function to look for critical rolls
@@ -491,7 +544,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		// Checking for highest parry value
 		if (parrySkill) {
 			const weapons = player.items.filter(i => i.type === 'weapon') || 0,
-				shield = findItems(player, 'shield') || 0;
+				shield = getEquipedArmor(findItems(player, 'shield')) || 0;
 
 			// Helper function to get the parry value, or 0 if none exists
 			const getParryValue = (item) => item?.system?.effect?.parry || 0;
