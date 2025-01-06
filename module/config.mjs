@@ -457,6 +457,7 @@ gs.actor = {
 gs.spells = {
 	ancestralDragon: {
 		dragonArmor: {
+			name: 'Dragon Armor',
 			uuid: 'Compendium.gs.spells.Item.Y9GrvSynY2lDAu5i',
 			range: 5,
 			area: 'cylinder, 10m height, 5m radius',
@@ -469,15 +470,18 @@ gs.spells = {
 			]
 		},
 		bezor: {
+			name: 'Bezor',
 			uuid: 'Compendium.gs.spells.Item.wCWBenc9TjlIUBli',
 			target: 'self'
 		},
 		camouflage: {
+			name: 'Camouflage',
 			uuid: 'Compendium.gs.spells.Item.18rQL3sDNlNpinhO',
 			duration: '1 Hour',
 			target: 'self'
 		},
 		charge: {
+			name: 'Charge',
 			uuid: 'Compendium.gs.spells.Item.7QDvMa3JPfv5nNCJ',
 			range: '3 x Caster Movement',
 			target: 'All',
@@ -491,16 +495,21 @@ gs.spells = {
 			]
 		},
 		communicate: {
+			name: 'Communicate',
 			uuid: 'Compendium.gs.spells.Item.tWXBLZut7zUcIJ2B',
 			target: 'self',
 			duration: '1 Hour'
 		},
 		confrontation: {
+			uuid: 'Compendium.gs.spells.Item.LMliEooJTUlowVVR',
+			name: 'Confrontation',
 			duration: '6 Rounds',
 			target: 1,
 			range: 60
 		},
 		dragonBreath: {
+			uuid: 'Compendium.gs.spells.Item.UQq8zSQZ2csm27pZ',
+			name: 'Dragon Breath',
 			fire: {
 				target: 'All',
 				area: 'Cone, 30m Length, 10m Base Radius',
@@ -545,6 +554,8 @@ gs.spells = {
 			}
 		},
 		dragonEyes: {
+			uuid: 'Compendium.gs.spells.Item.dM3hY6kGoEyNm9sj',
+			name: 'Dragon Eyes',
 			target: 'self',
 			duration: '10 Minutes',
 			effectiveScore: [
@@ -556,6 +567,8 @@ gs.spells = {
 			]
 		},
 		dragonScales: {
+			uuid: 'Compendium.gs.spells.Item.YZGAK0skxEF0fdpt',
+			name: 'Dragon Scales',
 			target: 'self',
 			duration: '6 Rounds',
 			effectiveScore: [
@@ -565,9 +578,13 @@ gs.spells = {
 			]
 		},
 		dragonBlood: {
+			uuid: 'Compendium.gs.spells.Item.OIQeTMKR0WJlnrVM',
+			name: 'Dragons Blood',
 			target: 1
 		},
 		dragonsProof: {
+			uuid: 'Compendium.gs.spells.Item.vtQOdra0iszfixP7',
+			name: 'Dragons Proof',
 			target: 'self',
 			effectiveScore: [
 				{ range: [10, 19], duration: '3 rounds' },
@@ -576,6 +593,8 @@ gs.spells = {
 			]
 		},
 		dragonsRoar: {
+			uuid: 'Compendium.gs.spells.Item.cX1x3xY8Bxc8ibYC',
+			name: 'Dragons Roar',
 			target: 'All',
 			effectiveScore: [
 				{ range: [15, 19], effects: 'Target takes a −2 penalty on checks made as the active side and a −2 penalty to initiative.', durration: '3 rounds' },
@@ -585,10 +604,14 @@ gs.spells = {
 			]
 		},
 		dragonsWings: {
+			uuid: 'Compendium.gs.spells.Item.ux1ijkqVlt7xgoiP',
+			name: 'Dragons Wings',
 			target: 'self',
 			duration: '10 Minutes'
 		},
 		dragontoothWarrior: {
+			uuid: 'Compendium.gs.spells.Item.TweeFK61foOGNF3s',
+			name: 'Dragontooth Warrior',
 			target: '1 Dragontooth Warrior',
 			range: 1,
 			duration: {
@@ -603,11 +626,15 @@ gs.spells = {
 			]
 		},
 		huntingGrounds: {
+			uuid: 'Compendium.gs.spells.Item.bERPMIqzq1Bs85mu',
+			name: 'Hunting Grounds',
 			area: 100,
 			target: 'All',
 			duration: '12 Hours'
 		},
 		minorHeal: {
+			uuid: 'Compendium.gs.spells.Item.9GQKni9DKsgYI6Un',
+			name: 'Minor Heal',
 			target: 1,
 			range: {
 				distance: 30,
@@ -623,6 +650,8 @@ gs.spells = {
 			]
 		},
 		partialDragon: {
+			uuid: 'Compendium.gs.spells.Item.Twk819dnkyu96ALt',
+			name: 'Partial Dragon',
 			target: 'self',
 			duration: '10 Minutes',
 			effectiveScore: [
@@ -632,11 +661,15 @@ gs.spells = {
 			]
 		},
 		rust: {
+			uuid: 'Compendium.gs.spells.Item.JYxqYRZnKUsXrvwK',
+			name: 'Rust',
 			area: 5,
 			range: 30,
 			target: 'all'
 		},
 		senseEnemy: {
+			uuid: 'Compendium.gs.spells.Item.1ajIefV4IvbszMPt',
+			name: 'Sense Enemy',
 			target: 'self',
 			area: {
 				general: 30,
@@ -649,6 +682,8 @@ gs.spells = {
 			]
 		},
 		swordClaw: {
+			uuid: 'Compendium.gs.spells.Item.Ca48205symbyKbWH',
+			name: 'Sword Claw',
 			sword: {
 				target: 1,
 				range: 'self',
@@ -667,6 +702,8 @@ gs.spells = {
 			]
 		},
 		vitality: {
+			uuid: 'Compendium.gs.spells.Item.d47WCPSP0Xnc22Pj',
+			name: 'Vitality',
 			target: 1,
 			range: 5,
 			effectiveScore: [
@@ -678,6 +715,8 @@ gs.spells = {
 	},
 	miracle: {
 		eucharist: {
+			uuid: 'Compendium.gs.spells.Item.VuRKiw2YOaaU4BM3',
+			name: 'Eucharist',
 			food: {
 				range: 5,
 				target: 1,
@@ -688,11 +727,15 @@ gs.spells = {
 			}
 		},
 		peace: {
+			uuid: 'Compendium.gs.spells.Item.lRgX3YYlKztqP6NI',
+			name: 'Peace',
 			target: 'All',
 			area: 100,
 			duration: '10 Minutes'
 		},
 		steadfast: {
+			uuid: 'Compendium.gs.spells.Item.QjSPnUmABowa4JcR',
+			name: 'Steadfast',
 			target: 1,
 			range: 30,
 			duration: '12 Rounds',
@@ -705,6 +748,8 @@ gs.spells = {
 			]
 		},
 		guidance: {
+			uuid: 'Compendium.gs.spells.Item.7gjK5tQHNhucipka',
+			name: 'Guidance',
 			target: 1,
 			range: 5,
 			duration: '6 Rounds',
@@ -717,9 +762,13 @@ gs.spells = {
 			]
 		},
 		inspiration: {
+			uuid: 'Compendium.gs.spells.Item.FKveexRY1h32i77P',
+			name: 'Inspiriation',
 			target: 'self'
 		},
 		reading: {
+			uuid: 'Compendium.gs.spells.Item.k3lylK8U0GPlDx6l',
+			name: 'Reading',
 			target: 'self',
 			duration: '1 Round',
 			effectiveScore: [
@@ -729,6 +778,8 @@ gs.spells = {
 			]
 		},
 		greaterHeal: {
+			uuid: 'Compendium.gs.spells.Item.qOFK6eMJQo7jsgn0',
+			name: 'Greater Heal',
 			target: 1,
 			range: 5,
 			effectiveScore: [
@@ -739,19 +790,27 @@ gs.spells = {
 			]
 		},
 		revive: {
+			uuid: 'Compendium.gs.spells.Item.TwTsREix4Uedgag0',
+			name: 'Revive',
 			target: 1,
 			range: 5
 		},
 		inquisition: {
+			uuid: 'Compendium.gs.spells.Item.exKeAUkuTjCUnzuC',
+			name: 'Inquisition',
 			target: 1,
 			range: 30,
 			duration: '3 Rounds'
 		},
 		judge: {
+			uuid: 'Compendium.gs.spells.Item.UQfOFG1ypXPksbVn',
+			name: 'Judge',
 			target: 1,
 			range: 5
 		},
 		judgement: {
+			uuid: 'Compendium.gs.spells.Item.tvPwkywqFgsjRCoc',
+			name: 'Judgement',
 			target: 'self',
 			effectiveScore: [
 				{ range: [20, 29], modifier: 2 },
@@ -760,13 +819,19 @@ gs.spells = {
 			]
 		},
 		contract: {
+			uuid: 'Compendium.gs.spells.Item.LpQWrsPTvuGi8n66',
+			name: 'Contract',
 			duration: '1 Year',
 		},
 		reverse: {
+			uuid: 'Compendium.gs.spells.Item.daEGYKmAKAOky8Ea',
+			name: 'Reverse',
 			target: 1,
 			duration: '1 Day'
 		},
 		traveler: {
+			uuid: 'Compendium.gs.spells.Item.2aDPAPuwSBEvauMq',
+			name: 'Traveler',
 			target: 1,
 			range: 8,
 			effectiveScore: [
@@ -776,6 +841,8 @@ gs.spells = {
 			]
 		},
 		encourage: {
+			uuid: 'Compendium.gs.spells.Item.cqsw1vsqhYLywJsU',
+			name: 'Encourage',
 			target: 'All',
 			area: 'Sphere of ',
 			duration: '10 Minutes',
@@ -788,6 +855,8 @@ gs.spells = {
 			]
 		},
 		saintCloth: {
+			uuid: 'Compendium.gs.spells.Item.uB80T0M2H6zBvDWU',
+			name: 'Saint Cloth',
 			target: 'self',
 			duration: '6 Rounds',
 			effectiveScore: [
@@ -798,6 +867,8 @@ gs.spells = {
 			]
 		},
 		valkyriesJavelin: {
+			uuid: 'Compendium.gs.spells.Item.DKN7saBncRVHXtPZ',
+			name: 'Valkyries Javelin',
 			target: 1,
 			range: 100,
 			effectiveScore: [
@@ -811,6 +882,8 @@ gs.spells = {
 			]
 		},
 		blessing: {
+			uuid: 'Compendium.gs.spells.Item.cbu3Z6Hjv1AXE6ls',
+			name: 'Blessing',
 			target: 1,
 			range: 30,
 			effectiveScore: [
@@ -822,19 +895,27 @@ gs.spells = {
 			]
 		},
 		cure: {
+			uuid: 'Compendium.gs.spells.Item.7ZWRBPq4YTvM5QOM',
+			name: 'Cure',
 			target: 1,
 			range: 5
 		},
 		dispel: {
+			uuid: 'Compendium.gs.spells.Item.jdxFbgeV5XfT0czX',
+			name: 'Dispel',
 			target: 1,
 			range: 30,
 		},
 		holyLight: {
+			uuid: 'Compendium.gs.spells.Item.pr4wNuvpAxllGPCp',
+			name: 'Holy Light',
 			target: 1,
 			range: 30,
 			area: 30
 		},
 		holySmite: {
+			uuid: 'Compendium.gs.spells.Item.mLge050jmnmDvQ05',
+			name: 'Holy Smite',
 			target: 1,
 			range: 30,
 			effectiveScore: [
@@ -847,9 +928,13 @@ gs.spells = {
 			]
 		},
 		hymn: {
+			uuid: 'Compendium.gs.spells.Item.4njEEC1g8KdOQ92Q',
+			name: 'Hymn',
 			target: 'all'
 		},
 		minorHeal: {
+			uuid: 'Compendium.gs.spells.Item.D9s6sNrGj4EttvVV',
+			name: 'Minor Heal',
 			target: 1,
 			range: {
 				distance: 30,
@@ -865,9 +950,13 @@ gs.spells = {
 			]
 		},
 		protection: {
+			uuid: 'Compendium.gs.spells.Item.oqzuUcYnR5FiiKSq',
+			name: 'Protection',
 			area: 120
 		},
 		purify: {
+			uuid: 'Compendium.gs.spells.Item.KD3wUlvZLsRhcy3S',
+			name: 'Purify',
 			range: 60,
 			area: 'General Volume',
 			effectiveScore: [
@@ -879,15 +968,21 @@ gs.spells = {
 			]
 		},
 		sanctuary: {
+			uuid: 'Compendium.gs.spells.Item.kY1JRtBmrZwwKnYm',
+			name: 'Sanctuary',
 			area: 30
 		},
 		senseEnemy: {
+			uuid: 'Compendium.gs.spells.Item.SsGhoRNje7XJJmMX',
+			name: 'Sense Enemy',
 			area: {
 				general: 30,
 				specific: 10
 			}
 		},
 		senseLife: {
+			uuid: 'Compendium.gs.spells.Item.O6iYALfa2L42derz',
+			name: 'Sense Life',
 			target: 'self',
 			effectiveScore: [
 				{ range: [10, 19], duration: '6 Rounds' },
@@ -896,6 +991,8 @@ gs.spells = {
 			]
 		},
 		silence: {
+			uuid: 'Compendium.gs.spells.Item.sxqQ71g4lrFsa6J5',
+			name: 'Silence',
 			range: 30,
 			area: 'Sphere + Radius',
 			effectiveScore: [
@@ -905,10 +1002,14 @@ gs.spells = {
 			]
 		},
 		transferMentalPower: {
+			uuid: 'Compendium.gs.spells.Item.u9n4YgAk7EfMyGYx',
+			name: 'Transfer Mental Power',
 			target: 1,
 			range: 5
 		},
 		vitality: {
+			uuid: 'Compendium.gs.spells.Item.iDlFczyZVPjebZG9',
+			name: 'Vitality',
 			target: 1,
 			range: 5,
 			effectiveScore: [
@@ -920,10 +1021,14 @@ gs.spells = {
 	},
 	necromancy: {
 		wickedCurse: {
+			uuid: 'Compendium.gs.spells.Item.cVbM9IIIruZ6nS2f',
+			name: 'Wicked Curse',
 			target: 1,
 			range: 30,
 		},
 		aging: {
+			uuid: 'Compendium.gs.spells.Item.5ONRkOA5Zfda8Bu8',
+			name: 'Aging',
 			target: 'All',
 			range: 30,
 			area: 'Sphere, 10m',
@@ -935,6 +1040,8 @@ gs.spells = {
 			]
 		},
 		anomaly: {
+			uuid: 'Compendium.gs.spells.Item.gNtc6or3GUsD4pRi',
+			name: 'Anomaly',
 			target: 'self',
 			duration: '1 Hour',
 			specialAbilities: [
@@ -947,6 +1054,8 @@ gs.spells = {
 			]
 		},
 		boneSpear: {
+			uuid: 'Compendium.gs.spells.Item.coF8WTOMU4YbjTWI',
+			name: 'Bone Spear',
 			target: 'All',
 			range: 100,
 			effectiveScore: [
@@ -958,17 +1067,23 @@ gs.spells = {
 			]
 		},
 		boneSpur: {
+			uuid: '',
+			name: 'Bone Spur',
 			area: 20,
 			range: 30,
 			duration: '10 Minutes'
 		},
 		burial: {
+			uuid: 'Compendium.gs.spells.Item.vq1xCp91vNn2fYhG',
+			name: 'Burial',
 			area: 1,
 			depth: 2,
 			range: 30,
 			duration: '10 Minutes'
 		},
 		chill: {
+			uuid: 'Compendium.gs.spells.Item.ArfnNQs7FVRhPB1h',
+			name: 'Chill',
 			target: 1,
 			area: 'Sphere, 10m',
 			range: 30,
@@ -980,6 +1095,8 @@ gs.spells = {
 			]
 		},
 		command: {
+			uuid: 'Compendium.gs.spells.Item.zBiLJJTWJp7BDO0i',
+			name: 'Command',
 			target: 'All',
 			range: 'Sphere, see Radius',
 			effectiveScore: [
@@ -989,6 +1106,8 @@ gs.spells = {
 			]
 		},
 		corpseExplosion: {
+			uuid: 'Compendium.gs.spells.Item.jog12gdVHaj2n4ib',
+			name: 'Corpse Explosion',
 			target: {
 				corpse: 1,
 				effected: 'all'
@@ -1007,6 +1126,8 @@ gs.spells = {
 			]
 		},
 		cremation: {
+			uuid: 'Compendium.gs.spells.Item.gPD79sMtJNYLYPjb',
+			name: 'Cremation',
 			target: 1,
 			range: 60,
 			effectiveScore: [
@@ -1018,6 +1139,8 @@ gs.spells = {
 			]
 		},
 		earthBound: {
+			uuid: 'Compendium.gs.spells.Item.1pGNi8fckaFrgxG8',
+			name: 'Earth Bound',
 			area: 'Sphere, see Radius',
 			range: 30,
 			effectiveScore: [
@@ -1028,6 +1151,8 @@ gs.spells = {
 			]
 		},
 		epidemic: {
+			uuid: 'Compendium.gs.spells.Item.9vsdnEUTE15zuRo4',
+			name: 'Epidemic',
 			target: 'All',
 			area: 'Sphere, 5m',
 			range: 30,
@@ -1039,6 +1164,8 @@ gs.spells = {
 			]
 		},
 		lethalCut: {
+			uuid: 'Compendium.gs.spells.Item.siuxHYdRiw1Q3nlm',
+			name: 'Lethal Cut',
 			target: 1,
 			range: 60,
 			effectiveScore: [
@@ -1048,6 +1175,8 @@ gs.spells = {
 			]
 		},
 		lifeDrain: {
+			uuid: 'Compendium.gs.spells.Item.cB9xsaIjHk0PGAoZ',
+			name: 'Life Drain',
 			target: 1,
 			range: 30,
 			effectiveScore: [
@@ -1058,6 +1187,8 @@ gs.spells = {
 			]
 		},
 		quarentine: {
+			uuid: 'Compendium.gs.spells.Item.B0m6ewhLx72pUiAY',
+			name: 'Quarentine',
 			range: 5,
 			area: 'Sphere, see Radius',
 			effectiveScore: [
@@ -1067,6 +1198,8 @@ gs.spells = {
 			]
 		},
 		raiseGhost: {
+			uuid: 'Compendium.gs.spells.Item.86pbRaXnSkz9rfzy',
+			name: 'Raise Ghost',
 			target: 1,
 			range: 5,
 			effectiveScore: [
@@ -1077,6 +1210,8 @@ gs.spells = {
 			]
 		},
 		raiseGolem: {
+			uuid: 'Compendium.gs.spells.Item.aL2RnKrFa9visyze',
+			name: 'Raise Golem',
 			target: "Corpse",
 			range: 5,
 			materialCost: "level of golem * 10 silver coins",
@@ -1121,6 +1256,8 @@ gs.spells = {
 			catalyst: "None"
 		},
 		raiseSkeleton: {
+			uuid: 'Compendium.gs.spells.Item.cIm0Nl31JdkgQIeH',
+			name: 'Raise Skeleton',
 			target: "Corpse",
 			range: 5,  // 'Close' range as per your mapping (5 meters)
 			effectivenessScore: [
@@ -1159,6 +1296,8 @@ gs.spells = {
 			catalyst: "None" // Assuming no catalyst is required
 		},
 		raiseSlime: {
+			uuid: 'Compendium.gs.spells.Item.WFFt0La8rREAaHKr',
+			name: 'Raise Slime',
 			target: "Corpse",
 			range: 5,  // 'Close' range, which corresponds to 5 meters
 			effectivenessScore: [
@@ -1197,6 +1336,8 @@ gs.spells = {
 			catalyst: "None"
 		},
 		raiseZombie: {
+			uuid: 'Compendium.gs.spells.Item.t3RNMHY1C9Ee7Fya',
+			name: 'Raise Zombie',
 			target: "Corpse",
 			range: 5,  // 'Close' range, which corresponds to 5 meters
 			effectivenessScore: [
@@ -1235,6 +1376,8 @@ gs.spells = {
 			catalyst: "Necroption"
 		},
 		spiritWalk: {
+			uuid: 'Compendium.gs.spells.Item.Jrf8EnYwOppNZvzE',
+			name: 'Spirit Walk',
 			target: "Self",
 			effect: "Caster becomes a spirit, invisible and not emitting any sound or smell.",
 			restrictions: "Cannot use equipment, items, or spells. Cannot interact with the material world without special conditions.",
@@ -1265,6 +1408,8 @@ gs.spells = {
 			catalyst: "None"
 		},
 		spiritualAwakening: {
+			uuid: 'Compendium.gs.spells.Item.gP1jH6DmFxGbSsFh',
+			name: 'Spiritual Awakening',
 			target: "Self",
 			requirements: {
 				rounds: 6
@@ -1295,6 +1440,8 @@ gs.spells = {
 			catalyst: "Crystal"
 		},
 		spookyDance: {
+			uuid: 'Compendium.gs.spells.Item.nSzBRRx4Mpuu52bN',
+			name: 'Spooky Dance',
 			target: "All living creatures in area",
 			area: "Sphere, 5m",
 			range: 5,
@@ -1327,6 +1474,8 @@ gs.spells = {
 	},
 	spiritArt: {
 		calamity: {
+			uuid: 'Compendium.gs.spells.Item.pjUJshbR1Ipzs7CM',
+			name: 'Calamity',
 			type: "Spirit Arts",
 			range: 60,
 			target: "All",
@@ -1369,7 +1518,16 @@ gs.spells = {
 			chant: "Spirit, go wild, do as you please!",
 			catalyst: "Oil, snowballs, mudballs, balloons, glass balls, ink bottles"
 		},
+		seance: {
+			uuid: 'Compendium.gs.spells.Item.veRrN6tZcqUkyViI',
+			name: 'Seance',
+			type: "Spirit Arts",
+			chant: "No chanting. Please sing in your own words what you wish of the land and its ancestral spirits.",
+			catalyst: "Yes (determined by the GM)"
+		},
 		aquaVitae: {
+			uuid: 'Compendium.gs.spells.Item.YqOVyjr1zIjgy1aF',
+			name: 'Aqua Vitae',
 			effect: "Grants healing and stamina-restoration effects from a cup of water.",
 			target: "1 Cup of Water",
 			range: "User must drink the water",
@@ -1405,15 +1563,21 @@ gs.spells = {
 			]
 		},
 		banish: {
+			uuid: 'Compendium.gs.spells.Item.BipfzoD8zHvQGjfo',
+			name: 'Banish',
 			target: 1,
 			type: "spirit",
 			range: 60
 		},
 		bind: {
+			uuid: 'Compendium.gs.spells.Item.yxYpSHE0ABx2IVtd',
+			name: 'Bind',
 			target: 1,
 			area: 30
 		},
 		blizzard: {
+			uuid: 'Compendium.gs.spells.Item.O9On8XEETkYiQMFq',
+			name: 'Blizzard',
 			effect: "Perform a magic attack in a cone area, dealing water/wind damage.",
 			target: "All in cone of Max Length 20m and Max Base Radius 10m",
 			area: "Cone, 20m length, 10m radius",
@@ -1452,6 +1616,8 @@ gs.spells = {
 			]
 		},
 		breathe: {
+			uuid: 'Compendium.gs.spells.Item.4bKLT2jnvZL5GIRL',
+			name: 'Breathe',
 			effect: "Allows the target to breathe underwater as if they were on land.",
 			target: "1 within range",
 			range: 30,
@@ -1479,6 +1645,8 @@ gs.spells = {
 			]
 		},
 		callRain: {
+			uuid: 'Compendium.gs.spells.Item.UuMO4E25a4w7w95U',
+			name: 'Call Rain',
 			effect: "Manipulates weather to cause rain with varying effects based on effectiveness.",
 			area: "Cylinder centered on a chosen point",
 			range: 30,
@@ -1512,6 +1680,8 @@ gs.spells = {
 			]
 		},
 		catsEye: {
+			uuid: 'Compendium.gs.spells.Item.THNLp7KxPRRc2Mr2',
+			name: 'Cats Eye',
 			effect: "Enhances the caster's visual capabilities for 10 minutes.",
 			target: "Caster's eyes (left eye, right eye, or both)",
 			duration: "10 minutes",
@@ -1540,6 +1710,8 @@ gs.spells = {
 			]
 		},
 		controlSpirits: {
+			uuid: 'Compendium.gs.spells.Item.fssYtC2D2IxeerXT',
+			name: 'Control Spirits',
 			effect: "Summon 1 Spirit within Range: Reach and put it to use. The type of spirit summoned depends on the effectiveness score.",
 			target: "1 Spirit",
 			range: 5,
@@ -1561,6 +1733,8 @@ gs.spells = {
 			additionalNotes: "Summoned spirits act immediately or can receive commands telepathically from the caster. Spirits are able to perform simple tasks and support the caster in various ways such as engaging enemies or defending the caster. A spirit's action can be as simple as 'attack that goblin over there or attack the enemy who attacked ally A.' Spirits return to their own plane after the spell's duration unless commanded to stay longer by the caster under certain conditions."
 		},
 		darkness: {
+			uuid: 'Compendium.gs.spells.Item.dCcTS0qbX8YggUHw',
+			name: 'Darkness',
 			area: "Sphere, see Radius in Score",
 			range: 30,
 			effectivenessScore: [
@@ -1593,6 +1767,8 @@ gs.spells = {
 			notes: "This spell plunges an area into darkness based on the effectiveness score. No light can pass through the darkness, magical or not. Characters inside cannot see outside, and those outside cannot see inside. Characters with Darkvision face penalties unless they are in magical darkness. The spell lasts as long as the caster maintains concentration."
 		},
 		fallingControl: {
+			uuid: 'Compendium.gs.spells.Item.Cn5HAbzA3g90rwxz',
+			name: 'Falling Control',
 			target: 'All',
 			area: "Sphere, 10m Radius",
 			range: 10,
@@ -1613,6 +1789,8 @@ gs.spells = {
 			notes: "This spell manipulates gravity on a target within a 10m radius, allowing the caster to slow down or speed up their rate of descent as described. It can be used as a free action to save someone from falling, applying intelligence reflex as the basic score of the spell use check with a -2 penalty on the final score. The spell lasts as long as the caster maintains concentration."
 		},
 		fear: {
+			uuid: 'Compendium.gs.spells.Item.igwWMnpuDW0hnkNB',
+			name: 'Fear',
 			target: 'All',
 			area: "Sphere, 10m Radius",
 			range: 60,
@@ -1641,6 +1819,8 @@ gs.spells = {
 			notes: "This spell creates an illusion of a swarm of locusts, inducing fear in targets within its area. Even if targets move outside the area, the effects persist for their full duration unless a spell resistance check is passed."
 		},
 		firebolt: {
+			uuid: 'Compendium.gs.spells.Item.RPypfLyXRf8YtMmj',
+			name: 'Firebolt',
 			target: "1 target",
 			range: 100,
 			effectivenessScore: [
@@ -1672,6 +1852,8 @@ gs.spells = {
 			notes: "Launches an arrow of flame at a target, dealing fire damage. If the target passes a spell resistance check, the damage is halved before being reduced further by armor."
 		},
 		heatWave: {
+			uuid: 'Compendium.gs.spells.Item.TNGErNO2vXwNh11V',
+			name: 'Heat Wave',
 			target: "All within Area",
 			range: "20m, 10m, 5m",
 			effectivenessScore: [
@@ -1703,6 +1885,8 @@ gs.spells = {
 			notes: "This spell causes areas of increasing proximity to the caster to experience varying levels of heat damage, from mild at 20m to severe at 5m. The spell requires maintenance, and resistance checks may halve the damage before it is modified by armor."
 		},
 		illuminate: {
+			uuid: 'Compendium.gs.spells.Item.wonUpbBaX9snFCu9',
+			name: 'Illuminate',
 			target: 'All',
 			area: "Sphere, see Radius in Score",
 			range: 30,
@@ -1732,19 +1916,27 @@ gs.spells = {
 			notes: "This spell scatters luminescent powder that illuminates the area with a varying intensity depending on the effectiveness score. It affects visibility and hit chances for targets within the illuminated area."
 		},
 		invisible: {
+			uuid: 'Compendium.gs.spells.Item.2NA3HjvjVHipP1Bj',
+			name: 'Invisible',
 			target: 1,
 			range: 1
 		},
 		kindle: {
+			uuid: 'Compendium.gs.spells.Item.58NqPMM78An2VnuA',
+			name: 'Kindle',
 			target: 1,
 			range: 1
 		},
 		powerBall: {
+			uuid: 'Compendium.gs.spells.Item.hbxlMGUIk36H7S4G',
+			name: 'Power Ball',
 			target: 'All',
 			area: 3,
 			range: 30
 		},
 		snare: {
+			uuid: 'Compendium.gs.spells.Item.jcQUpFWdzHJI2hQZ',
+			name: 'Snare',
 			area: "Circle, see Radius in Score",
 			range: 60,
 			effectivenessScore: [
@@ -1776,6 +1968,8 @@ gs.spells = {
 			notes: "This spell converts ground within the specified radius into sludge, making movement challenging and causing characters to risk falling prone. The effect is temporary and the ground will revert to normal after the spell's duration ends."
 		},
 		spiritWall: {
+			uuid: 'Compendium.gs.spells.Item.U66bv9FI3RY7ASz1',
+			name: 'Spirit Wall',
 			area: 20,
 			lifeForce: 50,
 			armorScore: 10,
@@ -1794,6 +1988,8 @@ gs.spells = {
 			}
 		},
 		stoneBlast: {
+			uuid: 'Compendium.gs.spells.Item.HgCjk8JS5OQDKaYQ',
+			name: 'Stone Blast',
 			area: "Sphere, see Radius in Score",
 			range: 30,
 			effectivenessScore: [
@@ -1831,6 +2027,8 @@ gs.spells = {
 			notes: "This spell causes a burst of stone and earth energy, dealing damage within a defined radius. The damage type is primarily blunt and is determined by the caster's shaman level and the effectiveness score. Targets may halve the damage with successful resistance checks."
 		},
 		stupor: {
+			uuid: 'Compendium.gs.spells.Item.QknpHzO76oxOjABa',
+			name: 'Stupor',
 			area: "Sphere, see Radius in Score",
 			range: 60,
 			effectivenessScore: [
@@ -1863,6 +2061,8 @@ gs.spells = {
 			notes: "This spell creates a mystical mist that induces stupor. Characters within or entering the mist must succeed on a strength resistance check or suffer penalties and potentially fall asleep. The spell's effects last as long as the caster maintains concentration."
 		},
 		tailWind: {
+			uuid: 'Compendium.gs.spells.Item.8HDuPHD1QjbBFD9e',
+			name: 'Tail Wind',
 			target: 1,
 			area: "5m Radius",
 			range: 1,
@@ -1887,6 +2087,8 @@ gs.spells = {
 			notes: "This spell hastens the speed of a vehicle and anyone walking alongside it within a 5m radius, multiplying their movement by 1.5. The effect's duration is determined by the effectiveness score. The spell has no effect if the target passes a spell resistance check."
 		},
 		thunderbolt: {
+			uuid: 'Compendium.gs.spells.Item.4r54l2SngVlxSDZ0',
+			name: 'Thunderbolt',
 			target: 1,
 			range: 30,
 			effectivenessScore: [
@@ -1914,10 +2116,14 @@ gs.spells = {
 			notes: "This spell fires an arrow of lightning that deals wind damage. If the target's spell resistance check score is at least 4 points lower than the spell use check for Thunderbolt, the target is paralyzed until their next turn ends. Damage is halved before reducing it with armor score if the target passes a spell resistance check."
 		},
 		tunnel: {
+			uuid: 'Compendium.gs.spells.Item.77D8KeD8UG3OqtDC',
+			name: 'Tunnel',
 			range: 1,
 			duration: "10 Minutes"
 		},
 		waterWalk: {
+			uuid: 'Compendium.gs.spells.Item.m5ueGoCR6g7tKkKV',
+			name: 'Water Walk',
 			range: 30,
 			effectivenessScore: [
 				{
@@ -1936,6 +2142,8 @@ gs.spells = {
 			notes: "This spell grants the target the ability to walk on the surface of water as if on solid land. The target will not sink, regardless of weight, and can move and act normally on the water's surface. If underwater, the target is immediately ejected from it. The spell has no effect if the target passes a spell resistance check."
 		},
 		weathering: {
+			uuid: 'Compendium.gs.spells.Item.hxGchsHLwQ49mwmO',
+			name: 'Weathering',
 			target: 1,
 			type: "item",
 			range: 5,
@@ -1960,6 +2168,8 @@ gs.spells = {
 			notes: "This spell accelerates time for one non-living object within reach, causing it to experience time at an accelerated rate. This acceleration has no effect on living creatures or anything with a mind. The duration and specific effects as time progresses are left to the GM's discretion, based on the context and what the caster is attempting to achieve. The spell lasts as long as the caster maintains it."
 		},
 		whirlwind: {
+			uuid: 'Compendium.gs.spells.Item.KstiYCgbwf0VwOyd',
+			name: 'Whirlwind',
 			target: 'All',
 			range: 30,
 			area: "Sphere with a radius of 5m from a center point",
@@ -1986,6 +2196,8 @@ gs.spells = {
 	},
 	wordsofTruePower: {
 		disintegrationRay: {
+			uuid: 'Compendium.gs.spells.Item.N0k5TS3VpKVBAgLY',
+			name: 'Disintegration Ray',
 			target: 'All',
 			roundsRequired: 3,
 			range: 100,
@@ -2011,6 +2223,8 @@ gs.spells = {
 			notes: "This spell emits a ray that disintegrates matter, dealing light attribute damage. If the target is not a creature, the damage is doubled before any resistances. If the target is a creature and fails their resistance check by 4 or more, it also destroys the target's armor, rendering it unusable unless repaired by a craftsman. In areas with water, the ray takes a conical shape and targets within the water gain a +4 bonus to resist this spell."
 		},
 		nuclearExplosion: {
+			uuid: 'Compendium.gs.spells.Item.dC6PyPLlCL4VOJFH',
+			name: 'Nuclear Explosion',
 			range: 60,
 			effectivenessScore: [
 				{
@@ -2036,6 +2250,8 @@ gs.spells = {
 			]
 		},
 		beastMind: {
+			uuid: 'Compendium.gs.spells.Item.TWqgHiw6xs2g2NHF',
+			name: 'Beast Mind',
 			target: {
 				casting: 'self',
 				telepathy: '1 Creature'
@@ -2043,47 +2259,8 @@ gs.spells = {
 			duration: '10 Minutes',
 		},
 		big: {
-			target: "1 Creature",
-			range: 30,
-			effectivenessScore: [
-				{
-					range: [10, 14],
-					physicalModifier: "1.5x",
-					powerArmorScoreModifier: "+2",
-					expandedReach: "No Change",
-					duration: "3 rounds"
-				},
-				{
-					range: [15, 19],
-					physicalModifier: "2x",
-					powerArmorScoreModifier: "+3",
-					expandedReach: "No Change",
-					duration: "3 rounds"
-				},
-				{
-					range: [20, 29],
-					physicalModifier: "3x",
-					powerArmorScoreModifier: "+5",
-					expandedReach: "10m",
-					duration: "6 rounds"
-				},
-				{
-					range: [30, 39],
-					physicalModifier: "5x",
-					powerArmorScoreModifier: "+7",
-					expandedReach: "15m",
-					duration: "6 rounds"
-				},
-				{
-					range: [40, 500],
-					physicalModifier: "10x",
-					powerArmorScoreModifier: "+10",
-					expandedReach: "20m",
-					duration: "10 minutes"
-				}
-			],
-		},
-		big: {
+			uuid: 'Compendium.gs.spells.Item.OUGS1TiG0ZDcfdtA',
+			name: 'Big',
 			target: '1 Creature',
 			range: 30,
 			effectivenessScore: [
@@ -2126,6 +2303,8 @@ gs.spells = {
 			notes: "Target becomes giant, receiving bonuses to physical attributes and penalties to technique. Physical changes affect movement speed and capabilities. Duration depends on effectiveness score."
 		},
 		blastWind: {
+			uuid: 'Compendium.gs.spells.Item.YZgJTMlFktcqn4gl',
+			name: 'Blast Wind',
 			area: "Line within 60m radius",
 			range: 60,
 			target: 'All',
@@ -2154,6 +2333,8 @@ gs.spells = {
 			notes: "The caster indicates a starting point and an ending point within a 60m radius, creating a gust of wind. The wind blows everything along its path unless obstructed. Effects from higher scores stack with those from lower ones."
 		},
 		blizzard: {
+			uuid: 'Compendium.gs.spells.Item.isIhus2rbxY6VLVx',
+			name: 'Blizzard',
 			area: "Cone up to 20m long, 10m wide at the widest point",
 			range: 20,
 			target: "All",
@@ -2187,6 +2368,8 @@ gs.spells = {
 			notes: "Performs a magic attack that combines water and wind damage. The caster is the point of origin. Any targets who fail a spell resistance check take a penalty to all checks except resistance checks for 3 rounds."
 		},
 		breathe: {
+			uuid: 'Compendium.gs.spells.Item.T5VJs9W83R6WvnKp',
+			name: 'Breathe',
 			area: "Target: 1 within Range",
 			range: 30,
 			effectivenessScore: [
@@ -2206,6 +2389,8 @@ gs.spells = {
 			notes: "Allows the target to breathe underwater. The target can speak, but their voice will not carry outside their immediate area. No water-attribute damage can affect the target, and they gain a +4 bonus against any negative effects from water-related elements like rain or snow."
 		},
 		charisma: {
+			uuid: 'Compendium.gs.spells.Item.R26eoNYDQlBDEcwL',
+			name: 'Charisma',
 			area: "Target: 1 within Range",
 			range: 60,
 			effectivenessScore: [
@@ -2228,10 +2413,14 @@ gs.spells = {
 			notes: "Instills the target with feelings towards the caster based on the spell's effectiveness score. If the target passes a spell resistance check, the spell has no effect. If the caster and target are currently in combat against each other, the target automatically passes spell resistance checks against this spell."
 		},
 		clumsy: {
+			uuid: 'Compendium.gs.spells.Item.e1bTJoSTj7S9MWFa',
+			name: 'Clumsy',
 			target: 1,
 			range: 60
 		},
 		confuse: {
+			uuid: 'Compendium.gs.spells.Item.qxzOc3j64tjoRh28',
+			name: 'Confuse',
 			area: "Sphere within Range",
 			range: 30,
 			effectivenessScore: [
@@ -2259,10 +2448,14 @@ gs.spells = {
 			notes: "This spell confuses the minds of all targets within a specified radius based on the effectiveness score. The effect lasts as long as the caster maintains spell maintenance. Targets within the spell's range can’t distinguish friend from foe and must choose their targets randomly from all available allies and enemies."
 		},
 		controlAnimal: {
+			uuid: 'Compendium.gs.spells.Item.eh3WSTWtVRp4YLuV',
+			name: 'Control Animal',
 			target: '1 Creature',
 			range: 60
 		},
 		counterSpell: {
+			uuid: 'Compendium.gs.spells.Item.RzyatyvgMjmBCyLe',
+			name: 'Counter Spell',
 			one: {
 				target: 'All',
 				area: '20m Radius',
@@ -2276,6 +2469,8 @@ gs.spells = {
 			}
 		},
 		createGiant: {
+			uuid: 'Compendium.gs.spells.Item.SSMDiDbP45vGKav2',
+			name: 'Create Giant',
 			area: "Reach of the caster",
 			type: "Giant",
 			effectivenessScore: [
@@ -2303,6 +2498,8 @@ gs.spells = {
 			notes: "The caster creates a giant with a level not greater than the Max Level based on the effectiveness score. The giant follows the caster's commands, which can be willed silently. The caster may command the giant to attack enemies or defend. The giant disappears after the specified duration or can be dismissed at any time by the caster."
 		},
 		createGoblin: {
+			uuid: 'Compendium.gs.spells.Item.nvB1mBSJctuw9azq',
+			name: 'Create Goblin',
 			area: 5,
 			intelligence: "Command-based",
 			effectivenessScore: [
@@ -2334,7 +2531,14 @@ gs.spells = {
 			],
 			notes: "Create Quantity goblins within Area: Reach of the caster. The intelligence of these created goblins changes to command-based. The caster, starting on their next turn, can give orders to the goblins they create; thus, the goblins are able to start acting from the next round. However, they can still make dodge checks, resistance checks, and initiative checks before that. The caster, on their turn, can use a free action to give an order to the goblins they created. This command does not have to be spoken; it can simply be willed. However, the command must be simple, such as attack that goblin over there or attack the enemy who attacked ally A. They cannot carry out complex commands (the GM should decide what counts as complex). The goblins will attempt to faithfully carry out their orders to the best of their ability. If the caster has learned Leadership (Intermediate) or higher, they can have the goblins act at the same point in the turn order as them; in addition, the caster can have the goblins grant their support effect to the caster or to one specific character the caster indicates. The created goblins exist for Duration, then vanish. The caster can make their created goblins disappear at any time."
 		},
+		createPotion: {
+			uuid: 'Compendium.gs.spells.Item.jssawiXM3Tx8kT7M',
+			name: 'Create Potion',
+			chant: 'Facio (create)…aqua (water)…sano (healing)'
+		},
 		deflectMissile: {
+			uuid: 'Compendium.gs.spells.Item.QmN8XVXJWQS00wh7',
+			name: 'Deflect Missle',
 			area: "Sphere",
 			target: 1,
 			range: 60,
@@ -2368,6 +2572,8 @@ gs.spells = {
 			notes: "Produce a magical force field of Area: Sphere with a radius based on the effectiveness score centered on Target: 1 within Range: 60m. If the target resists this spell, it will not take effect. All arrows and bolts that enter the force field from outside it are blocked and do not enter. Arrows and bolts refer to any physical arrow or bolt fired from a ranged weapon, including stone bullets, arrows, bolts, or darts from a dart gun. This does not include weapons thrown by hand or spells like Firebolt. If it is unclear whether something would be affected by this spell, the GM should make the decision. The force field lasts for Duration."
 		},
 		disgust: {
+			uuid: 'Compendium.gs.spells.Item.5oZplITD9L2nTFhQ',
+			name: 'Disgust',
 			target: 1,
 			range: 30,
 			effectivenessScore: [
@@ -2395,11 +2601,15 @@ gs.spells = {
 			notes: "Target within Range: 30m loses the will to fight. They suffer Effects for Duration. Effects granted by higher effectiveness scores stack with those of lower scores. The GM should decide finer details of the spell based on the situation. If the target passes a spell resistance check, this spell has no effect."
 		},
 		enchantFire: {
+			uuid: 'Compendium.gs.spells.Item.jbBl4Onad6qmRXzN',
+			name: 'Enchant Fire',
 			target: "1 Object",
 			range: 30,
 			duration: '6 Rounds'
 		},
 		enchantWeapon: {
+			uuid: 'Compendium.gs.spells.Item.fc5AsbNlHy3mIsd1',
+			name: 'Enchant Weapon',
 			target: "1 Object",
 			range: 1,
 			duration: "1 Hour",
@@ -2420,6 +2630,8 @@ gs.spells = {
 			notes: "Imbue Target: 1 Object in Range: Touch with magic power, adding Modifier Score to its hit modifier and power. This lasts for Duration: 1 Hour. Any melee and ranged attacks made with a targeted weapon are treated as magic attacks. However, for ranged weapons, only add the modifier score to the hit modifier, not the power. When targeting an arrow or bolt, you can add the modifier score to both the hit modifier and the power, so long as you use that arrow or bolt in a ranged attack. If the owner of the target object passes a spell resistance check, the spell has no effect."
 		},
 		fireball: {
+			uuid: 'Compendium.gs.spells.Item.nncOCc9yzHm0WEcX',
+			name: 'Fireball',
 			uuid: 'Compendium.gs.spells.Item.nncOCc9yzHm0WEcX',
 			range: 60,
 			target: "All",
@@ -2454,6 +2666,8 @@ gs.spells = {
 			notes: "Cause a ball of fire to explode within Range: 60m, causing a magic attack that deals Power points of fire damage to Target: All within the Area: Sphere with a Radius determined by the effectiveness score. In addition, a target at the center of the explosion takes +1d6 more damage. If the target passes a spell resistance check, the damage they receive is halved before reducing it with armor score."
 		},
 		firebolt: {
+			uuid: 'Compendium.gs.spells.Item.Tb1lOsVCNDQsvg9D',
+			name: 'Firebolt',
 			target: 1,
 			range: 100,
 			effectivenessScore: [
@@ -2485,6 +2699,8 @@ gs.spells = {
 			notes: "Launch an arrow of flame at Target: 1 within Range: 100m, performing a magic attack that deals Power points of fire damage. If the target passes a spell resistance check, the damage they receive is halved before reducing it with armor score."
 		},
 		float: {
+			uuid: 'Compendium.gs.spells.Item.NcpjvKxASJY5etOA',
+			name: 'Float',
 			target: "Self",
 			effectivenessScore: [
 				{
@@ -2507,6 +2723,8 @@ gs.spells = {
 			notes: "Caster becomes light enough to float on the wind, and they can freely move through the air at a Movement Speed determined by the effectiveness score. This effect lasts for as long as the caster uses spell maintenance."
 		},
 		forceField: {
+			uuid: 'Compendium.gs.spells.Item.ziXu30TRsCzTEVU3',
+			name: 'Force Field',
 			effect: "Creates a wall made of force that can change shape according to the caster's wishes.",
 			area: "Up to 100 square meters, shape encompassing a 30m radius from the caster",
 			characteristics: "The wall is invisible, can overlap with other objects, obstacles, or characters but not completely seal them unless specified by the GM. Possible to make a small opening.",
@@ -2541,12 +2759,16 @@ gs.spells = {
 			notes: "The force field remains stable for as long as the caster uses spell maintenance. If targeted by attacks or spells that deal damage, it will disappear if the damage equals or exceeds its durability as per effectiveness score."
 		},
 		foresight: {
+			uuid: 'Compendium.gs.spells.Item.Ca4Kv0IKDnWGkPME',
+			name: 'Foresight',
 			target: {
 				casting: "Self",
 				result: "1 Question"
 			}
 		},
 		gambit: {
+			uuid: 'Compendium.gs.spells.Item.h5EvJsqEQPWZCp86',
+			name: 'Gambit',
 			target: 1,
 			range: 1,
 			duration: "10 Minutes",
@@ -2580,6 +2802,8 @@ gs.spells = {
 			notes: "The caster can perform a ranged attack by throwing the small stone they filled with magical energy. On impact, whether with an enemy or with the ground if it misses, the stone will explode, dealing bludgeoning damage to all within a sphere with radius determined by the effectiveness score. If a target passes a spell resistance check, they reduce the damage by half before applying their armor score. If the target of the ranged attack is a creature, failing a spell resistance check will cause them to be surprised by the noise and bright light. Until the end of the next round, they take a -2 penalty on all checks. This spell can be used as a free action."
 		},
 		haste: {
+			uuid: 'Compendium.gs.spells.Item.614oFhgtHMrqZjCp',
+			name: 'Haste',
 			target: 1,
 			range: 30,
 			effectivenessScore: [
@@ -2611,6 +2835,8 @@ gs.spells = {
 			notes: "Doubles the movement speed of Target: 1 within Range: 30m and grants them a Modifier Score bonus to the final score on all checks, including initiative checks. Starting from the following round, if their initiative is 13 or more as a result of this effect, they can take another turn that round, with that additional turn having an initiative of 12 less. This effect lasts as long as the caster uses spell maintenance. If the target passes a spell resistance check, this spell has no effect."
 		},
 		imitation: {
+			uuid: 'Compendium.gs.spells.Item.41NgoFTij1Kf2aSz',
+			name: 'Imitation',
 			effect: "Create illusory treasures worth about 1,000 gold coins",
 			range: 1,
 			effectivenessScore: [
@@ -2630,10 +2856,14 @@ gs.spells = {
 			notes: "Those who find value in the false treasures must compare check scores (p. 128): their psyche resistance check score against the total spell use check score for Imitation. Those who win this check see the illusions for what they are. However, if they fail, they do not realize the dubiousness of the situation and believe the treasures are real and wish to obtain them. If the target fails the psyche resistance check, they are fully convinced by the illusion and may be manipulated accordingly. This can include forcing someone who wants the treasures to accept demands or potentially attacking the caster if the demands are too extreme. The illusion disappears when the Duration expires or when the caster moves at least 100 meters away. If the target passes a spell resistance check, the spell has no effect."
 		},
 		interpreter: {
+			uuid: 'Compendium.gs.spells.Item.cD3fbweoVLyHZh0K',
+			name: 'Interpreter',
 			target: 'self',
 			duration: '10 Minutes'
 		},
 		light: {
+			uuid: 'Compendium.gs.spells.Item.Or8bOGW3hZr0WdUs',
+			name: 'Light',
 			target: "1 Object",
 			range: 1,
 			area: "Radius 30m",
@@ -2654,6 +2884,8 @@ gs.spells = {
 			notes: "Causes the target object to glow or produces a floating orb of light at touch. The caster can decide the intensity of the light before casting. The orb can move up to 20m per round but has no physical effect on anything and won’t receive any damage even if it touches something harmful. When producing an orb, the caster takes a -5 penalty on their spell use check. The light illuminates up to a 30m radius and lasts for a duration determined by the effectiveness score."
 		},
 		lightning: {
+			uuid: 'Compendium.gs.spells.Item.9jNoMs80h9Hvqt1q',
+			name: 'Lightning',
 			effect: "Fires a bolt of lightning in a line from the caster",
 			target: "All in Area",
 			range: 100,
@@ -2686,6 +2918,8 @@ gs.spells = {
 			notes: "This attack deals an amount of wind damage determined by the effectiveness score in a straight line up to 100m that hits all targets in its path. If the target passes a spell resistance check, the damage is halved before reducing it with armor score."
 		},
 		lock: {
+			uuid: 'Compendium.gs.spells.Item.o8hP6xsUoNUk7tSD',
+			name: 'Lock',
 			target: "One Door, Lid, or Any Other Object",
 			range: 30,
 			effectivenessScore: [
@@ -2713,6 +2947,8 @@ gs.spells = {
 			notes: "Makes the target object become unopenable and increases its resistance to destruction by ten times. The GM should make decisions regarding means of destruction. The spell's effects last for the duration determined by the effectiveness score, but if there was already a locking mechanism or something like it, then even after the effect lapses, it remains locked."
 		},
 		mageHand: {
+			uuid: 'Compendium.gs.spells.Item.OvGxEvJ7jjVpOwWN',
+			name: 'Mage Hand',
 			target: "Self",
 			duration: "6 rounds",
 			effects: [
@@ -2732,6 +2968,8 @@ gs.spells = {
 			notes: "Creates a hand of energy that can be manipulated at will. The capabilities of the mage hand depend on the effectiveness score, which determines the range of actions and the power of the hand. All effects obtained with a higher effectiveness score include all lower effectiveness score effects, though the number of parries you gain will not change. The hand is only singular, so the caster should have a third hand."
 		},
 		mageShield: {
+			uuid: 'Compendium.gs.spells.Item.8e0LcFob0U29m7JZ',
+			name: 'Mage Shield',
 			area: "Target: Plate-Shaped Object",
 			range: "Caster's inventory",
 			effectivenessScore: [
@@ -2751,9 +2989,13 @@ gs.spells = {
 			notes: "The caster can treat any plate-shaped object as a magical shield for 10 minutes. The target must be something without a will of its own and must be in the caster's inventory or money. If the target is a shield, add a Modifier Score determined by its effectiveness score to the shield’s block modifier and block score. If the target is not a shield, it is treated as having the same data as a buckler. This shield attaches to the back of the caster's hand or to their arm, so they don’t need to hold it and can still do things like dual wield. However, if they have another shield, they can only use 1 of them for block checks. The target gains Effects: Treat this shield as proper equipment for a sorcerer. Additionally, you can add your sorcerer level to block checks using this shield."
 		},
 		magicFog: {
+			uuid: 'Compendium.gs.spells.Item.BBIWP6KCqYp3Y3B8',
+			name: 'Magic Fog',
 			area: "100m Radius, 5m height"
 		},
 		magicMissile: {
+			uuid: 'Compendium.gs.spells.Item.9MNwTi7QDGlZJ1hW',
+			name: 'Magic Missile',
 			target: 1,
 			range: 60,
 			power: "1d6 + 1 * Quantity",
@@ -2778,6 +3020,8 @@ gs.spells = {
 			notes: "Produces a quantity of energy arrows that cannot be dodged or resisted and are not affected by armor score. The caster decides how many arrows to shoot at which targets after producing them, but must decide on all targets before calculating damage. Each arrow deals 1d6+1 points of damage."
 		},
 		mindReading: {
+			uuid: 'Compendium.gs.spells.Item.lSOU5pUGdoD3yinl',
+			name: 'Mind Reading',
 			target: 1,
 			range: 30,
 			effectivenessScore: [
@@ -2797,10 +3041,14 @@ gs.spells = {
 			notes: "If the target passes a spell resistance check, the spell has no effect. If the target is sentient or is a kind of existence completely different from the caster, the target gains a +4 bonus on their spell resistance check against this spell."
 		},
 		otherSelf: {
+			uuid: 'Compendium.gs.spells.Item.L5YBLgOjDIgryhW0',
+			name: 'Other Self',
 			area: 5,
 			duration: "1 Day"
 		},
 		panic: {
+			uuid: 'Compendium.gs.spells.Item.CJcfCmIx27zNUmXl',
+			name: 'Panic',
 			area: "Sphere, Radius 15m",
 			range: 30,
 			effectivenessScore: [
@@ -2828,6 +3076,8 @@ gs.spells = {
 			notes: "This spell creates a sphere of fear. The fear lasts as long as the caster uses spell maintenance. If the target passes a spell resistance check, the spell has no effect on them. Even if a target leaves the spell’s initial area of effect, they will still be under the spell’s effects for as long as spell maintenance is active. GM should decide the finer details of the spell based on the situation."
 		},
 		quicksand: {
+			uuid: 'Compendium.gs.spells.Item.I45FAbj7lZFWzN7w',
+			name: 'Quicksand',
 			area: "Sphere, see Radius",
 			range: 30,
 			effectivenessScore: [
@@ -2851,11 +3101,15 @@ gs.spells = {
 			notes: "Changes the ground into magical quicksand that swallows any small animals or items that fall to the ground. When a character enters the quicksand or begins their turn in it, they must make a spell resistance check. If they fail, their legs are trapped, and they receive a −2 penalty on all checks each round until they escape or the spell ends. Exiting the quicksand reduces the penalty by 2 each time they try. A character can help another within the quicksand to reduce the penalty or exit quicker. Once all penalties are lost, characters regain the ability to move. This effect lasts as long as the caster maintains concentration. After the effects are lost, any creatures or objects that the quicksand swallowed will slowly be pushed back aboveground."
 		},
 		selfVision: {
+			uuid: 'Compendium.gs.spells.Item.274KfqJnckNOgt47',
+			name: 'Self Vision',
 			range: 5,
 			target: 1,
 			duration: '6 Rounds'
 		},
 		senseRisk: {
+			uuid: 'Compendium.gs.spells.Item.SMryXzZLXksIptuQ',
+			name: 'Sense Risk',
 			target: "Self",
 			effectivenessScore: [
 				{
@@ -2874,6 +3128,8 @@ gs.spells = {
 			notes: "When this spell is active, the caster will immediately know of any imminent dangers such as traps or ambushes and understand what those dangers entail. The spell's effect and duration depend on the effectiveness score achieved when casting."
 		},
 		sleep: {
+			uuid: 'Compendium.gs.spells.Item.9IVYTlFyaID1DuTW',
+			name: 'Sleep',
 			area: "Sphere, see Radius",
 			range: 60,
 			effectivenessScore: [
@@ -2901,6 +3157,8 @@ gs.spells = {
 			notes: "This spell causes all targets within the affected area to fall asleep unless they pass a spell resistance check. Those affected fall prone and cannot move or perform actions, except resistance checks. If awoken by significant stimulation or damage, targets immediately wake up. This effect lasts as long as the caster maintains spell maintenance."
 		},
 		slow: {
+			uuid: 'Compendium.gs.spells.Item.AHv3hs6NYmLfmw8R',
+			name: 'Slow',
 			area: "Sphere",
 			radius: 30,
 			effectivenessScore: [
@@ -2932,12 +3190,16 @@ gs.spells = {
 			notes: "Targets within the affected area lose half their movement speed and suffer a penalty to all checks made. If a target’s initiative goes below 0 as a result of this spell, they are completely stopped for that round, unable to make any movement or action. Flying characters lose their flight ability and fall 3 meters. The effect lasts as long as the caster maintains spell maintenance. This spell has no effect if the target passes a resistance check."
 		},
 		slowFall: {
+			uuid: 'Compendium.gs.spells.Item.pRTFjWQH7r9TG6AW',
+			name: 'Slow Fall',
 			target: 'All',
 			area: "Sphere",
 			radius: 10,
 			range: 30
 		},
 		spiderWeb: {
+			uuid: 'Compendium.gs.spells.Item.kosJtujueEfo6NcM',
+			name: 'Spider Web',
 			area: "Sphere with Radius based on the effectiveness score centered on a point within Range: 60m",
 			effectivenessScore: [
 				{
@@ -2969,6 +3231,8 @@ gs.spells = {
 			notes: "This spell creates a sticky web that adheres to any surface, trapping any characters who enter. Trapped characters are unable to move or make melee attacks and suffer a −2 penalty to all fitness checks, manipulation checks, movement checks, and other checks involving movement. They can escape by performing an escape check. The web is weak to fire; fire damage or a main action to burn it will destroy the web."
 		},
 		stoneWall: {
+			uuid: 'Compendium.gs.spells.Item.BLFuJPEUfHEcrGoK',
+			name: 'Stone Wall',
 			area: "20m from the caster",
 			effectivenessScore: [
 				{
@@ -2995,6 +3259,8 @@ gs.spells = {
 			notes: "The wall is 5m tall, 10m wide, and 50cm thick. It cannot overlap with other objects and is opaque and solid. It has an armor score of 10. If it takes damage from attacks or magic and the damage isn't a critical failure, it accumulates a wound count. If the wound count reaches the wall's durability, the wall is destroyed. After the duration, the wall crumbles and turns into earth."
 		},
 		strengthBoost: {
+			uuid: 'Compendium.gs.spells.Item.xLGbziPbbPy4NhMi',
+			name: 'Strength Boost',
 			target: "Self",
 			effectivenessScore: [
 				{
@@ -3016,10 +3282,14 @@ gs.spells = {
 			notes: "This spell increases the caster's strength and consequently their life force for a duration of 10 minutes."
 		},
 		transparent: {
+			uuid: 'Compendium.gs.spells.Item.bFmxRtFLXt6UDVJb',
+			name: 'Transparent',
 			target: "Self",
 			modifier: -6
 		},
 		unlock: {
+			uuid: 'Compendium.gs.spells.Item.hLAbLGVlnO7MgKCJ',
+			name: 'Unlock',
 			target: "Door, Lid, or Other Similar Object",
 			range: 10,
 			effectivenessScore: [
@@ -3039,6 +3309,8 @@ gs.spells = {
 			notes: "Releases the lock or similar mechanism of a target within 10 meters. The caster can choose to open the target at the same time as the spell takes effect. The effects of higher effectiveness scores include those of lower ones. The GM can decide on more specific details for the situation."
 		},
 		vision: {
+			uuid: 'Compendium.gs.spells.Item.kfdKmBLoTtAKR0y3',
+			name: 'Vision',
 			range: 30,
 			effectivenessScore: [
 				{
@@ -3065,6 +3337,8 @@ gs.spells = {
 			notes: "The caster creates and controls an illusion that is both visible and audible. The size of the illusion is determined by the effectiveness score. Observers of the illusion must make a spell resistance check to discern its nature. If they pass, they recognize it as an illusion; if they fail, they believe it is real."
 		},
 		weatherControl: {
+			uuid: 'Compendium.gs.spells.Item.ZVo2PYNETwahwa5Q',
+			name: 'Weather Control',
 			area: "3km Radius from the caster",
 			duration: "1 hour",
 			effectivenessScore: [

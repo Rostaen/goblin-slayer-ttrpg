@@ -35,43 +35,75 @@ Hooks.once("init", () => {
 	return preloadHandlebarsTemplates();
 });
 
-// Defining Enrishers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Defining Enrichers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Hooks.on("init", () => {
 	CONFIG.TextEditor.enrichers.push({
-		pattern: /\[\[\/cast (?<spellName>[^\]]+)]\]/gi, // Match [[/cast spellName]]
+		pattern: /\[\[\/cast\s*(?<spellName>[^\]]+)]\]/gi, // Match [[/cast spellName]]
 		enricher: enrichSpellCast
 	});
 });
 
 async function enrichSpellCast(match, options) {
 	const spellName = match.groups.spellName;
+	console.log("Enriching spell cast:", spellName);
+
 	const spell = await findSpellByName(spellName);
+	if (!spell) {
+		return document.createTextNode(`Spell "${spellName}" not found!`);
+	}
 
-	if (!spell)
-		return `<span class="spell-cast-error">Spell "${spellName}" not found!</span>`;
+	// Create the @UUID link
+	const uuidLink = `@UUID[${spell.uuid}]{${spell.name}}`;
 
-	const spellLink = document.createElement("a");
-	spellLink.href = "#";
-	spellLink.dataset.uuid = spell.uuid;
-	spellLink.classList.add("spell-link");
-	spellLink.innerText = spell.name;
+	// Use TextEditor.enrichHTML to process the @UUID link
+	const enrichedLink = await TextEditor.enrichHTML(uuidLink, { async: true });
 
+	// Create button for rolling the spell
 	const rollButton = document.createElement("button");
 	rollButton.classList.add("spell-cast-button");
 	rollButton.dataset.spellName = spell.name;
 	rollButton.innerHTML = `<i class="fa-solid fa-dice-d20"></i>`;
 
+	// Combine both elements into a wrapper
 	const wrapper = document.createElement("span");
 	wrapper.classList.add("spell-cast-wrapper");
-	wrapper.appendChild(spellLink);
+	wrapper.innerHTML = enrichedLink;
 	wrapper.appendChild(document.createTextNode(" > "));
 	wrapper.appendChild(rollButton);
 
-	return wrapper.outerHtml;
+	return wrapper;
+}
+
+async function findSpellByName(spellName) {
+	const spellSchools = CONFIG.gs.spells;
+	if (!spellSchools) return null;
+
+	for (const school in spellSchools) {
+		const spells = spellSchools[school];
+		const spell = Object.values(spells).find(s => s.name.toLowerCase() === spellName.toLowerCase());
+		if (spell) return spell;
+	}
+
+	return null; // Ensure the function always returns something
 }
 
 Hooks.on("renderChatMessage", (message, html) => {
+	// Handle hyperlink clicks to navigate to the compendium entry
+	html.find(".spell-link").click(async (event) => {
+		event.preventDefault(); // Prevent the default link behavior
+		const uuid = event.currentTarget.dataset.uuid;
+
+		if (uuid) {
+			const doc = await fromUuid(uuid);
+			if (doc) {
+				doc.sheet.render(true);
+			} else {
+				ui.notifications.warn(`Document with UUID "${uuid}" not found!`);
+			}
+		}
+	});
+
 	html.find(".spell-cast-button").click(async (event) => {
 		const spellName = event.currentTarget.dataset.spellName;
 

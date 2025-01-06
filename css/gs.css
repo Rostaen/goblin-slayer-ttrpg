@@ -1232,8 +1232,18 @@ table tr:nth-child(even) {
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
   cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.monster .spell-cast-button i {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2px;
 }
 .monster .spell-cast-button:hover {
   background-color: #3700b3;

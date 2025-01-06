@@ -2,6 +2,13 @@
 
 ## Recent updates
 
+### 2025-1-6
+
+- Further updates to enricher code.
+- Updating spell configuration with name field to allow enricher to work correctly.
+- Modified CSS for spell casting enricher.
+- Confirmed uuid spell conpendium links working correctly.
+
 ### 2024-12-23
 
 - Starting to add enrichers to allow monsters spell casting.
