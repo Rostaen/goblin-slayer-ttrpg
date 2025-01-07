@@ -46,7 +46,6 @@ Hooks.on("init", () => {
 
 async function enrichSpellCast(match, options) {
 	const spellName = match.groups.spellName;
-	console.log("Enriching spell cast:", spellName);
 
 	const spell = await findSpellByName(spellName);
 	if (!spell) {
@@ -88,35 +87,145 @@ async function findSpellByName(spellName) {
 	return null; // Ensure the function always returns something
 }
 
-Hooks.on("renderChatMessage", (message, html) => {
-	// Handle hyperlink clicks to navigate to the compendium entry
+Hooks.on("renderJournalSheet", handleSpellCastButtons);
+Hooks.on("renderActorSheet", handleSpellCastButtons);
+Hooks.on("renderItemSheet", handleSpellCastButtons);
+
+function handleSpellCastButtons(sheet, html) {
 	html.find(".spell-link").click(async (event) => {
-		event.preventDefault(); // Prevent the default link behavior
+		event.preventDefault();
 		const uuid = event.currentTarget.dataset.uuid;
 
 		if (uuid) {
 			const doc = await fromUuid(uuid);
-			if (doc) {
+			if (doc)
 				doc.sheet.render(true);
-			} else {
+			else
 				ui.notifications.warn(`Document with UUID "${uuid}" not found!`);
-			}
 		}
 	});
 
 	html.find(".spell-cast-button").click(async (event) => {
+		console.log("... spell cast button click", event);
 		const spellName = event.currentTarget.dataset.spellName;
-
-		const actor = game.user.character || game.actors.getName("Monster Name"); // Adjust user logic here if needed
-		const spell = actor.items.find(i => i.name === spellName && i.type === "spell");
-
-		if (spell) {
-			await spell.roll();
-		} else {
-			ui.notifications.warn(`Spell "${spellName}" not found!`);
-		}
+		const actor = game.user.character || game.actors.getName("Monster Name");
+		await castMonsterSpell(spellName, actor);
 	});
-});
+}
+
+// Casting function
+async function castMonsterSpell(spellName, actor) {
+	const spell = await findSpellByName(spellName);
+
+	if (!spell) {
+		ui.notifications.warn(`Spell "${spellName}" not found in the system!`);
+		return;
+	}
+
+	console.log("... spellName", spellName);
+	console.log("... spell", spell);
+	console.log("... actor", actor);
+	// const actorToken = actor.get(actor._id).getActiveTokens()[0];
+	// const defaultDice = '2d6';
+	// const spellId = event.currentTarget.dataset.itemid;
+	// const spells = this._getFromItemsList('spell');
+	// const spellUsed = spells.find(s => s._id === spellId);
+	// const spellDC = spellUsed.system.difficulty;
+	// let chatMessage = this._setMessageHeader(actor, spellUsed, 'spellCast');
+
+	// // Adding Spell DC to chat
+	// chatMessage += this._addToFlavorMessage('rollScore', game.i18n.localize('gs.dialog.spells.diffCheck'), spellDC);
+
+	// // Setting base hit check dice to chat window
+	// chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+
+	// // Get casting class level bonus
+	// let { classBonus, chatMessage: message, statUsed: stat } = this._getClassLevelBonus2('casting', spellUsed, chatMessage);
+	// chatMessage = message;
+
+	// // Get Skill Modifiers
+	// // Checking for Faith: XX skills
+	// let { skillBonus: tempFaithBonus, message: tempFaithMessage } = await this._faithCheck(spellUsed);
+	// if (tempFaithMessage) chatMessage += tempFaithMessage;
+
+	// // Checking Multiple Chants
+	// let { bonus: tempMChantBonus, message: tempMChantMessage } = await this._multiChantCheck();
+	// if (tempMChantMessage) chatMessage += tempMChantMessage;
+
+	// // Check for move pentalty and reduce as needed.
+	// let { message: moveMessage, movePenalty: movePen } = await this._reduceMovementPenalty();
+	// if (moveMessage) chatMessage += moveMessage;
+
+	// // Get random modifiers from Prompt
+	// let randomMods = await this._promptRandomModifiers();
+	// if (randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
+
+	// // Setting Roll Message
+	// let rollString = this._setRollMessage(defaultDice, 0, stat, classBonus, tempMChantBonus, randomMods, movePen + tempFaithBonus);
+
+	// // Rolling Dice
+	// let { roll, diceResults, rollTotal } = await this._rollDice(rollString);
+
+	// // Getting Master of XX skill (if any) to modify crit range
+	// const skills = this._getFromItemsList('skill');
+	// let masterOfXX = skills.find(s => s.name === `Master of ${spellUsed.system.elementChoice}`) || null;
+
+	// // Setting EffectScore vs DC results
+	// let effectScoreResult = rollTotal >= spellDC ? true : false;
+
+	// // Checking for Crit Success/Failure
+	// const critStatus = this._checkForCriticals(diceResults, masterOfXX);
+	// if (critStatus[0] === 'success') {
+	// 	if (effectScoreResult)
+	// 		rollTotal += 5;
+	// 	else
+	// 		rollTotal = spellDC;
+	// 	chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+	// 	chatMessage += `${critStatus[1]}`;
+	// } else if (critStatus[0] === 'normal') {
+	// 	chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+	// } else if (critStatus[0] === 'fail') {
+	// 	chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
+	// 	rollTotal = 0;
+	// 	effectScoreResult = false;
+	// }
+	// chatMessage += this._checkEffectResulsts(effectScoreResult);
+
+	// // TODO: Add extra dice for specific spells here
+	// let results = null;
+	// if (effectScoreResult)
+	// 	results = this._addEffectiveResults(spellUsed, rollTotal);
+
+	// // Adding to chatMessage if anything is there
+	// let diceHold = null;
+	// if (results) {
+	// 	let tempTargets;
+	// 	for (let x = 0; x < results.length; x++) {
+	// 		if (x === 2)
+	// 			chatMessage += results[x];
+	// 		if (x === 1) {
+	// 			for (const [key, item] of Object.entries(results[1])) {
+	// 				if (key === 'recovery' || key === 'power')
+	// 					diceHold = this._setSpellPowerDice(key, item, spellUsed, tempTargets, rollTotal);
+	// 			}
+	// 		}
+	// 		if (x === 0)
+	// 			tempTargets = results[0];
+	// 	}
+	// }
+
+	// // Adding dice button to end of message if true
+	// if (diceHold)
+	// 	chatMessage += diceHold;
+
+	// // Sending dice rolls to chat window
+	// await roll.toMessage({
+	// 	speaker: { actor: actor },
+	// 	flavor: chatMessage,
+	// 	// author: game.user
+	// 	// content: Change dice rolls and other items here if needed
+	// });
+}
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

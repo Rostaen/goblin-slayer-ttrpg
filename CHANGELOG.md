@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2025-1-7
+
+- Modifications to get the text editor enricher to begin casting spells.
+
 ### 2025-1-6
 
 - Further updates to enricher code.
