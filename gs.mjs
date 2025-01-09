@@ -39,13 +39,14 @@ Hooks.once("init", () => {
 
 Hooks.on("init", () => {
 	CONFIG.TextEditor.enrichers.push({
-		pattern: /\[\[\/cast\s*(?<spellName>[^\]]+)]\]/gi, // Match [[/cast spellName]]
+		pattern: /\[\[\/cast "(?<spellName>[^"]+)"(?: (?<checkFormula>[^\]]+))?]]/gi,
 		enricher: enrichSpellCast
 	});
 });
 
 async function enrichSpellCast(match, options) {
-	const spellName = match.groups.spellName;
+	// Extract spell name and check formula
+	const { spellName, checkFormula } = match.groups;
 
 	const spell = await findSpellByName(spellName);
 	if (!spell) {
@@ -58,17 +59,18 @@ async function enrichSpellCast(match, options) {
 	// Use TextEditor.enrichHTML to process the @UUID link
 	const enrichedLink = await TextEditor.enrichHTML(uuidLink, { async: true });
 
-	// Create button for rolling the spell
+	// Create button for rolling the spell with the spell check formula
 	const rollButton = document.createElement("button");
 	rollButton.classList.add("spell-cast-button");
 	rollButton.dataset.spellName = spell.name;
+	rollButton.dataset.checkFormula = checkFormula;
 	rollButton.innerHTML = `<i class="fa-solid fa-dice-d20"></i>`;
 
 	// Combine both elements into a wrapper
 	const wrapper = document.createElement("span");
 	wrapper.classList.add("spell-cast-wrapper");
 	wrapper.innerHTML = enrichedLink;
-	wrapper.appendChild(document.createTextNode(" > "));
+	wrapper.appendChild(document.createTextNode(` > `));
 	wrapper.appendChild(rollButton);
 
 	return wrapper;
@@ -106,51 +108,46 @@ function handleSpellCastButtons(sheet, html) {
 	});
 
 	html.find(".spell-cast-button").click(async (event) => {
-		console.log("... spell cast button click", event);
 		const spellName = event.currentTarget.dataset.spellName;
-		const actor = game.user.character || game.actors.getName("Monster Name");
-		await castMonsterSpell(spellName, actor);
+		const checkFormula = event.currentTarget.dataset.checkFormula;
+		const actor = sheet.actor;
+		await castMonsterSpell(spellName, actor, checkFormula);
 	});
 }
 
 // Casting function
-async function castMonsterSpell(spellName, actor) {
+async function castMonsterSpell(spellName, actor, checkFormula) {
 	const spell = await findSpellByName(spellName);
 
+	// Check if spell is spelt correctly, else return early
 	if (!spell) {
 		ui.notifications.warn(`Spell "${spellName}" not found in the system!`);
 		return;
 	}
 
-	console.log("... spellName", spellName);
-	console.log("... spell", spell);
-	console.log("... actor", actor);
-	// const actorToken = actor.get(actor._id).getActiveTokens()[0];
-	// const defaultDice = '2d6';
-	// const spellId = event.currentTarget.dataset.itemid;
-	// const spells = this._getFromItemsList('spell');
-	// const spellUsed = spells.find(s => s._id === spellId);
-	// const spellDC = spellUsed.system.difficulty;
-	// let chatMessage = this._setMessageHeader(actor, spellUsed, 'spellCast');
+	// Retrieve spell document from compendium using uuid, else return early
+	const spellDoc = await fromUuid(spell.uuid);
+	if (!spellDoc) {
+		ui.notifications.warn(`Spell document for "${spellName}" not found!`);
+		return;
+	}
 
-	// // Adding Spell DC to chat
-	// chatMessage += this._addToFlavorMessage('rollScore', game.i18n.localize('gs.dialog.spells.diffCheck'), spellDC);
+	const actorToken = actor.token;
+	const defaultDice = '2d6';
 
-	// // Setting base hit check dice to chat window
-	// chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+	// Retrieving spell DC for later use.
+	const spellDC = spellDoc.system.difficulty;
 
-	// // Get casting class level bonus
-	// let { classBonus, chatMessage: message, statUsed: stat } = this._getClassLevelBonus2('casting', spellUsed, chatMessage);
-	// chatMessage = message;
-
-	// // Get Skill Modifiers
-	// // Checking for Faith: XX skills
-	// let { skillBonus: tempFaithBonus, message: tempFaithMessage } = await this._faithCheck(spellUsed);
-	// if (tempFaithMessage) chatMessage += tempFaithMessage;
-
-	// // Checking Multiple Chants
-	// let { bonus: tempMChantBonus, message: tempMChantMessage } = await this._multiChantCheck();
-	// if (tempMChantMessage) chatMessage += tempMChantMessage;
+	// Setup chatmessage string
+	let chatMessage = `<div class="chat messageHeader grid grid-7col">
+		<img src='${actorToken.texture.src}'><h2 class="actorName grid-span-6">${spell.name}: ${game.i18n.localize('gs.dialog.spells.useCheck')}</h2>
+	</div>`;
+	// Adding Spell DC to chat
+	chatMessage += addToFlavorMessage('rollScore', game.i18n.localize('gs.dialog.spells.diffCheck'), spellDC);
+	// Setting base hit check dice to chat window
+	chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
+	// Setting monster modifier
+	chatMessage += addToFlavorMessage('skillScore', game.i18n.localize('gs.gear.spells.mds'), '+' + checkFormula.split("+")[1]);
 
 	// // Check for move pentalty and reduce as needed.
 	// let { message: moveMessage, movePenalty: movePen } = await this._reduceMovementPenalty();
@@ -160,59 +157,32 @@ async function castMonsterSpell(spellName, actor) {
 	// let randomMods = await this._promptRandomModifiers();
 	// if (randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
 
-	// // Setting Roll Message
-	// let rollString = this._setRollMessage(defaultDice, 0, stat, classBonus, tempMChantBonus, randomMods, movePen + tempFaithBonus);
+	console.log("... checking chat message", chatMessage);
 
-	// // Rolling Dice
-	// let { roll, diceResults, rollTotal } = await this._rollDice(rollString);
+	const roll = new Roll(checkFormula);
+	await roll.evaluate();
 
-	// // Getting Master of XX skill (if any) to modify crit range
-	// const skills = this._getFromItemsList('skill');
-	// let masterOfXX = skills.find(s => s.name === `Master of ${spellUsed.system.elementChoice}`) || null;
+	console.log('... check roll results', roll);
 
-	// // Setting EffectScore vs DC results
-	// let effectScoreResult = rollTotal >= spellDC ? true : false;
+	// Setting EffectScore vs DC results
+	let effectScoreResult = roll.total >= spellDC ? true : false;
 
-	// // Checking for Crit Success/Failure
-	// const critStatus = this._checkForCriticals(diceResults, masterOfXX);
-	// if (critStatus[0] === 'success') {
-	// 	if (effectScoreResult)
-	// 		rollTotal += 5;
-	// 	else
-	// 		rollTotal = spellDC;
-	// 	chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
-	// 	chatMessage += `${critStatus[1]}`;
-	// } else if (critStatus[0] === 'normal') {
-	// 	chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
-	// } else if (critStatus[0] === 'fail') {
-	// 	chatMessage += this._addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), rollTotal);
-	// 	rollTotal = 0;
-	// 	effectScoreResult = false;
-	// }
-	// chatMessage += this._checkEffectResulsts(effectScoreResult);
-
-	// // TODO: Add extra dice for specific spells here
-	// let results = null;
-	// if (effectScoreResult)
-	// 	results = this._addEffectiveResults(spellUsed, rollTotal);
-
-	// // Adding to chatMessage if anything is there
-	// let diceHold = null;
-	// if (results) {
-	// 	let tempTargets;
-	// 	for (let x = 0; x < results.length; x++) {
-	// 		if (x === 2)
-	// 			chatMessage += results[x];
-	// 		if (x === 1) {
-	// 			for (const [key, item] of Object.entries(results[1])) {
-	// 				if (key === 'recovery' || key === 'power')
-	// 					diceHold = this._setSpellPowerDice(key, item, spellUsed, tempTargets, rollTotal);
-	// 			}
-	// 		}
-	// 		if (x === 0)
-	// 			tempTargets = results[0];
-	// 	}
-	// }
+	// Checking for Crit Success/Failure
+	const critStatus = _checkForCriticals(roll);
+	if (critStatus[0] === 'success') {
+		if (effectScoreResult)
+			roll.total += 5;
+		else
+			roll.total = spellDC;
+		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), roll.total);
+		chatMessage += `${critStatus[1]}`;
+	} else if (critStatus[0] === 'normal') {
+		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), roll.total);
+	} else if (critStatus[0] === 'fail') {
+		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), roll.total);
+		effectScoreResult = false;
+	}
+	chatMessage += _checkEffectResulsts(effectScoreResult);
 
 	// // Adding dice button to end of message if true
 	// if (diceHold)
@@ -225,9 +195,45 @@ async function castMonsterSpell(spellName, actor) {
 	// 	// author: game.user
 	// 	// content: Change dice rolls and other items here if needed
 	// });
+
+	sendRollToWindow(roll, chatMessage, actor);
+}
+
+function _checkForCriticals(roll) {
+	let critSuccess = 12, critFail = 2, results = [], diceResultTotal = roll.result.split(' + ')[0];
+
+	// Comparing results to [un]modified crit ranges
+	if (diceResultTotal <= critFail) {
+		results[0] = 'fail';
+		results[1] = `<div class='critFailColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.fail")}</div>`;
+	} else if (diceResultTotal >= critSuccess) {
+		results[0] = 'success';
+		results[1] = `<div class='critSuccessColor'>${game.i18n.localize("gs.dialog.crits.crit")} ${game.i18n.localize("gs.dialog.crits.succ")}</div>`;
+	} else {
+		results[0] = 'normal';
+		results[1] = '';
+	}
+	return results;
+}
+
+function _checkEffectResulsts(effectScoreResult) {
+	if (effectScoreResult)
+		return addToFlavorMessage('spellCastSuccess', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.succ'));
+	else
+		return addToFlavorMessage('spellCastFailure', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.fail'));
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// Sending roll to chatWindow
+function sendRollToWindow(roll, chatMessage, player) {
+	const token = player.getActiveTokens()[0];
+	roll.toMessage({
+		speaker: { alias: token.name },
+		flavor: chatMessage,
+		author: game.user
+	});
+}
 
 Hooks.on('renderChatMessage', (app, html, data) => {
 
@@ -281,16 +287,6 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	// Helper to find gear
 	function findItems(player, type) {
 		return player.items.find(i => i.type === type);
-	}
-
-	// Sending roll to chatWindow
-	function sendRollToWindow(roll, chatMessage, player) {
-		const token = player.getActiveTokens()[0];
-		roll.toMessage({
-			speaker: { alias: token.name },
-			flavor: chatMessage,
-			author: game.user
-		});
 	}
 
 	// Helper function to find equipped armor or shields

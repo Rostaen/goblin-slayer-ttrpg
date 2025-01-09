@@ -2,6 +2,15 @@
 
 ## Recent updates
 
+### 2025-1-9
+
+- Enricher updated to include spell casting use check roll.
+- Casting enricher rolls monster spell use to chat window.
+
+### 2025-1-8
+
+- Working through getting spell details and creating chat window message.
+
 ### 2025-1-7
 
 - Modifications to get the text editor enricher to begin casting spells.
