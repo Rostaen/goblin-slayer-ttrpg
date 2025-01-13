@@ -2,6 +2,10 @@
 
 ## Recent updates
 
+### 2025-1-13
+
+- Updated monster spells to check for effectiveness results.
+
 ### 2025-1-9
 
 - Enricher updated to include spell casting use check roll.

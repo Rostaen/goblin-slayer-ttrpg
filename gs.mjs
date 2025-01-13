@@ -184,17 +184,13 @@ async function castMonsterSpell(spellName, actor, checkFormula) {
 	}
 	chatMessage += _checkEffectResulsts(effectScoreResult);
 
-	// // Adding dice button to end of message if true
-	// if (diceHold)
-	// 	chatMessage += diceHold;
-
-	// // Sending dice rolls to chat window
-	// await roll.toMessage({
-	// 	speaker: { actor: actor },
-	// 	flavor: chatMessage,
-	// 	// author: game.user
-	// 	// content: Change dice rolls and other items here if needed
-	// });
+	// If spell is effective, check power increase and set roll power button
+	if (effectScoreResult) {
+		let results = _addEffectiveResults(actor, spell, roll.total);
+		console.log('... checking spell effectiveness results', spell, results);
+		if (results[2])
+			chatMessage += results[2];
+	}
 
 	sendRollToWindow(roll, chatMessage, actor);
 }
@@ -223,6 +219,34 @@ function _checkEffectResulsts(effectScoreResult) {
 		return addToFlavorMessage('spellCastFailure', game.i18n.localize('gs.dialog.spells.cast'), game.i18n.localize('gs.dialog.crits.fail'));
 }
 
+function _addEffectiveResults(actor, spell, rollTotal) {
+	let configSpell;
+	let results = [];
+
+	// Grabbling spell effect score range and modifications
+	configSpell = spell.effectivenessScore;
+
+	// Adding target info to results
+	results.push(spell.target);
+
+	configSpell.forEach(s => {
+		if (rollTotal >= s.range[0] && rollTotal <= s.range[1]) {
+			results.push(s);
+		}
+	});
+
+	for (let [key, item] of Object.entries(results[1])) {
+		if (key === 'power') {
+			let tempSpellPower = item.split(" + ");
+			let newSpellPower = `${tempSpellPower.slice(0, -1).join(" + ")} + ${actor.system.lifeForce.double}`;
+			results[1].power = newSpellPower;
+			results.push(addToFlavorMessage('armorDodgeScore', game.i18n.localize('gs.actor.character.power'), newSpellPower));
+		}
+	}
+
+	return results;
+}
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Sending roll to chatWindow
@@ -234,6 +258,27 @@ function sendRollToWindow(roll, chatMessage, player) {
 		author: game.user
 	});
 }
+
+/**
+ * Helper function to set the target for spells and attacks.
+ * @param {JSON} t target information for the attack or spell.
+ * @param {*} playerId attacker ID string from JSON.
+ * @param {string} spellType Either "recovery" or "attack" to help determin what buttons to be used.
+ * @param {int} rollTotal The total from the dice roll to make the attack.
+ * @param {int} spellEffectiveness the DC of the spell being cast.
+ * @returns A message to be attached to the chatMessage object.
+ */
+const setTarget = (t, playerId, spellType, rollTotal, spellEffectiveness) => {
+	let message = `<div class="target grid grid-8col">
+		<img class="targetImg" src="${t.document.texture.src}">
+		<h3 class="targetName grid-span-6">${t.document.name}</h3>`;
+	message += spellType === 'recovery' ?
+		`<button type="button" class="applyHealing" data-targetid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}"title="${game.i18n.localize('gs.dialog.applyHealing')}"><i class="fa-solid fa-heart-pulse"></i></button>`
+		:
+		`<button type="button" class="monsterSpellResist gm-view" data-spelldc="${spellEffectiveness}" data-monsterid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}" title="${game.i18n.localize('gs.actor.monster.supportEffect.spellResist')}"><i class="fa-solid fa-shield-virus"></i></button>`;
+	message += `</div>`;
+	return message;
+};
 
 Hooks.on('renderChatMessage', (app, html, data) => {
 
@@ -509,27 +554,14 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		if (targets.length > 0)
 			chatMessage += `<h2 class="targetsLabel">${game.i18n.localize('gs.dialog.mowDown.targets')}</h2>`;
 
-		// Target setting helper function
-		const setTarget = (t, playerId, spellType, rollTotal) => {
-			let message = `<div class="target grid grid-8col">
-				<img class="targetImg" src="${t.document.texture.src}">
-				<h3 class="targetName grid-span-6">${t.document.name}</h3>`;
-			message += spellType === 'recovery' ?
-				`<button type="button" class="applyHealing" data-targetid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}"title="${game.i18n.localize('gs.dialog.applyHealing')}"><i class="fa-solid fa-heart-pulse"></i></button>`
-				:
-				`<button type="button" class="monsterSpellResist gm-view" data-spelldc="${spellEffectiveness}" data-monsterid="${t.document.actorId}" data-rolltotal="${rollTotal}" data-playerid="${playerId}" title="${game.i18n.localize('gs.actor.monster.supportEffect.spellResist')}"><i class="fa-solid fa-shield-virus"></i></button>`;
-			message += `</div>`;
-			return message;
-		};
-
 		// Getting roll total
 		let rollTotal = roll.total;
 
 		// Checking number of targets to add to chat window correctly
 		if (numTargets.toLowerCase() === 'all')
-			targets.forEach(t => chatMessage += setTarget(t, playerId, spellKey, rollTotal));
+			targets.forEach(t => chatMessage += setTarget(t, playerId, spellKey, rollTotal, spellEffectiveness));
 		else if (numTargets === '1')
-			chatMessage += setTarget(targets[0], playerId, spellKey, rollTotal);
+			chatMessage += setTarget(targets[0], playerId, spellKey, rollTotal, spellEffectiveness);
 
 		// Sending results to chatwindow
 		sendRollToWindow(roll, chatMessage, player);
