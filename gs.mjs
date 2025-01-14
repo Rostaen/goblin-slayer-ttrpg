@@ -148,48 +148,50 @@ async function castMonsterSpell(spellName, actor, checkFormula) {
 	chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.dialog.dice'), defaultDice);
 	// Setting monster modifier
 	chatMessage += addToFlavorMessage('skillScore', game.i18n.localize('gs.gear.spells.mds'), '+' + checkFormula.split("+")[1]);
-
-	// // Check for move pentalty and reduce as needed.
-	// let { message: moveMessage, movePenalty: movePen } = await this._reduceMovementPenalty();
-	// if (moveMessage) chatMessage += moveMessage;
-
-	// // Get random modifiers from Prompt
-	// let randomMods = await this._promptRandomModifiers();
-	// if (randomMods) chatMessage += this._addToFlavorMessage('miscScore', game.i18n.localize('gs.dialog.miscMod'), randomMods);
-
-	console.log("... checking chat message", chatMessage);
-
+	// Setting up new roll with attack formula
 	const roll = new Roll(checkFormula);
 	await roll.evaluate();
-
-	console.log('... check roll results', roll);
-
 	// Setting EffectScore vs DC results
 	let effectScoreResult = roll.total >= spellDC ? true : false;
-
 	// Checking for Crit Success/Failure
 	const critStatus = _checkForCriticals(roll);
-	if (critStatus[0] === 'success') {
-		if (effectScoreResult)
-			roll.total += 5;
-		else
-			roll.total = spellDC;
+	if (critStatus[0]) {
 		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), roll.total);
-		chatMessage += `${critStatus[1]}`;
-	} else if (critStatus[0] === 'normal') {
-		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), roll.total);
-	} else if (critStatus[0] === 'fail') {
-		chatMessage += addToFlavorMessage('diceInfo', game.i18n.localize('gs.gear.spells.efs'), roll.total);
-		effectScoreResult = false;
+		if (critStatus[0] === 'success') {
+			if (effectScoreResult)
+				roll.total += 5;
+			else
+				roll.total = spellDC;
+			chatMessage += `${critStatus[1]}`;
+		} else if (critStatus[0] === 'fail') {
+			effectScoreResult = false;
+		}
 	}
-	chatMessage += _checkEffectResulsts(effectScoreResult);
 
 	// If spell is effective, check power increase and set roll power button
+	let spellPowerDiceHold = '';
 	if (effectScoreResult) {
 		let results = _addEffectiveResults(actor, spell, roll.total);
-		console.log('... checking spell effectiveness results', spell, results);
-		if (results[2])
-			chatMessage += results[2];
+		if (results) {
+			let tempTargets;
+			for (let x = 0; x < results.length; x++) {
+				if (x === 2)
+					chatMessage += results[x];
+				if (x === 1) {
+					for (const [key, item] of Object.entries(results[1])) {
+						if (key === 'recovery' || key === 'power')
+							spellPowerDiceHold += _setSpellPowerDice(key, item, spell, tempTargets, roll.total, actor);
+					}
+				}
+				if (x === 0)
+					tempTargets = results[0];
+			}
+		}
+		// Adding effectiveness indicator
+		chatMessage += _checkEffectResulsts(effectScoreResult);
+		// If spell use is effective, add button to chat window
+		if (spellPowerDiceHold)
+			chatMessage += spellPowerDiceHold;
 	}
 
 	sendRollToWindow(roll, chatMessage, actor);
@@ -245,6 +247,14 @@ function _addEffectiveResults(actor, spell, rollTotal) {
 	}
 
 	return results;
+}
+
+function _setSpellPowerDice(key, extractedDice, spell, targets, spellDC, actor) {
+	console.log('... check spell data', spell);
+	return `<div class='spellTarget grid grid-2col'>
+		<div style="display:flex; justify-content: center; align-items: center; font-size: 14px;">${game.i18n.localize('gs.dialog.spells.rolldice')}</div>
+		<button type="button" class="actorSpellDmg" data-spelldc="${spellDC}" data-targets="${targets}" data-keytype="${key}" data-rolldice="${extractedDice}" data-playerid="${actor._id}" data-spell="${spell.uuid}"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+	</div>`;
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -482,6 +492,7 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 	html.find(".actorSpellDmg").click(async event => {
 		event.preventDefault();
 		const targets = Array.from(game.user.targets);
+		console.log('... checking targets', targets);
 
 		// Check if targets selected, else return early.
 		if (targets.length === 0) {
@@ -494,10 +505,13 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		const player = game.actors.get(playerId);
 		const spellId = button.dataset.spell;
 		const spellKey = button.dataset.keytype;
-		const spellUsed = player.items.find(i => i._id === spellId);
+		let spellUsed = player.items.find(i => i._id === spellId);
+		// Added to monster spell usage.
+		if (spellUsed === undefined)
+			spellUsed = await fromUuid(spellId);
 		const spellSchool = spellUsed.system.schoolChoice;
 		const spellEffectiveness = button.dataset.spelldc;
-		const playerClassLvls = player.system.levels.classes;
+		const playerClassLvls = player.system.levels?.classes || 0;
 		const diceToRoll = button.dataset.rolldice;
 		const numTargets = button.dataset.targets;
 		let levelBonus = 0, classNameFlag = '';
@@ -521,7 +535,10 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 			"Words of True Power": 'sorcerer',
 			"Necromancy": "necro"
 		};
-		if (diceArray.pop() === 'Level') {
+
+		// Updated to properly look at the last array for 'Level' if a character and remove it as required
+		if (diceArray.at(-1) === 'Level') {
+			diceArray.pop();
 			if (spellSchools[spellSchool]) {
 				levelBonus = playerClassLvls[spellSchools[spellSchool]];
 				classNameFlag = game.i18n.localize(`gs.actor.character.${spellSchools[spellSchool]}`);
@@ -558,9 +575,10 @@ Hooks.on('renderChatMessage', (app, html, data) => {
 		let rollTotal = roll.total;
 
 		// Checking number of targets to add to chat window correctly
+		console.log('... num of targets', numTargets);
 		if (numTargets.toLowerCase() === 'all')
 			targets.forEach(t => chatMessage += setTarget(t, playerId, spellKey, rollTotal, spellEffectiveness));
-		else if (numTargets === '1')
+		else if (numTargets === '1' || numTargets === '1 target')
 			chatMessage += setTarget(targets[0], playerId, spellKey, rollTotal, spellEffectiveness);
 
 		// Sending results to chatwindow

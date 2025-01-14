@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+### 2025-1-14
+
+- Spell Power attack button showing if monster spell cast attack is effective.
+- Spell power rolls are active and targeting is working for monster casting.
+
 ### 2025-1-13
 
 - Updated monster spells to check for effectiveness results.
