@@ -2,6 +2,15 @@
 
 ## Recent updates
 
+### 2025-4-8
+
+- Updated all monsters to ensure HP shows on tokens, names show on hover for all, HP bars show on hover for GM, multiple monsters drawn out to game board use adjectives rather than numbers.
+- Updated ReadMe.md file.
+- Created new HowTo.md file and moved how to use the game system files from readme to howto.
+- Monsters now cast magic from their character sheet. The remaining actions are taken in the chat window.
+- Updated Polish localization file.
+- Created Spanish, German, French, and Japanese localization using ChatGPT o3-mini-high.
+
 ### 2025-1-14
 
 - Spell Power attack button showing if monster spell cast attack is effective.

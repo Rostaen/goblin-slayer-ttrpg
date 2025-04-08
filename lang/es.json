@@ -1,0 +1,673 @@
+{
+  "TYPES": {
+    "Item": {
+      "weapon": "Armas",
+      "armor": "Armadura",
+      "shield": "Escudos",
+      "item": "Objetos",
+      "spell": "Hechizos",
+      "skill": "Habilidades",
+      "race": "Raza",
+      "martialtechniques": "Técnicas Marciales"
+    },
+    "Actor": {
+      "character": "Personaje Devoto",
+      "fate": "Destino",
+      "monster": "Personaje no devoto",
+      "mount": "Monturas"
+    }
+  },
+  "gs": {
+    "sheets": {
+      "actor": "Ficha de Personaje de Goblin Slayer",
+      "item": "Ficha de Objeto de Goblin Slayer"
+    },
+    "gear": {
+      "common": {
+        "nam": "Nombre",
+        "val": "Valor (plata)",
+        "eff": "Efectos",
+        "ste": "Sigilo",
+        "typ": "Tipo",
+        "des": "Descripción"
+      },
+      "weapons": {
+        "use": "Uso",
+        "att": "Atributo",
+        "pow": "Poder",
+        "hit": "Mod. Golpe",
+        "ran": "Alcance",
+        "resistance": "Resistencia",
+        "effects": {
+          "bind": "Inmovilizar",
+          "noParry": "No puede parar",
+          "mFThrow": "Hecho para lanzar",
+          "massive": "Masivo",
+          "nThrow": "No arrojable",
+          "parry": "Parada",
+          "pierce": "Perforar",
+          "rFire": "Fuego rápido",
+          "restraint": "Contención",
+          "retrieve": "Recuperable",
+          "slice": "Cortar",
+          "sbBludg": "SB: Aplastante",
+          "sbSlash": "SB: Cortante",
+          "throw": "Lanzable",
+          "throwSpc": "Especialización en lanzamiento",
+          "miracles": "Milagros",
+          "ancDragon": "Anc. Dragón",
+          "spirit": "Artes del Espíritu",
+          "wotp": "Poder Verdadero",
+          "necro": "Nigromancia"
+        }
+      },
+      "armor": {
+        "sco": "Puntuación",
+        "dod": "Mod. Esquiva",
+        "mov": "Mod. Movimiento",
+        "hea": "Pesado"
+      },
+      "shield": {
+        "mod": "Mod. Bloqueo",
+        "sco": "Puntuación de Bloqueo"
+      },
+      "items": {
+        "nam": "Nombre",
+        "des": "Descripción",
+        "movePen": "Penalización de Movimiento"
+      },
+      "spells": {
+        "sys": "Sistema",
+        "efs": "Puntuación de Efectividad",
+        "pen": "Penalización",
+        "rad": "Radio",
+        "dur": "Duración",
+        "siz": "Tamaño",
+        "phy": "Modificador Físico (Altura, Peso, Velocidad de Movimiento)",
+        "sco": "Modificador de Puntuación de Poder/Armadura",
+        "exr": "Alcance Expandido",
+        "mds": "Puntuación de Modificador",
+        "mvs": "Velocidad de Movimiento",
+        "qua": "Cantidad",
+        "sum": "Resumen",
+        "dif": "Dificultad",
+        "cha": "Cántico",
+        "cat": "Catalizador",
+        "wor": "Palabras del Poder Verdadero",
+        "mir": "Milagro",
+        "anc": "Dragón Ancestral",
+        "spi": "Artes del Espíritu",
+        "nec": "Nigromancia",
+        "att": "Ataque",
+        "imb": "Imbuición",
+        "cre": "Creación",
+        "con": "Control",
+        "hea": "Curación",
+        "gen": "General",
+        "fir": "Fuego",
+        "wat": "Agua",
+        "ear": "Tierra",
+        "win": "Viento",
+        "lig": "Luz",
+        "dar": "Oscuridad",
+        "lif": "Vida",
+        "min": "Mente",
+        "mat": "Materia",
+        "tim": "Tiempo",
+        "spa": "Espacio",
+        "none": "Ninguno"
+      },
+      "skills": {
+        "gra": "Grado de Maestría",
+        "pre": "Requisito",
+        "beg": "Principiante",
+        "int": "Intermedio",
+        "exp": "Experto",
+        "mas": "Maestro",
+        "leg": "Leyenda",
+        "adv": "Aventurero",
+        "gen": "General"
+      },
+      "mTech": {
+        "overview": "Visión general",
+        "descrip": "Descripción",
+        "usable": "Armas Usables",
+        "related": "Habilidades Relacionadas",
+        "cost": "Costo",
+        "condition": "Condición",
+        "details": "Detalles"
+      },
+      "equipment": "Equipo",
+      "equip": "Equipar"
+    },
+    "actor": {
+      "common": {
+        "life": "Vida",
+        "lFor": "Fuerza Vital",
+        "spRe": "Resistencia a Hechizos",
+        "move": "Movimiento",
+        "modMove": "Mod. Movimiento",
+        "leve": "Nivel",
+        "max": "Máximo",
+        "slash": "Corte",
+        "bludg": "Contundente",
+        "pierc": "Perforante",
+        "other": "Otro",
+        "init": "Iniciativa",
+        "roll": "Tirada",
+        "ed": "ed"
+      },
+      "character": {
+        "rank": "Rango",
+        "abil": "Puntuaciones de Habilidad",
+        "pri": "Primario",
+        "sec": "Secundario",
+        "rac": "Raza",
+        "age": "Edad",
+        "gen": "Género",
+        "his": "Historia",
+        "phy": "Rasgos Físicos",
+        "hai": "Cabello",
+        "eye": "Ojos",
+        "oth": "Otra Información",
+        "str": "Fuerza",
+        "psy": "Psique",
+        "tec": "Técnica",
+        "int": "Inteligencia",
+        "foc": "Enfoque",
+        "end": "Resistencia",
+        "ref": "Reflejos",
+        "exp": "Pts. Exp.",
+        "cum": "Pts. Acumulados",
+        "cur": "Pts. Actuales",
+        "adv": "Pts. de Avance",
+        "ads": "Aventuras",
+        "com": "Completadas",
+        "lvl": "Nivel de Avance",
+        "status": "Estado",
+        "wounds": "Heridas",
+        "spUse": "Usos de Hechizos",
+        "base": "Base",
+        "clWd": "Niveles de Clase",
+        "figh": "Guerrero",
+        "monk": "Monje",
+        "rang": "Ranger",
+        "scou": "Explorador",
+        "sorcerer": "Hechicero",
+        "priest": "Sacerdote",
+        "dragon": "Sacerdote Dragón",
+        "shaman": "Chamán",
+        "necro": "Nigromante",
+        "fatW": "Fatiga",
+        "pena": "Penalización",
+        "ran1": "-1 a todas las puntuaciones",
+        "ran2": "-2 a todas las pruebas. Velocidad de movimiento reducida a la mitad.",
+        "ran3": "-3 a todas las pruebas. Fuerza vital y velocidad de movimiento reducidas a la mitad.",
+        "ran4": "Inconsciente. -4 a todas las pruebas. Fuerza vital y velocidad de movimiento reducidas a la mitad.",
+        "ran5": "Muerte.",
+        "attr": "Atrición",
+        "advSW": "Habilidades del Aventurero",
+        "genSW": "Habilidades Generales",
+        "mast": "Grado de Maestría",
+        "effe": "Efecto",
+        "page": "Página",
+        "scor": "Puntuación",
+        "lear": "Nombre del Hechizo Aprendido",
+        "syst": "Sistema de Hechizos",
+        "hit": "Golpe",
+        "basic": "Básico",
+        "dodge": "Esquiva",
+        "block": "Bloqueo",
+        "skills": "Habilidades",
+        "melee": "Cuerpo a Cuerpo",
+        "throw": "Lanzamiento",
+        "weapon": "Arma",
+        "armor": "Armadura",
+        "shield": "Escudo",
+        "usage": "Uso/Atributos",
+        "modi": "Modificador",
+        "total": "Total",
+        "power": "Poder",
+        "ste": "Sigilo",
+        "damage": "Daño",
+        "effective": "Efectividad",
+        "table": "Tabla",
+        "bonus": "Bono",
+        "under": "y menores",
+        "over": "y mayores",
+        "none": "Ninguno",
+        "poss": "Posesiones",
+        "advT": "Herramientas de Aventura (Cuerda, 10m; cuña x10; martillo pequeño; yesquero; mochila; bolsa de agua; raciones portátiles; tiza blanca; cuchillo pequeño; antorcha x6)",
+        "rati": "Raciones (7 días)",
+        "clot": "Ropa",
+        "money": "Dinero",
+        "gold": "Oro",
+        "silv": "Plata",
+        "bron": "Bronce",
+        "piec": "Piezas",
+        "heal": "Curar",
+        "aTrack": "Pista de Atrición",
+        "dc": "DC",
+        "strFoc": "Enfoque de Fuerza",
+        "strRef": "Reflejos de Fuerza",
+        "strEnd": "Resistencia de Fuerza",
+        "psyFoc": "Enfoque Psíquico",
+        "psyRef": "Reflejos Psíquicos",
+        "psyEnd": "Resistencia Psíquica",
+        "tecFoc": "Enfoque Técnico",
+        "tecRef": "Reflejos Técnicos",
+        "tecEnd": "Resistencia Técnica",
+        "intFoc": "Enfoque de Inteligencia",
+        "intRef": "Reflejos de Inteligencia",
+        "intEnd": "Resistencia de Inteligencia"
+      },
+      "monster": {
+        "type": "Tipo",
+        "types": {
+          "meleeC": "Cuerpo a Cuerpo (Cercano)",
+          "meleeT": "Cuerpo a Cuerpo (Arrojable)",
+          "meleeN": "Cuerpo a Cuerpo (No Arrojable)",
+          "throw": "Arrojable",
+          "projec": "Proyectil",
+          "minion": "Secuaz",
+          "boss": "Jefe"
+        },
+        "mChec": "Chequeo de Secuaz",
+        "chec": "Chequeo de Jefe",
+        "powe": "Poder/Atributos",
+        "ran": "Alcance",
+        "init": "Iniciativa",
+        "inte": "Inteligencia",
+        "intelligence": {
+          "com": "Basado en Mando",
+          "ins": "Instintivo",
+          "low": "Baja",
+          "ave": "Media",
+          "hig": "Alta"
+        },
+        "mora": "Moral",
+        "supp": "Efecto de Apoyo",
+        "spec": "Habilidades Especiales",
+        "atta": "Ataque",
+        "defe": "Defensa",
+        "dodg": "Esquiva",
+        "bloc": "Bloqueo",
+        "aSco": "Puntuación de Armadura",
+        "name": "Nombre",
+        "mSR": "MSR",
+        "min": "Secuaz",
+        "bSR": "BSR",
+        "boss": "Jefe",
+        "description": "Descripción",
+        "supportEffect": {
+          "range": "Alcance",
+          "hit": "Chequeo de Golpe",
+          "special": "Habilidad Especial",
+          "power": "Poder",
+          "armor": "Armadura",
+          "spellUse": "Uso de Hechizo",
+          "movement": "Movimiento",
+          "initiative": "Iniciativa",
+          "dodge": "Esquiva",
+          "spellResist": "Resist. a Hechizos",
+          "action": "Acción",
+          "spellEffective": "Efecto del Hechizo",
+          "spellPower": "Poder del Hechizo"
+        }
+      },
+      "fate": {
+        "gmInstructions": "GM, ingresa aquí el Destino de la aventura (solo tú puedes ver este mensaje), 3: Fácil, 5: Moderado, 7: Difícil",
+        "fatePoints": "Puntos de Destino",
+        "upResult": "Mejorar Resultado",
+        "reroll": "Repetir Tirada",
+        "flee": "Huir Automáticamente",
+        "hint": "Pista",
+        "upResultText": "Cuando usas un punto de destino para mejorar el resultado de una prueba, cambia un fallo por un éxito o un éxito por un éxito crítico, pero no puede cambiar un fallo crítico. Esto aplica incluso si la puntuación final es inferior a la necesaria. Sólo se puede usar un punto de destino por prueba.",
+        "rerollText": "Al usar un punto de destino para repetir una tirada (excepto para una prueba o oración), puedes repetir todos los dados y sumar 1 a cada resultado. Esto sólo se puede hacer una vez por oportunidad de tirada. Si un dado saca 6, se convierte en 7.",
+        "fleeText": "Usar un punto de destino para huir permite que todos los PCs salgan del combate automáticamente a un lugar seguro, sin necesidad de tirar. Esto aumenta los puntos de destino en 3. El GM describirá un evento repentino que explique la huida. La nueva área será temporalmente segura, pero el GM decide cuánto durará esta seguridad.",
+        "hintText": "Usar puntos de destino para obtener una pista de aventura le da automáticamente a los PCs una pista o evento útil para avanzar la historia. Esto aumenta los puntos de destino en 3. El GM decide cuándo ofrecer pistas y si la solicitud de pista de los PCs es apropiada.",
+        "bonusExp": "Bonificación de Experiencia por Puntos de Destino",
+        "currentFate": "Puntos de Destino Actuales",
+        "bonusPerPerson": "XP Bonus / Persona"
+      }
+    },
+    "charSheet": {
+      "tabs": {
+        "stats": "Estadísticas",
+        "items": "Objetos",
+        "feats": "Habilidades",
+        "spell": "Hechizos",
+        "descr": "Descripción",
+        "effec": "Efectos"
+      },
+      "ranks": {
+        "porc": "Porcelana",
+        "obsi": "Obsidiana",
+        "stee": "Acero",
+        "sapp": "Zafiro",
+        "emer": "Esmeralda",
+        "ruby": "Rubí",
+        "copp": "Cobre",
+        "silv": "Plata",
+        "gold": "Oro",
+        "plat": "Platino"
+      },
+      "items": {
+        "hitM": "Modificador de Golpe",
+        "rang": "Alcance",
+        "powe": "Poder",
+        "attr": "Atributo",
+        "use": "Uso",
+        "quan": "Cantidad",
+        "edit": "Editar",
+        "dele": "Eliminar",
+        "scores": "Puntuaciones",
+        "weapons": "Armas",
+        "melee": "Cuerpo a Cuerpo",
+        "throw": "Lanzamiento",
+        "projectile": "Proyectil",
+        "other": "Otro"
+      },
+      "statsPage": {
+        "checks": "Pruebas"
+      },
+      "effects": {
+        "bound": "Atado",
+        "blind": "Ciego",
+        "partBlind": "Parcialmente Ciego",
+        "cursed": "Maldito",
+        "drowsy": "Somnoliento",
+        "fracture": "Fractura",
+        "illness": "Enfermedad",
+        "hungry": "Hambriento",
+        "paralyzed": "Paralizado",
+        "poisoned": "Envenenado",
+        "prone": "Acostado"
+      }
+    },
+    "raceSheet": {
+      "races": {
+        "hum": "Humano",
+        "dwa": "Enano",
+        "elf": "Elfo",
+        "liz": "Hombre Lagarto",
+        "rhe": "Rhea",
+        "pad": "Padfoot",
+        "mir": "Mirmidón",
+        "har": "Harypy",
+        "dar": "Elfo Oscuro",
+        "dem": "Demonio",
+        "vam": "Vampiro"
+      },
+      "innate": "Habilidades Innatas",
+      "scores": {
+        "pri": "Puntuación de Habilidad Primaria",
+        "fix": "Puntuación Fija",
+        "ran": "Determinación Aleatoria",
+        "sec": "Puntuación de Habilidad Secundaria",
+        "mov": "Modificador Racial de Movimiento"
+      }
+    },
+    "dialog": {
+      "random": "Aleatorio",
+      "rolling": "Tirando",
+      "cancel": "Cancelar",
+      "dice": "Dados",
+      "gearMod": "Modificador de Equipo",
+      "miscMod": "Misceláneo",
+      "bonusDmg": "Daño Adicional",
+      "bonus": "Bono",
+      "dmgMod": "Modificadores de Daño",
+      "applyDmg": "Aplicar Daño",
+      "applyHalf": "Aplicar Mitad de Daño",
+      "suffered": "Daño Recibido",
+      "outOfRange": "Estás fuera del alcance para el ataque.",
+      "curvedShotLabel": "Disparo Curvo",
+      "skillCheck": "Prueba de Habilidad",
+      "firstTargetMonster": "Debes seleccionar un monstruo antes de tirar la prueba de Golpe. Haz clic derecho para alternar el estado de objetivo o coloca el cursor sobre el token y presiona 'T'.",
+      "applyHealing": "Curar las heridas del objetivo",
+      "martialArts": "Artes Marciales",
+      "dodge": {
+        "value": "Valor de Esquiva",
+        "roll": "Tirada de Esquiva",
+        "total": "Total de Esquiva"
+      },
+      "block": {
+        "value": "Valor de Bloqueo",
+        "roll": "Tirada de Bloqueo",
+        "total": "Total de Bloqueo",
+        "shieldScore": "Puntuación de Escudo",
+        "totalBlock": "Bono Total de Bloqueo"
+      },
+      "mods": {
+        "mod": "Modificador",
+        "addMod": "Agregar Modificadores",
+        "addInfo": "Agrega cualquier modificador extra de habilidades u otras fuentes aquí:",
+        "misc": "Misceláneo"
+      },
+      "crits": {
+        "crit": "Crítico",
+        "succ": "¡Éxito!",
+        "fail": "¡Fallo!"
+      },
+      "spells": {
+        "spUse": "Uso de Hechizo",
+        "cast": "Lanzar",
+        "spellCast": "Lanzamiento de Hechizo",
+        "useCheck": "Chequeo de Uso de Hechizo",
+        "diffCheck": "DC",
+        "apply": "Aplicar al/los objetivo(s)",
+        "rolldice": "Tira los Dados de Poder del Hechizo",
+        "recoveryAmt": "Cantidad de Recuperación",
+        "spellDmg": "Daño del Hechizo"
+      },
+      "monsterSheet": {
+        "boss": "¿Puede este monstruo ser un jefe?",
+        "block": "¿Puede este monstruo bloquear?",
+        "numOfAttacks": "Cambia este número para agregar/eliminar ataques del monstruo. Mín: 1, Máx: 4",
+        "isBoss": "¿Es este monstruo el jefe del encuentro?",
+        "theBoss": "Jefe de Combate"
+      },
+      "actorSheet": {
+        "itemsTab": {
+          "toHit": "Realiza una tirada de golpe",
+          "power": "Tira daño para el arma",
+          "dodge": "Realiza una tirada de esquiva",
+          "block": "Realiza una tirada de bloqueo"
+        },
+        "sidebar": {
+          "specRolls": "Tiradas Especiales",
+          "buttons": {
+            "initiative": "Iniciativa",
+            "sixthSense": "Sexto Sentido",
+            "luck": "Suerte",
+            "firstAid": "Primeros Auxilios",
+            "handiwork": "Habilidad Manual",
+            "stealth": "Sigilo",
+            "provoke": "Provocar",
+            "moveObs": "Obstrucción de Movimiento",
+            "moveRes": "Resistencia al Movimiento",
+            "strRes": "Resistencia de Fuerza",
+            "psyRes": "Resistencia Psíquica",
+            "intRes": "Resistencia de Inteligencia",
+            "strength": "Fuerza",
+            "escape": "Escapar",
+            "climbM": "Escalar (Músculo)",
+            "swim": "Nadar",
+            "climbF": "Escalar (Resistencia)",
+            "acrobatics": "Acrobacias",
+            "jump": "Saltar",
+            "monsterKnow": "Conocimiento de Monstruos",
+            "generalKnow": "Conocimiento General",
+            "magicalKnow": "Conocimiento Mágico",
+            "observe": "Observar",
+            "longDistance": "Movimiento a Larga Distancia",
+            "tacMove": "Movimiento Táctico",
+            "spellMaint": "Mantenimiento de Hechizo"
+          },
+          "sRest": "Descanso Corto",
+          "lRest": "Descanso Largo"
+        }
+      },
+      "healingPrompt": {
+        "healAmount": "Cura la siguiente cantidad."
+      },
+      "burstOfStr": {
+        "title": "Habilidad: Explosión de Fuerza",
+        "header": "Fatiga por Poder",
+        "label": "Ingresa una cantidad de fatiga a gastar por poder adicional. Máximo:"
+      },
+      "confirm": "Confirmar",
+      "moveRes": {
+        "title": "Elección de Resistencia al Movimiento",
+        "header": "Enfoque en Fuerza o Técnica",
+        "label": "¿Cuál es tu mejor puntuación para impedir que el objetivo se mueva?"
+      },
+      "strRes": {
+        "title": "Elección de Resistencia de Fuerza",
+        "header": "Reflejos de Fuerza o Resistencia de Fuerza",
+        "label": "Usa Reflejos de Fuerza cuando seas el objetivo de un hechizo. Usa Resistencia de Fuerza al recuperarte de un efecto."
+      },
+      "psyRes": {
+        "title": "Elección de Resistencia Psíquica",
+        "header": "Reflejos Psíquicos o Resistencia Psíquica",
+        "label": "Usa Reflejos Psíquicos cuando seas el objetivo de un hechizo. Usa Resistencia Psíquica al recuperarte de un efecto."
+      },
+      "intRes": {
+        "title": "Elección de Resistencia de Inteligencia",
+        "header": "Reflejos de Inteligencia o Resistencia de Inteligencia",
+        "label": "Usa Reflejos de Inteligencia cuando seas el objetivo de un hechizo. Usa Resistencia de Inteligencia al recuperarte de un efecto."
+      },
+      "strength": {
+        "title": "Elección para Prueba de Fuerza",
+        "header": "Enfoque en Fuerza o Resistencia",
+        "label": "Usa Enfoque de Fuerza por períodos muy cortos. Usa Resistencia de Fuerza para períodos muy largos."
+      },
+      "stealth": {
+        "title": "Elección para Sigilo",
+        "header": "Enfoque Técnico, Resistencia o Reflejos",
+        "label": "Usa Enfoque Técnico para esconderte antes de que te encuentren. Usa Resistencia Técnica para esconderte por períodos largos. Usa Reflejos Técnicos para esconderte durante el combate o cuando el objetivo está distraído."
+      },
+      "monsterKnow": {
+        "title": "Elección de Conocimiento de Monstruos",
+        "header": "Enfoque de Inteligencia o Reflejos",
+        "label": "Usa Enfoque de Inteligencia cuando encuentres monstruos antes de la batalla. Usa Reflejos de Inteligencia para recordar información al oír o leer sobre un monstruo."
+      },
+      "acrobatics": {
+        "title": "Elección de Acrobacias",
+        "header": "Enfoque Técnico, Resistencia o Reflejos",
+        "label": "Usa Enfoque Técnico para equilibrios de corta duración. Usa Resistencia Técnica para equilibrarte durante períodos prolongados, como al caminar por un puente de cuerdas. Usa Reflejos Técnicos para reacciones súbitas, como rodar durante una caída o zambullirte para evitarlo."
+      },
+      "mowDown": {
+        "title": "Habilidad: Derribar",
+        "header": "¿Cuántos enemigos tienes como objetivo?",
+        "label0": "Seleccionar 2 objetivos añade una penalización de -4. ",
+        "label1": "Cada enemigo adicional suma -2 a la prueba. Puedes agregar esta cantidad de enemigos más a la prueba: ",
+        "label2": "Cada enemigo adicional suma -1 a la prueba. Puedes agregar esta cantidad de enemigos más a la prueba: ",
+        "targets": "Objetivos: "
+      },
+      "spellMaint": {
+        "title": "Mantenimiento de Hechizo",
+        "header": "¿Qué hechizo estás manteniendo?"
+      },
+      "coolAndColl": {
+        "title": "Elección de Resistencia Mental",
+        "header": "¿Resistencia de Inteligencia o Psíquica?"
+      },
+      "faith": {
+        "title": "Elección de Cántico",
+        "header": "¿Cantar tu hechizo para mostrar tu fe?",
+        "label1": "Cantando",
+        "label2": "Sin Cántico"
+      },
+      "catalyst": {
+        "title": "Elección de Catalizador de Hechizo",
+        "header": "¿Usar tu bolsa de catalizadores para lanzar?",
+        "label1": "No",
+        "label2": "Sí"
+      },
+      "genSkills": {
+        "title": "Elecciones de Habilidad General",
+        "header": "Marca todas las selecciones para ",
+        "recall": "¿Recordar información?",
+        "use": "¿Usar habilidades?",
+        "primary": "¿Qué habilidad primaria estás usando?",
+        "secondary": "¿Qué habilidad secundaria necesitas? (Selecciona 1)",
+        "cancelled": "Tirada de habilidad general cancelada"
+      },
+      "spellCasting": {
+        "shamanAlert": "Necesitas ser 'Amado de las Hadas' o tener una Bolsa de Chamán para lanzar hechizos chamánicos.",
+        "dragonPriestAlert": "Necesitas una Bolsa de Catalizadores de Sacerdote Dragón para lanzar hechizos de Sacerdote Dragón."
+      },
+      "resting": {
+        "sRestMessage": "ha curado 3 de atrición con un descanso corto.",
+        "lRestMessage": "ha curado 10 de atrición, la mitad de su fuerza vital en heridas, todos los usos de hechizos (si los hubiera), y una cantidad de fatiga (ver abajo).",
+        "briefLongRest": "ha curado 3 de atrición y una cantidad de fatiga (ver abajo)."
+      },
+      "longResting": {
+        "title": "Decisión de Descanso Largo",
+        "header": "Decide cuántas horas vas a descansar",
+        "label1": "3+",
+        "label2": "6+"
+      },
+      "dualWielding": {
+        "title": "Elección de Doble Empuñamiento",
+        "header": "¿Atacar a un enemigo o a dos enemigos diferentes?",
+        "primary": "Un Enemigo",
+        "secondary": "Dos Enemigos"
+      },
+      "rapidFire": {
+        "title": "Opciones de Fuego Rápido",
+        "header": "¿Atacar a un enemigo o a varios enemigos?",
+        "primary": "Un Enemigo",
+        "secondary": "Varios Enemigos"
+      },
+      "slipBehind": {
+        "title": "Opciones de Colocación Detrás",
+        "header": "¿Te estás deslizando por detrás del objetivo? No puedes moverte antes de usar esta habilidad.",
+        "primary": "Sí",
+        "secondary": "No"
+      },
+      "curvedShot": {
+        "title": "Opciones de Disparo Curvo",
+        "header": "¿Estás usando Disparo Curvo en este ataque?",
+        "primary": "Sí",
+        "secondary": "No"
+      },
+      "useSkill": {
+        "title": "Uso de Habilidad",
+        "header": "¿Usarás la siguiente habilidad: ",
+        "primary": "Sí",
+        "secondary": "No"
+      },
+      "herbalist": {
+        "title": "Elección de Habilidad",
+        "header": "Elige una tirada principal",
+        "body": "Elige tirar una prueba de Observar, Sexto Sentido o Conocimiento General, que incluirá este bono de nivel de habilidad: ",
+        "button1": "Observar",
+        "button2": "Sexto Sentido",
+        "button3": "Conocimiento General"
+      },
+      "taming": {
+        "title": "Elección de Habilidad",
+        "header": "Elige una tirada principal",
+        "body": "Elige tirar una prueba de Conocimiento General, Conocimiento de Monstruos o una prueba de Montar (ver Habilidad General), que incluirá este bono de nivel de habilidad: ",
+        "button1": "Conocimiento General",
+        "button2": "Conocimiento de Monstruos"
+      },
+      "multipleChants": {
+        "title": "Número de Hechizos Lanzados",
+        "header": "Elige la cantidad de hechizos a lanzar en esta ronda.",
+        "body0": " <span style='color: darkred'>Importante:</span> Usa el mismo botón si lanzas varias veces para cada prueba de uso de hechizo.",
+        "body1": "Lanza 2 Hechizos: -8 de penalización cada uno<br>Lanza 1 Hechizo: 0 Penalización<br>&nbsp;",
+        "body2": "Lanza 2 Hechizos: -4 de penalización cada uno<br>Lanza 1 Hechizo: 0 Penalización<br>&nbsp;",
+        "body3": "Lanza 3 Hechizos: -8 de penalización cada uno<br>Lanza 2 Hechizos: -4 de penalización cada uno<br>Lanza 1 Hechizo: 0 Penalización<br>&nbsp;",
+        "body4": "Lanza 3 Hechizos: -4 de penalización cada uno<br>Lanza 2 Hechizos: -2 de penalización cada uno<br>Lanza 1 Hechizo: 0 Penalización<br>&nbsp;",
+        "body5": "Lanza 3 Hechizos: -4 de penalización cada uno<br>Lanza 1-2 Hechizos: 0 Penalización cada uno<br>&nbsp;",
+        "button1": "1 Hechizo",
+        "button2": "2 Hechizos",
+        "button3": "3 Hechizos"
+      }
+    }
+  }
+}

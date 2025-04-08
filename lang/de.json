@@ -1,0 +1,673 @@
+{
+  "TYPES": {
+    "Item": {
+      "weapon": "Waffen",
+      "armor": "Rüstung",
+      "shield": "Schilde",
+      "item": "Gegenstände",
+      "spell": "Zauber",
+      "skill": "Fertigkeiten",
+      "race": "Rasse",
+      "martialtechniques": "Martiale Techniken"
+    },
+    "Actor": {
+      "character": "Frommer Charakter",
+      "fate": "Schicksal",
+      "monster": "Nicht-frommer Charakter",
+      "mount": "Reittiere"
+    }
+  },
+  "gs": {
+    "sheets": {
+      "actor": "Goblin Slayer Charakterbogen",
+      "item": "Goblin Slayer Gegenstandsbogen"
+    },
+    "gear": {
+      "common": {
+        "nam": "Name",
+        "val": "Wert (Silber)",
+        "eff": "Effekte",
+        "ste": "Heimlichkeit",
+        "typ": "Typ",
+        "des": "Beschreibung"
+      },
+      "weapons": {
+        "use": "Verwendung",
+        "att": "Attribut",
+        "pow": "Kraft",
+        "hit": "Treffer-Mod.",
+        "ran": "Reichweite",
+        "resistance": "Widerstand",
+        "effects": {
+          "bind": "Fesseln",
+          "noParry": "Kann nicht parieren",
+          "mFThrow": "Zum Werfen gemacht",
+          "massive": "Massiv",
+          "nThrow": "Nicht wurfbar",
+          "parry": "Parieren",
+          "pierce": "Durchbohren",
+          "rFire": "Schnellfeuer",
+          "restraint": "Einschränkung",
+          "retrieve": "Rückholbar",
+          "slice": "Schneiden",
+          "sbBludg": "SB: Wucht",
+          "sbSlash": "SB: Hieb",
+          "throw": "Wurfbar",
+          "throwSpc": "Wurf-Spezialisierung",
+          "miracles": "Wunder",
+          "ancDragon": "Ahnr. Drache",
+          "spirit": "Künste des Geistes",
+          "wotp": "Echte Kraft",
+          "necro": "Nekromantie"
+        }
+      },
+      "armor": {
+        "sco": "Wertung",
+        "dod": "Ausweich-Mod.",
+        "mov": "Bewegungs-Mod.",
+        "hea": "Schwer"
+      },
+      "shield": {
+        "mod": "Block-Mod.",
+        "sco": "Blockwert"
+      },
+      "items": {
+        "nam": "Name",
+        "des": "Beschreibung",
+        "movePen": "Bewegungsstrafe"
+      },
+      "spells": {
+        "sys": "System",
+        "efs": "Effektivitätswert",
+        "pen": "Strafe",
+        "rad": "Radius",
+        "dur": "Dauer",
+        "siz": "Größe",
+        "phy": "Physikalischer Modifikator (Größe, Gewicht, Bewegungsgeschwindigkeit)",
+        "sco": "Kraft-/Rüstungswert-Modifikator",
+        "exr": "Erweiterte Reichweite",
+        "mds": "Modifikator-Wert",
+        "mvs": "Bewegungsgeschwindigkeit",
+        "qua": "Menge",
+        "sum": "Zusammenfassung",
+        "dif": "Schwierigkeit",
+        "cha": "Gesang",
+        "cat": "Katalysator",
+        "wor": "Worte der wahren Kraft",
+        "mir": "Wunder",
+        "anc": "Ahnr. Drache",
+        "spi": "Künste des Geistes",
+        "nec": "Nekromantie",
+        "att": "Angriff",
+        "imb": "Anreicherung",
+        "cre": "Erschaffung",
+        "con": "Kontrolle",
+        "hea": "Heilung",
+        "gen": "Allgemein",
+        "fir": "Feuer",
+        "wat": "Wasser",
+        "ear": "Erde",
+        "win": "Wind",
+        "lig": "Licht",
+        "dar": "Dunkelheit",
+        "lif": "Leben",
+        "min": "Verstand",
+        "mat": "Materie",
+        "tim": "Zeit",
+        "spa": "Raum",
+        "none": "Keine"
+      },
+      "skills": {
+        "gra": "Meisterschaftsgrad",
+        "pre": "Voraussetzung",
+        "beg": "Anfänger",
+        "int": "Fortgeschritten",
+        "exp": "Experte",
+        "mas": "Meister",
+        "leg": "Legende",
+        "adv": "Abenteurer",
+        "gen": "Allgemein"
+      },
+      "mTech": {
+        "overview": "Übersicht",
+        "descrip": "Beschreibung",
+        "usable": "Verwendbare Waffen",
+        "related": "Verwandte Fertigkeiten",
+        "cost": "Kosten",
+        "condition": "Bedingung",
+        "details": "Einzelheiten"
+      },
+      "equipment": "Ausrüstung",
+      "equip": "Ausrüsten"
+    },
+    "actor": {
+      "common": {
+        "life": "Leben",
+        "lFor": "Lebenskraft",
+        "spRe": "Zauberresistenz",
+        "move": "Bewegen",
+        "modMove": "Bewegungs-Modifikator",
+        "leve": "Stufe",
+        "max": "Max",
+        "slash": "Hiebschaden",
+        "bludg": "Wucht",
+        "pierc": "Durchdringend",
+        "other": "Andere",
+        "init": "Initiative",
+        "roll": "Würfeln",
+        "ed": "ed"
+      },
+      "character": {
+        "rank": "Rang",
+        "abil": "Fähigkeitswerte",
+        "pri": "Primär",
+        "sec": "Sekundär",
+        "rac": "Rasse",
+        "age": "Alter",
+        "gen": "Geschlecht",
+        "his": "Geschichte",
+        "phy": "Körperliche Eigenschaften",
+        "hai": "Haar",
+        "eye": "Augen",
+        "oth": "Weitere Informationen",
+        "str": "Stärke",
+        "psy": "Psyche",
+        "tec": "Technik",
+        "int": "Intelligenz",
+        "foc": "Fokus",
+        "end": "Ausdauer",
+        "ref": "Reflexe",
+        "exp": "EP",
+        "cum": "Kumulative Punkte",
+        "cur": "Aktuelle Punkte",
+        "adv": "Aufstiegspunkte",
+        "ads": "Abenteuer",
+        "com": "Abgeschlossen",
+        "lvl": "Aufstiegsstufe",
+        "status": "Status",
+        "wounds": "Verletzungen",
+        "spUse": "Zauberanwendungen",
+        "base": "Basis",
+        "clWd": "Klassenstufen",
+        "figh": "Kämpfer",
+        "monk": "Mönch",
+        "rang": "Waldläufer",
+        "scou": "Späher",
+        "sorcerer": "Zauberer",
+        "priest": "Priester",
+        "dragon": "Drachenpriester",
+        "shaman": "Schamane",
+        "necro": "Nekromant",
+        "fatW": "Müdigkeit",
+        "pena": "Strafe",
+        "ran1": "-1 auf alle Werte",
+        "ran2": "-2 bei allen Proben. Bewegungstempo halbiert.",
+        "ran3": "-3 bei allen Proben. Lebenskraft und Bewegungstempo halbiert.",
+        "ran4": "Bewusstlos. -4 bei allen Proben. Lebenskraft und Bewegungstempo halbiert.",
+        "ran5": "Tod.",
+        "attr": "Abnutzung",
+        "advSW": "Abenteurer-Fertigkeiten",
+        "genSW": "Allgemeine Fertigkeiten",
+        "mast": "Meisterschaftsgrad",
+        "effe": "Effekt",
+        "page": "Seite",
+        "scor": "Wertung",
+        "lear": "Name des erlernten Zaubers",
+        "syst": "Zaubersystem",
+        "hit": "Treffer",
+        "basic": "Einfach",
+        "dodge": "Ausweichen",
+        "block": "Blocken",
+        "skills": "Fertigkeiten",
+        "melee": "Nahkampf",
+        "throw": "Werfen",
+        "weapon": "Waffe",
+        "armor": "Rüstung",
+        "shield": "Schild",
+        "usage": "Nutzung/Attribute",
+        "modi": "Modifikator",
+        "total": "Gesamt",
+        "power": "Kraft",
+        "ste": "Heimlichkeit",
+        "damage": "Schaden",
+        "effective": "Effektivität",
+        "table": "Tabelle",
+        "bonus": "Bonus",
+        "under": "und darunter",
+        "over": "und darüber",
+        "none": "Keine",
+        "poss": "Besitz",
+        "advT": "Abenteuerausrüstung (Seil, 10m; Keile x10; kleiner Hammer; Zündholzbox; Rucksack; Wasserbeutel; tragbare Rationen; weiße Kreide; kleines Messer; Fackeln x6)",
+        "rati": "Rationen (7 Tage)",
+        "clot": "Kleidung",
+        "money": "Geld",
+        "gold": "Gold",
+        "silv": "Silber",
+        "bron": "Bronze",
+        "piec": "Stücke",
+        "heal": "Heilen",
+        "aTrack": "Abnutzungsverlauf",
+        "dc": "DC",
+        "strFoc": "Stärke-Fokus",
+        "strRef": "Stärke-Reflex",
+        "strEnd": "Stärke-Ausdauer",
+        "psyFoc": "Psyche-Fokus",
+        "psyRef": "Psyche-Reflex",
+        "psyEnd": "Psyche-Ausdauer",
+        "tecFoc": "Technik-Fokus",
+        "tecRef": "Technik-Reflex",
+        "tecEnd": "Technik-Ausdauer",
+        "intFoc": "Intelligenz-Fokus",
+        "intRef": "Intelligenz-Reflex",
+        "intEnd": "Intelligenz-Ausdauer"
+      },
+      "monster": {
+        "type": "Typ",
+        "types": {
+          "meleeC": "Nahkampf (Nah)",
+          "meleeT": "Nahkampf (Wurfbar)",
+          "meleeN": "Nahkampf (Nicht wurfbar)",
+          "throw": "Wurfbar",
+          "projec": "Projektil",
+          "minion": "Schergen",
+          "boss": "Boss"
+        },
+        "mChec": "Schergen-Test",
+        "chec": "Boss-Test",
+        "powe": "Kraft/Attribute",
+        "ran": "Reichweite",
+        "init": "Initiative",
+        "inte": "Intelligenz",
+        "intelligence": {
+          "com": "Befehlsbasiert",
+          "ins": "Instinktiv",
+          "low": "Niedrig",
+          "ave": "Durchschnittlich",
+          "hig": "Hoch"
+        },
+        "mora": "Moral",
+        "supp": "Unterstützungseffekt",
+        "spec": "Spezialfähigkeiten",
+        "atta": "Angriff",
+        "defe": "Verteidigung",
+        "dodg": "Ausweichen",
+        "bloc": "Blocken",
+        "aSco": "Rüstungswert",
+        "name": "Name",
+        "mSR": "MSR",
+        "min": "Schergen",
+        "bSR": "BSR",
+        "boss": "Boss",
+        "description": "Beschreibung",
+        "supportEffect": {
+          "range": "Reichweite",
+          "hit": "Trefferprüfung",
+          "special": "Spezialfähigkeit",
+          "power": "Kraft",
+          "armor": "Rüstung",
+          "spellUse": "Zauberanwendung",
+          "movement": "Bewegung",
+          "initiative": "Initiative",
+          "dodge": "Ausweichen",
+          "spellResist": "Zauberresistenz",
+          "action": "Aktion",
+          "spellEffective": "Zaubereffekt",
+          "spellPower": "Zauberstärke"
+        }
+      },
+      "fate": {
+        "gmInstructions": "GM, gib hier das Schicksal des Abenteuers ein (nur du kannst diese Nachricht sehen), 3: Leicht, 5: Mäßig, 7: Schwer",
+        "fatePoints": "Schicksalspunkte",
+        "upResult": "Ergebnis erhöhen",
+        "reroll": "Würfel neu werfen",
+        "flee": "Automatisches Fliehen",
+        "hint": "Hinweis",
+        "upResultText": "Wenn du einen Schicksalspunkt einsetzt, um das Ergebnis einer Probe zu erhöhen, wird ein Misserfolg in einen Erfolg oder ein Erfolg in einen kritischen Erfolg umgewandelt, jedoch kann ein kritischer Misserfolg nicht geändert werden. Dies gilt auch, wenn die Endpunktzahl niedriger als benötigt ist. Pro Probe kann nur ein Schicksalspunkt verwendet werden.",
+        "rerollText": "Wenn du einen Schicksalspunkt nutzt, um Würfel neu zu werfen (außer bei einer Probe oder einem Gebet), kannst du alle Würfel erneut werfen und jedem Ergebnis 1 hinzufügen. Dies kann pro Würfelwurfchance nur einmal erfolgen. Wenn ein Würfel eine 6 zeigt, wird er zu einer 7.",
+        "fleeText": "Der Einsatz eines Schicksalspunkts zum Fliehen ermöglicht es allen Spielercharakteren, den Kampf automatisch an einen sicheren Ort zu verlassen, ohne würfeln zu müssen. Dies erhöht die Schicksalspunkte um 3. Der GM wird ein plötzliches Ereignis beschreiben, das die Flucht erklärt. Das neue Gebiet ist vorübergehend sicher, aber der GM entscheidet, wie lange diese Sicherheit anhält.",
+        "hintText": "Der Einsatz von Schicksalspunkten für einen Abenteuerhinweis gibt den Charakteren automatisch einen hilfreichen Hinweis oder ein Ereignis, um die Geschichte voranzubringen. Dies erhöht die Schicksalspunkte um 3. Der GM entscheidet, wann Hinweise angeboten werden und ob die Anfrage der Charaktere angemessen ist.",
+        "bonusExp": "Bonus-Erfahrung durch Schicksalspunkte",
+        "currentFate": "Aktuelle Schicksalspunkte",
+        "bonusPerPerson": "Bonus-EP / Person"
+      }
+    },
+    "charSheet": {
+      "tabs": {
+        "stats": "Statistiken",
+        "items": "Gegenstände",
+        "feats": "Fertigkeiten",
+        "spell": "Zauber",
+        "descr": "Beschreibung",
+        "effec": "Effekte"
+      },
+      "ranks": {
+        "porc": "Porzellan",
+        "obsi": "Obsidian",
+        "stee": "Stahl",
+        "sapp": "Saphir",
+        "emer": "Smaragd",
+        "ruby": "Rubin",
+        "copp": "Kupfer",
+        "silv": "Silber",
+        "gold": "Gold",
+        "plat": "Platin"
+      },
+      "items": {
+        "hitM": "Treffer-Modifikator",
+        "rang": "Reichweite",
+        "powe": "Kraft",
+        "attr": "Attribut",
+        "use": "Verwenden",
+        "quan": "Menge",
+        "edit": "Bearbeiten",
+        "dele": "Löschen",
+        "scores": "Wertungen",
+        "weapons": "Waffen",
+        "melee": "Nahkampf",
+        "throw": "Werfen",
+        "projectile": "Projektil",
+        "other": "Andere"
+      },
+      "statsPage": {
+        "checks": "Proben"
+      },
+      "effects": {
+        "bound": "Gebunden",
+        "blind": "Blind",
+        "partBlind": "Teilweise blind",
+        "cursed": "Verflucht",
+        "drowsy": "Benommen",
+        "fracture": "Fraktur",
+        "illness": "Krankheit",
+        "hungry": "Hungrig",
+        "paralyzed": "Paralysiert",
+        "poisoned": "Vergiftet",
+        "prone": "Liegend"
+      }
+    },
+    "raceSheet": {
+      "races": {
+        "hum": "Mensch",
+        "dwa": "Zwerg",
+        "elf": "Elf",
+        "liz": "Echsenmensch",
+        "rhe": "Rhea",
+        "pad": "Padfoot",
+        "mir": "Myrmidon",
+        "har": "Harypy",
+        "dar": "Dunkelelf",
+        "dem": "Dämon",
+        "vam": "Vampir"
+      },
+      "innate": "Angeborene Fertigkeiten",
+      "scores": {
+        "pri": "Primärer Fähigkeitswert",
+        "fix": "Fester Wert",
+        "ran": "Zufällige Bestimmung",
+        "sec": "Sekundärer Fähigkeitswert",
+        "mov": "Rassen-Bewegungsmodifikator"
+      }
+    },
+    "dialog": {
+      "random": "Zufällig",
+      "rolling": "Würfelt",
+      "cancel": "Abbrechen",
+      "dice": "Würfel",
+      "gearMod": "Ausrüstungsmodifikator",
+      "miscMod": "Verschiedenes",
+      "bonusDmg": "Bonusschaden",
+      "bonus": "Bonus",
+      "dmgMod": "Schadenmodifikatoren",
+      "applyDmg": "Schaden anwenden",
+      "applyHalf": "Halben Schaden anwenden",
+      "suffered": "Erlittenen Schaden",
+      "outOfRange": "Du bist außerhalb der Reichweite für den Angriff.",
+      "curvedShotLabel": "Gebogener Schuss",
+      "skillCheck": "Fertigkeitsprobe",
+      "firstTargetMonster": "Du musst ein Monster als Ziel wählen, bevor du eine Trefferprobe machst. Rechtsklick und Zielzustand umschalten oder mit der Maus über das Token fahren und 'T' drücken.",
+      "applyHealing": "Wunden des Ziels behandeln",
+      "martialArts": "Kampfkünste",
+      "dodge": {
+        "value": "Ausweichwert",
+        "roll": "Ausweichwurf",
+        "total": "Gesamtausweichwert"
+      },
+      "block": {
+        "value": "Blockwert",
+        "roll": "Blockwurf",
+        "total": "Gesamtblockwert",
+        "shieldScore": "Schildwert",
+        "totalBlock": "Gesamtblockbonus"
+      },
+      "mods": {
+        "mod": "Modifikator",
+        "addMod": "Modifikatoren hinzufügen",
+        "addInfo": "Füge hier zusätzliche Modifikatoren aus Fertigkeiten oder anderen Quellen hinzu:",
+        "misc": "Verschiedenes"
+      },
+      "crits": {
+        "crit": "Kritisch",
+        "succ": "Erfolg!",
+        "fail": "Fehlschlag!"
+      },
+      "spells": {
+        "spUse": "Zaubergebrauch",
+        "cast": "Wirken",
+        "spellCast": "Zauberwirken",
+        "useCheck": "Zauberprüfer",
+        "diffCheck": "DC",
+        "apply": "Auf Ziel anwenden",
+        "rolldice": "Zauberstärkewürfel werfen",
+        "recoveryAmt": "Erholungsmenge",
+        "spellDmg": "Zauberschaden"
+      },
+      "monsterSheet": {
+        "boss": "Kann dieses Monster ein Boss sein?",
+        "block": "Kann dieses Monster blocken?",
+        "numOfAttacks": "Ändere diese Zahl, um Monsterangriffe hinzuzufügen/zu entfernen. Min 1, Max 4",
+        "isBoss": "Ist dieses Monster der Boss des Treffens?",
+        "theBoss": "Kampf-Boss"
+      },
+      "actorSheet": {
+        "itemsTab": {
+          "toHit": "Trefferprobe würfeln",
+          "power": "Schadenswurf für die Waffe",
+          "dodge": "Ausweichprobe würfeln",
+          "block": "Blockprobe würfeln"
+        },
+        "sidebar": {
+          "specRolls": "Sonderwürfe",
+          "buttons": {
+            "initiative": "Initiative",
+            "sixthSense": "Sechster Sinn",
+            "luck": "Glück",
+            "firstAid": "Erste Hilfe",
+            "handiwork": "Handwerk",
+            "stealth": "Heimlichkeit",
+            "provoke": "Provozieren",
+            "moveObs": "Bewegungsbehinderung",
+            "moveRes": "Bewegungswiderstand",
+            "strRes": "Stärkewiderstand",
+            "psyRes": "Psychischer Widerstand",
+            "intRes": "Intelligenzwiderstand",
+            "strength": "Stärke",
+            "escape": "Fliehen",
+            "climbM": "Klettern (Kraft)",
+            "swim": "Schwimmen",
+            "climbF": "Klettern (Ausdauer)",
+            "acrobatics": "Akrobatik",
+            "jump": "Springen",
+            "monsterKnow": "Monsterkenntnis",
+            "generalKnow": "Allgemeinwissen",
+            "magicalKnow": "Magiekenntnis",
+            "observe": "Beobachten",
+            "longDistance": "Langstreckenbewegung",
+            "tacMove": "Taktische Bewegung",
+            "spellMaint": "Zauberaufrechterhaltung"
+          },
+          "sRest": "Kurze Pause",
+          "lRest": "Lange Pause"
+        }
+      },
+      "healingPrompt": {
+        "healAmount": "Heile den folgenden Betrag."
+      },
+      "burstOfStr": {
+        "title": "Fähigkeit: Kraftausbruch",
+        "header": "Müdigkeit für zusätzliche Kraft",
+        "label": "Gib eine Menge an Müdigkeit ein, die für zusätzliche Kraft eingesetzt wird. Maximum:"
+      },
+      "confirm": "Bestätigen",
+      "moveRes": {
+        "title": "Wahl der Bewegungsresistenz",
+        "header": "Stärke-Fokus oder Technik-Fokus",
+        "label": "Welcher Wert ist besser, um das Ziel am Bewegen zu hindern?"
+      },
+      "strRes": {
+        "title": "Wahl des Stärkewiderstands",
+        "header": "Stärke-Reflex oder Stärke-Ausdauer",
+        "label": "Nutze Stärke-Reflex, wenn du das Ziel eines Zaubers bist. Nutze Stärke-Ausdauer, wenn du dich von einem Effekt erholst."
+      },
+      "psyRes": {
+        "title": "Wahl des psychischen Widerstands",
+        "header": "Psyche-Reflex oder Psyche-Ausdauer",
+        "label": "Nutze Psyche-Reflex, wenn du das Ziel eines Zaubers bist. Nutze Psyche-Ausdauer, wenn du dich von einem Effekt erholst."
+      },
+      "intRes": {
+        "title": "Wahl des Intelligenzwiderstands",
+        "header": "Intelligenz-Reflex oder Intelligenz-Ausdauer",
+        "label": "Nutze Intelligenz-Reflex, wenn du das Ziel eines Zaubers bist. Nutze Intelligenz-Ausdauer, wenn du dich von einem Effekt erholst."
+      },
+      "strength": {
+        "title": "Wahl der Stärkebeprobe",
+        "header": "Stärke-Fokus oder Ausdauer",
+        "label": "Nutze Stärke-Fokus für sehr kurze Zeiträume. Nutze Stärke-Ausdauer für sehr lange Zeiträume."
+      },
+      "stealth": {
+        "title": "Wahl der Heimlichkeit",
+        "header": "Technik-Fokus, Ausdauer oder Reflex",
+        "label": "Nutze Technik-Fokus, um dich zu verstecken, bevor dich jemand findet. Nutze Technik-Ausdauer, um dich über einen langen Zeitraum zu verstecken. Nutze Technik-Reflex, um dich während des Kampfes oder wenn ein Ziel abgelenkt ist, zu verstecken."
+      },
+      "monsterKnow": {
+        "title": "Wahl der Monsterkenntnis",
+        "header": "Intelligenz-Fokus oder Reflex",
+        "label": "Nutze Intelligenz-Fokus, wenn du vor dem Kampf auf Monster triffst. Nutze Intelligenz-Reflex, um Wissen abzurufen, wenn du von einem Monster hörst oder liest, um sofort Informationen über es zu erhalten."
+      },
+      "acrobatics": {
+        "title": "Wahl der Akrobatik",
+        "header": "Technik-Fokus, Ausdauer oder Reflex",
+        "label": "Nutze Technik-Fokus für kurzfristiges Balancieren. Nutze Technik-Ausdauer, um über längere Zeiträume, wie beim Überqueren einer Seilbrücke, das Gleichgewicht zu halten. Nutze Technik-Reflex für schnelle Reaktionen, wie etwa im Fallenrollen oder um auszuweichen."
+      },
+      "mowDown": {
+        "title": "Fähigkeit: Niederwalzen",
+        "header": "Wie viele Ziel-Feinde?",
+        "label0": "Die Auswahl von 2 Zielen fügt eine Strafe von -4 hinzu. ",
+        "label1": "Jeder zusätzliche Gegner fügt -2 zur Probe hinzu. Du kannst folgende Anzahl zusätzlicher Gegner zur Probe hinzufügen: ",
+        "label2": "Jeder zusätzliche Gegner fügt -1 zur Probe hinzu. Du kannst folgende Anzahl zusätzlicher Gegner zur Probe hinzufügen: ",
+        "targets": "Ziele: "
+      },
+      "spellMaint": {
+        "title": "Zauberaufrechterhaltung",
+        "header": "Welchen Zauber hältst du aufrecht?"
+      },
+      "coolAndColl": {
+        "title": "Wahl des mentalen Widerstands",
+        "header": "Intelligenz- oder psychischer Widerstand?"
+      },
+      "faith": {
+        "title": "Wahl des Gesangs",
+        "header": "Singt du deinen Zauber, um deinen Glauben zu zeigen?",
+        "label1": "Gesang",
+        "label2": "Ohne Gesang"
+      },
+      "catalyst": {
+        "title": "Wahl des Zauberkatalysators",
+        "header": "Verwendest du deine Katalysatortasche zum Wirken?",
+        "label1": "Nein",
+        "label2": "Ja"
+      },
+      "genSkills": {
+        "title": "Allgemeine Fertigkeitsauswahl",
+        "header": "Markiere alle Auswahlmöglichkeiten für ",
+        "recall": "Wissen abrufen?",
+        "use": "Fertigkeiten einsetzen?",
+        "primary": "Welche primäre Fertigkeit setzt du ein?",
+        "secondary": "Welche sekundäre Fertigkeit benötigst du? (Wähle 1)",
+        "cancelled": "Allgemeine Fertigkeitsprobe abgebrochen"
+      },
+      "spellCasting": {
+        "shamanAlert": "Du benötigst entweder 'Geliebte der Feen' oder eine Schamanentasche, um Schamanen-Zauber zu wirken.",
+        "dragonPriestAlert": "Du benötigst einen Katalysatorkoffer eines Drachenpriesters, um Drachenpriester-Zauber zu wirken."
+      },
+      "resting": {
+        "sRestMessage": "hat 3 Abnutzung durch eine kurze Pause geheilt.",
+        "lRestMessage": "hat 10 Abnutzung, die Hälfte seiner Lebenskraft in Verletzungen, alle Zauberanwendungen (falls vorhanden) und eine Menge Müdigkeit (siehe unten) geheilt.",
+        "briefLongRest": "hat 3 Abnutzung und eine Menge Müdigkeit (siehe unten) geheilt."
+      },
+      "longResting": {
+        "title": "Entscheidung zur langen Pause",
+        "header": "Bestimme, wie viele Stunden du ruhst",
+        "label1": "3+",
+        "label2": "6+"
+      },
+      "dualWielding": {
+        "title": "Wahl des Zweitwaffenkampfs",
+        "header": "Einen Feind oder zwei verschiedene Feinde angreifen?",
+        "primary": "Ein Feind",
+        "secondary": "Zwei Feinde"
+      },
+      "rapidFire": {
+        "title": "Schnellfeuer-Optionen",
+        "header": "Einen Feind oder mehrere Feinde angreifen?",
+        "primary": "Ein Feind",
+        "secondary": "Mehrere Feinde"
+      },
+      "slipBehind": {
+        "title": "Optionen: Hinterher schleichen",
+        "header": "Schleichst du hinter das Ziel? Du kannst dich nicht bewegen, bevor du diese Fähigkeit einsetzt.",
+        "primary": "Ja",
+        "secondary": "Nein"
+      },
+      "curvedShot": {
+        "title": "Optionen: Gebogener Schuss",
+        "header": "Setzt du einen gebogenen Schuss bei diesem Angriff ein?",
+        "primary": "Ja",
+        "secondary": "Nein"
+      },
+      "useSkill": {
+        "title": "Fähigkeitseinsatz",
+        "header": "Wirst du die folgende Fähigkeit einsetzen: ",
+        "primary": "Ja",
+        "secondary": "Nein"
+      },
+      "herbalist": {
+        "title": "Fähigkeitswahl",
+        "header": "Wähle einen Hauptwurf",
+        "body": "Wähle, ob du eine Probe auf Beobachten, Sechster Sinn oder Allgemeinwissen machst, die diesen Fertigkeitsbonus beinhaltet: ",
+        "button1": "Beobachten",
+        "button2": "Sechster Sinn",
+        "button3": "Allgemeinwissen"
+      },
+      "taming": {
+        "title": "Fähigkeitswahl",
+        "header": "Wähle einen Hauptwurf",
+        "body": "Wähle, ob du eine Probe auf Allgemeinwissen, Monsterkenntnis oder Reiten (siehe Allgemeine Fertigkeit) machst, die diesen Fertigkeitsbonus beinhaltet: ",
+        "button1": "Allgemeinwissen",
+        "button2": "Monsterkenntnis"
+      },
+      "multipleChants": {
+        "title": "Anzahl der gewirkten Zauber",
+        "header": "Wähle die Anzahl der Zauber, die in dieser Runde gewirkt werden sollen.",
+        "body0": " <span style='color: darkred'>Wichtig:</span> Verwende denselben Button, wenn du mehrmals für jede Zauberanwendungsprobe wirkst.",
+        "body1": "Wirk 2 Zauber: je -8 Strafe<br>Wirk 1 Zauber: 0 Strafe<br>&nbsp;",
+        "body2": "Wirk 2 Zauber: je -4 Strafe<br>Wirk 1 Zauber: 0 Strafe<br>&nbsp;",
+        "body3": "Wirk 3 Zauber: je -8 Strafe<br>Wirk 2 Zauber: je -4 Strafe<br>Wirk 1 Zauber: 0 Strafe<br>&nbsp;",
+        "body4": "Wirk 3 Zauber: je -4 Strafe<br>Wirk 2 Zauber: je -2 Strafe<br>Wirk 1 Zauber: 0 Strafe<br>&nbsp;",
+        "body5": "Wirk 3 Zauber: je -4 Strafe<br>Wirk 1-2 Zauber: 0 Strafe<br>&nbsp;",
+        "button1": "1 Zauber",
+        "button2": "2 Zauber",
+        "button3": "3 Zauber"
+      }
+    }
+  }
+}

@@ -1,5 +1,27 @@
 {
+  "TYPES": {
+    "Item": {
+      "weapon": "Bronie",
+      "armor": "Pancerze",
+      "shield": "Tarcze",
+      "item": "Przedmioty",
+      "spell": "Zaklęcia",
+      "skill": "Umiejętności",
+      "race": "Rasy",
+      "martialtechniques": "Techniki Walki"
+    },
+    "Actor": {
+      "character": "Postać Modlitewna",
+      "fate": "Los",
+      "monster": "Postać Nie-Modlitewna",
+      "mount": "Wierzchowce"
+    }
+  },
   "gs": {
+    "sheets": {
+      "actor": "Arkusz Postaci Goblin Slayer",
+      "item": "Arkusz Przedmiotu Goblin Slayer"
+    },
     "gear": {
       "common": {
         "nam": "Nazwa",
@@ -98,7 +120,17 @@
         "adv": "Awanturnicze",
         "gen": "Ogólne"
       },
-      "equipment": "Equipment"
+      "mTech": {
+        "overview": "Overview",
+        "descrip": "Description",
+        "usable": "Usable Weapons",
+        "related": "Related Skills",
+        "cost": "Cost",
+        "condition": "Condition",
+        "details": "Details"
+      },
+      "equipment": "Equipment",
+      "equip": "Equip"
     },
     "actor": {
       "common": {
@@ -158,55 +190,7 @@
         "dPri": "Smoczy Kapłan",
         "sham": "Szaman",
         "fatW": "Kondycja",
-        "pena": "Kara",
-        "ran1": "-1 do wszystkich wyników.",
-        "ran2": "-2 do wszystkich wyników. Prękość Ruchu mniejsza o połowę.",
-        "ran3": "-3 do wszystkich wyników. Siła Witalna & Prękość Ruchu mniejsze o połowę.",
-        "ran4": "Nieprzytomny. -4 do wszystkich wyników. Siła Witalna & Prękość Ruchu mniejsze o połowę.",
-        "ran5": "Śmierć.",
-        "attr": "Zmęczenia",
-        "advSW": "Umiejętności Awanturnika",
-        "genSW": "Umiejętności Ogólne",
-        "mast": "Poziom Mistrzostwa",
-        "effe": "Efekt",
-        "page": "Strona",
-        "scor": "Wynik",
-        "lear": "Znane Zaklęcie",
-        "syst": "System Zaklęć",
-        "hit": "Trafienie",
-        "basic": "Baza",
-        "dodge": "Unik",
-        "block": "Blok",
-        "skills": "Umiejętności",
-        "melee": "Walka wręcz",
-        "throw": "Broń Miotana",
-        "weapon": "Broń",
-        "armor": "Pancerz",
-        "shield": "Tarcza",
-        "usage": "Użycie/Atrybut",
-        "modi": "Mod",
-        "total": "Razem",
-        "power": "Moc",
-        "ste": "Ukrycie",
-        "damage": "Obrażenia",
-        "effective": "Skuteczność",
-        "table": "Tabela",
-        "bonus": "Bonus",
-        "under": "i pod",
-        "over": "i nad",
-        "none": "Brak",
-        "poss": "Ekwipunek",
-        "advT": "Narzędzia Awanturnika (Lina, 10m; kliny x10; młotek; pudełko z zapałkami; plecak; bukłak; pudełko na racje; biała kreda; mały nożyk; pochodnia x6",
-        "rati": "Racje żywnościowe (7 dni)",
-        "clot": "Ubranie",
-        "money": "Pieniądze",
-        "gold": "Złoto",
-        "silv": "Srebro",
-        "bron": "Brąz",
-        "piec": "Fragmenty",
-        "heal": "Leczenie",
-        "aTrack": "Wyczerpanie",
-        "dc": "ST"
+        "pena": "Kara"
       },
       "monster": {
         "type": "Typ",
@@ -248,19 +232,19 @@
         "description": "Opis"
       },
       "fate": {
-        "gmInstructions": "GM, enter adventure Fate here (only you can see this message), 3: Easy, 5: Moderate, 7: Hard",
-        "fatePoints": "Fate Points",
-        "upResult": "Increase Result",
-        "reroll": "Reroll Dice",
-        "flee": "Automatic Flee",
-        "hint": "Hint",
-        "upResultText": "When you use a fate point to increase a check's result, it upgrades a failure to a success or a success to a critical success, but cannot change a critical failure. This applies even if the final score is lower than needed. For example, if a spell's difficulty is higher than the check score, the spell still succeeds at its lowest effectiveness. Only one fate point can be used per check.",
-        "rerollText": "When using a fate point to reroll dice (except for a check or prayer), you can reroll all the dice and add 1 to each result. This can only be done once per dice roll opportunity. If a die rolls a 6, it becomes 7.",
-        "fleeText": "Using a fate point to flee allows all PCs to escape combat to a safe place automatically, without rolling. This increases the fate points by 3. The GM will describe a sudden event explaining the escape. The new area is temporarily safe, but the GM decides how long this safety lasts.",
-        "hintText": "Using fate points for an adventure hint automatically gives the PCs a helpful clue or event to move the story forward. This increases the fate points by 3. The GM decides when to offer hints and whether the PCs' request for a hint is appropriate.",
-        "bonusExp": "Fate Points Bonus Experience",
-        "currentFate": "Current Fate Points",
-        "bonusPerPerson": "Bonus XP / Person"
+        "gmInstructions": "GM, wpisz los przygody tutaj (tylko Ty widzisz tę wiadomość), 3: Łatwo, 5: Umiarkowanie, 7: Trudno",
+        "fatePoints": "Punkty Losu",
+        "upResult": "Podnieś Wynik",
+        "reroll": "Przerzuć Kości",
+        "flee": "Automatyczne Ucieczka",
+        "hint": "Podpowiedź",
+        "upResultText": "Gdy użyjesz punktu losu aby zwiększyć wynik testu, podnosi on porażkę do sukcesu lub sukces do krytycznego sukcesu, lecz nie zmienia krytycznej porażki. Działa to nawet, gdy końcowy wynik jest niższy od potrzebnego. Przykładowo, jeśli trudność zaklęcia jest wyższa niż wynik testu, zaklęcie mimo wszystko udaje się na najniższej skuteczności. Na jeden test można użyć tylko jednego punktu losu.",
+        "rerollText": "Przy użyciu punktu losu do przerzutu kości (z wyjątkiem testu czy modlitwy), możesz przerzucić wszystkie kości i dodać 1 do każdego wyniku. Może to być wykonane tylko raz przy danej możliwości rzutu. Jeśli kość wyrzuci 6, staje się 7.",
+        "fleeText": "Użycie punktu losu do ucieczki pozwala wszystkim PC na automatyczną ucieczkę z walki do bezpiecznego miejsca, bez rzucania kośćmi. To zwiększa punkty losu o 3. GM opisze nagłe zdarzenie tłumaczące ucieczkę. Nowy obszar jest tymczasowo bezpieczny, lecz GM decyduje, jak długo trwa ta ochrona.",
+        "hintText": "Użycie punktów losu dla podpowiedzi przygodowej automatycznie daje PC pomocną wskazówkę lub wydarzenie, które przesuwa fabułę do przodu. To zwiększa punkty losu o 3. GM decyduje, kiedy zaoferować podpowiedź i czy prośba PC o podpowiedź jest zasadne.",
+        "bonusExp": "Bonus Doświadczenia za Punkty Losu",
+        "currentFate": "Aktualne Punkty Losu",
+        "bonusPerPerson": "Bonus XP / Osoba"
       }
     },
     "charSheet": {
@@ -355,7 +339,14 @@
       },
       "spells": {
         "spUse": "Użycie zaklęcia",
-        "cast": "Rzucanie"
+        "cast": "Rzucanie",
+        "spellCast": "Rzucanie Zaklęcia",
+        "useCheck": "Test użycia zaklęcia",
+        "diffCheck": "ST",
+        "apply": "Zastosuj na celach",
+        "rolldice": "Rzuć kostkami mocy zaklęcia",
+        "recoveryAmt": "Ilość regeneracji",
+        "spellDmg": "Obrażenia zaklęcia"
       },
       "monsterSheet": {
         "boss": "Czy ten potwór jest bossem?",
@@ -370,7 +361,7 @@
           "block": "Rzut na blok"
         },
         "sidebar": {
-          "specRolls": "Spec. Rzuty",
+          "specRolls": "Spec. rzuty",
           "buttons": {
             "initiative": "Initiative",
             "sixthSense": "Szósty Zmysł",
@@ -423,9 +414,9 @@
         "label": "Use Strength Reflex when you are the target of a spell. Use Strength Endurance when recovering from an effect."
       },
       "psyRes": {
-        "title": "Pysche Resistance Choice",
-        "header": "Pysche Reflex or Pysche Endurance",
-        "label": "Use Pysche Reflex when you are the target of a spell. Use Pysche Endurance when recovering from an effect."
+        "title": "Psyche Resistance Choice",
+        "header": "Psyche Reflex or Psyche Endurance",
+        "label": "Use Psyche Reflex when you are the target of a spell. Use Psyche Endurance when recovering from an effect."
       },
       "intRes": {
         "title": "Intelligence Resistance Choice",
@@ -435,34 +426,34 @@
       "strength": {
         "title": "Strength Check Choice",
         "header": "Strength Focus or Endurance",
-        "label": "Use Strength Focus for very short periods of time. Use Strength Endurance very long periods of time."
+        "label": "Use Strength Focus for very short periods of time. Use Strength Endurance for very long periods."
       },
       "stealth": {
         "title": "Stealth Choice",
         "header": "Technique Focus, Endurance, or Reflex",
-        "label": "Use Technique Focus for hiding before someone finds you. Use Technique Endurance to hide for a very long period of time. Use Technique Reflex to hide during combat or when a target is distracted."
+        "label": "Use Technique Focus for krótkotrwałe ukrycie. Use Technique Endurance for długotrwałe ukrycie. Use Technique Reflex for nagłe reakcje."
       },
       "monsterKnow": {
         "title": "Monster Knowledge Choice",
         "header": "Intelligence Focus or Reflex",
-        "label": "Use Intelligence Focus when you encounters monsters before battle. Use Intelligence Reflex to recall knowledge when you hear or read about a monster to immediately recall info about them."
+        "label": "Use Intelligence Focus when you encounter monsters before battle. Use Intelligence Reflex to recall knowledge when you hear or read about a monster to immediately recall info about them."
       },
       "acrobatics": {
         "title": "Acrobatics Choice",
         "header": "Technique Focus, Endurance, or Reflex",
-        "label": "Use Technique Focus for short duration balancing. Use Technique Endurance to balance for extended periods of time such as walking over a rope bridge. Use Technique Reflex for sudden reactions such as rolling into a fall or tumbling out of the way."
+        "label": "Use Technique Focus for krótkotrwałe balansowanie. Use Technique Endurance do balansowania przy długotrwałym przechodzeniu po linie. Use Technique Reflex do nagłych reakcji, takich jak przewrócenie się czy tumbling."
       },
       "mowDown": {
         "title": "Mow Down Skill",
-        "header": "How Many Targeted Enemies?",
-        "label0": "Selecting 2 targets adds a -4 penalty. ",
-        "label1": "Each extra enemy adds -2 to the check. You can add this many more enemies to the check: ",
-        "label2": "Each extra enemy adds -1 to the check. You can add this many more enemies to the check: ",
-        "targets": "Targets: "
+        "header": "Ile celowanych przeciwników?",
+        "label0": "Wybranie 2 celów dodaje karę -4. ",
+        "label1": "Każdy kolejny przeciwnik dodaje karę -2. Możesz dodać tyle przeciwników do testu: ",
+        "label2": "Każdy kolejny przeciwnik dodaje karę -1. Możesz dodać tyle przeciwników do testu: ",
+        "targets": "Cele: "
       },
       "spellMaint": {
         "title": "Spell Maintenance",
-        "header": "Which spell are you maintaining?"
+        "header": "Które zaklęcie utrzymujesz?"
       },
       "coolAndColl": {
         "title": "Mental Resistance Choice",
@@ -470,37 +461,37 @@
       },
       "faith": {
         "title": "Chanting Choice",
-        "header": "Chanting your spell to show your Faith?",
-        "label1": "Chanting",
-        "label2": "Chantless"
+        "header": "Czy zaklinasz, by okazać wiarę?",
+        "label1": "Zaklinanie",
+        "label2": "Bez zaklinania"
       },
       "catalyst": {
         "title": "Spell Catalyst Choice",
-        "header": "Using your catalyst bag to cast?",
-        "label1": "No",
-        "label2": "Yes"
+        "header": "Czy używasz torby katalizatora do rzucania zaklęcia?",
+        "label1": "Nie",
+        "label2": "Tak"
       },
       "genSkills": {
         "title": "General Skill Choices",
-        "header": "Mark all selections for ",
-        "recall": "Recalling knowledge?",
-        "use": "Using skills?",
-        "primary": "Which primary skill are you using?",
-        "secondary": "Which secondary skill do you need? (Select 1)",
-        "cancelled": "General skill roll cancelled"
+        "header": "Zaznacz wszystkie opcje dla ",
+        "recall": "Przywołanie wiedzy?",
+        "use": "Użycie umiejętności?",
+        "primary": "Którą umiejętność główną wybierasz?",
+        "secondary": "Którą umiejętność poboczną potrzebujesz? (Wybierz 1)",
+        "cancelled": "Test umiejętności ogólnych anulowany"
       },
       "spellCasting": {
-        "shamanAlert": "You need either Beloved of the Fae or a Shaman Bag to cast Shaman spells.",
-        "dragonPriestAlert": "You need a Dragon Priest's Catalyst Pouch to cast Dragon Priest spells."
+        "shamanAlert": "Do rzucenia zaklęć szamańskich potrzebujesz albo Uwielbianej Fae albo torby Szamana.",
+        "dragonPriestAlert": "Do rzucenia zaklęć smoczego kapłana potrzebujesz torby katalizatora."
       },
       "resting": {
-        "sRestMessage": "has healed 3 attrition from a short rest.",
-        "lRestMessage": "has healed 10 attrition, half their life force in wounds, all spell uses (if any), and an amount of fatigue (see below).",
-        "briefLongRest": "has healed 3 attrition, and an amount of fatigue (see below)."
+        "sRestMessage": "wyleczył 3 punkty zmęczenia z krótkiego odpoczynku.",
+        "lRestMessage": "wyleczył 10 punktów zmęczenia, połowę siły życiowej z ran, wszystkie użycia zaklęć (jeśli jakiekolwiek) oraz pewną ilość zmęczenia (patrz poniżej).",
+        "briefLongRest": "wyleczył 3 punkty zmęczenia i pewną ilość zmęczenia (patrz poniżej)."
       },
       "longResting": {
-        "title": "Long Rest Decision",
-        "header": "Decide how many hours you are resting",
+        "title": "Decyzja długiego odpoczynku",
+        "header": "Zdecyduj, ile godzin będziesz odpoczywać",
         "label1": "3+",
         "label2": "6+"
       }

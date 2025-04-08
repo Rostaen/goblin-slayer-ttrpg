@@ -2536,9 +2536,14 @@ gs.spells = {
 			name: 'Create Potion',
 			chant: 'Facio (create)…aqua (water)…sano (healing)'
 		},
+		dance: {
+			uuid: 'Compendium.gs.spells.Item.OggHRf4sXnLUC8Kf',
+			name: 'Dance',
+			chant: 'Musica (music)…concilio (connection)…terpsichore (dance)'
+		},
 		deflectMissile: {
 			uuid: 'Compendium.gs.spells.Item.QmN8XVXJWQS00wh7',
-			name: 'Deflect Missle',
+			name: 'Deflect Missile',
 			area: "Sphere",
 			target: 1,
 			range: 60,
@@ -2628,6 +2633,11 @@ gs.spells = {
 				}
 			],
 			notes: "Imbue Target: 1 Object in Range: Touch with magic power, adding Modifier Score to its hit modifier and power. This lasts for Duration: 1 Hour. Any melee and ranged attacks made with a targeted weapon are treated as magic attacks. However, for ranged weapons, only add the modifier score to the hit modifier, not the power. When targeting an arrow or bolt, you can add the modifier score to both the hit modifier and the power, so long as you use that arrow or bolt in a ranged attack. If the owner of the target object passes a spell resistance check, the spell has no effect."
+		},
+		escape: {
+			uuid: 'Compendium.gs.spells.Item.eMhgNm6LQDAiI3VV',
+			name: 'Escape',
+			chant: 'Ego (self)…optimas (best)…modus (method)'
 		},
 		fireball: {
 			uuid: 'Compendium.gs.spells.Item.nncOCc9yzHm0WEcX',

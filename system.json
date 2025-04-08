@@ -11,7 +11,7 @@
   "license": "",
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
-  "version": "0.11.2",
+  "version": "0.12.0",
   "compatibility": {
     "minimum": "11",
     "verified": "12.331"
@@ -27,9 +27,33 @@
     },
     {
       "lang": "pl",
-      "name": "Polski",
+      "name": "polski",
       "path": "lang/pl.json",
       "flags": {}
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "lang/es.json",
+      "flag": {}
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json",
+      "flag": {}
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json",
+      "flag": {}
+    },
+    {
+      "lang": "ja",
+      "name": "日本語",
+      "path": "lang/ja.json",
+      "flag": {}
     }
   ],
   "packs": [
@@ -193,7 +217,7 @@
   "socket": false,
   "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
   "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
-  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/releases/download/v0.11.2/gs-game-system.zip",
+  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/releases/download/v0.12.0/gs-game-system.zip",
   "background": "systems/gs/assets/gslogo.jpg",
   "grid": {
     "distance": 1,
