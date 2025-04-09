@@ -1236,19 +1236,21 @@ export default class GSActorSheet extends ActorSheet {
 			x === 0 ? lowerCamelSchoolName = tempSpellSchool[x].toLowerCase() : lowerCamelSchoolName += tempSpellSchool[x];
 
 		// Grabbling spell effect score range and modifications
-		configSpell = CONFIG.gs.spells[lowerCamelSchoolName][lowerCamelSpellName].effectiveScore;
+		configSpell = CONFIG.gs.spells[lowerCamelSchoolName][lowerCamelSpellName].effectiveScore || 0;
 
-		// Adding target info to results
-		results.push(CONFIG.gs.spells[lowerCamelSchoolName][lowerCamelSpellName].target);
+		if (configSpell != 0) {
+			// Adding target info to results
+			results.push(CONFIG.gs.spells[lowerCamelSchoolName][lowerCamelSpellName].target);
 
-		configSpell.forEach(s => {
-			if (rollTotal >= s.range[0] && rollTotal <= s.range[1])
-				results.push(s);
-		});
+			configSpell.forEach(s => {
+				if (rollTotal >= s.range[0] && rollTotal <= s.range[1])
+					results.push(s);
+			});
 
-		for (let [key, item] of Object.entries(results[1])) {
-			if (key !== 'range') {
-				results.push(this._addToFlavorMessage('armorDodgeScore', key.charAt(0).toUpperCase() + key.slice(1), item));
+			for (let [key, item] of Object.entries(results[1])) {
+				if (key !== 'range') {
+					results.push(this._addToFlavorMessage('armorDodgeScore', key.charAt(0).toUpperCase() + key.slice(1), item));
+				}
 			}
 		}
 

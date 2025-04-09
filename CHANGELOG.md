@@ -2,6 +2,11 @@
 
 ## Recent updates
 
+### 2025-4-9
+
+- Finished Non-Prayer Character casting to include non-damaging spells.
+- Corrected Prayer Character non-damaging spells.
+
 ### 2025-4-8
 
 - Updated all monsters to ensure HP shows on tokens, names show on hover for all, HP bars show on hover for GM, multiple monsters drawn out to game board use adjectives rather than numbers.

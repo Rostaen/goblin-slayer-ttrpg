@@ -226,31 +226,34 @@ function _addEffectiveResults(actor, spell, rollTotal) {
 	let results = [];
 
 	// Grabbling spell effect score range and modifications
-	configSpell = spell.effectivenessScore;
+	configSpell = spell.effectivenessScore || null;
 
-	// Adding target info to results
-	results.push(spell.target);
+	if (configSpell != null) {
+		// Adding target info to results
+		results.push(spell.target);
 
-	configSpell.forEach(s => {
-		if (rollTotal >= s.range[0] && rollTotal <= s.range[1]) {
-			results.push(s);
+		configSpell.forEach(s => {
+			if (rollTotal >= s.range[0] && rollTotal <= s.range[1]) {
+				results.push(s);
+			}
+		});
+
+		for (let [key, item] of Object.entries(results[1])) {
+			if (key === 'power') {
+				let tempSpellPower = item.split(" + ");
+				let newSpellPower = `${tempSpellPower.slice(0, -1).join(" + ")} + ${actor.system.lifeForce.double}`;
+				results[1].power = newSpellPower;
+				results.push(addToFlavorMessage('armorDodgeScore', game.i18n.localize('gs.actor.character.power'), newSpellPower));
+			}
 		}
-	});
-
-	for (let [key, item] of Object.entries(results[1])) {
-		if (key === 'power') {
-			let tempSpellPower = item.split(" + ");
-			let newSpellPower = `${tempSpellPower.slice(0, -1).join(" + ")} + ${actor.system.lifeForce.double}`;
-			results[1].power = newSpellPower;
-			results.push(addToFlavorMessage('armorDodgeScore', game.i18n.localize('gs.actor.character.power'), newSpellPower));
-		}
+	} else {
+		results = 0;
 	}
 
 	return results;
 }
 
 function _setSpellPowerDice(key, extractedDice, spell, targets, spellDC, actor) {
-	console.log('... check spell data', spell);
 	return `<div class='spellTarget grid grid-2col'>
 		<div style="display:flex; justify-content: center; align-items: center; font-size: 14px;">${game.i18n.localize('gs.dialog.spells.rolldice')}</div>
 		<button type="button" class="actorSpellDmg" data-spelldc="${spellDC}" data-targets="${targets}" data-keytype="${key}" data-rolldice="${extractedDice}" data-playerid="${actor._id}" data-spell="${spell.uuid}"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
