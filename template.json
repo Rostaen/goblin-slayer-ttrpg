@@ -1,0 +1,415 @@
+{
+  "Actor": {
+    "types": ["character", "monster", "fate", "mount"],
+    "templates": {
+      "common": {
+        "move": 0,
+        "modMove": 0,
+        "spellRes": 0,
+        "lifeForce": {
+          "current": 0,
+          "double": 0,
+          "wounds": 0,
+          "max": 0,
+          "value": 0
+        }
+      }
+    },
+    "character": {
+      "templates": ["common"],
+      "details": {
+        "race": "",
+        "age": "",
+        "gender": "",
+        "history": "",
+        "rank": "",
+        "traits": "",
+        "hair": "",
+        "eyes": "",
+        "other": ""
+      },
+      "abilities": {
+        "primary": {
+          "str": 0,
+          "psy": 0,
+          "tec": 0,
+          "int": 0
+        },
+        "secondary": {
+          "foc": 0,
+          "end": 0,
+          "ref": 0
+        },
+        "calc": {
+          "sf": 0,
+          "se": 0,
+          "sr": 0,
+          "pf": 0,
+          "pe": 0,
+          "pr": 0,
+          "tf": 0,
+          "te": 0,
+          "tr": 0,
+          "if": 0,
+          "ie": 0,
+          "ir": 0
+        }
+      },
+      "xp": {
+        "cumulative": 3000,
+        "current": 3000
+      },
+      "adventures": {
+        "current": 0,
+        "completed": 0
+      },
+      "advancePoints": 10,
+      "spellUse": {
+        "value": 0,
+        "min": 0,
+        "max": 0,
+        "checks": [false, false, false, false, false, false, false],
+        "scores": {
+          "sorc": 0,
+          "prie": 0,
+          "dPri": 0,
+          "sham": 0,
+          "necro": 0
+        }
+      },
+      "levels": {
+        "adventurer": 1,
+        "classes": {
+          "fighter": 0,
+          "monk": 0,
+          "ranger": 0,
+          "scout": 0,
+          "sorcerer": 0,
+          "priest": 0,
+          "dragon": 0,
+          "shaman": 0,
+          "necro": 0
+        }
+      },
+      "fatigue": {
+        "rank1": {
+          "min": 0,
+          "max": 5,
+          "ex": 0
+        },
+        "rank2": {
+          "min": 0,
+          "max": 4,
+          "ex": 0
+        },
+        "rank3": {
+          "min": 0,
+          "max": 3,
+          "ex": 0
+        },
+        "rank4": {
+          "min": 0,
+          "max": 2,
+          "ex": 0
+        },
+        "rank5": {
+          "min": 0,
+          "max": 1,
+          "ex": 0
+        },
+        "fatigueMod": 0
+      },
+      "attrition": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "skills": {
+        "adventurer": [],
+        "general": []
+      },
+      "spells": {
+        "mods": {},
+        "value": 0,
+        "learned": {}
+      },
+      "attacks": {
+        "mods": {},
+        "totals": {
+          "melee": {},
+          "throw": {},
+          "projectile": {}
+        },
+        "weapons": {}
+      },
+      "defense": {
+        "dodge": {
+          "mods": {},
+          "value": 0
+        },
+        "armor": {},
+        "block": {
+          "mods": {},
+          "value": 0
+        },
+        "shield": {}
+      },
+      "possessions": "",
+      "money": 0
+    },
+    "monster": {
+      "templates": ["common"],
+      "type": "",
+      "init": "",
+      "inte": "",
+      "morale": 0,
+      "numAttacks": 1,
+      "bossSR": 0,
+      "attacks": [
+        {
+          "name": "",
+          "type": "",
+          "range": 0,
+          "check": 0,
+          "mCheck": 0,
+          "power": "",
+          "pType": ""
+        },
+        {
+          "name": "",
+          "type": "",
+          "range": 0,
+          "check": 0,
+          "mCheck": 0,
+          "power": "",
+          "pType": ""
+        },
+        {
+          "name": "",
+          "type": "",
+          "range": 0,
+          "check": 0,
+          "mCheck": 0,
+          "power": "",
+          "pType": ""
+        },
+        {
+          "name": "",
+          "type": "",
+          "range": 0,
+          "check": 0,
+          "mCheck": 0,
+          "power": "",
+          "pType": ""
+        }
+      ],
+      "defenses": {
+        "minion": {
+          "dodge": 0,
+          "block": 0,
+          "armor": 0,
+          "aType": ""
+        },
+        "boss": {
+          "dodge": 0,
+          "block": 0,
+          "armor": 0,
+          "aType": ""
+        }
+      },
+      "support": "",
+      "abilities": "",
+      "comment": "",
+      "isBoss": false,
+      "hasBlock": false
+    },
+    "fate": {
+      "templates": ["common"],
+      "value": 3
+    },
+    "mount": {
+      "templates": ["common"],
+      "cost": 0,
+      "type": "",
+      "inte": "",
+      "bossSR": 0,
+      "attacks": {
+        "name": "",
+        "type": "",
+        "range": 0,
+        "check": 0,
+        "mCheck": 0,
+        "power": "",
+        "pType": ""
+      },
+      "defenses": {
+        "dodge": 0,
+        "block": 0,
+        "bScore": 0,
+        "armor": 0,
+        "aType": ""
+      },
+      "abilities": "",
+      "comment": "",
+      "hasBlock": false
+    }
+  },
+  "Item": {
+    "types": ["weapon", "armor", "shield", "item", "spell", "skill", "race", "martialtechniques"],
+    "templates": {
+      "common": {
+        "type": "",
+        "value": 1,
+        "effects": "",
+        "stealth": "",
+        "comment": "",
+        "quantity": 1
+      }
+    },
+    "weapon": {
+      "templates": ["common"],
+      "use": "",
+      "attribute": "",
+      "power": "",
+      "hitMod": 0,
+      "range": ""
+    },
+    "armor": {
+      "templates": ["common"],
+      "score": 0,
+      "dodge": 0,
+      "move": 0,
+      "heavy": {
+        "value": false,
+        "x": 0,
+        "y": 0
+      }
+    },
+    "shield": {
+      "templates": ["common"],
+      "mod": 0,
+      "score": 0
+    },
+    "item": {
+      "templates": ["common"],
+      "description": ""
+    },
+    "spell": {
+      "templates": ["common"],
+      "summary": "",
+      "difficulty": "",
+      "chant": "",
+      "catalyst": "None",
+      "schoolChoice": "",
+      "styleChoice": "",
+      "elementChoice": "",
+      "schools": {
+        "wor": "",
+        "mir": "",
+        "anc": "",
+        "spi": ""
+      },
+      "styles": {
+        "att": "",
+        "imb": "",
+        "cre": "",
+        "con": "",
+        "hea": "",
+        "gen": ""
+      },
+      "elements": {
+        "fir": "",
+        "wat": "",
+        "ear": "",
+        "win": "",
+        "lig": "",
+        "dar": "",
+        "lif": "",
+        "min": "",
+        "mat": "",
+        "tim": "",
+        "spa": ""
+      }
+    },
+    "skill": {
+      "templates": ["common"],
+      "grade": "",
+      "prereq": "<p>None</p>",
+      "beginner": "",
+      "intermediate": "",
+      "expert": "",
+      "master": "",
+      "legend": ""
+    },
+    "race": {
+      "skills": [],
+      "scores": {
+        "fixed": {
+          "str": 0,
+          "psy": 0,
+          "tec": 0,
+          "int": 0,
+          "foc": 0,
+          "end": 0,
+          "ref": 0
+        },
+        "random": {
+          "str": "",
+          "pys": "",
+          "tec": "",
+          "int": "",
+          "foc": "",
+          "end": "",
+          "ref": ""
+        }
+      },
+      "moveMod": 0
+    },
+    "martialtechniques": {
+      "overview": "",
+      "description": "",
+      "usable": "",
+      "related": "None",
+      "cost": "None",
+      "condition": "None",
+      "details": ""
+    }
+  }
+}

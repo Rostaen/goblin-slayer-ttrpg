@@ -1,0 +1,429 @@
+<div class="stats grid grid-7col">
+    <div class="grid-span-5 left">
+        {{!-- Ability Scores --}}
+        <div class="grid grid-4col statsContainer">
+            {{!-- Header Row --}}
+            <h4 class="mainHeader">{{localize config.character.ability}}</h4>
+            <div class="grid-span-3 secondHeader">
+                <h4>{{localize config.character.second}} {{localize config.character.ability}}</h4>
+            </div>
+
+            {{!-- Row 1 --}}
+            <div class="primaryHeader">
+                <h4>{{localize config.character.primary}} {{localize config.character.ability}}</h4>
+            </div>
+            <div class="focus secondaryScore">
+                <label>{{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.secondary.foc" value="{{actor.system.abilities.secondary.foc}}" data-dtype="Number">
+            </div>
+            <div class="endurance secondaryScore">
+                <label>{{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.secondary.end" value="{{actor.system.abilities.secondary.end}}" data-dtype="Number">
+            </div>
+            <div class="reflex secondaryScore">
+                <label>{{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.secondary.ref" value="{{actor.system.abilities.secondary.ref}}" data-dtype="Number">
+            </div>
+
+            {{!-- Row 2 --}}
+            <div class="strength primaryScore">
+                <label>{{localize config.character.scores.str}}</label>
+                <input type="text" name="system.abilities.primary.str" value="{{actor.system.abilities.primary.str}}" data-dtype="Number">
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.str}} {{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.calc.sf" value="{{actor.system.abilities.calc.sf}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.str}} {{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.calc.se" value="{{actor.system.abilities.calc.se}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.str}} {{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.calc.sr" value="{{actor.system.abilities.calc.sr}}" data-dtype="Number" disabled>
+            </div>
+
+            {{!-- Row 3 --}}
+            <div class="pysche primaryScore">
+                <label>{{localize config.character.scores.psy}}</label>
+                <input type="text" name="system.abilities.primary.psy" value="{{actor.system.abilities.primary.psy}}" data-dtype="Number">
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.psy}} {{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.calc.pf" value="{{actor.system.abilities.calc.pf}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.psy}} {{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.calc.pe" value="{{actor.system.abilities.calc.pe}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.psy}} {{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.calc.pr" value="{{actor.system.abilities.calc.pr}}" data-dtype="Number" disabled>
+            </div>
+
+            {{!-- Row 4 --}}
+            <div class="technique primaryScore">
+                <label>{{localize config.character.scores.tec}}</label>
+                <input type="text" name="system.abilities.primary.tec" value="{{actor.system.abilities.primary.tec}}" data-dtype="Number">
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.tec}} {{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.calc.tf" value="{{actor.system.abilities.calc.tf}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.tec}} {{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.calc.te" value="{{actor.system.abilities.calc.te}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.tec}} {{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.calc.tr" value="{{actor.system.abilities.calc.tr}}" data-dtype="Number" disabled>
+            </div>
+
+            {{!-- Row 5 --}}
+            <div class="intelligence primaryScore">
+                <label>{{localize config.character.scores.int}}</label>
+                <input type="text" name="system.abilities.primary.int" value="{{actor.system.abilities.primary.int}}" data-dtype="Number">
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.int}} {{localize config.character.scores.foc}}</label>
+                <input type="text" name="system.abilities.calc.if" value="{{actor.system.abilities.calc.if}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore">
+                <label class="scoreRoll">{{localize config.character.scores.int}} {{localize config.character.scores.end}}</label>
+                <input type="text" name="system.abilities.calc.ie" value="{{actor.system.abilities.calc.ie}}" data-dtype="Number" disabled>
+            </div>
+            <div class="calcScore lastCell">
+                <label class="scoreRoll">{{localize config.character.scores.int}} {{localize config.character.scores.ref}}</label>
+                <input type="text" name="system.abilities.calc.ir" value="{{actor.system.abilities.calc.ir}}" data-dtype="Number" disabled>
+            </div>
+        </div>
+        {{!-- Adventures Container --}}
+        <div class="grid grid-4col adventuresContainer">
+            <label>{{localize config.character.experience.ads}}: </label>
+            <input type="text" name="system.adventures.current" value="{{actor.system.adventures.current}}" data-dtype="Number">
+
+            <label>{{localize config.character.experience.com}}: </label>
+            <input type="text" name="system.adventures.completed" value="{{actor.system.adventures.completed}}" data-dtype="Number">
+        </div>
+        {{!-- Attrition --}}
+        <div class="attrition">
+            <h2>{{localize config.character.aTrack}}</h2>
+            <button type="button" class="actorRolls healAttrition" title="{{localize config.character.heal}} {{localize config.character.attr}}"><i class="fa-solid fa-heart-pulse"></i></button>
+            <div class="attritionContainer grid grid-4col">
+                {{!-- Row 1 --}}
+                <div class="attritionBlock">
+                    <div class="grid grid-6col">
+                        <input type="checkbox" name="system.attrition.0" class="attritionCBox aCBox1" data-cbox=1 {{#if actor.system.attrition.[0]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.1" class="attritionCBox aCBox2" data-cbox=2 {{#if actor.system.attrition.[1]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.2" class="attritionCBox aCBox3" data-cbox=3 {{#if actor.system.attrition.[2]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.3" class="attritionCBox aCBox4" data-cbox=4 {{#if actor.system.attrition.[3]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.4" class="attritionCBox aCBox5 spiked" data-cbox=5 {{#if actor.system.attrition.[4]}}{{checked}}{{/if}} />
+                        <label class="attNum">5</label>
+                    </div>
+                </div>
+                <div class="attritionBlock">
+                    <div class="grid grid-6col">
+                        <input type="checkbox" name="system.attrition.5" class="attritionCBox aCBox6" data-cbox=6 {{#if actor.system.attrition.[5]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.6" class="attritionCBox aCBox7" data-cbox=7 {{#if actor.system.attrition.[6]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.7" class="attritionCBox aCBox8 spiked" data-cbox=8 {{#if actor.system.attrition.[7]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.8" class="attritionCBox aCBox9" data-cbox=9 {{#if actor.system.attrition.[8]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.9" class="attritionCBox aCBox10" data-cbox=10 {{#if actor.system.attrition.[9]}}{{checked}}{{/if}} />
+                        <label class="attNum">10</label>
+                    </div>
+                </div>
+                <div class="attritionBlock">
+                    <div class="grid grid-6col">
+                        <input type="checkbox" name="system.attrition.10" class="attritionCBox aCBox11 spiked" data-cbox=11 {{#if actor.system.attrition.[10]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.11" class="attritionCBox aCBox12" data-cbox=12 {{#if actor.system.attrition.[11]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.12" class="attritionCBox aCBox13" data-cbox=13 {{#if actor.system.attrition.[12]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.13" class="attritionCBox aCBox14 spiked" data-cbox=14 {{#if actor.system.attrition.[13]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.14" class="attritionCBox aCBox15" data-cbox=15 {{#if actor.system.attrition.[14]}}{{checked}}{{/if}} />
+                        <label class="attNum">15</label>
+                    </div>
+                </div>
+                <div class="attritionBlock">
+                    <div class="grid grid-6col">
+                        <input type="checkbox" name="system.attrition.15" class="attritionCBox aCBox16 spiked" data-cbox=16 {{#if actor.system.attrition.[15]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.16" class="attritionCBox aCBox17" data-cbox=17 {{#if actor.system.attrition.[16]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.17" class="attritionCBox aCBox18 spiked" data-cbox=18 {{#if actor.system.attrition.[17]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.18" class="attritionCBox aCBox19" data-cbox=19 {{#if actor.system.attrition.[18]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.19" class="attritionCBox aCBox20 spiked" data-cbox=20 {{#if actor.system.attrition.[19]}}{{checked}}{{/if}} />
+                        <label class="attNum">20</label>
+                    </div>
+                </div>
+                {{!-- Row 2 --}}
+                <div class="attritionBlock">
+                    <div class="grid grid-6col">
+                        <input type="checkbox" name="system.attrition.20" class="attritionCBox aCBox21 spiked" data-cbox=21 {{#if actor.system.attrition.[20]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.21" class="attritionCBox aCBox22 spiked" data-cbox=22 {{#if actor.system.attrition.[21]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.22" class="attritionCBox aCBox23 spiked" data-cbox=23 {{#if actor.system.attrition.[22]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.23" class="attritionCBox aCBox24 spiked" data-cbox=24 {{#if actor.system.attrition.[23]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.24" class="attritionCBox aCBox25 spiked" data-cbox=25 {{#if actor.system.attrition.[24]}}{{checked}}{{/if}} />
+                        <label class="attNum">25</label>
+                    </div>
+                </div>
+                <div class="attritionBlock">
+                    <div class="grid grid-6col">
+                        <input type="checkbox" name="system.attrition.25" class="attritionCBox aCBox26 spiked" data-cbox=26 {{#if actor.system.attrition.[25]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.26" class="attritionCBox aCBox27 spiked" data-cbox=27 {{#if actor.system.attrition.[26]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.27" class="attritionCBox aCBox28 spiked" data-cbox=28 {{#if actor.system.attrition.[27]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.28" class="attritionCBox aCBox29 spiked" data-cbox=29 {{#if actor.system.attrition.[28]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.29" class="attritionCBox aCBox30 spiked" data-cbox=30 {{#if actor.system.attrition.[29]}}{{checked}}{{/if}} />
+                        <label class="attNum">30</label>
+                    </div>
+                </div>
+                <div class="attritionBlock">
+                    <div class="grid grid-6col">
+                        <input type="checkbox" name="system.attrition.30" class="attritionCBox aCBox31 spiked" data-cbox=31 {{#if actor.system.attrition.[30]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.31" class="attritionCBox aCBox32 spiked" data-cbox=32 {{#if actor.system.attrition.[31]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.32" class="attritionCBox aCBox33 spiked" data-cbox=33 {{#if actor.system.attrition.[32]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.33" class="attritionCBox aCBox34 spiked" data-cbox=34 {{#if actor.system.attrition.[33]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.34" class="attritionCBox aCBox35 spiked" data-cbox=35 {{#if actor.system.attrition.[34]}}{{checked}}{{/if}} />
+                        <label class="attNum">35</label>
+                    </div>
+                </div>
+                <div class="attritionBlock">
+                    <div class="grid grid-6col">
+                        <input type="checkbox" name="system.attrition.35" class="attritionCBox aCBox36 spiked" data-cbox=36 {{#if actor.system.attrition.[35]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.36" class="attritionCBox aCBox37 spiked" data-cbox=37 {{#if actor.system.attrition.[36]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.37" class="attritionCBox aCBox38 spiked" data-cbox=38 {{#if actor.system.attrition.[37]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.38" class="attritionCBox aCBox39 spiked" data-cbox=39 {{#if actor.system.attrition.[38]}}{{checked}}{{/if}} />
+                        <input type="checkbox" name="system.attrition.39" class="attritionCBox aCBox40 spiked" data-cbox=40 {{#if actor.system.attrition.[39]}}{{checked}}{{/if}} />
+                        <label class="attNum">40</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{!-- Special Checks --}}
+        <div class="checks">
+            <h2>{{localize 'gs.charSheet.statsPage.checks'}}</h2>
+            <div class="grid grid-2col">
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.0" {{#if actor.system.favorites.checked.[0]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls initiative"><i class="fa-solid fa-dice"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.initiative'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.17" {{#if actor.system.favorites.checked.[17]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls acrobatics"><i class="fa-solid fa-cat"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.acrobatics'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.16" {{#if actor.system.favorites.checked.[16]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls climbF"><i class="fa-solid fa-arrow-up-long"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.climbF'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.14" {{#if actor.system.favorites.checked.[14]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls climbM"><i class="fa-solid fa-up-long"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.climbM'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.13" {{#if actor.system.favorites.checked.[13]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls escape"><i class="fa-solid fa-user-lock"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.escape'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.4" {{#if actor.system.favorites.checked.[4]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls firstAid"><i class="fa-solid fa-user-nurse"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.firstAid'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.20" {{#if actor.system.favorites.checked.[20]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls generalKnow"><i class="fa-solid fa-map"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.generalKnow'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.5" {{#if actor.system.favorites.checked.[5]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls handiwork"><i class="fa-solid fa-lock-open"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.handiwork'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.11" {{#if actor.system.favorites.checked.[11]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls intRes"><i class="fa-solid fa-book"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.intRes'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.18" {{#if actor.system.favorites.checked.[18]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls jump"><i class="fa-solid fa-person-running"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.jump'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.23" {{#if actor.system.favorites.checked.[23]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls longDistance"><i class="fa-solid fa-person-hiking"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.longDistance'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.3" {{#if actor.system.favorites.checked.[3]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls lucky"><i class="fa-solid fa-clover"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.luck'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.21" {{#if actor.system.favorites.checked.[21]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls magicalKnow"><i class="fa-solid fa-hand-sparkles"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.magicalKnow'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.19" {{#if actor.system.favorites.checked.[19]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls monsterKnow"><i class="fa-solid fa-ghost"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.monsterKnow'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.7" {{#if actor.system.favorites.checked.[7]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls moveObs"><i class="fa-solid fa-hand"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.moveObs'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.8" {{#if actor.system.favorites.checked.[8]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls moveRes"><i class="fa-solid fa-hand-fist"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.moveRes'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.22" {{#if actor.system.favorites.checked.[22]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls observe"><i class="fa-regular fa-eye"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.observe'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.6" {{#if actor.system.favorites.checked.[6]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls provoke"><i class="fa-solid fa-fire"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.provoke'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.10" {{#if actor.system.favorites.checked.[10]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls psyRes"><i class="fa-solid fa-brain"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.psyRes'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.2" {{#if actor.system.favorites.checked.[2]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls sixthSense"><i class="fa-solid fa-eye"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.sixthSense'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.25" {{#if actor.system.favorites.checked.[25]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls spellMaint"><i class="fa-solid fa-wand-sparkles"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.spellMaint'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.1" {{#if actor.system.favorites.checked.[1]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls stealth"><i class="fa-solid fa-user-ninja"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.stealth'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.12" {{#if actor.system.favorites.checked.[12]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls strength"><i class="fa-solid fa-dumbbell"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.strength'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.9" {{#if actor.system.favorites.checked.[9]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls strRes"><i class="fa-solid fa-hill-rockslide"></i></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.strRes'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.15" {{#if actor.system.favorites.checked.[15]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls swim"><i class="fa-solid fa-person-swimming"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.swim'}}</div>
+                </div>
+                <div class="checksCont">
+                    <div class="favorite"><input type="checkbox" class="starred" name="system.favorites.checked.24" {{#if actor.system.favorites.checked.[24]}}{{checked}}{{/if}}></div>
+                    <div class="checkIcon"><button type="button" class="actorRolls tacMove"><i class="fa-solid fa-up-down-left-right"></i></button></div>
+                    <div class="checkName">{{localize 'gs.dialog.actorSheet.sidebar.buttons.tacMove'}}</div>
+                </div>
+            </div>
+        </div>
+        {{!-- <div class="checks">
+            <h2>{{localize 'gs.charSheet.statsPage.checks'}}</h2>
+            <div class="grid grid-2col">
+                {{#each config.charSheet.checks as |value key| }}
+                    <div class="checksCont">
+                        <div class="favorite"><input type="checkbox" class="starred" data-index="{{@index}}" name="system.favorites.checked.{{@index}}" {{checked actor.system.favorites.checked.[{{@index}}]}}></div>
+                        <div class="checkIcon"><button type="button" class="actorRolls {{key}}"><i class="{{value.icon}}"></i></button></div>
+                        <div class="checkName">{{localize value.name}}</div>
+                    </div>
+                {{/each}}
+            </div>
+        </div> --}}
+    </div>
+    <div class="grid-span-2 right">
+        {{!-- Class Levels --}}
+        <div class="classLevels">
+            <h2>{{localize config.character.clWd}}</h2>
+            <div class="grid grid-3col">
+                {{!-- Fighter --}}
+                <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
+                <input type="text" name="system.levels.classes.fighter" value="{{actor.system.levels.classes.fighter}}" data-dtype="Number">
+                {{!-- Monk --}}
+                <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
+                <input type="text" name="system.levels.classes.monk" value="{{actor.system.levels.classes.monk}}" data-dtype="Number">
+                {{!-- Ranger --}}
+                <label class="grid-span-2">{{localize config.character.classes.rang}}</label>
+                <input type="text" name="system.levels.classes.ranger" value="{{actor.system.levels.classes.ranger}}" data-dtype="Number">
+                {{!-- Scout --}}
+                <label class="grid-span-2">{{localize config.character.classes.scou}}</label>
+                <input type="text" name="system.levels.classes.scout" value="{{actor.system.levels.classes.scout}}" data-dtype="Number">
+                {{!-- Sorcerer --}}
+                <label class="grid-span-2">{{localize config.character.classes.sorc}}</label>
+                <input type="text" name="system.levels.classes.sorcerer" value="{{actor.system.levels.classes.sorcerer}}" data-dtype="Number">
+                {{!-- Priest --}}
+                <label class="grid-span-2">{{localize config.character.classes.prie}}</label>
+                <input type="text" name="system.levels.classes.priest" value="{{actor.system.levels.classes.priest}}" data-dtype="Number">
+                {{!-- Dragon Priest --}}
+                <label class="grid-span-2">{{localize config.character.classes.dPri}}</label>
+                <input type="text" name="system.levels.classes.dragon" value="{{actor.system.levels.classes.dragon}}" data-dtype="Number">
+                {{!-- Shaman --}}
+                <label class="grid-span-2">{{localize config.character.classes.sham}}</label>
+                <input type="text" name="system.levels.classes.shaman" value="{{actor.system.levels.classes.shaman}}" data-dtype="Number">
+                {{!-- Necromancer --}}
+                <label class="grid-span-2">{{localize config.character.classes.necro}}</label>
+                <input type="text" name="system.levels.classes.necro" value="{{actor.system.levels.classes.necro}}" data-dtype="Number">
+            </div>
+        </div>
+        {{!-- Fatigue Boxes --}}
+        <div class="fatigue">
+            <h2>{{localize config.character.fatW}}</h2>
+            <button type="button" class="actorRolls healFatigue" title="{{localize config.character.heal}} {{localize config.character.fatW}}"><i class="fa-solid fa-heart-pulse"></i></button>
+            <div class="fatigueContainer grid grid-7col">
+                {{!-- TODO: Work out fatigue checkbox system --}}
+                {{!-- Rank 1 --}}
+                <input type="checkbox" name="system.fatigue.rank1.marked.1" class="fatigueCBox" data-fcbox="11" {{#if actor.system.fatigue.rank1.marked.[1]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank1.marked.2" class="fatigueCBox" data-fcbox="12" {{#if actor.system.fatigue.rank1.marked.[2]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank1.marked.3" class="fatigueCBox" data-fcbox="13" {{#if actor.system.fatigue.rank1.marked.[3]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank1.marked.4" class="fatigueCBox" data-fcbox="14" {{#if actor.system.fatigue.rank1.marked.[4]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank1.marked.5" class="fatigueCBox" data-fcbox="15" {{#if actor.system.fatigue.rank1.marked.[5]}}checked{{/if}}/>
+                <div class="ex"><input type="checkbox" name="system.fatigue.rank1.marked.6" class="fatigueCBox" data-fcbox="16" {{#if (eq actor.system.fatigue.rank1.ex 0)}}disabled{{/if}}{{#if actor.system.fatigue.rank1.marked.[6]}}checked{{/if}}/></div>
+                <label class="rank" title="{{localize config.character.fatigue.ran1}}">1</label>
+                {{!-- Rank 2 --}}
+                <div></div>
+                <input type="checkbox" name="system.fatigue.rank2.marked.1" class="fatigueCBox" data-fcbox="21" {{#if actor.system.fatigue.rank2.marked.[1]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank2.marked.2" class="fatigueCBox" data-fcbox="22" {{#if actor.system.fatigue.rank2.marked.[2]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank2.marked.3" class="fatigueCBox" data-fcbox="23" {{#if actor.system.fatigue.rank2.marked.[3]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank2.marked.4" class="fatigueCBox" data-fcbox="24" {{#if actor.system.fatigue.rank2.marked.[4]}}checked{{/if}}/>
+                <div class="ex"><input type="checkbox" name="system.fatigue.rank2.marked.5" class="fatigueCBox" data-fcbox="25" {{#if (eq actor.system.fatigue.rank2.ex 0)}}disabled{{/if}}{{#if actor.system.fatigue.rank2.marked.[5]}}checked{{/if}}/></div>
+                <label class="rank" title="{{localize config.character.fatigue.ran2}}">2</label>
+                {{!-- Rank 3 --}}
+                <div></div>
+                <div></div>
+                <input type="checkbox" name="system.fatigue.rank3.marked.1" class="fatigueCBox" data-fcbox="31" {{#if actor.system.fatigue.rank3.marked.[1]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank3.marked.2" class="fatigueCBox" data-fcbox="32" {{#if actor.system.fatigue.rank3.marked.[2]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank3.marked.3" class="fatigueCBox" data-fcbox="33" {{#if actor.system.fatigue.rank3.marked.[3]}}checked{{/if}}/>
+                <div class="ex"><input type="checkbox" name="system.fatigue.rank3.marked.4" class="fatigueCBox" data-fcbox="34" {{#if (eq actor.system.fatigue.rank3.ex 0)}}disabled{{/if}}{{#if actor.system.fatigue.rank3.marked.[4]}}checked{{/if}}/></div>
+                <label class="rank" title="{{localize config.character.fatigue.ran3}}">3</label>
+                {{!-- Rank 4 --}}
+                <div></div>
+                <div></div>
+                <div></div>
+                <input type="checkbox" name="system.fatigue.rank4.marked.1" class="fatigueCBox" data-fcbox="41" {{#if actor.system.fatigue.rank4.marked.[1]}}checked{{/if}}/>
+                <input type="checkbox" name="system.fatigue.rank4.marked.2" class="fatigueCBox" data-fcbox="42" {{#if actor.system.fatigue.rank4.marked.[2]}}checked{{/if}}/>
+                <div class="ex"><input type="checkbox" name="system.fatigue.rank4.marked.3" class="fatigueCBox" data-fcbox="43" {{#if (eq actor.system.fatigue.rank4.ex 0)}}disabled{{/if}}{{#if actor.system.fatigue.rank4.marked.[3]}}checked{{/if}}/></div>
+                <label class="rank" title="{{localize config.character.fatigue.ran4}}">4</label>
+                {{!-- Rank 5 --}}
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <input type="checkbox" name="system.fatigue.rank5.marked.1" class="fatigueCBox" data-fcbox="51" {{#if actor.system.fatigue.rank5.marked.[1]}}checked{{/if}}/>
+                <div class="ex"><input type="checkbox" name="system.fatigue.rank5.marked.2" class="fatigueCBox" data-fcbox="52" {{#if (eq actor.system.fatigue.rank5.ex 0)}}disabled{{/if}}{{#if actor.system.fatigue.rank5.marked.[2]}}checked{{/if}}/></div>
+                <label class="rank" title="{{localize config.character.fatigue.ran5}}">5</label>
+            </div>
+        </div>
+    </div>
+</div>

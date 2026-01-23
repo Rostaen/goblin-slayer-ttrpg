@@ -1,0 +1,685 @@
+{
+  "TYPES": {
+    "Item": {
+      "weapon": "Weapons",
+      "armor": "Armor",
+      "shield": "Shields",
+      "item": "Items",
+      "spell": "Spells",
+      "skill": "Skills",
+      "race": "Race",
+      "martialtechniques": "Martial Techniques"
+    },
+    "Actor": {
+      "character": "Prayer Character",
+      "fate": "Fate",
+      "monster": "Non-Prayer Character",
+      "mount": "Mounts"
+    }
+  },
+  "gs": {
+    "sheets": {
+      "actor": "Goblin Slayer Actor Sheet",
+      "item": "Goblin Slayer Item Sheet"
+    },
+    "gear": {
+      "common": {
+        "nam": "Name",
+        "val": "Value (silver)",
+        "eff": "Effects",
+        "ste": "Stealth",
+        "typ": "Type",
+        "des": "Description"
+      },
+      "weapons": {
+        "use": "Use",
+        "att": "Attribute",
+        "pow": "Power",
+        "hit": "Hit Mod",
+        "ran": "Range",
+        "resistance": "Resistance",
+        "effects": {
+          "bind": "Bind",
+          "noParry": "Cannot Parry",
+          "mFThrow": "Made for Throwing",
+          "massive": "Massive",
+          "nThrow": "Not Throwable",
+          "parry": "Parry",
+          "pierce": "Pierce",
+          "rFire": "Rapid Fire",
+          "restraint": "Restraint",
+          "retrieve": "Retrievable",
+          "slice": "Slice",
+          "sbBludg": "SB: Bludgeon",
+          "sbSlash": "SB: Slash",
+          "throw": "Throwable",
+          "throwSpc": "Throwing Specialization",
+          "miracles": "Miracles",
+          "ancDragon": "Anc. Dragon",
+          "spirit": "Spirit Arts",
+          "wotp": "True Power",
+          "necro": "Necromancy"
+        }
+      },
+      "armor": {
+        "sco": "Score",
+        "dod": "Dodge Mod",
+        "mov": "Move Mod",
+        "hea": "Heavy"
+      },
+      "shield": {
+        "mod": "Block Mod",
+        "sco": "Block Score"
+      },
+      "items": {
+        "nam": "Name",
+        "des": "Description",
+        "movePen": "Movement Penalty"
+      },
+      "spells": {
+        "sys": "System",
+        "efs": "Effectiveness Score",
+        "pen": "Penalty",
+        "rad": "Radius",
+        "dur": "Duration",
+        "siz": "Size",
+        "phy": "Physical Modifier (Height, Weight, Movement Speed)",
+        "sco": "Power/Armor Score Modifiier",
+        "exr": "Expanded Reach",
+        "mds": "Modifier Score",
+        "mvs": "Movement Speed",
+        "qua": "Quantity",
+        "sum": "Summary",
+        "dif": "Difficulty",
+        "cha": "Chant",
+        "cat": "Catalyst",
+        "wor": "Words of True Power",
+        "mir": "Miracle",
+        "anc": "Ancestral Dragon",
+        "spi": "Spirit Arts",
+        "nec": "Necromancy",
+        "att": "Attack",
+        "imb": "Imbuement",
+        "cre": "Creation",
+        "con": "Control",
+        "hea": "Healing",
+        "gen": "General",
+        "fir": "Fire",
+        "wat": "Water",
+        "ear": "Earth",
+        "win": "Wind",
+        "lig": "Light",
+        "dar": "Darkness",
+        "lif": "Life",
+        "min": "Mind",
+        "mat": "Matter",
+        "tim": "Time",
+        "spa": "Space",
+        "none": "None"
+      },
+      "skills": {
+        "gra": "Mastery Grade",
+        "pre": "Prerequisite",
+        "beg": "Beginner",
+        "int": "Intermediate",
+        "exp": "Expert",
+        "mas": "Master",
+        "leg": "Legend",
+        "adv": "Adventurer",
+        "gen": "General"
+      },
+      "mTech": {
+        "overview": "Overview",
+        "descrip": "Description",
+        "usable": "Usable Weapons",
+        "related": "Related Skills",
+        "cost": "Cost",
+        "condition": "Condition",
+        "details": "Details"
+      },
+      "equipment": "Equipment",
+      "equip": "Equip"
+    },
+    "actor": {
+      "common": {
+        "life": "Life",
+        "lFor": "Life Force",
+        "spRe": "Spell Resistance",
+        "move": "Move",
+        "modMove": "Mod Movement",
+        "leve": "Level",
+        "max": "Max",
+        "slash": "Slashing",
+        "bludg": "Bludgeoning",
+        "pierc": "Piercing",
+        "other": "Other",
+        "init": "Initiative",
+        "roll": "Roll",
+        "ed": "ed"
+      },
+      "character": {
+        "rank": "Rank",
+        "abil": "Ability Scores",
+        "pri": "Primary",
+        "sec": "Secondary",
+        "rac": "Race",
+        "age": "Age",
+        "gen": "Gender",
+        "his": "History",
+        "phy": "Physical Traits",
+        "hai": "Hair",
+        "eye": "Eyes",
+        "oth": "Other Information",
+        "str": "Strength",
+        "psy": "Psyche",
+        "tec": "Technique",
+        "int": "Intelligence",
+        "foc": "Focus",
+        "end": "Endurance",
+        "ref": "Reflex",
+        "exp": "Exp. Points",
+        "cum": "Cumulative Pts",
+        "cur": "Current Pts",
+        "adv": "Advance Pts",
+        "ads": "Adventures",
+        "com": "Completed",
+        "lvl": "Adv. Level",
+        "status": "Status",
+        "wounds": "Wounds",
+        "spUse": "Spell Uses",
+        "base": "Base",
+        "clWd": "Class Levels",
+        "figh": "Fighter",
+        "monk": "Monk",
+        "rang": "Ranger",
+        "scou": "Scout",
+        "sorcerer": "Sorcerer",
+        "priest": "Priest",
+        "dragon": "Dragon Priest",
+        "shaman": "Shaman",
+        "necro": "Necromancer",
+        "fatW": "Fatigue",
+        "pena": "Penalty",
+        "ran1": "-1 to all score",
+        "ran2": "-2 to all checks. Movement speed halved.",
+        "ran3": "-3 to all checks. Life force & movement speed halved.",
+        "ran4": "Unconscious. -4 to all checks. Life force & movement speed halved.",
+        "ran5": "Death.",
+        "attr": "Attrition",
+        "advSW": "Adventurer Skills",
+        "genSW": "General Skills",
+        "mast": "Mastery Grade",
+        "effe": "Effect",
+        "page": "Page",
+        "scor": "Score",
+        "lear": "Learned Spell Name",
+        "syst": "Spell System",
+        "hit": "Hit",
+        "basic": "Basic",
+        "dodge": "Dodge",
+        "block": "Block",
+        "skills": "Skills",
+        "melee": "Melee",
+        "throw": "Throwing",
+        "weapon": "Weapon",
+        "armor": "Armor",
+        "shield": "Shield",
+        "usage": "Usage/Attributes",
+        "modi": "Modifier",
+        "total": "Total",
+        "power": "Power",
+        "ste": "Stealth",
+        "damage": "Damage",
+        "effective": "Effectiveness",
+        "table": "Table",
+        "bonus": "Bonus",
+        "under": "and Under",
+        "over": "and Over",
+        "none": "None",
+        "poss": "Possessions",
+        "advT": "Adventuring Tools (Rope, 10m; wedge x10; small hammer; tinderbox; backpack; water bag; portable rations; white chalk; small knife; torch x6",
+        "rati": "Rations (7 days)",
+        "clot": "Clothing",
+        "money": "Money",
+        "gold": "Gold",
+        "silv": "Silver",
+        "bron": "Bronze",
+        "piec": "Pieces",
+        "heal": "Heal",
+        "aTrack": "Attrition Track",
+        "dc": "DC",
+        "strFoc": "Strength Focus",
+        "strRef": "Strength Reflex",
+        "strEnd": "Strength Endurance",
+        "psyFoc": "Psyche Focus",
+        "psyRef": "Psyche Reflex",
+        "psyEnd": "Psyche Endurance",
+        "tecFoc": "Technique Focus",
+        "tecRef": "Technique Reflex",
+        "tecEnd": "Technique Endurance",
+        "intFoc": "Intelligence Focus",
+        "intRef": "Intelligence Reflex",
+        "intEnd": "Intelligence Endurance"
+      },
+      "monster": {
+        "type": "Type",
+        "types": {
+          "meleeC": "Melee (Close)",
+          "meleeT": "Melee (Throwable)",
+          "meleeN": "Melee (Not Throwable)",
+          "throw": "Throwable",
+          "projec": "Projectile",
+          "minion": "Minion",
+          "boss": "Boss"
+        },
+        "mChec": "Minion Check",
+        "chec": "Boss Check",
+        "powe": "Power/Attributes",
+        "ran": "Range",
+        "init": "Initiative",
+        "inte": "Intelligence",
+        "intelligence": {
+          "com": "Command-Based",
+          "ins": "Instinctive",
+          "low": "Low",
+          "ave": "Average",
+          "hig": "High"
+        },
+        "mora": "Morale",
+        "supp": "Support Effect",
+        "spec": "Special Abilities",
+        "atta": "Attack",
+        "defe": "Defense",
+        "dodg": "Dodge",
+        "bloc": "Block",
+        "aSco": "Armor Score",
+        "name": "Name",
+        "mSR": "MSR",
+        "min": "Minion",
+        "bSR": "BSR",
+        "boss": "Boss",
+        "description": "Description",
+        "supportEffect": {
+          "range": "Range",
+          "hit": "Hit Check",
+          "special": "Special Abil.",
+          "power": "Power",
+          "armor": "Armor",
+          "spellUse": "Spell Use",
+          "movement": "Movement",
+          "initiative": "Initiative",
+          "dodge": "Dodge",
+          "spellResist": "Spell Resist.",
+          "action": "Action",
+          "spellEffective": "Spell Effect.",
+          "spellPower": "Spell Power"
+        }
+      },
+      "fate": {
+        "gmInstructions": "GM, enter adventure Fate here (only you can see this message), 3: Easy, 5: Moderate, 7: Hard",
+        "fatePoints": "Fate Points",
+        "upResult": "Increase Result",
+        "reroll": "Reroll Dice",
+        "flee": "Automatic Flee",
+        "hint": "Hint",
+        "upResultText": "When you use a fate point to increase a check's result, it upgrades a failure to a success or a success to a critical success, but cannot change a critical failure. This applies even if the final score is lower than needed. For example, if a spell's difficulty is higher than the check score, the spell still succeeds at its lowest effectiveness. Only one fate point can be used per check.",
+        "rerollText": "When using a fate point to reroll dice (except for a check or prayer), you can reroll all the dice and add 1 to each result. This can only be done once per dice roll opportunity. If a die rolls a 6, it becomes 7.",
+        "fleeText": "Using a fate point to flee allows all PCs to escape combat to a safe place automatically, without rolling. This increases the fate points by 3. The GM will describe a sudden event explaining the escape. The new area is temporarily safe, but the GM decides how long this safety lasts.",
+        "hintText": "Using fate points for an adventure hint automatically gives the PCs a helpful clue or event to move the story forward. This increases the fate points by 3. The GM decides when to offer hints and whether the PCs' request for a hint is appropriate.",
+        "bonusExp": "Fate Points Bonus Experience",
+        "currentFate": "Current Fate Points",
+        "bonusPerPerson": "Bonus XP / Person"
+      }
+    },
+    "charSheet": {
+      "tabs": {
+        "stats": "Stats",
+        "items": "Items",
+        "feats": "Skills",
+        "spell": "Spells",
+        "descr": "Description",
+        "effec": "Effects"
+      },
+      "ranks": {
+        "porc": "Porcelain",
+        "obsi": "Obsidian",
+        "stee": "Steel",
+        "sapp": "Sapphire",
+        "emer": "Emerald",
+        "ruby": "Ruby",
+        "copp": "Copper",
+        "silv": "Silver",
+        "gold": "Gold",
+        "plat": "Platinum"
+      },
+      "items": {
+        "hitM": "Hit Modifier",
+        "rang": "Range",
+        "powe": "Power",
+        "attr": "Attribute",
+        "use": "Use",
+        "quan": "Quantity",
+        "edit": "Edit",
+        "dele": "Delete",
+        "scores": "Scores",
+        "weapons": "Weapons",
+        "melee": "Melee",
+        "throw": "Throwing",
+        "projectile": "Projectile",
+        "other": "Other"
+      },
+      "statsPage": {
+        "checks": "Checks"
+      },
+      "effects": {
+        "bound": "Bound",
+        "blind": "Blind",
+        "partBlind": "Partially Blind",
+        "cursed": "Cursed",
+        "drowsy": "Drowsy",
+        "fracture": "Fracture",
+        "illness": "Illness",
+        "hungry": "Hungry",
+        "paralyzed": "Paralyzed",
+        "poisoned": "Poisoned",
+        "prone": "Prone"
+      }
+    },
+    "raceSheet": {
+      "races": {
+        "hum": "Human",
+        "dwa": "Dwarf",
+        "elf": "Elf",
+        "liz": "Lizardman",
+        "rhe": "Rhea",
+        "pad": "Padfoot",
+        "mir": "Myrmidon",
+        "har": "Harypy",
+        "dar": "Dark Elf",
+        "dem": "Demon",
+        "vam": "Vampire"
+      },
+      "innate": "Innate Skills",
+      "scores": {
+        "pri": "Primary Ability Score",
+        "fix": "Fixed Score",
+        "ran": "Random Determination",
+        "sec": "Secondary Ability Score",
+        "mov": "Racial Movement Modifier"
+      }
+    },
+    "dialog": {
+      "random": "Random",
+      "rolling": "Rolling",
+      "cancel": "Cancel",
+      "dice": "Dice",
+      "gearMod": "Gear Modifier",
+      "miscMod": "Miscellaneous",
+      "bonusDmg": "Bonus Damage",
+      "bonus": "Bonus",
+      "dmgMod": "Damage Mods",
+      "applyDmg": "Apply Damage",
+      "applyHalf": "Apply Half Damage",
+      "suffered": "Damage Suffered",
+      "outOfRange": "You are out of range for the attack.",
+      "curvedShotLabel": "Curved Short",
+      "skillCheck": "Skill Check",
+      "firstTargetMonster": "You must target a monster before rolling a Hit Check. Right-click and toggle target state or hover mouse over token and click 'T'.",
+      "applyHealing": "Treat target's wounds",
+      "martialArts": "Martial Arts",
+      "dodge": {
+        "value": "Dodge Value",
+        "roll": "Dodge Roll",
+        "total": "Dodge Total"
+      },
+      "block": {
+        "value": "Block Value",
+        "roll": "Block Roll",
+        "total": "Block Total",
+        "shieldScore": "Shield Score",
+        "totalBlock": "Total Block Bonus"
+      },
+      "mods": {
+        "mod": "Modifier",
+        "addMod": "Add Modifiers",
+        "addInfo": "Add in any extra modifiers from skills or other sources here:",
+        "misc": "Misc."
+      },
+      "crits": {
+        "crit": "Critical",
+        "succ": "Success!",
+        "fail": "Failure!"
+      },
+      "spells": {
+        "spUse": "Spell Use",
+        "cast": "Cast",
+        "spellCast": "Spell Casting",
+        "useCheck": "Spell Use Check",
+        "diffCheck": "DC",
+        "apply": "Apply to Target(s)",
+        "rolldice": "Roll Spell Power Dice",
+        "recoveryAmt": "Recovery Amount",
+        "spellDmg": "Spell Damage"
+      },
+      "monsterSheet": {
+        "boss": "Can this monster be a boss?",
+        "block": "Can this monster block?",
+        "numOfAttacks": "Change this number to add/remove monster attacks. Min 1, Max 4",
+        "isBoss": "Is this monster the boss of the encounter?",
+        "theBoss": "Combat Boss"
+      },
+      "actorSheet": {
+        "itemsTab": {
+          "toHit": "Roll a hit check",
+          "power": "Roll damage for the weapon",
+          "dodge": "Roll a dodge check",
+          "block": "Roll a block check"
+        },
+        "sidebar": {
+          "specRolls": "Special Rolls",
+          "buttons": {
+            "initiative": "Initiative",
+            "sixthSense": "Sixth Sense",
+            "luck": "Luck",
+            "firstAid": "First Aid",
+            "handiwork": "Handiwork",
+            "stealth": "Stealth",
+            "provoke": "Provoke",
+            "moveObs": "Movement Obstruction",
+            "moveRes": "Movement Resistance",
+            "strRes": "Strength Resistance",
+            "psyRes": "Psyche Resistance",
+            "intRes": "Intelligence Resistance",
+            "strength": "Strength",
+            "escape": "Escape",
+            "climbM": "Climb (Muscle)",
+            "swim": "Swim",
+            "climbF": "Climb (Fitness)",
+            "acrobatics": "Acrobatics",
+            "jump": "Jump",
+            "monsterKnow": "Monster Knowledge",
+            "generalKnow": "General Knowledge",
+            "magicalKnow": "Magical Knowledge",
+            "observe": "Observe",
+            "longDistance": "Long Distance Movement",
+            "tacMove": "Tactical Movement",
+            "spellMaint": "Spell Maintenance"
+          },
+          "sRest": "Short Rest",
+          "lRest": "Long Rest"
+        }
+      },
+      "healingPrompt": {
+        "healAmount": "Heal the following amount."
+      },
+      "burstOfStr": {
+        "title": "Burst of Strength Skill",
+        "header": "Fatigue for Power",
+        "label": "Enter a number of fatigue to spend for extra power. Maximum:"
+      },
+      "confirm": "Confirm",
+      "moveRes": {
+        "title": "Movement Resistance Choice",
+        "header": "Strength Focus or Technique Focus",
+        "label": "Which is your better ability score to stop the target from moving?"
+      },
+      "strRes": {
+        "title": "Strength Resistance Choice",
+        "header": "Strength Reflex or Strength Endurance",
+        "label": "Use Strength Reflex when you are the target of a spell. Use Strength Endurance when recovering from an effect."
+      },
+      "psyRes": {
+        "title": "Psyche Resistance Choice",
+        "header": "Psyche Reflex or Pysche Endurance",
+        "label": "Use Psyche Reflex when you are the target of a spell. Use Pysche Endurance when recovering from an effect."
+      },
+      "intRes": {
+        "title": "Intelligence Resistance Choice",
+        "header": "Intelligence Reflex or Intelligence Endurance",
+        "label": "Use Intelligence Reflex when you are the target of a spell. Use Intelligence Endurance when recovering from an effect."
+      },
+      "strength": {
+        "title": "Strength Check Choice",
+        "header": "Strength Focus or Endurance",
+        "label": "Use Strength Focus for very short periods of time. Use Strength Endurance very long periods of time."
+      },
+      "stealth": {
+        "title": "Stealth Choice",
+        "header": "Technique Focus, Endurance, or Reflex",
+        "label": "Use Technique Focus for hiding before someone finds you. Use Technique Endurance to hide for a very long period of time. Use Technique Reflex to hide during combat or when a target is distracted."
+      },
+      "monsterKnow": {
+        "title": "Monster Knowledge Choice",
+        "header": "Intelligence Focus or Reflex",
+        "label": "Use Intelligence Focus when you encounters monsters before battle. Use Intelligence Reflex to recall knowledge when you hear or read about a monster to immediately recall info about them."
+      },
+      "acrobatics": {
+        "title": "Acrobatics Choice",
+        "header": "Technique Focus, Endurance, or Reflex",
+        "label": "Use Technique Focus for short duration balancing. Use Technique Endurance to balance for extended periods of time such as walking over a rope bridge. Use Technique Reflex for sudden reactions such as rolling into a fall or tumbling out of the way."
+      },
+      "mowDown": {
+        "title": "Mow Down Skill",
+        "header": "How Many Targeted Enemies?",
+        "label0": "Selecting 2 targets adds a -4 penalty. ",
+        "label1": "Each extra enemy adds -2 to the check. You can add this many more enemies to the check: ",
+        "label2": "Each extra enemy adds -1 to the check. You can add this many more enemies to the check: ",
+        "targets": "Targets: "
+      },
+      "spellMaint": {
+        "title": "Spell Maintenance",
+        "header": "Which spell are you maintaining?"
+      },
+      "coolAndColl": {
+        "title": "Mental Resistance Choice",
+        "header": "Intelligence or Psyche Resistance?"
+      },
+      "faith": {
+        "title": "Chanting Choice",
+        "header": "Chanting your spell to show your Faith?",
+        "label1": "Chanting",
+        "label2": "Chantless"
+      },
+      "catalyst": {
+        "title": "Spell Catalyst Choice",
+        "header": "Using your catalyst bag to cast?",
+        "label1": "No",
+        "label2": "Yes"
+      },
+      "genSkills": {
+        "title": "General Skill Choices",
+        "header": "Mark all selections for ",
+        "recall": "Recalling knowledge?",
+        "use": "Using skills?",
+        "primary": "Which primary skill are you using?",
+        "secondary": "Which secondary skill do you need? (Select 1)",
+        "cancelled": "General skill roll cancelled"
+      },
+      "spellCasting": {
+        "shamanAlert": "You need either Beloved of the Fae or a Shaman Bag to cast Shaman spells.",
+        "dragonPriestAlert": "You need a Dragon Priest's Catalyst Pouch to cast Dragon Priest spells."
+      },
+      "resting": {
+        "sRestMessage": "has healed 3 attrition from a short rest.",
+        "lRestMessage": "has healed 10 attrition, half their life force in wounds, all spell uses (if any), and an amount of fatigue (see below).",
+        "briefLongRest": "has healed 3 attrition, and an amount of fatigue (see below)."
+      },
+      "longResting": {
+        "title": "Long Rest Decision",
+        "header": "Decide how many hours you are resting",
+        "label1": "3+",
+        "label2": "6+"
+      },
+      "dualWielding": {
+        "title": "Dual Wielding Choice",
+        "header": "Attacking one enemy or two different enemies?",
+        "primary": "One Enemy",
+        "secondary": "Two Enemies"
+      },
+      "rapidFire": {
+        "title": "Rapid Fire Choices",
+        "header": "Attacking one enemy or multiple enemies?",
+        "primary": "One Enemy",
+        "secondary": "Multiple Enemies"
+      },
+      "slipBehind": {
+        "title": "Slip Behind Choices",
+        "header": "Are you slipping behind the target? You cannot move before using this skill.",
+        "primary": "Yes",
+        "secondary": "No"
+      },
+      "curvedShot": {
+        "title": "Curved Shot Choices",
+        "header": "Are you using Curved Shot on this attack?",
+        "primary": "Yes",
+        "secondary": "No"
+      },
+      "useSkill": {
+        "title": " Skill Usage",
+        "header": "Will you use the following skill: ",
+        "primary": "Yes",
+        "secondary": "No"
+      },
+      "herbalist": {
+        "title": " Skill Choices",
+        "header": "Choose a Main Roll",
+        "body": "Choose to roll either an Observe, Sixth Sense, or General Knowledge check which will include this skill level bonus: ",
+        "button1": "Observe",
+        "button2": "Sixth Sense",
+        "button3": "General Knowledge"
+      },
+      "taming": {
+        "title": " Skill Choices",
+        "header": "Choose a Main Roll",
+        "body": "Choose to roll either an General Knowledge, Monster Knowledge, or a Riding check (see General Skill) which will include this skill level bonus: ",
+        "button1": "General Knowledge",
+        "button2": "Monster Knowledge"
+      },
+      "multipleChants": {
+        "title": "Number of Spells Cast",
+        "header": "Choose an amount of spells to cast this round.",
+        "body0": " <span style='color: darkred'>Important:</span> Use the same button if casting multiple times for each spell Use Check.",
+        "body1": "Cast 2 Spells: -8 Penalty Each<br>Cast 1 Spell: 0 Penatly<br>&nbsp;",
+        "body2": "Cast 2 Spells: -4 Penalty Each<br>Cast 1 Spell: 0 Penatly<br>&nbsp;",
+        "body3": "Cast 3 Spells: -8 Penalty Each<br> Cast 2 Spells: -4 Penalty Each<br>Cast 1 Spell: 0 Penalty<br>&nbsp;",
+        "body4": "Cast 3 Spells: -4 Penalty Each<br> Cast 2 Spells: -2 Penalty Each<br>Cast 1 Spell: 0 Penalty<br>&nbsp;",
+        "body5": "Cast 3 Spells: -4 Penalty Each<br> Cast 1-2 Spells: 0 Penalty Each<br>&nbsp;",
+        "button1": "1 Spell",
+        "button2": "2 Spells",
+        "button3": "3 Spells"
+      },
+      "attackChoice": {
+        "header": "Are you making a Hit Check or Damage Roll?",
+        "toHit": "Hit Check",
+        "damage": "Damage Roll"
+      },
+      "criticalDiceCheck": {
+        "critDice": "Additional Damage Dice",
+        "header": "Did you gain Bonus Dice?",
+        "numOfDice": "Select the Number of Bonus Dice",
+        "bonusDice": "Bonus Dice"
+      },
+      "attackWithEquip": "Attack with an equipped weapon."
+    }
+  }
+}

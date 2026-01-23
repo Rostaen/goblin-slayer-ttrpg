@@ -1,0 +1,208 @@
+.monster{
+    padding-top: 10px;
+    .fa-circle-exclamation{
+        color: #0aa300;
+    }
+    input, select{
+        border: 1px solid darkred;
+        background-color: #8b00000a;
+    }
+    img{
+        border: 1px solid darkred;
+        border-radius: 5px;
+        box-shadow: 3px 3px 10px;
+    }
+    .coreItems, .melee, .defense, .support .editor, .abilities .editor, .comment .editor, .supportContainer{
+        border: 1px solid darkred;
+        padding: 5px;
+        background-color: rgba(255,255,255,0.75);
+        border-radius: 5px;
+        box-shadow: 3px 3px 10px;
+    }
+    .minionSR, .minionHit, .minionDodge, .minionBlock{
+        color: rgb(0, 60, 0);
+    }
+    .bossSR, .bossHit, .bossDodge, .bossBlock{
+        color: rgb(60, 0, 0);
+    }
+    label{
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        font-weight: bold;
+        text-align: end;
+    }
+    .headerInfo{
+        margin-top: 0px;
+        .coreItems{
+            padding-top: 20px;
+            h2:first-child{
+                padding: 0px;
+                input[type="text"]{
+                    padding: 2px 4px;
+                    border: 0px;
+                    background-color: inherit;
+                }
+            }
+            .grid{
+                margin-top: 0px;
+                .minionSR:hover, .bossSR:hover, .initiative:hover, .morale:hover{
+                    text-shadow: 0 0 5px darkred;
+                    cursor: pointer;
+                }
+                input[type="text"]{
+                    margin: auto;
+                }
+            }
+        }
+    }
+    .support, .abilities, .comment{
+        margin: 10px 0px;
+    }
+    .support, .abilities{
+        .editor{
+            padding-top: 20px;
+        }
+    }
+    .comment{
+        .editor{
+            padding-top: 10px;
+        }
+    }
+    .coreItems{
+        .alert{
+            margin-right: 5px;
+        }
+    }
+    .coreItems, .melee, .defense, .support, .abilities, .comment, .supportContainer{
+        position: relative;
+        h2, .numOfAttacks{
+            position: absolute;
+            top: -15px;
+            background-color: rgba(255,255,255,1);
+            border-bottom: 0px;
+            padding: 2px 4px 0px;
+            border: 1px solid darkred;
+            border-radius: 5px;
+        }
+        h2{
+            left: 10px;
+            z-index: 100;
+        }
+        .numOfAttacks{
+            right: 10px;
+            width: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0px;
+            font-size: 15px;
+        }
+        input{
+            margin: auto;
+        }
+        label{
+            font-size: 13px;
+        }
+    }
+    .melee{
+        gap: 5px;
+        padding-top: 20px;
+        .alert{
+            position: absolute;
+            right: 4px;
+            z-index: 101;
+            top: -10px;
+            background-color: white;
+            border-radius: 50%;
+        }
+        button{
+            height: 26px;
+            width: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+        .reveal-rollable{
+            .monsterHit, .monsterPower{
+                margin-top: 0px;
+                margin-bottom: 0px;
+            }
+            .monsterHit{
+                label:hover{
+                    text-shadow: 0 0 5px darkred;
+                    cursor: pointer;
+                }
+            }
+            .monsterPower{
+                label:first-child:hover{
+                    text-shadow: 0 0 5px darkred;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .defense{
+        gap: 5px 0px;
+        h3,h4{
+            margin: auto;
+        }
+        .grid.grid-8col{
+            margin-top:0px;
+            margin-bottom: 0px;
+        }
+        .reveal-rollable{
+            .minionDodge:hover, .minionBlock:hover, .bossDodge:hover, .bossBlock:hover{
+                text-shadow: 0 0 5px darkred;
+                cursor: pointer;
+            }
+        }
+    }
+    .supportContainer{
+        input[type="text"]{
+            width: 22px;
+            height: 18px;
+            font-size: 10px;
+            text-align: center;
+        }
+        span{
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+    }
+    .editor{
+        border: 1px solid #666;
+        border-radius: 3px;
+        padding: 5px;
+        background-color: rgba(0,0,0,0.05);
+        height: 100%;
+        min-height: 40px;
+        .tox.tox-tinymce{
+            height: 125px !important;
+        }
+    }
+    .spell-cast-button{
+        background-color: #6200ea;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        i{
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 2px;
+        }
+    }
+    .spell-cast-button:hover{
+        background-color: #3700b3;
+    }
+}

@@ -1,0 +1,49 @@
+<div class="descriptionPage">
+    {{!-- 1st Row --}}
+    <div class="topArea grid grid-4col">
+        {{#each actor.items as |item id|}}
+            {{#if (eq item.type "race")}}
+                <div class="raceContainer contextMenu" data-id="{{item._id}}" data-contexttype="raceSheet">
+                    <h2 class="raceName">{{item.name}}</h2>
+                    <img src="{{item.img}}" alt="{{item.name}}">
+                </div>
+            {{/if}}
+        {{/each}}
+        {{#unless (checkInArray actor.items "race")}}
+            <div class="raceSheetPlaceHolder">
+                <p>Drop a Race Sheet here</p>
+            </div>
+        {{/unless}}
+        <div class="grid-span-3 descriptionContainer">
+            <h2 class="history">{{localize config.character.traits.his}}</h2>
+            {{editor actor.system.details.history target="system.details.history" button=true engine="prosemirror"}}
+        </div>
+    </div>
+    {{!-- 2nd Row --}}
+    <div class="grid grid-8col topRow">
+        {{!-- <label class="race">{{localize config.character.traits.rac}}</label>
+        <input type="text" name="system.details.race" value="{{actor.system.details.race}}"> --}}
+        <label class="age">{{localize config.character.traits.age}}</label>
+        <input type="text" name="system.details.age" value="{{actor.system.details.age}}">
+        <label class="gender">{{localize config.character.traits.gen}}</label>
+        <input type="text" name="system.details.gender" value="{{actor.system.details.gender}}">
+        <label class="hair">{{localize config.character.traits.hai}}</label>
+        <input type="text" name="system.details.hair" value="{{actor.system.details.hair}}">
+        <label class="eye">{{localize config.character.traits.eye}}</label>
+        <input type="text" name="system.details.eye" value="{{actor.system.details.eye}}">
+    </div>
+</div>
+    {{!-- 3rd Row --}}
+<div class="descriptionPage descriptionContainer">
+    <h2 class="physical">{{localize config.character.traits.phy}}</h2>
+    <div class="grid-span-5 physical">
+        {{editor actor.system.details.traits target="system.details.traits" button=true engine="prosemirror"}}
+    </div>
+</div>
+<div class="descriptionPage descriptionContainer">
+    {{!-- 4th Row --}}
+    <h2>{{localize config.character.traits.oth}}</h2>
+    <div class="grid-span-5">
+        {{editor actor.system.details.other target="system.details.other" button=true engine="prosemirror"}}
+    </div>
+</div>

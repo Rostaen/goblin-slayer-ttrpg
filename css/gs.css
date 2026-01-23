@@ -1,0 +1,1892 @@
+.window-app .window-content {
+  display: block !important;
+}
+.window-app {
+  font-family: "Roboto", sans-serif;
+}
+.rollable:hover,
+.rollable:focus {
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
+}
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+  padding: 0;
+}
+.grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-4col {
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.grid-5col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.grid-6col {
+  grid-column: span 6 / span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.grid-7col {
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.grid-8col {
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.grid-9col {
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+.grid-10col {
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+.grid-11col {
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+.grid-12col {
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.grid-start-2 {
+  grid-column-start: 2;
+}
+.grid-start-3 {
+  grid-column-start: 3;
+}
+.grid-start-4 {
+  grid-column-start: 4;
+}
+.grid-start-5 {
+  grid-column-start: 5;
+}
+.grid-start-6 {
+  grid-column-start: 6;
+}
+.grid-start-7 {
+  grid-column-start: 7;
+}
+.grid-start-8 {
+  grid-column-start: 8;
+}
+.grid-start-9 {
+  grid-column-start: 9;
+}
+.grid-start-10 {
+  grid-column-start: 10;
+}
+.grid-start-11 {
+  grid-column-start: 11;
+}
+.grid-start-12 {
+  grid-column-start: 12;
+}
+.grid-span-2 {
+  grid-column-end: span 2;
+}
+.grid-span-3 {
+  grid-column-end: span 3;
+}
+.grid-span-4 {
+  grid-column-end: span 4;
+}
+.grid-span-5 {
+  grid-column-end: span 5;
+}
+.grid-span-6 {
+  grid-column-end: span 6;
+}
+.grid-span-7 {
+  grid-column-end: span 7;
+}
+.grid-span-8 {
+  grid-column-end: span 8;
+}
+.grid-span-9 {
+  grid-column-end: span 9;
+}
+.grid-span-10 {
+  grid-column-end: span 10;
+}
+.grid-span-11 {
+  grid-column-end: span 11;
+}
+.grid-span-12 {
+  grid-column-end: span 12;
+}
+.grid-row-2 {
+  grid-row: span 2;
+}
+.grid-row-3 {
+  grid-row: span 3;
+}
+.grid-row-4 {
+  grid-row: span 4;
+}
+.grid-row-5 {
+  grid-row: span 5;
+}
+.grid-row-6 {
+  grid-row: span 6;
+}
+.grid-row-7 {
+  grid-row: span 7;
+}
+.grid-row-8 {
+  grid-row: span 8;
+}
+.grid-row-9 {
+  grid-row: span 9;
+}
+.grid-row-10 {
+  grid-row: span 10;
+}
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+}
+.flex-group-left {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  text-align: left;
+}
+.flex-group-right {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  text-align: right;
+}
+.flexshrink {
+  -webkit-box-flex: 0;
+  -ms-flex: 0;
+  flex: 0;
+}
+.flex-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.flexlarge {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+}
+.align-left {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  text-align: left;
+}
+.align-right {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  text-align: right;
+}
+.align-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+}
+.full-width {
+  width: 100%;
+}
+.diceInfo {
+  background-color: #c0c0c0;
+  border: 1px solid #8a8a8a;
+}
+.gearModifier {
+  background-color: #ffd7aa;
+  border: 1px solid #c5a383;
+}
+.abilScore {
+  background-color: #bebeff;
+  border: 1px solid #6464af;
+}
+.levelScore {
+  background-color: #ffbebe;
+  border: 1px solid #af6464;
+}
+.skillScore {
+  background-color: #beffbe;
+  border: 1px solid #64af64;
+}
+.skillEffectiveScore {
+  background-color: #96cf96;
+  border: 1px solid #3c7d3c;
+}
+.rollScore {
+  background-color: #ffffbe;
+  border: 1px solid #afaf64;
+}
+.miscScore {
+  background-color: #ffbeff;
+  border: 1px solid #af64af;
+}
+.armorDodgeScore {
+  background-color: #ffe1be;
+  border: 1px solid #af8c64;
+}
+.fs8 {
+  font-size: 8px;
+}
+.fs9 {
+  font-size: 9px;
+}
+.fs10 {
+  font-size: 10px;
+}
+.fs11 {
+  font-size: 11px;
+}
+.fs12 {
+  font-size: 12px;
+}
+.fs13 {
+  font-size: 13px;
+}
+.fs14 {
+  font-size: 14px;
+}
+.fs15 {
+  font-size: 15px;
+}
+.fs16 {
+  font-size: 16px;
+}
+.fs17 {
+  font-size: 17px;
+}
+.fs18 {
+  font-size: 18px;
+}
+.spellCastSuccess,
+.spellEffectivenessScore,
+.spellCastFailure {
+  font-size: 16px;
+  text-align: center;
+  border-radius: 3px;
+  padding: 3px;
+  margin-bottom: 3px;
+}
+.spellCastSuccess {
+  background-color: lightblue;
+  border: 1px solid cadetblue;
+  color: mediumblue;
+}
+.spellEffectivenessScore {
+  background-color: #bbb;
+  border: 1px solid #999;
+  color: #222;
+}
+.spellCastFailure {
+  background-color: #ffff9d;
+  border: 1px solid #989828;
+  color: #515100;
+}
+.critFailColor,
+.critSuccessColor {
+  padding: 10px 0px;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.critFailColor {
+  background-color: #ff9999;
+  border: 1px solid #bc3232;
+  color: #581717;
+}
+.critSuccessColor {
+  background-color: #95ff95;
+  border: 1px solid #35b135;
+  color: #195419;
+}
+.prosemirror .editor-container {
+  margin: 5px 5px 0px 5px;
+  min-height: 350px;
+}
+.prosemirror .editor-container p {
+  margin: 0 0 5px;
+}
+.editor {
+  min-height: 32px !important;
+  max-height: inherit;
+  height: fit-content !important;
+}
+.sheet.item img {
+  border-radius: 5px;
+}
+.sheet.item input[type="text"],
+.sheet.item select,
+.sheet.item .spell span.style,
+.sheet.item .spell div.editor,
+.sheet.item span.comments,
+.sheet.item span.effects,
+.sheet.item .editor {
+  border: 2px solid darkred;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 5px;
+}
+.sheet.item span.comments .editor,
+.sheet.item span.effects .editor {
+  border: 0px;
+  background-color: inherit;
+  border-radius: inherit;
+}
+.sheet.item label {
+  font-weight: bold;
+}
+table {
+  border-top: 1px solid darkred;
+  border-bottom: 1px solid darkred;
+  background-color: inherit;
+  margin-bottom: 0px;
+}
+table tr:nth-child(odd) {
+  background-color: #8b000033;
+}
+table tr:nth-child(even) {
+  background-color: inherit;
+}
+.switch-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}
+.switch-container .switch-label {
+  margin-right: 5px;
+  font-weight: bold;
+}
+.switch-container .switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  margin-right: 5px;
+}
+.switch-container .switch input:checked + .slider {
+  background-color: #2196F3;
+}
+.switch-container .switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.switch-container .switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.switch-container .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch-container .switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+  height: 25px;
+  width: 50px;
+}
+.switch-container .switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 5px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+.switch-container .switch input:checked + .slider {
+  background-color: #2196F3;
+}
+.switch-container .switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.switch-container .switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.flavor-text .chat.messageHeader,
+.flavor-text .chat.messageEnder {
+  margin: 0px 0px 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid darkred;
+}
+.flavor-text .specialRollChatMessage {
+  display: inline-flex;
+  margin-right: 3px;
+  border-radius: 3px;
+  padding: 0px 3px;
+  margin-bottom: 3px;
+  justify-content: center;
+  align-items: center;
+}
+.flavor-text .chat.messageHeader img {
+  border: 0px;
+}
+.flavor-text .chat.messageHeader .actorName {
+  font-size: 18px;
+}
+.flavor-text .target .targetName {
+  font-size: 18px;
+}
+.flavor-text .targetsLabel {
+  margin-bottom: 4px;
+  border-bottom: 0px;
+}
+.flavor-text .target {
+  margin-top: 0px;
+  margin-bottom: 4px;
+  grid-column-gap: 5px;
+}
+.flavor-text .target img.targetImg {
+  border: 0px;
+}
+.flavor-text .target h3.targetName {
+  border-bottom: 0px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}
+.flavor-text .target button {
+  height: 20px;
+  padding: 0px;
+}
+.flavor-text .target button i {
+  display: block;
+  margin: 0px;
+}
+.flavor-text .gmDmgButtons {
+  margin: 4px 0px;
+  grid-column-gap: 5px;
+}
+.flavor-text .gmDmgButtons div {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.flavor-text .gmDmgButtons .dmgModInput {
+  height: 20px;
+}
+.flavor-text .gmDmgButtons .applyDmgButton {
+  height: 20px;
+}
+.flavor-text .gmDmgButtons .applyDmgButton i {
+  display: block;
+  margin: 0px;
+}
+.flavor-text .monster-sr-container {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.flavor-text .monster-sr-container .monster-sr-text {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  font-size: 16px;
+}
+.weapon,
+.armor,
+.shield {
+  font-size: 14px;
+  margin-top: 0px;
+}
+.weapon label,
+.armor label,
+.shield label {
+  font-weight: bold;
+}
+.weapon .top-info,
+.armor .top-info,
+.shield .top-info {
+  margin: 0px;
+}
+.weapon .top-info span,
+.armor .top-info span,
+.shield .top-info span {
+  display: flex;
+  align-items: center;
+}
+.weapon .top-info span label,
+.armor .top-info span label,
+.shield .top-info span label {
+  padding-right: 5px;
+}
+.weapon .grid-span-4,
+.armor .grid-span-4,
+.shield .grid-span-4 {
+  height: fit-content;
+}
+.weapon .grid-span-4 .grid-2col,
+.armor .grid-span-4 .grid-2col,
+.shield .grid-span-4 .grid-2col {
+  margin-top: 0px;
+}
+.weapon .grid-span-4 .grid-2col span,
+.armor .grid-span-4 .grid-2col span,
+.shield .grid-span-4 .grid-2col span {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.weapon .grid-span-4 .grid-2col span label,
+.armor .grid-span-4 .grid-2col span label,
+.shield .grid-span-4 .grid-2col span label {
+  padding-right: 5px;
+}
+.weapon .grid-span-4 .grid-2col span input,
+.armor .grid-span-4 .grid-2col span input,
+.shield .grid-span-4 .grid-2col span input,
+.weapon .grid-span-4 .grid-2col span select,
+.armor .grid-span-4 .grid-2col span select,
+.shield .grid-span-4 .grid-2col span select {
+  width: 110px;
+}
+.weapon .effects,
+.armor .effects,
+.shield .effects,
+.weapon .comments,
+.armor .comments,
+.shield .comments {
+  position: relative;
+  border: 1px solid #666;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.weapon .effects h2,
+.armor .effects h2,
+.shield .effects h2,
+.weapon .comments h2,
+.armor .comments h2,
+.shield .comments h2 {
+  position: absolute;
+  top: -15px;
+  background-color: #ffffff;
+  border-bottom: 0px;
+  padding: 2px 4px 0px;
+  border: 2px solid darkred;
+  border-radius: 5px;
+}
+.weapon .effects .wELeft .grid,
+.armor .effects .wELeft .grid,
+.shield .effects .wELeft .grid,
+.weapon .comments .wELeft .grid,
+.armor .comments .wELeft .grid,
+.shield .comments .wELeft .grid,
+.weapon .effects .wEMiddle .grid,
+.armor .effects .wEMiddle .grid,
+.shield .effects .wEMiddle .grid,
+.weapon .comments .wEMiddle .grid,
+.armor .comments .wEMiddle .grid,
+.shield .comments .wEMiddle .grid,
+.weapon .effects .wERight .grid,
+.armor .effects .wERight .grid,
+.shield .effects .wERight .grid,
+.weapon .comments .wERight .grid,
+.armor .comments .wERight .grid,
+.shield .comments .wERight .grid {
+  grid-gap: 3px;
+}
+.weapon .effects .effectName,
+.armor .effects .effectName,
+.shield .effects .effectName,
+.weapon .comments .effectName,
+.armor .comments .effectName,
+.shield .comments .effectName,
+.weapon .effects .effectCheckbox,
+.armor .effects .effectCheckbox,
+.shield .effects .effectCheckbox,
+.weapon .comments .effectCheckbox,
+.armor .comments .effectCheckbox,
+.shield .comments .effectCheckbox,
+.weapon .effects .effectValue,
+.armor .effects .effectValue,
+.shield .effects .effectValue,
+.weapon .comments .effectValue,
+.armor .comments .effectValue,
+.shield .comments .effectValue {
+  display: flex;
+  align-items: center;
+}
+.weapon .effects input[type="checkbox"].effectCheckbox,
+.armor .effects input[type="checkbox"].effectCheckbox,
+.shield .effects input[type="checkbox"].effectCheckbox,
+.weapon .comments input[type="checkbox"].effectCheckbox,
+.armor .comments input[type="checkbox"].effectCheckbox,
+.shield .comments input[type="checkbox"].effectCheckbox {
+  width: 15px;
+  height: 15px;
+  justify-content: center;
+  margin: 0px;
+}
+.weapon .effects .effectName,
+.armor .effects .effectName,
+.shield .effects .effectName,
+.weapon .comments .effectName,
+.armor .comments .effectName,
+.shield .comments .effectName {
+  font-size: 12px;
+}
+.weapon .effects .effectValue,
+.armor .effects .effectValue,
+.shield .effects .effectValue,
+.weapon .comments .effectValue,
+.armor .comments .effectValue,
+.shield .comments .effectValue {
+  font-size: 12px;
+  height: 15px;
+  width: 15px;
+  border: 1px solid darkred !important;
+  display: grid;
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+}
+.weapon .effects .editor,
+.armor .effects .editor,
+.shield .effects .editor,
+.weapon .comments .editor,
+.armor .comments .editor,
+.shield .comments .editor {
+  height: 100%;
+  min-height: 40px;
+}
+.weapon .effects .editor .tox.tox-tinymce,
+.armor .effects .editor .tox.tox-tinymce,
+.shield .effects .editor .tox.tox-tinymce,
+.weapon .comments .editor .tox.tox-tinymce,
+.armor .comments .editor .tox.tox-tinymce,
+.shield .comments .editor .tox.tox-tinymce {
+  height: 125px !important;
+}
+.item {
+  font-size: 14px;
+  margin-top: 0px;
+}
+.item .top-info {
+  margin: 0px;
+}
+.item .top-info span {
+  display: flex;
+  align-items: center;
+  padding: 0px;
+}
+.item .top-info span label {
+  padding-right: 5px;
+}
+.item .comments {
+  border: 1px solid #666;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.item .comments textarea {
+  height: 80% !important;
+}
+.race .innateSkills .racialSkill .textContainer h4 {
+  font-weight: bold;
+  font-size: 16px;
+}
+.race .editor {
+  border: 1px solid #999;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 5px;
+}
+.race .editor .tox.tox-tinymce {
+  height: 125px !important;
+}
+.race .scores {
+  text-align: center;
+}
+.race .scores h3.header,
+.race .scores .move {
+  font-size: 14px;
+  margin-bottom: 0px;
+  padding-bottom: 4px;
+  font-weight: bold;
+}
+.race .scores .stat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.martialtechniques h1,
+.martialtechniques .info,
+.martialtechniques img,
+.martialtechniques .description.editor {
+  box-shadow: 3px 3px 10px #333333;
+}
+.martialtechniques .description.editor {
+  padding: 0px;
+  border: 1px solid darkred !important;
+}
+.martialtechniques .description.editor .editor {
+  border: 0px !important;
+  padding: 0px 5px;
+}
+.martialtechniques h1,
+.martialtechniques h2,
+.martialtechniques .info {
+  background-color: #ffffff;
+  border-bottom: 0px;
+  padding: 2px 4px 0px;
+  border: 1px solid darkred;
+  border-radius: 5px;
+}
+.martialtechniques .info {
+  position: relative;
+  margin-top: 20px;
+  padding: 20px 5px 5px;
+}
+.martialtechniques .info .descriptions input {
+  border: 0px;
+}
+.martialtechniques .info .editor {
+  border: 0px !important;
+}
+.martialtechniques .info h2 {
+  position: absolute;
+  top: -15px;
+}
+.skill {
+  font-size: 14px;
+  margin-top: 0px;
+}
+.skill .top-info span {
+  margin-bottom: 10px;
+}
+.skill .description {
+  height: 90%;
+}
+.skill .effects {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.skill h2.grid-span-5 {
+  margin-top: 10px;
+}
+.skill span .editor {
+  border: 1px solid #999;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  height: 100%;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 5px;
+}
+.skill span .editor .tox.tox-tinymce {
+  height: 125px !important;
+}
+.spell {
+  font-size: 14px;
+  margin-top: 0px;
+}
+.spell .top {
+  margin-top: 0px;
+}
+.spell label {
+  font-weight: bold;
+}
+.spell select {
+  width: 100%;
+}
+.spell .school,
+.spell .type,
+.spell .difficulty {
+  font-size: 12px;
+}
+.spell .style {
+  border: 1px solid #666;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.spell .style select {
+  width: 47%;
+  border: 0px;
+  background-color: rgba(0, 0, 0, 0);
+}
+.spell .difficulty {
+  font-size: 14px;
+}
+.spell .difficulty .grid {
+  margin: 0px;
+}
+.spell .difficulty .grid label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.spell .difficulty .grid input {
+  text-align: center;
+}
+.spell .grid-5col .grid-span-4 .grid.grid-2col {
+  margin-top: 0px;
+}
+.spell span.chant,
+.spell span.catalyst {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.spell span.chant label,
+.spell span.catalyst label {
+  margin-right: 5px;
+}
+.spell span.chant .editor {
+  width: 100%;
+}
+.spell .switch-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.spell .switch-container .switch-label {
+  margin-right: 5px;
+}
+.spell .switch-container .switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  margin-right: 5px;
+}
+.spell .switch-container .switch input:checked + .slider {
+  background-color: #2196F3;
+}
+.spell .switch-container .switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.spell .switch-container .switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.spell .switch-container .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.spell .switch-container .switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.spell .switch-container .switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 5px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+.spell .switch-container .switch input:checked + .slider {
+  background-color: #2196F3;
+}
+.spell .switch-container .switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.spell .switch-container .switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.spell .editor {
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-bottom: 5px;
+  height: 100%;
+  min-height: 40px;
+}
+.fate .headerInfo,
+.fate .buttonText,
+.fate .bonusXP,
+.fate h1,
+.fate h2 {
+  background-color: #ffffff;
+  border-bottom: 0px;
+  padding: 2px 4px 0px;
+  border: 1px solid darkred;
+  border-radius: 5px;
+}
+.fate .headerInfo,
+.fate .buttonText {
+  position: relative;
+  margin-top: 20px;
+  padding: 20px 5px 5px;
+}
+.fate .headerInfo h1,
+.fate .buttonText h1,
+.fate .headerInfo h2,
+.fate .buttonText h2 {
+  position: absolute;
+  top: -15px;
+}
+.fate .headerInfo,
+.fate .buttonText,
+.fate .bonusXP {
+  box-shadow: 3px 3px 10px #333333;
+}
+.fate .bonusXP {
+  grid-gap: 5px 10px;
+  padding: 3px 5px 5px;
+}
+.fate .bonusXP h3 {
+  margin-bottom: 0px;
+}
+.fate .bonusXP .bonusContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.monster {
+  padding-top: 10px;
+}
+.monster .fa-circle-exclamation {
+  color: #0aa300;
+}
+.monster input,
+.monster select {
+  border: 1px solid darkred;
+  background-color: #8b00000a;
+}
+.monster img {
+  border: 1px solid darkred;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px;
+}
+.monster .coreItems,
+.monster .melee,
+.monster .defense,
+.monster .support .editor,
+.monster .abilities .editor,
+.monster .comment .editor,
+.monster .supportContainer {
+  border: 1px solid darkred;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px;
+}
+.monster .minionSR,
+.monster .minionHit,
+.monster .minionDodge,
+.monster .minionBlock {
+  color: #003c00;
+}
+.monster .bossSR,
+.monster .bossHit,
+.monster .bossDodge,
+.monster .bossBlock {
+  color: #3c0000;
+}
+.monster label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  font-weight: bold;
+  text-align: end;
+}
+.monster .headerInfo {
+  margin-top: 0px;
+}
+.monster .headerInfo .coreItems {
+  padding-top: 20px;
+}
+.monster .headerInfo .coreItems h2:first-child {
+  padding: 0px;
+}
+.monster .headerInfo .coreItems h2:first-child input[type="text"] {
+  padding: 2px 4px;
+  border: 0px;
+  background-color: inherit;
+}
+.monster .headerInfo .coreItems .grid {
+  margin-top: 0px;
+}
+.monster .headerInfo .coreItems .grid .minionSR:hover,
+.monster .headerInfo .coreItems .grid .bossSR:hover,
+.monster .headerInfo .coreItems .grid .initiative:hover,
+.monster .headerInfo .coreItems .grid .morale:hover {
+  text-shadow: 0 0 5px darkred;
+  cursor: pointer;
+}
+.monster .headerInfo .coreItems .grid input[type="text"] {
+  margin: auto;
+}
+.monster .support,
+.monster .abilities,
+.monster .comment {
+  margin: 10px 0px;
+}
+.monster .support .editor,
+.monster .abilities .editor {
+  padding-top: 20px;
+}
+.monster .comment .editor {
+  padding-top: 10px;
+}
+.monster .coreItems .alert {
+  margin-right: 5px;
+}
+.monster .coreItems,
+.monster .melee,
+.monster .defense,
+.monster .support,
+.monster .abilities,
+.monster .comment,
+.monster .supportContainer {
+  position: relative;
+}
+.monster .coreItems h2,
+.monster .melee h2,
+.monster .defense h2,
+.monster .support h2,
+.monster .abilities h2,
+.monster .comment h2,
+.monster .supportContainer h2,
+.monster .coreItems .numOfAttacks,
+.monster .melee .numOfAttacks,
+.monster .defense .numOfAttacks,
+.monster .support .numOfAttacks,
+.monster .abilities .numOfAttacks,
+.monster .comment .numOfAttacks,
+.monster .supportContainer .numOfAttacks {
+  position: absolute;
+  top: -15px;
+  background-color: #ffffff;
+  border-bottom: 0px;
+  padding: 2px 4px 0px;
+  border: 1px solid darkred;
+  border-radius: 5px;
+}
+.monster .coreItems h2,
+.monster .melee h2,
+.monster .defense h2,
+.monster .support h2,
+.monster .abilities h2,
+.monster .comment h2,
+.monster .supportContainer h2 {
+  left: 10px;
+  z-index: 100;
+}
+.monster .coreItems .numOfAttacks,
+.monster .melee .numOfAttacks,
+.monster .defense .numOfAttacks,
+.monster .support .numOfAttacks,
+.monster .abilities .numOfAttacks,
+.monster .comment .numOfAttacks,
+.monster .supportContainer .numOfAttacks {
+  right: 10px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0px;
+  font-size: 15px;
+}
+.monster .coreItems input,
+.monster .melee input,
+.monster .defense input,
+.monster .support input,
+.monster .abilities input,
+.monster .comment input,
+.monster .supportContainer input {
+  margin: auto;
+}
+.monster .coreItems label,
+.monster .melee label,
+.monster .defense label,
+.monster .support label,
+.monster .abilities label,
+.monster .comment label,
+.monster .supportContainer label {
+  font-size: 13px;
+}
+.monster .melee {
+  gap: 5px;
+  padding-top: 20px;
+}
+.monster .melee .alert {
+  position: absolute;
+  right: 4px;
+  z-index: 101;
+  top: -10px;
+  background-color: white;
+  border-radius: 50%;
+}
+.monster .melee button {
+  height: 26px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+.monster .melee .reveal-rollable .monsterHit,
+.monster .melee .reveal-rollable .monsterPower {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.monster .melee .reveal-rollable .monsterHit label:hover {
+  text-shadow: 0 0 5px darkred;
+  cursor: pointer;
+}
+.monster .melee .reveal-rollable .monsterPower label:first-child:hover {
+  text-shadow: 0 0 5px darkred;
+  cursor: pointer;
+}
+.monster .defense {
+  gap: 5px 0px;
+}
+.monster .defense h3,
+.monster .defense h4 {
+  margin: auto;
+}
+.monster .defense .grid.grid-8col {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.monster .defense .reveal-rollable .minionDodge:hover,
+.monster .defense .reveal-rollable .minionBlock:hover,
+.monster .defense .reveal-rollable .bossDodge:hover,
+.monster .defense .reveal-rollable .bossBlock:hover {
+  text-shadow: 0 0 5px darkred;
+  cursor: pointer;
+}
+.monster .supportContainer input[type="text"] {
+  width: 22px;
+  height: 18px;
+  font-size: 10px;
+  text-align: center;
+}
+.monster .supportContainer span {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+.monster .editor {
+  border: 1px solid #666;
+  border-radius: 3px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.05);
+  height: 100%;
+  min-height: 40px;
+}
+.monster .editor .tox.tox-tinymce {
+  height: 125px !important;
+}
+.monster .spell-cast-button {
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.monster .spell-cast-button i {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2px;
+}
+.monster .spell-cast-button:hover {
+  background-color: #3700b3;
+}
+.character {
+  margin-top: 0px;
+}
+.character label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.character .leftSide img {
+  box-shadow: 3px 3px 10px;
+}
+.character .mainContent h1 {
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 5px;
+  border: 1px solid darkred !important;
+  border-radius: 5px;
+  margin-top: 0px;
+  box-shadow: 3px 3px 10px;
+}
+.character .mainContent input[type="text"] {
+  padding: 0px 3px;
+  height: inherit;
+}
+.character .mainContent select {
+  font-size: 21px;
+  margin: auto;
+  width: 100%;
+}
+.character .mainContent nav.sheet-tabs.tabs {
+  border-top: 0px;
+  border-bottom: 1px solid darkred;
+}
+.character .mainContent nav.sheet-tabs.tabs .item {
+  border: 1px solid darkred;
+  border-bottom: 0px !important;
+  border-radius: 5px 5px 0px 0px;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+.character .mainContent nav.sheet-tabs.tabs .item.active {
+  background-color: rgba(255, 255, 255, 0.75);
+  font-weight: bold;
+  text-shadow: none;
+}
+.sidebar {
+  font-size: 12px;
+  position: relative;
+  margin-top: 15px;
+}
+.sidebar h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
+}
+.sidebar .grid {
+  grid-row-gap: 6px;
+  margin: 5px 0px;
+}
+.sidebar .resting {
+  grid-column-gap: 2px;
+  margin: 0px;
+}
+.sidebar .resting .restButton {
+  width: 97%;
+}
+.sidebar div.status,
+.sidebar div.experience,
+.sidebar div.buttons {
+  margin-top: 0px;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+  padding-top: 15px;
+  grid-column-gap: 3px;
+  box-shadow: 3px 3px 10px;
+}
+.sidebar label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.sidebar input[type="text"] {
+  padding: 2px;
+  height: 100%;
+  text-align: center;
+}
+.sidebar .lifeForceCalc {
+  border-bottom: 1px solid lightgray;
+}
+.sidebar .lifeForceCalc .grid {
+  gap: 2px;
+  margin-top: 0px;
+}
+.sidebar .spellResist.player:hover {
+  cursor: pointer;
+  text-shadow: 0 0 5px darkred;
+}
+.sidebar .buttons.specialRolls {
+  grid-column-gap: 0px;
+}
+.sidebar .woundHealingCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar button {
+  border: 1px solid darkred;
+  background-color: #ede3c7;
+  border-radius: 4px;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar button i {
+  margin-right: -1px;
+}
+.stats .grid {
+  grid-row-gap: 0px;
+}
+.stats .attrition button,
+.stats .fatigue button,
+.stats .checks button {
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.stats .attrition button i,
+.stats .fatigue button i,
+.stats .checks button i {
+  margin-right: -1px;
+}
+.stats .attrition button,
+.stats .fatigue button,
+.stats .checks button.actorRolls {
+  border: 1px solid darkred;
+  background-color: #ede3c7;
+  border-radius: 4px;
+}
+.stats .attrition button,
+.stats .fatigue button {
+  position: absolute;
+  z-index: 101;
+  top: -10px;
+  right: 10px;
+}
+.stats .checks button.starred {
+  border: 0px;
+  background-color: inherit;
+}
+.stats .checks button.starred:hover {
+  box-shadow: 0 0 0px;
+}
+.stats .statsContainer {
+  gap: 0px;
+  margin-top: 0px;
+  box-shadow: 3px 3px 10px;
+  border-radius: 5px;
+}
+.stats .statsContainer h4 {
+  margin-bottom: 0px;
+  text-align: center;
+}
+.stats .statsContainer div {
+  padding: 2px;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.stats .statsContainer h4.mainHeader {
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 5px 0 0 0;
+}
+.stats .statsContainer .primaryHeader,
+.stats .statsContainer .secondHeader,
+.stats .statsContainer .primaryScore,
+.stats .statsContainer .secondaryScore,
+.stats .statsContainer .calcScore {
+  border: 1px solid darkred;
+}
+.stats .statsContainer .primaryHeader,
+.stats .statsContainer .secondHeader {
+  border-bottom: 1px dashed darkred;
+}
+.stats .statsContainer .primaryHeader {
+  border-radius: 5px 0 0 0;
+}
+.stats .statsContainer .secondHeader {
+  border-radius: 5px 5px 0 0;
+}
+.stats .statsContainer .primaryScore,
+.stats .statsContainer .secondaryScore,
+.stats .statsContainer .calcScore {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+.stats .statsContainer .primaryScore {
+  border-top: 0px;
+}
+.stats .statsContainer .primaryScore.intelligence {
+  border-radius: 0 0 0 5px;
+}
+.stats .statsContainer .lastCell {
+  border-radius: 0 0 5px 0;
+}
+.stats .statsContainer .primaryScore,
+.stats .statsContainer .calcScore {
+  min-height: 31px;
+}
+.stats .statsContainer .secondaryScore,
+.stats .statsContainer .calcScore {
+  border-top: 0px;
+  border-left: 0px;
+}
+.stats .statsContainer .calcScore label {
+  font-size: 9px;
+  padding: 3px 0px;
+  text-align: center;
+}
+.stats .statsContainer .calcScore label.scoreRoll:hover {
+  cursor: pointer;
+  text-shadow: 0px 0px 5px darkred;
+}
+.stats .statsContainer label {
+  justify-content: center;
+}
+.stats .statsContainer input[type="text"] {
+  text-align: center;
+}
+.stats .classLevels {
+  box-shadow: 3px 3px 10px;
+}
+.stats .classLevels .grid {
+  grid-row-gap: 6px;
+  padding-top: 20px;
+}
+.stats .classLevels div {
+  margin-top: 0px;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+}
+.stats .adventuresContainer {
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 5px;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 3px 3px 10px;
+}
+.stats .fatigue input[type="checkbox"],
+.stats .attritionContainer input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0px;
+}
+.stats .attrition .attritionContainer,
+.stats .fatigue .fatigueContainer,
+.stats .checks {
+  padding: 5px 2px;
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid darkred;
+  margin-top: 0px;
+  border-radius: 5px;
+  padding-top: 20px;
+}
+.stats .attrition .attritionContainer {
+  gap: 5px;
+  box-shadow: 3px 3px 10px;
+}
+.stats .attrition .attritionContainer .attritionBlock .grid {
+  margin: 0px;
+  gap: 2px;
+}
+.stats .attrition .attritionContainer .attritionBlock .grid input.spiked {
+  box-shadow: 0 0 3px 1px rgba(192, 13, 13, 0.75);
+}
+.stats .attrition,
+.stats .classLevels,
+.stats .fatigue,
+.stats .checks {
+  position: relative;
+  margin-top: 15px;
+}
+.stats .attrition h2,
+.stats .classLevels h2,
+.stats .fatigue h2,
+.stats .checks h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
+}
+.stats .fatigue .fatigueContainer {
+  gap: 3px;
+  box-shadow: 3px 3px 10px;
+}
+.stats .fatigue .fatigueContainer label.rank {
+  justify-content: center;
+}
+.stats .checks {
+  box-shadow: 3px 3px 10px;
+}
+.stats .checks .checksCont {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  column-gap: 2px;
+  margin-bottom: 5px;
+}
+.descriptionPage .raceContainer {
+  box-shadow: 3px 3px 10px;
+}
+.descriptionPage .raceContainer h2.raceName {
+  margin-bottom: 0px;
+  border: 1px solid darkred;
+  border-bottom: 0px;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.descriptionPage .raceContainer img {
+  border-radius: 0 0 5px 5px;
+  border-color: darkred;
+}
+.descriptionPage .topRow {
+  box-shadow: 3px 3px 10px;
+}
+.descriptionPage .topRow,
+.descriptionPage .editor {
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+}
+.descriptionPage .raceSheetPlaceHolder {
+  border: 1px dashed darkred;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  display: flex;
+  font-weight: bold;
+  font-size: 20px;
+}
+.descriptionPage .raceSheetPlaceHolder p {
+  display: flex;
+  align-items: center;
+}
+.descriptionPage .editor {
+  margin-bottom: 10px;
+  padding-top: 20px;
+  box-shadow: 3px 3px 10px;
+}
+.descriptionPage .editor p {
+  margin: 0px 0px 10px;
+}
+.descriptionPage .editor .tox.tox-tinymce {
+  height: 125px !important;
+}
+.descriptionPage.descriptionContainer,
+.descriptionContainer {
+  position: relative;
+  margin-top: 15px;
+}
+.descriptionPage.descriptionContainer h2,
+.descriptionContainer h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
+}
+.itemsPageContainer .itemsPage .rowHeader {
+  font-size: 8px;
+  text-align: center;
+}
+.itemsPageContainer .itemsPage h2 {
+  border-bottom: 0px;
+  margin-bottom: 0px;
+}
+.itemsPageContainer .itemsPage .blockContainer {
+  position: relative;
+  margin-top: 15px;
+  box-shadow: 3px 3px 10px;
+  border-radius: 5px;
+}
+.itemsPageContainer .itemsPage .blockContainer h2 {
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
+}
+.itemsPageContainer .itemsPage .gearContainer,
+.itemsPageContainer .itemsPage .editor {
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 5px;
+}
+.itemsPageContainer .itemsPage .gearContainer .reveal-rollable div {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.itemsPageContainer .itemsPage .gearContainer .weapon-card img:hover,
+.itemsPageContainer .itemsPage .gearContainer .armor-card img:hover,
+.itemsPageContainer .itemsPage .gearContainer .shield-card img:hover {
+  cursor: pointer;
+}
+.itemsPageContainer .itemsPage .gearContainer input.equipGear {
+  margin: auto;
+  height: 15px;
+}
+.itemsPageContainer .itemsPage .itemsContainer .item-list {
+  margin-top: 0px;
+}
+.itemsPageContainer .itemsPage .itemsContainer .item-list .item-card .contextMenu {
+  margin-top: 0px;
+}
+.itemsPageContainer .itemsPage .itemsContainer .item-list .item-card .contextMenu .name,
+.itemsPageContainer .itemsPage .itemsContainer .item-list .item-card .contextMenu .quantity {
+  display: flex;
+  align-items: center;
+}
+.itemsPageContainer .itemsPage .itemsContainer .item-list .item-card .contextMenu .quantity {
+  justify-content: center;
+}
+.itemsPageContainer .itemsPage .editor {
+  height: 100%;
+  min-height: 40px;
+  padding-top: 15px;
+}
+.itemsPageContainer .itemsPage .editor .tox.tox-tinymce {
+  height: 125px !important;
+}
+.itemsPageContainer .hitScoresContainer {
+  position: relative;
+  margin-top: 15px;
+}
+.itemsPageContainer .hitScoresContainer h2 {
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
+}
+.itemsPageContainer .hitScoresContainer .scoresCont {
+  box-shadow: 3px 3px 10px;
+}
+.itemsPageContainer .hitScoresContainer div.grid-3col,
+.itemsPageContainer .hitScoresContainer .money {
+  border: 1px solid darkred;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 15px 5px 5px;
+  margin-top: 0px;
+}
+.itemsPageContainer .hitScoresContainer div.grid-3col h3,
+.itemsPageContainer .hitScoresContainer .money h3 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+.itemsPageContainer .hitScoresContainer div.grid-3col .last,
+.itemsPageContainer .hitScoresContainer .money .last {
+  margin-bottom: 10px;
+}
+.itemsPageContainer .hitScoresContainer .money {
+  gap: 5px 2px;
+  box-shadow: 3px 3px 10px;
+}
+.itemsPageContainer .hitScoresContainer .money label {
+  text-align: center;
+}
+.itemsPageContainer .hitScoresContainer .money input {
+  text-align: right;
+}
+.skillsContainer {
+  position: relative;
+  margin-top: 15px;
+  box-shadow: 3px 3px 10px;
+  border-radius: 5px;
+}
+.skillsContainer h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
+}
+.skillsContainer .skillBox {
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 20px 5px 5px;
+}
+.skillsContainer .skillBox .skillImageCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.skillsContainer .skillBox .header {
+  font-size: 10px;
+}
+.skillsContainer .skillBox .header,
+.skillsContainer .skillBox img,
+.skillsContainer .skillBox .name,
+.skillsContainer .skillBox .bonus,
+.skillsContainer .skillBox .rank {
+  margin-bottom: 5px;
+}
+.skillsContainer .skillBox .name,
+.skillsContainer .skillBox .bonus,
+.skillsContainer .skillBox .rank {
+  display: flex;
+  align-items: center;
+}
+.skillsContainer .skillBox .bonus {
+  font-size: 12px;
+}
+.skillsContainer .skillBox .rank,
+.skillsContainer .skillBox .rankHeader {
+  text-align: center;
+}
+.skillsContainer .skillBox .genSkillContainer {
+  cursor: pointer;
+}
+.skillsContainer .skillBox .firstSkillBox {
+  margin: 0px;
+}
+.spellsContainer .spellUsesContainer,
+.spellsContainer .spellBlock1 {
+  background-color: rgba(255, 255, 255, 0.75);
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+}
+.spellsContainer .spellUsesContainer {
+  box-shadow: 3px 3px 10px;
+  border-radius: 5px;
+}
+.spellsContainer .spellUsesContainer label {
+  font-weight: bold;
+}
+.spellsContainer .spellUsesContainer input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  margin: auto;
+}
+.spellsContainer .spellsHolder {
+  position: relative;
+  margin-top: 15px;
+  box-shadow: 3px 3px 10px;
+  border-radius: 5px;
+}
+.spellsContainer .spellsHolder h2 {
+  position: absolute;
+  top: -11px;
+  left: 10px;
+  background-color: #ffffff;
+  border: 1px solid darkred;
+  border-radius: 5px;
+  z-index: 100;
+  padding: 0px 4px;
+}
+.spellsContainer .spellsHolder .spellBlock1 {
+  margin-top: 0px;
+  padding-top: 7px;
+}
+.spellsContainer .spellsHolder .spellBlock1 .spellLabels {
+  font-size: 10px;
+}
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div {
+  margin-top: 0px;
+}
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .spellName,
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .spellDif,
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .edit,
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell div .delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spellsContainer .spellsHolder .spellBlock1 .singleSpell img:hover {
+  cursor: pointer;
+}
+.effects {
+  border: 1px solid darkred;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 5px;
+  box-shadow: 3px 3px 10px;
+}
+.effects .effect-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.effects .effect-container input[type="checkbox"] {
+  margin: 0px;
+}
+.effects .effect-container i {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
+}
+.effects .effect-container .effect-name {
+  display: inline;
+}

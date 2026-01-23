@@ -1,0 +1,69 @@
+<form class="{{#each data.options.classes as |class id|}}{{class}} {{/each}} {{data.item.type}}" autocomplete="off">
+	<div class="grid grid-5col top">
+		<img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
+		<div class="grid-span-4">
+			<div class="grid grid-2col">
+				<span class="name">
+					<input name="name" type="text" value="{{data.item.name}}" />
+				</span>
+				<span class="schools">
+					<select name="system.schoolChoice">
+						{{#each config.spell.schools as |label key|}}
+							<option value="{{localize label}}" {{#if (eq (localize label) ../gear.schoolChoice)}}selected{{/if}}>
+								{{localize label}}
+							</option>
+						{{/each}}
+					</select>
+				</span>
+				<span class="style">
+					<select name="system.styleChoice">
+						{{#each config.spell.styles as |label key|}}
+							<option value="{{localize label}}" {{#if (eq (localize label) ../gear.styleChoice)}}selected{{/if}}>
+								{{localize label}}
+							</option>
+						{{/each}}
+					</select>
+					<select name="system.elementChoice" class="elementChoice">
+						{{#each config.spell.elements as |label key|}}
+							<option value="{{localize label}}" {{#if (eq (localize label) ../gear.elementChoice)}}selected{{/if}}>
+								{{localize label}}
+							</option>
+						{{/each}}
+					</select>
+				</span>
+				<span class="difficulty">
+					<span class="grid grid-3col">
+						<label for="spellName" class="grid-span-2">{{localize config.spell.dif}}: </label>
+						<input name="system.difficulty" type="text" value="{{gear.difficulty}}" data-dtype="Number" />
+					</span>
+				</span>
+			</div>
+			<div class="grid-span-2">
+				{{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
+			</div>
+		</div>
+	</div>
+	<span class="effects">
+		{{!-- <label for="weaponEffects">{{localize config.common.eff}}:</label> --}}
+        {{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
+	</span>
+	{{!-- <span class="switch-container">
+		<label class="switch">
+			<input type="checkbox" data-key="type" id="skill-switch" name="gear.type" {{checked gear.type}} />
+			<span class="slider"></span>
+		</label>
+		<label>{{localize config.spell.efs}}</label>
+	</span> --}}
+	{{#if gear.type}}
+	{{!-- Using stealth to hold the information of the spell effectiveness rating --}}
+        {{editor gear.stealth target="system.stealth" button=true engine="prosemirror"}}
+	{{/if}}
+	<span class="chant">
+		<label>{{localize config.spell.cha}}:</label>
+		{{editor gear.chant target="system.chant" button=true engine="prosemirror"}}
+	</span>
+	<span class="catalyst">
+		<label>{{localize config.spell.cat}}:</label>
+		<input name="system.catalyst" type="text" value="{{gear.catalyst}}" />
+	</span>
+</form>

@@ -1,0 +1,48 @@
+<form class="{{#each data.options.classes as |class id|}}{{class}} {{/each}} {{actor.type}}" autocomplete="off">
+    <div class="headerInfo">
+        <h1 class="fateHeader">{{localize 'gs.actor.fate.fatePoints'}}: {{actor.system.value}}</h1>
+        {{#if data.isGM}}
+            {{localize 'gs.actor.fate.gmInstructions'}} <input type="text" name="system.value" value="{{actor.system.value}}" class="currentFate" data-dtype="Number"/>
+        {{/if}}
+        <div class="fateButtons grid grid-4col">
+            <button type="button" class="actorRolls byOne" {{#if (gte actor.system.value 12)}}disabled{{/if}}>{{localize 'gs.actor.fate.upResult'}}</button>
+            <button type="button" class="actorRolls byOne" {{#if (gte actor.system.value 12)}}disabled{{/if}}>{{localize 'gs.actor.fate.reroll'}}</button>
+            <button type="button" class="actorRolls byThree" {{#if (gte actor.system.value 12)}}disabled{{/if}}>{{localize 'gs.actor.fate.flee'}}</button>
+            <button type="button" class="actorRolls byThree" {{#if (gte actor.system.value 12)}}disabled{{/if}}>{{localize 'gs.actor.fate.hint'}}</button>
+        </div>
+    </div>
+    <div class="grid grid-3col">
+        <div class="grid-span-2">
+            <div class="buttonText">
+                <h2 class="textTitle">{{localize 'gs.actor.fate.upResult'}}</h2>
+                <div class="textParagraph">{{localize 'gs.actor.fate.upResultText'}}</div>
+            </div>
+            <div class="buttonText">
+                <h2 class="textTitle">{{localize 'gs.actor.fate.reroll'}}</h2>
+                <div class="textParagraph">{{localize 'gs.actor.fate.rerollText'}}</div>
+            </div>
+            <div class="buttonText">
+                <h2 class="textTitle">{{localize 'gs.actor.fate.flee'}}</h2>
+                <div class="textParagraph">{{localize 'gs.actor.fate.fleeText'}}</div>
+            </div>
+            <div class="buttonText">
+                <h2 class="textTitle">{{localize 'gs.actor.fate.hint'}}</h2>
+                <div class="textParagraph">{{localize 'gs.actor.fate.hintText'}}</div>
+            </div>
+        </div>
+        <div>
+            <div class="bonusXP grid grid-2col">
+                <h3 class="tableHeader">{{localize 'gs.actor.fate.currentFate'}}</h3>
+                <h3 class="tableHeader">{{localize 'gs.actor.fate.bonusPerPerson'}}</h3>
+                <div class="bonusContainer">12+</div>
+                <div class="bonusContainer">0</div>
+                <div class="bonusContainer">10 - 11</div>
+                <div class="bonusContainer">500</div>
+                <div class="bonusContainer">8 - 9</div>
+                <div class="bonusContainer">250</div>
+                <div class="bonusContainer">3 - 7</div>
+                <div class="bonusContainer">0</div>
+            </div>
+        </div>
+    </div>
+</form>

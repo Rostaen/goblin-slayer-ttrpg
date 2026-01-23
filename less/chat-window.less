@@ -1,0 +1,85 @@
+.flavor-text{
+    .chat.messageHeader, .chat.messageEnder{
+        margin: 0px 0px 4px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid darkred;
+    }
+    .specialRollChatMessage{
+        display: inline-flex;
+        margin-right: 3px;
+        border-radius: 3px;
+        padding: 0px 3px;
+        margin-bottom: 3px;
+        justify-content: center;
+        align-items: center;
+    }
+    .chat.messageHeader{
+        img{
+            border: 0px;
+        }
+        .actorName{
+            font-size: 18px;
+        }
+    }
+    .target{
+        .targetName{
+            font-size: 18px;
+        }
+    }
+
+    .targetsLabel{
+        margin-bottom: 4px;
+        border-bottom: 0px;
+    }
+    .target{
+        margin-top: 0px;
+        margin-bottom: 4px;
+        grid-column-gap: 5px;
+        img.targetImg{
+            border: 0px;
+        }
+        h3.targetName{
+            border-bottom: 0px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0px;
+        }
+        button{
+            height: 20px;
+            padding: 0px;
+            i{
+                display: block;
+                margin: 0px;
+            }
+        }
+    }
+    .gmDmgButtons{
+        margin: 4px 0px;
+        grid-column-gap: 5px;
+        div{
+            display: flex;
+            justify-content: end;
+            align-items: center;
+        }
+        .dmgModInput{
+            height: 20px;
+        }
+        .applyDmgButton{
+            height: 20px;
+            i{
+                display: block;
+                margin: 0px;
+            }
+        }
+    }
+    .monster-sr-container{
+        margin-top: 3px;
+        margin-bottom: 3px;
+        .monster-sr-text{
+            display:flex;
+            justify-content: end;
+            align-items: center;
+            font-size: 16px;
+        }
+    }
+}

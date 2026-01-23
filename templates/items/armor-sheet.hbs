@@ -1,0 +1,82 @@
+<form class="{{#each data.options.classes as |class id|}}{{class}} {{/each}} {{data.item.type}} grid grid-5col" autocomplete="off">
+    <div class="grid-span-5">
+        <span class="top-info grid grid-2col">
+			<span class="name">
+				<label for="armorName">{{localize config.common.nam}}:</label>
+				<input id="armorName" name="name" type="text" value="{{data.item.name}}" />
+			</span>
+			<span class="type">
+				<label for="armorType">{{localize config.common.typ}}:</label>
+				<input id="armorType" name="system.type" type="text" value="{{gear.type}}" />
+			</span>
+        </span>
+    </div>
+	<img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
+	<div class="grid-span-4">
+		<div class="grid grid-2col">
+			<span class="score">
+				<label for="armorScore">{{localize config.armor.sco}}:</label>
+				<input id="armorScore" name="system.score" type="text" value="{{numberFormat gear.score decimals=0 sign=true}}" data-dtype="Number" />
+			</span>
+			<span class="dodge">
+				<label for="armorDodge">{{localize config.armor.dod}}:</label>
+				<input id="armorDodge" name="system.dodge" type="text" value="{{numberFormat gear.dodge decimals=0 sign=true}}" data-dtype="Number" />
+			</span>
+			<span class="move">
+				<label for="armorMove">{{localize config.armor.mov}}:</label>
+				<input id="armorMove" name="system.move" type="text" value="{{numberFormat gear.move decimals=0 sign=true}}" data-dtype="Number" />
+			</span>
+			<span class="stealth">
+				<label for="armorStealth">{{localize config.common.ste}}:</label>
+				<select name="system.stealth" data-dtype="Number">
+					{{#each config.armor.stealth as |label key|}}
+						<option value="{{label}}" {{#if (eq label ../item.system.stealth)}}selected{{/if}}>
+							{{key}} {{label}}
+						</option>
+					{{/each}}
+				</select>
+			</span>
+			<span class="value">
+				<label for="armorValue">{{localize config.common.val}}:</label>
+				<input id="armorValue" name="system.value" type="text" value="{{gear.value}}" data-dtype="Number" />
+			</span>
+		</div>
+	</div>
+	<span class="effects grid-span-5">
+		<h2>{{localize config.common.eff}}:</h2>
+		<div class="grid grid-3col">
+			<div class="wELeft">
+				<div class="grid grid-6col">
+					<input class="effectCheckbox" type="checkbox" name="system.heavy.value" {{checked gear.heavy.value}}/>
+					<div class="effectName grid-span-2">{{localize config.armor.hea}}</div>
+					{{#if item.system.heavy.value}}
+						<input class="effectValue" type="text" name="system.heavy.x" value="{{item.system.heavy.x}}" /> / <input class="effectValue" type="text" name="system.heavy.y" value="{{item.system.heavy.y}}" />
+					{{/if}}
+				</div>
+			</div>
+			<div class="wEMiddle">
+				<div class="grid grid-6col">
+					<input class="effectCheckbox" type="checkbox" name="system.pierce" {{checked gear.pierce}}><div class="effectName grid-span-5">{{localize 'gs.actor.common.pierc'}} {{localize 'gs.gear.weapons.resistance'}}</div>
+				</div>
+			</div>
+			<div class="wERight">
+				<div class="grid grid-6col">
+					<input class="effectCheckbox" type="checkbox" name="system.slash" {{checked gear.slash}}><div class="effectName grid-span-5">{{localize 'gs.actor.common.slash'}} {{localize 'gs.gear.weapons.resistance'}}</div>
+				</div>
+			</div>
+			<div class="wELeft">
+				<div class="grid grid-6col">
+					<input class="effectCheckbox" type="checkbox" name="system.stealthEffect.value" {{checked gear.stealthEffect.value}} />
+					<div class="effectName grid-span-4">{{localize 'gs.gear.common.ste'}} {{localize 'gs.actor.character.bonus'}}</div>
+					{{#if item.system.stealthEffect.value}}
+						<input class="effectValue" type="text" name="system.stealthEffect.bonus" value="{{item.system.stealthEffect.bonus}}" />
+					{{/if}}
+				</div>
+			</div>
+		</div>
+        {{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
+	</span>
+	{{!-- <span class="comments grid-span-5">
+        {{editor gear.comment target="system.comment" button=true engine="prosemirror"}}
+	</span> --}}
+</form>

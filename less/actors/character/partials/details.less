@@ -1,0 +1,65 @@
+.descriptionPage{
+    .raceContainer{
+        box-shadow: 3px 3px 10px;
+        h2.raceName{
+            margin-bottom: 0px;
+            border: 1px solid darkred;
+            border-bottom: 0px;
+            border-radius: 5px 5px 0 0;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.75);
+        }
+        img{
+            border-radius: 0 0 5px 5px;
+            border-color: darkred;
+        }
+    }
+    .topRow{
+        box-shadow: 3px 3px 10px;
+    }
+    .topRow, .editor{
+        background-color: rgba(255, 255, 255, 0.75);
+        border: 1px solid darkred;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    .raceSheetPlaceHolder{
+        border: 1px dashed darkred;
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+        display: flex;
+        font-weight: bold;
+        font-size: 20px;
+        p{
+            display: flex;
+            align-items: center;
+        }
+    }
+    .editor{
+        margin-bottom: 10px;
+        padding-top: 20px;
+        box-shadow: 3px 3px 10px;
+        p{
+            margin: 0px 0px 10px;
+        }
+        .tox.tox-tinymce{
+            height: 125px !important;
+        }
+    }
+}
+
+.descriptionPage.descriptionContainer, .descriptionContainer{
+    position: relative;
+    margin-top: 15px;
+    h2{
+        position: absolute;
+        top: -11px;
+        left: 10px;
+        background-color: rgb(255,255,255);
+        border: 1px solid darkred;
+        border-radius: 5px;
+        z-index: 100;
+        padding: 0px 4px;
+    }
+}

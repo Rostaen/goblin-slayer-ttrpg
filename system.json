@@ -1,0 +1,234 @@
+{
+  "id": "gs",
+  "title": "Goblin Slayer TTRPG",
+  "description": "The Goblin Slayer TTRPG game system for FoundryVTT!",
+  "authors": [
+    {
+      "name": "Andrew",
+      "url": "https://github.com/Rostaen"
+    }
+  ],
+  "license": "",
+  "readme": "README.md",
+  "changelog": "CHANGELOG.md",
+  "version": "0.13.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "13.351"
+  },
+  "esmodules": ["gs.mjs"],
+  "styles": ["css/gs.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    },
+    {
+      "lang": "pl",
+      "name": "polski",
+      "path": "lang/pl.json",
+      "flags": {}
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "lang/es.json",
+      "flag": {}
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json",
+      "flag": {}
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json",
+      "flag": {}
+    },
+    {
+      "lang": "ja",
+      "name": "日本語",
+      "path": "lang/ja.json",
+      "flag": {}
+    },
+    {
+      "lang": "it",
+      "name": "Italian",
+      "path": "lang/it.json",
+      "flag": {}
+    }
+  ],
+  "packs": [
+    {
+      "name": "rollTable",
+      "label": "Roll Tables",
+      "system": "gs",
+      "path": "packs/rollTables",
+      "type": "RollTable",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "items",
+      "label": "Items",
+      "system": "gs",
+      "path": "packs/items",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "spells",
+      "label": "Spells",
+      "system": "gs",
+      "path": "packs/spells",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "monsters",
+      "label": "Non-Prayer Characters",
+      "system": "gs",
+      "path": "packs/monsters",
+      "type": "Actor",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "mounts",
+      "label": "Mounts",
+      "system": "gs",
+      "path": "packs/mounts",
+      "type": "Actor",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "skills",
+      "label": "Skills",
+      "system": "gs",
+      "path": "packs/skills",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "armor",
+      "label": "Armor",
+      "system": "gs",
+      "path": "packs/armor",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "weapons",
+      "label": "Weapons",
+      "system": "gs",
+      "path": "packs/weapons",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "shields",
+      "label": "Shields",
+      "system": "gs",
+      "path": "packs/shields",
+      "type": "Item",
+      "flags": {},
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "races",
+      "label": "Races",
+      "system": "gs",
+      "path": "packs/races",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "rules",
+      "label": "Goblin Slayer Rules",
+      "system": "gs",
+      "path": "packs/rules",
+      "type": "JournalEntry",
+      "private": false,
+      "flags": {}
+    },
+    {
+      "name": "martialtechniques",
+      "label": "Martial Techniques",
+      "system": "gs",
+      "path": "packs/martialtechniques",
+      "type": "Item",
+      "private": false,
+      "flags": {}
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Goblin Slayer Content",
+      "sorting": "m",
+      "color": "#333333",
+      "packs": [
+        "items",
+        "spells",
+        "monsters",
+        "mounts",
+        "skills",
+        "armor",
+        "weapons",
+        "shields",
+        "races",
+        "rules",
+        "rollTable",
+        "martialtechniques"
+      ]
+    }
+  ],
+  "socket": false,
+  "url": "https://github.com/Rostaen/goblin-slayer-ttrpg",
+  "manifest": "https://raw.githubusercontent.com/Rostaen/goblin-slayer-ttrpg/main/system.json",
+  "download": "https://github.com/Rostaen/goblin-slayer-ttrpg/releases/download/v0.12.0/gs-game-system.zip",
+  "background": "systems/gs/assets/gslogo.jpg",
+  "grid": {
+    "distance": 1,
+    "units": "meters"
+  },
+  "primaryTokenAttribute": "system.lifeForce",
+  "secondaryTokenAttribute": "power"
+}

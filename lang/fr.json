@@ -1,0 +1,673 @@
+{
+  "TYPES": {
+    "Item": {
+      "weapon": "Armes",
+      "armor": "Armure",
+      "shield": "Boucliers",
+      "item": "Objets",
+      "spell": "Sorts",
+      "skill": "Compétences",
+      "race": "Race",
+      "martialtechniques": "Techniques Martiales"
+    },
+    "Actor": {
+      "character": "Personnage Dévot",
+      "fate": "Destin",
+      "monster": "Personnage non dévot",
+      "mount": "Montures"
+    }
+  },
+  "gs": {
+    "sheets": {
+      "actor": "Fiche de Personnage Goblin Slayer",
+      "item": "Fiche d’Objet Goblin Slayer"
+    },
+    "gear": {
+      "common": {
+        "nam": "Nom",
+        "val": "Valeur (en argent)",
+        "eff": "Effets",
+        "ste": "Discrétion",
+        "typ": "Type",
+        "des": "Description"
+      },
+      "weapons": {
+        "use": "Utilisation",
+        "att": "Attribut",
+        "pow": "Puissance",
+        "hit": "Mod. de touche",
+        "ran": "Portée",
+        "resistance": "Résistance",
+        "effects": {
+          "bind": "Lier",
+          "noParry": "Ne peut pas parer",
+          "mFThrow": "Conçu pour lancer",
+          "massive": "Massif",
+          "nThrow": "Non jetable",
+          "parry": "Parer",
+          "pierce": "Perforer",
+          "rFire": "Tir rapide",
+          "restraint": "Entrave",
+          "retrieve": "Récupérable",
+          "slice": "Trancher",
+          "sbBludg": "SB : Contondant",
+          "sbSlash": "SB : Tranchant",
+          "throw": "Jetable",
+          "throwSpc": "Spécialisation en jet",
+          "miracles": "Miracles",
+          "ancDragon": "Anc. Dragon",
+          "spirit": "Arts spirituels",
+          "wotp": "Véritable Puissance",
+          "necro": "Nécromancie"
+        }
+      },
+      "armor": {
+        "sco": "Score",
+        "dod": "Mod. d'esquive",
+        "mov": "Mod. de déplacement",
+        "hea": "Lourd"
+      },
+      "shield": {
+        "mod": "Mod. de blocage",
+        "sco": "Score de blocage"
+      },
+      "items": {
+        "nam": "Nom",
+        "des": "Description",
+        "movePen": "Pénalité de déplacement"
+      },
+      "spells": {
+        "sys": "Système",
+        "efs": "Score d'efficacité",
+        "pen": "Pénalité",
+        "rad": "Rayon",
+        "dur": "Durée",
+        "siz": "Taille",
+        "phy": "Modificateur physique (taille, poids, vitesse de déplacement)",
+        "sco": "Modificateur de score de puissance/armure",
+        "exr": "Portée étendue",
+        "mds": "Score de modificateur",
+        "mvs": "Vitesse de déplacement",
+        "qua": "Quantité",
+        "sum": "Résumé",
+        "dif": "Difficulté",
+        "cha": "Chant",
+        "cat": "Catalyseur",
+        "wor": "Mots du Pouvoir Véritable",
+        "mir": "Miracle",
+        "anc": "Dragon ancestral",
+        "spi": "Arts spirituels",
+        "nec": "Nécromancie",
+        "att": "Attaque",
+        "imb": "Imprégnation",
+        "cre": "Création",
+        "con": "Contrôle",
+        "hea": "Soin",
+        "gen": "Général",
+        "fir": "Feu",
+        "wat": "Eau",
+        "ear": "Terre",
+        "win": "Vent",
+        "lig": "Lumière",
+        "dar": "Ténèbres",
+        "lif": "Vie",
+        "min": "Esprit",
+        "mat": "Matière",
+        "tim": "Temps",
+        "spa": "Espace",
+        "none": "Aucun"
+      },
+      "skills": {
+        "gra": "Niveau de maîtrise",
+        "pre": "Prérequis",
+        "beg": "Débutant",
+        "int": "Intermédiaire",
+        "exp": "Expert",
+        "mas": "Maître",
+        "leg": "Légende",
+        "adv": "Aventurier",
+        "gen": "Général"
+      },
+      "mTech": {
+        "overview": "Aperçu",
+        "descrip": "Description",
+        "usable": "Armes utilisables",
+        "related": "Compétences associées",
+        "cost": "Coût",
+        "condition": "Condition",
+        "details": "Détails"
+      },
+      "equipment": "Équipement",
+      "equip": "Équiper"
+    },
+    "actor": {
+      "common": {
+        "life": "Vie",
+        "lFor": "Force vitale",
+        "spRe": "Résistance aux sorts",
+        "move": "Déplacement",
+        "modMove": "Mod. de déplacement",
+        "leve": "Niveau",
+        "max": "Max",
+        "slash": "Tranchant",
+        "bludg": "Contondant",
+        "pierc": "Perforant",
+        "other": "Autre",
+        "init": "Initiative",
+        "roll": "Lancer",
+        "ed": "ed"
+      },
+      "character": {
+        "rank": "Rang",
+        "abil": "Scores d'aptitudes",
+        "pri": "Primaire",
+        "sec": "Secondaire",
+        "rac": "Race",
+        "age": "Âge",
+        "gen": "Genre",
+        "his": "Histoire",
+        "phy": "Traits physiques",
+        "hai": "Cheveux",
+        "eye": "Yeux",
+        "oth": "Autres informations",
+        "str": "Force",
+        "psy": "Psyché",
+        "tec": "Technique",
+        "int": "Intelligence",
+        "foc": "Focalisation",
+        "end": "Endurance",
+        "ref": "Réflexe",
+        "exp": "Pts. d'Exp.",
+        "cum": "Pts. cumulés",
+        "cur": "Pts. actuels",
+        "adv": "Pts. d'avancement",
+        "ads": "Aventures",
+        "com": "Complété",
+        "lvl": "Niveau d'avancement",
+        "status": "Statut",
+        "wounds": "Blessures",
+        "spUse": "Utilisations de sorts",
+        "base": "Base",
+        "clWd": "Niveaux de classe",
+        "figh": "Combattant",
+        "monk": "Moine",
+        "rang": "Rôdeur",
+        "scou": "Éclaireur",
+        "sorcerer": "Sorcier",
+        "priest": "Prêtre",
+        "dragon": "Prêtre Dragon",
+        "shaman": "Chaman",
+        "necro": "Nécromancien",
+        "fatW": "Fatigue",
+        "pena": "Pénalité",
+        "ran1": "-1 à tous les scores",
+        "ran2": "-2 à toutes les épreuves. Vitesse de déplacement réduite de moitié.",
+        "ran3": "-3 à toutes les épreuves. Force vitale et vitesse de déplacement réduites de moitié.",
+        "ran4": "Inconscient. -4 à toutes les épreuves. Force vitale et vitesse de déplacement réduites de moitié.",
+        "ran5": "Mort.",
+        "attr": "Attrition",
+        "advSW": "Compétences d'aventurier",
+        "genSW": "Compétences générales",
+        "mast": "Niveau de maîtrise",
+        "effe": "Effet",
+        "page": "Page",
+        "scor": "Score",
+        "lear": "Nom du sort appris",
+        "syst": "Système de sorts",
+        "hit": "Touche",
+        "basic": "Basique",
+        "dodge": "Esquive",
+        "block": "Blocage",
+        "skills": "Compétences",
+        "melee": "Mêlée",
+        "throw": "Lancer",
+        "weapon": "Arme",
+        "armor": "Armure",
+        "shield": "Bouclier",
+        "usage": "Utilisation/Attributs",
+        "modi": "Modificateur",
+        "total": "Total",
+        "power": "Puissance",
+        "ste": "Discrétion",
+        "damage": "Dégâts",
+        "effective": "Efficacité",
+        "table": "Tableau",
+        "bonus": "Bonus",
+        "under": "et moins",
+        "over": "et plus",
+        "none": "Aucun",
+        "poss": "Possessions",
+        "advT": "Outils d'aventure (corde, 10m ; cale x10 ; petit marteau ; boîte d'allumettes ; sac à dos ; gourde ; rations portables ; craie blanche ; petit couteau ; torche x6)",
+        "rati": "Rations (7 jours)",
+        "clot": "Vêtements",
+        "money": "Argent",
+        "gold": "Or",
+        "silv": "Argent",
+        "bron": "Bronze",
+        "piec": "Pièces",
+        "heal": "Soigner",
+        "aTrack": "Piste d'attrition",
+        "dc": "DC",
+        "strFoc": "Focalisation sur la force",
+        "strRef": "Réflexe de force",
+        "strEnd": "Endurance de force",
+        "psyFoc": "Focalisation sur la psyché",
+        "psyRef": "Réflexe psychique",
+        "psyEnd": "Endurance psychique",
+        "tecFoc": "Focalisation sur la technique",
+        "tecRef": "Réflexe technique",
+        "tecEnd": "Endurance technique",
+        "intFoc": "Focalisation sur l'intelligence",
+        "intRef": "Réflexe d'intelligence",
+        "intEnd": "Endurance d'intelligence"
+      },
+      "monster": {
+        "type": "Type",
+        "types": {
+          "meleeC": "Mêlée (Proche)",
+          "meleeT": "Mêlée (Lançable)",
+          "meleeN": "Mêlée (Non lançable)",
+          "throw": "Lançable",
+          "projec": "Projectile",
+          "minion": "Sbire",
+          "boss": "Boss"
+        },
+        "mChec": "Test de sbire",
+        "chec": "Test de boss",
+        "powe": "Puissance/Attributs",
+        "ran": "Portée",
+        "init": "Initiative",
+        "inte": "Intelligence",
+        "intelligence": {
+          "com": "Basé sur le commandement",
+          "ins": "Instinctif",
+          "low": "Faible",
+          "ave": "Moyenne",
+          "hig": "Élevée"
+        },
+        "mora": "Morale",
+        "supp": "Effet de soutien",
+        "spec": "Capacités spéciales",
+        "atta": "Attaque",
+        "defe": "Défense",
+        "dodg": "Esquive",
+        "bloc": "Blocage",
+        "aSco": "Score d'armure",
+        "name": "Nom",
+        "mSR": "MSR",
+        "min": "Sbire",
+        "bSR": "BSR",
+        "boss": "Boss",
+        "description": "Description",
+        "supportEffect": {
+          "range": "Portée",
+          "hit": "Test de touche",
+          "special": "Capacité spéciale",
+          "power": "Puissance",
+          "armor": "Armure",
+          "spellUse": "Utilisation de sorts",
+          "movement": "Déplacement",
+          "initiative": "Initiative",
+          "dodge": "Esquive",
+          "spellResist": "Résistance aux sorts",
+          "action": "Action",
+          "spellEffective": "Effet du sort",
+          "spellPower": "Puissance du sort"
+        }
+      },
+      "fate": {
+        "gmInstructions": "MJ, entrez ici le destin de l'aventure (seul vous pouvez voir ce message), 3 : Facile, 5 : Modéré, 7 : Difficile",
+        "fatePoints": "Points de destin",
+        "upResult": "Augmenter le résultat",
+        "reroll": "Relancer les dés",
+        "flee": "Fuite automatique",
+        "hint": "Indice",
+        "upResultText": "Lorsque vous utilisez un point de destin pour augmenter le résultat d'une épreuve, il transforme un échec en succès ou un succès en succès critique, mais ne peut pas modifier un échec critique. Cela s'applique même si le score final est inférieur à ce qui est requis. Par exemple, si la difficulté d'un sort est supérieure au score de l'épreuve, le sort réussit néanmoins avec son efficacité minimale. Un seul point de destin peut être utilisé par épreuve.",
+        "rerollText": "Lorsqu'un point de destin est utilisé pour relancer les dés (sauf pour une épreuve ou une prière), vous pouvez relancer tous les dés et ajouter 1 à chaque résultat. Cela ne peut être fait qu'une seule fois par opportunité de lancer de dés. Si un dé fait 6, il devient 7.",
+        "fleeText": "Utiliser un point de destin pour fuir permet à tous les personnages joueurs de s'échapper automatiquement du combat vers un endroit sûr, sans lancer de dés. Cela augmente les points de destin de 3. Le MJ décrira un événement soudain expliquant la fuite. La nouvelle zone est temporairement sûre, mais le MJ décide de la durée de cette sécurité.",
+        "hintText": "Utiliser des points de destin pour obtenir un indice d'aventure offre automatiquement aux PJ un indice utile ou un événement pour faire avancer l'histoire. Cela augmente les points de destin de 3. Le MJ décide quand offrir des indices et si la demande des PJ est appropriée.",
+        "bonusExp": "Expérience bonus par points de destin",
+        "currentFate": "Points de destin actuels",
+        "bonusPerPerson": "Bonus XP / Personne"
+      }
+    },
+    "charSheet": {
+      "tabs": {
+        "stats": "Statistiques",
+        "items": "Objets",
+        "feats": "Compétences",
+        "spell": "Sorts",
+        "descr": "Description",
+        "effec": "Effets"
+      },
+      "ranks": {
+        "porc": "Porcelaine",
+        "obsi": "Obsidienne",
+        "stee": "Acier",
+        "sapp": "Saphir",
+        "emer": "Émeraude",
+        "ruby": "Rubis",
+        "copp": "Cuivre",
+        "silv": "Argent",
+        "gold": "Or",
+        "plat": "Platine"
+      },
+      "items": {
+        "hitM": "Modificateur de touche",
+        "rang": "Portée",
+        "powe": "Puissance",
+        "attr": "Attribut",
+        "use": "Utiliser",
+        "quan": "Quantité",
+        "edit": "Éditer",
+        "dele": "Supprimer",
+        "scores": "Scores",
+        "weapons": "Armes",
+        "melee": "Mêlée",
+        "throw": "Lancer",
+        "projectile": "Projectile",
+        "other": "Autre"
+      },
+      "statsPage": {
+        "checks": "Épreuves"
+      },
+      "effects": {
+        "bound": "Lié",
+        "blind": "Aveugle",
+        "partBlind": "Partiellement aveugle",
+        "cursed": "Maudit",
+        "drowsy": "Somnolent",
+        "fracture": "Fracture",
+        "illness": "Maladie",
+        "hungry": "Affamé",
+        "paralyzed": "Paralysé",
+        "poisoned": "Empoisonné",
+        "prone": "À terre"
+      }
+    },
+    "raceSheet": {
+      "races": {
+        "hum": "Humain",
+        "dwa": "Nain",
+        "elf": "Elfe",
+        "liz": "Homme-lézard",
+        "rhe": "Rhea",
+        "pad": "Padfoot",
+        "mir": "Mirmidon",
+        "har": "Harypy",
+        "dar": "Elfe noir",
+        "dem": "Démon",
+        "vam": "Vampire"
+      },
+      "innate": "Compétences innées",
+      "scores": {
+        "pri": "Score d'aptitude primaire",
+        "fix": "Score fixe",
+        "ran": "Détermination aléatoire",
+        "sec": "Score d'aptitude secondaire",
+        "mov": "Modificateur de déplacement racial"
+      }
+    },
+    "dialog": {
+      "random": "Aléatoire",
+      "rolling": "Lancement...",
+      "cancel": "Annuler",
+      "dice": "Dés",
+      "gearMod": "Modificateur d'équipement",
+      "miscMod": "Divers",
+      "bonusDmg": "Dégâts supplémentaires",
+      "bonus": "Bonus",
+      "dmgMod": "Modificateurs de dégâts",
+      "applyDmg": "Appliquer les dégâts",
+      "applyHalf": "Appliquer la moitié des dégâts",
+      "suffered": "Dégâts subis",
+      "outOfRange": "Vous êtes hors de portée pour l'attaque.",
+      "curvedShotLabel": "Tir courbe",
+      "skillCheck": "Test de compétence",
+      "firstTargetMonster": "Vous devez cibler un monstre avant de lancer un test de touche. Faites un clic droit pour basculer l'état de ciblage ou survolez le jeton et appuyez sur 'T'.",
+      "applyHealing": "Soigner les blessures de la cible",
+      "martialArts": "Arts martiaux",
+      "dodge": {
+        "value": "Valeur d'esquive",
+        "roll": "Lancer d'esquive",
+        "total": "Total d'esquive"
+      },
+      "block": {
+        "value": "Valeur de blocage",
+        "roll": "Lancer de blocage",
+        "total": "Total de blocage",
+        "shieldScore": "Score de bouclier",
+        "totalBlock": "Bonus total de blocage"
+      },
+      "mods": {
+        "mod": "Modificateur",
+        "addMod": "Ajouter des modificateurs",
+        "addInfo": "Ajoutez ici tout modificateur supplémentaire provenant de compétences ou d'autres sources :",
+        "misc": "Divers"
+      },
+      "crits": {
+        "crit": "Critique",
+        "succ": "Succès !",
+        "fail": "Échec !"
+      },
+      "spells": {
+        "spUse": "Utilisation du sort",
+        "cast": "Lancer",
+        "spellCast": "Lancement de sort",
+        "useCheck": "Test d'utilisation du sort",
+        "diffCheck": "DC",
+        "apply": "Appliquer sur la ou les cibles",
+        "rolldice": "Lancer les dés de puissance du sort",
+        "recoveryAmt": "Quantité de récupération",
+        "spellDmg": "Dégâts du sort"
+      },
+      "monsterSheet": {
+        "boss": "Ce monstre peut-il être un boss ?",
+        "block": "Ce monstre peut-il bloquer ?",
+        "numOfAttacks": "Modifiez ce nombre pour ajouter/retirer des attaques de monstre. Min 1, Max 4",
+        "isBoss": "Ce monstre est-il le boss de la rencontre ?",
+        "theBoss": "Boss de combat"
+      },
+      "actorSheet": {
+        "itemsTab": {
+          "toHit": "Lancez un test de touche",
+          "power": "Lancez les dégâts de l'arme",
+          "dodge": "Lancez un test d'esquive",
+          "block": "Lancez un test de blocage"
+        },
+        "sidebar": {
+          "specRolls": "Lancers spéciaux",
+          "buttons": {
+            "initiative": "Initiative",
+            "sixthSense": "Sixième sens",
+            "luck": "Chance",
+            "firstAid": "Premiers secours",
+            "handiwork": "Artisanat",
+            "stealth": "Discrétion",
+            "provoke": "Provoquer",
+            "moveObs": "Obstruction de déplacement",
+            "moveRes": "Résistance au déplacement",
+            "strRes": "Résistance de force",
+            "psyRes": "Résistance psychique",
+            "intRes": "Résistance à l'intelligence",
+            "strength": "Force",
+            "escape": "Fuite",
+            "climbM": "Escalade (physique)",
+            "swim": "Nager",
+            "climbF": "Escalade (endurance)",
+            "acrobatics": "Acrobaties",
+            "jump": "Sauter",
+            "monsterKnow": "Connaissance des monstres",
+            "generalKnow": "Connaissances générales",
+            "magicalKnow": "Connaissances magiques",
+            "observe": "Observer",
+            "longDistance": "Déplacement longue distance",
+            "tacMove": "Mouvement tactique",
+            "spellMaint": "Maintien du sort"
+          },
+          "sRest": "Repos court",
+          "lRest": "Repos long"
+        }
+      },
+      "healingPrompt": {
+        "healAmount": "Soignez de la quantité suivante."
+      },
+      "burstOfStr": {
+        "title": "Compétence : Éclat de force",
+        "header": "Fatigue pour la puissance",
+        "label": "Entrez un nombre de points de fatigue à dépenser pour plus de puissance. Maximum :"
+      },
+      "confirm": "Confirmer",
+      "moveRes": {
+        "title": "Choix de résistance au déplacement",
+        "header": "Focalisation sur la force ou sur la technique",
+        "label": "Quel est votre meilleur score pour empêcher la cible de se déplacer ?"
+      },
+      "strRes": {
+        "title": "Choix de résistance de force",
+        "header": "Réflexe de force ou endurance de force",
+        "label": "Utilisez le réflexe de force lorsque vous êtes la cible d'un sort. Utilisez l'endurance de force pour vous remettre d'un effet."
+      },
+      "psyRes": {
+        "title": "Choix de résistance psychique",
+        "header": "Réflexe psychique ou endurance psychique",
+        "label": "Utilisez le réflexe psychique lorsque vous êtes la cible d'un sort. Utilisez l'endurance psychique pour vous remettre d'un effet."
+      },
+      "intRes": {
+        "title": "Choix de résistance à l'intelligence",
+        "header": "Réflexe d'intelligence ou endurance d'intelligence",
+        "label": "Utilisez le réflexe d'intelligence lorsque vous êtes la cible d'un sort. Utilisez l'endurance d'intelligence pour vous remettre d'un effet."
+      },
+      "strength": {
+        "title": "Choix pour le test de force",
+        "header": "Focalisation sur la force ou endurance",
+        "label": "Utilisez la focalisation sur la force pour de très courtes périodes. Utilisez l'endurance de force pour de très longues périodes."
+      },
+      "stealth": {
+        "title": "Choix de discrétion",
+        "header": "Focalisation technique, endurance ou réflexe",
+        "label": "Utilisez la focalisation technique pour vous cacher avant d'être découvert. Utilisez l'endurance technique pour vous dissimuler pendant une longue période. Utilisez le réflexe technique pour vous cacher pendant un combat ou lorsqu'une cible est distraite."
+      },
+      "monsterKnow": {
+        "title": "Choix de connaissance des monstres",
+        "header": "Focalisation sur l'intelligence ou réflexe",
+        "label": "Utilisez la focalisation sur l'intelligence lorsque vous rencontrez des monstres avant le combat. Utilisez le réflexe d'intelligence pour rappeler des informations dès que vous entendez ou lisez à propos d'un monstre."
+      },
+      "acrobatics": {
+        "title": "Choix d'acrobaties",
+        "header": "Focalisation technique, endurance ou réflexe",
+        "label": "Utilisez la focalisation technique pour un équilibre sur une courte durée. Utilisez l'endurance technique pour maintenir l'équilibre sur une longue période, comme lors du franchissement d'un pont de cordes. Utilisez le réflexe technique pour des réactions soudaines, comme rouler lors d'une chute ou vous écarter rapidement."
+      },
+      "mowDown": {
+        "title": "Compétence : Fauchage",
+        "header": "Combien d'ennemis ciblés ?",
+        "label0": "Sélectionner 2 cibles ajoute une pénalité de -4. ",
+        "label1": "Chaque ennemi supplémentaire ajoute -2 à l'épreuve. Vous pouvez ajouter autant d'ennemis supplémentaires à l'épreuve : ",
+        "label2": "Chaque ennemi supplémentaire ajoute -1 à l'épreuve. Vous pouvez ajouter autant d'ennemis supplémentaires à l'épreuve : ",
+        "targets": "Cibles : "
+      },
+      "spellMaint": {
+        "title": "Maintien du sort",
+        "header": "Quel sort maintenez-vous ?"
+      },
+      "coolAndColl": {
+        "title": "Choix de résistance mentale",
+        "header": "Résistance à l'intelligence ou à la psyché ?"
+      },
+      "faith": {
+        "title": "Choix de chant",
+        "header": "Chantez-vous votre sort pour montrer votre foi ?",
+        "label1": "Chant",
+        "label2": "Sans chant"
+      },
+      "catalyst": {
+        "title": "Choix de catalyseur de sort",
+        "header": "Utilisez-vous votre sac de catalyseur pour lancer le sort ?",
+        "label1": "Non",
+        "label2": "Oui"
+      },
+      "genSkills": {
+        "title": "Choix de compétences générales",
+        "header": "Cochez toutes les options pour ",
+        "recall": "Rappeler des connaissances ?",
+        "use": "Utiliser des compétences ?",
+        "primary": "Quelle compétence primaire utilisez-vous ?",
+        "secondary": "Quelle compétence secondaire vous faut-il ? (Sélectionnez-en 1)",
+        "cancelled": "Test de compétence générale annulé"
+      },
+      "spellCasting": {
+        "shamanAlert": "Vous avez besoin soit d'être le bien-aimé des fées, soit d'un sac de chaman pour lancer des sorts chamaniques.",
+        "dragonPriestAlert": "Vous avez besoin d'une pochette de catalyseur de prêtre-dragon pour lancer des sorts de prêtre-dragon."
+      },
+      "resting": {
+        "sRestMessage": "a récupéré 3 points d'attrition après un repos court.",
+        "lRestMessage": "a récupéré 10 points d'attrition, la moitié de sa force vitale en blessures, toutes les utilisations de sorts (le cas échéant) et un certain montant de fatigue (voir ci-dessous).",
+        "briefLongRest": "a récupéré 3 points d'attrition et une certaine quantité de fatigue (voir ci-dessous)."
+      },
+      "longResting": {
+        "title": "Décision de repos long",
+        "header": "Décidez du nombre d'heures de repos",
+        "label1": "3+",
+        "label2": "6+"
+      },
+      "dualWielding": {
+        "title": "Choix de combat à deux armes",
+        "header": "Attaquer un ennemi ou deux ennemis différents ?",
+        "primary": "Un ennemi",
+        "secondary": "Deux ennemis"
+      },
+      "rapidFire": {
+        "title": "Choix de tir rapide",
+        "header": "Attaquer un ennemi ou plusieurs ennemis ?",
+        "primary": "Un ennemi",
+        "secondary": "Plusieurs ennemis"
+      },
+      "slipBehind": {
+        "title": "Choix pour se glisser derrière",
+        "header": "Vous glissez-vous derrière la cible ? Vous ne pouvez pas vous déplacer avant d'utiliser cette compétence.",
+        "primary": "Oui",
+        "secondary": "Non"
+      },
+      "curvedShot": {
+        "title": "Choix pour tir courbe",
+        "header": "Utilisez-vous un tir courbe pour cette attaque ?",
+        "primary": "Oui",
+        "secondary": "Non"
+      },
+      "useSkill": {
+        "title": "Utilisation de compétence",
+        "header": "Utiliserez-vous la compétence suivante : ",
+        "primary": "Oui",
+        "secondary": "Non"
+      },
+      "herbalist": {
+        "title": "Choix de compétence",
+        "header": "Choisissez un jet principal",
+        "body": "Choisissez de lancer un test d'Observation, de Sixième Sens ou de Connaissances Générales qui inclura ce bonus de niveau de compétence : ",
+        "button1": "Observation",
+        "button2": "Sixième Sens",
+        "button3": "Connaissances Générales"
+      },
+      "taming": {
+        "title": "Choix de compétence",
+        "header": "Choisissez un jet principal",
+        "body": "Choisissez de lancer un test de Connaissances Générales, de Connaissance des Monstres ou de Monte (voir Compétence Générale) qui inclura ce bonus de niveau de compétence : ",
+        "button1": "Connaissances Générales",
+        "button2": "Connaissance des Monstres"
+      },
+      "multipleChants": {
+        "title": "Nombre de sorts lancés",
+        "header": "Choisissez le nombre de sorts à lancer cette manche.",
+        "body0": " <span style='color: darkred'>Important :</span> Utilisez le même bouton si vous lancez plusieurs fois pour chaque test d'utilisation de sort.",
+        "body1": "Lancer 2 sorts : -8 pénalité chacun<br>Lancer 1 sort : 0 pénalité<br>&nbsp;",
+        "body2": "Lancer 2 sorts : -4 pénalité chacun<br>Lancer 1 sort : 0 pénalité<br>&nbsp;",
+        "body3": "Lancer 3 sorts : -8 pénalité chacun<br>Lancer 2 sorts : -4 pénalité chacun<br>Lancer 1 sort : 0 pénalité<br>&nbsp;",
+        "body4": "Lancer 3 sorts : -4 pénalité chacun<br>Lancer 2 sorts : -2 pénalité chacun<br>Lancer 1 sort : 0 pénalité<br>&nbsp;",
+        "body5": "Lancer 3 sorts : -4 pénalité chacun<br>Lancer 1-2 sorts : 0 pénalité chacun<br>&nbsp;",
+        "button1": "1 Sort",
+        "button2": "2 Sorts",
+        "button3": "3 Sorts"
+      }
+    }
+  }
+}

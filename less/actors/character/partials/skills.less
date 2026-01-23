@@ -1,0 +1,49 @@
+.skillsContainer{
+    position: relative;
+    margin-top: 15px;
+    box-shadow: 3px 3px 10px;
+    border-radius: 5px;
+    h2{
+        position: absolute;
+        top: -11px;
+        left: 10px;
+        background-color: rgb(255,255,255);
+        border: 1px solid darkred;
+        border-radius: 5px;
+        z-index: 100;
+        padding: 0px 4px;
+    }
+    .skillBox{
+        background-color: rgba(255,255,255,0.75);
+        border: 1px solid darkred;
+        border-radius: 5px;
+        padding: 20px 5px 5px;
+        .skillImageCont{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header{
+            font-size: 10px;
+        }
+        .header, img, .name, .bonus, .rank{
+            margin-bottom: 5px;
+        }
+        .name, .bonus, .rank{
+            display: flex;
+            align-items: center;
+        }
+        .bonus{
+            font-size: 12px;
+        }
+        .rank, .rankHeader{
+            text-align: center;
+        }
+        .genSkillContainer{
+            cursor: pointer;
+        }
+        .firstSkillBox{
+            margin: 0px;
+        }
+    }
+}

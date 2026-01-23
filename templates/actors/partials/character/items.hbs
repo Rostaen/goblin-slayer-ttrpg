@@ -1,0 +1,155 @@
+<div class="itemsPageContainer grid grid-6col">
+    <div class="itemsPage grid-span-5">
+
+        {{!-- Weapons --}}
+        <div class="weaponContainer blockContainer">
+            <h2>{{localize config.charSheet.items.weapons}}</h2>
+            <div class="gearContainer">
+                <div class="grid grid-10col">
+                    <div class="rowHeader grid grid-10col">
+                        <div></div>
+                        <div class="grid-span-4">{{localize config.monster.name decimals=0 sign=true}}</div>
+                        <div class="grid-span-2">{{localize config.charSheet.items.hitM decimals=0 sign=true}}</div>
+                        <div>{{localize config.charSheet.items.rang decimals=0 sign=true}}</div>
+                        <div>{{localize config.charSheet.items.powe decimals=0 sign=true}}</div>
+                        <div>{{localize "gs.gear.equip"}}</div>
+                    </div>
+                </div>
+                <div class="item-list">
+                    {{#each data.weapons as |weapon id|}}
+                        {{> "systems/gs/templates/items/partials/weapon-card.hbs" weapon idVal=id data1=../data index=@index inSheet=true}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        {{!-- Armor --}}
+        <div class="armorContainer blockContainer">
+            <h2>{{localize config.character.combat.armor}}</h2>
+            <div class="gearContainer">
+                <div class="grid grid-10col">
+                    <div class="rowHeader grid grid-10col">
+                        <div></div>
+                        <div class="grid-span-3">{{localize config.monster.name decimals=0 sign=true}}</div>
+                        <div>{{localize gearConfig.armor.sco}}</div>
+                        <div class="grid-span-2">{{localize gearConfig.armor.dod}}</div>
+                        <div>{{localize gearConfig.armor.mov}}</div>
+                        <div>{{localize gearConfig.common.ste}}</div>
+                        <div>{{localize "gs.gear.equip"}}</div>
+                    </div>
+                </div>
+                <div class="item-list">
+                    {{#each data.armor as |armor id|}}
+                        {{> "systems/gs/templates/items/partials/armor-card.hbs" armor idVal=id data1=../data index=@index inSheet=true}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        {{!-- Shields --}}
+        <div class="shieldContainer blockContainer">
+            <h2>{{localize config.character.combat.shield}}</h2>
+            <div class="gearContainer">
+                <div class="rowHeader grid grid-10col">
+                    <div></div>
+                    <div class="grid-span-3">{{localize config.monster.name}}</div>
+                    <div class="grid-span-2">{{localize gearConfig.shield.mod}}</div>
+                    <div class="grid-span-2">{{localize gearConfig.shield.sco}}</div>
+                    <div>{{localize gearConfig.common.ste}}</div>
+                    <div>{{localize "gs.gear.equip"}}</div>
+                </div>
+                <div class="item-list">
+                    {{#each data.shields as |shield id|}}
+                        {{> "systems/gs/templates/items/partials/shield-card.hbs" shield idVal=id data1=../data index=@index inSheet=true}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        {{!-- Items --}}
+        <div class="itemsContainer blockContainer">
+            <h2>{{localize config.charSheet.tabs.items}}</h2>
+            <div class="gearContainer">
+                <div class="rowHeader grid grid-12col">
+                    <div></div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
+                    <div>{{localize config.charSheet.items.quan}}</div>
+                    <div></div>
+                    <div class="grid-span-4">{{localize config.monster.name}}</div>
+                    <div>{{localize config.charSheet.items.quan}}</div>
+                </div>
+                <div class="item-list grid grid-2col">
+                    {{#each data.items as |item id|}}
+                    <div class="item-card item item-list" data-id="{{_id}}">
+                        <div class="grid grid-6col contextMenu" data-id="{{_id}}" data-contextType="{{type}}">
+                            <img src="{{img}}" title="{{name}}" />
+                            <div class="name grid-span-4">{{name}}</div>
+                            <div class="quantity">{{item.system.quantity}}</div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        {{!-- Loot Editor --}}
+        <div class="lootEditor blockContainer">
+            <h2>Loot</h2>
+            {{editor actor.system.loot target="system.loot" button=true engine="prosemirror"}}
+        </div>
+
+    </div>
+    <div>
+        <div class="hitScoresContainer">
+            <h2>{{localize config.charSheet.items.scores}}</h2>
+            <div class="grid grid-3col scoresCont">
+                <h3 class="grid-span-3">{{localize config.charSheet.items.melee}}</h3>
+                <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
+                <div class="classBonus">{{actor.system.attacks.totals.melee.fighter}}</div>
+                <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
+                <div class="classBonus">{{actor.system.attacks.totals.melee.monk}}</div>
+                <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
+                <div class="classBonus last">{{actor.system.attacks.totals.melee.scout}}</div>
+
+                <h3 class="grid-span-3">{{localize config.charSheet.items.throw}}</h3>
+                <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
+                <div class="classBonus">{{actor.system.attacks.totals.throw.monk}}</div>
+                <label class="grid-span-2">{{localize config.character.classes.rang}}</label>
+                <div class="classBonus">{{actor.system.attacks.totals.throw.ranger}}</div>
+                <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
+                <div class="classBonus last">{{actor.system.attacks.totals.throw.scout}}</div>
+
+                <h3 class="grid-span-3">{{localize config.charSheet.items.projectile}}</h3>
+                <label class="grid-span-2 last">{{localize config.character.classes.rang}}</label>
+                <div class="classBonus last">{{actor.system.attacks.totals.projectile.ranger}}</div>
+
+                <h3 class="grid-span-3">{{localize config.character.combat.dodge}}</h3>
+                <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
+                <div class="classBonus">{{actor.system.defense.dodge.mods.fighter}}</div>
+                <label class="grid-span-2">{{localize config.character.classes.monk}}</label>
+                <div class="classBonus">{{actor.system.defense.dodge.mods.monk}}</div>
+                <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
+                <div class="classBonus last">{{actor.system.defense.dodge.mods.scout}}</div>
+
+                <h3 class="grid-span-3">{{localize config.character.combat.block}}</h3>
+                <label class="grid-span-2">{{localize config.character.classes.figh}}</label>
+                <div class="classBonus">{{actor.system.defense.dodge.mods.fighter}}</div>
+                <label class="grid-span-2 last">{{localize config.character.classes.scou}}</label>
+                <div class="classBonus last">{{actor.system.defense.dodge.mods.scout}}</div>
+                {{!-- <label class="grid-span-2">{{localize config.charSheet.items.other}}</label>
+                <div class="classBonus">{{actor.system.defense.dodge.mods.other}}</div> --}}
+            </div>
+        </div>
+        <div class="hitScoresContainer">
+            <h2>{{localize config.character.money.money}}</h2>
+            <div class="money">
+                <label>{{localize config.character.money.gold}}</label>
+                <input type="text" name="system.money.gold" value="{{actor.system.money.gold}}" data-dtype="Number">
+                <label>{{localize config.character.money.silv}}</label>
+                <input type="text" name="system.money.silv" value="{{actor.system.money.silv}}" data-dtype="Number">
+                <label>{{localize config.character.money.bron}}</label>
+                <input type="text" name="system.money.bron" value="{{actor.system.money.bron}}" data-dtype="Number">
+            </div>
+        </div>
+    </div>
+</div>

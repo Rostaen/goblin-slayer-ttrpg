@@ -1,0 +1,673 @@
+{
+  "TYPES": {
+    "Item": {
+      "weapon": "Weapons",
+      "armor": "Armatura",
+      "shield": "Shields",
+      "item": "Oggetti",
+      "spell": "Incantesimi",
+      "skill": "Abilità",
+      "race": "Razza",
+      "martialtechniques": "Martial Techniques"
+    },
+    "Actor": {
+      "character": "Prayer Character",
+      "fate": "Fate",
+      "monster": "Non-Prayer Character",
+      "mount": "Mounts"
+    }
+  },
+  "gs": {
+    "sheets": {
+      "actor": "Scheda Personaggio Goblin Slayer",
+      "item": "Scheda Oggetto Goblin Slayer"
+    },
+    "gear": {
+      "common": {
+        "nam": "Nome",
+        "val": "Value (silver)",
+        "eff": "Effetti",
+        "ste": "Furtività",
+        "typ": "Tipo",
+        "des": "Descrizione"
+      },
+      "weapons": {
+        "use": "Use",
+        "att": "Attribute",
+        "pow": "Potenza",
+        "hit": "Hit Mod",
+        "ran": "Gittata",
+        "resistance": "Resistance",
+        "effects": {
+          "bind": "Bind",
+          "noParry": "Cannot Parry",
+          "mFThrow": "Made for Throwing",
+          "massive": "Massive",
+          "nThrow": "Not Throwable",
+          "parry": "Parry",
+          "pierce": "Pierce",
+          "rFire": "Rapid Fire",
+          "restraint": "Restraint",
+          "retrieve": "Retrievable",
+          "slice": "Slice",
+          "sbBludg": "SB: Bludgeon",
+          "sbSlash": "SB: Slash",
+          "throw": "Lanciabile",
+          "throwSpc": "Throwing Specialization",
+          "miracles": "Miracles",
+          "ancDragon": "Anc. Dragon",
+          "spirit": "Spirit Arts",
+          "wotp": "True Power",
+          "necro": "Necromancy"
+        }
+      },
+      "armor": {
+        "sco": "Punteggio",
+        "dod": "Dodge Mod",
+        "mov": "Move Mod",
+        "hea": "Heavy"
+      },
+      "shield": {
+        "mod": "Block Mod",
+        "sco": "Block Score"
+      },
+      "items": {
+        "nam": "Nome",
+        "des": "Descrizione",
+        "movePen": "Movement Penalty"
+      },
+      "spells": {
+        "sys": "System",
+        "efs": "Effectiveness Score",
+        "pen": "Penalità",
+        "rad": "Radius",
+        "dur": "Duration",
+        "siz": "Size",
+        "phy": "Physical Modifier (Height, Weight, Movement Speed)",
+        "sco": "Power/Armor Score Modifiier",
+        "exr": "Expanded Reach",
+        "mds": "Modifier Score",
+        "mvs": "Movement Speed",
+        "qua": "Quantità",
+        "sum": "Summary",
+        "dif": "Difficulty",
+        "cha": "Chant",
+        "cat": "Catalyst",
+        "wor": "Words of True Power",
+        "mir": "Miracle",
+        "anc": "Ancestral Dragon",
+        "spi": "Spirit Arts",
+        "nec": "Necromancy",
+        "att": "Attacco",
+        "imb": "Imbuement",
+        "cre": "Creation",
+        "con": "Control",
+        "hea": "Healing",
+        "gen": "General",
+        "fir": "Fire",
+        "wat": "Water",
+        "ear": "Earth",
+        "win": "Wind",
+        "lig": "Light",
+        "dar": "Darkness",
+        "lif": "Vita",
+        "min": "Mind",
+        "mat": "Matter",
+        "tim": "Time",
+        "spa": "Space",
+        "none": "Nessuno"
+      },
+      "skills": {
+        "gra": "Grado di Maestria",
+        "pre": "Prerequisite",
+        "beg": "Beginner",
+        "int": "Intermediate",
+        "exp": "Expert",
+        "mas": "Master",
+        "leg": "Legend",
+        "adv": "Adventurer",
+        "gen": "General"
+      },
+      "mTech": {
+        "overview": "Panoramica",
+        "descrip": "Descrizione",
+        "usable": "Armi Utilizzabili",
+        "related": "Abilità Correlate",
+        "cost": "Costo",
+        "condition": "Condizione",
+        "details": "Dettagli"
+      },
+      "equipment": "Equipaggiamento",
+      "equip": "Equipaggia"
+    },
+    "actor": {
+      "common": {
+        "life": "Vita",
+        "lFor": "Forza Vitale",
+        "spRe": "Resistenza agli Incantesimi",
+        "move": "Movimento",
+        "modMove": "Mod. Movimento",
+        "leve": "Livello",
+        "max": "Massimo",
+        "slash": "Tagliente",
+        "bludg": "Contundente",
+        "pierc": "Perforante",
+        "other": "Altro",
+        "init": "Iniziativa",
+        "roll": "Tira",
+        "ed": "ed"
+      },
+      "character": {
+        "rank": "Rango",
+        "abil": "Punteggi Abilità",
+        "pri": "Primaria",
+        "sec": "Secondaria",
+        "rac": "Razza",
+        "age": "Età",
+        "gen": "Sesso",
+        "his": "Storia",
+        "phy": "Tratti Fisici",
+        "hai": "Capelli",
+        "eye": "Occhi",
+        "oth": "Altre Informazioni",
+        "str": "Fisica",
+        "psy": "Emotiva",
+        "tec": "Tecnica",
+        "int": "Intelligenza",
+        "foc": "Focalizzazione",
+        "end": "Resistenza",
+        "ref": "Coordinazione",
+        "exp": "Punti Exp.",
+        "cum": "Punti Cumulativi",
+        "cur": "Punti Correnti",
+        "adv": "Punti Avanzamento",
+        "ads": "Avventure",
+        "com": "Completate",
+        "lvl": "Livello Avventuriero",
+        "status": "Stato",
+        "wounds": "Ferite",
+        "spUse": "Utilizzi Incantesimi",
+        "base": "Base",
+        "clWd": "Livelli di Classe",
+        "figh": "Combattente",
+        "monk": "Monaco",
+        "rang": "Cacciatore",
+        "scou": "Esploratore",
+        "sorcerer": "Stregone",
+        "priest": "Sacerdote",
+        "dragon": "Dracomante",
+        "shaman": "Sciamano",
+        "necro": "Negromante",
+        "fatW": "Affaticamento",
+        "pena": "Penalità",
+        "ran1": "-1 a tutte le prove",
+        "ran2": "-2 a tutte le prove. Velocità di movimento dimezzata.",
+        "ran3": "-3 a tutte le prove. Forza Vitale e velocità dimezzate.",
+        "ran4": "Incosciente. -4 a tutte le prove. Forza Vitale e velocità dimezzate.",
+        "ran5": "Morte.",
+        "attr": "Logoramento",
+        "advSW": "Abilità da Avventuriero",
+        "genSW": "Abilità Generali",
+        "mast": "Grado di Maestria",
+        "effe": "Effetto",
+        "page": "Pagina",
+        "scor": "Punteggio",
+        "lear": "Nome Incantesimo Appreso",
+        "syst": "Sistema di Magia",
+        "hit": "Colpire",
+        "basic": "Base",
+        "dodge": "Schivata",
+        "block": "Blocco",
+        "skills": "Abilità",
+        "melee": "Mischia",
+        "throw": "Lancio",
+        "weapon": "Arma",
+        "armor": "Armatura",
+        "shield": "Scudo",
+        "usage": "Uso/Attributi",
+        "modi": "Modificatore",
+        "total": "Totale",
+        "power": "Potenza",
+        "ste": "Furtività",
+        "damage": "Danno",
+        "effective": "Efficacia",
+        "table": "Tabella",
+        "bonus": "Bonus",
+        "under": "e meno",
+        "over": "e oltre",
+        "none": "Nessuno",
+        "poss": "Possedimenti",
+        "advT": "Strumenti da Avventura (Corda 10m; cunei x10; martelletto; pietra focaia; zaino; otre; razioni; gesso bianco; coltellino; torce x6)",
+        "rati": "Razioni (7 giorni)",
+        "clot": "Vestiario",
+        "money": "Denaro",
+        "gold": "Oro",
+        "silv": "Argento",
+        "bron": "Bronzo",
+        "piec": "Monete",
+        "heal": "Cura",
+        "aTrack": "Traccia di Logoramento",
+        "dc": "PO",
+        "strFoc": "Focalizzazione Fisica",
+        "strRef": "Coordinazione Fisica",
+        "strEnd": "Resistenza Fisica",
+        "psyFoc": "Focalizzazione Emotiva",
+        "psyRef": "Coordinazione Emotiva",
+        "psyEnd": "Resistenza Emotiva",
+        "tecFoc": "Focalizzazione Tecnica",
+        "tecRef": "Coordinazione Tecnica",
+        "tecEnd": "Resistenza Tecnica",
+        "intFoc": "Focalizzazione Mentale",
+        "intRef": "Coordinazione Mentale",
+        "intEnd": "Resistenza Mentale"
+      },
+      "monster": {
+        "type": "Tipo",
+        "types": {
+          "meleeC": "Mischia (Ravvicinata)",
+          "meleeT": "Mischia (Lanciabile)",
+          "meleeN": "Mischia (Non Lanciabile)",
+          "throw": "Lanciabile",
+          "projec": "Proiettile",
+          "minion": "Gregario",
+          "boss": "Boss"
+        },
+        "mChec": "Prova Gregario",
+        "chec": "Prova Boss",
+        "powe": "Potenza/Attributi",
+        "ran": "Gittata",
+        "init": "Iniziativa",
+        "inte": "Intelligenza",
+        "intelligence": {
+          "com": "Su Comando",
+          "ins": "Istintiva",
+          "low": "Bassa",
+          "ave": "Media",
+          "hig": "Alta"
+        },
+        "mora": "Morale",
+        "supp": "Effetto di Supporto",
+        "spec": "Abilità Speciali",
+        "atta": "Attacco",
+        "defe": "Difesa",
+        "dodg": "Schivata",
+        "bloc": "Blocco",
+        "aSco": "Punteggio Armatura",
+        "name": "Nome",
+        "mSR": "VG (Valore Gregario)",
+        "min": "Gregario",
+        "bSR": "VB (Valore Boss)",
+        "boss": "Boss",
+        "description": "Descrizione",
+        "supportEffect": {
+          "range": "Gittata",
+          "hit": "Prova di Colpire",
+          "special": "Abilità Spec.",
+          "power": "Potenza",
+          "armor": "Armatura",
+          "spellUse": "Uso Incantesimi",
+          "movement": "Movimento",
+          "initiative": "Iniziativa",
+          "dodge": "Schivata",
+          "spellResist": "Res. Incantesimi",
+          "action": "Azione",
+          "spellEffective": "Eff. Incantesimo",
+          "spellPower": "Potenza Incantesimo"
+        }
+      },
+      "fate": {
+        "gmInstructions": "GM, inserisci qui il Fato dell'avventura (solo tu puoi vedere questo messaggio): 3 = Facile, 5 = Media, 7 = Difficile",
+        "fatePoints": "Punti Fato",
+        "upResult": "Aumenta Risultato",
+        "reroll": "Ritira i Dadi",
+        "flee": "Fuga Automatica",
+        "hint": "Suggerimento",
+        "upResultText": "Quando usi 1 Punto Fato per aumentare il risultato di una prova, trasformi un fallimento in un successo o un successo in un successo critico, ma non puoi modificare un fallimento critico. Questo vale anche se il punteggio finale resta inferiore al necessario. Ad esempio, se la difficoltà di un incantesimo è più alta del punteggio ottenuto, l’incantesimo riesce comunque al suo livello di efficacia più basso. È possibile usare solo 1 Punto Fato per ogni prova.",
+        "rerollText": "Quando usi 1 Punto Fato per ritirare i dadi (tranne che per una prova o una preghiera), puoi ritirare tutti i dadi e aggiungere +1 a ciascun risultato. Puoi farlo solo una volta per opportunità di tiro. Se un dado mostra 6, diventa 7.",
+        "fleeText": "Usando 1 Punto Fato per fuggire, tutti i PG scappano automaticamente dal combattimento verso un luogo sicuro, senza tirare. La riserva di Punti Fato aumenta di 3. Il GM descrive un evento improvviso che spiega la fuga. La nuova area è temporaneamente sicura, ma spetta al GM decidere quanto durerà questa sicurezza.",
+        "hintText": "Usando i Punti Fato per un suggerimento, i PG ottengono automaticamente un indizio utile o un evento favorevole che fa avanzare la storia. La riserva di Punti Fato aumenta di 3. Il GM decide quando fornire suggerimenti e se la richiesta dei PG è appropriata.",
+        "bonusExp": "PE Bonus da Punti Fato",
+        "currentFate": "Punti Fato Attuali",
+        "bonusPerPerson": "PE Bonus / Personaggio"
+      }
+    },
+    "charSheet": {
+      "tabs": {
+        "stats": "Statistiche",
+        "items": "Oggetti",
+        "feats": "Abilità",
+        "spell": "Incantesimi",
+        "descr": "Descrizione",
+        "effec": "Effetti"
+      },
+      "ranks": {
+        "porc": "Porcellana",
+        "obsi": "Ossidiana",
+        "stee": "Acciaio",
+        "sapp": "Zaffiro",
+        "emer": "Smeraldo",
+        "ruby": "Rubino",
+        "copp": "Rame",
+        "silv": "Argento",
+        "gold": "Oro",
+        "plat": "Platino"
+      },
+      "items": {
+        "hitM": "Mod. Colpire",
+        "rang": "Gittata",
+        "powe": "Potenza",
+        "attr": "Attributo",
+        "use": "Uso",
+        "quan": "Quantità",
+        "edit": "Modifica",
+        "dele": "Elimina",
+        "scores": "Punteggi",
+        "weapons": "Armi",
+        "melee": "Mischia",
+        "throw": "Lancio",
+        "projectile": "Proiettile",
+        "other": "Altro"
+      },
+      "statsPage": {
+        "checks": "Prove"
+      },
+      "effects": {
+        "bound": "Legato",
+        "blind": "Cieco",
+        "partBlind": "Parzialmente Cieco",
+        "cursed": "Maledetto",
+        "drowsy": "Assonnato",
+        "fracture": "Frattura",
+        "illness": "Malattia",
+        "hungry": "Affamato",
+        "paralyzed": "Paralizzato",
+        "poisoned": "Avvelenato",
+        "prone": "Prono"
+      }
+    },
+    "raceSheet": {
+      "races": {
+        "hum": "Umano",
+        "dwa": "Nano",
+        "elf": "Elfo",
+        "liz": "Lucertoloide",
+        "rhe": "Rhea",
+        "pad": "Felpato",
+        "mir": "Mirmidone",
+        "har": "Arpia",
+        "dar": "Elfo Oscuro",
+        "dem": "Demone",
+        "vam": "Vampiro"
+      },
+      "innate": "Abilità Innate",
+      "scores": {
+        "pri": "Punteggio Abilità Primaria",
+        "fix": "Punteggio Fisso",
+        "ran": "Determinazione Casuale",
+        "sec": "Punteggio Abilità Secondaria",
+        "mov": "Mod. Movimento Razziale"
+      }
+    },
+    "dialog": {
+      "random": "Casuale",
+      "rolling": "Tiro in corso",
+      "cancel": "Annulla",
+      "dice": "Dadi",
+      "gearMod": "Mod. Equip.",
+      "miscMod": "Varie",
+      "bonusDmg": "Danni Bonus",
+      "bonus": "Bonus",
+      "dmgMod": "Mod. Danno",
+      "applyDmg": "Applica Danno",
+      "applyHalf": "Applica Danno Dimezzato",
+      "suffered": "Danni Subiti",
+      "outOfRange": "Sei fuori gittata per l'attacco.",
+      "curvedShotLabel": "Tiro Curvo",
+      "skillCheck": "Prova Abilità",
+      "firstTargetMonster": "Devi selezionare un mostro come bersaglio prima di tirare per Colpire. Clic destro per attivare il bersaglio oppure passa sopra il token e premi 'T'.",
+      "applyHealing": "Cura le ferite del bersaglio",
+      "martialArts": "Arti Marziali",
+      "dodge": {
+        "value": "Valore Schivata",
+        "roll": "Tiro Schivata",
+        "total": "Totale Schivata"
+      },
+      "block": {
+        "value": "Valore Blocco",
+        "roll": "Tiro Blocco",
+        "total": "Block Total",
+        "shieldScore": "Punteggio Scudo",
+        "totalBlock": "Bonus Blocco Totale"
+      },
+      "mods": {
+        "mod": "Modificatore",
+        "addMod": "Aggiungi Modificatori",
+        "addInfo": "Aggiungi qui eventuali modificatori extra da abilità o altre fonti:",
+        "misc": "Varie"
+      },
+      "crits": {
+        "crit": "Critico",
+        "succ": "Successo!",
+        "fail": "Fallimento!"
+      },
+      "spells": {
+        "spUse": "Uso Incantesimi",
+        "cast": "Lancia",
+        "spellCast": "Lancio Incantesimo",
+        "useCheck": "Prova d'Uso Incantesimo",
+        "diffCheck": "PO",
+        "apply": "Applica ai Bersagli",
+        "rolldice": "Tira i Dadi Potenza",
+        "recoveryAmt": "Ammontare Recupero",
+        "spellDmg": "Danni Incantesimo"
+      },
+      "monsterSheet": {
+        "boss": "Questo mostro può essere un boss?",
+        "block": "Questo mostro può bloccare?",
+        "numOfAttacks": "Cambia questo numero per aggiungere/rimuovere attacchi del mostro. Min 1, Max 4",
+        "isBoss": "Questo mostro è il boss dello scontro?",
+        "theBoss": "Boss del Combattimento"
+      },
+      "actorSheet": {
+        "itemsTab": {
+          "toHit": "Tira per Colpire",
+          "power": "Tira i danni dell'arma",
+          "dodge": "Tira Schivata",
+          "block": "Tira Blocco"
+        },
+        "sidebar": {
+          "specRolls": "Tiri Speciali",
+          "buttons": {
+            "initiative": "Iniziativa",
+            "sixthSense": "Sesto Senso",
+            "luck": "Fortuna",
+            "firstAid": "Pronto Soccorso",
+            "handiwork": "Lavoro Manuale",
+            "stealth": "Furtività",
+            "provoke": "Provocare",
+            "moveObs": "Movement Obstruction",
+            "moveRes": "Movement Resistance",
+            "strRes": "Resistenza Fisica",
+            "psyRes": "Resistenza Emotiva",
+            "intRes": "Resistenza Mentale",
+            "strength": "Fisica",
+            "escape": "Fuga",
+            "climbM": "Arrampicare (forza muscolare)",
+            "swim": "Nuotare",
+            "climbF": "Arrampicare (atletica)",
+            "acrobatics": "Acrobazia",
+            "jump": "Saltare",
+            "monsterKnow": "Conoscenze dei Mostri",
+            "generalKnow": "Conoscenza Generale",
+            "magicalKnow": "Conoscenza Magica",
+            "observe": "Osservare",
+            "longDistance": "Spostamenti su Lunghe Distanze",
+            "tacMove": "Movimento Tattico",
+            "spellMaint": "Mantenere Incantesimo"
+          },
+          "sRest": "Riposo Breve",
+          "lRest": "Riposo Lungo"
+        }
+      },
+      "healingPrompt": {
+        "healAmount": "Cura del seguente ammontare."
+      },
+      "burstOfStr": {
+        "title": "Abilità Scatto di Forza",
+        "header": "Affaticamento per Potenza",
+        "label": "Inserisci un numero di punti Affaticamento da spendere per ottenere Potenza extra. Massimo:"
+      },
+      "confirm": "Conferma",
+      "moveRes": {
+        "title": "Scelta Resistere a Ostacolare Movimento",
+        "header": "Focalizzazione Fisica o Focalizzazione Tecnica",
+        "label": "Qual è il punteggio migliore per impedire al bersaglio di muoversi?"
+      },
+      "strRes": {
+        "title": "Scelta Resistenza Fisica",
+        "header": "Coordinazione Fisica o Resistenza Fisica",
+        "label": "Usa Coordinazione Fisica quando sei il bersaglio di un incantesimo. Usa Resistenza Fisica quando ti stai riprendendo da un effetto."
+      },
+      "psyRes": {
+        "title": "Scelta Resistenza Emotiva",
+        "header": "Coordinazione Emotiva o Resistenza Emotiva",
+        "label": "Usa Coordinazione Emotiva quando sei il bersaglio di un incantesimo. Usa Resistenza Emotiva quando ti stai riprendendo da un effetto."
+      },
+      "intRes": {
+        "title": "Scelta Resistenza Mentale",
+        "header": "Coordinazione Mentale o Resistenza Mentale",
+        "label": "Usa Coordinazione Mentale quando sei il bersaglio di un incantesimo. Usa Resistenza Mentale quando ti stai riprendendo da un effetto."
+      },
+      "strength": {
+        "title": "Scelta Prova Fisica",
+        "header": "Focalizzazione Fisica o Resistenza Fisica",
+        "label": "Usa Focalizzazione Fisica per sforzi di brevissima durata. Usa Resistenza Fisica per periodi molto lunghi."
+      },
+      "stealth": {
+        "title": "Scelta Furtività",
+        "header": "Focalizzazione Tecnica, Resistenza Tecnica o Coordinazione Tecnica",
+        "label": "Usa Focalizzazione Tecnica per nasconderti prima che qualcuno ti trovi. Usa Resistenza Tecnica per nasconderti a lungo. Usa Coordinazione Tecnica per nasconderti durante un combattimento o mentre il bersaglio è distratto."
+      },
+      "monsterKnow": {
+        "title": "Scelta Conoscenze dei Mostri",
+        "header": "Focalizzazione Mentale o Coordinazione Mentale",
+        "label": "Usa Focalizzazione Mentale quando incontri mostri prima della battaglia. Usa Coordinazione Mentale per ricordare informazioni quando senti o leggi di un mostro e vuoi richiamare subito dettagli su di esso."
+      },
+      "acrobatics": {
+        "title": "Scelta Acrobazia",
+        "header": "Focalizzazione Tecnica, Resistenza Tecnica o Coordinazione Tecnica",
+        "label": "Usa Focalizzazione Tecnica per mantenere l’equilibrio per poco tempo. Usa Resistenza Tecnica per bilanciamenti prolungati (es. attraversare un ponte di corda). Usa Coordinazione Tecnica per reazioni improvvise come rotolare da una caduta o scansarti al volo."
+      },
+      "mowDown": {
+        "title": "Abilità Taglia e Affetta",
+        "header": "Quanti nemici bersagli?",
+        "label0": "Selezionare 2 bersagli comporta una penalità di -4.",
+        "label1": "Ogni nemico aggiuntivo comporta -2 alla prova. Puoi aggiungere ancora questi nemici: ",
+        "label2": "Ogni nemico aggiuntivo comporta -1 alla prova. Puoi aggiungere ancora questi nemici: ",
+        "targets": "Bersagli: "
+      },
+      "spellMaint": {
+        "title": "Mantenere Incantesimo",
+        "header": "Quale incantesimo stai mantenendo?"
+      },
+      "coolAndColl": {
+        "title": "Scelta Resistenza Mentale",
+        "header": "Resistenza Mentale o Resistenza Emotiva?"
+      },
+      "faith": {
+        "title": "Scelta Invocazione",
+        "header": "Reciti l’incantesimo per mostrare la tua Fede?",
+        "label1": "Con Invocazione",
+        "label2": "Senza Invocazione"
+      },
+      "catalyst": {
+        "title": "Scelta Catalizzatore",
+        "header": "Usi la borsa del catalizzatore per lanciare?",
+        "label1": "No",
+        "label2": "Sì"
+      },
+      "genSkills": {
+        "title": "Scelte Abilità Generali",
+        "header": "Seleziona tutte le opzioni per ",
+        "recall": "Ricordi conoscenze?",
+        "use": "Stai usando abilità?",
+        "primary": "Quale abilità primaria stai usando?",
+        "secondary": "Quale abilità secondaria ti serve? (Seleziona 1)",
+        "cancelled": "Tiro abilità generale annullato"
+      },
+      "spellCasting": {
+        "shamanAlert": "Serve 'Amato dalle Fate' o una Borsa da Sciamano per lanciare incantesimi da Sciamano.",
+        "dragonPriestAlert": "Serve una Borsa Catalizzatore del Dracomante per lanciare incantesimi da Dracomante."
+      },
+      "resting": {
+        "sRestMessage": "ha recuperato 3 punti di logoramento con un riposo breve.",
+        "lRestMessage": "ha recuperato 10 punti di logoramento, metà della sua Forza Vitale in ferite, tutti gli utilizzi di incantesimi (se presenti) e una quantità di affaticamento (vedi sotto).",
+        "briefLongRest": "ha recuperato 3 punti di logoramento e una quantità di affaticamento (vedi sotto)."
+      },
+      "longResting": {
+        "title": "Decisione Riposo Lungo",
+        "header": "Decidi quante ore riposi",
+        "label1": "3+",
+        "label2": "6+"
+      },
+      "dualWielding": {
+        "title": "Scelta Combattere a Due Armi",
+        "header": "Attacchi un nemico o due nemici diversi?",
+        "primary": "Un Nemico",
+        "secondary": "Due Nemici"
+      },
+      "rapidFire": {
+        "title": "Scelte Tiro Rapido",
+        "header": "Attacchi un nemico o più nemici?",
+        "primary": "Un Nemico",
+        "secondary": "Più Nemici"
+      },
+      "slipBehind": {
+        "title": "Scelte Aggirare",
+        "header": "Stai passando alle spalle del bersaglio? Non puoi muoverti prima di usare questa abilità.",
+        "primary": "Sì",
+        "secondary": "No"
+      },
+      "curvedShot": {
+        "title": "Scelte Tiro Curvo",
+        "header": "Stai usando Tiro Curvo per questo attacco?",
+        "primary": "Sì",
+        "secondary": "No"
+      },
+      "useSkill": {
+        "title": "Uso Abilità",
+        "header": "Vuoi usare la seguente abilità:",
+        "primary": "Sì",
+        "secondary": "No"
+      },
+      "herbalist": {
+        "title": "Scelte Abilità",
+        "header": "Scegli un Tiro Principale",
+        "body": "Scegli se tirare Osservare, Sesto Senso o Conoscenza Generale includendo il bonus di livello di questa abilità:",
+        "button1": "Osservare",
+        "button2": "Sesto Senso",
+        "button3": "Conoscenza Generale"
+      },
+      "taming": {
+        "title": "Scelte Abilità",
+        "header": "Scegli un Tiro Principale",
+        "body": "Scegli se tirare Conoscenza Generale, Conoscenze dei Mostri o Cavalcare (vedi Abilità Generali), includendo il bonus di livello di questa abilità:",
+        "button1": "Conoscenza Generale",
+        "button2": "Conoscenze dei Mostri"
+      },
+      "multipleChants": {
+        "title": "Numero di Incantesimi Lanciati",
+        "header": "Scegli quanti incantesimi lanciare in questo round.",
+        "body0": " Importante: Usa lo stesso pulsante se lanci più volte per ogni Prova d'Uso dell'incantesimo.",
+        "body1": "Lancia 2 Incantesimi: -8 Penalità ciascuno Lancia 1 Incantesimo: 0 Penalità",
+        "body2": "Lancia 2 Incantesimi: -4 Penalità ciascuno Lancia 1 Incantesimo: 0 Penalità",
+        "body3": "Lancia 3 Incantesimi: -8 Penalità ciascuno Lancia 2 Incantesimi: -4 Penalità ciascuno Lancia 1 Incantesimo: 0 Penalità",
+        "body4": "Lancia 3 Incantesimi: -4 Penalità ciascuno Lancia 2 Incantesimi: -2 Penalità ciascuno Lancia 1 Incantesimo: 0 Penalità",
+        "body5": "Lancia 3 Incantesimi: -4 Penalità ciascuno Lancia 1-2 Incantesimi: 0 Penalità ciascuno",
+        "button1": "1 Incantesimo",
+        "button2": "2 Incantesimi",
+        "button3": "3 Incantesimi"
+      }
+    }
+  }
+}

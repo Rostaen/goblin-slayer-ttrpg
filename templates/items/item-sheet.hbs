@@ -1,0 +1,31 @@
+<form class="{{#each data.options.classes as |class id|}}{{class}} {{/each}} {{data.item.type}} grid grid-5col" autocomplete="off">
+    <div class="grid-span-5">
+        <span class="top-info grid grid-2col">
+            <span class="name">
+                <label for="itemName">{{localize 'gs.gear.common.nam'}}:</label>
+                <input id="itemName" name="name" type="text" value="{{data.item.name}}" />
+            </span>
+            <span class="value">
+                <label for="itemValue">{{localize config.common.val}}:</label>
+                <input id="itemValue" name="system.value" type="text" value="{{numberFormat gear.value decimals=0 sign=false}}"  data-dtype="Number" />
+            </span>
+        </span>
+    </div>
+    <div>
+	    <img src="{{data.item.img}}" data-edit="img" title="{{data.item.name}}" />
+        <div class="grid-grid-4col">
+            <p class="grid-span-3">
+                {{localize 'gs.gear.items.movePen'}}
+            </p>
+            <input type="text" name="system.movePen" value="{{gear.movePen}}" data-dtype="Number">
+            <p class="grid-span-3">
+                {{localize 'gs.gear.spells.qua'}}
+            </p>
+            <input type="text" name="system.quantity" value="{{gear.quantity}}" data-dtype="Number">
+        </div>
+    </div>
+	<span class="comments grid-span-4">
+		<label for="itemDescription">{{localize config.common.des}}:</label>
+		{{editor data.enrichedEffects target="system.effects" button=true engine="prosemirror"}}
+	</span>
+</form>

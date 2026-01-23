@@ -1,0 +1,212 @@
+.diceInfo{
+    background-color: rgb(192, 192, 192);
+    border: 1px solid rgb(138, 138, 138);
+}
+.gearModifier{
+    background-color: rgb(255, 215, 170);
+    border: 1px solid rgb(197, 163, 131);
+}
+.abilScore{
+    background-color: rgb(190, 190, 255);
+    border: 1px solid rgb(100, 100, 175);
+}
+.levelScore{
+    background-color: rgb(255, 190, 190);
+    border: 1px solid rgb(175, 100, 100);
+}
+.skillScore{
+    background-color: rgb(190, 255, 190);
+    border: 1px solid rgb(100, 175, 100);
+}
+.skillEffectiveScore{
+    background-color: rgb(150, 207, 150);
+    border: 1px solid rgb(60, 125, 60);
+}
+.rollScore{
+    background-color: rgb(255, 255, 190);
+    border: 1px solid rgb(175, 175, 100);
+}
+.miscScore{
+    background-color: rgb(255, 190, 255);
+    border: 1px solid rgb(175, 100, 175);
+}
+.armorDodgeScore{
+    background-color: rgb(255, 225, 190);
+    border: 1px solid rgb(175, 140, 100);
+}
+
+// Font Sizes
+.fs8{font-size: 8px;}
+.fs9{font-size: 9px;}
+.fs10{font-size: 10px;}
+.fs11{font-size: 11px;}
+.fs12{font-size: 12px;}
+.fs13{font-size: 13px;}
+.fs14{font-size: 14px;}
+.fs15{font-size: 15px;}
+.fs16{font-size: 16px;}
+.fs17{font-size: 17px;}
+.fs18{font-size: 18px;}
+
+.spellCastSuccess, .spellEffectivenessScore, .spellCastFailure{
+    font-size: 16px;
+    text-align: center;
+    border-radius: 3px;
+    padding: 3px;
+    margin-bottom: 3px;
+}
+.spellCastSuccess{
+    background-color: lightblue;
+    border: 1px solid cadetblue;
+    color: mediumblue;
+}
+.spellEffectivenessScore{
+    background-color: #bbb;
+    border: 1px solid #999;
+    color: #222;
+}
+.spellCastFailure{
+    background-color: rgb(255, 255, 157);
+    border: 1px solid rgb(152, 152, 40);
+    color: rgb(81, 81, 0);
+}
+
+.critFailColor, .critSuccessColor{
+    padding: 10px 0px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+.critFailColor{
+    background-color: rgb(255, 153, 153);
+    border: 1px solid rgb(188, 50, 50);
+    color: rgb(88, 23, 23);
+}
+.critSuccessColor{
+    background-color: rgb(149, 255, 149);
+    border: 1px solid rgb(53, 177, 53);
+    color: rgb(25, 84, 25);
+}
+
+.prosemirror .editor-container{
+    margin: 5px 5px 0px 5px;
+    min-height: 350px;
+    p{
+      margin: 0 0 5px;
+    }
+}
+.editor{
+    min-height: 32px !important;
+    max-height: inherit;
+    height: fit-content !important;
+}
+
+.sheet.item {
+    img {
+        border-radius: 5px;
+    }
+    input[type="text"], select, .spell span.style, .spell div.editor, span.comments, span.effects,
+    .editor{
+        border: 2px solid darkred;
+        background-color: rgba(255,255,255,0.75);
+        border-radius: 5px;
+    }
+    span.comments .editor, span.effects .editor{
+        border: 0px;
+        background-color: inherit;
+        border-radius: inherit;
+    }
+    label{
+        font-weight: bold;
+    }
+}
+
+table{
+    border-top: 1px solid darkred;
+    border-bottom: 1px solid darkred;
+    background-color: inherit;
+    margin-bottom: 0px;
+    // tr{
+    //     td{
+    //         text-align: center;
+    //     }
+    // }
+    tr:nth-child(odd){
+        background-color: #8b000033;
+    }
+    tr:nth-child(even){
+        background-color: inherit;
+    }
+}
+
+.switch-container{
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+    .switch-label{
+        margin-right: 5px;
+        font-weight: bold;
+    }
+    .switch{
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 25px;
+        margin-right: 5px;
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+        input{
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider{
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+            height: 25px;
+            width: 50px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 15px;
+            width: 15px;
+            left: 4px;
+            bottom: 5px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+    }
+}

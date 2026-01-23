@@ -1,0 +1,57 @@
+.spellsContainer{
+    .spellUsesContainer, .spellBlock1{
+        background-color: rgba(255,255,255,0.75);
+        border: 1px solid darkred;
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+    }
+    .spellUsesContainer{
+        box-shadow: 3px 3px 10px;
+        border-radius: 5px;
+        label{
+            font-weight: bold;
+        }
+        input[type='checkbox']{
+            width: 15px;
+            height: 15px;
+            margin: auto;
+        }
+    }
+    .spellsHolder{
+        position: relative;
+        margin-top: 15px;
+        box-shadow: 3px 3px 10px;
+        border-radius: 5px;
+        h2{
+            position: absolute;
+            top: -11px;
+            left: 10px;
+            background-color: rgb(255,255,255);
+            border: 1px solid darkred;
+            border-radius: 5px;
+            z-index: 100;
+            padding: 0px 4px;
+        }
+        .spellBlock1{
+            margin-top: 0px;
+            padding-top: 7px;
+            .spellLabels{
+                font-size: 10px;
+            }
+            .singleSpell{
+                div{
+                    margin-top: 0px;
+                    .spellName, .spellDif, .edit, .delete{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+                img:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
