@@ -2,6 +2,12 @@
 
 ## Recent updates
 
+### 2026-1-23
+
+- Fixed spell casting for monsters and chat window option. Kept power roll button in window for ease of play for GM.
+- Reverted all monster artwork to Foundry icon svg tokens.
+- Removed any artwork not created from HeroForge screenshots.
+
 ### 2026-1-22
 
 - Fixed issues with player dodge/block checks not showing correctly in the chat window.

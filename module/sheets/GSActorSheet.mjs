@@ -2039,8 +2039,6 @@ export default class GSActorSheet extends foundry.appv1.sheets.ActorSheet {
 		const actorType = this.actor.type;
 		let diceToRoll = baseDice, typeHolder, stat = 0, classBonus = 0, modifier, diceNotation, skills, skillBonus = 0;
 
-		//console.log(">>> Actor Type", actorType, modSelector);
-
 		if (!container) {
 			console.error("Container with '.reveal-rollable' class not found.");
 			return;
